@@ -25,6 +25,12 @@ APVTS::ParameterLayout makeLayout(){
     };
     f("sampleStart","Sample Trim Start",0.0f,1.0f,0.0f);
     f("sampleEnd","Sample Trim End",0.0f,1.0f,1.0f);
+    f("motionDepth","Motion to Cutoff",0.0f,1.0f,0.0f);
+    choice("motionBars","Motion Length",{"1 bar","2 bars","4 bars","8 bars"},2);
+    for(int i=0;i<17;++i)
+        p.add(std::make_unique<juce::AudioParameterFloat>(
+            juce::ParameterID{SpaceInfinityProcessor::motionPointId(i),1},
+            "Motion Point "+juce::String(i+1),juce::NormalisableRange<float>(0.0f,1.0f),float(i)/16.0f));
     choice("sampleLoop","Sample Loop",{"Off","On"},0);
     choice("sampleReverse","Sample Reverse",{"Off","On"},0);
     choice("delaySync","Delay Timing",{"Free","1/16","1/8","Dotted 1/8","1/4"},0);
@@ -41,6 +47,32 @@ SpaceInfinityProcessor::SpaceInfinityProcessor():juce::AudioProcessor(BusesPrope
                   BinaryData::Orbital_Choir_Ah_Chord_F2_wavSize}, choirAh);
     decodeSample(juce::MemoryBlock{BinaryData::Ethereal_Choir_Ooh_C3_wav,
                   BinaryData::Ethereal_Choir_Ooh_C3_wavSize}, choirOoh);
+}
+juce::String SpaceInfinityProcessor::motionPointId(int index){return "motionPoint"+juce::String(index);}
+juce::StringArray SpaceInfinityProcessor::motionNames(){
+    return {"Slow Rise","Rise and Fall","Rise into Gate","Late Bloom","Long Fall","Soft Pulse",
+        "Double Swell","Triple Swell","Terraces","Descending Steps","Peak Hold","Dip and Return",
+        "Quick Strike","Reverse Pull","Saw Rise","Saw Fall","Alternating Gates","Syncopated","Wave Train","Final Lift"};
+}
+void SpaceInfinityProcessor::loadMotionShape(int index){
+    static const std::vector<float> curves[]={
+        {0,.12f,.35f,.66f,1},{0,.18f,.80f,1,.58f,.20f,0},{0,.08f,.18f,.42f,.72f,1},
+        {0,0,.04f,.14f,.44f,1},{1,.85f,.59f,.28f,0},{.25f,.42f,.70f,.84f,.70f,.42f,.25f},
+        {0,.65f,.10f,1,.26f,0},{0,.58f,.04f,.76f,.12f,1,0},
+        {0,.15f,.15f,.39f,.39f,.70f,.70f,1},{1,.80f,.80f,.54f,.54f,.28f,.28f,0},
+        {0,.33f,1,1,1,.64f,.1f},{.92f,.63f,.22f,.04f,.30f,.67f,.92f},
+        {0,1,.43f,.18f,.08f,0},{0,.10f,.20f,.48f,1,.16f,0},
+        {0,.95f,.03f,.95f,.03f,1,0},{1,.04f,.92f,.04f,.92f,0},
+        {1,1,0,0,.55f,.55f,0,0,1},{0,.85f,.85f,0,.3f,0,1,.2f,0},
+        {.50f,.90f,.50f,.10f,.50f,.90f,.50f,.10f,.50f},{.08f,.12f,.10f,.18f,.36f,.68f,1}};
+    if(index<0||index>=int(std::size(curves)))return;
+    const auto& curve=curves[index];
+    for(int i=0;i<17;++i){
+        const float x=float(i)*float(curve.size()-1)/16.0f;
+        const auto left=std::min(size_t(x),curve.size()-2);
+        const float value=curve[left]+(curve[left+1]-curve[left])*(x-float(left));
+        state.getParameter(motionPointId(i))->setValueNotifyingHost(value);
+    }
 }
 juce::StringArray SpaceInfinityProcessor::sourceNames(){
     return {"Synth", "Choir Ah", "Choir Ooh", "Imported WAV"};
@@ -99,7 +131,7 @@ void SpaceInfinityProcessor::prepareToPlay(double sampleRate,int maxSamples){
     delayToneL=delayToneR=0;
     delayBpm=120;
     midiBend=0;pitchBend.reset(sr,.006);pitchBend.setCurrentAndTargetValue(param("pitchBend"));
-    for(auto& v:voices)v={}; lfoPhase=0; clock=0;
+    for(auto& v:voices)v={}; lfoPhase=0; motionPhase=0; clock=0;
 }
 void SpaceInfinityProcessor::noteOn(int note,float velocity,int source,int root,int channel){
     const Sample* sample = source == 1 ? &choirAh : source == 2 ? &choirOoh : &importedSample;
@@ -138,10 +170,20 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     const float hostBend=param("pitchBend");
     pitchBend.setTargetValue(juce::jlimit(-24.0f,24.0f,hostBend+midiBend));
     const juce::SpinLock::ScopedTryLockType sampleGuard(sampleLock);
+    std::array<float,17> motion{};
+    const float motionDepth=param("motionDepth");
+    for(size_t i=0;i<motion.size();++i)
+        motion[i]=state.getRawParameterValue(motionPointId(int(i)))->load();
+    const double motionStep=delayBpm/(240.0*sr*std::exp2(param("motionBars")));
     auto msg=midi.begin();
     for(int s=0;s<b.getNumSamples();++s){
         while(msg!=midi.end()&&(*msg).samplePosition<=s){const auto m=(*msg).getMessage(); if(m.isNoteOn()){if(source!=3||sampleGuard.isLocked())noteOn(m.getNoteNumber(),m.getFloatVelocity(),source,root,m.getChannel());}else if(m.isPitchWheel()){const int wheel=m.getPitchWheelValue()-8192;midiBend=24.0f*float(wheel)/(wheel<0?8192.0f:8191.0f);pitchBend.setTargetValue(juce::jlimit(-24.0f,24.0f,hostBend+midiBend));}else if(m.isNoteOff())noteOff(m.getNoteNumber(),m.getChannel());else if(m.isAllNotesOff()||m.isAllSoundOff()){for(auto& v:voices)if(v.channel==m.getChannel()){if(m.isAllSoundOff())v.active=false;else v.released=true;}}++msg;}
         lfoPhase+=lfoRate/sr;if(lfoPhase>=1)lfoPhase-=1;
+        const double point=motionPhase*16.0;
+        const int segment=std::min(15,int(point));
+        const float movement=motion[segment]+(motion[segment+1]-motion[segment])*float(point-segment);
+        motionPhase+=motionStep;
+        motionPhase-=std::floor(motionPhase);
         float out=0;const float lfo=std::sin(float(juce::MathConstants<double>::twoPi*lfoPhase));
         const double bendRatio=std::exp2(pitchBend.getNextValue()/12.0);
         for(auto& v:voices){if(!v.active)continue;
@@ -174,7 +216,7 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
             raw=osc(v.phase,wave)*(1-mix)+osc(v.phase2,wave)*mix;
             }
             // One-pole lowpass with resonance-dependent input emphasis. Not a model of JV hardware filters.
-            const float fc=juce::jlimit(50.0f,float(sr*0.4),cutoff*std::pow(2.0f,lfo*lfoDepth*2));
+            const float fc=juce::jlimit(50.0f,float(sr*0.4),cutoff*std::pow(2.0f,lfo*lfoDepth*2+movement*motionDepth*3));
             const float a=1-std::exp(float(-juce::MathConstants<double>::twoPi*fc/sr));
             v.cutoff+=a*(raw*(1+res*0.7f)-v.cutoff);
             out+=v.cutoff*v.velocity*v.env*0.14f;
@@ -301,5 +343,8 @@ void SpaceInfinityProcessor::loadPreset(int index){
     setChoice("sampleEnd",1.0f);
     setChoice("sampleLoop",0.0f);
     setChoice("sampleReverse",0.0f);
+    setChoice("motionDepth",0.0f);
+    setChoice("motionBars",2.0f);
+    loadMotionShape(0);
 }
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter(){return new SpaceInfinityProcessor();}

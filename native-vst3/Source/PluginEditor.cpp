@@ -71,7 +71,7 @@ void SpaceInfinityEditor::HardwareLook::drawComboBox(
 }
 SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcessorEditor(&p),processor(p){
     setLookAndFeel(&hardwareLook);
-    setResizable(true,true);setResizeLimits(800,650,1500,950);setSize(1000,680);
+    setResizable(true,true);setResizeLimits(800,760,1500,950);setSize(1000,790);
     title.setText("SPACE  INFINITY",juce::dontSendNotification);title.setFont(juce::Font(juce::FontOptions(30.0f,juce::Font::bold)));title.setColour(juce::Label::textColourId,juce::Colours::white);addAndMakeVisible(title);
     subtitle.setText("HYBRID HARDWARE-INSPIRED SYNTHESIS",juce::dontSendNotification);subtitle.setColour(juce::Label::textColourId,juce::Colour(0xffc0c0c8));addAndMakeVisible(subtitle);
     for(int i=0;i<SpaceInfinityProcessor::presetNames().size();++i)presets.addItem(SpaceInfinityProcessor::presetNames()[i],i+1);
@@ -104,6 +104,24 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         addAndMakeVisible(box);
         fxChoices.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,id,box));
     };
+    motionShape.addItemList(SpaceInfinityProcessor::motionNames(),1);
+    motionShape.setTextWhenNothingSelected("Motion shapes");
+    motionShape.onChange=[this]{processor.loadMotionShape(motionShape.getSelectedItemIndex());};
+    addAndMakeVisible(motionShape);
+    bindChoice(motionBars,"motionBars",{"1 bar","2 bars","4 bars","8 bars"});
+    motionDepth.setSliderStyle(juce::Slider::LinearHorizontal);
+    motionDepth.setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);
+    motionDepth.setTooltip("Motion amount to filter cutoff");
+    addAndMakeVisible(motionDepth);
+    motionDepthAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"motionDepth",motionDepth);
+    for(size_t i=0;i<motionPoints.size();++i){
+        auto& point=motionPoints[i];
+        point.setSliderStyle(juce::Slider::LinearVertical);
+        point.setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);
+        point.setTooltip("Motion point "+juce::String(int(i+1)));
+        addAndMakeVisible(point);
+        attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,SpaceInfinityProcessor::motionPointId(int(i)),point));
+    }
     bindChoice(sampleLoop,"sampleLoop",{"Loop off","Loop on"});
     bindChoice(sampleReverse,"sampleReverse",{"Forward","Reverse"});
     const char* trimIds[]={"sampleStart","sampleEnd"};
@@ -247,11 +265,18 @@ void SpaceInfinityEditor::resized(){
     reverbSpace.setBounds(601,getHeight()-37,64,24);
     compAmount.setBounds(672,getHeight()-37,55,24);
     pitchWheel.setBounds(w-261,116,220,22);
+    auto motionRow=juce::Rectangle<int>(34,getHeight()-173,w-68,98);
+    auto controls=motionRow.removeFromLeft(155);
+    motionShape.setBounds(controls.removeFromTop(26).reduced(2));
+    motionBars.setBounds(controls.removeFromTop(26).reduced(2));
+    motionDepth.setBounds(controls.removeFromTop(26).reduced(2));
+    const int spacing=motionRow.getWidth()/int(motionPoints.size());
+    for(auto& point:motionPoints)point.setBounds(motionRow.removeFromLeft(spacing).reduced(1));
     sampleTrim[0].setBounds(100,getHeight()-65,130,22);
     sampleTrim[1].setBounds(282,getHeight()-65,130,22);
     sampleLoop.setBounds(425,getHeight()-65,100,22);
     sampleReverse.setBounds(532,getHeight()-65,100,22);
-    auto area=juce::Rectangle<int>(32,265,w-64,getHeight()-337);const int cols=8,rows=2;
+    auto area=juce::Rectangle<int>(32,265,w-64,getHeight()-445);const int cols=8,rows=2;
     const int cellW=area.getWidth()/cols,cellH=area.getHeight()/rows;
     for(int i=0;i<15;i++){
         int col=i%cols,row=i/cols;auto cell=juce::Rectangle<int>(area.getX()+col*cellW,area.getY()+row*cellH,cellW,cellH);

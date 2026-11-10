@@ -14,7 +14,10 @@ private:
     };
     HardwareLook hardwareLook;
     SpaceInfinityProcessor& processor;
-    juce::ComboBox presets, waveform, source;
+    juce::ComboBox presets, waveform, source, motionShape, motionBars;
+    juce::Slider motionDepth;
+    std::array<juce::Slider,17> motionPoints;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> motionDepthAttachment;
     juce::ComboBox delaySync, delayMode, reverbSpace, sampleLoop, sampleReverse;
     std::array<juce::Slider,2> sampleTrim;
     std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>,2> trimAttachments;
