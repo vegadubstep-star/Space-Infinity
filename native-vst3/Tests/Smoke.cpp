@@ -133,6 +133,10 @@ int main()
             if(child->isVisible() && !editor->getLocalBounds().contains(child->getBounds())) return 7;
         const auto snapshot=editor->createComponentSnapshot(editor->getLocalBounds());
         if(!snapshot.isValid() || snapshot.getWidth()!=size.x || snapshot.getHeight()!=size.y) return 8;
+        const auto file=audition.getChildFile("Editor-"+juce::String(size.x)+".png");
+        file.deleteFile();
+        auto output=file.createOutputStream();
+        if(!output || !juce::PNGImageFormat{}.writeImageToStream(snapshot,*output)) return 25;
     }
     std::cout << "Factory peaks " << quietest << " to " << loudest << '\n';
 }

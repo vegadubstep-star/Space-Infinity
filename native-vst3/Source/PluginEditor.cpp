@@ -2,6 +2,31 @@
 #include <array>
 #include <cmath>
 namespace {
+constexpr int controlTop=260;
+struct Panel { const char* title; std::array<int,4> knobs; int count; };
+constexpr Panel panels[]={
+    {"01   VOICE",{4,5,6,-1},3},{"02   FILTER",{0,1,-1,-1},2},
+    {"03   AMP ENVELOPE",{2,13,14,3},4},{"04   LFO",{10,11,-1,-1},2},
+    {"05   FX / OUTPUT",{7,8,9,12},4}};
+juce::Rectangle<int> panelBounds(int width,int height,int index){
+    const int topHeight=(height-494)/2;
+    const int row=index>=3?1:0;
+    const int start=index==0||index==3?0:index==1?3:index==2?5:2;
+    const int columns=row==0?9:6;
+    const int available=width-58;
+    const int left=29+available*start/columns;
+    const int right=29+available*(start+panels[index].count)/columns;
+    return {left+2,controlTop+row*topHeight,right-left-4,topHeight-5};
+}
+void drawInset(juce::Graphics& g,juce::Rectangle<float> bounds){
+    g.setColour(juce::Colour(0xff08090b));
+    g.fillRoundedRectangle(bounds,4.0f);
+    g.setColour(juce::Colour(0xff36393c));
+    g.drawRoundedRectangle(bounds.reduced(.5f),4.0f,1.0f);
+    g.setColour(juce::Colour(0xff242629));
+    g.drawHorizontalLine(int(bounds.getBottom()-2),bounds.getX()+5,bounds.getRight()-5);
+}
+
 void drawSwitchBody(juce::Graphics& g, juce::Rectangle<float> r, bool down){
     g.setColour(juce::Colour(0xff090a0c));
     g.fillRoundedRectangle(r,3.0f);
@@ -216,10 +241,10 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
 }
 SpaceInfinityEditor::~SpaceInfinityEditor(){setLookAndFeel(nullptr);}
 void SpaceInfinityEditor::paint(juce::Graphics& g){
-    g.fillAll(juce::Colour(0xff101114));
+    g.fillAll(juce::Colour(0xff08090b));
     const auto chassis=getLocalBounds().toFloat().reduced(8.0f);
-    g.setGradientFill(juce::ColourGradient(juce::Colour(0xff36393e),0,chassis.getY(),
-        juce::Colour(0xff1a1c20),0,chassis.getBottom(),false));
+    g.setGradientFill(juce::ColourGradient(juce::Colour(0xff2a2c2e),0,chassis.getY(),
+        juce::Colour(0xff151618),0,chassis.getBottom(),false));
     g.fillRoundedRectangle(chassis,4.0f);
     g.setColour(juce::Colour(0xff53565b));
     g.drawRoundedRectangle(chassis,4.0f,1.0f);
@@ -230,11 +255,11 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     g.setColour(juce::Colour(0xff56595f));
     g.drawRoundedRectangle(rail,3.0f,1.0f);
     const auto tray=juce::Rectangle<float>(23,112,float(getWidth()-46),float(getHeight()-156));
-    g.setColour(juce::Colour(0xff202226));
+    g.setColour(juce::Colour(0xff1a1c1e));
     g.fillRoundedRectangle(tray,3.0f);
     g.setColour(juce::Colour(0xff111215));
     g.drawRoundedRectangle(tray,3.0f,1.0f);
-    g.setColour(juce::Colour(0x07ffffff));
+    g.setColour(juce::Colour(0x035e6469));
     for(int y=114;y<int(tray.getBottom())-2;y+=3)
         g.drawHorizontalLine(y,tray.getX()+2,tray.getRight()-2);
     for(const float x:{rail.getX()+7,rail.getRight()-7}){
@@ -275,7 +300,18 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         const auto slider=macros[i].getBounds();
         g.drawText(macroNames[int(i)],slider.translated(0,-13).withHeight(14),juce::Justification::centred);
     }
-    g.drawText("SIGNAL  /  SYNTHESIS",34,116,350,20,juce::Justification::left);
+    g.drawText("SIGNAL PATH",34,116,350,20,juce::Justification::left);
+    drawInset(g,juce::Rectangle<float>(float(getWidth()-344),22.0f,318.0f,81.0f));
+    g.setFont(10.0f);
+    g.setColour(juce::Colour(0xffb5a6a0));
+    g.drawText("FACTORY PROGRAM",getWidth()-330,25,110,13,juce::Justification::centredLeft);
+    for(int i=0;i<int(std::size(panels));++i){
+        const auto panel=panelBounds(getWidth(),getHeight(),i);
+        drawInset(g,panel.toFloat());
+        g.setColour(juce::Colour(0xffb7b1a8));
+        g.drawText(panels[i].title,panel.reduced(8,2).withHeight(16),juce::Justification::centredLeft);
+    }
+    g.setFont(12.0f);
     const int displayWidth=(getWidth()-84)/3;
     const char* headings[]={"OSCILLATOR","AMP RESPONSE","LFO"};
     for(int i=0;i<3;++i){
@@ -324,9 +360,9 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
 }
 void SpaceInfinityEditor::resized(){
     const int w=getWidth();title.setBounds(34,23,300,40);subtitle.setBounds(35,64,450,24);
-    presets.setBounds(w-290,31,186,28);
-    previousPreset.setBounds(w-100,31,29,28);
-    nextPreset.setBounds(w-67,31,29,28);waveform.setBounds(w-290,72,252,26);
+    presets.setBounds(w-330,42,226,25);
+    previousPreset.setBounds(w-100,42,29,25);
+    nextPreset.setBounds(w-67,42,29,25);waveform.setBounds(w-330,72,292,23);
     source.setBounds(34,getHeight()-37,152,24);
     importButton.setBounds(194,getHeight()-37,104,24);
     sampleRoot.setBounds(306,getHeight()-37,116,24);
@@ -354,12 +390,15 @@ void SpaceInfinityEditor::resized(){
     sampleLoop.setBounds(425,getHeight()-65,100,22);
     sampleReverse.setBounds(532,getHeight()-65,100,22);
     filterMode.setBounds(642,getHeight()-65,120,22);
-    auto area=juce::Rectangle<int>(32,265,w-64,getHeight()-499);const int cols=8,rows=2;
-    const int cellW=area.getWidth()/cols,cellH=area.getHeight()/rows;
-    for(int i=0;i<15;i++){
-        int col=i%cols,row=i/cols;auto cell=juce::Rectangle<int>(area.getX()+col*cellW,area.getY()+row*cellH,cellW,cellH);
-        labels[i].setBounds(cell.getX()+4,cell.getY(),cell.getWidth()-8,22);
-        knobs[i].setBounds(cell.getX()+5,cell.getY()+22,cell.getWidth()-10,std::max(62,cell.getHeight()-25));
+    for(int i=0;i<int(std::size(panels));++i){
+        const auto& panel=panels[i];
+        auto area=panelBounds(w,getHeight(),i).reduced(3,3).withTrimmedTop(17);
+        for(int j=0;j<panel.count;++j){
+            auto cell=area.removeFromLeft(area.getWidth()/(panel.count-j)).reduced(2,0);
+            const auto index=size_t(panel.knobs[j]);
+            labels[index].setBounds(cell.removeFromTop(17));
+            knobs[index].setBounds(cell);
+        }
     }
 }
 juce::AudioProcessorEditor* SpaceInfinityProcessor::createEditor(){return new SpaceInfinityEditor(*this);}
