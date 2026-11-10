@@ -462,7 +462,11 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
             };
             const auto stack=[&](double& phase,auto& extras,double rate,const auto& rates,
                                   int count,int shape,float width,float gain,double offset,int warp,float amount,float modulator){
-                if(gain==0.0f)return;
+                if(gain==0.0f){
+                    phase+=rate*rates[0];
+                    phase-=std::floor(phase);
+                    return;
+                }
                 const float level=gain/float(count);
                 for(int i=0;i<count;++i){
                     auto& position=i==0?phase:extras[size_t(i-1)];
