@@ -122,6 +122,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         addAndMakeVisible(point);
         attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,SpaceInfinityProcessor::motionPointId(int(i)),point));
     }
+    bindChoice(filterMode,"filterMode",{"Classic LP","Resonant LP","High-pass","Band-pass","24 dB LP"});
     bindChoice(sampleLoop,"sampleLoop",{"Loop off","Loop on"});
     bindChoice(sampleReverse,"sampleReverse",{"Forward","Reverse"});
     const char* trimIds[]={"sampleStart","sampleEnd"};
@@ -276,6 +277,7 @@ void SpaceInfinityEditor::resized(){
     sampleTrim[1].setBounds(282,getHeight()-65,130,22);
     sampleLoop.setBounds(425,getHeight()-65,100,22);
     sampleReverse.setBounds(532,getHeight()-65,100,22);
+    filterMode.setBounds(642,getHeight()-65,120,22);
     auto area=juce::Rectangle<int>(32,265,w-64,getHeight()-445);const int cols=8,rows=2;
     const int cellW=area.getWidth()/cols,cellH=area.getHeight()/rows;
     for(int i=0;i<15;i++){

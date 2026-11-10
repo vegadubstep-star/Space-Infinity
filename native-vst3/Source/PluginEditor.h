@@ -18,7 +18,7 @@ private:
     juce::Slider motionDepth;
     std::array<juce::Slider,17> motionPoints;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> motionDepthAttachment;
-    juce::ComboBox delaySync, delayMode, reverbSpace, sampleLoop, sampleReverse;
+    juce::ComboBox delaySync, delayMode, reverbSpace, sampleLoop, sampleReverse, filterMode;
     std::array<juce::Slider,2> sampleTrim;
     std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>,2> trimAttachments;
     juce::Slider sampleRoot, compAmount, pitchWheel;

@@ -43,6 +43,7 @@ private:
         double samplePosition = 0, sampleStep = 0;
         int sampleStart = 0, sampleEnd = 0;
         bool sampleLoop = false;
+        float filterState[2]{}, filterCascade[2]{};
         unsigned sampleRevision = 0; bool active=false, released=false, decaying=false; int note=-1, channel=1; float velocity=0, env=0, cutoff=0; double phase=0, phase2=0; uint64_t age=0; };
     std::array<Voice,24> voices{};
     double motionPhase=0.0;
