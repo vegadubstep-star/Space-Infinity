@@ -1,12 +1,16 @@
 #pragma once
 #include "PluginProcessor.h"
-class SpaceInfinityEditor : public juce::AudioProcessorEditor {
+class SpaceInfinityEditor : public juce::AudioProcessorEditor, private juce::Timer {
 public:
     explicit SpaceInfinityEditor(SpaceInfinityProcessor&);
     ~SpaceInfinityEditor() override;
     void paint(juce::Graphics&) override;
     void resized() override;
 private:
+    void timerCallback() override;
+    juce::Rectangle<int> meterBounds;
+    float meterPeak=0.0f;
+    int clipHold=0;
     class HardwareLook final : public juce::LookAndFeel_V4 {
         void drawRotarySlider(juce::Graphics&, int, int, int, int, float, float, float, juce::Slider&) override;
         void drawButtonBackground(juce::Graphics&, juce::Button&, const juce::Colour&, bool, bool) override;

@@ -22,6 +22,7 @@ public:
     void setStateInformation(const void*,int) override;
     juce::AudioProcessorValueTreeState state;
     void loadPreset(int index);
+    float takeOutputPeak() noexcept { return outputPeak.exchange(0.0f); }
     void loadMotionShape(int index);
     static juce::StringArray motionNames();
     static juce::StringArray macroNames();
@@ -32,6 +33,7 @@ public:
     static const juce::StringArray& presetNames();
     static juce::String presetCategory(int index);
 private:
+    std::atomic<float> outputPeak{0.0f};
     struct Sample {
         juce::AudioBuffer<float> audio;
         double sampleRate = 0;

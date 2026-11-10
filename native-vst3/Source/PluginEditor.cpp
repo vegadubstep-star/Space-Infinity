@@ -240,7 +240,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,ids[i],slider));
         slider.setNumDecimalPlacesToDisplay(decimals[i]);
         slider.setTextValueSuffix(units[i]);
-        if(i==2 || i==3 || i==13 || i==14){
+        if(i==2 || i==3 || i==13 || i==14 || i==12){
             slider.setSliderStyle(juce::Slider::LinearVertical);
             slider.setColour(juce::Slider::thumbColourId,juce::Colour(0xffd48d42));
             slider.setColour(juce::Slider::trackColourId,juce::Colour(0xff10100f));
@@ -248,8 +248,15 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         }
         slider.onValueChange=[this]{repaint();};
     }
+    startTimerHz(30);
 }
-SpaceInfinityEditor::~SpaceInfinityEditor(){setLookAndFeel(nullptr);}
+SpaceInfinityEditor::~SpaceInfinityEditor(){stopTimer();setLookAndFeel(nullptr);}
+void SpaceInfinityEditor::timerCallback(){
+    const float peak=processor.takeOutputPeak();
+    meterPeak=juce::jmax(peak,meterPeak*0.88f);
+    clipHold=peak>=1.0f?30:juce::jmax(0,clipHold-1);
+    repaint(meterBounds);
+}
 void SpaceInfinityEditor::paint(juce::Graphics& g){
     g.fillAll(juce::Colour(0xff21100c));
     for(const int side:{0,getWidth()-22}){
@@ -338,6 +345,14 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         drawInset(g,panel.toFloat());
         g.setColour(juce::Colour(0xffb7b1a8));
         g.drawText(panels[i].title,panel.reduced(8,2).withHeight(16),juce::Justification::centredLeft);
+    }
+    const float db=juce::Decibels::gainToDecibels(meterPeak,-60.0f);
+    for(int segment=0;segment<12;++segment){
+        const int y=meterBounds.getBottom()-(segment+1)*meterBounds.getHeight()/12;
+        const bool lit=segment==11?clipHold>0:db>=-54.0f+4.8f*float(segment);
+        const auto colour=juce::Colour(segment==11?0xfff05243:segment>=8?0xffd4a33d:0xff5dbb68);
+        g.setColour(lit?colour:colour.darker(3.0f));
+        g.fillRect(meterBounds.getX(),y,meterBounds.getWidth(),juce::jmax(1,meterBounds.getHeight()/12-1));
     }
     g.setFont(12.0f);
     const int displayWidth=(getWidth()-84)/3;
@@ -432,6 +447,7 @@ void SpaceInfinityEditor::resized(){
             auto cell=area.removeFromLeft(area.getWidth()/(panel.count-j)).reduced(2,0);
             const auto index=size_t(panel.knobs[j]);
             labels[index].setBounds(cell.removeFromTop(17));
+            if(index==12)meterBounds=cell.removeFromRight(10).reduced(1,2);
             knobs[index].setBounds(cell);
         }
     }

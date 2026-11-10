@@ -327,7 +327,14 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     params.roomSize=roomSize[space];params.damping=damping[space];
     params.wetLevel=juce::jlimit(0.0f,0.8f,param("reverb")+0.4f*modulation[3])*.65f;params.dryLevel=1-params.wetLevel*.35f;params.width=1;
     reverb.setParameters(params);reverb.processStereo(left,right,b.getNumSamples());
-    b.applyGain(param("gain"));for(int c=0;c<2;++c){auto* dst=b.getWritePointer(c);for(int s=0;s<b.getNumSamples();++s)dst[s]=std::tanh(dst[s]);}
+    b.applyGain(param("gain"));
+    const float peak=b.getMagnitude(0,b.getNumSamples());
+    auto previous=outputPeak.load(std::memory_order_relaxed);
+    while(peak>previous&&!outputPeak.compare_exchange_weak(previous,peak,std::memory_order_relaxed)) {}
+    for(int c=0;c<2;++c){
+        auto* dst=b.getWritePointer(c);
+        for(int s=0;s<b.getNumSamples();++s)dst[s]=std::tanh(dst[s]);
+    }
 }
 void SpaceInfinityProcessor::getStateInformation(juce::MemoryBlock& m){auto t=state.copyState();std::unique_ptr<juce::XmlElement> xml(t.createXml());{
     const juce::SpinLock::ScopedLockType lock(sampleLock);
