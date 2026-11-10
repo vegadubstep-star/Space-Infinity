@@ -3,6 +3,14 @@
 #include <cmath>
 #include <complex>
 namespace {
+void showPercent(juce::Slider& slider,bool signedValue=false){
+    slider.textFromValueFunction=[signedValue](double value){
+        return juce::String(signedValue&&value>0.0?"+":"")+juce::String(value*100.0,0)+"%";
+    };
+    slider.valueFromTextFunction=[](const juce::String& text){return text.getDoubleValue()/100.0;};
+    slider.updateText();
+}
+
 class WarpPanel final : public juce::Component {
 public:
     WarpPanel(SpaceInfinityProcessor& processor,int oscillator)
@@ -11,8 +19,9 @@ public:
         mode.addItemList({"Off",oscillator==1?"FM from B":"FM from A","Mirror","PWM"},1);
         mode.setSelectedItemIndex(int(processor.state.getRawParameterValue("osc"+juce::String(oscillator)+"Warp")->load()),juce::dontSendNotification);
         amount.setTextBoxStyle(juce::Slider::TextBoxRight,false,48,22);
-        amount.textFromValueFunction=[](double v){return juce::String(v*100.0,0)+"%";};
-        amount.updateText();
+        amount.setTooltip("Warp amount. Double-click to reset.");
+        amount.setDoubleClickReturnValue(true,0.0);
+        showPercent(amount);
         addAndMakeVisible(mode);
         addAndMakeVisible(amount);
         setSize(240,82);
@@ -281,7 +290,8 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         fxChoices.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,id,box));
     };
     motionShape.addItemList(SpaceInfinityProcessor::motionNames(),1);
-    motionShape.setTextWhenNothingSelected("Motion shapes");
+    motionShape.setTextWhenNothingSelected("Choose a shape");
+    motionShape.setTooltip("Load a starting shape, then drag across the graph to edit it.");
     motionShape.onChange=[this]{processor.loadMotionShape(motionShape.getSelectedItemIndex());};
     addAndMakeVisible(motionShape);
     bindChoice(motionBars,"motionBars",{"1 bar","2 bars","4 bars","8 bars"});
@@ -290,8 +300,8 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     motionDepth.setTooltip("Motion amount to filter cutoff");
     addAndMakeVisible(motionDepth);
     motionDepthAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"motionDepth",motionDepth);
-    motionDepth.textFromValueFunction=[](double value){return juce::String(value,2);};
-    motionDepth.updateText();
+    motionDepth.setDoubleClickReturnValue(true,0.0);
+    showPercent(motionDepth);
     for(size_t i=0;i<motionPoints.size();++i){
         auto& point=motionPoints[i];
         point.setSliderStyle(juce::Slider::LinearVertical);
@@ -342,8 +352,13 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         slider.setTooltip(i%2==0?"Fine tune in cents":"Stereo width");
         addAndMakeVisible(slider);
         attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,oscIds[i],slider));
-        slider.textFromValueFunction=[i](double value){return juce::String(value,i%2==0?1:2);};
-        slider.updateText();
+        slider.setDoubleClickReturnValue(true,0.0);
+        if(i%2!=0)showPercent(slider);
+        else{
+            slider.textFromValueFunction=[](double value){return juce::String(value,1)+" ct";};
+            slider.valueFromTextFunction=[](const juce::String& text){return text.getDoubleValue();};
+            slider.updateText();
+        }
     }
     for(size_t i=0;i<unisonSliders.size();++i){
         auto& slider=unisonSliders[i];
@@ -420,6 +435,10 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
             return juce::String(value,precision)+suffix;
         };
         slider.updateText();
+        const auto* parameter=processor.state.getParameter(ids[i]);
+        slider.setDoubleClickReturnValue(true,parameter->convertFrom0to1(parameter->getDefaultValue()));
+        if(i==1||i==5||i==6||i==7||i==8||i==9||i==11||i==12||i==14||i==15||i==16)
+            showPercent(slider);
         if(i==13){
             juce::NormalisableRange<double> travel(slider.getMinimum(),slider.getMaximum(),slider.getInterval());
             travel.setSkewForCentre(0.45);
@@ -439,8 +458,11 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     addAndMakeVisible(mainTab);
     addAndMakeVisible(fxTab);
     addAndMakeVisible(routesButton);
+    mainTab.setTooltip("Oscillators, envelopes, Motion, macros and sampler");
+    fxTab.setTooltip("Open the effects and equaliser page");
     mainTab.onClick=[this]{fxPage=false;updatePage();};
     fxTab.onClick=[this]{fxPage=true;updatePage();};
+    routesButton.setTooltip("Show destination and signed depth for the selected route slot.");
     routesButton.onClick=[this]{routesVisible=!routesVisible;updatePage();};
     updatePage();
     startTimerHz(30);
@@ -481,8 +503,8 @@ void SpaceInfinityEditor::bindMacroPage(){
             processor.state,SpaceInfinityProcessor::macroRouteId(int(i),slot,false),macroRoutes[i]);
         depthAttachments[i]=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
             processor.state,SpaceInfinityProcessor::macroRouteId(int(i),slot,true),routeDepth[i]);
-        routeDepth[i].textFromValueFunction=[](double value){return juce::String(value,2);};
-        routeDepth[i].updateText();
+        routeDepth[i].setDoubleClickReturnValue(true,0.0);
+        showPercent(routeDepth[i],true);
     }
 }
 juce::Rectangle<int> SpaceInfinityEditor::targetBounds(int target) const{
