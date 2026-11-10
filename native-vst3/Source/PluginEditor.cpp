@@ -19,9 +19,9 @@ juce::Rectangle<int> panelBounds(int width,int height,int index){
     return {left+2,controlTop+row*topHeight,right-left-4,topHeight-5};
 }
 void drawInset(juce::Graphics& g,juce::Rectangle<float> bounds){
-    g.setColour(juce::Colour(0xff08090b));
+    g.setColour(juce::Colour(0xff222220));
     g.fillRoundedRectangle(bounds,4.0f);
-    g.setColour(juce::Colour(0xff36393c));
+    g.setColour(juce::Colour(0xff55504a));
     g.drawRoundedRectangle(bounds.reduced(.5f),4.0f,1.0f);
     g.setColour(juce::Colour(0xff242629));
     g.drawHorizontalLine(int(bounds.getBottom()-2),bounds.getX()+5,bounds.getRight()-5);
@@ -168,7 +168,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         point.setSliderStyle(juce::Slider::LinearVertical);
         point.setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);
         point.setTooltip("Motion point "+juce::String(int(i+1)));
-        point.setColour(juce::Slider::thumbColourId,juce::Colour(0xffff8276));
+        point.setColour(juce::Slider::thumbColourId,juce::Colour(0xffd78e3f));
         point.setColour(juce::Slider::trackColourId,juce::Colours::transparentBlack);
         point.setColour(juce::Slider::backgroundColourId,juce::Colours::transparentBlack);
         point.onValueChange=[this]{repaint();};
@@ -236,26 +236,50 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,ids[i],slider));
         slider.setNumDecimalPlacesToDisplay(decimals[i]);
         slider.setTextValueSuffix(units[i]);
+        if(i==2 || i==3 || i==13 || i==14){
+            slider.setSliderStyle(juce::Slider::LinearVertical);
+            slider.setColour(juce::Slider::thumbColourId,juce::Colour(0xffd48d42));
+            slider.setColour(juce::Slider::trackColourId,juce::Colour(0xff10100f));
+            slider.setColour(juce::Slider::backgroundColourId,juce::Colour(0xff4b4742));
+        }
         slider.onValueChange=[this]{repaint();};
     }
 }
 SpaceInfinityEditor::~SpaceInfinityEditor(){setLookAndFeel(nullptr);}
 void SpaceInfinityEditor::paint(juce::Graphics& g){
-    g.fillAll(juce::Colour(0xff08090b));
-    const auto chassis=getLocalBounds().toFloat().reduced(8.0f);
-    g.setGradientFill(juce::ColourGradient(juce::Colour(0xff2a2c2e),0,chassis.getY(),
-        juce::Colour(0xff151618),0,chassis.getBottom(),false));
+    g.fillAll(juce::Colour(0xff21100c));
+    for(const int side:{0,getWidth()-22}){
+        const juce::Rectangle<float> cheek(float(side),0.0f,22.0f,float(getHeight()));
+        juce::ColourGradient wood(juce::Colour(0xff38150d),cheek.getX(),0.0f,
+                                  juce::Colour(0xff512419),cheek.getRight(),0.0f,false);
+        wood.addColour(0.42,juce::Colour(0xffa65e37));
+        wood.addColour(0.72,juce::Colour(0xff78371f));
+        g.setGradientFill(wood);
+        g.fillRect(cheek);
+        for(int grain=0;grain<24;++grain){
+            juce::Path fibre;
+            const float x=cheek.getX()+float(grain)*0.92f;
+            fibre.startNewSubPath(x,0.0f);
+            for(int y=12;y<getHeight()+12;y+=12)
+                fibre.lineTo(x+0.42f*std::sin(float(y)*0.034f+float(grain)),float(y));
+            g.setColour(juce::Colour(grain%3==0?0x378f4629:0x2b301309));
+            g.strokePath(fibre,juce::PathStrokeType(0.65f));
+        }
+    }
+    const auto chassis=getLocalBounds().toFloat().reduced(19.0f,4.0f);
+    g.setGradientFill(juce::ColourGradient(juce::Colour(0xffa02c24),0,chassis.getY(),
+        juce::Colour(0xff5d1818),0,chassis.getBottom(),false));
     g.fillRoundedRectangle(chassis,4.0f);
     g.setColour(juce::Colour(0xff53565b));
     g.drawRoundedRectangle(chassis,4.0f,1.0f);
     auto rail=chassis.reduced(8.0f).withHeight(85.0f);
-    g.setGradientFill(juce::ColourGradient(juce::Colour(0xff323438),0,rail.getY(),
+    g.setGradientFill(juce::ColourGradient(juce::Colour(0xff9c2c25),0,rail.getY(),
         juce::Colour(0xff1a1c20),0,rail.getBottom(),false));
     g.fillRoundedRectangle(rail,3.0f);
-    g.setColour(juce::Colour(0xff56595f));
+    g.setColour(juce::Colour(0xffbd5446));
     g.drawRoundedRectangle(rail,3.0f,1.0f);
     const auto tray=juce::Rectangle<float>(23,112,float(getWidth()-46),float(getHeight()-156));
-    g.setColour(juce::Colour(0xff1a1c1e));
+    g.setColour(juce::Colour(0xff292827));
     g.fillRoundedRectangle(tray,3.0f);
     g.setColour(juce::Colour(0xff111215));
     g.drawRoundedRectangle(tray,3.0f,1.0f);
@@ -292,7 +316,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         g.drawVerticalLine(int(x),float(bounds.getY()+9),float(bounds.getBottom()-9));
         if(i==0)motionTrace.startNewSubPath(x,y);else motionTrace.lineTo(x,y);
     }
-    g.setColour(juce::Colour(0xffe95d56));
+    g.setColour(juce::Colour(0xffe6a14e));
     g.strokePath(motionTrace,juce::PathStrokeType(1.5f));
     g.setColour(juce::Colour(0xffc3c1bd));
     const auto macroNames=SpaceInfinityProcessor::macroNames();
@@ -354,7 +378,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
             const auto point=juce::Point<float>(area.getX()+x*area.getWidth(),area.getY()+y*area.getHeight());
             if(k==0)trace.startNewSubPath(point);else trace.lineTo(point);
         }
-        g.setColour(juce::Colour(0xfffa675e));
+        g.setColour(juce::Colour(0xffdf9a53));
         g.strokePath(trace,juce::PathStrokeType(1.5f));
     }
 }
