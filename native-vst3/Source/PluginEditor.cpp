@@ -119,6 +119,10 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         point.setSliderStyle(juce::Slider::LinearVertical);
         point.setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);
         point.setTooltip("Motion point "+juce::String(int(i+1)));
+        point.setColour(juce::Slider::thumbColourId,juce::Colour(0xffff8276));
+        point.setColour(juce::Slider::trackColourId,juce::Colours::transparentBlack);
+        point.setColour(juce::Slider::backgroundColourId,juce::Colours::transparentBlack);
+        point.onValueChange=[this]{repaint();};
         addAndMakeVisible(point);
         attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,SpaceInfinityProcessor::motionPointId(int(i)),point));
     }
@@ -223,6 +227,30 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     g.drawText("TRIM START",34,getHeight()-65,66,22,juce::Justification::centredLeft);
     g.drawText("END",245,getHeight()-65,35,22,juce::Justification::centredLeft);
     g.drawText("PITCH",getWidth()-316,116,51,22,juce::Justification::right);
+    const auto motionPanel=juce::Rectangle<int>(26,getHeight()-243,getWidth()-52,119);
+    g.setColour(juce::Colour(0xff0b0b0d));
+    g.fillRoundedRectangle(motionPanel.toFloat(),5.0f);
+    g.setColour(juce::Colour(0xff4d4243));
+    g.drawRoundedRectangle(motionPanel.toFloat(),5.0f,1.0f);
+    g.setColour(juce::Colour(0xffd9a6a1));
+    g.drawText("MOTION  /  FILTER CUTOFF",34,motionPanel.getY()+2,155,16,juce::Justification::centredLeft);
+    juce::Path motionTrace;
+    for(size_t i=0;i<motionPoints.size();++i){
+        const auto bounds=motionPoints[i].getBounds();
+        const float x=float(bounds.getCentreX());
+        const float y=float(bounds.getBottom()-9)-float(motionPoints[i].getValue())*float(bounds.getHeight()-18);
+        g.setColour(juce::Colour(0xff342123));
+        g.drawVerticalLine(int(x),float(bounds.getY()+9),float(bounds.getBottom()-9));
+        if(i==0)motionTrace.startNewSubPath(x,y);else motionTrace.lineTo(x,y);
+    }
+    g.setColour(juce::Colour(0xffe95d56));
+    g.strokePath(motionTrace,juce::PathStrokeType(1.5f));
+    g.setColour(juce::Colour(0xffc3c1bd));
+    const auto macroNames=SpaceInfinityProcessor::macroNames();
+    for(size_t i=0;i<macros.size();++i){
+        const auto slider=macros[i].getBounds();
+        g.drawText(macroNames[int(i)],slider.translated(0,-13).withHeight(14),juce::Justification::centred);
+    }
     g.drawText("SIGNAL  /  SYNTHESIS",34,116,350,20,juce::Justification::left);
     const int displayWidth=(getWidth()-84)/3;
     const char* headings[]={"OSCILLATOR","AMP RESPONSE","LFO"};
@@ -288,11 +316,11 @@ void SpaceInfinityEditor::resized(){
     motionDepth.setBounds(controls.removeFromTop(26).reduced(2));
     const int spacing=motionRow.getWidth()/int(motionPoints.size());
     for(auto& point:motionPoints)point.setBounds(motionRow.removeFromLeft(spacing).reduced(1));
-    auto macroRow=juce::Rectangle<int>(34,getHeight()-121,w-68,44);
+    auto macroRow=juce::Rectangle<int>(34,getHeight()-108,w-68,36);
     const int macroWidth=macroRow.getWidth()/int(macros.size());
     for(size_t i=0;i<macros.size();++i){
         auto cell=macroRow.removeFromLeft(macroWidth).reduced(4,0);
-        macros[i].setBounds(cell.removeFromTop(20));
+        macros[i].setBounds(cell.removeFromTop(16));
         macroRoutes[i].setBounds(cell);
     }
     sampleTrim[0].setBounds(100,getHeight()-65,130,22);
