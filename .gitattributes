@@ -1,6 +1,0 @@
-*.cpp text eol=lf
-*.h text eol=lf
-*.html text eol=lf
-*.md text eol=lf
-*.png binary
-*.jpg binary

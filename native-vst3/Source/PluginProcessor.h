@@ -22,15 +22,36 @@ public:
     void setStateInformation(const void*,int) override;
     juce::AudioProcessorValueTreeState state;
     void loadPreset(int index);
+    juce::Result importSample(const juce::File& file);
+    static juce::StringArray sourceNames();
     static const juce::StringArray& presetNames();
 private:
-    struct Voice { bool active=false, released=false; int note=-1; float velocity=0, env=0, cutoff=0; double phase=0, phase2=0; uint64_t age=0; };
+    struct Sample {
+        juce::AudioBuffer<float> audio;
+        double sampleRate = 0;
+    };
+    static juce::Result decodeSample(const juce::MemoryBlock&, Sample&);
+    Sample choirAh, choirOoh, importedSample;
+    juce::MemoryBlock importedBytes;
+    juce::SpinLock sampleLock;
+    unsigned sampleRevision = 0;
+    struct Voice {
+        int source = 0;
+        double samplePosition = 0, sampleStep = 0;
+        unsigned sampleRevision = 0; bool active=false, released=false; int note=-1; float velocity=0, env=0, cutoff=0; double phase=0, phase2=0; uint64_t age=0; };
     std::array<Voice,24> voices{};
     double sr=44100, lfoPhase=0; uint64_t clock=0;
     juce::dsp::Chorus<float> chorus;
     juce::dsp::Reverb reverb;
+    juce::dsp::LinkwitzRileyFilter<float> crossoverLow, crossoverHigh, alignLow;
+    std::array<juce::dsp::Compressor<float>,3> bandCompressors;
+    juce::SmoothedValue<float> delaySamples, delayWet, bandMix;
+    float delayToneL=0,delayToneR=0;
+    double delayBpm=120;
+    float midiBend=0;
+    juce::SmoothedValue<float> pitchBend;
     juce::dsp::DelayLine<float,juce::dsp::DelayLineInterpolationTypes::Linear> delayL{192000},delayR{192000};
-    void noteOn(int,float); void noteOff(int);
+    void noteOn(int,float,int,int); void noteOff(int);
     float param(const char* id) const {return state.getRawParameterValue(id)->load();}
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SpaceInfinityProcessor)
 };
