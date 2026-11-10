@@ -863,6 +863,7 @@ void SpaceInfinityEditor::resized(){
     labels[4].setText("UNISON SPREAD / DETUNE",juce::dontSendNotification);
     knobs[4].setBounds(oscBottom.getX()+20,oscBottom.getBottom()-47,oscBottom.getWidth()-40,43);
     auto filterControls=layout.filter.reduced(7).withTrimmedTop(21);
+    filterControls.removeFromRight(52);
     const int gridHeight=(layout.filter.getHeight()-100)/2;
     const int indices[]{0,1,6,5};
     for(int i=0;i<4;++i){
@@ -873,11 +874,11 @@ void SpaceInfinityEditor::resized(){
         labels[index].setBounds(cell.removeFromTop(17));
         knobs[index].setBounds(cell);
     }
-    filterMode.setBounds(layout.filter.getX()+8,layout.filter.getBottom()-71,layout.filter.getWidth()-16,22);
-    voiceMode.setBounds(layout.filter.getX()+8,layout.filter.getBottom()-32,juce::jmax(95,layout.filter.getWidth()-105),23);
-    labels[12].setBounds(layout.filter.getRight()-91,layout.filter.getBottom()-46,67,13);
-    knobs[12].setBounds(layout.filter.getRight()-82,layout.filter.getBottom()-32,55,28);
-    meterBounds={layout.filter.getRight()-20,layout.filter.getBottom()-44,8,37};
+    filterMode.setBounds(layout.filter.getX()+8,layout.filter.getBottom()-71,layout.filter.getWidth()-70,22);
+    voiceMode.setBounds(layout.filter.getX()+8,layout.filter.getBottom()-32,juce::jmax(95,layout.filter.getWidth()-70),23);
+    labels[12].setBounds(layout.filter.getRight()-58,layout.filter.getY()+24,45,13);
+    knobs[12].setBounds(layout.filter.getRight()-59,layout.filter.getY()+42,44,layout.filter.getHeight()-50);
+    meterBounds={layout.filter.getRight()-12,layout.filter.getY()+48,6,layout.filter.getHeight()-65};
     const auto macroNames=SpaceInfinityProcessor::macroNames();
     const auto macroArea=layout.macros.reduced(7).withTrimmedTop(18);
     const int macroWidth=macroArea.getWidth()/2,macroHeight=macroArea.getHeight()/2;
