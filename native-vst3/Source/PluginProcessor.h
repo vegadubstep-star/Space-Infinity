@@ -34,6 +34,11 @@ public:
     static juce::StringArray macroNames();
     static juce::StringArray macroTargets();
     static juce::String macroRouteId(int macro,int slot,bool depth);
+    static juce::String modulationRouteId(int source,int slot,bool depth);
+    static juce::String lfoParameterId(int lfo,const char* field);
+    static juce::String lfoPointId(int lfo,int point);
+    void loadLfoShape(int lfo,int index);
+    float lfoDisplayPhase(int index) const noexcept {return displayedLfoPhase[size_t(index)].load();}
     static juce::String motionPointId(int index);
     juce::Result importSample(const juce::File& file);
     static juce::StringArray sourceNames();
@@ -61,16 +66,19 @@ private:
         float stereoSide=0.0f, noiseMemory=0.0f;
         float dcInput[2]{},dcOutput[2]{};
         AnalogueDrift drift;
+        std::array<double,3> lfoPhase{};
         std::array<AnalogueLadder,2> ladder;
         uint32_t noiseState=1;
         std::array<double,15> extraPhase1{}, extraPhase2{};
         float filterState[2]{}, filterCascade[2]{};
         unsigned sampleRevision = 0; bool active=false, released=false, decaying=false; int note=-1, channel=1; float velocity=0, env=0, cutoff=0; double phase=0, phase2=0; uint64_t age=0; };
     std::array<Voice,24> voices{};
-    std::array<std::atomic<float>*,17> motionParameters{};
     std::array<std::atomic<float>*,4> macroValues{};
-    std::array<std::array<std::atomic<float>*,3>,4> macroRoutes{}, macroDepths{};
-    double motionPhase=0.0;
+    std::array<std::array<std::atomic<float>*,3>,8> macroRoutes{}, macroDepths{};
+    std::array<std::array<std::atomic<float>*,17>,3> designerPoints{};
+    std::array<std::array<std::atomic<float>*,4>,3> designerControls{};
+    std::array<double,3> designerPhase{};
+    std::array<std::atomic<float>,3> displayedLfoPhase{};
     double sr=44100, lfoPhase=0; uint64_t clock=0;
     juce::dsp::Chorus<float> chorus, flanger;
     juce::dsp::Phaser<float> phaser;

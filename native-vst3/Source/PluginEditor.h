@@ -1,5 +1,6 @@
 #pragma once
 #include "PluginProcessor.h"
+class ModulationBadge;
 class SpaceInfinityEditor : public juce::AudioProcessorEditor, private juce::Timer {
 public:
     explicit SpaceInfinityEditor(SpaceInfinityProcessor&);
@@ -39,12 +40,25 @@ private:
     std::array<juce::Slider,3> octaveControls;
     std::array<juce::Slider,2> unisonSliders;
     std::array<juce::Slider,4> macros;
-    juce::ComboBox macroSlot;
-    std::array<juce::ComboBox,4> macroRoutes;
-    std::array<juce::Slider,4> routeDepth;
-    std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment>,4> routeAttachments;
-    std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>,4> depthAttachments;
-    void bindMacroPage();
+
+    int selectedLfo=0, selectedSource=0;
+    std::array<juce::Rectangle<int>,3> lfoTabs;
+    juce::Rectangle<int> envelopeTab, envelopeGraph;
+    int envelopeDrag=-1;
+    float envelopeDragDuration=1.0f;
+    juce::ComboBox lfoSync,lfoMode;
+    juce::Slider lfoSpeed;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> lfoBarsBinding,lfoSyncBinding,lfoModeBinding;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> lfoSpeedBinding;
+    std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>,17> lfoPointBindings;
+    std::array<std::unique_ptr<ModulationBadge>,23> modulationBadges;
+    void bindLfoControls();
+    void updateLfoRateVisibility();
+    void refreshModulationIndicators();
+    int routeSourceForTarget(int target) const;
+    std::pair<juce::RangedAudioParameter*,juce::RangedAudioParameter*> routeForTarget(int target,bool select);
+    std::array<juce::Point<float>,3> envelopeNodes() const;
+    float envelopeDuration() const;
     std::array<juce::Slider,17> motionPoints;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> motionDepthAttachment;
     juce::ComboBox delaySync, delayMode, reverbSpace, sampleLoop, sampleReverse, filterMode, voiceMode;
@@ -60,9 +74,9 @@ private:
     std::array<juce::Label,28> rackLabels;
     std::array<juce::ToggleButton,6> rackEnabled;
     std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment>,6> rackPower;
-    juce::TextButton mainTab{"MAIN"}, fxTab{"FX"}, routesButton{"Macro routes"};
+    juce::TextButton mainTab{"MAIN"}, fxTab{"FX"};
     std::vector<juce::Component*> mainControls;
-    bool fxPage=false, routesVisible=false;
+    bool fxPage=false;
     void updatePage();
     juce::TextButton eqButton{"EQ"};
     juce::TextButton previousPreset{"<"}, nextPreset{">"};

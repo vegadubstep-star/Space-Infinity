@@ -199,5 +199,40 @@ int main()
                     if(!std::isfinite(audio.getSample(channel,sample)))return 31;
         }
     }
+    synth.loadPreset(0);
+    const float original= synth.state.getRawParameterValue(synth.lfoPointId(0,4))->load();
+    synth.loadLfoShape(1,3);
+    if(synth.state.getRawParameterValue(synth.lfoPointId(0,4))->load()!=original)return 32;
+    for(int lfo=0;lfo<3;++lfo){
+        auto* speed=synth.state.getParameter(synth.lfoParameterId(lfo,"Speed"));
+        speed->setValueNotifyingHost(speed->convertTo0to1(20.0f));
+        auto* sync=synth.state.getParameter(synth.lfoParameterId(lfo,"Sync"));
+        sync->setValueNotifyingHost(0.0f);
+        auto* mode=synth.state.getParameter(synth.lfoParameterId(lfo,"Mode"));
+        mode->setValueNotifyingHost(mode->convertTo0to1(2.0f));
+        auto* route=synth.state.getParameter(synth.modulationRouteId(lfo+4,0,false));
+        route->setValueNotifyingHost(route->convertTo0to1(lfo==0?1.0f:lfo==1?10.0f:12.0f));
+        auto* depth=synth.state.getParameter(synth.modulationRouteId(lfo+4,0,true));
+        depth->setValueNotifyingHost(depth->convertTo0to1(lfo==1?-.4f:.4f));
+    }
+    auto* ampRoute=synth.state.getParameter(synth.modulationRouteId(7,0,false));
+    ampRoute->setValueNotifyingHost(ampRoute->convertTo0to1(1.0f));
+    auto* ampDepth=synth.state.getParameter(synth.modulationRouteId(7,0,true));
+    ampDepth->setValueNotifyingHost(ampDepth->convertTo0to1(-.25f));
+    juce::MemoryBlock modulationState;
+    synth.getStateInformation(modulationState);
+    synth.loadPreset(0);
+    synth.setStateInformation(modulationState.getData(),int(modulationState.getSize()));
+    if(std::abs(ampDepth->convertFrom0to1(ampDepth->getValue())+.25f)>.001f)return 33;
+    synth.prepareToPlay(48000.0,blockSize);
+    for(int block=0;block<32;++block){
+        juce::MidiBuffer midi;
+        if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,60,.65f),0);
+        synth.processBlock(audio,midi);
+        for(int channel=0;channel<2;++channel)
+            for(int sample=0;sample<blockSize;++sample)
+                if(!std::isfinite(audio.getSample(channel,sample)))return 34;
+    }
+    for(int lfo=0;lfo<3;++lfo)if(std::abs(synth.lfoDisplayPhase(lfo)-1.0f)>.001f)return 35;
     std::cout << "Factory peaks " << quietest << " to " << loudest << '\n';
 }

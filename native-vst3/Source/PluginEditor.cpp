@@ -3,6 +3,72 @@
 #include <array>
 #include <cmath>
 #include <complex>
+class ModulationBadge final : public juce::Component, public juce::SettableTooltipClient {
+public:
+    ~ModulationBadge() override {if(dragging)dragging->endChangeGesture();}
+    std::function<std::pair<juce::RangedAudioParameter*,juce::RangedAudioParameter*>(bool)> getRoute;
+    std::function<juce::Colour()> sourceColour;
+    std::function<void()> changed;
+    void paint(juce::Graphics& g) override {
+        const auto route=getRoute(false);
+        if(!route.first)return;
+        const float amount=route.first->convertFrom0to1(route.first->getValue());
+        auto circle=getLocalBounds().toFloat().reduced(2);
+        g.setColour(juce::Colour(0xff141a1a));g.fillEllipse(circle);
+        g.setColour(juce::Colour(0xff626c6b));g.drawEllipse(circle,1);
+        auto colour=sourceColour();
+        if(amount<0)colour=colour.brighter(.5f);
+        g.setColour(colour);
+        juce::Path arc;
+        arc.addCentredArc(circle.getCentreX(),circle.getCentreY(),circle.getWidth()*.5f,circle.getHeight()*.5f,
+            0.0f,-2.5f,-2.5f+5.0f*std::abs(amount),true);
+        g.strokePath(arc,juce::PathStrokeType(2));
+        g.drawText(amount<0?"-":"+",getLocalBounds(),juce::Justification::centred);
+    }
+    void mouseDown(const juce::MouseEvent& event) override {
+        const auto route=getRoute(true);
+        if(!route.first)return;
+        if(event.mods.isPopupMenu()){
+            juce::PopupMenu menu;
+            menu.addItem(1,"Invert amount");
+            menu.addItem(2,"Set amount to zero");
+            menu.addItem(3,"Remove assignment");
+            const juce::Component::SafePointer<ModulationBadge> safe(this);
+            menu.showMenuAsync(juce::PopupMenu::Options{}.withTargetComponent(this),[safe,route](int action){
+                if(safe==nullptr||action==0)return;
+                auto* parameter=action==3?route.second:route.first;
+                const float value=action==1?-route.first->convertFrom0to1(route.first->getValue()):0.0f;
+                parameter->beginChangeGesture();
+                parameter->setValueNotifyingHost(parameter->convertTo0to1(value));
+                parameter->endChangeGesture();
+                safe->changed();
+            });
+            return;
+        }
+        dragging=route.first;
+        initial=dragging->convertFrom0to1(dragging->getValue());
+        dragging->beginChangeGesture();
+        setMouseCursor(juce::MouseCursor::UpDownResizeCursor);
+    }
+    void mouseDrag(const juce::MouseEvent& event) override {
+        if(!dragging)return;
+        const float sensitivity=event.mods.isShiftDown()?450.0f:140.0f;
+        const float value=juce::jlimit(-1.0f,1.0f,initial-float(event.getDistanceFromDragStartY())/sensitivity);
+        dragging->setValueNotifyingHost(dragging->convertTo0to1(value));
+        setTooltip("Modulation depth "+juce::String(value*100.0f,0)+"%");
+        changed();
+    }
+    void mouseUp(const juce::MouseEvent&) override {
+        if(dragging)dragging->endChangeGesture();
+        dragging=nullptr;
+        setMouseCursor(juce::MouseCursor::NormalCursor);
+    }
+private:
+    juce::RangedAudioParameter* dragging=nullptr;
+    float initial=0.0f;
+};
+
+
 namespace {
 void showPercent(juce::Slider& slider,bool signedValue=false){
     slider.textFromValueFunction=[signedValue](double value){
@@ -322,9 +388,19 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     motionShape.addItemList(SpaceInfinityProcessor::motionNames(),1);
     motionShape.setTextWhenNothingSelected("Choose a shape");
     motionShape.setTooltip("Load a starting shape, then drag across the graph to edit it.");
-    motionShape.onChange=[this]{processor.loadMotionShape(motionShape.getSelectedItemIndex());};
+    motionShape.onChange=[this]{processor.loadLfoShape(selectedLfo,motionShape.getSelectedId()-1);};
     addAndMakeVisible(motionShape);
-    bindChoice(motionBars,"motionBars",{"1 bar","2 bars","4 bars","8 bars"});
+    const char* lengths[]={"1 bar","2 bars","4 bars","8 bars","1/2 bar","1/4 bar","1/8 bar","1/16 bar"};
+    for(const int choice:{7,6,5,4,0,1,2,3})motionBars.addItem(lengths[choice],choice+1);
+    addAndMakeVisible(motionBars);
+    lfoSync.addItemList({"Hz","BPM"},1);
+    lfoSync.onChange=[this]{updateLfoRateVisibility();};
+    lfoMode.addItemList({"Free","Retrigger","One-shot"},1);
+    addAndMakeVisible(lfoSync);
+    addAndMakeVisible(lfoMode);
+    lfoSpeed.setSliderStyle(juce::Slider::LinearHorizontal);
+    lfoSpeed.setTextBoxStyle(juce::Slider::TextBoxRight,false,59,21);
+    addAndMakeVisible(lfoSpeed);
     motionDepth.setSliderStyle(juce::Slider::LinearHorizontal);
     motionDepth.setTextBoxStyle(juce::Slider::TextBoxRight,false,43,20);
     motionDepth.setTooltip("Motion amount to filter cutoff");
@@ -342,7 +418,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         point.setColour(juce::Slider::backgroundColourId,juce::Colours::transparentBlack);
         point.onValueChange=[this]{repaint();};
         point.setVisible(false);
-        attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,SpaceInfinityProcessor::motionPointId(int(i)),point));
+        lfoPointBindings[i]=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,SpaceInfinityProcessor::lfoPointId(0,int(i)),point);
     }
     const auto names=SpaceInfinityProcessor::macroNames();
     for(size_t i=0;i<macros.size();++i){
@@ -353,21 +429,12 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         macro.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
         macro.setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);
         macro.setDoubleClickReturnValue(true,0.0);
+        macro.onValueChange=[this,i]{selectedSource=int(i);refreshModulationIndicators();repaint();};
         addAndMakeVisible(macro);
         attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"macro"+suffix,macro));
-        macroRoutes[i].addItemList(SpaceInfinityProcessor::macroTargets(),1);
-        macroRoutes[i].onChange=[this]{repaint();};
-        addAndMakeVisible(macroRoutes[i]);
-        routeDepth[i].setSliderStyle(juce::Slider::LinearHorizontal);
-        routeDepth[i].setTextBoxStyle(juce::Slider::TextBoxRight,false,43,17);
-        routeDepth[i].setTooltip("Signed route depth. Negative values reverse the modulation.");
-        addAndMakeVisible(routeDepth[i]);
+
     }
-    macroSlot.addItemList({"Macro route 1","Macro route 2","Macro route 3"},1);
-    macroSlot.setSelectedId(1,juce::dontSendNotification);
-    macroSlot.onChange=[this]{bindMacroPage();};
-    addAndMakeVisible(macroSlot);
-    bindMacroPage();
+    bindLfoControls();
     bindChoice(waveform2,"osc2Wave",SpaceInfinityProcessor::oscillatorWaves(true));
     bindChoice(noiseType,"noiseType",{"White","Dark","Bright"});
     noiseLevel.setSliderStyle(juce::Slider::LinearHorizontal);
@@ -543,23 +610,42 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
            &&child!=&previousPreset&&child!=&nextPreset&&child!=&noiseType&&child!=&noiseLevel)mainControls.push_back(child);
     addAndMakeVisible(mainTab);
     addAndMakeVisible(fxTab);
-    addAndMakeVisible(routesButton);
     mainTab.setTooltip("Oscillators, envelopes, Motion, macros and sampler");
     fxTab.setTooltip("Open the effects and equaliser page");
     mainTab.onClick=[this]{fxPage=false;updatePage();};
     fxTab.onClick=[this]{fxPage=true;updatePage();};
-    routesButton.setTooltip("Show destination and signed depth for the selected route slot.");
-    routesButton.onClick=[this]{routesVisible=!routesVisible;updatePage();};
+    for(size_t target=1;target<modulationBadges.size();++target){
+        auto badge=std::make_unique<ModulationBadge>();
+        badge->getRoute=[this,target](bool select){return routeForTarget(int(target),select);};
+        badge->sourceColour=[this,target]{
+            const int source=routeSourceForTarget(int(target));
+            return juce::Colour(source!=selectedSource?0xff7b8583:source<4?0xffd3a363:source==7?0xffb29ed3:0xff69b6cc);
+        };
+        badge->changed=[this]{refreshModulationIndicators();repaint();};
+        addChildComponent(*badge);
+        modulationBadges[target]=std::move(badge);
+    }
     updatePage();
     startTimerHz(30);
 }
-SpaceInfinityEditor::~SpaceInfinityEditor(){stopTimer();setLookAndFeel(nullptr);}
+SpaceInfinityEditor::~SpaceInfinityEditor(){
+    stopTimer();
+    for(size_t point=0;point<motionGestures.size();++point)
+        if(motionGestures[point])
+            processor.state.getParameter(processor.lfoPointId(selectedLfo,int(point)))->endChangeGesture();
+    if(envelopeDrag>=0){
+        const char* ids[]={"attack","ampDecay","release"};
+        processor.state.getParameter(ids[envelopeDrag])->endChangeGesture();
+        if(envelopeDrag==1)processor.state.getParameter("ampSustain")->endChangeGesture();
+    }
+    setLookAndFeel(nullptr);
+}
 void SpaceInfinityEditor::timerCallback(){
     const float peak=processor.takeOutputPeak();
     meterPeak=juce::jmax(peak,meterPeak*0.88f);
     clipHold=peak>=1.0f?30:juce::jmax(0,clipHold-1);
-    repaint(meterBounds);
-    if(!fxPage)repaint(34,148,(getWidth()-84)/3,102);
+    refreshModulationIndicators();
+    repaint();
 }
 void SpaceInfinityEditor::updatePage(){
     for(auto* control:mainControls)control->setVisible(!fxPage);
@@ -582,67 +668,144 @@ void SpaceInfinityEditor::updatePage(){
     knobs[12].setSliderStyle(fxPage?juce::Slider::LinearHorizontal:juce::Slider::LinearVertical);
     knobs[12].setVisible(true);
     labels[12].setVisible(true);
-    routesButton.setVisible(!fxPage);
-    routesButton.setButtonText(routesVisible?"Hide routes":"Macro routes");
-    macroSlot.setVisible(!fxPage&&routesVisible);
-    for(size_t i=0;i<macros.size();++i){
-        macroRoutes[i].setVisible(!fxPage&&routesVisible);
-        routeDepth[i].setVisible(!fxPage&&routesVisible);
-    }
+    knobs[10].setVisible(false);labels[10].setVisible(false);
+    knobs[11].setVisible(false);labels[11].setVisible(false);
+    motionDepth.setVisible(false);
+    updateLfoRateVisibility();
     mainTab.setToggleState(!fxPage,juce::dontSendNotification);
     fxTab.setToggleState(fxPage,juce::dontSendNotification);
     resized();
+    refreshModulationIndicators();
     repaint();
 }
-void SpaceInfinityEditor::bindMacroPage(){
-    const int slot=juce::jlimit(0,2,macroSlot.getSelectedId()-1);
-    for(size_t i=0;i<macroRoutes.size();++i){
-        routeAttachments[i].reset();
-        depthAttachments[i].reset();
-        routeAttachments[i]=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(
-            processor.state,SpaceInfinityProcessor::macroRouteId(int(i),slot,false),macroRoutes[i]);
-        depthAttachments[i]=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-            processor.state,SpaceInfinityProcessor::macroRouteId(int(i),slot,true),routeDepth[i]);
-        routeDepth[i].setDoubleClickReturnValue(true,0.0);
-        showPercent(routeDepth[i],true);
+void SpaceInfinityEditor::bindLfoControls(){
+    lfoBarsBinding.reset();lfoSyncBinding.reset();lfoModeBinding.reset();lfoSpeedBinding.reset();
+    for(auto& binding:lfoPointBindings)binding.reset();
+    lfoBarsBinding=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(
+        processor.state,processor.lfoParameterId(selectedLfo,"Bars"),motionBars);
+    lfoSyncBinding=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(
+        processor.state,processor.lfoParameterId(selectedLfo,"Sync"),lfoSync);
+    lfoModeBinding=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(
+        processor.state,processor.lfoParameterId(selectedLfo,"Mode"),lfoMode);
+    lfoSpeedBinding=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
+        processor.state,processor.lfoParameterId(selectedLfo,"Speed"),lfoSpeed);
+    lfoSpeed.textFromValueFunction=[](double value){return juce::String(value,2)+" Hz";};
+    lfoSpeed.valueFromTextFunction=[](const juce::String& text){return text.getDoubleValue();};
+    lfoSpeed.updateText();
+    lfoSpeed.setDoubleClickReturnValue(true,1.0);
+    for(size_t point=0;point<motionPoints.size();++point)
+        lfoPointBindings[point]=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
+            processor.state,processor.lfoPointId(selectedLfo,int(point)),motionPoints[point]);
+    motionShape.setSelectedId(0,juce::dontSendNotification);
+    updateLfoRateVisibility();
+    repaint();
+}
+void SpaceInfinityEditor::updateLfoRateVisibility(){
+    const bool sync=lfoSync.getSelectedId()==2;
+    motionBars.setVisible(!fxPage&&sync);
+    lfoSpeed.setVisible(!fxPage&&!sync);
+}
+int SpaceInfinityEditor::routeSourceForTarget(int target) const{
+    const auto hasRoute=[this,target](int source){
+        for(int slot=0;slot<3;++slot)
+            if(int(processor.state.getRawParameterValue(processor.modulationRouteId(source,slot,false))->load())==target)
+                return true;
+        return false;
+    };
+    if(hasRoute(selectedSource))return selectedSource;
+    for(int source=0;source<8;++source)if(hasRoute(source))return source;
+    return -1;
+}
+std::pair<juce::RangedAudioParameter*,juce::RangedAudioParameter*> SpaceInfinityEditor::routeForTarget(int target,bool select){
+    const int source=routeSourceForTarget(target);
+    if(source<0)return {nullptr,nullptr};
+    if(select)selectedSource=source;
+    for(int slot=0;slot<3;++slot){
+        auto* destination=processor.state.getParameter(processor.modulationRouteId(source,slot,false));
+        if(int(destination->convertFrom0to1(destination->getValue()))==target)
+            return {processor.state.getParameter(processor.modulationRouteId(source,slot,true)),destination};
+    }
+    return {nullptr,nullptr};
+}
+void SpaceInfinityEditor::refreshModulationIndicators(){
+    for(size_t target=1;target<modulationBadges.size();++target){
+        auto* badge=modulationBadges[target].get();
+        if(!badge)continue;
+        const auto area=targetBounds(int(target));
+        const auto route=routeForTarget(int(target),false);
+        const bool visible=route.first!=nullptr&&!area.isEmpty();
+        badge->setVisible(visible);
+        if(visible){
+            badge->setBounds(area.getX()+1,area.getY()+1,17,17);
+            badge->toFront(false);
+            const int source=routeSourceForTarget(int(target));
+            const auto sourceName=source<4?processor.macroNames()[source]:
+                source==7?juce::String("AMP ENV"):"LFO "+juce::String(source-3);
+            const float depth=route.first->convertFrom0to1(route.first->getValue());
+            badge->setTooltip(sourceName+" > "+processor.macroTargets()[int(target)]+" "+
+                juce::String(depth*100.0f,0)+"%. Drag up/down to adjust. Right-click to remove.");
+            badge->repaint();
+        }
     }
 }
 juce::Rectangle<int> SpaceInfinityEditor::targetBounds(int target) const{
+    if(target==18||target==21||target==22){
+        const int lfo=target==18?0:target-20;
+        return !fxPage&&lfo==selectedLfo&&lfoSpeed.isVisible()?lfoSpeed.getBounds():juce::Rectangle<int>{};
+    }
     const juce::Component* controls[]={nullptr,&knobs[0],&knobs[4],&knobs[9],&knobs[2],&knobs[6],
         &knobs[8],&knobs[7],&knobs[5],&knobs[3],&knobs[1],&noiseLevel,&oscillatorSliders[1],
         &oscillatorSliders[3],&knobs[12],&knobs[13],&knobs[14],&motionDepth,&knobs[10],&knobs[11],&analogueCharacter};
     if(target<=0||target>=int(std::size(controls)))return {};
-    return controls[target]->getBounds();
+    if(fxPage){
+        const char* id=target==3?"reverb":target==6?"delay":target==7?"chorus":nullptr;
+        if(id)for(size_t i=0;i<effectControls.size();++i)
+            if(juce::String(effectControls[i].id)==id)return rackControls[i].getBounds();
+    }
+    return controls[target]->isVisible()?controls[target]->getBounds():juce::Rectangle<int>{};
 }
 int SpaceInfinityEditor::targetAt(juce::Point<int> cursor) const{
     for(int target=1;target<SpaceInfinityProcessor::macroTargets().size();++target)
         if(targetBounds(target).contains(cursor))return target;
     return 0;
 }
-void SpaceInfinityEditor::assignMacro(int macro,int target,bool inverted){
+void SpaceInfinityEditor::assignMacro(int source,int target,bool inverted){
     int available=-1;
     for(int slot=0;slot<3;++slot){
-        auto* route=processor.state.getParameter(SpaceInfinityProcessor::macroRouteId(macro,slot,false));
+        auto* route=processor.state.getParameter(processor.modulationRouteId(source,slot,false));
         const int destination=int(route->convertFrom0to1(route->getValue()));
         if(destination==target){available=slot;break;}
         if(destination==0&&available<0)available=slot;
     }
     if(available<0){
-        juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::InfoIcon,"Macro routes full",
-            "Set an existing route to Off before adding another destination.");
+        juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::InfoIcon,"Source assignments full",
+            "Right-click a modulation badge on an assigned control and remove one destination before adding another.");
         return;
     }
-    auto* route=processor.state.getParameter(SpaceInfinityProcessor::macroRouteId(macro,available,false));
-    auto* depth=processor.state.getParameter(SpaceInfinityProcessor::macroRouteId(macro,available,true));
+    auto* route=processor.state.getParameter(processor.modulationRouteId(source,available,false));
+    auto* depth=processor.state.getParameter(processor.modulationRouteId(source,available,true));
     route->beginChangeGesture();
     route->setValueNotifyingHost(route->convertTo0to1(float(target)));
     route->endChangeGesture();
     depth->beginChangeGesture();
     depth->setValueNotifyingHost(depth->convertTo0to1(inverted?-0.5f:0.5f));
     depth->endChangeGesture();
-    macroSlot.setSelectedId(available+1,juce::sendNotificationSync);
-    routesVisible=true;
-    updatePage();
+    selectedSource=source;
+    refreshModulationIndicators();
+    repaint();
+}
+float SpaceInfinityEditor::envelopeDuration() const{
+    return juce::jmax(.5f,float(knobs[2].getValue()+knobs[13].getValue()+knobs[3].getValue())+.4f);
+}
+std::array<juce::Point<float>,3> SpaceInfinityEditor::envelopeNodes() const{
+    const float duration=envelopeDuration();
+    const float attack=float(knobs[2].getValue()),decay=float(knobs[13].getValue());
+    const float sustain=float(knobs[14].getValue());
+    const auto point=[this,duration](float time,float level){
+        return juce::Point<float>(envelopeGraph.getX()+envelopeGraph.getWidth()*time/duration,
+            envelopeGraph.getBottom()-4-(envelopeGraph.getHeight()-8)*level);
+    };
+    return {point(attack,1.0f),point(attack+decay,sustain),point(duration,0.0f)};
 }
 void SpaceInfinityEditor::mouseDown(const juce::MouseEvent& e){
     if(fxPage)return;
@@ -650,33 +813,67 @@ void SpaceInfinityEditor::mouseDown(const juce::MouseEvent& e){
         for(size_t i=0;i<macros.size();++i){
             const auto handle=macros[i].getBounds().translated(0,-17).withHeight(17);
             if(handle.contains(e.getPosition())){
-                draggedMacro=int(i);
-                repaint();
-                return;
+                draggedMacro=int(i);selectedSource=draggedMacro;
+                refreshModulationIndicators();repaint();return;
             }
         }
+        for(size_t i=0;i<lfoTabs.size();++i)if(lfoTabs[i].contains(e.getPosition())){
+            selectedLfo=int(i);selectedSource=int(i)+4;draggedMacro=selectedSource;
+            bindLfoControls();refreshModulationIndicators();return;
+        }
+        if(envelopeTab.contains(e.getPosition())){
+            draggedMacro=selectedSource=7;refreshModulationIndicators();repaint();return;
+        }
+        const auto nodes=envelopeNodes();
+        for(size_t i=0;i<nodes.size();++i)if(nodes[i].getDistanceFrom(e.position)<11.0f){
+            envelopeDrag=int(i);envelopeDragDuration=envelopeDuration();
+            const char* ids[]={"attack","ampDecay","release"};
+            processor.state.getParameter(ids[i])->beginChangeGesture();
+            if(i==1)processor.state.getParameter("ampSustain")->beginChangeGesture();
+            return;
+        }
     }
-    if(!e.mods.isLeftButtonDown()||!motionGraph.expanded(8).contains(e.getPosition()))return;
+    if(!e.mods.isLeftButtonDown()||!motionGraph.expanded(4).contains(e.getPosition()))return;
     drawMotionAt(e.getPosition());
 }
 void SpaceInfinityEditor::mouseDrag(const juce::MouseEvent& e){
     if(draggedMacro>=0){
+        if(fxTab.getBounds().contains(e.getPosition())&&!fxPage){fxPage=true;updatePage();}
+        if(mainTab.getBounds().contains(e.getPosition())&&fxPage){fxPage=false;updatePage();}
         hoverTarget=targetAt(e.getPosition());
         repaint();
+    }else if(envelopeDrag>=0){
+        const auto set=[this](const char* id,float value){
+            auto* p=processor.state.getParameter(id);
+            p->setValueNotifyingHost(p->convertTo0to1(value));
+        };
+        const float time=juce::jlimit(0.0f,envelopeDragDuration,
+            float(e.x-envelopeGraph.getX())/float(envelopeGraph.getWidth())*envelopeDragDuration);
+        if(envelopeDrag==0)set("attack",juce::jlimit(0.0f,1.5f,time));
+        if(envelopeDrag==1){
+            set("ampDecay",juce::jlimit(.005f,8.0f,time-float(knobs[2].getValue())));
+            set("ampSustain",juce::jlimit(0.0f,1.0f,
+                float(envelopeGraph.getBottom()-4-e.y)/float(envelopeGraph.getHeight()-8)));
+        }
+        if(envelopeDrag==2)
+            set("release",juce::jlimit(0.0f,1.5f,time-float(knobs[2].getValue()+knobs[13].getValue())-.4f));
     }else if(lastMotionPoint>=0)drawMotionAt(e.getPosition());
 }
 void SpaceInfinityEditor::mouseUp(const juce::MouseEvent& e){
     if(draggedMacro>=0){
         const int target=targetAt(e.getPosition());
         if(target>0)assignMacro(draggedMacro,target,e.mods.isShiftDown());
-        draggedMacro=-1;
-        hoverTarget=0;
-        repaint();
-        return;
+        draggedMacro=-1;hoverTarget=0;repaint();return;
+    }
+    if(envelopeDrag>=0){
+        const char* ids[]={"attack","ampDecay","release"};
+        processor.state.getParameter(ids[envelopeDrag])->endChangeGesture();
+        if(envelopeDrag==1)processor.state.getParameter("ampSustain")->endChangeGesture();
+        envelopeDrag=-1;
     }
     for(size_t i=0;i<motionGestures.size();++i){
         if(motionGestures[i]){
-            processor.state.getParameter(SpaceInfinityProcessor::motionPointId(int(i)))->endChangeGesture();
+            processor.state.getParameter(processor.lfoPointId(selectedLfo,int(i)))->endChangeGesture();
             motionGestures[i]=false;
         }
     }
@@ -687,7 +884,7 @@ void SpaceInfinityEditor::drawMotionAt(juce::Point<int> cursor){
     const auto value=juce::jlimit(0.0f,1.0f,float(motionGraph.getBottom()-cursor.y)/float(motionGraph.getHeight()));
     const int from=lastMotionPoint<0?index:lastMotionPoint;
     for(int i=std::min(from,index);i<=std::max(from,index);++i){
-        auto* parameter=processor.state.getParameter(SpaceInfinityProcessor::motionPointId(i));
+        auto* parameter=processor.state.getParameter(processor.lfoPointId(selectedLfo,i));
         if(!motionGestures[size_t(i)]){
             parameter->beginChangeGesture();
             motionGestures[size_t(i)]=true;
@@ -787,8 +984,16 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         g.setColour(juce::Colour(0xffb9b1a2));
         g.drawText("FILTER / VOICING",layout.filter.reduced(9,4).withHeight(17),juce::Justification::centredLeft);
         g.drawText("MACROS",layout.macros.reduced(8,3).withHeight(17),juce::Justification::centredLeft);
-        g.drawText("AMP ENVELOPE",layout.envelope.reduced(8,3).withHeight(17),juce::Justification::centredLeft);
-        g.drawText("MOTION / LFO",layout.motion.reduced(8,3).withHeight(17),juce::Justification::centredLeft);
+        g.setColour(juce::Colour(selectedSource==7?0xff665172:0xff353b3c));
+        g.fillRoundedRectangle(envelopeTab.toFloat(),2.0f);
+        g.setColour(juce::Colour(0xffdfd2eb));
+        g.drawText("AMP ENV  +",envelopeTab,juce::Justification::centredLeft);
+        for(size_t lfo=0;lfo<lfoTabs.size();++lfo){
+            g.setColour(juce::Colour(selectedLfo==int(lfo)?0xff294f59:0xff303738));
+            g.fillRoundedRectangle(lfoTabs[lfo].toFloat(),2.0f);
+            g.setColour(juce::Colour(0xffc9e0e5));
+            g.drawText("LFO "+juce::String(int(lfo+1))+"  +",lfoTabs[lfo],juce::Justification::centred);
+        }
         const auto names=SpaceInfinityProcessor::macroNames();
         for(size_t i=0;i<macros.size();++i){
             const auto handle=macros[i].getBounds().translated(0,-17).withHeight(17);
@@ -798,12 +1003,12 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
             g.drawText(names[int(i)]+" +",handle,juce::Justification::centred);
             int count=0;
             for(int slot=0;slot<3;++slot)
-                if(processor.state.getRawParameterValue(SpaceInfinityProcessor::macroRouteId(int(i),slot,false))->load()>0.5f)++count;
+                if(processor.state.getRawParameterValue(processor.modulationRouteId(int(i),slot,false))->load()>0.5f)++count;
             g.setColour(juce::Colour(0xffa5b8ad));
             const auto knob=macros[i].getBounds();
             g.drawText(juce::String(int(i+1))+" ("+juce::String(count)+")",knob.getRight()-30,knob.getBottom()-18,29,16,juce::Justification::centredRight);
         }
-        const auto envelope=layout.envelope.reduced(8).withTrimmedTop(19).withHeight(juce::jmax(55,layout.envelope.getHeight()/2-22));
+        const auto envelope=envelopeGraph;
         g.setColour(juce::Colour(0xff0b1418));g.fillRect(envelope);
         const float attack=float(knobs[2].getValue()),decay=float(knobs[13].getValue());
         const float sustain=float(knobs[14].getValue()),release=float(knobs[3].getValue());
@@ -815,7 +1020,8 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         env.startNewSubPath(envPoint(0,0));env.lineTo(envPoint(attack,1));
         env.lineTo(envPoint(attack+decay,sustain));env.lineTo(envPoint(attack+decay+.4f,sustain));
         env.lineTo(envPoint(total,0));
-        g.setColour(juce::Colour(0xff75bac9));g.strokePath(env,juce::PathStrokeType(1.6f));
+        g.setColour(juce::Colour(0xffb3a2d6));g.strokePath(env,juce::PathStrokeType(1.6f));
+        for(const auto point:envelopeNodes())g.fillEllipse(point.x-3,point.y-3,6,6);
         g.setColour(juce::Colour(0xff263d43));
         for(int i=1;i<5;++i)g.drawVerticalLine(motionGraph.getX()+motionGraph.getWidth()*i/5,float(motionGraph.getY()),float(motionGraph.getBottom()));
         juce::Path motion;
@@ -826,6 +1032,17 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
             g.setColour(juce::Colour(0xff82bec9));g.fillEllipse(point.x-2,point.y-2,4,4);
         }
         g.setColour(juce::Colour(0xff82bec9));g.strokePath(motion,juce::PathStrokeType(1.5f));
+        const int playhead=motionGraph.getX()+int(float(motionGraph.getWidth())*processor.lfoDisplayPhase(selectedLfo));
+        g.setColour(juce::Colour(0xffa5d8df));
+        g.drawVerticalLine(playhead,float(motionGraph.getY()),float(motionGraph.getBottom()));
+        for(int target=1;target<int(modulationBadges.size());++target){
+            const auto area=targetBounds(target);
+            const auto route=routeForTarget(target,false);
+            if(area.isEmpty()||!route.first||routeSourceForTarget(target)!=selectedSource)continue;
+            const float amount=route.first->convertFrom0to1(route.first->getValue());
+            g.setColour(juce::Colour(selectedSource<4?0xffd3a363:selectedSource==7?0xffb29ed3:0xff69b6cc));
+            g.drawRoundedRectangle(area.toFloat().reduced(1.0f),3.0f,1.0f+std::abs(amount));
+        }
         if(hoverTarget>0){
             g.setColour(juce::Colour(0xffe1b87d));g.drawRoundedRectangle(targetBounds(hoverTarget).toFloat(),3,2);
         }
@@ -917,27 +1134,20 @@ void SpaceInfinityEditor::resized(){
         labels[index].setBounds(cell.removeFromTop(15));
         knobs[index].setBounds(cell);
     }
-    auto motion=layout.motion.reduced(8).withTrimmedTop(18);
-    auto selectors=motion.removeFromTop(24);
-    motionBars.setBounds(selectors.removeFromRight(80).reduced(2,0));
-    motionShape.setBounds(selectors.reduced(2,0));
-    motion.removeFromTop(10);
-    auto lfoControls=motion.removeFromBottom(65);
-    motionGraph=motion.reduced(4,3);
-    for(const int index:{10,11}){
-        auto cell=lfoControls.removeFromLeft(layout.motion.getWidth()/3).reduced(2,0);
-        labels[size_t(index)].setBounds(cell.removeFromTop(16));
-        knobs[size_t(index)].setBounds(cell);
-    }
-    motionDepth.setBounds(lfoControls.reduced(2).withSizeKeepingCentre(lfoControls.getWidth()-4,23));
-    auto routes=juce::Rectangle<int>(34,h-108,w-68,36);
-    for(size_t i=0;i<macros.size();++i){
-        auto cell=routes.removeFromLeft((w-68)/4).reduced(4,6);
-        routeDepth[i].setBounds(cell.removeFromRight(70));
-        macroRoutes[i].setBounds(cell.reduced(2,0));
-    }
-    routesButton.setBounds(w-295,h-37,112,24);
-    macroSlot.setBounds(w-176,h-37,140,24);
+    envelopeTab=layout.envelope.reduced(8,3).withHeight(18);
+    envelopeGraph=layout.envelope.reduced(8).withTrimmedTop(19).withHeight(juce::jmax(55,layout.envelope.getHeight()/2-22));
+    auto tabs=layout.motion.reduced(8,3).withHeight(19);
+    const int tabWidth=tabs.getWidth()/3;
+    for(auto& tab:lfoTabs)tab=tabs.removeFromLeft(tabWidth).reduced(2,0);
+    auto motion=layout.motion.reduced(8).withTrimmedTop(26);
+    motionShape.setBounds(motion.removeFromTop(24).reduced(2,0));
+    motion.removeFromTop(8);
+    auto options=motion.removeFromBottom(28);
+    lfoMode.setBounds(options.removeFromLeft(99).reduced(2,0));
+    lfoSync.setBounds(options.removeFromLeft(60).reduced(2,0));
+    motionBars.setBounds(options.reduced(2,0));
+    lfoSpeed.setBounds(options.reduced(2,0));
+    motionGraph=motion.reduced(4,6);
     source.setBounds(34,h-37,152,24);
     importButton.setBounds(194,h-37,104,24);
     sampleRoot.setBounds(306,h-37,116,24);
@@ -974,5 +1184,6 @@ void SpaceInfinityEditor::resized(){
         knobs[12].setBounds(w-205,h-56,155,35);
         meterBounds={w-43,h-56,8,35};
     }
+    refreshModulationIndicators();
 }
 juce::AudioProcessorEditor* SpaceInfinityProcessor::createEditor(){return new SpaceInfinityEditor(*this);}
