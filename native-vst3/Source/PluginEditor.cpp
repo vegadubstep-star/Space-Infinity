@@ -104,6 +104,20 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         addAndMakeVisible(box);
         fxChoices.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,id,box));
     };
+    bindChoice(sampleLoop,"sampleLoop",{"Loop off","Loop on"});
+    bindChoice(sampleReverse,"sampleReverse",{"Forward","Reverse"});
+    const char* trimIds[]={"sampleStart","sampleEnd"};
+    const char* trimNames[]={"Sample start","Sample end"};
+    for(size_t i=0;i<sampleTrim.size();++i){
+        auto& trim=sampleTrim[i];
+        trim.setName(trimNames[i]);
+        trim.setTooltip(trimNames[i]);
+        trim.setSliderStyle(juce::Slider::LinearHorizontal);
+        trim.setTextBoxStyle(juce::Slider::TextBoxRight,false,44,20);
+        addAndMakeVisible(trim);
+        trimAttachments[i]=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,trimIds[i],trim);
+        trim.setNumDecimalPlacesToDisplay(2);
+    }
     bindChoice(delaySync,"delaySync",{"Free delay","1/16","1/8","Dotted 1/8","1/4"});
     bindChoice(delayMode,"delayMode",{"Stereo","Ping-pong"});
     bindChoice(reverbSpace,"reverbSpace",{"Room","Plate","Hall"});
@@ -172,6 +186,8 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     }
     g.setColour(juce::Colour(0xffc3c1bd));
     g.setFont(12.0f);
+    g.drawText("TRIM START",34,getHeight()-65,66,22,juce::Justification::centredLeft);
+    g.drawText("END",245,getHeight()-65,35,22,juce::Justification::centredLeft);
     g.drawText("PITCH",getWidth()-316,116,51,22,juce::Justification::right);
     g.drawText("SIGNAL  /  SYNTHESIS",34,116,350,20,juce::Justification::left);
     const int displayWidth=(getWidth()-84)/3;
@@ -231,7 +247,11 @@ void SpaceInfinityEditor::resized(){
     reverbSpace.setBounds(601,getHeight()-37,64,24);
     compAmount.setBounds(672,getHeight()-37,55,24);
     pitchWheel.setBounds(w-261,116,220,22);
-    auto area=juce::Rectangle<int>(32,265,w-64,getHeight()-309);const int cols=8,rows=2;
+    sampleTrim[0].setBounds(100,getHeight()-65,130,22);
+    sampleTrim[1].setBounds(282,getHeight()-65,130,22);
+    sampleLoop.setBounds(425,getHeight()-65,100,22);
+    sampleReverse.setBounds(532,getHeight()-65,100,22);
+    auto area=juce::Rectangle<int>(32,265,w-64,getHeight()-337);const int cols=8,rows=2;
     const int cellW=area.getWidth()/cols,cellH=area.getHeight()/rows;
     for(int i=0;i<15;i++){
         int col=i%cols,row=i/cols;auto cell=juce::Rectangle<int>(area.getX()+col*cellW,area.getY()+row*cellH,cellW,cellH);

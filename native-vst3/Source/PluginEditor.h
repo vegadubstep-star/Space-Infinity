@@ -15,7 +15,9 @@ private:
     HardwareLook hardwareLook;
     SpaceInfinityProcessor& processor;
     juce::ComboBox presets, waveform, source;
-    juce::ComboBox delaySync, delayMode, reverbSpace;
+    juce::ComboBox delaySync, delayMode, reverbSpace, sampleLoop, sampleReverse;
+    std::array<juce::Slider,2> sampleTrim;
+    std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>,2> trimAttachments;
     juce::Slider sampleRoot, compAmount, pitchWheel;
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment>> fxChoices;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> compAttachment, pitchAttachment;
