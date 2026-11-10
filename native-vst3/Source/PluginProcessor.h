@@ -79,6 +79,11 @@ private:
     float midiBend=0;
     juce::SmoothedValue<float> pitchBend;
     juce::dsp::DelayLine<float,juce::dsp::DelayLineInterpolationTypes::Linear> delayL{192000},delayR{192000};
+    struct HeldNote { uint64_t order=0; float velocity=0.0f; };
+    std::array<HeldNote,16*128> heldNotes{};
+    uint64_t noteOrder=0;
+    int voiceMode=0;
+    void selectMonoNote(int source,int root,bool retrigger);
     void noteOn(int,float,int,int,int); void noteOff(int,int);
     float param(const char* id) const {return state.getRawParameterValue(id)->load();}
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SpaceInfinityProcessor)
