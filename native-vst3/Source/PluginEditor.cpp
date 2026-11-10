@@ -272,6 +272,11 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
             return juce::String(value,precision)+suffix;
         };
         slider.updateText();
+        if(i==13){
+            juce::NormalisableRange<double> travel(slider.getMinimum(),slider.getMaximum(),slider.getInterval());
+            travel.setSkewForCentre(0.45);
+            slider.setNormalisableRange(travel);
+        }
         if(i==2 || i==3 || i==13 || i==14 || i==12){
             slider.setSliderStyle(juce::Slider::LinearVertical);
             slider.setColour(juce::Slider::thumbColourId,juce::Colour(0xffd48d42));
