@@ -18,6 +18,10 @@ APVTS::ParameterLayout makeLayout(){
     p.add(std::make_unique<juce::AudioParameterInt>(juce::ParameterID{"osc2Unison",1},"Oscillator 2 Unison",1,16,1));
     f("noiseLevel","Noise Level",0.0f,1.0f,0.0f);
     p.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID{"noiseType",1},"Noise Type",juce::StringArray{"White","Dark","Bright"},0));
+    const char* octaveIds[]={"masterOctave","osc1Octave","osc2Octave"};
+    const char* octaveNames[]={"Master Octave","Oscillator 1 Octave","Oscillator 2 Octave"};
+    for(int i=0;i<3;++i)
+        p.add(std::make_unique<juce::AudioParameterInt>(juce::ParameterID{octaveIds[i],1},octaveNames[i],-3,3,0));
     f("osc1Tune","Oscillator 1 Fine Tune",-50.0f,50.0f,0.0f);
     f("osc2Tune","Oscillator 2 Fine Tune",-50.0f,50.0f,0.0f);
     f("osc1Width","Oscillator 1 Width",0.0f,1.0f,0.0f);
@@ -289,8 +293,8 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     const int wave=int(param("wave"));
     const int waveChoice=int(param("osc2Wave"));
     const int secondWave=waveChoice==0?wave:waveChoice-1;
-    const double tune1=std::exp2(param("osc1Tune")/1200.0);
-    const double tune2=std::exp2(param("osc2Tune")/1200.0);
+    const double tune1=std::exp2(param("osc1Octave")+param("osc1Tune")/1200.0);
+    const double tune2=std::exp2(param("osc2Octave")+param("osc2Tune")/1200.0);
     const int unison1=int(param("osc1Unison")),unison2=int(param("osc2Unison"));
     std::array<double,16> unisonRates1{},unisonRates2{};
     const auto prepareStack=[detune](auto& rates,int count){
@@ -322,6 +326,7 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
         heldNotes={};
         voiceMode=requestedMode;
     }
+    const double masterOctave=param("masterOctave");
     auto msg=midi.begin();
     for(int s=0;s<b.getNumSamples();++s){
         while(msg!=midi.end()&&(*msg).samplePosition<=s){
@@ -365,7 +370,7 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
         motionPhase+=motionStep;
         motionPhase-=std::floor(motionPhase);
         float out=0, side=0;const float lfo=std::sin(float(juce::MathConstants<double>::twoPi*lfoPhase));
-        const double bendRatio=std::exp2(pitchBend.getNextValue()/12.0);
+        const double bendRatio=std::exp2(masterOctave+pitchBend.getNextValue()/12.0);
         const float fc=juce::jlimit(50.0f,float(sr*0.4),cutoff*std::exp2(lfo*lfoDepth*2+movement*motionDepth*3));
         const float g=std::tan(float(juce::MathConstants<double>::pi*fc/sr));
         const float onePole=1.0f-std::exp(float(-juce::MathConstants<double>::twoPi*fc/sr));
@@ -775,6 +780,7 @@ void SpaceInfinityProcessor::loadPreset(int index){
     set("source",float(patch.source));
     set("noiseLevel",0.0f);
     set("noiseType",0.0f);
+    for(const auto* id:{"masterOctave","osc1Octave","osc2Octave"})set(id,0.0f);
     set("osc1Enabled",1.0f);
     set("osc1Unison",1.0f);
     set("osc2Unison",1.0f);

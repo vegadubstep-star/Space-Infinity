@@ -34,6 +34,7 @@ private:
     juce::Slider motionDepth, noiseLevel;
     juce::ComboBox noiseType;
     std::array<juce::Slider,4> oscillatorSliders;
+    std::array<juce::Slider,3> octaveControls;
     std::array<juce::Slider,2> unisonSliders;
     std::array<juce::Slider,4> macros;
     juce::ComboBox macroSlot;
