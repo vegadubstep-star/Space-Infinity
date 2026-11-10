@@ -74,8 +74,18 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     setResizable(true,true);setResizeLimits(800,760,1500,950);setSize(1000,790);
     title.setText("SPACE  INFINITY",juce::dontSendNotification);title.setFont(juce::Font(juce::FontOptions(30.0f,juce::Font::bold)));title.setColour(juce::Label::textColourId,juce::Colours::white);addAndMakeVisible(title);
     subtitle.setText("HYBRID HARDWARE-INSPIRED SYNTHESIS",juce::dontSendNotification);subtitle.setColour(juce::Label::textColourId,juce::Colour(0xffc0c0c8));addAndMakeVisible(subtitle);
-    for(int i=0;i<SpaceInfinityProcessor::presetNames().size();++i)presets.addItem(SpaceInfinityProcessor::presetNames()[i],i+1);
-    presets.setTextWhenNothingSelected("Select a sound");presets.onChange=[this]{processor.loadPreset(presets.getSelectedItemIndex());};addAndMakeVisible(presets);
+    const auto& factoryNames=SpaceInfinityProcessor::presetNames();
+    juce::StringArray banks;
+    for(int i=0;i<factoryNames.size();++i)
+        banks.addIfNotAlreadyThere(SpaceInfinityProcessor::presetCategory(i));
+    for(const auto& bank:banks){
+        juce::PopupMenu items;
+        for(int i=0;i<factoryNames.size();++i)
+            if(SpaceInfinityProcessor::presetCategory(i)==bank)
+                items.addItem(i+1,factoryNames[i]);
+        presets.getRootMenu()->addSubMenu(bank,items);
+    }
+    presets.setTextWhenNothingSelected("Select a sound");presets.onChange=[this]{processor.loadPreset(presets.getSelectedId()-1);};addAndMakeVisible(presets);
     waveform.addItemList({"Saw","Pulse","Sine","Triangle"},1);addAndMakeVisible(waveform);
     waveform.onChange=[this]{repaint();};
     waveAttachment=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"wave",waveform);

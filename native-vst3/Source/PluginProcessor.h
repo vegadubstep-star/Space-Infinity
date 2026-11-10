@@ -30,6 +30,7 @@ public:
     juce::Result importSample(const juce::File& file);
     static juce::StringArray sourceNames();
     static const juce::StringArray& presetNames();
+    static juce::String presetCategory(int index);
 private:
     struct Sample {
         juce::AudioBuffer<float> audio;
