@@ -371,10 +371,11 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
                 const float held=juce::jmin(t,2.0f);
                 const float sustain=float(knobs[14].getValue());
                 const float decay=float(knobs[13].getValue());
-                const float level=sustain>=1.0f ? 1.0f-std::exp(-held/juce::jmax(attack,0.002f))
+                const float level=sustain>=1.0f && attack==0.0f ? 1.0f : sustain>=1.0f ? 1.0f-std::exp(-held/juce::jmax(attack,0.002f))
                     : juce::jlimit(sustain,1.0f,1.0f-juce::jmax(0.0f,held-attack)/juce::jmax(decay,0.005f))
                         *juce::jlimit(0.0f,1.0f,held/juce::jmax(attack,0.002f));
-                y=0.94f-0.86f*level*std::exp(-juce::jmax(0.0f,t-2.0f)/juce::jmax(release,0.02f));
+                const float tail=t<=2.0f?1.0f:release==0.0f?0.0f:std::exp(-(t-2.0f)/release);
+                y=0.94f-0.86f*level*tail;
             }else{
                 const float cycles=float(knobs[10].getValue())*0.5f;
                 y-=0.44f*float(knobs[11].getValue())*std::sin(juce::MathConstants<float>::twoPi*cycles*x);
