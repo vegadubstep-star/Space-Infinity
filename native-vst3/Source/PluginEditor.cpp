@@ -321,14 +321,70 @@ void SpaceInfinityEditor::bindMacroPage(){
         routeDepth[i].updateText();
     }
 }
+juce::Rectangle<int> SpaceInfinityEditor::targetBounds(int target) const{
+    const juce::Component* controls[]={nullptr,&knobs[0],&knobs[4],&knobs[9],&knobs[2],&knobs[6],
+        &knobs[8],&knobs[7],&knobs[5],&knobs[3],&knobs[1],&noiseLevel,&oscillatorSliders[1],
+        &oscillatorSliders[3],&knobs[12],&knobs[13],&knobs[14],&motionDepth,&knobs[10],&knobs[11]};
+    if(target<=0||target>=int(std::size(controls)))return {};
+    return controls[target]->getBounds();
+}
+int SpaceInfinityEditor::targetAt(juce::Point<int> cursor) const{
+    for(int target=1;target<SpaceInfinityProcessor::macroTargets().size();++target)
+        if(targetBounds(target).contains(cursor))return target;
+    return 0;
+}
+void SpaceInfinityEditor::assignMacro(int macro,int target,bool inverted){
+    int available=-1;
+    for(int slot=0;slot<3;++slot){
+        auto* route=processor.state.getParameter(SpaceInfinityProcessor::macroRouteId(macro,slot,false));
+        const int destination=int(route->convertFrom0to1(route->getValue()));
+        if(destination==target){available=slot;break;}
+        if(destination==0&&available<0)available=slot;
+    }
+    if(available<0){
+        juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::InfoIcon,"Macro routes full",
+            "Set an existing route to Off before adding another destination.");
+        return;
+    }
+    auto* route=processor.state.getParameter(SpaceInfinityProcessor::macroRouteId(macro,available,false));
+    auto* depth=processor.state.getParameter(SpaceInfinityProcessor::macroRouteId(macro,available,true));
+    route->beginChangeGesture();
+    route->setValueNotifyingHost(route->convertTo0to1(float(target)));
+    route->endChangeGesture();
+    depth->beginChangeGesture();
+    depth->setValueNotifyingHost(depth->convertTo0to1(inverted?-0.5f:0.5f));
+    depth->endChangeGesture();
+    macroSlot.setSelectedId(available+1,juce::sendNotificationSync);
+}
 void SpaceInfinityEditor::mouseDown(const juce::MouseEvent& e){
+    if(e.mods.isLeftButtonDown()){
+        for(size_t i=0;i<macros.size();++i){
+            const auto handle=macros[i].getBounds().translated(0,-13).withHeight(13);
+            if(handle.contains(e.getPosition())){
+                draggedMacro=int(i);
+                repaint();
+                return;
+            }
+        }
+    }
     if(!e.mods.isLeftButtonDown()||!motionGraph.expanded(8).contains(e.getPosition()))return;
     drawMotionAt(e.getPosition());
 }
 void SpaceInfinityEditor::mouseDrag(const juce::MouseEvent& e){
-    if(lastMotionPoint>=0)drawMotionAt(e.getPosition());
+    if(draggedMacro>=0){
+        hoverTarget=targetAt(e.getPosition());
+        repaint();
+    }else if(lastMotionPoint>=0)drawMotionAt(e.getPosition());
 }
-void SpaceInfinityEditor::mouseUp(const juce::MouseEvent&){
+void SpaceInfinityEditor::mouseUp(const juce::MouseEvent& e){
+    if(draggedMacro>=0){
+        const int target=targetAt(e.getPosition());
+        if(target>0)assignMacro(draggedMacro,target,e.mods.isShiftDown());
+        draggedMacro=-1;
+        hoverTarget=0;
+        repaint();
+        return;
+    }
     for(size_t i=0;i<motionGestures.size();++i){
         if(motionGestures[i]){
             processor.state.getParameter(SpaceInfinityProcessor::motionPointId(int(i)))->endChangeGesture();
@@ -434,7 +490,11 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     const auto macroNames=SpaceInfinityProcessor::macroNames();
     for(size_t i=0;i<macros.size();++i){
         const auto slider=macros[i].getBounds();
-        g.drawText(macroNames[int(i)],slider.translated(0,-13).withHeight(14),juce::Justification::centred);
+        const auto handle=slider.translated(0,-13).withHeight(13);
+        g.setColour(juce::Colour(draggedMacro==int(i)?0xff8c402b:0xff33302e));
+        g.fillRoundedRectangle(handle.toFloat(),2.0f);
+        g.setColour(juce::Colour(0xffe1c9ae));
+        g.drawText(macroNames[int(i)]+"  +",handle,juce::Justification::centred);
     }
     g.drawText("SIGNAL PATH",34,116,350,20,juce::Justification::left);
     drawInset(g,juce::Rectangle<float>(float(getWidth()-344),22.0f,318.0f,81.0f));
@@ -467,6 +527,10 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     }
     g.drawText("COMP",compAmount.getX(),compAmount.getY()-13,compAmount.getWidth(),13,juce::Justification::centred);
     g.setFont(12.0f);
+    if(hoverTarget>0){
+        g.setColour(juce::Colour(0xffe9a357));
+        g.drawRoundedRectangle(targetBounds(hoverTarget).toFloat(),3.0f,2.0f);
+    }
     const int displayWidth=(getWidth()-84)/3;
     const char* headings[]={"OSCILLATOR","AMP RESPONSE","LFO"};
     for(int i=0;i<3;++i){

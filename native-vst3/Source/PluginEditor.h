@@ -12,6 +12,10 @@ private:
     void mouseDrag(const juce::MouseEvent&) override;
     void mouseUp(const juce::MouseEvent&) override;
     void drawMotionAt(juce::Point<int>);
+    int draggedMacro=-1, hoverTarget=0;
+    int targetAt(juce::Point<int>) const;
+    juce::Rectangle<int> targetBounds(int) const;
+    void assignMacro(int macro,int target,bool inverted);
     juce::Rectangle<int> motionGraph;
     int lastMotionPoint=-1;
     float lastMotionValue=0.0f;
