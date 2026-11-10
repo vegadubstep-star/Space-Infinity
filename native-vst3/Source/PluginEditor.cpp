@@ -194,6 +194,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         addAndMakeVisible(macroRoutes[i]);
         fxChoices.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"macroRoute"+suffix,macroRoutes[i]));
     }
+    bindChoice(voiceMode,"voiceMode",{"Poly","Mono","Legato"});
     bindChoice(filterMode,"filterMode",{"Classic LP","Resonant LP","High-pass","Band-pass","24 dB LP"});
     bindChoice(sampleLoop,"sampleLoop",{"Loop off","Loop on"});
     bindChoice(sampleReverse,"sampleReverse",{"Forward","Reverse"});
@@ -408,6 +409,7 @@ void SpaceInfinityEditor::resized(){
     previousPreset.setBounds(w-100,42,29,25);
     nextPreset.setBounds(w-67,42,29,25);waveform.setBounds(w-330,72,292,23);
     source.setBounds(34,getHeight()-37,152,24);
+    voiceMode.setBounds(430,getHeight()-37,108,24);
     importButton.setBounds(194,getHeight()-37,104,24);
     sampleRoot.setBounds(306,getHeight()-37,116,24);
     auto fx=panelBounds(w,getHeight(),4).reduced(8,5).removeFromBottom(24);

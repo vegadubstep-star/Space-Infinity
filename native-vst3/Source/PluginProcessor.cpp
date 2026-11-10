@@ -42,6 +42,7 @@ APVTS::ParameterLayout makeLayout(){
             juce::ParameterID{"macroRoute"+suffix,1},macros[i]+" Destination",
             SpaceInfinityProcessor::macroTargets(),i+1));
     }
+    choice("voiceMode","Voice Mode",{"Poly","Mono","Legato"},0);
     choice("filterMode","Filter Mode",{"Classic LP","Resonant LP","High-pass","Band-pass","24 dB LP"},0);
     choice("sampleLoop","Sample Loop",{"Off","On"},0);
     choice("sampleReverse","Sample Reverse",{"Off","On"},0);
@@ -155,12 +156,14 @@ void SpaceInfinityProcessor::prepareToPlay(double sampleRate,int maxSamples){
     delayBpm=120;
     midiBend=0;pitchBend.reset(sr,.006);pitchBend.setCurrentAndTargetValue(param("pitchBend"));
     for(auto& v:voices)v={}; lfoPhase=0; motionPhase=0; clock=0;
+    heldNotes={};noteOrder=0;voiceMode=int(param("voiceMode"));
 }
 void SpaceInfinityProcessor::noteOn(int note,float velocity,int source,int root,int channel){
     const Sample* sample = source == 1 ? &choirAh : source == 2 ? &choirOoh : &importedSample;
     if(source != 0 && sample->audio.getNumSamples() < 2)return;
-    auto* found=&voices[0]; for(auto& v:voices) if(!v.active){found=&v;break;}
-    if(found->active)found=&*std::min_element(voices.begin(),voices.end(),[](const Voice& a,const Voice& b){return a.age<b.age;});
+    auto* found=&voices[0];
+    if(voiceMode==0)for(auto& v:voices)if(!v.active){found=&v;break;}
+    if(voiceMode==0&&found->active)found=&*std::min_element(voices.begin(),voices.end(),[](const Voice& a,const Voice& b){return a.age<b.age;});
     *found={};found->active=true;found->note=note;found->channel=channel;found->velocity=velocity;found->age=++clock;
     found->source=source;
     if(source != 0){
@@ -176,6 +179,22 @@ void SpaceInfinityProcessor::noteOn(int note,float velocity,int source,int root,
             found->samplePosition=found->sampleEnd;
         }else found->samplePosition=found->sampleStart;
     }
+}
+void SpaceInfinityProcessor::selectMonoNote(int source,int root,bool retrigger){
+    const auto selected=std::max_element(heldNotes.begin(),heldNotes.end(),
+        [](const HeldNote& a,const HeldNote& b){return a.order<b.order;});
+    auto& voice=voices.front();
+    if(selected->order==0){voice.released=true;return;}
+    const auto key=int(selected-heldNotes.begin());
+    const int note=key%128, channel=key/128+1;
+    if(voice.active&&!voice.released&&voice.note==note&&voice.channel==channel&&!retrigger)return;
+    if(voiceMode==2&&voice.active&&!voice.released&&voice.source==source){
+        voice.sampleStep*=std::exp2((note-voice.note)/12.0);
+        voice.note=note;
+        voice.channel=channel;
+        return;
+    }
+    noteOn(note,selected->velocity,source,root,channel);
 }
 void SpaceInfinityProcessor::noteOff(int note,int channel){for(auto& v:voices) if(v.active&&v.note==note&&v.channel==channel)v.released=true;}
 void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::MidiBuffer& midi){
@@ -213,9 +232,48 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     for(size_t i=0;i<motion.size();++i)
         motion[i]=motionParameters[i]->load();
     const double motionStep=delayBpm/(240.0*sr*std::exp2(param("motionBars")));
+    const int requestedMode=int(param("voiceMode"));
+    if(voiceMode!=requestedMode){
+        for(auto& voice:voices)voice={};
+        heldNotes={};
+        voiceMode=requestedMode;
+    }
     auto msg=midi.begin();
     for(int s=0;s<b.getNumSamples();++s){
-        while(msg!=midi.end()&&(*msg).samplePosition<=s){const auto m=(*msg).getMessage(); if(m.isNoteOn()){if(source!=3||sampleGuard.isLocked())noteOn(m.getNoteNumber(),m.getFloatVelocity(),source,root,m.getChannel());}else if(m.isPitchWheel()){const int wheel=m.getPitchWheelValue()-8192;midiBend=24.0f*float(wheel)/(wheel<0?8192.0f:8191.0f);pitchBend.setTargetValue(juce::jlimit(-24.0f,24.0f,hostBend+midiBend));}else if(m.isNoteOff())noteOff(m.getNoteNumber(),m.getChannel());else if(m.isAllNotesOff()||m.isAllSoundOff()){for(auto& v:voices)if(v.channel==m.getChannel()){if(m.isAllSoundOff())v.active=false;else v.released=true;}}++msg;}
+        while(msg!=midi.end()&&(*msg).samplePosition<=s){
+            const auto m=(*msg).getMessage();
+            ++msg;
+            const int channel=m.getChannel();
+            if(m.isPitchWheel()){
+                const int wheel=m.getPitchWheelValue()-8192;
+                midiBend=24.0f*float(wheel)/(wheel<0?8192.0f:8191.0f);
+                pitchBend.setTargetValue(juce::jlimit(-24.0f,24.0f,hostBend+midiBend));
+            }else if(m.isNoteOn()){
+                if(source==3&&!sampleGuard.isLocked())continue;
+                if(voiceMode==0)noteOn(m.getNoteNumber(),m.getFloatVelocity(),source,root,channel);
+                else{
+                    heldNotes[size_t((channel-1)*128+m.getNoteNumber())]={++noteOrder,m.getFloatVelocity()};
+                    selectMonoNote(source,root,true);
+                }
+            }else if(m.isNoteOff()){
+                if(voiceMode==0)noteOff(m.getNoteNumber(),channel);
+                else{
+                    heldNotes[size_t((channel-1)*128+m.getNoteNumber())]={};
+                    if(source!=3||sampleGuard.isLocked())selectMonoNote(source,root,false);
+                    else if(voices.front().note==m.getNoteNumber()&&voices.front().channel==channel)
+                        voices.front().released=true;
+                }
+            }else if(m.isAllNotesOff()||m.isAllSoundOff()){
+                for(auto& voice:voices)if(voice.channel==channel){
+                    if(m.isAllSoundOff())voice.active=false;
+                    else voice.released=true;
+                }
+                if(voiceMode!=0){
+                    std::fill_n(heldNotes.begin()+(channel-1)*128,128,HeldNote{});
+                    if(source!=3||sampleGuard.isLocked())selectMonoNote(source,root,false);
+                }
+            }
+        }
         lfoPhase+=lfoRate/sr;if(lfoPhase>=1)lfoPhase-=1;
         const double point=motionPhase*16.0;
         const int segment=std::min(15,int(point));
