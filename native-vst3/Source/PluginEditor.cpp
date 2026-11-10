@@ -129,7 +129,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     addAndMakeVisible(osc2);
     oscAttachments[0]=std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(processor.state,"osc1Enabled",osc1);
     oscAttachments[1]=std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(processor.state,"osc2Enabled",osc2);
-    waveform.addItemList({"Saw","Pulse","Sine","Triangle"},1);addAndMakeVisible(waveform);
+    waveform.addItemList(SpaceInfinityProcessor::oscillatorWaves(),1);addAndMakeVisible(waveform);
     waveform.onChange=[this]{repaint();};
     waveAttachment=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"wave",waveform);
     source.addItemList(SpaceInfinityProcessor::sourceNames(),1);
@@ -196,7 +196,13 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         addAndMakeVisible(macroRoutes[i]);
         fxChoices.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"macroRoute"+suffix,macroRoutes[i]));
     }
-    bindChoice(waveform2,"osc2Wave",{"Follow Osc 1","Saw","Pulse","Sine","Triangle"});
+    bindChoice(waveform2,"osc2Wave",SpaceInfinityProcessor::oscillatorWaves(true));
+    bindChoice(noiseType,"noiseType",{"White","Dark","Bright"});
+    noiseLevel.setSliderStyle(juce::Slider::LinearHorizontal);
+    noiseLevel.setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);
+    noiseLevel.setTooltip("Noise level (zero turns noise off)");
+    addAndMakeVisible(noiseLevel);
+    attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"noiseLevel",noiseLevel));
     const char* oscIds[]={"osc1Tune","osc1Width","osc2Tune","osc2Width"};
     for(size_t i=0;i<oscillatorSliders.size();++i){
         auto& slider=oscillatorSliders[i];
@@ -413,6 +419,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     drawInset(g,juce::Rectangle<float>(float(getWidth()-344),22.0f,318.0f,81.0f));
     g.setFont(10.0f);
     g.setColour(juce::Colour(0xffb5a6a0));
+    g.drawText("NOISE",getWidth()-330,72,60,23,juce::Justification::centredLeft);
     g.drawText("FACTORY PROGRAM",getWidth()-330,25,110,13,juce::Justification::centredLeft);
     for(int i=0;i<int(std::size(panels));++i){
         const auto panel=panelBounds(getWidth(),getHeight(),i);
@@ -460,9 +467,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
             float y=0.5f;
             if(i==0){
                 const float phase=x*2.0f-std::floor(x*2.0f);
-                const float waveforms[]={phase*2.0f-1.0f,phase<0.48f?1.0f:-1.0f,
-                    std::sin(juce::MathConstants<float>::twoPi*phase),4.0f*std::abs(phase-0.5f)-1.0f};
-                y-=0.43f*waveforms[juce::jlimit(0,3,waveform.getSelectedItemIndex())];
+                y-=0.43f*SpaceInfinityProcessor::oscillatorSample(phase,juce::jmax(0,waveform.getSelectedItemIndex()));
             }else if(i==1){
                 const float t=x*4.0f;
                 const float attack=float(knobs[2].getValue());
@@ -491,6 +496,8 @@ void SpaceInfinityEditor::resized(){
     presets.setBounds(w-330,42,226,25);
     previousPreset.setBounds(w-100,42,29,25);
     nextPreset.setBounds(w-67,42,29,25);
+    noiseType.setBounds(w-266,72,90,23);
+    noiseLevel.setBounds(w-172,72,134,23);
     auto oscillatorRow=juce::Rectangle<int>(30,265,w-60,36);
     for(int i=0;i<2;++i){
         auto strip=oscillatorRow.removeFromLeft((w-60)/2).reduced(5,0);

@@ -22,6 +22,8 @@ public:
     void setStateInformation(const void*,int) override;
     juce::AudioProcessorValueTreeState state;
     void loadPreset(int index);
+    static juce::StringArray oscillatorWaves(bool follow=false);
+    static float oscillatorSample(double phase,int wave);
     float takeOutputPeak() noexcept { return outputPeak.exchange(0.0f); }
     void loadMotionShape(int index);
     static juce::StringArray motionNames();
@@ -48,7 +50,8 @@ private:
         double samplePosition = 0, sampleStep = 0;
         int sampleStart = 0, sampleEnd = 0;
         bool sampleLoop = false;
-        float stereoSide=0.0f;
+        float stereoSide=0.0f, noiseMemory=0.0f;
+        uint32_t noiseState=1;
         std::array<double,15> extraPhase1{}, extraPhase2{};
         float filterState[2]{}, filterCascade[2]{};
         unsigned sampleRevision = 0; bool active=false, released=false, decaying=false; int note=-1, channel=1; float velocity=0, env=0, cutoff=0; double phase=0, phase2=0; uint64_t age=0; };

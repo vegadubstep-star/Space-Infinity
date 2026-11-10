@@ -16,17 +16,19 @@ APVTS::ParameterLayout makeLayout(){
     p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{"osc2Enabled",1},"Oscillator 2 Enabled",true));
     p.add(std::make_unique<juce::AudioParameterInt>(juce::ParameterID{"osc1Unison",1},"Oscillator 1 Unison",1,16,1));
     p.add(std::make_unique<juce::AudioParameterInt>(juce::ParameterID{"osc2Unison",1},"Oscillator 2 Unison",1,16,1));
+    f("noiseLevel","Noise Level",0.0f,1.0f,0.0f);
+    p.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID{"noiseType",1},"Noise Type",juce::StringArray{"White","Dark","Bright"},0));
     f("osc1Tune","Oscillator 1 Fine Tune",-50.0f,50.0f,0.0f);
     f("osc2Tune","Oscillator 2 Fine Tune",-50.0f,50.0f,0.0f);
     f("osc1Width","Oscillator 1 Width",0.0f,1.0f,0.0f);
     f("osc2Width","Oscillator 2 Width",0.0f,1.0f,0.0f);
-    p.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID{"osc2Wave",1},"Oscillator 2 Waveform",juce::StringArray{"Follow Osc 1","Saw","Pulse","Sine","Triangle"},0));
+    p.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID{"osc2Wave",1},"Oscillator 2 Waveform",SpaceInfinityProcessor::oscillatorWaves(true),0));
     f("detune","Detune",0,0.04f,0.008f);f("mix","Layer Mix",0,1,0.55f);
     f("drive","Drive",0,1,0.15f);f("chorus","Chorus",0,1,0.25f);
     f("delay","Delay",0,0.8f,0.17f);f("reverb","Reverb",0,0.8f,0.25f);
     f("lforate","LFO Rate",0.1f,12,4.0f);f("lfodepth","LFO Depth",0,1,0.1f);
     f("gain","Output",0,1.2f,0.65f);
-    p.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID{"wave",1},"Oscillator",juce::StringArray{"Saw","Pulse","Sine","Triangle"},0));
+    p.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID{"wave",1},"Oscillator",SpaceInfinityProcessor::oscillatorWaves(),0));
     p.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID{"source",1},"Sound Source",SpaceInfinityProcessor::sourceNames(),0));
     p.add(std::make_unique<juce::AudioParameterInt>(juce::ParameterID{"sampleRoot",1},"Imported Sample Root (MIDI)",0,127,60));
     auto choice=[&](const char* id,const char* label,juce::StringArray options,int def){
@@ -62,7 +64,44 @@ APVTS::ParameterLayout makeLayout(){
 }
 float osc(double x,int wave){ x-=std::floor(x); switch(wave){case 1:return x<0.48?1.0f:-1.0f;case 2:return std::sin(float(juce::MathConstants<double>::twoPi*x));case 3:return float(4*std::abs(x-0.5)-1);default:return float(2*x-1);} }
 }
+juce::StringArray SpaceInfinityProcessor::oscillatorWaves(bool follow){
+    juce::StringArray names{"Saw","Pulse","Sine","Triangle","Narrow Pulse","Wide Pulse","Rounded Saw","Folded Sine","Double Sine","Rectified","Vowel Ah","Vowel Oh","Vowel Ee","Reed","Hollow Reed","Brass","Soft Brass","Organ","Drawbar","Glass","Bell","Metal","Sync Rise","Sync Fall","Bent Ramp","Steps","Buzz","Octave Saw","Fifth Stack","Sub Harmonics"};
+    if(follow)names.insert(0,"Follow Osc 1");
+    return names;
+}
+float SpaceInfinityProcessor::oscillatorSample(double phase,int wave){
+    if(wave<4)return osc(phase,wave);
+    static const auto tables=[]{
+        std::array<std::array<float,512>,26> result{};
+        constexpr float harmonics[][5]={
+            {1,.52f,.11f,-.22f,-.25f},{1,-.52f,.11f,.22f,-.25f},{1,.32f,.12f,.04f,0},
+            {1,0,-.62f,0,.2f},{.25f,1,.1f,.22f,0},{.1f,1,0,-.2f,.07f},
+            {1,.18f,.74f,.55f,.17f},{1,.8f,.25f,.1f,.05f},{.45f,.2f,.23f,.7f,1},
+            {1,0,.65f,0,.44f},{1,0,.24f,0,-.32f},{1,.64f,.48f,.32f,.22f},
+            {1,.35f,.18f,.1f,.04f},{1,.5f,0,.22f,0},{1,.8f,.5f,.2f,0},
+            {1,.05f,.4f,0,.45f},{1,.08f,-.35f,.08f,.65f},{.4f,.65f,-.6f,.4f,.56f},
+            {1,-.7f,.45f,-.33f,.27f},{1,.72f,-.5f,.33f,-.25f},{1,-.35f,.14f,.14f,-.08f},
+            {1,.3f,.16f,-.13f,-.22f},{1,.78f,.6f,.48f,.38f},{1,1,.33f,.5f,.2f},
+            {1,.14f,.8f,.1f,.18f},{1,.24f,.08f,0,0}};
+        for(size_t shape=0;shape<result.size();++shape){
+            float peak=0.0f;
+            for(size_t i=0;i<result[shape].size();++i){
+                const double angle=juce::MathConstants<double>::twoPi*double(i)/512.0;
+                for(size_t h=0;h<5;++h)
+                    result[shape][i]+=harmonics[shape][h]*float(std::sin(angle*double(h+1)));
+                peak=std::max(peak,std::abs(result[shape][i]));
+            }
+            for(auto& sample:result[shape])sample/=peak;
+        }
+        return result;
+    }();
+    const auto& table=tables[size_t(juce::jlimit(4,29,wave)-4)];
+    const double index=(phase-std::floor(phase))*512.0;
+    const auto left=size_t(index)&511;
+    return table[left]+(table[(left+1)&511]-table[left])*float(index-std::floor(index));
+}
 SpaceInfinityProcessor::SpaceInfinityProcessor():juce::AudioProcessor(BusesProperties().withOutput("Output",juce::AudioChannelSet::stereo(),true)),state(*this,nullptr,"PARAMETERS",makeLayout()){
+    oscillatorSample(0.0,4); // Initialise lookup tables before audio processing.
     for(size_t i=0;i<motionParameters.size();++i)
         motionParameters[i]=state.getRawParameterValue(motionPointId(int(i)));
     for(size_t i=0;i<macroValues.size();++i){
@@ -171,7 +210,8 @@ void SpaceInfinityProcessor::noteOn(int note,float velocity,int source,int root,
     auto* found=&voices[0];
     if(voiceMode==0)for(auto& v:voices)if(!v.active){found=&v;break;}
     if(voiceMode==0&&found->active)found=&*std::min_element(voices.begin(),voices.end(),[](const Voice& a,const Voice& b){return a.age<b.age;});
-    *found={};found->active=true;found->note=note;found->channel=channel;found->velocity=velocity;found->age=++clock;
+    *found={};found->active=true;found->note=note;found->channel=channel;found->velocity=velocity;found->age=++clock;found->noiseState=uint32_t(found->age)*747796405u+2891336453u;
+    if(found->noiseState==0)found->noiseState=1;
     found->source=source;
     if(source != 0){
         if(source==3)found->sampleRevision=sampleRevision;
@@ -242,6 +282,8 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     };
     prepareStack(unisonRates1,unison1);
     prepareStack(unisonRates2,unison2);
+    const float noiseLevel=param("noiseLevel");
+    const int noiseType=int(param("noiseType"));
     const float width1=param("osc1Width"),width2=param("osc2Width");
     const int filterMode=int(param("filterMode"));
     const float filterDamping=1.4142f-res*1.34f;
@@ -340,10 +382,10 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
                     auto& position=i==0?phase:extras[size_t(i-1)];
                     position+=rate*rates[size_t(i)];
                     position-=std::floor(position);
-                    const float sample=osc(position,shape);
+                    const float sample=oscillatorSample(position,shape);
                     raw+=sample*level;
                     if(width>0.0f){
-                        if(count==1)rawSide+=width*level*(sample-osc(position+offset,shape))*0.5f;
+                        if(count==1)rawSide+=width*level*(sample-oscillatorSample(position+offset,shape))*0.5f;
                         else rawSide+=sample*level*width*(2.0f*float(i)/float(count-1)-1.0f);
                     }
                 }
@@ -351,6 +393,14 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
             stack(v.phase,v.extraPhase1,freq*tune1/sr,unisonRates1,unison1,wave,width1,osc1Gain,0.19);
             stack(v.phase2,v.extraPhase2,freq*tune2*(1.0+detune+0.003*lfo*lfoDepth)/sr,
                   unisonRates2,unison2,secondWave,width2,osc2Gain,0.31);
+            }
+            if(noiseLevel>0.0f){
+                auto& rng=v.noiseState;
+                rng^=rng<<13;rng^=rng>>17;rng^=rng<<5;
+                const float white=float(rng>>8)*(2.0f/16777215.0f)-1.0f;
+                v.noiseMemory+=0.10f*(white-v.noiseMemory);
+                const float noise=noiseType==1?v.noiseMemory*2.5f:noiseType==2?white-v.noiseMemory:white;
+                raw+=noise*noiseLevel*0.5f;
             }
             float filtered;
             if(filterMode==0){
@@ -703,6 +753,8 @@ void SpaceInfinityProcessor::loadPreset(int index){
     for(size_t i=0;i<std::size(ids);++i)
         set(ids[i],i==2||i==3?juce::jlimit(0.0f,1.5f,patch.values[i]):patch.values[i]);
     set("source",float(patch.source));
+    set("noiseLevel",0.0f);
+    set("noiseType",0.0f);
     set("osc1Enabled",1.0f);
     set("osc1Unison",1.0f);
     set("osc2Unison",1.0f);
