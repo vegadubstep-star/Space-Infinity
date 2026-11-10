@@ -122,6 +122,21 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         addAndMakeVisible(point);
         attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,SpaceInfinityProcessor::motionPointId(int(i)),point));
     }
+    const auto names=SpaceInfinityProcessor::macroNames();
+    for(size_t i=0;i<macros.size();++i){
+        const auto suffix=juce::String(int(i));
+        auto& macro=macros[i];
+        macro.setName(names[int(i)]);
+        macro.setTooltip(names[int(i)]);
+        macro.setSliderStyle(juce::Slider::LinearHorizontal);
+        macro.setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);
+        macro.setDoubleClickReturnValue(true,0.0);
+        addAndMakeVisible(macro);
+        attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"macro"+suffix,macro));
+        macroRoutes[i].addItemList(SpaceInfinityProcessor::macroTargets(),1);
+        addAndMakeVisible(macroRoutes[i]);
+        fxChoices.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"macroRoute"+suffix,macroRoutes[i]));
+    }
     bindChoice(filterMode,"filterMode",{"Classic LP","Resonant LP","High-pass","Band-pass","24 dB LP"});
     bindChoice(sampleLoop,"sampleLoop",{"Loop off","Loop on"});
     bindChoice(sampleReverse,"sampleReverse",{"Forward","Reverse"});
@@ -266,19 +281,26 @@ void SpaceInfinityEditor::resized(){
     reverbSpace.setBounds(601,getHeight()-37,64,24);
     compAmount.setBounds(672,getHeight()-37,55,24);
     pitchWheel.setBounds(w-261,116,220,22);
-    auto motionRow=juce::Rectangle<int>(34,getHeight()-173,w-68,98);
+    auto motionRow=juce::Rectangle<int>(34,getHeight()-227,w-68,98);
     auto controls=motionRow.removeFromLeft(155);
     motionShape.setBounds(controls.removeFromTop(26).reduced(2));
     motionBars.setBounds(controls.removeFromTop(26).reduced(2));
     motionDepth.setBounds(controls.removeFromTop(26).reduced(2));
     const int spacing=motionRow.getWidth()/int(motionPoints.size());
     for(auto& point:motionPoints)point.setBounds(motionRow.removeFromLeft(spacing).reduced(1));
+    auto macroRow=juce::Rectangle<int>(34,getHeight()-121,w-68,44);
+    const int macroWidth=macroRow.getWidth()/int(macros.size());
+    for(size_t i=0;i<macros.size();++i){
+        auto cell=macroRow.removeFromLeft(macroWidth).reduced(4,0);
+        macros[i].setBounds(cell.removeFromTop(20));
+        macroRoutes[i].setBounds(cell);
+    }
     sampleTrim[0].setBounds(100,getHeight()-65,130,22);
     sampleTrim[1].setBounds(282,getHeight()-65,130,22);
     sampleLoop.setBounds(425,getHeight()-65,100,22);
     sampleReverse.setBounds(532,getHeight()-65,100,22);
     filterMode.setBounds(642,getHeight()-65,120,22);
-    auto area=juce::Rectangle<int>(32,265,w-64,getHeight()-445);const int cols=8,rows=2;
+    auto area=juce::Rectangle<int>(32,265,w-64,getHeight()-499);const int cols=8,rows=2;
     const int cellW=area.getWidth()/cols,cellH=area.getHeight()/rows;
     for(int i=0;i<15;i++){
         int col=i%cols,row=i/cols;auto cell=juce::Rectangle<int>(area.getX()+col*cellW,area.getY()+row*cellH,cellW,cellH);

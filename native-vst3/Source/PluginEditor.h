@@ -16,6 +16,8 @@ private:
     SpaceInfinityProcessor& processor;
     juce::ComboBox presets, waveform, source, motionShape, motionBars;
     juce::Slider motionDepth;
+    std::array<juce::Slider,4> macros;
+    std::array<juce::ComboBox,4> macroRoutes;
     std::array<juce::Slider,17> motionPoints;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> motionDepthAttachment;
     juce::ComboBox delaySync, delayMode, reverbSpace, sampleLoop, sampleReverse, filterMode;
