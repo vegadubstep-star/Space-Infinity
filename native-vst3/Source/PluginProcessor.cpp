@@ -12,6 +12,8 @@ APVTS::ParameterLayout makeLayout(){
     f("attack","Attack",0.002f,4,0.01f);f("release","Release",0.02f,8,0.5f);
     f("ampDecay","Amp Decay",0.005f,8.0f,0.35f);
     f("ampSustain","Amp Sustain",0.0f,1.0f,1.0f);
+    p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{"osc1Enabled",1},"Oscillator 1 Enabled",true));
+    p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{"osc2Enabled",1},"Oscillator 2 Enabled",true));
     f("detune","Detune",0,0.04f,0.008f);f("mix","Layer Mix",0,1,0.55f);
     f("drive","Drive",0,1,0.15f);f("chorus","Chorus",0,1,0.25f);
     f("delay","Delay",0,0.8f,0.17f);f("reverb","Reverb",0,0.8f,0.25f);
@@ -197,6 +199,8 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     const float legacyAttackStep=float(1.0-std::exp(-double(attackStep)));
     const float decayStep=float(1.0/std::max(1.0,double(param("ampDecay"))*sr));
     const float releaseFactor=float(std::exp(-1.0/(double(release)*sr)));
+    const float osc1Gain=param("osc1Enabled")>0.5f?1.0f-mix:0.0f;
+    const float osc2Gain=param("osc2Enabled")>0.5f?mix:0.0f;
     const int wave=int(param("wave"));
     const int filterMode=int(param("filterMode"));
     const float filterDamping=1.4142f-res*1.34f;
@@ -250,7 +254,7 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
             const double freq=440.0*bendRatio*std::pow(2.0,(v.note-69.0)/12.0);
             v.phase+=freq/sr;v.phase2+=freq*(1.0+detune+0.003*lfo*lfoDepth)/sr;
             if(v.phase>=1)v.phase-=std::floor(v.phase);if(v.phase2>=1)v.phase2-=std::floor(v.phase2);
-            raw=osc(v.phase,wave)*(1-mix)+osc(v.phase2,wave)*mix;
+            raw=osc(v.phase,wave)*osc1Gain+osc(v.phase2,wave)*osc2Gain;
             }
             float filtered;
             if(filterMode==0){
@@ -590,6 +594,8 @@ void SpaceInfinityProcessor::loadPreset(int index){
         "chorus","delay","reverb","lforate","lfodepth","gain","wave","ampDecay","ampSustain"};
     for(size_t i=0;i<std::size(ids);++i)set(ids[i],patch.values[i]);
     set("source",float(patch.source));
+    set("osc1Enabled",1.0f);
+    set("osc2Enabled",1.0f);
     set("filterMode",float(patch.filterMode));
     set("delaySync",float(patch.division));
     set("delayMode",float(patch.delayMode));

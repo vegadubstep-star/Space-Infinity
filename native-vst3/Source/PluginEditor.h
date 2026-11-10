@@ -26,6 +26,8 @@ private:
     juce::Slider sampleRoot, compAmount, pitchWheel;
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment>> fxChoices;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> compAttachment, pitchAttachment;
+    juce::ToggleButton osc1{"OSC 1"}, osc2{"OSC 2"};
+    std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment>,2> oscAttachments;
     juce::TextButton previousPreset{"<"}, nextPreset{">"};
     juce::TextButton importButton{"Import WAV"};
     std::unique_ptr<juce::FileChooser> sampleChooser;

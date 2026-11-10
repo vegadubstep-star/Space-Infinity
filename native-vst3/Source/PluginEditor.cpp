@@ -125,6 +125,10 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     nextPreset.onClick=[stepPreset]{stepPreset(1);};
     addAndMakeVisible(previousPreset);
     addAndMakeVisible(nextPreset);
+    addAndMakeVisible(osc1);
+    addAndMakeVisible(osc2);
+    oscAttachments[0]=std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(processor.state,"osc1Enabled",osc1);
+    oscAttachments[1]=std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(processor.state,"osc2Enabled",osc2);
     waveform.addItemList({"Saw","Pulse","Sine","Triangle"},1);addAndMakeVisible(waveform);
     waveform.onChange=[this]{repaint();};
     waveAttachment=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"wave",waveform);
@@ -390,10 +394,15 @@ void SpaceInfinityEditor::resized(){
     source.setBounds(34,getHeight()-37,152,24);
     importButton.setBounds(194,getHeight()-37,104,24);
     sampleRoot.setBounds(306,getHeight()-37,116,24);
-    delaySync.setBounds(426,getHeight()-37,91,24);
-    delayMode.setBounds(521,getHeight()-37,76,24);
-    reverbSpace.setBounds(601,getHeight()-37,64,24);
-    compAmount.setBounds(672,getHeight()-37,55,24);
+    auto fx=panelBounds(w,getHeight(),4).reduced(8,5).removeFromBottom(24);
+    const int fxWidth=fx.getWidth()/4;
+    delaySync.setBounds(fx.removeFromLeft(fxWidth).reduced(2,0));
+    delayMode.setBounds(fx.removeFromLeft(fxWidth).reduced(2,0));
+    reverbSpace.setBounds(fx.removeFromLeft(fxWidth).reduced(2,0));
+    compAmount.setBounds(fx.reduced(2,0));
+    const auto voice=panelBounds(w,getHeight(),0);
+    osc1.setBounds(voice.getRight()-112,voice.getY()+1,54,18);
+    osc2.setBounds(voice.getRight()-56,voice.getY()+1,54,18);
     pitchWheel.setBounds(w-261,116,220,22);
     auto motionRow=juce::Rectangle<int>(34,getHeight()-227,w-68,98);
     auto controls=motionRow.removeFromLeft(155);
@@ -417,6 +426,7 @@ void SpaceInfinityEditor::resized(){
     for(int i=0;i<int(std::size(panels));++i){
         const auto& panel=panels[i];
         auto area=panelBounds(w,getHeight(),i).reduced(3,3).withTrimmedTop(17);
+        if(i==4) area.removeFromBottom(28);
         for(int j=0;j<panel.count;++j){
             auto cell=area.removeFromLeft(area.getWidth()/(panel.count-j)).reduced(2,0);
             const auto index=size_t(panel.knobs[j]);
