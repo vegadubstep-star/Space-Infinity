@@ -204,6 +204,8 @@ int main()
     synth.loadLfoShape(1,3);
     if(synth.state.getRawParameterValue(synth.lfoPointId(0,4))->load()!=original)return 32;
     for(int lfo=0;lfo<3;++lfo){
+        auto* division=synth.state.getParameter(synth.lfoParameterId(lfo,"Bars"));
+        if(division->convertFrom0to1(1.0f)!=7.0f)return 43;
         auto* speed=synth.state.getParameter(synth.lfoParameterId(lfo,"Speed"));
         speed->setValueNotifyingHost(speed->convertTo0to1(20.0f));
         auto* sync=synth.state.getParameter(synth.lfoParameterId(lfo,"Sync"));

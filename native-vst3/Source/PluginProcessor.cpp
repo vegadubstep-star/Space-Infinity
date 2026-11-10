@@ -108,7 +108,7 @@ APVTS::ParameterLayout makeLayout(){
             juce::ParameterID{SpaceInfinityProcessor::lfoParameterId(lfo,"Mode"),1},title+" Mode",juce::StringArray{"Free","Retrigger","One-shot"},0));
         if(lfo>0){
             p.add(std::make_unique<juce::AudioParameterChoice>(
-                juce::ParameterID{SpaceInfinityProcessor::lfoParameterId(lfo,"Bars"),1},title+" Length",juce::StringArray{"1 bar","2 bars","4 bars","8 bars"},2));
+                juce::ParameterID{SpaceInfinityProcessor::lfoParameterId(lfo,"Bars"),1},title+" Length",juce::StringArray{"1 bar","2 bars","4 bars","8 bars","1/2 bar","1/4 bar","1/8 bar","1/16 bar"},2));
             for(int point=0;point<17;++point)
                 p.add(std::make_unique<juce::AudioParameterFloat>(
                     juce::ParameterID{SpaceInfinityProcessor::lfoPointId(lfo,point),1},
@@ -210,6 +210,7 @@ SpaceInfinityProcessor::SpaceInfinityProcessor():juce::AudioProcessor(BusesPrope
             macroRoutes[size_t(source)][size_t(slot)]=state.getRawParameterValue(modulationRouteId(source,slot,false));
             macroDepths[size_t(source)][size_t(slot)]=state.getRawParameterValue(modulationRouteId(source,slot,true));
         }
+    for(auto& phase:displayedLfoPhase)phase.store(0.0f);
     for(int lfo=0;lfo<3;++lfo){
         for(int point=0;point<17;++point)
             designerPoints[size_t(lfo)][size_t(point)]=state.getRawParameterValue(lfoPointId(lfo,point));
