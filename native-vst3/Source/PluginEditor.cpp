@@ -1,5 +1,6 @@
 #include "PluginEditor.h"
 #include <array>
+#include <cmath>
 namespace {
 void drawSwitchBody(juce::Graphics& g, juce::Rectangle<float> r, bool down){
     g.setColour(juce::Colour(0xff090a0c));
@@ -54,7 +55,7 @@ void SpaceInfinityEditor::HardwareLook::drawButtonBackground(
     juce::Graphics& g,juce::Button& b,const juce::Colour&,bool hover,bool down){
     drawSwitchBody(g,b.getLocalBounds().toFloat(),down);
     if(hover || b.getToggleState()){
-        g.setColour(juce::Colour(0xff60d9ff));
+        g.setColour(juce::Colour(0xffff665f));
         g.fillEllipse(5.0f,float(b.getHeight())*.5f-2.0f,4.0f,4.0f);
     }
 }
@@ -65,17 +66,18 @@ void SpaceInfinityEditor::HardwareLook::drawComboBox(
     chevron.startNewSubPath(float(w)-18,float(h)*.5f-2);
     chevron.lineTo(float(w)-14,float(h)*.5f+2);
     chevron.lineTo(float(w)-10,float(h)*.5f-2);
-    g.setColour(juce::Colour(0xff72d5f0));
+    g.setColour(juce::Colour(0xffff8c80));
     g.strokePath(chevron,juce::PathStrokeType(1.4f));
 }
 SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcessorEditor(&p),processor(p){
     setLookAndFeel(&hardwareLook);
-    setSize(940,550);setResizable(true,true);setResizeLimits(760,450,1500,950);
+    setResizable(true,true);setResizeLimits(800,650,1500,950);setSize(1000,680);
     title.setText("SPACE  INFINITY",juce::dontSendNotification);title.setFont(juce::Font(juce::FontOptions(30.0f,juce::Font::bold)));title.setColour(juce::Label::textColourId,juce::Colours::white);addAndMakeVisible(title);
     subtitle.setText("HYBRID HARDWARE-INSPIRED SYNTHESIS",juce::dontSendNotification);subtitle.setColour(juce::Label::textColourId,juce::Colour(0xffc0c0c8));addAndMakeVisible(subtitle);
     for(int i=0;i<SpaceInfinityProcessor::presetNames().size();++i)presets.addItem(SpaceInfinityProcessor::presetNames()[i],i+1);
     presets.setTextWhenNothingSelected("Select a sound");presets.onChange=[this]{processor.loadPreset(presets.getSelectedItemIndex());};addAndMakeVisible(presets);
     waveform.addItemList({"Saw","Pulse","Sine","Triangle"},1);addAndMakeVisible(waveform);
+    waveform.onChange=[this]{repaint();};
     waveAttachment=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"wave",waveform);
     source.addItemList(SpaceInfinityProcessor::sourceNames(),1);
     addAndMakeVisible(source);
@@ -133,6 +135,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,ids[i],slider));
         slider.setNumDecimalPlacesToDisplay(decimals[i]);
         slider.setTextValueSuffix(units[i]);
+        slider.onValueChange=[this]{repaint();};
     }
 }
 SpaceInfinityEditor::~SpaceInfinityEditor(){setLookAndFeel(nullptr);}
@@ -145,10 +148,10 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     g.setColour(juce::Colour(0xff53565b));
     g.drawRoundedRectangle(chassis,4.0f,1.0f);
     auto rail=chassis.reduced(8.0f).withHeight(85.0f);
-    g.setGradientFill(juce::ColourGradient(juce::Colour(0xff823331),0,rail.getY(),
-        juce::Colour(0xff4d1d1c),0,rail.getBottom(),false));
+    g.setGradientFill(juce::ColourGradient(juce::Colour(0xff323438),0,rail.getY(),
+        juce::Colour(0xff1a1c20),0,rail.getBottom(),false));
     g.fillRoundedRectangle(rail,3.0f);
-    g.setColour(juce::Colour(0xffa15a54));
+    g.setColour(juce::Colour(0xff56595f));
     g.drawRoundedRectangle(rail,3.0f,1.0f);
     const auto tray=juce::Rectangle<float>(23,112,float(getWidth()-46),float(getHeight()-156));
     g.setColour(juce::Colour(0xff202226));
@@ -170,7 +173,47 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     g.setColour(juce::Colour(0xffc3c1bd));
     g.setFont(12.0f);
     g.drawText("PITCH",getWidth()-316,116,51,22,juce::Justification::right);
-    g.drawText("SYNTH  /  MODULATION  /  FX",34,116,350,20,juce::Justification::left);
+    g.drawText("SIGNAL  /  SYNTHESIS",34,116,350,20,juce::Justification::left);
+    const int displayWidth=(getWidth()-84)/3;
+    const char* headings[]={"OSCILLATOR","AMP RESPONSE","LFO"};
+    for(int i=0;i<3;++i){
+        const auto frame=juce::Rectangle<int>(34+i*(displayWidth+8),148,displayWidth,102);
+        g.setColour(juce::Colour(0xff050608));
+        g.fillRoundedRectangle(frame.toFloat(),5.0f);
+        g.setColour(juce::Colour(0xff55565b));
+        g.drawRoundedRectangle(frame.toFloat(),5.0f,1.0f);
+        g.setColour(juce::Colour(0xffbd9b95));
+        g.drawText(headings[i],frame.reduced(10,4).withHeight(18),juce::Justification::centredLeft);
+        const auto area=frame.reduced(10,8).withTrimmedTop(19).toFloat();
+        g.setColour(juce::Colour(0xff2a1d20));
+        for(int line=1;line<8;++line)
+            g.drawVerticalLine(int(area.getX()+area.getWidth()*float(line)/8.0f),area.getY(),area.getBottom());
+        g.drawHorizontalLine(int(area.getCentreY()),area.getX(),area.getRight());
+        juce::Path trace;
+        for(int k=0;k<=128;++k){
+            const float x=float(k)/128.0f;
+            float y=0.5f;
+            if(i==0){
+                const float phase=x*2.0f-std::floor(x*2.0f);
+                const float waveforms[]={phase*2.0f-1.0f,phase<0.48f?1.0f:-1.0f,
+                    std::sin(juce::MathConstants<float>::twoPi*phase),4.0f*std::abs(phase-0.5f)-1.0f};
+                y-=0.43f*waveforms[juce::jlimit(0,3,waveform.getSelectedItemIndex())];
+            }else if(i==1){
+                const float t=x*4.0f;
+                const float attack=float(knobs[2].getValue());
+                const float release=float(knobs[3].getValue());
+                const float level=1.0f-std::exp(-juce::jmin(t,2.0f)/juce::jmax(attack,0.002f));
+                y=0.94f-0.86f*level*std::exp(-juce::jmax(0.0f,t-2.0f)/juce::jmax(release,0.02f));
+            }else{
+                const float cycles=float(knobs[10].getValue())*0.5f;
+                y-=0.44f*float(knobs[11].getValue())*std::sin(juce::MathConstants<float>::twoPi*cycles*x);
+            }
+            const auto point=juce::Point<float>(area.getX()+x*area.getWidth(),area.getY()+y*area.getHeight());
+            if(k==0)trace.startNewSubPath(point);else trace.lineTo(point);
+        }
+        g.setColour(juce::Colour(0xfffa675e));
+        g.strokePath(trace,juce::PathStrokeType(1.5f));
+    }
 }
 void SpaceInfinityEditor::resized(){
     const int w=getWidth();title.setBounds(34,23,300,40);subtitle.setBounds(35,64,450,24);
@@ -183,7 +226,7 @@ void SpaceInfinityEditor::resized(){
     reverbSpace.setBounds(601,getHeight()-37,64,24);
     compAmount.setBounds(672,getHeight()-37,55,24);
     pitchWheel.setBounds(w-261,116,220,22);
-    auto area=juce::Rectangle<int>(32,150,w-64,getHeight()-190);const int cols=7,rows=2;
+    auto area=juce::Rectangle<int>(32,265,w-64,getHeight()-309);const int cols=7,rows=2;
     const int cellW=area.getWidth()/cols,cellH=area.getHeight()/rows;
     for(int i=0;i<13;i++){
         int col=i%cols,row=i/cols;auto cell=juce::Rectangle<int>(area.getX()+col*cellW,area.getY()+row*cellH,cellW,cellH);
