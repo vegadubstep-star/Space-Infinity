@@ -116,14 +116,14 @@ private:
         return result;
     }
 };
-constexpr int controlTop=306;
+constexpr int controlTop=328;
 struct Panel { const char* title; std::array<int,6> knobs; int count; };
 constexpr Panel panels[]={
     {"01   VOICE",{4,5,6,-1},3},{"02   FILTER",{0,1,-1,-1},2},
     {"03   AMP ENVELOPE",{2,13,14,3},4},{"04   LFO",{10,11,-1,-1},2},
     {"05   FX / OUTPUT",{7,15,16,8,9,12},6}};
 juce::Rectangle<int> panelBounds(int width,int height,int index){
-    const int topHeight=(height-540)/2;
+    const int topHeight=(height-562)/2;
     const int row=index>=3?1:0;
     const int start=index==0||index==3?0:index==1?3:index==2?5:2;
     const int columns=row==0?9:8;
@@ -318,7 +318,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         macroRoutes[i].addItemList(SpaceInfinityProcessor::macroTargets(),1);
         addAndMakeVisible(macroRoutes[i]);
         routeDepth[i].setSliderStyle(juce::Slider::LinearHorizontal);
-        routeDepth[i].setTextBoxStyle(juce::Slider::TextBoxRight,false,33,17);
+        routeDepth[i].setTextBoxStyle(juce::Slider::TextBoxRight,false,43,17);
         routeDepth[i].setTooltip("Signed route depth. Negative values reverse the modulation.");
         addAndMakeVisible(routeDepth[i]);
     }
@@ -395,7 +395,6 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     compAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"compAmount",compAmount);
     pitchWheel.setSliderStyle(juce::Slider::LinearHorizontal);
     pitchWheel.setTextBoxStyle(juce::Slider::TextBoxRight,false,56,20);
-    pitchWheel.setTextValueSuffix(" st");
     pitchWheel.setDoubleClickReturnValue(true,0.0);
     pitchWheel.setName("Pitch Wheel");
     pitchWheel.setTooltip("Pitch Wheel ±24 semitones. Double-click to centre.");
@@ -653,14 +652,18 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         g.fillRect(meterBounds.getX(),y,meterBounds.getWidth(),juce::jmax(1,meterBounds.getHeight()/12-1));
     }
     for(int i=0;i<2;++i){
-        auto strip=juce::Rectangle<int>(30+i*(getWidth()-60)/2,263,(getWidth()-60)/2,40).reduced(2,0);
+        const auto strip=juce::Rectangle<int>(30+i*(getWidth()-60)/2,262,(getWidth()-60)/2,62).reduced(2,0);
         drawInset(g,strip.toFloat());
         g.setColour(juce::Colour(0xffc8bcb0));
-        g.drawText("WAVE",strip.getX()+65,264,42,14,juce::Justification::centredLeft);
-        g.drawText("FINE TUNE",oscillatorSliders[size_t(i*2)].getX(),264,75,14,juce::Justification::centredLeft);
-        g.drawText("OCT",octaveControls[size_t(i+1)].getX()-27,264,25,14,juce::Justification::right);
-        g.drawText("UNISON",unisonSliders[size_t(i)].getX(),264,55,14,juce::Justification::centredLeft);
-        g.drawText("WIDTH",oscillatorSliders[size_t(i*2+1)].getX(),264,65,14,juce::Justification::centredLeft);
+        const auto label=[&g](const juce::Component& control,const char* name){
+            g.drawText(name,control.getBounds().translated(0,-14).withHeight(13),juce::Justification::centredLeft);
+        };
+        label(i==0?waveform:waveform2,"WAVEFORM");
+        label(oscillatorSliders[size_t(i*2)],"FINE TUNE");
+        label(oscillatorSliders[size_t(i*2+1)],"WIDTH");
+        label(unisonSliders[size_t(i)],"UNISON");
+        const auto oct=octaveControls[size_t(i+1)].getBounds();
+        g.drawText("OCT",oct.getX()-30,oct.getY(),26,oct.getHeight(),juce::Justification::right);
     }
     g.drawText("COMP",compAmount.getX(),compAmount.getY()-13,compAmount.getWidth(),13,juce::Justification::centred);
     g.setFont(12.0f);
@@ -720,17 +723,18 @@ void SpaceInfinityEditor::resized(){
     nextPreset.setBounds(w-67,42,29,25);
     noiseType.setBounds(w-266,72,90,23);
     noiseLevel.setBounds(w-172,72,134,23);
-    auto oscillatorRow=juce::Rectangle<int>(30,265,w-60,36);
+    auto oscillatorRow=juce::Rectangle<int>(30,262,w-60,62);
     for(int i=0;i<2;++i){
-        auto strip=oscillatorRow.removeFromLeft((w-60)/2).reduced(5,0);
+        auto strip=oscillatorRow.removeFromLeft((w-60)/2).reduced(8,4);
+        auto header=strip.removeFromTop(18);
         auto& toggle=i==0?osc1:osc2;
-        toggle.setBounds(strip.getX(),strip.getY()-4,60,18);
-        (i==0?warpA:warpB).setBounds(strip.getX()+116,strip.getY()-3,53,16);
-        octaveControls[size_t(i+1)].setBounds(strip.getRight()-123,strip.getY()-4,62,17);
+        toggle.setBounds(header.removeFromLeft(63));
+        (i==0?warpA:warpB).setBounds(header.removeFromLeft(58).reduced(2,0));
+        octaveControls[size_t(i+1)].setBounds(header.removeFromRight(62));
         strip.removeFromTop(14);
         unisonSliders[size_t(i)].setBounds(strip.removeFromRight(62).reduced(2,0));
         auto& selector=i==0?waveform:waveform2;
-        selector.setBounds(strip.removeFromLeft(strip.getWidth()/3).reduced(2,0));
+        selector.setBounds(strip.removeFromLeft(strip.getWidth()*4/10).reduced(2,0));
         oscillatorSliders[size_t(i*2)].setBounds(strip.removeFromLeft(strip.getWidth()/2).reduced(2,0));
         oscillatorSliders[size_t(i*2+1)].setBounds(strip.reduced(2,0));
     }
@@ -762,7 +766,7 @@ void SpaceInfinityEditor::resized(){
     for(size_t i=0;i<macros.size();++i){
         auto cell=macroRow.removeFromLeft(macroWidth).reduced(4,0);
         macros[i].setBounds(cell.removeFromTop(16));
-        routeDepth[i].setBounds(cell.removeFromRight(56).reduced(2,0));
+        routeDepth[i].setBounds(cell.removeFromRight(66).reduced(2,0));
         macroRoutes[i].setBounds(cell);
     }
     sampleTrim[0].setBounds(100,getHeight()-65,130,22);
