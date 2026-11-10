@@ -8,6 +8,14 @@ public:
     void resized() override;
 private:
     void timerCallback() override;
+    void mouseDown(const juce::MouseEvent&) override;
+    void mouseDrag(const juce::MouseEvent&) override;
+    void mouseUp(const juce::MouseEvent&) override;
+    void drawMotionAt(juce::Point<int>);
+    juce::Rectangle<int> motionGraph;
+    int lastMotionPoint=-1;
+    float lastMotionValue=0.0f;
+    std::array<bool,17> motionGestures{};
     juce::Rectangle<int> meterBounds;
     float meterPeak=0.0f;
     int clipHold=0;

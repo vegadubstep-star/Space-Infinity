@@ -163,10 +163,11 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     addAndMakeVisible(motionShape);
     bindChoice(motionBars,"motionBars",{"1 bar","2 bars","4 bars","8 bars"});
     motionDepth.setSliderStyle(juce::Slider::LinearHorizontal);
-    motionDepth.setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);
+    motionDepth.setTextBoxStyle(juce::Slider::TextBoxRight,false,43,20);
     motionDepth.setTooltip("Motion amount to filter cutoff");
     addAndMakeVisible(motionDepth);
     motionDepthAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"motionDepth",motionDepth);
+    motionDepth.setNumDecimalPlacesToDisplay(2);
     for(size_t i=0;i<motionPoints.size();++i){
         auto& point=motionPoints[i];
         point.setSliderStyle(juce::Slider::LinearVertical);
@@ -176,7 +177,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         point.setColour(juce::Slider::trackColourId,juce::Colours::transparentBlack);
         point.setColour(juce::Slider::backgroundColourId,juce::Colours::transparentBlack);
         point.onValueChange=[this]{repaint();};
-        addAndMakeVisible(point);
+        point.setVisible(false);
         attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,SpaceInfinityProcessor::motionPointId(int(i)),point));
     }
     const auto names=SpaceInfinityProcessor::macroNames();
@@ -258,6 +259,38 @@ void SpaceInfinityEditor::timerCallback(){
     clipHold=peak>=1.0f?30:juce::jmax(0,clipHold-1);
     repaint(meterBounds);
 }
+void SpaceInfinityEditor::mouseDown(const juce::MouseEvent& e){
+    if(!e.mods.isLeftButtonDown()||!motionGraph.expanded(8).contains(e.getPosition()))return;
+    drawMotionAt(e.getPosition());
+}
+void SpaceInfinityEditor::mouseDrag(const juce::MouseEvent& e){
+    if(lastMotionPoint>=0)drawMotionAt(e.getPosition());
+}
+void SpaceInfinityEditor::mouseUp(const juce::MouseEvent&){
+    for(size_t i=0;i<motionGestures.size();++i){
+        if(motionGestures[i]){
+            processor.state.getParameter(SpaceInfinityProcessor::motionPointId(int(i)))->endChangeGesture();
+            motionGestures[i]=false;
+        }
+    }
+    lastMotionPoint=-1;
+}
+void SpaceInfinityEditor::drawMotionAt(juce::Point<int> cursor){
+    const auto index=juce::jlimit(0,16,juce::roundToInt(16.0f*float(cursor.x-motionGraph.getX())/float(motionGraph.getWidth())));
+    const auto value=juce::jlimit(0.0f,1.0f,float(motionGraph.getBottom()-cursor.y)/float(motionGraph.getHeight()));
+    const int from=lastMotionPoint<0?index:lastMotionPoint;
+    for(int i=std::min(from,index);i<=std::max(from,index);++i){
+        auto* parameter=processor.state.getParameter(SpaceInfinityProcessor::motionPointId(i));
+        if(!motionGestures[size_t(i)]){
+            parameter->beginChangeGesture();
+            motionGestures[size_t(i)]=true;
+        }
+        const float point=from==index?value:lastMotionValue+(value-lastMotionValue)*float(i-from)/float(index-from);
+        parameter->setValueNotifyingHost(point);
+    }
+    lastMotionPoint=index;
+    lastMotionValue=value;
+}
 void SpaceInfinityEditor::paint(juce::Graphics& g){
     g.fillAll(juce::Colour(0xff21100c));
     for(const int side:{0,getWidth()-22}){
@@ -320,16 +353,18 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     g.setColour(juce::Colour(0xffd9a6a1));
     g.drawText("MOTION  /  FILTER CUTOFF",34,motionPanel.getY()+2,155,16,juce::Justification::centredLeft);
     juce::Path motionTrace;
+    std::array<juce::Point<float>,17> handles;
     for(size_t i=0;i<motionPoints.size();++i){
-        const auto bounds=motionPoints[i].getBounds();
-        const float x=float(bounds.getCentreX());
-        const float y=float(bounds.getBottom()-9)-float(motionPoints[i].getValue())*float(bounds.getHeight()-18);
+        const float x=float(motionGraph.getX())+float(motionGraph.getWidth())*float(i)/16.0f;
+        const float y=float(motionGraph.getBottom())-float(motionPoints[i].getValue())*float(motionGraph.getHeight());
+        handles[i]={x,y};
         g.setColour(juce::Colour(0xff342123));
-        g.drawVerticalLine(int(x),float(bounds.getY()+9),float(bounds.getBottom()-9));
+        g.drawVerticalLine(int(x),float(motionGraph.getY()),float(motionGraph.getBottom()));
         if(i==0)motionTrace.startNewSubPath(x,y);else motionTrace.lineTo(x,y);
     }
     g.setColour(juce::Colour(0xffe6a14e));
     g.strokePath(motionTrace,juce::PathStrokeType(1.5f));
+    for(const auto point:handles)g.fillEllipse(point.x-2.5f,point.y-2.5f,5.0f,5.0f);
     g.setColour(juce::Colour(0xffc3c1bd));
     const auto macroNames=SpaceInfinityProcessor::macroNames();
     for(size_t i=0;i<macros.size();++i){
@@ -427,8 +462,7 @@ void SpaceInfinityEditor::resized(){
     motionShape.setBounds(controls.removeFromTop(26).reduced(2));
     motionBars.setBounds(controls.removeFromTop(26).reduced(2));
     motionDepth.setBounds(controls.removeFromTop(26).reduced(2));
-    const int spacing=motionRow.getWidth()/int(motionPoints.size());
-    for(auto& point:motionPoints)point.setBounds(motionRow.removeFromLeft(spacing).reduced(1));
+    motionGraph=motionRow.reduced(12,13);
     auto macroRow=juce::Rectangle<int>(34,getHeight()-108,w-68,36);
     const int macroWidth=macroRow.getWidth()/int(macros.size());
     for(size_t i=0;i<macros.size();++i){
