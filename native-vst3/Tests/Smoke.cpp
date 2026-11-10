@@ -51,15 +51,32 @@ int main()
         quietest=std::min(quietest,peak);
         loudest=std::max(loudest,peak);
     }
+    synth.loadPreset(0);
+    synth.prepareToPlay(48000.0,blockSize);
+    juce::MidiBuffer chord;
+    for(const int note:{48,55,60,63,67,72,75,79})
+        chord.addEvent(juce::MidiMessage::noteOn(1,note,0.85f),0);
+    synth.processBlock(audio,chord);
+    if(audio.getMagnitude(0,blockSize)<=0.0f) return 14;
+    juce::MidiBuffer panic;
+    panic.addEvent(juce::MidiMessage::allSoundOff(1),0);
+    synth.processBlock(audio,panic);
+    if(!std::isfinite(audio.getMagnitude(0,blockSize))) return 15;
+
     auto* point=synth.state.getParameter(synth.motionPointId(3));
     cutoff->setValueNotifyingHost(0.45f);
     point->setValueNotifyingHost(0.73f);
+    auto* macro=synth.state.getParameter("macro0");
+    auto* route=synth.state.getParameter("macroRoute0");
+    macro->setValueNotifyingHost(0.82f);
+    route->setValueNotifyingHost(route->convertTo0to1(5.0f));
     juce::MemoryBlock saved;
     synth.getStateInformation(saved);
     synth.loadPreset(0);
     synth.setStateInformation(saved.getData(),int(saved.getSize()));
     if(std::abs(cutoff->getValue()-0.45f)>0.001f || std::abs(point->getValue()-0.73f)>0.001f) return 5;
 
+    if(std::abs(macro->getValue()-0.82f)>0.001f || std::abs(route->convertFrom0to1(route->getValue())-5.0f)>0.01f) return 16;
     for(const auto rate:{44100.0,96000.0}){
         for(const auto frames:{64,512}){
             synth.loadPreset(0);
