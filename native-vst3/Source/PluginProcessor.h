@@ -67,7 +67,9 @@ private:
     std::array<std::array<std::atomic<float>*,3>,4> macroRoutes{}, macroDepths{};
     double motionPhase=0.0;
     double sr=44100, lfoPhase=0; uint64_t clock=0;
-    juce::dsp::Chorus<float> chorus;
+    juce::dsp::Chorus<float> chorus, flanger;
+    juce::dsp::Phaser<float> phaser;
+    bool flangerActive=false, phaserActive=false;
     juce::Reverb reverb;
     juce::dsp::LinkwitzRileyFilter<float> crossoverLow, crossoverHigh, alignLow;
     std::array<juce::dsp::Compressor<float>,3> bandCompressors;

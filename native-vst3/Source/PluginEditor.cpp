@@ -96,16 +96,16 @@ private:
     }
 };
 constexpr int controlTop=306;
-struct Panel { const char* title; std::array<int,4> knobs; int count; };
+struct Panel { const char* title; std::array<int,6> knobs; int count; };
 constexpr Panel panels[]={
     {"01   VOICE",{4,5,6,-1},3},{"02   FILTER",{0,1,-1,-1},2},
     {"03   AMP ENVELOPE",{2,13,14,3},4},{"04   LFO",{10,11,-1,-1},2},
-    {"05   FX / OUTPUT",{7,8,9,12},4}};
+    {"05   FX / OUTPUT",{7,15,16,8,9,12},6}};
 juce::Rectangle<int> panelBounds(int width,int height,int index){
     const int topHeight=(height-540)/2;
     const int row=index>=3?1:0;
     const int start=index==0||index==3?0:index==1?3:index==2?5:2;
-    const int columns=row==0?9:6;
+    const int columns=row==0?9:8;
     const int available=width-58;
     const int left=29+available*start/columns;
     const int right=29+available*(start+panels[index].count)/columns;
@@ -378,11 +378,11 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     pitchAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"pitchBend",pitchWheel);
     pitchWheel.textFromValueFunction=[](double value){return juce::String(value,1)+" st";};
     pitchWheel.updateText();
-    const char* ids[]={"cutoff","res","attack","release","detune","mix","drive","chorus","delay","reverb","lforate","lfodepth","gain","ampDecay","ampSustain"};
-    const int decimals[]={0,2,3,3,3,2,2,2,2,2,2,2,2,3,2};
-    const char* units[]={" Hz",""," s"," s","","","","","",""," Hz","",""," s",""};
-    const char* texts[]={"CUTOFF","RESONANCE","ATTACK","RELEASE","DETUNE","LAYER","DRIVE","CHORUS","DELAY","REVERB","LFO RATE","LFO DEPTH","OUTPUT","DECAY","SUSTAIN"};
-    for(int i=0;i<15;i++){
+    const char* ids[]={"cutoff","res","attack","release","detune","mix","drive","chorus","delay","reverb","lforate","lfodepth","gain","ampDecay","ampSustain","flanger","phaser"};
+    const int decimals[]={0,2,3,3,3,2,2,2,2,2,2,2,2,3,2,2,2};
+    const char* units[]={" Hz",""," s"," s","","","","","",""," Hz","",""," s","","",""};
+    const char* texts[]={"CUTOFF","RESONANCE","ATTACK","RELEASE","DETUNE","LAYER","DRIVE","CHORUS","DELAY","REVERB","LFO RATE","LFO DEPTH","OUTPUT","DECAY","SUSTAIN","FLANGER","PHASER"};
+    for(int i=0;i<17;i++){
         auto& slider=knobs[i];slider.setName(texts[i]);slider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);slider.setTextBoxStyle(juce::Slider::TextBoxBelow,false,70,19);
         slider.setColour(juce::Slider::rotarySliderFillColourId,juce::Colour(0xffe84953));slider.setColour(juce::Slider::thumbColourId,juce::Colours::white);
         slider.setColour(juce::Slider::textBoxTextColourId,juce::Colours::white);slider.setColour(juce::Slider::textBoxOutlineColourId,juce::Colours::transparentBlack);

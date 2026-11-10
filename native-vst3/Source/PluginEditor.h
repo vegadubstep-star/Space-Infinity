@@ -58,8 +58,8 @@ private:
     juce::TextButton importButton{"Import WAV"};
     std::unique_ptr<juce::FileChooser> sampleChooser;
     juce::Label title, subtitle;
-    std::array<juce::Slider,15> knobs;
-    std::array<juce::Label,15> labels;
+    std::array<juce::Slider,17> knobs;
+    std::array<juce::Label,17> labels;
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>> attachments;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> waveAttachment, sourceAttachment;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> rootAttachment;

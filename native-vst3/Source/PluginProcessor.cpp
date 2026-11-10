@@ -42,6 +42,8 @@ APVTS::ParameterLayout makeLayout(){
     p.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID{"osc2Wave",1},"Oscillator 2 Waveform",SpaceInfinityProcessor::oscillatorWaves(true),0));
     f("detune","Detune",0,0.04f,0.008f);f("mix","Layer Mix",0,1,0.55f);
     f("drive","Drive",0,1,0.15f);f("chorus","Chorus",0,1,0.25f);
+    f("flanger","Flanger Mix",0.0f,1.0f,0.0f);
+    f("phaser","Phaser Mix",0.0f,1.0f,0.0f);
     f("delay","Delay",0,0.8f,0.17f);f("reverb","Reverb",0,0.8f,0.25f);
     f("lforate","LFO Rate",0.1f,12,4.0f);f("lfodepth","LFO Depth",0,1,0.1f);
     f("gain","Output",0,1.2f,0.65f);
@@ -228,6 +230,17 @@ void SpaceInfinityProcessor::prepareToPlay(double sampleRate,int maxSamples){
     sr=sampleRate;
     eqState={};
     juce::dsp::ProcessSpec spec{sampleRate,(juce::uint32)std::max(maxSamples,1),2};chorus.prepare(spec);chorus.setRate(0.25f);chorus.setDepth(0.38f);chorus.setCentreDelay(9);chorus.setFeedback(0.1f);chorus.setMix(param("chorus"));reverb.setSampleRate(sr);
+    flanger.prepare(spec);
+    flanger.setRate(0.23f);
+    flanger.setDepth(0.28f);
+    flanger.setCentreDelay(1.2f);
+    flanger.setFeedback(0.58f);
+    phaser.prepare(spec);
+    phaser.setRate(0.32f);
+    phaser.setDepth(0.66f);
+    phaser.setCentreFrequency(750.0f);
+    phaser.setFeedback(0.42f);
+    flangerActive=phaserActive=false;
     delayL.prepare({sampleRate,(juce::uint32)std::max(maxSamples,1),1});delayR.prepare({sampleRate,(juce::uint32)std::max(maxSamples,1),1});delayL.reset();delayR.reset();
     crossoverLow.prepare(spec); crossoverLow.setCutoffFrequency(180.0f);
     crossoverHigh.prepare(spec); crossoverHigh.setCutoffFrequency(2600.0f);
@@ -499,6 +512,20 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     juce::dsp::AudioBlock<float> block(b);
     juce::dsp::ProcessContextReplacing<float> context(block);
     chorus.process(context);
+    const float flangeMix=param("flanger");
+    if(flangeMix>0.0f){
+        if(!flangerActive)flanger.reset();
+        flanger.setMix(flangeMix);
+        flanger.process(context);
+    }
+    flangerActive=flangeMix>0.0f;
+    const float phaseMix=param("phaser");
+    if(phaseMix>0.0f){
+        if(!phaserActive)phaser.reset();
+        phaser.setMix(phaseMix);
+        phaser.process(context);
+    }
+    phaserActive=phaseMix>0.0f;
 
     if(auto* playHead=getPlayHead())
         if(auto position=playHead->getPosition())
@@ -826,6 +853,8 @@ void SpaceInfinityProcessor::loadPreset(int index){
     for(size_t i=0;i<std::size(ids);++i)
         set(ids[i],i==2||i==3?juce::jlimit(0.0f,1.5f,patch.values[i]):patch.values[i]);
     set("source",float(patch.source));
+    set("flanger",0.0f);
+    set("phaser",0.0f);
     set("eqEnabled",0.0f);
     for(int band=0;band<7;++band){
         const auto reset=[this,band](const char* field,float value){
