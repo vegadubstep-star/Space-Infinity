@@ -3,6 +3,27 @@
 #include <cmath>
 #include <complex>
 namespace {
+class WarpPanel final : public juce::Component {
+public:
+    WarpPanel(SpaceInfinityProcessor& processor,int oscillator)
+        : modeBinding(*processor.state.getParameter("osc"+juce::String(oscillator)+"Warp"),mode,nullptr),
+          amountBinding(processor.state,"osc"+juce::String(oscillator)+"WarpAmount",amount){
+        mode.addItemList({"Off",oscillator==1?"FM from B":"FM from A","Mirror","PWM"},1);
+        mode.setSelectedItemIndex(int(processor.state.getRawParameterValue("osc"+juce::String(oscillator)+"Warp")->load()),juce::dontSendNotification);
+        amount.setTextBoxStyle(juce::Slider::TextBoxRight,false,48,22);
+        amount.textFromValueFunction=[](double v){return juce::String(v*100.0,0)+"%";};
+        amount.updateText();
+        addAndMakeVisible(mode);
+        addAndMakeVisible(amount);
+        setSize(240,82);
+    }
+    void resized() override {mode.setBounds(10,9,220,26);amount.setBounds(10,43,220,25);}
+private:
+    juce::ComboBox mode;
+    juce::Slider amount;
+    juce::ComboBoxParameterAttachment modeBinding;
+    juce::AudioProcessorValueTreeState::SliderAttachment amountBinding;
+};
 class EqPanel final : public juce::Component, private juce::Timer {
 public:
     explicit EqPanel(SpaceInfinityProcessor& p):processor(p),enabled(p.state,"eqEnabled",power){
@@ -218,6 +239,10 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     nextPreset.onClick=[stepPreset]{stepPreset(1);};
     addAndMakeVisible(previousPreset);
     addAndMakeVisible(nextPreset);
+    addAndMakeVisible(warpA);
+    addAndMakeVisible(warpB);
+    warpA.onClick=[this]{juce::CallOutBox::launchAsynchronously(std::make_unique<WarpPanel>(processor,1),warpA.getBounds(),this);};
+    warpB.onClick=[this]{juce::CallOutBox::launchAsynchronously(std::make_unique<WarpPanel>(processor,2),warpB.getBounds(),this);};
     addAndMakeVisible(eqButton);
     eqButton.setTooltip("Open the seven-band parametric EQ");
     eqButton.onClick=[this]{
@@ -700,6 +725,7 @@ void SpaceInfinityEditor::resized(){
         auto strip=oscillatorRow.removeFromLeft((w-60)/2).reduced(5,0);
         auto& toggle=i==0?osc1:osc2;
         toggle.setBounds(strip.getX(),strip.getY()-4,60,18);
+        (i==0?warpA:warpB).setBounds(strip.getX()+116,strip.getY()-3,53,16);
         octaveControls[size_t(i+1)].setBounds(strip.getRight()-123,strip.getY()-4,62,17);
         strip.removeFromTop(14);
         unisonSliders[size_t(i)].setBounds(strip.removeFromRight(62).reduced(2,0));

@@ -35,6 +35,16 @@ APVTS::ParameterLayout makeLayout(){
                 name+fields[field],juce::NormalisableRange<float>(minimum[field],maximum[field]),initial[field]));
         }
     }
+    for(int oscillator=1;oscillator<=2;++oscillator){
+        const auto prefix="osc"+juce::String(oscillator);
+        const auto label="Oscillator "+juce::String(oscillator)+" Warp";
+        p.add(std::make_unique<juce::AudioParameterChoice>(
+            juce::ParameterID{prefix+"Warp",1},label,
+            juce::StringArray{"Off",oscillator==1?"FM from B":"FM from A","Mirror","PWM"},0));
+        p.add(std::make_unique<juce::AudioParameterFloat>(
+            juce::ParameterID{prefix+"WarpAmount",1},label+" Amount",
+            juce::NormalisableRange<float>(0.0f,1.0f),0.0f));
+    }
     f("osc1Tune","Oscillator 1 Fine Tune",-50.0f,50.0f,0.0f);
     f("osc2Tune","Oscillator 2 Fine Tune",-50.0f,50.0f,0.0f);
     f("osc1Width","Oscillator 1 Width",0.0f,1.0f,0.0f);
@@ -328,6 +338,8 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     const int wave=int(param("wave"));
     const int waveChoice=int(param("osc2Wave"));
     const int secondWave=waveChoice==0?wave:waveChoice-1;
+    const int warp1=int(param("osc1Warp")),warp2=int(param("osc2Warp"));
+    const float warpAmount1=param("osc1WarpAmount"),warpAmount2=param("osc2WarpAmount");
     const double tune1=std::exp2(param("osc1Octave")+param("osc1Tune")/1200.0);
     const double tune2=std::exp2(param("osc2Octave")+param("osc2Tune")/1200.0);
     const int unison1=int(param("osc1Unison")),unison2=int(param("osc2Unison"));
@@ -434,25 +446,39 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
                 v.samplePosition+=v.sampleStep*bendRatio;
             }else{
             const double freq=440.0*bendRatio*std::pow(2.0,(v.note-69.0)/12.0);
+            const float sourceA=warp2==1?oscillatorSample(v.phase,wave):0.0f;
+            const float sourceB=warp1==1?oscillatorSample(v.phase2,secondWave):0.0f;
+            const auto warped=[](double position,int shape,int mode,float amount,float modulator){
+                if(amount==0.0f||mode==0)return oscillatorSample(position,shape);
+                if(mode==1)return oscillatorSample(position+modulator*amount*1.5,shape);
+                const double phase=position-std::floor(position);
+                if(mode==2){
+                    const double mirror=1.0-std::abs(phase*2.0-1.0);
+                    return oscillatorSample(phase+(mirror-phase)*amount,shape);
+                }
+                const double split=0.5+0.45*amount;
+                const double mapped=phase<split?0.5*phase/split:0.5+0.5*(phase-split)/(1.0-split);
+                return oscillatorSample(mapped,shape);
+            };
             const auto stack=[&](double& phase,auto& extras,double rate,const auto& rates,
-                                  int count,int shape,float width,float gain,double offset){
+                                  int count,int shape,float width,float gain,double offset,int warp,float amount,float modulator){
                 if(gain==0.0f)return;
                 const float level=gain/float(count);
                 for(int i=0;i<count;++i){
                     auto& position=i==0?phase:extras[size_t(i-1)];
                     position+=rate*rates[size_t(i)];
                     position-=std::floor(position);
-                    const float sample=oscillatorSample(position,shape);
+                    const float sample=warped(position,shape,warp,amount,modulator);
                     raw+=sample*level;
                     if(width>0.0f){
-                        if(count==1)rawSide+=width*level*(sample-oscillatorSample(position+offset,shape))*0.5f;
+                        if(count==1)rawSide+=width*level*(sample-warped(position+offset,shape,warp,amount,modulator))*0.5f;
                         else rawSide+=sample*level*width*(2.0f*float(i)/float(count-1)-1.0f);
                     }
                 }
             };
-            stack(v.phase,v.extraPhase1,freq*tune1/sr,unisonRates1,unison1,wave,width1,osc1Gain,0.19);
+            stack(v.phase,v.extraPhase1,freq*tune1/sr,unisonRates1,unison1,wave,width1,osc1Gain,0.19,warp1,warpAmount1,sourceB);
             stack(v.phase2,v.extraPhase2,freq*tune2*(1.0+detune+0.003*lfo*lfoDepth)/sr,
-                  unisonRates2,unison2,secondWave,width2,osc2Gain,0.31);
+                  unisonRates2,unison2,secondWave,width2,osc2Gain,0.31,warp2,warpAmount2,sourceA);
             }
             if(noiseLevel>0.0f){
                 auto& rng=v.noiseState;
@@ -868,6 +894,7 @@ void SpaceInfinityProcessor::loadPreset(int index){
     set("noiseLevel",0.0f);
     set("noiseType",0.0f);
     for(const auto* id:{"masterOctave","osc1Octave","osc2Octave"})set(id,0.0f);
+    for(const auto* id:{"osc1Warp","osc2Warp","osc1WarpAmount","osc2WarpAmount"})set(id,0.0f);
     set("osc1Enabled",1.0f);
     set("osc1Unison",1.0f);
     set("osc2Unison",1.0f);
