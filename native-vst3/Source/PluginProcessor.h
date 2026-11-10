@@ -42,7 +42,7 @@ private:
     std::array<Voice,24> voices{};
     double sr=44100, lfoPhase=0; uint64_t clock=0;
     juce::dsp::Chorus<float> chorus;
-    juce::dsp::Reverb reverb;
+    juce::Reverb reverb;
     juce::dsp::LinkwitzRileyFilter<float> crossoverLow, crossoverHigh, alignLow;
     std::array<juce::dsp::Compressor<float>,3> bandCompressors;
     juce::SmoothedValue<float> delaySamples, delayWet, bandMix;

@@ -121,7 +121,7 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     const juce::SpinLock::ScopedTryLockType sampleGuard(sampleLock);
     auto msg=midi.begin();
     for(int s=0;s<b.getNumSamples();++s){
-        while(msg!=midi.end()&&(*msg).samplePosition<=s){const auto m=(*msg).getMessage(); if(m.isNoteOn()){if(source!=3||sampleGuard.isLocked())noteOn(m.getNoteNumber(),m.getFloatVelocity(),source,root);}else if(m.isPitchWheel()){const int wheel=m.getPitchWheel()-8192;midiBend=24.0f*float(wheel)/(wheel<0?8192.0f:8191.0f);pitchBend.setTargetValue(juce::jlimit(-24.0f,24.0f,hostBend+midiBend));}else if(m.isNoteOff())noteOff(m.getNoteNumber());else if(m.isAllNotesOff()||m.isAllSoundOff()){for(auto& v:voices)v.released=true;}++msg;}
+        while(msg!=midi.end()&&(*msg).samplePosition<=s){const auto m=(*msg).getMessage(); if(m.isNoteOn()){if(source!=3||sampleGuard.isLocked())noteOn(m.getNoteNumber(),m.getFloatVelocity(),source,root);}else if(m.isPitchWheel()){const int wheel=m.getPitchWheelValue()-8192;midiBend=24.0f*float(wheel)/(wheel<0?8192.0f:8191.0f);pitchBend.setTargetValue(juce::jlimit(-24.0f,24.0f,hostBend+midiBend));}else if(m.isNoteOff())noteOff(m.getNoteNumber());else if(m.isAllNotesOff()||m.isAllSoundOff()){for(auto& v:voices)v.released=true;}++msg;}
         lfoPhase+=lfoRate/sr;if(lfoPhase>=1)lfoPhase-=1;
         float out=0;const float lfo=std::sin(float(juce::MathConstants<double>::twoPi*lfoPhase));
         const double bendRatio=std::exp2(pitchBend.getNextValue()/12.0);
