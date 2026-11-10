@@ -194,8 +194,16 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"macro"+suffix,macro));
         macroRoutes[i].addItemList(SpaceInfinityProcessor::macroTargets(),1);
         addAndMakeVisible(macroRoutes[i]);
-        fxChoices.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"macroRoute"+suffix,macroRoutes[i]));
+        routeDepth[i].setSliderStyle(juce::Slider::LinearHorizontal);
+        routeDepth[i].setTextBoxStyle(juce::Slider::TextBoxRight,false,33,17);
+        routeDepth[i].setTooltip("Signed route depth. Negative values reverse the modulation.");
+        addAndMakeVisible(routeDepth[i]);
     }
+    macroSlot.addItemList({"Macro route 1","Macro route 2","Macro route 3"},1);
+    macroSlot.setSelectedId(1,juce::dontSendNotification);
+    macroSlot.onChange=[this]{bindMacroPage();};
+    addAndMakeVisible(macroSlot);
+    bindMacroPage();
     bindChoice(waveform2,"osc2Wave",SpaceInfinityProcessor::oscillatorWaves(true));
     bindChoice(noiseType,"noiseType",{"White","Dark","Bright"});
     noiseLevel.setSliderStyle(juce::Slider::LinearHorizontal);
@@ -299,6 +307,19 @@ void SpaceInfinityEditor::timerCallback(){
     meterPeak=juce::jmax(peak,meterPeak*0.88f);
     clipHold=peak>=1.0f?30:juce::jmax(0,clipHold-1);
     repaint(meterBounds);
+}
+void SpaceInfinityEditor::bindMacroPage(){
+    const int slot=juce::jlimit(0,2,macroSlot.getSelectedId()-1);
+    for(size_t i=0;i<macroRoutes.size();++i){
+        routeAttachments[i].reset();
+        depthAttachments[i].reset();
+        routeAttachments[i]=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(
+            processor.state,SpaceInfinityProcessor::macroRouteId(int(i),slot,false),macroRoutes[i]);
+        depthAttachments[i]=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
+            processor.state,SpaceInfinityProcessor::macroRouteId(int(i),slot,true),routeDepth[i]);
+        routeDepth[i].textFromValueFunction=[](double value){return juce::String(value,2);};
+        routeDepth[i].updateText();
+    }
 }
 void SpaceInfinityEditor::mouseDown(const juce::MouseEvent& e){
     if(!e.mods.isLeftButtonDown()||!motionGraph.expanded(8).contains(e.getPosition()))return;
@@ -512,6 +533,7 @@ void SpaceInfinityEditor::resized(){
     }
     source.setBounds(34,getHeight()-37,152,24);
     importButton.setBounds(194,getHeight()-37,104,24);
+    macroSlot.setBounds(w-176,getHeight()-37,140,24);
     sampleRoot.setBounds(306,getHeight()-37,116,24);
     auto fx=panelBounds(w,getHeight(),4).reduced(8,5).removeFromBottom(24);
     const int fxWidth=fx.getWidth()/4;
@@ -535,6 +557,7 @@ void SpaceInfinityEditor::resized(){
     for(size_t i=0;i<macros.size();++i){
         auto cell=macroRow.removeFromLeft(macroWidth).reduced(4,0);
         macros[i].setBounds(cell.removeFromTop(16));
+        routeDepth[i].setBounds(cell.removeFromRight(56).reduced(2,0));
         macroRoutes[i].setBounds(cell);
     }
     sampleTrim[0].setBounds(100,getHeight()-65,130,22);

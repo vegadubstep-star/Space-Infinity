@@ -32,7 +32,12 @@ private:
     std::array<juce::Slider,4> oscillatorSliders;
     std::array<juce::Slider,2> unisonSliders;
     std::array<juce::Slider,4> macros;
+    juce::ComboBox macroSlot;
     std::array<juce::ComboBox,4> macroRoutes;
+    std::array<juce::Slider,4> routeDepth;
+    std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment>,4> routeAttachments;
+    std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>,4> depthAttachments;
+    void bindMacroPage();
     std::array<juce::Slider,17> motionPoints;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> motionDepthAttachment;
     juce::ComboBox delaySync, delayMode, reverbSpace, sampleLoop, sampleReverse, filterMode, voiceMode;

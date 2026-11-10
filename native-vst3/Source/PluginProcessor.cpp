@@ -47,9 +47,15 @@ APVTS::ParameterLayout makeLayout(){
         const auto suffix=juce::String(i);
         p.add(std::make_unique<juce::AudioParameterFloat>(
             juce::ParameterID{"macro"+suffix,1},macros[i],juce::NormalisableRange<float>(-1.0f,1.0f),0.0f));
-        p.add(std::make_unique<juce::AudioParameterChoice>(
-            juce::ParameterID{"macroRoute"+suffix,1},macros[i]+" Destination",
-            SpaceInfinityProcessor::macroTargets(),i+1));
+        for(int slot=0;slot<3;++slot){
+            const auto label=macros[i]+" Route "+juce::String(slot+1);
+            p.add(std::make_unique<juce::AudioParameterChoice>(
+                juce::ParameterID{SpaceInfinityProcessor::macroRouteId(i,slot,false),1},
+                label+" Destination",SpaceInfinityProcessor::macroTargets(),slot==0?i+1:0));
+            p.add(std::make_unique<juce::AudioParameterFloat>(
+                juce::ParameterID{SpaceInfinityProcessor::macroRouteId(i,slot,true),1},
+                label+" Depth",juce::NormalisableRange<float>(-1.0f,1.0f),1.0f));
+        }
     }
     choice("voiceMode","Voice Mode",{"Poly","Mono","Legato"},0);
     choice("filterMode","Filter Mode",{"Classic LP","Resonant LP","High-pass","Band-pass","24 dB LP"},0);
@@ -107,7 +113,10 @@ SpaceInfinityProcessor::SpaceInfinityProcessor():juce::AudioProcessor(BusesPrope
     for(size_t i=0;i<macroValues.size();++i){
         const auto suffix=juce::String(int(i));
         macroValues[i]=state.getRawParameterValue("macro"+suffix);
-        macroRoutes[i]=state.getRawParameterValue("macroRoute"+suffix);
+        for(int slot=0;slot<3;++slot){
+            macroRoutes[i][size_t(slot)]=state.getRawParameterValue(macroRouteId(int(i),slot,false));
+            macroDepths[i][size_t(slot)]=state.getRawParameterValue(macroRouteId(int(i),slot,true));
+        }
     }
     decodeSample(juce::MemoryBlock{BinaryData::Orbital_Choir_Ah_Chord_F2_wav,
                   BinaryData::Orbital_Choir_Ah_Chord_F2_wavSize}, choirAh);
@@ -116,8 +125,13 @@ SpaceInfinityProcessor::SpaceInfinityProcessor():juce::AudioProcessor(BusesPrope
 }
 juce::String SpaceInfinityProcessor::motionPointId(int index){return "motionPoint"+juce::String(index);}
 juce::StringArray SpaceInfinityProcessor::macroNames(){return {"Energy","Width","Space","Shape"};}
+juce::String SpaceInfinityProcessor::macroRouteId(int macro,int slot,bool depth){
+    auto id=(depth?"macroDepth":"macroRoute")+juce::String(macro);
+    if(slot>0)id+="_"+juce::String(slot);
+    return id;
+}
 juce::StringArray SpaceInfinityProcessor::macroTargets(){
-    return {"Off","Cutoff","Detune","Reverb","Attack","Drive","Delay","Chorus","Layer mix","Release"};
+    return {"Off","Cutoff","Detune","Reverb","Attack","Drive","Delay","Chorus","Layer mix","Release","Resonance","Noise","Osc 1 Width","Osc 2 Width","Output","Decay","Sustain","Motion Depth","LFO Rate","LFO Depth"};
 }
 juce::StringArray SpaceInfinityProcessor::motionNames(){
     return {"Slow Rise","Rise and Fall","Rise into Gate","Late Bloom","Long Fall","Soft Pulse",
@@ -248,22 +262,27 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     juce::ScopedNoDenormals noDenormals;
     b.clear(); if(b.getNumChannels()<2)return;
     auto* left=b.getWritePointer(0);auto* right=b.getWritePointer(1);
-    std::array<float,10> modulation{};
+    std::array<float,20> modulation{};
     for(size_t i=0;i<macroValues.size();++i){
-        const auto route=size_t(juce::jlimit(0,9,int(macroRoutes[i]->load())));
-        modulation[route]+=macroValues[i]->load();
+        const float value=macroValues[i]->load();
+        for(size_t slot=0;slot<macroRoutes[i].size();++slot){
+            const auto route=size_t(juce::jlimit(0,int(modulation.size()-1),int(macroRoutes[i][slot]->load())));
+            modulation[route]+=value*macroDepths[i][slot]->load();
+        }
     }
     const float attack=juce::jlimit(0.0f,1.5f,param("attack")*std::exp2(modulation[4]*3));
     const float release=juce::jlimit(0.0f,1.5f,param("release")*std::exp2(modulation[9]*2));
     const float mix=juce::jlimit(0.0f,1.0f,param("mix")+0.4f*modulation[8]);
     const float detune=juce::jlimit(0.0f,0.04f,param("detune")+0.02f*modulation[2]);
     const float cutoff=param("cutoff")*std::exp2(modulation[1]*2);
-    const float res=param("res"),lfoRate=param("lforate"),lfoDepth=param("lfodepth");
+    const float res=juce::jlimit(0.0f,0.95f,param("res")+0.4f*modulation[10]);
+    const float lfoRate=juce::jlimit(0.1f,12.0f,param("lforate")*std::exp2(modulation[18]*2));
+    const float lfoDepth=juce::jlimit(0.0f,1.0f,param("lfodepth")+0.5f*modulation[19]);
     const float drive=juce::jlimit(0.0f,1.0f,param("drive")+0.45f*modulation[5]);
-    const float sustain=param("ampSustain");
+    const float sustain=juce::jlimit(0.0f,1.0f,param("ampSustain")+0.5f*modulation[16]);
     const float attackStep=float(1.0/std::max(1.0,double(attack)*sr));
     const float legacyAttackStep=attack==0.0f?1.0f:float(1.0-std::exp(-double(attackStep)));
-    const float decayStep=float(1.0/std::max(1.0,double(param("ampDecay"))*sr));
+    const float decayStep=float(1.0/std::max(1.0,juce::jlimit(0.005,8.0,double(param("ampDecay"))*std::exp2(double(modulation[15])*2))*sr));
     const float releaseFactor=release==0.0f?0.0f:float(std::exp(-1.0/(double(release)*sr)));
     const float osc1Gain=param("osc1Enabled")>0.5f?1.0f-mix:0.0f;
     const float osc2Gain=param("osc2Enabled")>0.5f?mix:0.0f;
@@ -282,9 +301,10 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     };
     prepareStack(unisonRates1,unison1);
     prepareStack(unisonRates2,unison2);
-    const float noiseLevel=param("noiseLevel");
+    const float noiseLevel=juce::jlimit(0.0f,1.0f,param("noiseLevel")+0.5f*modulation[11]);
     const int noiseType=int(param("noiseType"));
-    const float width1=param("osc1Width"),width2=param("osc2Width");
+    const float width1=juce::jlimit(0.0f,1.0f,param("osc1Width")+0.5f*modulation[12]);
+    const float width2=juce::jlimit(0.0f,1.0f,param("osc2Width")+0.5f*modulation[13]);
     const int filterMode=int(param("filterMode"));
     const float filterDamping=1.4142f-res*1.34f;
     const int source=int(param("source")), root=int(param("sampleRoot"));
@@ -292,7 +312,7 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     pitchBend.setTargetValue(juce::jlimit(-24.0f,24.0f,hostBend+midiBend));
     const juce::SpinLock::ScopedTryLockType sampleGuard(sampleLock);
     std::array<float,17> motion{};
-    const float motionDepth=param("motionDepth");
+    const float motionDepth=juce::jlimit(0.0f,1.0f,param("motionDepth")+0.5f*modulation[17]);
     for(size_t i=0;i<motion.size();++i)
         motion[i]=motionParameters[i]->load();
     const double motionStep=delayBpm/(240.0*sr*std::exp2(param("motionBars")));
@@ -478,7 +498,7 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     params.roomSize=roomSize[space];params.damping=damping[space];
     params.wetLevel=juce::jlimit(0.0f,0.8f,param("reverb")+0.4f*modulation[3])*.65f;params.dryLevel=1-params.wetLevel*.35f;params.width=1;
     reverb.setParameters(params);reverb.processStereo(left,right,b.getNumSamples());
-    b.applyGain(param("gain"));
+    b.applyGain(juce::jlimit(0.0f,1.2f,param("gain")+0.5f*modulation[14]));
     const float peak=b.getMagnitude(0,b.getNumSamples());
     auto previous=outputPeak.load(std::memory_order_relaxed);
     while(peak>previous&&!outputPeak.compare_exchange_weak(previous,peak,std::memory_order_relaxed)) {}
@@ -773,8 +793,11 @@ void SpaceInfinityProcessor::loadPreset(int index){
     set("motionDepth",patch.motionDepth);
     for(int i=0;i<4;++i){
         state.getParameter("macro"+juce::String(i))->setValueNotifyingHost(0.5f);
-        auto* route=state.getParameter("macroRoute"+juce::String(i));
-        route->setValueNotifyingHost(route->convertTo0to1(float(i+1)));
+        for(int slot=0;slot<3;++slot){
+            auto* route=state.getParameter(macroRouteId(i,slot,false));
+            route->setValueNotifyingHost(route->convertTo0to1(slot==0?float(i+1):0.0f));
+            state.getParameter(macroRouteId(i,slot,true))->setValueNotifyingHost(1.0f);
+        }
     }
     loadMotionShape(patch.motionShape);
 }
