@@ -565,6 +565,7 @@ void SpaceInfinityEditor::updatePage(){
         labels[size_t(index)].setVisible(false);
     }
     compAmount.setVisible(false);
+    knobs[12].setSliderStyle(fxPage?juce::Slider::LinearHorizontal:juce::Slider::LinearVertical);
     knobs[12].setVisible(true);
     labels[12].setVisible(true);
     routesButton.setVisible(!fxPage);
@@ -724,7 +725,6 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         g.setColour(juce::Colour(0xffc2b5a4));
         g.drawText("TIMING",delaySync.getBounds().translated(0,-15).withHeight(13),juce::Justification::centredLeft);
         g.drawText("SPACE",reverbSpace.getBounds().translated(0,-15).withHeight(13),juce::Justification::centredLeft);
-        g.drawText("OUTPUT",knobs[12].getBounds().translated(-57,0).withWidth(54),juce::Justification::centredLeft);
     }else{
         const auto layout=mainLayout(getWidth(),getHeight());
         for(const auto region:{layout.oscillators[0],layout.oscillators[1],layout.filter,layout.macros,layout.envelope,layout.motion})
@@ -876,6 +876,7 @@ void SpaceInfinityEditor::resized(){
     }
     filterMode.setBounds(layout.filter.getX()+8,layout.filter.getBottom()-71,layout.filter.getWidth()-70,22);
     voiceMode.setBounds(layout.filter.getX()+8,layout.filter.getBottom()-32,juce::jmax(95,layout.filter.getWidth()-70),23);
+    labels[12].setText("OUT",juce::dontSendNotification);
     labels[12].setBounds(layout.filter.getRight()-58,layout.filter.getY()+24,45,13);
     knobs[12].setBounds(layout.filter.getRight()-59,layout.filter.getY()+42,44,layout.filter.getHeight()-50);
     meterBounds={layout.filter.getRight()-12,layout.filter.getY()+48,6,layout.filter.getHeight()-65};
@@ -894,6 +895,8 @@ void SpaceInfinityEditor::resized(){
     for(int i=0;i<4;++i){
         auto cell=envelopeKnobs.removeFromLeft(envelopeKnobs.getWidth()/(4-i)).reduced(1,0);
         const auto index=size_t(envIndices[i]);
+        labels[index].setText(index==14?"SUSTAIN":index==2?"ATTACK":index==3?"RELEASE":"DECAY",juce::dontSendNotification);
+        labels[index].setFont(juce::Font(juce::FontOptions(11.0f)));
         labels[index].setBounds(cell.removeFromTop(15));
         knobs[index].setBounds(cell);
     }
@@ -949,7 +952,8 @@ void SpaceInfinityEditor::resized(){
     }
     eqButton.setBounds(36,h-53,155,29);
     if(fxPage){
-        labels[12].setBounds(w-255,h-58,45,18);
+        labels[12].setText("OUTPUT",juce::dontSendNotification);
+        labels[12].setBounds(w-285,h-52,65,22);
         knobs[12].setBounds(w-205,h-56,155,35);
         meterBounds={w-43,h-56,8,35};
     }
