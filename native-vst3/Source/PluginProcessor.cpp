@@ -14,6 +14,8 @@ APVTS::ParameterLayout makeLayout(){
     f("ampSustain","Amp Sustain",0.0f,1.0f,1.0f);
     p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{"osc1Enabled",1},"Oscillator 1 Enabled",true));
     p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{"osc2Enabled",1},"Oscillator 2 Enabled",true));
+    p.add(std::make_unique<juce::AudioParameterInt>(juce::ParameterID{"osc1Unison",1},"Oscillator 1 Unison",1,16,1));
+    p.add(std::make_unique<juce::AudioParameterInt>(juce::ParameterID{"osc2Unison",1},"Oscillator 2 Unison",1,16,1));
     f("osc1Tune","Oscillator 1 Fine Tune",-50.0f,50.0f,0.0f);
     f("osc2Tune","Oscillator 2 Fine Tune",-50.0f,50.0f,0.0f);
     f("osc1Width","Oscillator 1 Width",0.0f,1.0f,0.0f);
@@ -230,6 +232,16 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     const int secondWave=waveChoice==0?wave:waveChoice-1;
     const double tune1=std::exp2(param("osc1Tune")/1200.0);
     const double tune2=std::exp2(param("osc2Tune")/1200.0);
+    const int unison1=int(param("osc1Unison")),unison2=int(param("osc2Unison"));
+    std::array<double,16> unisonRates1{},unisonRates2{};
+    const auto prepareStack=[detune](auto& rates,int count){
+        for(int i=0;i<count;++i){
+            const double spread=count==1?0.0:2.0*i/(count-1)-1.0;
+            rates[size_t(i)]=std::exp2(spread*detune*0.75);
+        }
+    };
+    prepareStack(unisonRates1,unison1);
+    prepareStack(unisonRates2,unison2);
     const float width1=param("osc1Width"),width2=param("osc2Width");
     const int filterMode=int(param("filterMode"));
     const float filterDamping=1.4142f-res*1.34f;
@@ -320,12 +332,25 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
                 v.samplePosition+=v.sampleStep*bendRatio;
             }else{
             const double freq=440.0*bendRatio*std::pow(2.0,(v.note-69.0)/12.0);
-            v.phase+=freq*tune1/sr;v.phase2+=freq*tune2*(1.0+detune+0.003*lfo*lfoDepth)/sr;
-            if(v.phase>=1)v.phase-=std::floor(v.phase);if(v.phase2>=1)v.phase2-=std::floor(v.phase2);
-            const float first=osc(v.phase,wave), second=osc(v.phase2,secondWave);
-            raw=first*osc1Gain+second*osc2Gain;
-            if(width1>0.0f)rawSide+=width1*osc1Gain*(first-osc(v.phase+0.19,wave))*0.5f;
-            if(width2>0.0f)rawSide+=width2*osc2Gain*(second-osc(v.phase2+0.31,secondWave))*0.5f;
+            const auto stack=[&](double& phase,auto& extras,double rate,const auto& rates,
+                                  int count,int shape,float width,float gain,double offset){
+                if(gain==0.0f)return;
+                const float level=gain/float(count);
+                for(int i=0;i<count;++i){
+                    auto& position=i==0?phase:extras[size_t(i-1)];
+                    position+=rate*rates[size_t(i)];
+                    position-=std::floor(position);
+                    const float sample=osc(position,shape);
+                    raw+=sample*level;
+                    if(width>0.0f){
+                        if(count==1)rawSide+=width*level*(sample-osc(position+offset,shape))*0.5f;
+                        else rawSide+=sample*level*width*(2.0f*float(i)/float(count-1)-1.0f);
+                    }
+                }
+            };
+            stack(v.phase,v.extraPhase1,freq*tune1/sr,unisonRates1,unison1,wave,width1,osc1Gain,0.19);
+            stack(v.phase2,v.extraPhase2,freq*tune2*(1.0+detune+0.003*lfo*lfoDepth)/sr,
+                  unisonRates2,unison2,secondWave,width2,osc2Gain,0.31);
             }
             float filtered;
             if(filterMode==0){
@@ -679,6 +704,8 @@ void SpaceInfinityProcessor::loadPreset(int index){
         set(ids[i],i==2||i==3?juce::jlimit(0.0f,1.5f,patch.values[i]):patch.values[i]);
     set("source",float(patch.source));
     set("osc1Enabled",1.0f);
+    set("osc1Unison",1.0f);
+    set("osc2Unison",1.0f);
     for(const auto* id:{"osc1Tune","osc2Tune","osc1Width","osc2Width","osc2Wave"})set(id,0.0f);
     set("osc2Enabled",1.0f);
     set("filterMode",float(patch.filterMode));

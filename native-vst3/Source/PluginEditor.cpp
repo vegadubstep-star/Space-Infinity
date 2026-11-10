@@ -208,6 +208,15 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         slider.textFromValueFunction=[i](double value){return juce::String(value,i%2==0?1:2);};
         slider.updateText();
     }
+    for(size_t i=0;i<unisonSliders.size();++i){
+        auto& slider=unisonSliders[i];
+        slider.setSliderStyle(juce::Slider::IncDecButtons);
+        slider.setTextBoxStyle(juce::Slider::TextBoxLeft,false,24,18);
+        slider.setTooltip("Unison voices (1–16)");
+        addAndMakeVisible(slider);
+        attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
+            processor.state,i==0?"osc1Unison":"osc2Unison",slider));
+    }
     bindChoice(voiceMode,"voiceMode",{"Poly","Mono","Legato"});
     bindChoice(filterMode,"filterMode",{"Classic LP","Resonant LP","High-pass","Band-pass","24 dB LP"});
     bindChoice(sampleLoop,"sampleLoop",{"Loop off","Loop on"});
@@ -416,6 +425,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         g.setColour(juce::Colour(0xffc8bcb0));
         g.drawText(i==0?"OSC 1     WAVEFORM":"OSC 2     WAVEFORM",strip.getX()+6,264,100,14,juce::Justification::centredLeft);
         g.drawText("FINE TUNE",oscillatorSliders[size_t(i*2)].getX(),264,75,14,juce::Justification::centredLeft);
+        g.drawText("UNISON",unisonSliders[size_t(i)].getX(),264,55,14,juce::Justification::centredLeft);
         g.drawText("WIDTH",oscillatorSliders[size_t(i*2+1)].getX(),264,65,14,juce::Justification::centredLeft);
     }
     g.setFont(12.0f);
@@ -474,6 +484,7 @@ void SpaceInfinityEditor::resized(){
     auto oscillatorRow=juce::Rectangle<int>(30,265,w-60,36);
     for(int i=0;i<2;++i){
         auto strip=oscillatorRow.removeFromLeft((w-60)/2).reduced(5,0).withTrimmedTop(14);
+        unisonSliders[size_t(i)].setBounds(strip.removeFromRight(62).reduced(2,0));
         auto& selector=i==0?waveform:waveform2;
         selector.setBounds(strip.removeFromLeft(strip.getWidth()/3).reduced(2,0));
         oscillatorSliders[size_t(i*2)].setBounds(strip.removeFromLeft(strip.getWidth()/2).reduced(2,0));
