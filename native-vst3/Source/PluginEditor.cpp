@@ -86,6 +86,20 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         presets.getRootMenu()->addSubMenu(bank,items);
     }
     presets.setTextWhenNothingSelected("Select a sound");presets.onChange=[this]{processor.loadPreset(presets.getSelectedId()-1);};addAndMakeVisible(presets);
+    const auto stepPreset=[this](int direction){
+        const int count=SpaceInfinityProcessor::presetNames().size();
+        const int current=presets.getSelectedId();
+        const int next=current==0 ? (direction>0?1:count) : (current-1+direction+count)%count+1;
+        presets.setSelectedId(next,juce::sendNotificationSync);
+    };
+    previousPreset.setName("Previous preset");
+    nextPreset.setName("Next preset");
+    previousPreset.setTooltip("Previous preset");
+    nextPreset.setTooltip("Next preset");
+    previousPreset.onClick=[stepPreset]{stepPreset(-1);};
+    nextPreset.onClick=[stepPreset]{stepPreset(1);};
+    addAndMakeVisible(previousPreset);
+    addAndMakeVisible(nextPreset);
     waveform.addItemList({"Saw","Pulse","Sine","Triangle"},1);addAndMakeVisible(waveform);
     waveform.onChange=[this]{repaint();};
     waveAttachment=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"wave",waveform);
@@ -310,7 +324,9 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
 }
 void SpaceInfinityEditor::resized(){
     const int w=getWidth();title.setBounds(34,23,300,40);subtitle.setBounds(35,64,450,24);
-    presets.setBounds(w-290,31,252,28);waveform.setBounds(w-290,72,252,26);
+    presets.setBounds(w-290,31,186,28);
+    previousPreset.setBounds(w-100,31,29,28);
+    nextPreset.setBounds(w-67,31,29,28);waveform.setBounds(w-290,72,252,26);
     source.setBounds(34,getHeight()-37,152,24);
     importButton.setBounds(194,getHeight()-37,104,24);
     sampleRoot.setBounds(306,getHeight()-37,116,24);

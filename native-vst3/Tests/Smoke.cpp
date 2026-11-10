@@ -22,6 +22,18 @@ int main()
         if(box && box->getTextWhenNothingSelected()=="Select a sound") factoryMenu=box;
     }
     if(!factoryMenu) return 10;
+    juce::TextButton* previous=nullptr;
+    juce::TextButton* next=nullptr;
+    for(auto* child:editor->getChildren()){
+        if(child->getName()=="Previous preset") previous=dynamic_cast<juce::TextButton*>(child);
+        if(child->getName()=="Next preset") next=dynamic_cast<juce::TextButton*>(child);
+    }
+    if(!previous || !next) return 22;
+    factoryMenu->setSelectedId(names.size(),juce::dontSendNotification);
+    next->onClick();
+    if(factoryMenu->getSelectedId()!=1) return 23;
+    previous->onClick();
+    if(factoryMenu->getSelectedId()!=names.size()) return 24;
     auto* cutoff=synth.state.getParameter("cutoff");
 
     const auto audition=juce::File::getCurrentWorkingDirectory().getChildFile("audition");
