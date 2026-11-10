@@ -8,6 +8,7 @@ public:
     void resized() override;
 private:
     void timerCallback() override;
+    juce::TooltipWindow controlTips{this,650};
     void mouseDown(const juce::MouseEvent&) override;
     void mouseDrag(const juce::MouseEvent&) override;
     void mouseUp(const juce::MouseEvent&) override;
