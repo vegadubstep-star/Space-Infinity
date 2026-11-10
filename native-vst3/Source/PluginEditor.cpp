@@ -167,7 +167,8 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     motionDepth.setTooltip("Motion amount to filter cutoff");
     addAndMakeVisible(motionDepth);
     motionDepthAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"motionDepth",motionDepth);
-    motionDepth.setNumDecimalPlacesToDisplay(2);
+    motionDepth.textFromValueFunction=[](double value){return juce::String(value,2);};
+    motionDepth.updateText();
     for(size_t i=0;i<motionPoints.size();++i){
         auto& point=motionPoints[i];
         point.setSliderStyle(juce::Slider::LinearVertical);
@@ -209,7 +210,8 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         trim.setTextBoxStyle(juce::Slider::TextBoxRight,false,44,20);
         addAndMakeVisible(trim);
         trimAttachments[i]=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,trimIds[i],trim);
-        trim.setNumDecimalPlacesToDisplay(2);
+        trim.textFromValueFunction=[](double value){return juce::String(value,2);};
+        trim.updateText();
     }
     bindChoice(delaySync,"delaySync",{"Free delay","1/16","1/8","Dotted 1/8","1/4"});
     bindChoice(delayMode,"delayMode",{"Stereo","Ping-pong"});
@@ -228,7 +230,8 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     pitchWheel.setTooltip("Pitch Wheel ±24 semitones. Double-click to centre.");
     addAndMakeVisible(pitchWheel);
     pitchAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"pitchBend",pitchWheel);
-    pitchWheel.setNumDecimalPlacesToDisplay(1);
+    pitchWheel.textFromValueFunction=[](double value){return juce::String(value,1)+" st";};
+    pitchWheel.updateText();
     const char* ids[]={"cutoff","res","attack","release","detune","mix","drive","chorus","delay","reverb","lforate","lfodepth","gain","ampDecay","ampSustain"};
     const int decimals[]={0,2,3,3,3,2,2,2,2,2,2,2,2,3,2};
     const char* units[]={" Hz",""," s"," s","","","","","",""," Hz","",""," s",""};
@@ -241,7 +244,12 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         auto& label=labels[i];label.setText(texts[i],juce::dontSendNotification);label.setJustificationType(juce::Justification::centred);label.setColour(juce::Label::textColourId,juce::Colour(0xffc0c0ca));addAndMakeVisible(label);
         attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,ids[i],slider));
         slider.setNumDecimalPlacesToDisplay(decimals[i]);
-        slider.setTextValueSuffix(units[i]);
+        const auto suffix=juce::String(units[i]);
+        const int precision=decimals[i];
+        slider.textFromValueFunction=[suffix,precision](double value){
+            return juce::String(value,precision)+suffix;
+        };
+        slider.updateText();
         if(i==2 || i==3 || i==13 || i==14 || i==12){
             slider.setSliderStyle(juce::Slider::LinearVertical);
             slider.setColour(juce::Slider::thumbColourId,juce::Colour(0xffd48d42));
