@@ -313,6 +313,7 @@ juce::Result SpaceInfinityProcessor::importSample(const juce::File& file){
 void SpaceInfinityProcessor::prepareToPlay(double sampleRate,int maxSamples){
     sr=sampleRate;
     eqState={};
+    previousOutputGain=param("gain");
     analogueAmount.reset(sr,0.04);
     analogueAmount.setCurrentAndTargetValue(param("analogueCharacter"));
     analogueCutoff.reset(sr,.02);
@@ -830,7 +831,9 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
             }
         }
     }else eqState={};
-    b.applyGain(juce::jlimit(0.0f,1.2f,param("gain")+0.5f*fxModulation[14]));
+    const float outputGain=juce::jlimit(0.0f,1.2f,param("gain")+0.5f*fxModulation[14]);
+    b.applyGainRamp(0,b.getNumSamples(),previousOutputGain,outputGain);
+    previousOutputGain=outputGain;
     const float peak=b.getMagnitude(0,b.getNumSamples());
     auto previous=outputPeak.load(std::memory_order_relaxed);
     while(peak>previous&&!outputPeak.compare_exchange_weak(previous,peak,std::memory_order_relaxed)) {}
@@ -858,8 +861,11 @@ void SpaceInfinityProcessor::setStateInformation(const void* data,int size){auto
         std::swap(importedBytes,bytes);
         ++sampleRevision;
     }
-    if(xml->getChildByAttribute("id","analogueCharacter")==nullptr)
-        state.getParameter("analogueCharacter")->setValueNotifyingHost(0.0f);
+    for(auto* parameter:getParameters()){
+        if(auto* ranged=dynamic_cast<juce::RangedAudioParameter*>(parameter))
+            if(xml->getChildByAttribute("id",ranged->paramID)==nullptr)
+                ranged->setValueNotifyingHost(ranged->getDefaultValue());
+    }
     state.replaceState(juce::ValueTree::fromXml(*xml));}
 namespace {
 struct FactoryPatch {

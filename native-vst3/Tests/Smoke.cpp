@@ -266,5 +266,19 @@ int main()
     depthBadge->mouseDrag(event(depthBadge,decrease,grab,juce::ModifierKeys::leftButtonModifier,true));
     depthBadge->mouseUp(event(depthBadge,decrease,grab,0,true));
     if(macroDepth->convertFrom0to1(macroDepth->getValue())>=0.0f || cutoff->getValue()!=unchangedCutoff)return 40;
+    auto legacyState=synth.state.copyState();
+    for(int child=legacyState.getNumChildren()-1;child>=0;--child){
+        const auto id=legacyState.getChild(child).getProperty("id").toString();
+        if(id.startsWith("modRoute")||id.startsWith("modDepth")||id.startsWith("designerLfo")||id=="analogueCharacter")
+            legacyState.removeChild(child,nullptr);
+    }
+    auto legacyXml=legacyState.createXml();
+    juce::MemoryBlock legacyBytes;
+    juce::AudioProcessor::copyXmlToBinary(*legacyXml,legacyBytes);
+    synth.setStateInformation(legacyBytes.getData(),int(legacyBytes.getSize()));
+    if(synth.state.getRawParameterValue("analogueCharacter")->load()!=0.0f)return 41;
+    for(int source=4;source<8;++source)
+        for(int slot=0;slot<3;++slot)
+            if(synth.state.getRawParameterValue(synth.modulationRouteId(source,slot,false))->load()!=0.0f)return 42;
     std::cout << "Factory peaks " << quietest << " to " << loudest << '\n';
 }

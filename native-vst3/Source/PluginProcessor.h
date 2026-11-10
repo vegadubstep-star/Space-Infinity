@@ -89,7 +89,7 @@ private:
     juce::SmoothedValue<float> delaySamples, delayWet, bandMix;
     float delayToneL=0,delayToneR=0;
     double delayBpm=120;
-    float midiBend=0;
+    float midiBend=0,previousOutputGain=.65f;
     juce::SmoothedValue<float> pitchBend, analogueAmount, analogueCutoff, analogueResonance;
     juce::dsp::DelayLine<float,juce::dsp::DelayLineInterpolationTypes::Linear> delayL{192000},delayR{192000};
     struct HeldNote { uint64_t order=0; float velocity=0.0f; };

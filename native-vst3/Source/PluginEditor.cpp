@@ -207,7 +207,7 @@ MainLayout mainLayout(int width,int height){
     result.oscillators[1]={margin+oscillatorWidth,top,oscillatorWidth-gap,topHeight};
     result.filter={margin+oscillatorWidth*2,top,total-oscillatorWidth*2,topHeight};
     const int lower=top+topHeight+gap;
-    const int lowerHeight=height-120-lower;
+    const int lowerHeight=height-80-lower;
     const int macroWidth=juce::jlimit(132,180,total/5);
     const int envelopeWidth=juce::jlimit(200,290,total*29/100);
     result.macros={margin,lower,macroWidth,lowerHeight};
@@ -317,7 +317,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     setLookAndFeel(&hardwareLook);
     setResizable(true,true);setResizeLimits(800,760,1500,950);setSize(1000,790);
     title.setText("SPACE  INFINITY",juce::dontSendNotification);title.setFont(juce::Font(juce::FontOptions(30.0f,juce::Font::bold)));title.setColour(juce::Label::textColourId,juce::Colours::white);addAndMakeVisible(title);
-    subtitle.setText("HYBRID HARDWARE-INSPIRED SYNTHESIS",juce::dontSendNotification);subtitle.setColour(juce::Label::textColourId,juce::Colour(0xffc0c0c8));addAndMakeVisible(subtitle);
+    subtitle.setText("DRAG A SOURCE TO A CONTROL. DRAG ITS BADGE FOR DEPTH.",juce::dontSendNotification);subtitle.setColour(juce::Label::textColourId,juce::Colour(0xffc0c0c8));addAndMakeVisible(subtitle);
     const auto& factoryNames=SpaceInfinityProcessor::presetNames();
     juce::StringArray banks;
     for(int i=0;i<factoryNames.size();++i)
@@ -989,12 +989,16 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         g.setColour(juce::Colour(selectedSource==7?0xff665172:0xff353b3c));
         g.fillRoundedRectangle(envelopeTab.toFloat(),2.0f);
         g.setColour(juce::Colour(0xffdfd2eb));
-        g.drawText("AMP ENV  +",envelopeTab,juce::Justification::centredLeft);
+        int envelopeRoutes=0;
+        for(int slot=0;slot<3;++slot)if(processor.state.getRawParameterValue(processor.modulationRouteId(7,slot,false))->load()>.5f)++envelopeRoutes;
+        g.drawText("AMP ENV  ("+juce::String(envelopeRoutes)+") +",envelopeTab,juce::Justification::centredLeft);
         for(size_t lfo=0;lfo<lfoTabs.size();++lfo){
             g.setColour(juce::Colour(selectedLfo==int(lfo)?0xff294f59:0xff303738));
             g.fillRoundedRectangle(lfoTabs[lfo].toFloat(),2.0f);
             g.setColour(juce::Colour(0xffc9e0e5));
-            g.drawText("LFO "+juce::String(int(lfo+1))+"  +",lfoTabs[lfo],juce::Justification::centred);
+            int count=0;
+            for(int slot=0;slot<3;++slot)if(processor.state.getRawParameterValue(processor.modulationRouteId(int(lfo)+4,slot,false))->load()>.5f)++count;
+            g.drawText("LFO "+juce::String(int(lfo+1))+" ("+juce::String(count)+") +",lfoTabs[lfo],juce::Justification::centred);
         }
         const auto names=SpaceInfinityProcessor::macroNames();
         for(size_t i=0;i<macros.size();++i){
