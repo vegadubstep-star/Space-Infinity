@@ -54,6 +54,10 @@ private:
     juce::ToggleButton osc1{"OSC 1"}, osc2{"OSC 2"};
     std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment>,2> oscAttachments;
     juce::TextButton warpA{"WARP"}, warpB{"WARP"};
+    juce::TextButton mainTab{"MAIN"}, fxTab{"FX"}, routesButton{"Macro routes"};
+    std::vector<juce::Component*> mainControls;
+    bool fxPage=false, routesVisible=false;
+    void updatePage();
     juce::TextButton eqButton{"EQ"};
     juce::TextButton previousPreset{"<"}, nextPreset{">"};
     juce::TextButton importButton{"Import WAV"};

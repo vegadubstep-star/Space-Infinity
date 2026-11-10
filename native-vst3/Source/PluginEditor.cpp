@@ -433,6 +433,16 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         }
         slider.onValueChange=[this]{repaint();};
     }
+    for(auto* child:getChildren())
+        if(child->isVisible()&&child!=&title&&child!=&subtitle&&child!=&presets
+           &&child!=&previousPreset&&child!=&nextPreset)mainControls.push_back(child);
+    addAndMakeVisible(mainTab);
+    addAndMakeVisible(fxTab);
+    addAndMakeVisible(routesButton);
+    mainTab.onClick=[this]{fxPage=false;updatePage();};
+    fxTab.onClick=[this]{fxPage=true;updatePage();};
+    routesButton.onClick=[this]{routesVisible=!routesVisible;updatePage();};
+    updatePage();
     startTimerHz(30);
 }
 SpaceInfinityEditor::~SpaceInfinityEditor(){stopTimer();setLookAndFeel(nullptr);}
@@ -441,6 +451,26 @@ void SpaceInfinityEditor::timerCallback(){
     meterPeak=juce::jmax(peak,meterPeak*0.88f);
     clipHold=peak>=1.0f?30:juce::jmax(0,clipHold-1);
     repaint(meterBounds);
+}
+void SpaceInfinityEditor::updatePage(){
+    for(auto* control:mainControls)control->setVisible(!fxPage);
+    for(const int index:{7,8,9,15,16}){
+        knobs[size_t(index)].setVisible(fxPage);
+        labels[size_t(index)].setVisible(fxPage);
+    }
+    for(juce::Component* effect:std::array<juce::Component*,5>{&delaySync,&delayMode,&reverbSpace,&compAmount,&eqButton})
+        effect->setVisible(fxPage);
+    routesButton.setVisible(!fxPage);
+    routesButton.setButtonText(routesVisible?"Hide routes":"Macro routes");
+    macroSlot.setVisible(!fxPage&&routesVisible);
+    for(size_t i=0;i<macros.size();++i){
+        macroRoutes[i].setVisible(!fxPage&&routesVisible);
+        routeDepth[i].setVisible(!fxPage&&routesVisible);
+    }
+    mainTab.setToggleState(!fxPage,juce::dontSendNotification);
+    fxTab.setToggleState(fxPage,juce::dontSendNotification);
+    resized();
+    repaint();
 }
 void SpaceInfinityEditor::bindMacroPage(){
     const int slot=juce::jlimit(0,2,macroSlot.getSelectedId()-1);
@@ -489,8 +519,11 @@ void SpaceInfinityEditor::assignMacro(int macro,int target,bool inverted){
     depth->setValueNotifyingHost(depth->convertTo0to1(inverted?-0.5f:0.5f));
     depth->endChangeGesture();
     macroSlot.setSelectedId(available+1,juce::sendNotificationSync);
+    routesVisible=true;
+    updatePage();
 }
 void SpaceInfinityEditor::mouseDown(const juce::MouseEvent& e){
+    if(fxPage)return;
     if(e.mods.isLeftButtonDown()){
         for(size_t i=0;i<macros.size();++i){
             const auto handle=macros[i].getBounds().translated(0,-13).withHeight(13);
@@ -594,6 +627,18 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     }
     g.setColour(juce::Colour(0xffc3c1bd));
     g.setFont(12.0f);
+    if(fxPage){
+        const auto deck=juce::Rectangle<int>(30,146,getWidth()-60,getHeight()-174);
+        drawInset(g,deck.toFloat());
+        g.setColour(juce::Colour(0xffd6b697));
+        g.setFont(18.0f);
+        g.drawText("EFFECTS",deck.reduced(14).withHeight(27),juce::Justification::centredLeft);
+        g.setFont(12.0f);
+        const char* names[]={"DELAY TIMING","DELAY MODE","REVERB TYPE","COMPRESSION","EQUALISER"};
+        const juce::Component* controls[]={&delaySync,&delayMode,&reverbSpace,&compAmount,&eqButton};
+        for(size_t i=0;i<std::size(controls);++i)
+            g.drawText(names[i],controls[i]->getBounds().translated(0,-21).withHeight(18),juce::Justification::centred);
+    }else{
     drawInset(g,juce::Rectangle<float>(26.0f,float(getHeight()-69),float(getWidth()-52),60.0f));
     g.setColour(juce::Colour(0xffc3c1bd));
     g.drawText("SAMPLER",getWidth()-132,getHeight()-65,95,22,juce::Justification::centredRight);
@@ -631,7 +676,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         g.setColour(juce::Colour(0xffe1c9ae));
         g.drawText(macroNames[int(i)]+"  +",handle,juce::Justification::centred);
     }
-    g.drawText("SIGNAL PATH",34,116,350,20,juce::Justification::left);
+    g.drawText("SIGNAL PATH",188,116,110,20,juce::Justification::left);
     drawInset(g,juce::Rectangle<float>(float(getWidth()-344),22.0f,318.0f,81.0f));
     g.setFont(10.0f);
     g.setColour(juce::Colour(0xffb5a6a0));
@@ -641,7 +686,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         const auto panel=panelBounds(getWidth(),getHeight(),i);
         drawInset(g,panel.toFloat());
         g.setColour(juce::Colour(0xffb7b1a8));
-        g.drawText(panels[i].title,panel.reduced(8,2).withHeight(16),juce::Justification::centredLeft);
+        g.drawText(i==4?"05   MASTER OUTPUT":panels[i].title,panel.reduced(8,2).withHeight(16),juce::Justification::centredLeft);
     }
     const float db=juce::Decibels::gainToDecibels(meterPeak,-60.0f);
     for(int segment=0;segment<12;++segment){
@@ -665,12 +710,15 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         const auto oct=octaveControls[size_t(i+1)].getBounds();
         g.drawText("OCT",oct.getX()-30,oct.getY(),26,oct.getHeight(),juce::Justification::right);
     }
-    g.drawText("COMP",compAmount.getX(),compAmount.getY()-13,compAmount.getWidth(),13,juce::Justification::centred);
+    }
+    g.setColour(juce::Colour(0xffb5a6a0));
+    g.drawText("FACTORY PROGRAM",getWidth()-330,25,110,13,juce::Justification::centredLeft);
     g.setFont(12.0f);
     if(hoverTarget>0){
         g.setColour(juce::Colour(0xffe9a357));
         g.drawRoundedRectangle(targetBounds(hoverTarget).toFloat(),3.0f,2.0f);
     }
+    if(fxPage)return;
     const int displayWidth=(getWidth()-84)/3;
     const char* headings[]={"OSCILLATOR","AMP RESPONSE","LFO"};
     for(int i=0;i<3;++i){
@@ -718,6 +766,9 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
 }
 void SpaceInfinityEditor::resized(){
     const int w=getWidth();title.setBounds(34,23,300,40);subtitle.setBounds(35,64,450,24);
+    mainTab.setBounds(34,111,68,25);
+    fxTab.setBounds(107,111,68,25);
+    routesButton.setBounds(w-295,getHeight()-37,112,24);
     presets.setBounds(w-330,42,226,25);
     previousPreset.setBounds(w-100,42,29,25);
     nextPreset.setBounds(w-67,42,29,25);
@@ -784,6 +835,26 @@ void SpaceInfinityEditor::resized(){
             if(index==12)meterBounds=cell.removeFromRight(10).reduced(1,2);
             knobs[index].setBounds(cell);
         }
+    }
+    if(fxPage){
+        auto row=juce::Rectangle<int>(45,195,w-90,230);
+        const std::array<int,6> indices{7,15,16,8,9,12};
+        for(size_t i=0;i<indices.size();++i){
+            auto cell=row.removeFromLeft(row.getWidth()/int(indices.size()-i)).reduced(8,4);
+            const auto index=size_t(indices[i]);
+            labels[index].setBounds(cell.removeFromTop(24));
+            if(index==12)meterBounds=cell.removeFromRight(14).reduced(2,14);
+            knobs[index].setBounds(cell);
+        }
+        auto settings=juce::Rectangle<int>(45,467,w-90,30);
+        for(auto* control:std::array<juce::Component*,5>{&delaySync,&delayMode,&reverbSpace,&compAmount,&eqButton})
+            control->setBounds(settings.removeFromLeft((w-90)/5).reduced(8,0));
+    }else{
+        auto output=panelBounds(w,getHeight(),4).reduced(12,4).withTrimmedTop(16).withSizeKeepingCentre(144,
+            panelBounds(w,getHeight(),4).getHeight()-24);
+        labels[12].setBounds(output.removeFromTop(16));
+        meterBounds=output.removeFromRight(13).reduced(2,3);
+        knobs[12].setBounds(output);
     }
 }
 juce::AudioProcessorEditor* SpaceInfinityProcessor::createEditor(){return new SpaceInfinityEditor(*this);}
