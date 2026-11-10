@@ -107,6 +107,18 @@ juce::StringArray SpaceInfinityProcessor::oscillatorWaves(bool follow){
     if(follow)names.insert(0,"Follow Osc 1");
     return names;
 }
+float SpaceInfinityProcessor::warpedSample(double position,int shape,int mode,float amount,float modulator){
+    if(amount==0.0f||mode==0)return oscillatorSample(position,shape);
+    if(mode==1)return oscillatorSample(position+modulator*amount*1.5,shape);
+    const double phase=position-std::floor(position);
+    if(mode==2){
+        const double mirror=1.0-std::abs(phase*2.0-1.0);
+        return oscillatorSample(phase+(mirror-phase)*amount,shape);
+    }
+    const double split=0.5+0.45*amount;
+    const double mapped=phase<split?0.5*phase/split:0.5+0.5*(phase-split)/(1.0-split);
+    return oscillatorSample(mapped,shape);
+}
 float SpaceInfinityProcessor::oscillatorSample(double phase,int wave){
     if(wave<4)return osc(phase,wave);
     static const auto tables=[]{
@@ -448,18 +460,6 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
             const double freq=440.0*bendRatio*std::pow(2.0,(v.note-69.0)/12.0);
             const float sourceA=warp2==1?oscillatorSample(v.phase,wave):0.0f;
             const float sourceB=warp1==1?oscillatorSample(v.phase2,secondWave):0.0f;
-            const auto warped=[](double position,int shape,int mode,float amount,float modulator){
-                if(amount==0.0f||mode==0)return oscillatorSample(position,shape);
-                if(mode==1)return oscillatorSample(position+modulator*amount*1.5,shape);
-                const double phase=position-std::floor(position);
-                if(mode==2){
-                    const double mirror=1.0-std::abs(phase*2.0-1.0);
-                    return oscillatorSample(phase+(mirror-phase)*amount,shape);
-                }
-                const double split=0.5+0.45*amount;
-                const double mapped=phase<split?0.5*phase/split:0.5+0.5*(phase-split)/(1.0-split);
-                return oscillatorSample(mapped,shape);
-            };
             const auto stack=[&](double& phase,auto& extras,double rate,const auto& rates,
                                   int count,int shape,float width,float gain,double offset,int warp,float amount,float modulator){
                 if(gain==0.0f){
@@ -472,10 +472,10 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
                     auto& position=i==0?phase:extras[size_t(i-1)];
                     position+=rate*rates[size_t(i)];
                     position-=std::floor(position);
-                    const float sample=warped(position,shape,warp,amount,modulator);
+                    const float sample=warpedSample(position,shape,warp,amount,modulator);
                     raw+=sample*level;
                     if(width>0.0f){
-                        if(count==1)rawSide+=width*level*(sample-warped(position+offset,shape,warp,amount,modulator))*0.5f;
+                        if(count==1)rawSide+=width*level*(sample-warpedSample(position+offset,shape,warp,amount,modulator))*0.5f;
                         else rawSide+=sample*level*width*(2.0f*float(i)/float(count-1)-1.0f);
                     }
                 }

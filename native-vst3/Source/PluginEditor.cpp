@@ -473,6 +473,7 @@ void SpaceInfinityEditor::timerCallback(){
     meterPeak=juce::jmax(peak,meterPeak*0.88f);
     clipHold=peak>=1.0f?30:juce::jmax(0,clipHold-1);
     repaint(meterBounds);
+    if(!fxPage)repaint(34,148,(getWidth()-84)/3,102);
 }
 void SpaceInfinityEditor::updatePage(){
     for(auto* control:mainControls)control->setVisible(!fxPage);
@@ -742,7 +743,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     }
     if(fxPage)return;
     const int displayWidth=(getWidth()-84)/3;
-    const char* headings[]={"OSCILLATOR","AMP RESPONSE","LFO"};
+    const char* headings[]={"OSC A / OSC B   •   WARP PREVIEW","AMP RESPONSE","LFO"};
     for(int i=0;i<3;++i){
         const auto frame=juce::Rectangle<int>(34+i*(displayWidth+8),148,displayWidth,102);
         g.setColour(juce::Colour(0xff050608));
@@ -756,14 +757,40 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         for(int line=1;line<8;++line)
             g.drawVerticalLine(int(area.getX()+area.getWidth()*float(line)/8.0f),area.getY(),area.getBottom());
         g.drawHorizontalLine(int(area.getCentreY()),area.getX(),area.getRight());
+        if(i==0){
+            const auto param=[this](const char* id){return processor.state.getRawParameterValue(id)->load();};
+            const int waveA=int(param("wave")), waveBChoice=int(param("osc2Wave"));
+            const int waveB=waveBChoice==0?waveA:waveBChoice-1;
+            const int modes[]={int(param("osc1Warp")),int(param("osc2Warp"))};
+            const float amounts[]={param("osc1WarpAmount"),param("osc2WarpAmount")};
+            const int waves[]={waveA,waveB};
+            const double pitch[]={std::exp2(param("osc1Octave")+param("osc1Tune")/1200.0),
+                                  std::exp2(param("osc2Octave")+param("osc2Tune")/1200.0)*(1.0+param("detune"))};
+            const bool active[]={param("osc1Enabled")>0.5f,param("osc2Enabled")>0.5f};
+            for(int oscillator=1;oscillator>=0;--oscillator){
+                juce::Path preview;
+                for(int point=0;point<=256;++point){
+                    const float x=float(point)/256.0f;
+                    const double carrier=x*2.0;
+                    const double source=carrier*pitch[1-oscillator]/pitch[oscillator];
+                    const float modulator=SpaceInfinityProcessor::oscillatorSample(source,waves[1-oscillator]);
+                    const float value=SpaceInfinityProcessor::warpedSample(
+                        carrier,waves[oscillator],modes[oscillator],amounts[oscillator],modulator);
+                    const float y=area.getCentreY()-value*area.getHeight()*0.43f;
+                    if(point==0)preview.startNewSubPath(area.getX(),y);
+                    else preview.lineTo(area.getX()+x*area.getWidth(),y);
+                }
+                g.setColour(juce::Colour(oscillator==0?0xffdf9a53:0xff68b8cf).withAlpha(active[oscillator]?1.0f:0.38f));
+                g.strokePath(preview,juce::PathStrokeType(1.35f));
+                g.fillEllipse(frame.getRight()-32.0f+oscillator*12.0f,frame.getY()+10.0f,6.0f,6.0f);
+            }
+            continue;
+        }
         juce::Path trace;
         for(int k=0;k<=128;++k){
             const float x=float(k)/128.0f;
             float y=0.5f;
-            if(i==0){
-                const float phase=x*2.0f-std::floor(x*2.0f);
-                y-=0.43f*SpaceInfinityProcessor::oscillatorSample(phase,juce::jmax(0,waveform.getSelectedItemIndex()));
-            }else if(i==1){
+            if(i==1){
                 const float t=x*4.0f;
                 const float attack=float(knobs[2].getValue());
                 const float release=float(knobs[3].getValue());
