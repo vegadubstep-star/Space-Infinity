@@ -12,9 +12,9 @@
 
 - `native-vst3/` — C++ JUCE synth prototype source, **renamed SPACE INFINITY**, only basic controls and effects; **not built or tested as VST3** in this environment.
 - `web-prototype/` — actual interactive browser-based Web Audio synth v0.2 with hardware-style UI, waveform/envelope graph displays and simple presets. **Not a VST3.**
-- `design/actual-browser-interface.png` — capture from the browser prototype. This is a screenshot of real running code, **not a VST3 screenshot**.
-- `design/user-hardware-colour-reference.jpg` — user's supplied reference photo for materials and colours, **not camera angle**.
-- `design/concept-top-down-inspiration.png` — generated style inspiration only; **not real UI code**.
+- `design/actual-browser-interface.webp` — capture from the browser prototype. This is a screenshot of real running code, **not a VST3 screenshot**.
+- `design/user-hardware-colour-reference.webp` — user's supplied reference photo for materials and colours, **not camera angle**.
+- `design/concept-top-down-inspiration.webp` — generated style inspiration only; **not real UI code**.
 - `docs/` — tasks, build verification, licensing, privacy and ROM integration notes.
 - `scripts/build-windows.ps1` — Windows build helper using Visual Studio/CMake; requires internet for JUCE Git dependency.
 
