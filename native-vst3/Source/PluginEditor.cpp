@@ -439,9 +439,9 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         slider.setDoubleClickReturnValue(true,parameter->convertFrom0to1(parameter->getDefaultValue()));
         if(i==1||i==5||i==6||i==7||i==8||i==9||i==11||i==12||i==14||i==15||i==16)
             showPercent(slider);
-        if(i==13){
+        if(i==0 || i==13){
             juce::NormalisableRange<double> travel(slider.getMinimum(),slider.getMaximum(),slider.getInterval());
-            travel.setSkewForCentre(0.45);
+            travel.setSkewForCentre(i==0?1000.0:0.45);
             slider.setNormalisableRange(travel);
         }
         if(i==2 || i==3 || i==13 || i==14 || i==12){
