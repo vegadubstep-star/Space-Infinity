@@ -199,7 +199,7 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     const float releaseFactor=float(std::exp(-1.0/(double(release)*sr)));
     const int wave=int(param("wave"));
     const int filterMode=int(param("filterMode"));
-    const float damping=1.4142f-res*1.34f;
+    const float filterDamping=1.4142f-res*1.34f;
     const int source=int(param("source")), root=int(param("sampleRoot"));
     const float hostBend=param("pitchBend");
     pitchBend.setTargetValue(juce::jlimit(-24.0f,24.0f,hostBend+midiBend));
@@ -264,7 +264,7 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
                     memory[1]=2.0f*low-memory[1];
                     return std::array<float,3>{low,input-k*band-low,band};
                 };
-                const auto response=stage(raw,damping,v.filterState);
+                const auto response=stage(raw,filterDamping,v.filterState);
                 filtered=filterMode==4 ? stage(response[0],1.4142f,v.filterCascade)[0]
                                        : response[size_t(filterMode-1)];
             }
