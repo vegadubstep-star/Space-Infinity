@@ -10,6 +10,8 @@ APVTS::ParameterLayout makeLayout(){
     auto f=[&](const char* id,const char* label,float low,float high,float def){p.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID{id,1},label,juce::NormalisableRange<float>(low,high),def));};
     f("cutoff","Filter Cutoff",80,16000,8000);f("res","Resonance",0,0.95f,0.12f);
     f("attack","Attack",0.002f,4,0.01f);f("release","Release",0.02f,8,0.5f);
+    f("ampDecay","Amp Decay",0.005f,8.0f,0.35f);
+    f("ampSustain","Amp Sustain",0.0f,1.0f,1.0f);
     f("detune","Detune",0,0.04f,0.008f);f("mix","Layer Mix",0,1,0.55f);
     f("drive","Drive",0,1,0.15f);f("chorus","Chorus",0,1,0.25f);
     f("delay","Delay",0,0.8f,0.17f);f("reverb","Reverb",0,0.8f,0.25f);
@@ -95,12 +97,12 @@ void SpaceInfinityProcessor::prepareToPlay(double sampleRate,int maxSamples){
     midiBend=0;pitchBend.reset(sr,.006);pitchBend.setCurrentAndTargetValue(param("pitchBend"));
     for(auto& v:voices)v={}; lfoPhase=0; clock=0;
 }
-void SpaceInfinityProcessor::noteOn(int note,float velocity,int source,int root){
+void SpaceInfinityProcessor::noteOn(int note,float velocity,int source,int root,int channel){
     const Sample* sample = source == 1 ? &choirAh : source == 2 ? &choirOoh : &importedSample;
     if(source != 0 && sample->audio.getNumSamples() < 2)return;
     auto* found=&voices[0]; for(auto& v:voices) if(!v.active){found=&v;break;}
     if(found->active)found=&*std::min_element(voices.begin(),voices.end(),[](const Voice& a,const Voice& b){return a.age<b.age;});
-    *found={};found->active=true;found->note=note;found->velocity=velocity;found->age=++clock;
+    *found={};found->active=true;found->note=note;found->channel=channel;found->velocity=velocity;found->age=++clock;
     found->source=source;
     if(source != 0){
         if(source==3)found->sampleRevision=sampleRevision;
@@ -108,12 +110,17 @@ void SpaceInfinityProcessor::noteOn(int note,float velocity,int source,int root)
         found->sampleStep=sample->sampleRate/sr*std::exp2((note-sampleRoot)/12.0);
     }
 }
-void SpaceInfinityProcessor::noteOff(int note){for(auto& v:voices) if(v.active&&v.note==note)v.released=true;}
+void SpaceInfinityProcessor::noteOff(int note,int channel){for(auto& v:voices) if(v.active&&v.note==note&&v.channel==channel)v.released=true;}
 void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::MidiBuffer& midi){
     juce::ScopedNoDenormals noDenormals;
     b.clear(); if(b.getNumChannels()<2)return;
     auto* left=b.getWritePointer(0);auto* right=b.getWritePointer(1);
     const float attack=param("attack"),release=param("release"),mix=param("mix"),detune=param("detune"),cutoff=param("cutoff"),res=param("res"),drive=param("drive"),lfoRate=param("lforate"),lfoDepth=param("lfodepth");
+    const float sustain=param("ampSustain");
+    const float attackStep=float(1.0/std::max(1.0,double(attack)*sr));
+    const float legacyAttackStep=float(1.0-std::exp(-double(attackStep)));
+    const float decayStep=float(1.0/std::max(1.0,double(param("ampDecay"))*sr));
+    const float releaseFactor=float(std::exp(-1.0/(double(release)*sr)));
     const int wave=int(param("wave"));
     const int source=int(param("source")), root=int(param("sampleRoot"));
     const float hostBend=param("pitchBend");
@@ -121,14 +128,19 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     const juce::SpinLock::ScopedTryLockType sampleGuard(sampleLock);
     auto msg=midi.begin();
     for(int s=0;s<b.getNumSamples();++s){
-        while(msg!=midi.end()&&(*msg).samplePosition<=s){const auto m=(*msg).getMessage(); if(m.isNoteOn()){if(source!=3||sampleGuard.isLocked())noteOn(m.getNoteNumber(),m.getFloatVelocity(),source,root);}else if(m.isPitchWheel()){const int wheel=m.getPitchWheelValue()-8192;midiBend=24.0f*float(wheel)/(wheel<0?8192.0f:8191.0f);pitchBend.setTargetValue(juce::jlimit(-24.0f,24.0f,hostBend+midiBend));}else if(m.isNoteOff())noteOff(m.getNoteNumber());else if(m.isAllNotesOff()||m.isAllSoundOff()){for(auto& v:voices)v.released=true;}++msg;}
+        while(msg!=midi.end()&&(*msg).samplePosition<=s){const auto m=(*msg).getMessage(); if(m.isNoteOn()){if(source!=3||sampleGuard.isLocked())noteOn(m.getNoteNumber(),m.getFloatVelocity(),source,root,m.getChannel());}else if(m.isPitchWheel()){const int wheel=m.getPitchWheelValue()-8192;midiBend=24.0f*float(wheel)/(wheel<0?8192.0f:8191.0f);pitchBend.setTargetValue(juce::jlimit(-24.0f,24.0f,hostBend+midiBend));}else if(m.isNoteOff())noteOff(m.getNoteNumber(),m.getChannel());else if(m.isAllNotesOff()||m.isAllSoundOff()){for(auto& v:voices)if(v.channel==m.getChannel()){if(m.isAllSoundOff())v.active=false;else v.released=true;}}++msg;}
         lfoPhase+=lfoRate/sr;if(lfoPhase>=1)lfoPhase-=1;
         float out=0;const float lfo=std::sin(float(juce::MathConstants<double>::twoPi*lfoPhase));
         const double bendRatio=std::exp2(pitchBend.getNextValue()/12.0);
         for(auto& v:voices){if(!v.active)continue;
             if(v.source==3 && !sampleGuard.isLocked())continue;
             if(v.source==3 && v.sampleRevision!=sampleRevision){v.active=false;continue;}
-            if(v.released)v.env*=std::exp(-1.0/(std::max(0.001f,release)*sr));else v.env+=(1-v.env)*(1-std::exp(-1.0/(std::max(0.001f,attack)*sr)));
+            if(v.released)v.env*=releaseFactor;
+            else if(sustain>=1.0f&&!v.decaying)v.env+=(1-v.env)*legacyAttackStep;
+            else if(!v.decaying){
+                v.env=std::min(1.0f,v.env+attackStep);
+                v.decaying=v.env>=1.0f;
+            }else v.env+=juce::jlimit(-decayStep,decayStep,sustain-v.env);
             if(v.released&&v.env<0.0001f){v.active=false;continue;}
             float raw=0;
             if(v.source!=0){
@@ -266,5 +278,7 @@ void SpaceInfinityProcessor::loadPreset(int index){
     setChoice("delayMode",divisions[index]>=3?1.0f:0.0f);
     setChoice("reverbSpace",float(spaces[index]));
     setChoice("compAmount",0.0f);
+    setChoice("ampDecay",0.35f);
+    setChoice("ampSustain",1.0f);
 }
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter(){return new SpaceInfinityProcessor();}

@@ -38,7 +38,7 @@ private:
     struct Voice {
         int source = 0;
         double samplePosition = 0, sampleStep = 0;
-        unsigned sampleRevision = 0; bool active=false, released=false; int note=-1; float velocity=0, env=0, cutoff=0; double phase=0, phase2=0; uint64_t age=0; };
+        unsigned sampleRevision = 0; bool active=false, released=false, decaying=false; int note=-1, channel=1; float velocity=0, env=0, cutoff=0; double phase=0, phase2=0; uint64_t age=0; };
     std::array<Voice,24> voices{};
     double sr=44100, lfoPhase=0; uint64_t clock=0;
     juce::dsp::Chorus<float> chorus;
@@ -51,7 +51,7 @@ private:
     float midiBend=0;
     juce::SmoothedValue<float> pitchBend;
     juce::dsp::DelayLine<float,juce::dsp::DelayLineInterpolationTypes::Linear> delayL{192000},delayR{192000};
-    void noteOn(int,float,int,int); void noteOff(int);
+    void noteOn(int,float,int,int,int); void noteOff(int,int);
     float param(const char* id) const {return state.getRawParameterValue(id)->load();}
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SpaceInfinityProcessor)
 };
