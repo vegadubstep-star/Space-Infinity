@@ -616,6 +616,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     fxTab.onClick=[this]{fxPage=true;updatePage();};
     for(size_t target=1;target<modulationBadges.size();++target){
         auto badge=std::make_unique<ModulationBadge>();
+        badge->setName("Modulation depth "+processor.macroTargets()[int(target)]);
         badge->getRoute=[this,target](bool select){return routeForTarget(int(target),select);};
         badge->sourceColour=[this,target]{
             const int source=routeSourceForTarget(int(target));
@@ -795,7 +796,7 @@ void SpaceInfinityEditor::assignMacro(int source,int target,bool inverted){
     repaint();
 }
 float SpaceInfinityEditor::envelopeDuration() const{
-    return juce::jmax(.5f,float(knobs[2].getValue()+knobs[13].getValue()+knobs[3].getValue())+.4f);
+    return envelopeDrag>=0?envelopeDragDuration:juce::jmax(.5f,float(knobs[2].getValue()+knobs[13].getValue()+knobs[3].getValue())+.4f);
 }
 std::array<juce::Point<float>,3> SpaceInfinityEditor::envelopeNodes() const{
     const float duration=envelopeDuration();
@@ -826,7 +827,8 @@ void SpaceInfinityEditor::mouseDown(const juce::MouseEvent& e){
         }
         const auto nodes=envelopeNodes();
         for(size_t i=0;i<nodes.size();++i)if(nodes[i].getDistanceFrom(e.position)<11.0f){
-            envelopeDrag=int(i);envelopeDragDuration=envelopeDuration();
+            const float duration=envelopeDuration();
+            envelopeDrag=int(i);envelopeDragDuration=duration;
             const char* ids[]={"attack","ampDecay","release"};
             processor.state.getParameter(ids[i])->beginChangeGesture();
             if(i==1)processor.state.getParameter("ampSustain")->beginChangeGesture();

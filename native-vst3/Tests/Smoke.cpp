@@ -234,5 +234,37 @@ int main()
                 if(!std::isfinite(audio.getSample(channel,sample)))return 34;
     }
     for(int lfo=0;lfo<3;++lfo)if(std::abs(synth.lfoDisplayPhase(lfo)-1.0f)>.001f)return 35;
+    for(auto* child:editor->getChildren())
+        if(auto* button=dynamic_cast<juce::TextButton*>(child))
+            if(button->getButtonText()=="MAIN")button->onClick();
+    const auto findChild=[&editor](const juce::String& name)->juce::Component*{
+        for(auto* child:editor->getChildren())if(child->getName()==name)return child;
+        return nullptr;
+    };
+    auto* energy=findChild("Energy");
+    auto* cutoffControl=findChild("CUTOFF");
+    if(!energy||!cutoffControl)return 36;
+    const auto event=[](juce::Component* component,juce::Point<float> position,juce::Point<float> start,int flags,bool dragged){
+        return juce::MouseEvent(juce::Desktop::getInstance().getMainMouseSource(),position,juce::ModifierKeys(flags),
+            1.0f,0.0f,0.0f,0.0f,0.0f,component,component,juce::Time::getCurrentTime(),
+            start,juce::Time::getCurrentTime(),1,dragged);
+    };
+    const auto start=energy->getBounds().translated(0,-17).withHeight(17).getCentre().toFloat();
+    const auto destination=cutoffControl->getBounds().getCentre().toFloat();
+    editor->mouseDown(event(editor.get(),start,start,juce::ModifierKeys::leftButtonModifier,false));
+    editor->mouseDrag(event(editor.get(),destination,start,juce::ModifierKeys::leftButtonModifier,true));
+    editor->mouseUp(event(editor.get(),destination,start,0,true));
+    auto* macroDepth=synth.state.getParameter(synth.modulationRouteId(0,0,true));
+    if(std::abs(macroDepth->convertFrom0to1(macroDepth->getValue())-.5f)>.001f)return 37;
+    auto* depthBadge=findChild("Modulation depth Cutoff");
+    if(!depthBadge||!depthBadge->isVisible())return 38;
+    const float unchangedCutoff=cutoff->getValue();
+    const juce::Point<float> grab{8,8},increase{8,-90},decrease{8,190};
+    depthBadge->mouseDown(event(depthBadge,grab,grab,juce::ModifierKeys::leftButtonModifier,false));
+    depthBadge->mouseDrag(event(depthBadge,increase,grab,juce::ModifierKeys::leftButtonModifier,true));
+    if(macroDepth->convertFrom0to1(macroDepth->getValue())<.8f)return 39;
+    depthBadge->mouseDrag(event(depthBadge,decrease,grab,juce::ModifierKeys::leftButtonModifier,true));
+    depthBadge->mouseUp(event(depthBadge,decrease,grab,0,true));
+    if(macroDepth->convertFrom0to1(macroDepth->getValue())>=0.0f || cutoff->getValue()!=unchangedCutoff)return 40;
     std::cout << "Factory peaks " << quietest << " to " << loudest << '\n';
 }
