@@ -23,6 +23,10 @@ APVTS::ParameterLayout makeLayout(){
     auto choice=[&](const char* id,const char* label,juce::StringArray options,int def){
         p.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID{id,1},label,options,def));
     };
+    f("sampleStart","Sample Trim Start",0.0f,1.0f,0.0f);
+    f("sampleEnd","Sample Trim End",0.0f,1.0f,1.0f);
+    choice("sampleLoop","Sample Loop",{"Off","On"},0);
+    choice("sampleReverse","Sample Reverse",{"Off","On"},0);
     choice("delaySync","Delay Timing",{"Free","1/16","1/8","Dotted 1/8","1/4"},0);
     choice("delayMode","Delay Mode",{"Stereo","Ping-pong"},0);
     choice("reverbSpace","Reverb Space",{"Room","Plate","Hall"},1);
@@ -108,6 +112,14 @@ void SpaceInfinityProcessor::noteOn(int note,float velocity,int source,int root,
         if(source==3)found->sampleRevision=sampleRevision;
         const int sampleRoot = source == 1 ? 41 : source == 2 ? 48 : root;
         found->sampleStep=sample->sampleRate/sr*std::exp2((note-sampleRoot)/12.0);
+        const int last=sample->audio.getNumSamples()-1;
+        found->sampleStart=juce::jlimit(0,last-1,int(param("sampleStart")*float(last)));
+        found->sampleEnd=juce::jlimit(found->sampleStart+1,last,int(param("sampleEnd")*float(last)));
+        found->sampleLoop=param("sampleLoop")>0.5f;
+        if(param("sampleReverse")>0.5f){
+            found->sampleStep=-found->sampleStep;
+            found->samplePosition=found->sampleEnd;
+        }else found->samplePosition=found->sampleStart;
     }
 }
 void SpaceInfinityProcessor::noteOff(int note,int channel){for(auto& v:voices) if(v.active&&v.note==note&&v.channel==channel)v.released=true;}
@@ -145,8 +157,13 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
             float raw=0;
             if(v.source!=0){
                 const auto& sample = v.source==1 ? choirAh : v.source==2 ? choirOoh : importedSample;
-                const auto index=static_cast<int>(v.samplePosition);
-                if(index+1>=sample.audio.getNumSamples()){v.active=false;continue;}
+                if(v.samplePosition<v.sampleStart||v.samplePosition>v.sampleEnd){
+                    if(!v.sampleLoop||v.released){v.active=false;continue;}
+                    const double length=double(v.sampleEnd-v.sampleStart);
+                    const double offset=std::fmod(v.samplePosition-v.sampleStart,length);
+                    v.samplePosition=v.sampleStart+(offset<0?offset+length:offset);
+                }
+                const auto index=std::min(static_cast<int>(v.samplePosition),v.sampleEnd-1);
                 const auto* data=sample.audio.getReadPointer(0);
                 raw=data[index]+static_cast<float>(v.samplePosition-index)*(data[index+1]-data[index]);
                 v.samplePosition+=v.sampleStep*bendRatio;
@@ -280,5 +297,9 @@ void SpaceInfinityProcessor::loadPreset(int index){
     setChoice("compAmount",0.0f);
     setChoice("ampDecay",0.35f);
     setChoice("ampSustain",1.0f);
+    setChoice("sampleStart",0.0f);
+    setChoice("sampleEnd",1.0f);
+    setChoice("sampleLoop",0.0f);
+    setChoice("sampleReverse",0.0f);
 }
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter(){return new SpaceInfinityProcessor();}
