@@ -32,7 +32,8 @@ private:
     HardwareLook hardwareLook;
     SpaceInfinityProcessor& processor;
     juce::ComboBox presets, waveform, waveform2, source, motionShape, motionBars;
-    juce::Slider motionDepth, noiseLevel;
+    juce::Slider motionDepth, noiseLevel, analogueCharacter;
+    juce::Label analogueLabel;
     juce::ComboBox noiseType;
     std::array<juce::Slider,4> oscillatorSliders;
     std::array<juce::Slider,3> octaveControls;

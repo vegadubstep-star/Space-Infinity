@@ -413,7 +413,21 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
             processor.state,octaveIds[i],control));
     }
     bindChoice(voiceMode,"voiceMode",{"Poly","Mono","Legato"});
-    bindChoice(filterMode,"filterMode",{"Classic LP","Resonant LP","High-pass","Band-pass","24 dB LP"});
+    bindChoice(filterMode,"filterMode",{"Classic LP","Resonant LP","High-pass","Band-pass","24 dB LP","Analogue ZDF"});
+    filterMode.setTooltip("Analogue ZDF is a four-pole low-pass with nonlinear, zero-delay resonance feedback.");
+    analogueCharacter.setSliderStyle(juce::Slider::LinearHorizontal);
+    analogueCharacter.setTextBoxStyle(juce::Slider::TextBoxRight,false,46,20);
+    analogueCharacter.setDoubleClickReturnValue(true,0.0);
+    analogueCharacter.setTooltip("Analogue character: gentle drift, soft saturation and smoother oscillator edges.");
+    analogueCharacter.setName("Analogue character");
+    addAndMakeVisible(analogueCharacter);
+    attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
+        processor.state,"analogueCharacter",analogueCharacter));
+    showPercent(analogueCharacter);
+    analogueLabel.setText("ANALOGUE CHARACTER",juce::dontSendNotification);
+    analogueLabel.setJustificationType(juce::Justification::centred);
+    analogueLabel.setColour(juce::Label::textColourId,juce::Colour(0xffc0c8b0));
+    addAndMakeVisible(analogueLabel);
     bindChoice(sampleLoop,"sampleLoop",{"Loop off","Loop on"});
     bindChoice(sampleReverse,"sampleReverse",{"Forward","Reverse"});
     const char* trimIds[]={"sampleStart","sampleEnd"};
@@ -596,7 +610,7 @@ void SpaceInfinityEditor::bindMacroPage(){
 juce::Rectangle<int> SpaceInfinityEditor::targetBounds(int target) const{
     const juce::Component* controls[]={nullptr,&knobs[0],&knobs[4],&knobs[9],&knobs[2],&knobs[6],
         &knobs[8],&knobs[7],&knobs[5],&knobs[3],&knobs[1],&noiseLevel,&oscillatorSliders[1],
-        &oscillatorSliders[3],&knobs[12],&knobs[13],&knobs[14],&motionDepth,&knobs[10],&knobs[11]};
+        &oscillatorSliders[3],&knobs[12],&knobs[13],&knobs[14],&motionDepth,&knobs[10],&knobs[11],&analogueCharacter};
     if(target<=0||target>=int(std::size(controls)))return {};
     return controls[target]->getBounds();
 }
@@ -858,6 +872,9 @@ void SpaceInfinityEditor::resized(){
         oscillatorSliders[size_t(i*2)].setBounds(controls.removeFromLeft(controls.getWidth()/2).reduced(2,0));
         oscillatorSliders[size_t(i*2+1)].setBounds(controls.reduced(2,0));
     }
+    const auto characterBounds=layout.oscillators[1];
+    analogueLabel.setBounds(characterBounds.getX()+8,characterBounds.getBottom()-60,characterBounds.getWidth()-16,15);
+    analogueCharacter.setBounds(characterBounds.getX()+16,characterBounds.getBottom()-35,characterBounds.getWidth()-32,23);
     const auto oscBottom=layout.oscillators[0];
     labels[4].setBounds(oscBottom.getX()+8,oscBottom.getBottom()-60,oscBottom.getWidth()-16,15);
     labels[4].setText("UNISON SPREAD / DETUNE",juce::dontSendNotification);

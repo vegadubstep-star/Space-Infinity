@@ -175,5 +175,29 @@ int main()
             for(int sample=0;sample<blockSize;++sample)
                 if(!std::isfinite(audio.getSample(channel,sample)))return 30;
     }
+    synth.loadPreset(0);
+    for(const auto* id:{"chorus","flanger","phaser","delay","reverb","compAmount"})
+        synth.state.getParameter(id)->setValueNotifyingHost(0.0f);
+    const auto set=[&synth](const char* id,float value){
+        auto* parameter=synth.state.getParameter(id);
+        parameter->setValueNotifyingHost(parameter->convertTo0to1(value));
+    };
+    set("filterMode",5.0f);
+    set("analogueCharacter",1.0f);
+    set("osc1Unison",16.0f);
+    set("osc2Unison",16.0f);
+    set("res",.95f);
+    for(const auto rate:{44100.0,48000.0,96000.0}){
+        synth.prepareToPlay(rate,blockSize);
+        for(int block=0;block<32;++block){
+            set("cutoff",80.0f*std::pow(200.0f,float(block)/31.0f));
+            juce::MidiBuffer midi;
+            if(block==0)for(int note:{48,55,60,64})midi.addEvent(juce::MidiMessage::noteOn(1,note,.65f),0);
+            synth.processBlock(audio,midi);
+            for(int channel=0;channel<2;++channel)
+                for(int sample=0;sample<blockSize;++sample)
+                    if(!std::isfinite(audio.getSample(channel,sample)))return 31;
+        }
+    }
     std::cout << "Factory peaks " << quietest << " to " << loudest << '\n';
 }

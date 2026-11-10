@@ -1,5 +1,6 @@
 #pragma once
 #include <JuceHeader.h>
+#include "AnalogueCircuit.h"
 class SpaceInfinityProcessor : public juce::AudioProcessor {
 public:
     SpaceInfinityProcessor();
@@ -58,6 +59,9 @@ private:
         int sampleStart = 0, sampleEnd = 0;
         bool sampleLoop = false;
         float stereoSide=0.0f, noiseMemory=0.0f;
+        float dcInput[2]{},dcOutput[2]{};
+        AnalogueDrift drift;
+        std::array<AnalogueLadder,2> ladder;
         uint32_t noiseState=1;
         std::array<double,15> extraPhase1{}, extraPhase2{};
         float filterState[2]{}, filterCascade[2]{};
@@ -78,7 +82,7 @@ private:
     float delayToneL=0,delayToneR=0;
     double delayBpm=120;
     float midiBend=0;
-    juce::SmoothedValue<float> pitchBend;
+    juce::SmoothedValue<float> pitchBend, analogueAmount, analogueCutoff, analogueResonance;
     juce::dsp::DelayLine<float,juce::dsp::DelayLineInterpolationTypes::Linear> delayL{192000},delayR{192000};
     struct HeldNote { uint64_t order=0; float velocity=0.0f; };
     std::array<HeldNote,16*128> heldNotes{};
