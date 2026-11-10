@@ -1,5 +1,6 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "EffectControls.h"
 #include <BinaryData.h>
 #include <algorithm>
 #include <cmath>
@@ -45,6 +46,14 @@ APVTS::ParameterLayout makeLayout(){
             juce::ParameterID{prefix+"WarpAmount",1},label+" Amount",
             juce::NormalisableRange<float>(0.0f,1.0f),0.0f));
     }
+    for(const auto& control:effectControls)
+        if(control.added){
+            const auto label=juce::String(effectRows[size_t(control.row)])+" "+control.label;
+            f(control.id,label.toRawUTF8(),control.minimum,control.maximum,control.initial);
+        }
+    for(size_t row=0;row<effectRows.size();++row)
+        p.add(std::make_unique<juce::AudioParameterBool>(
+            juce::ParameterID{effectEnableIds[row],1},juce::String(effectRows[row])+" Enabled",true));
     f("osc1Tune","Oscillator 1 Fine Tune",-50.0f,50.0f,0.0f);
     f("osc2Tune","Oscillator 2 Fine Tune",-50.0f,50.0f,0.0f);
     f("osc1Width","Oscillator 1 Width",0.0f,1.0f,0.0f);
@@ -518,11 +527,13 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
         right[s]=std::tanh((out-side)*driveGain);
     }
     // Compress the dry synth in three bands before the time-based effects.
-    const auto amount=param("compAmount");
+    const auto amount=param("compEnabled")>0.5f?param("compAmount"):0.0f;
     bandMix.setTargetValue(amount>0.001f?1.0f:0.0f);
     for(size_t i=0;i<bandCompressors.size();++i){
-        bandCompressors[i].setThreshold(-10.0f-30.0f*amount-3.0f*float(i));
-        bandCompressors[i].setRatio(1.0f+7.0f*amount);
+        bandCompressors[i].setThreshold(param("compThreshold")-30.0f*amount-3.0f*float(i));
+        bandCompressors[i].setAttack(param("compAttack"));
+        bandCompressors[i].setRelease(param("compRelease"));
+        bandCompressors[i].setRatio(1.0f+(param("compRatio")-1.0f)*amount);
     }
     for(int s=0;s<b.getNumSamples();++s){
         const auto mix=bandMix.getNextValue();
@@ -538,18 +549,30 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
             output[s]=dry+mix*(compressed-dry);
         }
     }
+    chorus.setRate(param("chorusRate"));
+    chorus.setDepth(param("chorusDepth"));
+    chorus.setCentreDelay(param("chorusDelay"));
+    chorus.setFeedback(param("chorusFeedback"));
     chorus.setMix(juce::jlimit(0.0f,1.0f,param("chorus")+0.4f*modulation[7]));
     juce::dsp::AudioBlock<float> block(b);
     juce::dsp::ProcessContextReplacing<float> context(block);
-    chorus.process(context);
-    const float flangeMix=param("flanger");
+    if(param("chorusEnabled")>0.5f)chorus.process(context);
+    const float flangeMix=param("flangerEnabled")>0.5f?param("flanger"):0.0f;
+    flanger.setRate(param("flangerRate"));
+    flanger.setDepth(param("flangerDepth"));
+    flanger.setCentreDelay(param("flangerDelay"));
+    flanger.setFeedback(param("flangerFeedback"));
     if(flangeMix>0.0f){
         if(!flangerActive)flanger.reset();
         flanger.setMix(flangeMix);
         flanger.process(context);
     }
     flangerActive=flangeMix>0.0f;
-    const float phaseMix=param("phaser");
+    const float phaseMix=param("phaserEnabled")>0.5f?param("phaser"):0.0f;
+    phaser.setRate(param("phaserRate"));
+    phaser.setDepth(param("phaserDepth"));
+    phaser.setCentreFrequency(juce::jmin(float(sr*0.45),param("phaserFrequency")));
+    phaser.setFeedback(param("phaserFeedback"));
     if(phaseMix>0.0f){
         if(!phaserActive)phaser.reset();
         phaser.setMix(phaseMix);
@@ -564,23 +587,26 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     static constexpr double divisions[]{0,.25,.5,.75,1};
     const int division=int(param("delaySync"));
     const bool ping=param("delayMode")>=1;
-    const double seconds=division==0?.375:60.0/delayBpm*divisions[division];
+    const double seconds=division==0?param("delayTime"):60.0/delayBpm*divisions[division];
     delaySamples.setTargetValue(juce::jlimit(1.0f,191999.0f,float(seconds*sr)));
-    delayWet.setTargetValue(juce::jlimit(0.0f,0.8f,param("delay")+0.4f*modulation[6]));
-    const float tone=float(1.0-std::exp(-juce::MathConstants<double>::twoPi*5700.0/sr));
+    delayWet.setTargetValue(param("delayEnabled")>0.5f?juce::jlimit(0.0f,0.8f,param("delay")+0.4f*modulation[6]):0.0f);
+    const float tone=float(1.0-std::exp(-juce::MathConstants<double>::twoPi*juce::jmin(double(sr*0.45),double(param("delayTone")))/sr));
+    const float feedback=param("delayFeedback");
     for(int s=0;s<b.getNumSamples();++s){
         const auto time=delaySamples.getNextValue(), wet=delayWet.getNextValue();
         const auto dl=delayL.popSample(0,time),dr=delayR.popSample(0,time*(ping?1.0f:.75f));
         delayToneL+=tone*(dl-delayToneL);delayToneR+=tone*(dr-delayToneR);
-        delayL.pushSample(0,left[s]+(ping?delayToneR:delayToneL)*.35f);
-        delayR.pushSample(0,(ping?0.0f:right[s])+ (ping?delayToneL:delayToneR)*.35f);
+        delayL.pushSample(0,left[s]+(ping?delayToneR:delayToneL)*feedback);
+        delayR.pushSample(0,(ping?0.0f:right[s])+ (ping?delayToneL:delayToneR)*feedback);
         left[s]+=dl*wet;right[s]+=dr*wet;
     }
-    const auto space=int(param("reverbSpace"));
-    static constexpr float roomSize[]{.36f,.72f,.89f},damping[]{.56f,.45f,.32f};
     auto params=reverb.getParameters();
-    params.roomSize=roomSize[space];params.damping=damping[space];
-    params.wetLevel=juce::jlimit(0.0f,0.8f,param("reverb")+0.4f*modulation[3])*.65f;params.dryLevel=1-params.wetLevel*.35f;params.width=1;
+    const int space=juce::jlimit(0,2,int(param("reverbSpace")));
+    static constexpr float spaceSize[]{-.36f,0.0f,.17f},spaceDamping[]{.11f,0.0f,-.13f};
+    params.roomSize=juce::jlimit(0.0f,1.0f,param("reverbSize")+spaceSize[space]);
+    params.damping=juce::jlimit(0.0f,1.0f,param("reverbDamping")+spaceDamping[space]);
+    params.wetLevel=param("reverbEnabled")>0.5f?juce::jlimit(0.0f,0.8f,param("reverb")+0.4f*modulation[3])*.65f:0.0f;
+    params.dryLevel=1-params.wetLevel*.35f;params.width=param("reverbWidth");
     reverb.setParameters(params);reverb.processStereo(left,right,b.getNumSamples());
     if(param("eqEnabled")>0.5f){
         for(size_t band=0;band<eqParameters.size();++band){
@@ -885,6 +911,11 @@ void SpaceInfinityProcessor::loadPreset(int index){
     set("source",float(patch.source));
     set("flanger",0.0f);
     set("phaser",0.0f);
+    for(const auto& control:effectControls)
+        if(control.added)set(control.id,control.initial);
+    for(const auto* id:effectEnableIds)set(id,1.0f);
+    set("reverbSize",.72f);
+    set("reverbDamping",.45f);
     set("eqEnabled",0.0f);
     for(int band=0;band<7;++band){
         const auto reset=[this,band](const char* field,float value){

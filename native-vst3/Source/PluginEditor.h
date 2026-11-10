@@ -55,6 +55,10 @@ private:
     juce::ToggleButton osc1{"OSC 1"}, osc2{"OSC 2"};
     std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment>,2> oscAttachments;
     juce::TextButton warpA{"WARP"}, warpB{"WARP"};
+    std::array<juce::Slider,28> rackControls;
+    std::array<juce::Label,28> rackLabels;
+    std::array<juce::ToggleButton,6> rackEnabled;
+    std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment>,6> rackPower;
     juce::TextButton mainTab{"MAIN"}, fxTab{"FX"}, routesButton{"Macro routes"};
     std::vector<juce::Component*> mainControls;
     bool fxPage=false, routesVisible=false;

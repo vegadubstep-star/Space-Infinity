@@ -142,5 +142,38 @@ int main()
         auto output=file.createOutputStream();
         if(!output || !juce::PNGImageFormat{}.writeImageToStream(snapshot,*output)) return 25;
     }
+    juce::TextButton* effectsTab=nullptr;
+    for(auto* child:editor->getChildren())
+        if(auto* button=dynamic_cast<juce::TextButton*>(child))
+            if(button->getButtonText()=="FX")effectsTab=button;
+    if(!effectsTab)return 27;
+    effectsTab->onClick();
+    for(const auto size:{juce::Point<int>(800,760),juce::Point<int>(1000,790)}){
+        editor->setSize(size.x,size.y);
+        for(auto* child:editor->getChildren())
+            if(child->isVisible()&&!editor->getLocalBounds().contains(child->getBounds()))return 28;
+        const auto snapshot=editor->createComponentSnapshot(editor->getLocalBounds());
+        const auto file=audition.getChildFile("Effects-"+juce::String(size.x)+".png");
+        file.deleteFile();
+        auto output=file.createOutputStream();
+        if(!output||!juce::PNGImageFormat{}.writeImageToStream(snapshot,*output))return 29;
+    }
+    synth.loadPreset(0);
+    for(const auto* id:{"compEnabled","chorusEnabled","flangerEnabled","phaserEnabled","delayEnabled","reverbEnabled"})
+        synth.state.getParameter(id)->setValueNotifyingHost(1.0f);
+    for(const auto* id:{"compAmount","chorus","flanger","phaser","delay","reverb"}){
+        auto* parameter=synth.state.getParameter(id);
+        parameter->setValueNotifyingHost(parameter->convertTo0to1(0.4f));
+    }
+    synth.prepareToPlay(48000.0,blockSize);
+    for(int block=0;block<120;++block){
+        juce::MidiBuffer midi;
+        if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,60,0.65f),0);
+        if(block==80)midi.addEvent(juce::MidiMessage::noteOff(1,60),0);
+        synth.processBlock(audio,midi);
+        for(int channel=0;channel<2;++channel)
+            for(int sample=0;sample<blockSize;++sample)
+                if(!std::isfinite(audio.getSample(channel,sample)))return 30;
+    }
     std::cout << "Factory peaks " << quietest << " to " << loudest << '\n';
 }
