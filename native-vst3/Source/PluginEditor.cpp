@@ -240,6 +240,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     compAmount.setSliderStyle(juce::Slider::LinearHorizontal);
     compAmount.setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);
     compAmount.setTooltip("Multiband compression amount");
+    compAmount.setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);
     compAmount.setName("Multiband amount");
     addAndMakeVisible(compAmount);
     compAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"compAmount",compAmount);
@@ -371,6 +372,9 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     }
     g.setColour(juce::Colour(0xffc3c1bd));
     g.setFont(12.0f);
+    drawInset(g,juce::Rectangle<float>(26.0f,float(getHeight()-69),float(getWidth()-52),60.0f));
+    g.setColour(juce::Colour(0xffc3c1bd));
+    g.drawText("SAMPLER",getWidth()-132,getHeight()-65,95,22,juce::Justification::centredRight);
     g.drawText("TRIM START",34,getHeight()-65,66,22,juce::Justification::centredLeft);
     g.drawText("END",245,getHeight()-65,35,22,juce::Justification::centredLeft);
     g.drawText("PITCH",getWidth()-316,116,51,22,juce::Justification::right);
@@ -423,11 +427,12 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         auto strip=juce::Rectangle<int>(30+i*(getWidth()-60)/2,263,(getWidth()-60)/2,40).reduced(2,0);
         drawInset(g,strip.toFloat());
         g.setColour(juce::Colour(0xffc8bcb0));
-        g.drawText(i==0?"OSC 1     WAVEFORM":"OSC 2     WAVEFORM",strip.getX()+6,264,100,14,juce::Justification::centredLeft);
+        g.drawText("WAVE",strip.getX()+65,264,42,14,juce::Justification::centredLeft);
         g.drawText("FINE TUNE",oscillatorSliders[size_t(i*2)].getX(),264,75,14,juce::Justification::centredLeft);
         g.drawText("UNISON",unisonSliders[size_t(i)].getX(),264,55,14,juce::Justification::centredLeft);
         g.drawText("WIDTH",oscillatorSliders[size_t(i*2+1)].getX(),264,65,14,juce::Justification::centredLeft);
     }
+    g.drawText("COMP",compAmount.getX(),compAmount.getY()-13,compAmount.getWidth(),13,juce::Justification::centred);
     g.setFont(12.0f);
     const int displayWidth=(getWidth()-84)/3;
     const char* headings[]={"OSCILLATOR","AMP RESPONSE","LFO"};
@@ -483,7 +488,10 @@ void SpaceInfinityEditor::resized(){
     nextPreset.setBounds(w-67,42,29,25);
     auto oscillatorRow=juce::Rectangle<int>(30,265,w-60,36);
     for(int i=0;i<2;++i){
-        auto strip=oscillatorRow.removeFromLeft((w-60)/2).reduced(5,0).withTrimmedTop(14);
+        auto strip=oscillatorRow.removeFromLeft((w-60)/2).reduced(5,0);
+        auto& toggle=i==0?osc1:osc2;
+        toggle.setBounds(strip.getX(),strip.getY()-4,60,18);
+        strip.removeFromTop(14);
         unisonSliders[size_t(i)].setBounds(strip.removeFromRight(62).reduced(2,0));
         auto& selector=i==0?waveform:waveform2;
         selector.setBounds(strip.removeFromLeft(strip.getWidth()/3).reduced(2,0));
@@ -491,7 +499,6 @@ void SpaceInfinityEditor::resized(){
         oscillatorSliders[size_t(i*2+1)].setBounds(strip.reduced(2,0));
     }
     source.setBounds(34,getHeight()-37,152,24);
-    voiceMode.setBounds(430,getHeight()-37,108,24);
     importButton.setBounds(194,getHeight()-37,104,24);
     sampleRoot.setBounds(306,getHeight()-37,116,24);
     auto fx=panelBounds(w,getHeight(),4).reduced(8,5).removeFromBottom(24);
@@ -500,9 +507,10 @@ void SpaceInfinityEditor::resized(){
     delayMode.setBounds(fx.removeFromLeft(fxWidth).reduced(2,0));
     reverbSpace.setBounds(fx.removeFromLeft(fxWidth).reduced(2,0));
     compAmount.setBounds(fx.reduced(2,0));
-    const auto voice=panelBounds(w,getHeight(),0);
-    osc1.setBounds(voice.getRight()-112,voice.getY()+1,54,18);
-    osc2.setBounds(voice.getRight()-56,voice.getY()+1,54,18);
+    auto voice=panelBounds(w,getHeight(),0).reduced(8,5);
+    voiceMode.setBounds(voice.removeFromBottom(21).withWidth(108));
+    auto filter=panelBounds(w,getHeight(),1).reduced(8,5);
+    filterMode.setBounds(filter.removeFromBottom(21));
     pitchWheel.setBounds(w-261,116,220,22);
     auto motionRow=juce::Rectangle<int>(34,getHeight()-227,w-68,98);
     auto controls=motionRow.removeFromLeft(155);
@@ -521,11 +529,10 @@ void SpaceInfinityEditor::resized(){
     sampleTrim[1].setBounds(282,getHeight()-65,130,22);
     sampleLoop.setBounds(425,getHeight()-65,100,22);
     sampleReverse.setBounds(532,getHeight()-65,100,22);
-    filterMode.setBounds(642,getHeight()-65,120,22);
     for(int i=0;i<int(std::size(panels));++i){
         const auto& panel=panels[i];
         auto area=panelBounds(w,getHeight(),i).reduced(3,3).withTrimmedTop(17);
-        if(i==4) area.removeFromBottom(28);
+        if(i==0 || i==1 || i==4) area.removeFromBottom(28);
         for(int j=0;j<panel.count;++j){
             auto cell=area.removeFromLeft(area.getWidth()/(panel.count-j)).reduced(2,0);
             const auto index=size_t(panel.knobs[j]);
