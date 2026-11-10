@@ -2,14 +2,14 @@
 #include <array>
 #include <cmath>
 namespace {
-constexpr int controlTop=260;
+constexpr int controlTop=306;
 struct Panel { const char* title; std::array<int,4> knobs; int count; };
 constexpr Panel panels[]={
     {"01   VOICE",{4,5,6,-1},3},{"02   FILTER",{0,1,-1,-1},2},
     {"03   AMP ENVELOPE",{2,13,14,3},4},{"04   LFO",{10,11,-1,-1},2},
     {"05   FX / OUTPUT",{7,8,9,12},4}};
 juce::Rectangle<int> panelBounds(int width,int height,int index){
-    const int topHeight=(height-494)/2;
+    const int topHeight=(height-540)/2;
     const int row=index>=3?1:0;
     const int start=index==0||index==3?0:index==1?3:index==2?5:2;
     const int columns=row==0?9:6;
@@ -195,6 +195,18 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         macroRoutes[i].addItemList(SpaceInfinityProcessor::macroTargets(),1);
         addAndMakeVisible(macroRoutes[i]);
         fxChoices.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"macroRoute"+suffix,macroRoutes[i]));
+    }
+    bindChoice(waveform2,"osc2Wave",{"Follow Osc 1","Saw","Pulse","Sine","Triangle"});
+    const char* oscIds[]={"osc1Tune","osc1Width","osc2Tune","osc2Width"};
+    for(size_t i=0;i<oscillatorSliders.size();++i){
+        auto& slider=oscillatorSliders[i];
+        slider.setSliderStyle(juce::Slider::LinearHorizontal);
+        slider.setTextBoxStyle(juce::Slider::TextBoxRight,false,41,18);
+        slider.setTooltip(i%2==0?"Fine tune in cents":"Stereo width");
+        addAndMakeVisible(slider);
+        attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,oscIds[i],slider));
+        slider.textFromValueFunction=[i](double value){return juce::String(value,i%2==0?1:2);};
+        slider.updateText();
     }
     bindChoice(voiceMode,"voiceMode",{"Poly","Mono","Legato"});
     bindChoice(filterMode,"filterMode",{"Classic LP","Resonant LP","High-pass","Band-pass","24 dB LP"});
@@ -398,6 +410,14 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         g.setColour(lit?colour:colour.darker(3.0f));
         g.fillRect(meterBounds.getX(),y,meterBounds.getWidth(),juce::jmax(1,meterBounds.getHeight()/12-1));
     }
+    for(int i=0;i<2;++i){
+        auto strip=juce::Rectangle<int>(30+i*(getWidth()-60)/2,263,(getWidth()-60)/2,40).reduced(2,0);
+        drawInset(g,strip.toFloat());
+        g.setColour(juce::Colour(0xffc8bcb0));
+        g.drawText(i==0?"OSC 1     WAVEFORM":"OSC 2     WAVEFORM",strip.getX()+6,264,100,14,juce::Justification::centredLeft);
+        g.drawText("FINE TUNE",oscillatorSliders[size_t(i*2)].getX(),264,75,14,juce::Justification::centredLeft);
+        g.drawText("WIDTH",oscillatorSliders[size_t(i*2+1)].getX(),264,65,14,juce::Justification::centredLeft);
+    }
     g.setFont(12.0f);
     const int displayWidth=(getWidth()-84)/3;
     const char* headings[]={"OSCILLATOR","AMP RESPONSE","LFO"};
@@ -450,7 +470,15 @@ void SpaceInfinityEditor::resized(){
     const int w=getWidth();title.setBounds(34,23,300,40);subtitle.setBounds(35,64,450,24);
     presets.setBounds(w-330,42,226,25);
     previousPreset.setBounds(w-100,42,29,25);
-    nextPreset.setBounds(w-67,42,29,25);waveform.setBounds(w-330,72,292,23);
+    nextPreset.setBounds(w-67,42,29,25);
+    auto oscillatorRow=juce::Rectangle<int>(30,265,w-60,36);
+    for(int i=0;i<2;++i){
+        auto strip=oscillatorRow.removeFromLeft((w-60)/2).reduced(5,0).withTrimmedTop(14);
+        auto& selector=i==0?waveform:waveform2;
+        selector.setBounds(strip.removeFromLeft(strip.getWidth()/3).reduced(2,0));
+        oscillatorSliders[size_t(i*2)].setBounds(strip.removeFromLeft(strip.getWidth()/2).reduced(2,0));
+        oscillatorSliders[size_t(i*2+1)].setBounds(strip.reduced(2,0));
+    }
     source.setBounds(34,getHeight()-37,152,24);
     voiceMode.setBounds(430,getHeight()-37,108,24);
     importButton.setBounds(194,getHeight()-37,104,24);

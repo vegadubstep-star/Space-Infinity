@@ -14,6 +14,11 @@ APVTS::ParameterLayout makeLayout(){
     f("ampSustain","Amp Sustain",0.0f,1.0f,1.0f);
     p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{"osc1Enabled",1},"Oscillator 1 Enabled",true));
     p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{"osc2Enabled",1},"Oscillator 2 Enabled",true));
+    f("osc1Tune","Oscillator 1 Fine Tune",-50.0f,50.0f,0.0f);
+    f("osc2Tune","Oscillator 2 Fine Tune",-50.0f,50.0f,0.0f);
+    f("osc1Width","Oscillator 1 Width",0.0f,1.0f,0.0f);
+    f("osc2Width","Oscillator 2 Width",0.0f,1.0f,0.0f);
+    p.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID{"osc2Wave",1},"Oscillator 2 Waveform",juce::StringArray{"Follow Osc 1","Saw","Pulse","Sine","Triangle"},0));
     f("detune","Detune",0,0.04f,0.008f);f("mix","Layer Mix",0,1,0.55f);
     f("drive","Drive",0,1,0.15f);f("chorus","Chorus",0,1,0.25f);
     f("delay","Delay",0,0.8f,0.17f);f("reverb","Reverb",0,0.8f,0.25f);
@@ -221,6 +226,11 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     const float osc1Gain=param("osc1Enabled")>0.5f?1.0f-mix:0.0f;
     const float osc2Gain=param("osc2Enabled")>0.5f?mix:0.0f;
     const int wave=int(param("wave"));
+    const int waveChoice=int(param("osc2Wave"));
+    const int secondWave=waveChoice==0?wave:waveChoice-1;
+    const double tune1=std::exp2(param("osc1Tune")/1200.0);
+    const double tune2=std::exp2(param("osc2Tune")/1200.0);
+    const float width1=param("osc1Width"),width2=param("osc2Width");
     const int filterMode=int(param("filterMode"));
     const float filterDamping=1.4142f-res*1.34f;
     const int source=int(param("source")), root=int(param("sampleRoot"));
@@ -280,7 +290,7 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
         const float movement=motion[segment]+(motion[segment+1]-motion[segment])*float(point-segment);
         motionPhase+=motionStep;
         motionPhase-=std::floor(motionPhase);
-        float out=0;const float lfo=std::sin(float(juce::MathConstants<double>::twoPi*lfoPhase));
+        float out=0, side=0;const float lfo=std::sin(float(juce::MathConstants<double>::twoPi*lfoPhase));
         const double bendRatio=std::exp2(pitchBend.getNextValue()/12.0);
         const float fc=juce::jlimit(50.0f,float(sr*0.4),cutoff*std::exp2(lfo*lfoDepth*2+movement*motionDepth*3));
         const float g=std::tan(float(juce::MathConstants<double>::pi*fc/sr));
@@ -295,7 +305,7 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
                 v.decaying=v.env>=1.0f;
             }else v.env+=juce::jlimit(-decayStep,decayStep,sustain-v.env);
             if(v.released&&v.env<0.0001f){v.active=false;continue;}
-            float raw=0;
+            float raw=0, rawSide=0;
             if(v.source!=0){
                 const auto& sample = v.source==1 ? choirAh : v.source==2 ? choirOoh : importedSample;
                 if(v.samplePosition<v.sampleStart||v.samplePosition>v.sampleEnd){
@@ -310,9 +320,12 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
                 v.samplePosition+=v.sampleStep*bendRatio;
             }else{
             const double freq=440.0*bendRatio*std::pow(2.0,(v.note-69.0)/12.0);
-            v.phase+=freq/sr;v.phase2+=freq*(1.0+detune+0.003*lfo*lfoDepth)/sr;
+            v.phase+=freq*tune1/sr;v.phase2+=freq*tune2*(1.0+detune+0.003*lfo*lfoDepth)/sr;
             if(v.phase>=1)v.phase-=std::floor(v.phase);if(v.phase2>=1)v.phase2-=std::floor(v.phase2);
-            raw=osc(v.phase,wave)*osc1Gain+osc(v.phase2,wave)*osc2Gain;
+            const float first=osc(v.phase,wave), second=osc(v.phase2,secondWave);
+            raw=first*osc1Gain+second*osc2Gain;
+            if(width1>0.0f)rawSide+=width1*osc1Gain*(first-osc(v.phase+0.19,wave))*0.5f;
+            if(width2>0.0f)rawSide+=width2*osc2Gain*(second-osc(v.phase2+0.31,secondWave))*0.5f;
             }
             float filtered;
             if(filterMode==0){
@@ -330,9 +343,14 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
                 filtered=filterMode==4 ? stage(response[0],1.4142f,v.filterCascade)[0]
                                        : response[size_t(filterMode-1)];
             }
-            out+=filtered*v.velocity*v.env*0.14f;
+            v.stereoSide+=onePole*(rawSide-v.stereoSide);
+            const float level=v.velocity*v.env*0.14f;
+            out+=filtered*level;
+            side+=v.stereoSide*level;
         }
-        out=std::tanh(out*(1+drive*9));left[s]=out;right[s]=out;
+        const float driveGain=1+drive*9;
+        left[s]=std::tanh((out+side)*driveGain);
+        right[s]=std::tanh((out-side)*driveGain);
     }
     // Compress the dry synth in three bands before the time-based effects.
     const auto amount=param("compAmount");
@@ -661,6 +679,7 @@ void SpaceInfinityProcessor::loadPreset(int index){
         set(ids[i],i==2||i==3?juce::jlimit(0.0f,1.5f,patch.values[i]):patch.values[i]);
     set("source",float(patch.source));
     set("osc1Enabled",1.0f);
+    for(const auto* id:{"osc1Tune","osc2Tune","osc1Width","osc2Width","osc2Wave"})set(id,0.0f);
     set("osc2Enabled",1.0f);
     set("filterMode",float(patch.filterMode));
     set("delaySync",float(patch.division));

@@ -48,6 +48,7 @@ private:
         double samplePosition = 0, sampleStep = 0;
         int sampleStart = 0, sampleEnd = 0;
         bool sampleLoop = false;
+        float stereoSide=0.0f;
         float filterState[2]{}, filterCascade[2]{};
         unsigned sampleRevision = 0; bool active=false, released=false, decaying=false; int note=-1, channel=1; float velocity=0, env=0, cutoff=0; double phase=0, phase2=0; uint64_t age=0; };
     std::array<Voice,24> voices{};
@@ -65,11 +66,6 @@ private:
     float midiBend=0;
     juce::SmoothedValue<float> pitchBend;
     juce::dsp::DelayLine<float,juce::dsp::DelayLineInterpolationTypes::Linear> delayL{192000},delayR{192000};
-    struct HeldNote { uint64_t order=0; float velocity=0.0f; };
-    std::array<HeldNote,16*128> heldNotes{};
-    uint64_t noteOrder=0;
-    int voiceMode=0;
-    void selectMonoNote(int source,int root,bool retrigger);
     void noteOn(int,float,int,int,int); void noteOff(int,int);
     float param(const char* id) const {return state.getRawParameterValue(id)->load();}
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SpaceInfinityProcessor)
