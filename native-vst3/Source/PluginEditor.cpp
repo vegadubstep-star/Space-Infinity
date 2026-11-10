@@ -122,11 +122,11 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     addAndMakeVisible(pitchWheel);
     pitchAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"pitchBend",pitchWheel);
     pitchWheel.setNumDecimalPlacesToDisplay(1);
-    const char* ids[]={"cutoff","res","attack","release","detune","mix","drive","chorus","delay","reverb","lforate","lfodepth","gain"};
-    const int decimals[]={0,2,3,3,3,2,2,2,2,2,2,2,2};
-    const char* units[]={" Hz",""," s"," s","","","","","",""," Hz","",""};
-    const char* texts[]={"CUTOFF","RESONANCE","ATTACK","RELEASE","DETUNE","LAYER","DRIVE","CHORUS","DELAY","REVERB","LFO RATE","LFO DEPTH","OUTPUT"};
-    for(int i=0;i<13;i++){
+    const char* ids[]={"cutoff","res","attack","release","detune","mix","drive","chorus","delay","reverb","lforate","lfodepth","gain","ampDecay","ampSustain"};
+    const int decimals[]={0,2,3,3,3,2,2,2,2,2,2,2,2,3,2};
+    const char* units[]={" Hz",""," s"," s","","","","","",""," Hz","",""," s",""};
+    const char* texts[]={"CUTOFF","RESONANCE","ATTACK","RELEASE","DETUNE","LAYER","DRIVE","CHORUS","DELAY","REVERB","LFO RATE","LFO DEPTH","OUTPUT","DECAY","SUSTAIN"};
+    for(int i=0;i<15;i++){
         auto& slider=knobs[i];slider.setName(texts[i]);slider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);slider.setTextBoxStyle(juce::Slider::TextBoxBelow,false,70,19);
         slider.setColour(juce::Slider::rotarySliderFillColourId,juce::Colour(0xffe84953));slider.setColour(juce::Slider::thumbColourId,juce::Colours::white);
         slider.setColour(juce::Slider::textBoxTextColourId,juce::Colours::white);slider.setColour(juce::Slider::textBoxOutlineColourId,juce::Colours::transparentBlack);
@@ -202,7 +202,12 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
                 const float t=x*4.0f;
                 const float attack=float(knobs[2].getValue());
                 const float release=float(knobs[3].getValue());
-                const float level=1.0f-std::exp(-juce::jmin(t,2.0f)/juce::jmax(attack,0.002f));
+                const float held=juce::jmin(t,2.0f);
+                const float sustain=float(knobs[14].getValue());
+                const float decay=float(knobs[13].getValue());
+                const float level=sustain>=1.0f ? 1.0f-std::exp(-held/juce::jmax(attack,0.002f))
+                    : juce::jlimit(sustain,1.0f,1.0f-juce::jmax(0.0f,held-attack)/juce::jmax(decay,0.005f))
+                        *juce::jlimit(0.0f,1.0f,held/juce::jmax(attack,0.002f));
                 y=0.94f-0.86f*level*std::exp(-juce::jmax(0.0f,t-2.0f)/juce::jmax(release,0.02f));
             }else{
                 const float cycles=float(knobs[10].getValue())*0.5f;
@@ -226,9 +231,9 @@ void SpaceInfinityEditor::resized(){
     reverbSpace.setBounds(601,getHeight()-37,64,24);
     compAmount.setBounds(672,getHeight()-37,55,24);
     pitchWheel.setBounds(w-261,116,220,22);
-    auto area=juce::Rectangle<int>(32,265,w-64,getHeight()-309);const int cols=7,rows=2;
+    auto area=juce::Rectangle<int>(32,265,w-64,getHeight()-309);const int cols=8,rows=2;
     const int cellW=area.getWidth()/cols,cellH=area.getHeight()/rows;
-    for(int i=0;i<13;i++){
+    for(int i=0;i<15;i++){
         int col=i%cols,row=i/cols;auto cell=juce::Rectangle<int>(area.getX()+col*cellW,area.getY()+row*cellH,cellW,cellH);
         labels[i].setBounds(cell.getX()+4,cell.getY(),cell.getWidth()-8,22);
         knobs[i].setBounds(cell.getX()+5,cell.getY()+22,cell.getWidth()-10,std::max(62,cell.getHeight()-25));
