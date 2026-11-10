@@ -1,7 +1,100 @@
 #include "PluginEditor.h"
 #include <array>
 #include <cmath>
+#include <complex>
 namespace {
+class EqPanel final : public juce::Component, private juce::Timer {
+public:
+    explicit EqPanel(SpaceInfinityProcessor& p):processor(p),enabled(p.state,"eqEnabled",power){
+        addAndMakeVisible(power);
+        setSize(540,300);
+        startTimerHz(24);
+    }
+    void resized() override {power.setBounds(12,4,120,24);}
+    void paint(juce::Graphics& g) override{
+        g.fillAll(juce::Colour(0xff181817));
+        const auto area=graph();
+        g.setColour(juce::Colour(0xff080909));
+        g.fillRect(area);
+        g.setColour(juce::Colour(0xff34302c));
+        for(float f:{20,50,100,200,500,1000,2000,5000,10000,20000})
+            g.drawVerticalLine(int(xAt(f)),area.getY(),area.getBottom());
+        for(float db:{-18,-12,-6,0,6,12,18})
+            g.drawHorizontalLine(int(yAt(db)),area.getX(),area.getRight());
+        juce::Path curve;
+        for(int x=0;x<=int(area.getWidth());++x){
+            const double frequency=20.0*std::pow(1000.0,double(x)/area.getWidth());
+            const auto z=std::polar(1.0,-juce::MathConstants<double>::twoPi*frequency/48000.0);
+            double magnitude=1.0;
+            for(int band=0;band<7;++band){
+                const auto c=juce::dsp::IIR::ArrayCoefficients<double>::makePeakFilter(
+                    48000.0,value(band,"Frequency"),value(band,"Q"),std::pow(10.0,value(band,"Gain")/20.0));
+                magnitude*=std::abs((c[0]+c[1]*z+c[2]*z*z)/(c[3]+c[4]*z+c[5]*z*z));
+            }
+            const auto y=yAt(float(juce::jlimit(-18.0,18.0,20.0*std::log10(magnitude))));
+            if(x==0)curve.startNewSubPath(area.getX(),y);else curve.lineTo(area.getX()+float(x),y);
+        }
+        g.setColour(juce::Colour(0xffdca55c));
+        g.strokePath(curve,juce::PathStrokeType(1.6f));
+        for(int band=0;band<7;++band){
+            const auto x=xAt(value(band,"Frequency")),y=yAt(value(band,"Gain"));
+            g.setColour(juce::Colour(band==selected?0xfff6c180:0xffa66d42));
+            g.fillEllipse(x-9,y-9,18,18);
+            g.setColour(juce::Colours::black);
+            g.drawText(juce::String(band+1),int(x)-9,int(y)-9,18,18,juce::Justification::centred);
+        }
+        g.setColour(juce::Colour(0xffbdb3a6));
+        g.drawText("Drag frequency / gain    •    Scroll over a band to change Q",
+                   12,getHeight()-26,getWidth()-24,20,juce::Justification::centredLeft);
+    }
+    void mouseDown(const juce::MouseEvent& e) override{
+        selected=bandAt(e.position);
+        if(selected<0)return;
+        for(const auto* field:{"Frequency","Gain"})parameter(selected,field)->beginChangeGesture();
+    }
+    void mouseDrag(const juce::MouseEvent& e) override{
+        if(selected<0)return;
+        const auto area=graph();
+        const float x=juce::jlimit(0.0f,1.0f,(e.position.x-area.getX())/area.getWidth());
+        const float y=juce::jlimit(0.0f,1.0f,(e.position.y-area.getY())/area.getHeight());
+        set(selected,"Frequency",20.0f*std::pow(1000.0f,x));
+        set(selected,"Gain",18.0f-36.0f*y);
+        repaint();
+    }
+    void mouseUp(const juce::MouseEvent&) override{
+        if(selected>=0)for(const auto* field:{"Frequency","Gain"})parameter(selected,field)->endChangeGesture();
+        selected=-1;
+    }
+    void mouseWheelMove(const juce::MouseEvent& e,const juce::MouseWheelDetails& wheel) override{
+        const int band=bandAt(e.position);
+        if(band<0)return;
+        auto* q=parameter(band,"Q");
+        q->beginChangeGesture();
+        set(band,"Q",juce::jlimit(0.2f,12.0f,value(band,"Q")*std::exp(wheel.deltaY)));
+        q->endChangeGesture();
+    }
+private:
+    SpaceInfinityProcessor& processor;
+    juce::ToggleButton power{"EQ enabled"};
+    juce::AudioProcessorValueTreeState::ButtonAttachment enabled;
+    int selected=-1;
+    void timerCallback() override {repaint();}
+    juce::Rectangle<float> graph() const {return getLocalBounds().toFloat().reduced(12).withTrimmedTop(20).withTrimmedBottom(16);}
+    juce::RangedAudioParameter* parameter(int band,const char* field) const {return processor.state.getParameter(processor.eqId(band,field));}
+    float value(int band,const char* field) const {auto* p=parameter(band,field);return p->convertFrom0to1(p->getValue());}
+    void set(int band,const char* field,float v){auto* p=parameter(band,field);p->setValueNotifyingHost(p->convertTo0to1(v));}
+    float xAt(float hz) const {return graph().getX()+graph().getWidth()*std::log(hz/20.0f)/std::log(1000.0f);}
+    float yAt(float db) const {return graph().getY()+graph().getHeight()*(18.0f-db)/36.0f;}
+    int bandAt(juce::Point<float> point) const{
+        int result=-1;
+        float best=15.0f;
+        for(int band=0;band<7;++band){
+            const auto distance=point.getDistanceFrom({xAt(value(band,"Frequency")),yAt(value(band,"Gain"))});
+            if(distance<best){best=distance;result=band;}
+        }
+        return result;
+    }
+};
 constexpr int controlTop=306;
 struct Panel { const char* title; std::array<int,4> knobs; int count; };
 constexpr Panel panels[]={
@@ -125,6 +218,11 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     nextPreset.onClick=[stepPreset]{stepPreset(1);};
     addAndMakeVisible(previousPreset);
     addAndMakeVisible(nextPreset);
+    addAndMakeVisible(eqButton);
+    eqButton.setTooltip("Open the seven-band parametric EQ");
+    eqButton.onClick=[this]{
+        juce::CallOutBox::launchAsynchronously(std::make_unique<EqPanel>(processor),eqButton.getBounds(),this);
+    };
     addAndMakeVisible(osc1);
     addAndMakeVisible(osc2);
     oscAttachments[0]=std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(processor.state,"osc1Enabled",osc1);
@@ -619,6 +717,7 @@ void SpaceInfinityEditor::resized(){
     delaySync.setBounds(fx.removeFromLeft(fxWidth).reduced(2,0));
     delayMode.setBounds(fx.removeFromLeft(fxWidth).reduced(2,0));
     reverbSpace.setBounds(fx.removeFromLeft(fxWidth).reduced(2,0));
+    eqButton.setBounds(fx.removeFromRight(36).reduced(2,0));
     compAmount.setBounds(fx.reduced(2,0));
     auto voice=panelBounds(w,getHeight(),0).reduced(8,5);
     voiceMode.setBounds(voice.removeFromBottom(21).withWidth(108));

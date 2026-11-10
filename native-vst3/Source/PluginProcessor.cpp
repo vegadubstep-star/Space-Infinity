@@ -22,6 +22,19 @@ APVTS::ParameterLayout makeLayout(){
     const char* octaveNames[]={"Master Octave","Oscillator 1 Octave","Oscillator 2 Octave"};
     for(int i=0;i<3;++i)
         p.add(std::make_unique<juce::AudioParameterInt>(juce::ParameterID{octaveIds[i],1},octaveNames[i],-3,3,0));
+    p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{"eqEnabled",1},"EQ Enabled",false));
+    for(int band=0;band<7;++band){
+        const auto name="EQ "+juce::String(band+1)+" ";
+        for(int field=0;field<3;++field){
+            const char* fields[]={"Frequency","Gain","Q"};
+            const float minimum[]={20.0f,-18.0f,0.2f};
+            const float maximum[]={20000.0f,18.0f,12.0f};
+            const float initial[]={SpaceInfinityProcessor::eqFrequencies[size_t(band)],0.0f,1.0f};
+            p.add(std::make_unique<juce::AudioParameterFloat>(
+                juce::ParameterID{SpaceInfinityProcessor::eqId(band,fields[field]),1},
+                name+fields[field],juce::NormalisableRange<float>(minimum[field],maximum[field]),initial[field]));
+        }
+    }
     f("osc1Tune","Oscillator 1 Fine Tune",-50.0f,50.0f,0.0f);
     f("osc2Tune","Oscillator 2 Fine Tune",-50.0f,50.0f,0.0f);
     f("osc1Width","Oscillator 1 Width",0.0f,1.0f,0.0f);
@@ -74,6 +87,9 @@ APVTS::ParameterLayout makeLayout(){
 }
 float osc(double x,int wave){ x-=std::floor(x); switch(wave){case 1:return x<0.48?1.0f:-1.0f;case 2:return std::sin(float(juce::MathConstants<double>::twoPi*x));case 3:return float(4*std::abs(x-0.5)-1);default:return float(2*x-1);} }
 }
+juce::String SpaceInfinityProcessor::eqId(int band,const char* field){
+    return "eq"+juce::String(band)+field;
+}
 juce::StringArray SpaceInfinityProcessor::oscillatorWaves(bool follow){
     juce::StringArray names{"Saw","Pulse","Sine","Triangle","Narrow Pulse","Wide Pulse","Rounded Saw","Folded Sine","Double Sine","Rectified","Vowel Ah","Vowel Oh","Vowel Ee","Reed","Hollow Reed","Brass","Soft Brass","Organ","Drawbar","Glass","Bell","Metal","Sync Rise","Sync Fall","Bent Ramp","Steps","Buzz","Octave Saw","Fifth Stack","Sub Harmonics"};
     if(follow)names.insert(0,"Follow Osc 1");
@@ -111,6 +127,11 @@ float SpaceInfinityProcessor::oscillatorSample(double phase,int wave){
     return table[left]+(table[(left+1)&511]-table[left])*float(index-std::floor(index));
 }
 SpaceInfinityProcessor::SpaceInfinityProcessor():juce::AudioProcessor(BusesProperties().withOutput("Output",juce::AudioChannelSet::stereo(),true)),state(*this,nullptr,"PARAMETERS",makeLayout()){
+    for(size_t band=0;band<eqParameters.size();++band){
+        const char* fields[]={"Frequency","Gain","Q"};
+        for(size_t field=0;field<3;++field)
+            eqParameters[band][field]=state.getRawParameterValue(eqId(int(band),fields[field]));
+    }
     oscillatorSample(0.0,4); // Initialise lookup tables before audio processing.
     for(size_t i=0;i<motionParameters.size();++i)
         motionParameters[i]=state.getRawParameterValue(motionPointId(int(i)));
@@ -205,6 +226,7 @@ juce::Result SpaceInfinityProcessor::importSample(const juce::File& file){
 }
 void SpaceInfinityProcessor::prepareToPlay(double sampleRate,int maxSamples){
     sr=sampleRate;
+    eqState={};
     juce::dsp::ProcessSpec spec{sampleRate,(juce::uint32)std::max(maxSamples,1),2};chorus.prepare(spec);chorus.setRate(0.25f);chorus.setDepth(0.38f);chorus.setCentreDelay(9);chorus.setFeedback(0.1f);chorus.setMix(param("chorus"));reverb.setSampleRate(sr);
     delayL.prepare({sampleRate,(juce::uint32)std::max(maxSamples,1),1});delayR.prepare({sampleRate,(juce::uint32)std::max(maxSamples,1),1});delayL.reset();delayR.reset();
     crossoverLow.prepare(spec); crossoverLow.setCutoffFrequency(180.0f);
@@ -503,6 +525,32 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     params.roomSize=roomSize[space];params.damping=damping[space];
     params.wetLevel=juce::jlimit(0.0f,0.8f,param("reverb")+0.4f*modulation[3])*.65f;params.dryLevel=1-params.wetLevel*.35f;params.width=1;
     reverb.setParameters(params);reverb.processStereo(left,right,b.getNumSamples());
+    if(param("eqEnabled")>0.5f){
+        for(size_t band=0;band<eqParameters.size();++band){
+            const auto& values=eqParameters[band];
+            const float gain=values[1]->load();
+            if(std::abs(gain)<0.0001f){
+                eqState[0][band]={};
+                eqState[1][band]={};
+                continue;
+            }
+            const auto co=juce::dsp::IIR::ArrayCoefficients<float>::makePeakFilter(
+                sr,juce::jlimit(20.0f,float(sr*0.45),values[0]->load()),values[2]->load(),
+                juce::Decibels::decibelsToGain(gain));
+            const float scale=1.0f/co[3];
+            for(int channel=0;channel<2;++channel){
+                auto* samples=b.getWritePointer(channel);
+                auto& memory=eqState[size_t(channel)][band];
+                for(int i=0;i<b.getNumSamples();++i){
+                    const float in=samples[i];
+                    const float out=co[0]*scale*in+memory.z1;
+                    memory.z1=co[1]*scale*in-co[4]*scale*out+memory.z2;
+                    memory.z2=co[2]*scale*in-co[5]*scale*out;
+                    samples[i]=out;
+                }
+            }
+        }
+    }else eqState={};
     b.applyGain(juce::jlimit(0.0f,1.2f,param("gain")+0.5f*modulation[14]));
     const float peak=b.getMagnitude(0,b.getNumSamples());
     auto previous=outputPeak.load(std::memory_order_relaxed);
@@ -778,6 +826,16 @@ void SpaceInfinityProcessor::loadPreset(int index){
     for(size_t i=0;i<std::size(ids);++i)
         set(ids[i],i==2||i==3?juce::jlimit(0.0f,1.5f,patch.values[i]):patch.values[i]);
     set("source",float(patch.source));
+    set("eqEnabled",0.0f);
+    for(int band=0;band<7;++band){
+        const auto reset=[this,band](const char* field,float value){
+            auto* parameter=state.getParameter(eqId(band,field));
+            parameter->setValueNotifyingHost(parameter->convertTo0to1(value));
+        };
+        reset("Frequency",eqFrequencies[size_t(band)]);
+        reset("Gain",0.0f);
+        reset("Q",1.0f);
+    }
     set("noiseLevel",0.0f);
     set("noiseType",0.0f);
     for(const auto* id:{"masterOctave","osc1Octave","osc2Octave"})set(id,0.0f);

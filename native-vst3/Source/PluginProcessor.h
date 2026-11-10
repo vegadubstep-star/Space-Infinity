@@ -22,6 +22,8 @@ public:
     void setStateInformation(const void*,int) override;
     juce::AudioProcessorValueTreeState state;
     void loadPreset(int index);
+    static juce::String eqId(int band,const char* field);
+    static constexpr std::array<float,7> eqFrequencies{60,120,250,500,1000,3000,8000};
     static juce::StringArray oscillatorWaves(bool follow=false);
     static float oscillatorSample(double phase,int wave);
     float takeOutputPeak() noexcept { return outputPeak.exchange(0.0f); }
@@ -36,6 +38,9 @@ public:
     static const juce::StringArray& presetNames();
     static juce::String presetCategory(int index);
 private:
+    struct EqState { float z1=0.0f,z2=0.0f; };
+    std::array<std::array<EqState,7>,2> eqState{};
+    std::array<std::array<std::atomic<float>*,3>,7> eqParameters{};
     std::atomic<float> outputPeak{0.0f};
     struct Sample {
         juce::AudioBuffer<float> audio;
