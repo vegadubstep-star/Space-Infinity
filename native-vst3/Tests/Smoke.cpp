@@ -1,6 +1,7 @@
 #include "../Source/PluginProcessor.h"
 #include <cmath>
 #include <iostream>
+#include <fstream>
 
 int main()
 {
@@ -23,6 +24,11 @@ int main()
     if(!factoryMenu) return 10;
     auto* cutoff=synth.state.getParameter("cutoff");
 
+    const auto audition=juce::File::getCurrentWorkingDirectory().getChildFile("audition");
+    if(audition.createDirectory().failed()) return 17;
+    std::ofstream levels(audition.getChildFile("levels.tsv").getFullPathName().toStdString());
+    if(!levels) return 18;
+    levels << "Preset\tPeak dBFS\tRMS dBFS\n";
     float quietest=1.0f, loudest=0.0f;
     for(int index=0;index<names.size();++index){
         if(names[index].isEmpty() || synth.presetCategory(index).isEmpty()) return 2;
@@ -34,18 +40,31 @@ int main()
             return 11;
         synth.prepareToPlay(48000.0,blockSize);
         float peak=0.0f;
+        double energy=0.0;
+        auto wav=audition.getChildFile(juce::String(index+1).paddedLeft('0',3)+" "+names[index].replaceCharacters("/\\:*?\"<>|","_________")+".wav");
+        wav.deleteFile();
+        auto stream=wav.createOutputStream();
+        if(!stream) return 19;
+        juce::WavAudioFormat format;
+        std::unique_ptr<juce::AudioFormatWriter> writer(format.createWriterFor(stream.get(),48000.0,2,24,{},0));
+        if(!writer) return 20;
+        stream.release();
         for(int block=0;block<75;++block){
             juce::MidiBuffer midi;
             if(block==0) midi.addEvent(juce::MidiMessage::noteOn(1,48,0.8f),0);
             if(block==60) midi.addEvent(juce::MidiMessage::noteOff(1,48),0);
             synth.processBlock(audio,midi);
+            if(!writer->writeFromAudioSampleBuffer(audio,0,blockSize)) return 21;
             for(int channel=0;channel<audio.getNumChannels();++channel)
                 for(int i=0;i<blockSize;++i){
                     const float sample=audio.getSample(channel,i);
                     if(!std::isfinite(sample)) return 3;
                     peak=std::max(peak,std::abs(sample));
+                    energy+=double(sample)*sample;
                 }
         }
+        levels << names[index] << '\t' << 20.0*std::log10(double(peak))
+               << '\t' << 10.0*std::log10(energy/(75.0*blockSize*2.0)) << '\n';
         std::cout << names[index] << " peak " << peak << '\n';
         if(peak<0.0001f || peak>1.0f) return 4;
         quietest=std::min(quietest,peak);

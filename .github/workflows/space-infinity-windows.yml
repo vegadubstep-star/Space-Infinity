@@ -22,3 +22,8 @@ jobs:
           name: Space-Infinity-Windows-x64
           path: release/*
           if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Space-Infinity-Preset-Audition
+          path: native-vst3/build/audition
+          if-no-files-found: error
