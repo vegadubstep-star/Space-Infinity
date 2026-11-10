@@ -119,7 +119,10 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     pitchWheel.setTooltip("Pitch Wheel ±24 semitones. Double-click to centre.");
     addAndMakeVisible(pitchWheel);
     pitchAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"pitchBend",pitchWheel);
+    pitchWheel.setNumDecimalPlacesToDisplay(1);
     const char* ids[]={"cutoff","res","attack","release","detune","mix","drive","chorus","delay","reverb","lforate","lfodepth","gain"};
+    const int decimals[]={0,2,3,3,3,2,2,2,2,2,2,2,2};
+    const char* units[]={" Hz",""," s"," s","","","","","",""," Hz","",""};
     const char* texts[]={"CUTOFF","RESONANCE","ATTACK","RELEASE","DETUNE","LAYER","DRIVE","CHORUS","DELAY","REVERB","LFO RATE","LFO DEPTH","OUTPUT"};
     for(int i=0;i<13;i++){
         auto& slider=knobs[i];slider.setName(texts[i]);slider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);slider.setTextBoxStyle(juce::Slider::TextBoxBelow,false,70,19);
@@ -128,6 +131,8 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         addAndMakeVisible(slider);
         auto& label=labels[i];label.setText(texts[i],juce::dontSendNotification);label.setJustificationType(juce::Justification::centred);label.setColour(juce::Label::textColourId,juce::Colour(0xffc0c0ca));addAndMakeVisible(label);
         attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,ids[i],slider));
+        slider.setNumDecimalPlacesToDisplay(decimals[i]);
+        slider.setTextValueSuffix(units[i]);
     }
 }
 SpaceInfinityEditor::~SpaceInfinityEditor(){setLookAndFeel(nullptr);}
