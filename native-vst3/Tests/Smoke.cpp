@@ -271,7 +271,7 @@ int main()
     auto legacyState=synth.state.copyState();
     for(int child=legacyState.getNumChildren()-1;child>=0;--child){
         const auto id=legacyState.getChild(child).getProperty("id").toString();
-        if(id.startsWith("modRoute")||id.startsWith("modDepth")||id.startsWith("designerLfo")||id=="analogueCharacter")
+        if(id.startsWith("modRoute")||id.startsWith("modDepth")||id.startsWith("designerLfo")||(id=="analogueCharacter"||id=="ampTimed"))
             legacyState.removeChild(child,nullptr);
     }
     auto legacyXml=legacyState.createXml();
@@ -279,6 +279,7 @@ int main()
     juce::AudioProcessor::copyXmlToBinary(*legacyXml,legacyBytes);
     synth.setStateInformation(legacyBytes.getData(),int(legacyBytes.getSize()));
     if(synth.state.getRawParameterValue("analogueCharacter")->load()!=0.0f)return 41;
+    if(synth.state.getRawParameterValue("ampTimed")->load()!=0.0f)return 44;
     for(int source=4;source<8;++source)
         for(int slot=0;slot<3;++slot)
             if(synth.state.getRawParameterValue(synth.modulationRouteId(source,slot,false))->load()!=0.0f)return 42;

@@ -82,3 +82,17 @@ inline float analoguePolyBlep(double phase,double increment) noexcept {
     }
     return 0.0f;
 }
+
+inline void advanceTimedEnvelope(float& level,bool& decaying,float& releaseStart,bool released,
+    float attackStep,float decayStep,float sustain,float releaseSamples) noexcept {
+    if(released){
+        if(releaseStart<0.0f)releaseStart=level;
+        level=releaseSamples<=0.0f?0.0f:std::max(0.0f,level-releaseStart/std::max(1.0f,releaseSamples));
+    }else if(!decaying){
+        level=std::min(1.0f,level+attackStep);
+        decaying=level>=1.0f;
+    }else{
+        const float step=std::max(0.0f,1.0f-sustain)*decayStep;
+        level+=std::clamp(sustain-level,-step,step);
+    }
+}

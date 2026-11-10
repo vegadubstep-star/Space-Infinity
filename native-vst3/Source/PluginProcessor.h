@@ -64,6 +64,7 @@ private:
         int sampleStart = 0, sampleEnd = 0;
         bool sampleLoop = false;
         float stereoSide=0.0f, noiseMemory=0.0f;
+        float releaseStart=-1.0f;
         float dcInput[2]{},dcOutput[2]{};
         AnalogueDrift drift;
         std::array<double,3> lfoPhase{};

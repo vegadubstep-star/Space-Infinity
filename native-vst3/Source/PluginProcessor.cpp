@@ -54,6 +54,7 @@ APVTS::ParameterLayout makeLayout(){
     for(size_t row=0;row<effectRows.size();++row)
         p.add(std::make_unique<juce::AudioParameterBool>(
             juce::ParameterID{effectEnableIds[row],1},juce::String(effectRows[row])+" Enabled",true));
+    p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{"ampTimed",1},"Timed Amp Envelope",false));
     f("analogueCharacter","Analogue Character",0.0f,1.0f,0.0f);
     f("osc1Tune","Oscillator 1 Fine Tune",-50.0f,50.0f,0.0f);
     f("osc2Tune","Oscillator 2 Fine Tune",-50.0f,50.0f,0.0f);
@@ -196,6 +197,7 @@ SpaceInfinityProcessor::SpaceInfinityProcessor():juce::AudioProcessor(BusesPrope
         for(size_t field=0;field<3;++field)
             eqParameters[band][field]=state.getRawParameterValue(eqId(int(band),fields[field]));
     }
+    state.getParameter("ampTimed")->setValueNotifyingHost(1.0f);
     oscillatorSample(0.0,4); // Initialise lookup tables before audio processing.
     for(size_t i=0;i<macroValues.size();++i){
         const auto suffix=juce::String(int(i));
@@ -461,6 +463,7 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     const float lfoRate=juce::jlimit(0.1f,12.0f,param("lforate")*std::exp2(modulation[18]*2));
     const float lfoDepth=juce::jlimit(0.0f,1.0f,param("lfodepth")+0.5f*modulation[19]);
     const float drive=juce::jlimit(0.0f,1.0f,param("drive")+0.45f*modulation[5]);
+    const bool timedEnvelope=param("ampTimed")>.5f;
     const float sustain=juce::jlimit(0.0f,1.0f,param("ampSustain")+0.5f*modulation[16]);
     const float attackStep=float(1.0/std::max(1.0,double(attack)*sr));
     const float legacyAttackStep=attack==0.0f?1.0f:float(1.0-std::exp(-double(attackStep)));
@@ -604,7 +607,10 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
             const float voiceWidth1=juce::jlimit(0.0f,1.0f,width1+.5f*movingModulation[12]);
             const float voiceWidth2=juce::jlimit(0.0f,1.0f,width2+.5f*movingModulation[13]);
 
-            if(v.released)v.env*=voiceReleaseFactor;
+            if(timedEnvelope){
+                advanceTimedEnvelope(v.env,v.decaying,v.releaseStart,v.released,voiceAttackStep,
+                    voiceDecayStep,voiceSustain,float(voiceRelease*sr));
+            }else if(v.released)v.env*=voiceReleaseFactor;
             else if(voiceSustain>=1.0f&&!v.decaying)v.env+=(1-v.env)*voiceLegacyAttack;
             else if(!v.decaying){
                 v.env=std::min(1.0f,v.env+voiceAttackStep);
@@ -1114,6 +1120,7 @@ void SpaceInfinityProcessor::loadPreset(int index){
     for(size_t i=0;i<std::size(ids);++i)
         set(ids[i],i==2||i==3?juce::jlimit(0.0f,1.5f,patch.values[i]):patch.values[i]);
     set("source",float(patch.source));
+    set("ampTimed",1.0f);
     set("flanger",0.0f);
     set("phaser",0.0f);
     for(const auto& control:effectControls)

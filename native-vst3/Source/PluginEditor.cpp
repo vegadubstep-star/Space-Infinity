@@ -264,6 +264,16 @@ void SpaceInfinityEditor::HardwareLook::drawRotarySlider(
     const auto c=bounds.getCentre();
     const float r=juce::jmin(35.0f,juce::jmin(bounds.getWidth(),bounds.getHeight())*0.46f);
     if(r<4.0f)return;
+    const auto& properties=slider.getProperties();
+    if(properties.contains("modDepth")){
+        const float depth=float(double(properties["modDepth"]));
+        const float first=start+pos*(end-start);
+        const float last=start+juce::jlimit(0.0f,1.0f,pos+depth*.5f)*(end-start);
+        juce::Path halo;
+        halo.addCentredArc(c.x,c.y,r*.98f,r*.98f,0.0f,std::min(first,last),std::max(first,last),true);
+        g.setColour(juce::Colour(juce::uint32(juce::int64(properties["modColour"]))));
+        g.strokePath(halo,juce::PathStrokeType(2.3f));
+    }
     const auto radial=[c](float angle,float radius){
         return c.getPointOnCircumference(radius,angle);
     };
@@ -429,7 +439,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         macro.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
         macro.setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);
         macro.setDoubleClickReturnValue(true,0.0);
-        macro.onValueChange=[this,i]{selectedSource=int(i);refreshModulationIndicators();repaint();};
+        macro.onDragStart=[this,i]{selectedSource=int(i);refreshModulationIndicators();repaint();};
         addAndMakeVisible(macro);
         attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"macro"+suffix,macro));
 
@@ -551,6 +561,8 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         slider.setDoubleClickReturnValue(true,parameter->convertFrom0to1(parameter->getDefaultValue()));
         if(i==1||i==5||i==6||i==7||i==8||i==9||i==11||i==12||i==14||i==15||i==16)
             showPercent(slider);
+        if(i==2||i==3||i==13||i==14)
+            slider.onDragStart=[this]{processor.state.getParameter("ampTimed")->setValueNotifyingHost(1.0f);};
         if(i==0 || i==13){
             juce::NormalisableRange<double> travel(slider.getMinimum(),slider.getMaximum(),slider.getInterval());
             travel.setSkewForCentre(i==0?1000.0:0.45);
@@ -729,6 +741,10 @@ std::pair<juce::RangedAudioParameter*,juce::RangedAudioParameter*> SpaceInfinity
     return {nullptr,nullptr};
 }
 void SpaceInfinityEditor::refreshModulationIndicators(){
+    for(auto* child:getChildren())if(auto* slider=dynamic_cast<juce::Slider*>(child)){
+        slider->getProperties().remove("modDepth");
+        slider->getProperties().remove("modColour");
+    }
     for(size_t target=1;target<modulationBadges.size();++target){
         auto* badge=modulationBadges[target].get();
         if(!badge)continue;
@@ -743,6 +759,15 @@ void SpaceInfinityEditor::refreshModulationIndicators(){
             const auto sourceName=source<4?processor.macroNames()[source]:
                 source==7?juce::String("AMP ENV"):"LFO "+juce::String(source-3);
             const float depth=route.first->convertFrom0to1(route.first->getValue());
+            if(source==selectedSource){
+                auto colour=juce::Colour(source<4?0xffd3a363:source==7?0xffb29ed3:0xff69b6cc);
+                if(depth<0)colour=colour.brighter(.5f);
+                for(auto* child:getChildren())if(auto* slider=dynamic_cast<juce::Slider*>(child))
+                    if(slider->isVisible()&&slider->getBounds()==area){
+                        slider->getProperties().set("modDepth",double(depth));
+                        slider->getProperties().set("modColour",juce::int64(colour.getARGB()));
+                    }
+            }
             badge->setTooltip(sourceName+" > "+processor.macroTargets()[int(target)]+" "+
                 juce::String(depth*100.0f,0)+"%. Drag up/down to adjust. Right-click to remove.");
             badge->repaint();
@@ -752,7 +777,7 @@ void SpaceInfinityEditor::refreshModulationIndicators(){
 juce::Rectangle<int> SpaceInfinityEditor::targetBounds(int target) const{
     if(target==18||target==21||target==22){
         const int lfo=target==18?0:target-20;
-        return !fxPage&&lfo==selectedLfo&&lfoSpeed.isVisible()?lfoSpeed.getBounds():juce::Rectangle<int>{};
+        return !fxPage&&lfo==selectedLfo?(lfoSpeed.isVisible()?lfoSpeed.getBounds():motionBars.getBounds()):juce::Rectangle<int>{};
     }
     const juce::Component* controls[]={nullptr,&knobs[0],&knobs[4],&knobs[9],&knobs[2],&knobs[6],
         &knobs[8],&knobs[7],&knobs[5],&knobs[3],&knobs[1],&noiseLevel,&oscillatorSliders[1],
@@ -827,6 +852,7 @@ void SpaceInfinityEditor::mouseDown(const juce::MouseEvent& e){
         }
         const auto nodes=envelopeNodes();
         for(size_t i=0;i<nodes.size();++i)if(nodes[i].getDistanceFrom(e.position)<11.0f){
+            processor.state.getParameter("ampTimed")->setValueNotifyingHost(1.0f);
             const float duration=envelopeDuration();
             envelopeDrag=int(i);envelopeDragDuration=duration;
             const char* ids[]={"attack","ampDecay","release"};
@@ -1047,7 +1073,11 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
             if(area.isEmpty()||!route.first||routeSourceForTarget(target)!=selectedSource)continue;
             const float amount=route.first->convertFrom0to1(route.first->getValue());
             g.setColour(juce::Colour(selectedSource<4?0xffd3a363:selectedSource==7?0xffb29ed3:0xff69b6cc));
-            g.drawRoundedRectangle(area.toFloat().reduced(1.0f),3.0f,1.0f+std::abs(amount));
+            bool rotary=false;
+            for(auto* child:getChildren())if(auto* slider=dynamic_cast<juce::Slider*>(child))
+                if(slider->isVisible()&&slider->getBounds()==area
+                   &&slider->getSliderStyle()==juce::Slider::RotaryHorizontalVerticalDrag)rotary=true;
+            if(!rotary)g.drawRoundedRectangle(area.toFloat().reduced(1.0f),3.0f,1.0f+std::abs(amount));
         }
         if(hoverTarget>0){
             g.setColour(juce::Colour(0xffe1b87d));g.drawRoundedRectangle(targetBounds(hoverTarget).toFloat(),3,2);
@@ -1150,7 +1180,7 @@ void SpaceInfinityEditor::resized(){
     motion.removeFromTop(8);
     auto options=motion.removeFromBottom(28);
     lfoMode.setBounds(options.removeFromLeft(99).reduced(2,0));
-    lfoSync.setBounds(options.removeFromLeft(60).reduced(2,0));
+    lfoSync.setBounds(options.removeFromLeft(76).reduced(2,0));
     motionBars.setBounds(options.reduced(2,0));
     lfoSpeed.setBounds(options.reduced(2,0));
     motionGraph=motion.reduced(4,6);

@@ -28,5 +28,13 @@ int main(){
         const auto x=a.next(.0002f,2048),y=b.next(.0002f,2048);
         if(x!=y||std::abs(x[0])>1.0f||std::abs(x[1])>1.0f)return 3;
     }
+    float envelope=0.0f,releaseStart=-1.0f;
+    bool decaying=false;
+    for(int i=0;i<14400;++i)
+        advanceTimedEnvelope(envelope,decaying,releaseStart,false,1.0f/4800.0f,1.0f/9600.0f,.4f,7200.0f);
+    if(std::abs(envelope-.4f)>.001f)return 4;
+    for(int i=0;i<7201;++i)
+        advanceTimedEnvelope(envelope,decaying,releaseStart,true,1.0f/4800.0f,1.0f/9600.0f,.4f,7200.0f);
+    if(envelope>.0001f)return 5;
     std::cout<<"Analogue filter sweep passed; maximum sample "<<maximum<<"\n";
 }
