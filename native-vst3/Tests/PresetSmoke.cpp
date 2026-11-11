@@ -15,30 +15,37 @@ int runPresetSmoke(){
     if(legacy.add("Keep my sound",saved,savedKey).failed())return 105;
     auto migrated=std::make_unique<SpaceInfinityProcessor>(legacyFolder);
     auto& migratedBank=migrated->presetBank();
-    if(migratedBank.entries().size()!=2||migratedBank.indexForKey(savedKey)<0)return 106;
+    if(migratedBank.entries().size()!=3||migratedBank.indexForKey(savedKey)<0)return 106;
     for(int i=0;i<120;++i)if(migratedBank.indexForKey("F"+juce::String(i))!=-1)return 107;
     if(migratedBank.entries().front().key!="F120"||migratedBank.entries().front().name!="Init")return 108;
     if(migrated->loadBankPreset(migratedBank.indexForKey(savedKey)).failed())return 109;
-    if(migratedBank.restoreFactory().failed()||migratedBank.reload().failed()||migratedBank.entries().size()!=2)return 110;
+    if(migratedBank.restoreFactory().failed()||migratedBank.reload().failed()||migratedBank.entries().size()!=3)return 110;
     if(migratedBank.indexForKey(savedKey)<0||!legacyFolder.getChildFile(legacy.entries().back().file).existsAsFile())return 111;
     migrated.reset();
+    const auto initFolder=folder.getChildFile("InitGeneration");
+    PresetLibrary initOnly({"Init"},{"Init"},initFolder,-1,120);
+    if(initOnly.rename(0,"Init").failed())return 112;
+    auto upgraded=std::make_unique<SpaceInfinityProcessor>(initFolder);
+    if(upgraded->presetBank().entries().size()!=2||upgraded->presetBank().indexForKey("F121")<0)return 113;
+    if(upgraded->presetBank().remove(upgraded->presetBank().indexForKey("F121")).failed()||upgraded->presetBank().reload().failed()||upgraded->presetBank().indexForKey("F121")!=-1)return 114;
+    upgraded.reset();
     synth->loadPreset(0);auto* cutoff=synth->state.getParameter("cutoff");cutoff->setValueNotifyingHost(cutoff->convertTo0to1(1234));
     if(synth->saveNewPreset("My Analogue Lead").failed())return 70;
     auto& bank=synth->presetBank();const auto key=synth->selectedPresetKey();
-    if(bank.entries().size()!=2||bank.indexForKey(key)!=1)return 71;
-    if(bank.move(1,-1).failed()||bank.indexForKey(key)!=0)return 72;
-    if(bank.rename(0,"Personal Lead").failed())return 73;
+    if(bank.entries().size()!=3||bank.indexForKey(key)!=2)return 71;
+    if(bank.move(2,-1).failed()||bank.indexForKey(key)!=1)return 72;
+    if(bank.rename(1,"Personal Lead").failed())return 73;
     auto other=std::make_unique<SpaceInfinityProcessor>(folder);
     const int loaded=other->presetBank().indexForKey(key);
-    if(loaded!=0||other->loadBankPreset(loaded).failed()||std::abs(other->state.getRawParameterValue("cutoff")->load()-1234)>.01)return 74;
+    if(loaded!=1||other->loadBankPreset(loaded).failed()||std::abs(other->state.getRawParameterValue("cutoff")->load()-1234)>.01)return 74;
     if(other->presetBank().sortByName().failed())return 75;
     if(bank.sortByName().wasOk())return 76; // A stale instance must not overwrite another instance's edits.
     if(bank.reload().failed()||bank.indexForKey(key)<0)return 77;
     cutoff->setValueNotifyingHost(cutoff->convertTo0to1(2345));
     if(synth->replaceBankPreset(bank.indexForKey(key)).failed())return 78;
     if(other->presetBank().reload().failed()||other->loadBankPreset(other->presetBank().indexForKey(key)).failed()||std::abs(other->state.getRawParameterValue("cutoff")->load()-2345)>.01)return 79;
-    if(bank.remove(bank.indexForKey("F120")).failed()||bank.indexForKey("F120")!=-1||bank.restoreFactory().failed()||bank.entries().size()!=2)return 80;
-    if(bank.remove(bank.indexForKey(key)).failed()||bank.entries().size()!=1)return 81;
+    if(bank.remove(bank.indexForKey("F120")).failed()||bank.indexForKey("F120")!=-1||bank.restoreFactory().failed()||bank.entries().size()!=3)return 80;
+    if(bank.remove(bank.indexForKey(key)).failed()||bank.entries().size()!=2)return 81;
     if(folder.getChildFile("Deleted").findChildFiles(juce::File::findFiles,false,"*.sipreset").isEmpty())return 82;
     if(synth->replaceBankPreset(0).wasOk())return 83;
     PresetPanel panel(*synth,[]{});panel.setSize(710,465);
@@ -46,7 +53,7 @@ int runPresetSmoke(){
     auto stream=audition.getChildFile("Preset-Manager.png").createOutputStream();if(stream)juce::PNGImageFormat{}.writeImageToStream(panel.createComponentSnapshot(panel.getLocalBounds()),*stream);
     juce::AudioBuffer<float> audio(2,256);synth->loadPreset(0);synth->prepareToPlay(48000,256);
     if(synth->getLatencySamples()<1)return 84;
-    for(int i=0;i<1;++i){synth->loadPreset(i);if(synth->state.getRawParameterValue("analogueUpgrade")->load()!=1)return 85;}
+    for(int i=0;i<2;++i){synth->loadPreset(i);if(synth->state.getRawParameterValue("analogueUpgrade")->load()!=1)return 85;}
     juce::MemoryBlock state;synth->getStateInformation(state);other->setStateInformation(state.getData(),int(state.getSize()));
     if(other->selectedPresetKey()!=synth->selectedPresetKey())return 86;
     // Exercise the actual arrow callbacks without pumping the editor timer.
@@ -65,7 +72,7 @@ int runPresetSmoke(){
         previous->onClick();if(synth->selectedPresetKey()!=navigationKey)return 90;
         synth->getStateInformation(state);
         synth->loadPreset(0);synth->setStateInformation(state.getData(),int(state.getSize()));
-        previous->onClick();if(synth->selectedPresetKey()!="F120")return 91;
+        previous->onClick();if(synth->selectedPresetKey()!="F121")return 91;
         cutoff->setValueNotifyingHost(cutoff->convertTo0to1(3210));
         next->onClick();if(synth->selectedPresetKey()!=navigationKey)return 92;
         if(bank.sortByName().failed())return 93;

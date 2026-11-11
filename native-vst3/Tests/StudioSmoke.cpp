@@ -99,3 +99,45 @@ int runStudioSmoke(){
     return 0;
  }catch(const std::exception& e){std::cerr<<"Studio check failed: "<<e.what()<<'\n';return 120;}
 }
+
+// Sustained and retriggered pad output must not accumulate a loss of level.
+int runAirwaveSmoke(){
+ try{
+    auto synth=std::make_unique<SpaceInfinityProcessor>();synth->loadPreset(1);
+    auto set=[&](const juce::String& id,float value){auto* p=synth->state.getParameter(id);require(p!=nullptr,"pad parameter exists");p->setValueNotifyingHost(p->convertTo0to1(value));};
+    require(synth->presetNames()[1]=="Airwave Pad","pad bank entry");
+    require(synth->state.getRawParameterValue("ampSustain")->load()==1,"pad full sustain");
+    require(synth->state.getRawParameterValue("ampLong")->load()==1,"pad long envelope");
+    synth->prepareToPlay(48000,256);juce::AudioBuffer<float> audio(2,256);
+    const auto render=[&](int blocks,int noteOn,int noteOff){double energy=0;for(int block=0;block<blocks;++block){juce::MidiBuffer midi;
+        for(int n:{48,55,60}){if(block==noteOn)midi.addEvent(juce::MidiMessage::noteOn(1,n,.75f),0);if(block==noteOff)midi.addEvent(juce::MidiMessage::noteOff(1,n),0);}
+        synth->processBlock(audio,midi);for(int ch=0;ch<2;++ch)for(int i=0;i<256;++i){float v=audio.getSample(ch,i);require(std::isfinite(v)&&std::abs(v)<=1,"pad finite/headroom");energy+=double(v)*v;}}return energy;};
+    std::array<double,24> levels{};
+    for(int note=0;note<24;++note){render(190,0,-1);levels[size_t(note)]=render(185,-1,-1);render(94,-1,0);}
+    double first=0,last=0;for(int i=2;i<8;++i)first+=levels[size_t(i)];for(int i=18;i<24;++i)last+=levels[size_t(i)];
+    require(first>1&&last>first*.65,"retriggered pad does not progressively fade");
+    std::cout<<"Airwave repeated-note energy ratio: "<<last/first<<std::endl;
+    synth->prepareToPlay(48000,256);render(375,0,-1);const double heldEarly=render(375,-1,-1);
+    render(3000,-1,-1);const double heldLate=render(375,-1,-1);
+    require(heldLate>heldEarly*.55,"held pad does not progressively fade");
+    render(1,-1,0);const double longTail=render(280,-1,-1);require(longTail>1,"pad release lasts beyond one second");render(600,-1,-1);require(render(188,-1,-1)<.2,"pad tail eventually decays");
+    // Every LFO must bypass its routes at both voice and effects destinations.
+    for(int lfo=0;lfo<3;++lfo){
+        const auto measure=[&](bool enabled,bool routed){synth=std::make_unique<SpaceInfinityProcessor>();synth->loadPreset(0);set("attack",0);set("release",0);set("mix",0);set("osc2Enabled",0);
+            for(int p=0;p<17;++p)set(synth->lfoPointId(lfo,p),1);
+            set(synth->lfoParameterId(lfo,"Enabled"),enabled?1:0);
+            set(synth->modulationRouteId(lfo+4,0,false),routed?14:0);set(synth->modulationRouteId(lfo+4,0,true),-1);
+            set(synth->modulationRouteId(lfo+4,1,false),routed?1:0);set(synth->modulationRouteId(lfo+4,1,true),-1);
+            synth->prepareToPlay(48000,256);return render(188,0,-1);};
+        const double baseline=measure(false,false),bypassed=measure(false,true),active=measure(true,true);
+        require(std::abs(bypassed-baseline)<baseline*.00001,"disabled LFO has no remaining modulation");require(active<baseline*.4,"LFO enabled modulation audible");
+    }
+    const auto legacyEnergy=[&](float depth){synth=std::make_unique<SpaceInfinityProcessor>();synth->loadPreset(0);set("vibratoEnabled",0);set("lfodepth",depth);synth->prepareToPlay(48000,256);return render(188,0,-1);};
+    const double legacyDry=legacyEnergy(0),legacyBypass=legacyEnergy(1);
+    require(std::abs(legacyDry-legacyBypass)<legacyDry*.00001,"legacy vibrato bypass removes pitch/filter modulation");
+    set("vibratoEnabled",0);set("ampLong",1);set(synth->lfoParameterId(2,"Enabled"),0);
+    juce::MemoryBlock state;synth->getStateInformation(state);auto recalled=std::make_unique<SpaceInfinityProcessor>();recalled->setStateInformation(state.getData(),int(state.getSize()));
+    require(recalled->state.getRawParameterValue("vibratoEnabled")->load()==0&&recalled->state.getRawParameterValue("ampLong")->load()==1&&recalled->state.getRawParameterValue(synth->lfoParameterId(2,"Enabled"))->load()==0,"bypass and long envelope recall");
+    std::cout<<"Airwave sustained/retriggered level, long release, LFO bypass and state recall passed"<<std::endl;return 0;
+ }catch(const std::exception& e){std::cerr<<"Airwave test: "<<e.what()<<std::endl;return 130;}
+}

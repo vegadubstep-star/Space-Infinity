@@ -36,7 +36,7 @@ public:
                 bank.push_back(std::move(e));
             }
             // A new bank generation retires old factory entries but preserves user files.
-            if(xml->getIntAttribute("firstFactory",0)!=firstFactory)
+            if(xml->getIntAttribute("firstFactory",0)!=firstFactory||xml->getIntAttribute("factoryCount",0)!=factoryNames.size())
                 for(int i=factoryNames.size()-1;i>=0;--i)
                     if(indexForKey(keyForFactory(i))<0)bank.insert(bank.begin(),{keyForFactory(i),factoryNames[i],factoryCategories[i],{},i});
         }else defaults();
@@ -97,7 +97,7 @@ private:
         if(current!=snapshot)return juce::Result::fail("Preset bank changed in another instance. Press Refresh and try again.");
         const auto previous=bank;lastOperationRan=true;auto result=operation();
         if(result.failed()){bank=previous;return result;}
-        juce::XmlElement xml("SPACE_INFINITY_BANK");xml.setAttribute("revision",juce::Uuid().toString());xml.setAttribute("firstFactory",firstFactory);
+        juce::XmlElement xml("SPACE_INFINITY_BANK");xml.setAttribute("revision",juce::Uuid().toString());xml.setAttribute("firstFactory",firstFactory);xml.setAttribute("factoryCount",factoryNames.size());
         for(const auto& e:bank){auto* node=xml.createNewChildElement("PRESET");node->setAttribute("key",e.key);node->setAttribute("name",e.name);node->setAttribute("category",e.category);node->setAttribute("file",e.file);node->setAttribute("factory",e.factory>=0?factoryId(e.factory):-1);}
         const auto text=xml.toString();juce::TemporaryFile temp(manifest());
         if(!temp.getFile().replaceWithText(text)||!temp.overwriteTargetFileWithTemporary()){bank=previous;return juce::Result::fail("Cannot save preset bank order.");}

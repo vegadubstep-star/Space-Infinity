@@ -4,7 +4,7 @@ Native JUCE Windows x64 synthesizer for FL Studio, with the owner's INFINITY wor
 
 Current development branch: **codex/windows-build**.
 
-- A clean Init sound for the new bank; previous factory presets removed. User-saved presets remain available.
+- Init and the first new Airwave Pad; previous factory presets removed. User-saved presets remain available.
 - Live loaded-sample/processed-output waveforms, trim/reverse and sample import.
 - Expanded single/multiband dynamics, stereo/Ping-pong/Tap delay, shaped convolution, seven-band EQ with filter/slope choices.
 - Frequency-selective sidechain/pumping and trance gate with 15 editable patterns.
@@ -23,4 +23,4 @@ ctest --test-dir native-vst3/build -C Release --output-on-failure
 
 For an installer/archive, install Inno Setup 6 and run `scripts/package-windows.ps1`. GitHub Actions also builds, tests and packages the Windows x64 outputs on branch pushes. Use the result for the exact commit you checked out; a running workflow is not a successful Windows validation. FL Studio routing, compatibility and listening tests remain separate host checks.
 
-The [test guide](docs/TESTING_STUDIO_BUILD.md) explains where to download the installer and how to exercise the new features. Existing user presets and project parameters are retained. The previous factory bank is retired; Restore Factory now restores only Init.
+The [test guide](docs/TESTING_STUDIO_BUILD.md) explains where to download the installer and how to exercise the new features. Existing user presets and project parameters are retained. The previous factory bank is retired; Restore Factory now restores Init and Airwave Pad. See [Airwave Pad](docs/AIRWAVE_PAD.md) for voicing, LFO bypass and long-envelope controls.

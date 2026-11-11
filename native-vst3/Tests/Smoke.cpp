@@ -6,6 +6,7 @@
 int runExtendedSmoke();
 int runPresetSmoke();
 int runStudioSmoke();
+int runAirwaveSmoke();
 
 int renderHardwarePreview()
 {
@@ -41,6 +42,7 @@ int main(int argc,char* argv[])
     if(argc>1&&juce::String(argv[1])=="--ui-only")return renderHardwarePreview();
     if(argc>1&&juce::String(argv[1])=="--preset-tests")return runPresetSmoke();
     if(argc>1&&juce::String(argv[1])=="--extended-tests")return runExtendedSmoke();
+    if(argc>1&&juce::String(argv[1])=="--pad-tests")return runAirwaveSmoke();
     if(argc>1&&juce::String(argv[1])=="--studio-tests")return runStudioSmoke();
     // Hosts allocate processors on the heap. Keep test dispatch's main stack
     // small as well, including when it calls another smoke-test entry point.
@@ -49,7 +51,7 @@ int main(int argc,char* argv[])
     constexpr int blockSize=256;
     juce::AudioBuffer<float> audio(2,blockSize);
     const auto& names=synth.presetNames();
-    if(names.size()!=1 || synth.motionNames().size()!=20) return 1;
+    if(names.size()!=2 || synth.motionNames().size()!=20) return 1;
 
     for(int i=0;i<names.size();++i)
         if(names.indexOf(names[i])!=i) return 9;

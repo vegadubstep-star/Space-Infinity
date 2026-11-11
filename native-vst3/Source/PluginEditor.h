@@ -59,6 +59,8 @@ private:
     int envelopeDrag=-1;
     float envelopeDragDuration=1.0f;
     juce::ComboBox lfoSync,lfoMode;
+    juce::ToggleButton lfoPower{"LFO ON"},vibratoPower{"VIBRATO"},longEnvelope{"LONG x3"};
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> lfoPowerBinding,vibratoPowerBinding,longEnvelopeBinding;
     juce::Slider lfoSpeed;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> lfoBarsBinding,lfoSyncBinding,lfoModeBinding;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> lfoSpeedBinding;

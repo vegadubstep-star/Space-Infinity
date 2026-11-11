@@ -336,6 +336,13 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     lfoMode.addItemList({"Free","Retrigger","One-shot"},1);
     addAndMakeVisible(lfoSync);
     addAndMakeVisible(lfoMode);
+    for(auto* button:{&lfoPower,&vibratoPower,&longEnvelope})addAndMakeVisible(*button);
+    lfoPower.setName("Selected LFO enabled");vibratoPower.setName("Legacy vibrato enabled");longEnvelope.setName("Long envelope x3");
+    lfoPower.setTooltip("Bypass the selected LFO, preserving its shape and routes.");
+    vibratoPower.setTooltip("Bypass the separate legacy vibrato/filter LFO.");
+    longEnvelope.setTooltip("Multiply amp attack and release times by three.");
+    vibratoPowerBinding=std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(processor.state,"vibratoEnabled",vibratoPower);
+    longEnvelopeBinding=std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(processor.state,"ampLong",longEnvelope);
     lfoSpeed.setSliderStyle(juce::Slider::LinearHorizontal);
     lfoSpeed.setTextBoxStyle(juce::Slider::TextBoxRight,false,59,21);
     addAndMakeVisible(lfoSpeed);
@@ -469,6 +476,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     pitchAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"pitchBend",pitchWheel);
     pitchWheel.textFromValueFunction=[](double value){return juce::String(value,1)+" st";};
     pitchWheel.updateText();
+    longEnvelope.onStateChange=[this]{knobs[2].updateText();knobs[3].updateText();repaint();};
     const char* ids[]={"cutoff","res","attack","release","detune","mix","drive","chorus","delay","reverb","lforate","lfodepth","gain","ampDecay","ampSustain","flanger","phaser"};
     const int decimals[]={0,2,3,3,3,2,2,2,2,2,2,2,2,3,2,2,2};
     const char* units[]={" Hz",""," s"," s","","","","","",""," Hz","",""," s","","",""};
@@ -483,9 +491,11 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         slider.setNumDecimalPlacesToDisplay(decimals[i]);
         const auto suffix=juce::String(units[i]);
         const int precision=decimals[i];
-        slider.textFromValueFunction=[suffix,precision](double value){
-            return juce::String(value,precision)+suffix;
+        slider.textFromValueFunction=[this,i,suffix,precision](double value){
+            const double scale=(i==2||i==3)&&longEnvelope.getToggleState()?3.0:1.0;
+            return juce::String(value*scale,precision)+suffix;
         };
+        if(i==2||i==3)slider.valueFromTextFunction=[this](const juce::String& text){return text.getDoubleValue()/(longEnvelope.getToggleState()?3:1);};
         slider.updateText();
         const auto* parameter=processor.state.getParameter(ids[i]);
         slider.setDoubleClickReturnValue(true,parameter->convertFrom0to1(parameter->getDefaultValue()));
@@ -672,6 +682,8 @@ void SpaceInfinityEditor::updatePage(){
     repaint();
 }
 void SpaceInfinityEditor::bindLfoControls(){
+    lfoPowerBinding.reset();
+    lfoPowerBinding=std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(processor.state,processor.lfoParameterId(selectedLfo,"Enabled"),lfoPower);
     lfoBarsBinding.reset();lfoSyncBinding.reset();lfoModeBinding.reset();lfoSpeedBinding.reset();
     for(auto& binding:lfoPointBindings)binding.reset();
     lfoBarsBinding=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(
@@ -801,11 +813,11 @@ void SpaceInfinityEditor::assignMacro(int source,int target,bool inverted){
     repaint();
 }
 float SpaceInfinityEditor::envelopeDuration() const{
-    return envelopeDrag>=0?envelopeDragDuration:juce::jmax(.5f,float(knobs[2].getValue()+knobs[13].getValue()+knobs[3].getValue())+.4f);
+    return envelopeDrag>=0?envelopeDragDuration:juce::jmax(.5f,float((knobs[2].getValue()+knobs[3].getValue())*(longEnvelope.getToggleState()?3:1)+knobs[13].getValue())+.4f);
 }
 std::array<juce::Point<float>,3> SpaceInfinityEditor::envelopeNodes() const{
     const float duration=envelopeDuration();
-    const float attack=float(knobs[2].getValue()),decay=float(knobs[13].getValue());
+    const float attack=float(knobs[2].getValue())*(longEnvelope.getToggleState()?3:1),decay=float(knobs[13].getValue());
     const float sustain=float(knobs[14].getValue());
     const auto point=[this,duration](float time,float level){
         return juce::Point<float>(envelopeGraph.getX()+envelopeGraph.getWidth()*time/duration,
@@ -857,14 +869,15 @@ void SpaceInfinityEditor::mouseDrag(const juce::MouseEvent& e){
         };
         const float time=juce::jlimit(0.0f,envelopeDragDuration,
             float(e.x-envelopeGraph.getX())/float(envelopeGraph.getWidth())*envelopeDragDuration);
-        if(envelopeDrag==0)set("attack",juce::jlimit(0.0f,1.0f,time));
+        const float scale=longEnvelope.getToggleState()?3.0f:1.0f;
+        if(envelopeDrag==0)set("attack",juce::jlimit(0.0f,1.0f,time/scale));
         if(envelopeDrag==1){
-            set("ampDecay",juce::jlimit(.005f,8.0f,time-float(knobs[2].getValue())));
+            set("ampDecay",juce::jlimit(.005f,8.0f,time-float(knobs[2].getValue())*scale));
             set("ampSustain",juce::jlimit(0.0f,1.0f,
                 float(envelopeGraph.getBottom()-4-e.y)/float(envelopeGraph.getHeight()-8)));
         }
         if(envelopeDrag==2)
-            set("release",juce::jlimit(0.0f,1.0f,time-float(knobs[2].getValue()+knobs[13].getValue())-.4f));
+            set("release",juce::jlimit(0.0f,1.0f,(time-float(knobs[2].getValue())*scale-float(knobs[13].getValue())-.4f)/scale));
     }else if(lastMotionPoint>=0)drawMotionAt(e.getPosition());
 }
 void SpaceInfinityEditor::mouseUp(const juce::MouseEvent& e){
@@ -996,7 +1009,8 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
             g.setColour(juce::Colour(0xffc9e0e5));
             int count=0;
             for(int slot=0;slot<3;++slot)if(processor.state.getRawParameterValue(processor.modulationRouteId(int(lfo)+4,slot,false))->load()>.5f)++count;
-            g.drawText("LFO "+juce::String(int(lfo+1))+" ("+juce::String(count)+") +",lfoTabs[lfo],juce::Justification::centred);
+            const bool enabled=processor.state.getRawParameterValue(processor.lfoParameterId(int(lfo),"Enabled"))->load()>.5f;
+            g.drawText("LFO "+juce::String(int(lfo+1))+(enabled?" ("+juce::String(count)+") +":juce::String(" OFF")),lfoTabs[lfo],juce::Justification::centred);
         }
         const auto names=SpaceInfinityProcessor::macroNames();
         for(size_t i=0;i<macros.size();++i){
@@ -1014,7 +1028,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         }
         const auto envelope=envelopeGraph;
         HardwareTheme::display(g,envelope.toFloat());
-        const float attack=float(knobs[2].getValue()),decay=float(knobs[13].getValue());
+        const float attack=float(knobs[2].getValue())*(longEnvelope.getToggleState()?3:1),decay=float(knobs[13].getValue());
         const float sustain=float(knobs[14].getValue()),release=float(knobs[3].getValue());
         const float total=juce::jmax(.5f,attack+decay+release+.4f);
         const auto envPoint=[&envelope,total](float time,float level){
@@ -1155,12 +1169,15 @@ void SpaceInfinityEditor::resized(){
         knobs[index].setBounds(cell);
     }
     envelopeTab=layout.envelope.reduced(8,3).withHeight(18);
+    longEnvelope.setBounds(envelopeTab.removeFromRight(88));
     envelopeGraph=layout.envelope.reduced(8).withTrimmedTop(19).withHeight(juce::jmax(55,layout.envelope.getHeight()/2-22));
     auto tabs=layout.motion.reduced(8,3).withHeight(19);
     const int tabWidth=tabs.getWidth()/3;
     for(auto& tab:lfoTabs)tab=tabs.removeFromLeft(tabWidth).reduced(2,0);
     auto motion=layout.motion.reduced(8).withTrimmedTop(26);
-    motionShape.setBounds(motion.removeFromTop(24).reduced(2,0));
+    auto shapeRow=motion.removeFromTop(24);
+    lfoPower.setBounds(shapeRow.removeFromRight(80));vibratoPower.setBounds(shapeRow.removeFromRight(90));
+    motionShape.setBounds(shapeRow.reduced(2,0));
     motion.removeFromTop(8);
     auto options=motion.removeFromBottom(28);
     lfoMode.setBounds(options.removeFromLeft(99).reduced(2,0));

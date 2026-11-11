@@ -171,6 +171,7 @@ private:
     std::array<std::array<std::atomic<float>*,3>,8> macroRoutes{}, macroDepths{};
     std::array<std::array<std::atomic<float>*,17>,3> designerPoints{};
     std::array<std::array<std::atomic<float>*,4>,3> designerControls{};
+    std::array<std::atomic<float>*,3> designerEnabled{};
     std::array<double,3> designerPhase{};
     std::array<std::atomic<float>,3> displayedLfoPhase{};
     double sr=44100, lfoPhase=0; uint64_t clock=0;

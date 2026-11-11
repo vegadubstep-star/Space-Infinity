@@ -14,6 +14,8 @@ APVTS::ParameterLayout makeLayout(){
     f("cutoff","Filter Cutoff",80,16000,8000);f("res","Resonance",0,0.95f,0.12f);
     f("attack","Attack",0.0f,1.0f,0.01f);f("release","Release",0.0f,1.0f,0.5f);
     f("ampDecay","Amp Decay",0.005f,8.0f,0.35f);
+    p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{"ampLong",1},"Long Amp Envelope (x3)",false));
+    p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{"vibratoEnabled",1},"Legacy Vibrato Enabled",true));
     f("ampSustain","Amp Sustain",0.0f,1.0f,1.0f);
     p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{"osc1Enabled",1},"Oscillator 1 Enabled",true));
     p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{"osc2Enabled",1},"Oscillator 2 Enabled",true));
@@ -148,6 +150,7 @@ APVTS::ParameterLayout makeLayout(){
 
     for(int lfo=0;lfo<3;++lfo){
         const auto title="LFO "+juce::String(lfo+1);
+        p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{SpaceInfinityProcessor::lfoParameterId(lfo,"Enabled"),1},title+" Enabled",true));
         p.add(std::make_unique<juce::AudioParameterFloat>(
             juce::ParameterID{SpaceInfinityProcessor::lfoParameterId(lfo,"Speed"),1},title+" Speed",
             juce::NormalisableRange<float>(0.01f,20.0f),1.0f));
@@ -272,6 +275,7 @@ SpaceInfinityProcessor::SpaceInfinityProcessor(const juce::File& presetDirectory
         for(int point=0;point<17;++point)
             designerPoints[size_t(lfo)][size_t(point)]=state.getRawParameterValue(lfoPointId(lfo,point));
         const char* fields[]={"Speed","Sync","Bars","Mode"};
+        designerEnabled[size_t(lfo)]=state.getRawParameterValue(lfoParameterId(lfo,"Enabled"));
         for(size_t i=0;i<4;++i)
             designerControls[size_t(lfo)][i]=state.getRawParameterValue(lfoParameterId(lfo,fields[i]));
     }
@@ -549,6 +553,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     std::array<std::array<float,17>,3> curves{};
     std::array<double,3> lfoSteps{};
     std::array<int,3> lfoModes{};
+    std::array<bool,3> lfoEnabled{};
     for(size_t lfo=0;lfo<3;++lfo){
         for(size_t point=0;point<17;++point)curves[lfo][point]=designerPoints[lfo][point]->load();
         const auto& control=designerControls[lfo];
@@ -557,6 +562,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
         lfoSteps[lfo]=control[1]->load()>.5f
             ?delayBpm/(240.0*sr*lengths[division]):control[0]->load()/sr;
         lfoModes[lfo]=int(control[3]->load());
+        lfoEnabled[lfo]=designerEnabled[lfo]->load()>.5f;
     }
     const auto curveAt=[&curves](size_t lfo,double phase){
         const double x=std::clamp(phase,0.0,1.0)*16.0;
@@ -574,7 +580,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
             if(route.target>0)values[route.target]+=route.depth*value;
     };
     auto fxModulation=modulation;
-    for(size_t lfo=0;lfo<3;++lfo)routeDynamic(fxModulation,lfo,curveAt(lfo,designerPhase[lfo]));
+    for(size_t lfo=0;lfo<3;++lfo)if(lfoEnabled[lfo])routeDynamic(fxModulation,lfo,curveAt(lfo,designerPhase[lfo]));
     float currentEnvelope=0.0f;
     for(const auto& voice:voices)if(voice.active)currentEnvelope=std::max(currentEnvelope,voice.env);
     routeDynamic(fxModulation,3,currentEnvelope);
@@ -582,14 +588,15 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     for(size_t lfo=0;lfo<3;++lfo)
         lfoSteps[lfo]*=std::exp2(fxModulation[size_t(speedTargets[lfo])]*2.0f);
 
-    const float attack=juce::jlimit(0.0f,1.0f,param("attack")*std::exp2(modulation[4]*3));
-    const float release=juce::jlimit(0.0f,1.0f,param("release")*std::exp2(modulation[9]*2));
+    const float ampScale=param("ampLong")>.5f?3.0f:1.0f;
+    const float attack=juce::jlimit(0.0f,1.0f,param("attack")*std::exp2(modulation[4]*3))*ampScale;
+    const float release=juce::jlimit(0.0f,1.0f,param("release")*std::exp2(modulation[9]*2))*ampScale;
     const float mix=juce::jlimit(0.0f,1.0f,param("mix")+0.4f*modulation[8]);
     const float detune=juce::jlimit(0.0f,0.04f,param("detune")+0.02f*modulation[2]);
     const float cutoff=param("cutoff")*std::exp2(modulation[1]*2);
     const float res=juce::jlimit(0.0f,0.95f,param("res")+0.4f*modulation[10]);
     const float lfoRate=juce::jlimit(0.1f,12.0f,param("lforate")*std::exp2(modulation[18]*2));
-    const float lfoDepth=juce::jlimit(0.0f,1.0f,param("lfodepth")+0.5f*modulation[19]);
+    const float lfoDepth=param("vibratoEnabled")>.5f?juce::jlimit(0.0f,1.0f,param("lfodepth")+0.5f*modulation[19]):0;
     const float drive=juce::jlimit(0.0f,1.0f,param("drive")+0.45f*modulation[5]);
     const bool timedEnvelope=param("ampTimed")>.5f;
     const bool upgraded=param("analogueUpgrade")>.5f;
@@ -692,6 +699,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
         std::array<float,3> lfoValues{};
         std::array<float,23> movingModulation{};
         for(size_t lfo=0;lfo<3;++lfo){
+            if(!lfoEnabled[lfo])continue;
             lfoValues[lfo]=curveAt(lfo,designerPhase[lfo]);
             designerPhase[lfo]+=lfoSteps[lfo];
             if(lfoModes[lfo]==2)designerPhase[lfo]=std::min(1.0,designerPhase[lfo]);
@@ -721,6 +729,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
             if(userSample(v.source) && v.sampleRevision!=sampleRevision){v.active=false;continue;}
             movingModulation={};
             for(size_t lfo=0;lfo<3;++lfo){
+                if(!lfoEnabled[lfo])continue;
                 float value=lfoValues[lfo];
                 if(lfoModes[lfo]!=0){
                     value=curveAt(lfo,v.lfoPhase[lfo]);
@@ -731,8 +740,8 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                 routeDynamic(movingModulation,lfo,value);
             }
             routeDynamic(movingModulation,3,v.env);
-            const float voiceAttack=juce::jlimit(0.0f,1.0f,attack*std::exp2(movingModulation[4]*3));
-            const float voiceRelease=juce::jlimit(0.0f,1.0f,release*std::exp2(movingModulation[9]*2));
+            const float voiceAttack=juce::jlimit(0.0f,ampScale,attack*std::exp2(movingModulation[4]*3));
+            const float voiceRelease=juce::jlimit(0.0f,ampScale,release*std::exp2(movingModulation[9]*2));
             const float voiceAttackStep=movingModulation[4]==0.0f?attackStep:float(1.0/std::max(1.0,double(voiceAttack)*sr));
             const float voiceLegacyAttack=movingModulation[4]==0.0f?legacyAttackStep:
                 voiceAttack==0.0f?1.0f:float(1.0-std::exp(-double(voiceAttackStep)));
@@ -755,7 +764,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
             const float voiceWidth2=juce::jlimit(0.0f,1.0f,width2+.5f*movingModulation[13]);
 
             if(timedEnvelope&&upgraded){
-                v.env=v.curvedAmp.next(v.released,sr,juce::jmin(1.0f,voiceAttack*timing),juce::jlimit(.005f,8.0f,float(1.0/(voiceDecayStep*sr))*timing),voiceSustain,juce::jmin(1.0f,voiceRelease*timing));
+                v.env=v.curvedAmp.next(v.released,sr,juce::jmin(ampScale,voiceAttack*timing),juce::jlimit(.005f,8.0f,float(1.0/(voiceDecayStep*sr))*timing),voiceSustain,juce::jmin(ampScale,voiceRelease*timing));
             }else if(timedEnvelope){
                 advanceTimedEnvelope(v.env,v.decaying,v.releaseStart,v.released,voiceAttackStep,
                     voiceDecayStep,voiceSustain,float(voiceRelease*sr));
@@ -1101,14 +1110,14 @@ void SpaceInfinityProcessor::setStateInformation(const void* data,int size){auto
     }
     state.replaceState(juce::ValueTree::fromXml(*xml));}
 const juce::StringArray& SpaceInfinityProcessor::presetNames(){
-    static const juce::StringArray names{"Init"};
+    static const juce::StringArray names{"Init","Airwave Pad"};
     return names;
 }
 juce::String SpaceInfinityProcessor::presetCategory(int index){
-    return index==0?"Init":juce::String{};
+    return index==0?"Init":index==1?"Pads":juce::String{};
 }
 void SpaceInfinityProcessor::loadPreset(int index){
-    if(index!=0)return;
+    if(index<0||index>=presetNames().size())return;
     // A fresh sound starts from parameter defaults, without old factory voicing.
     for(auto* parameter:getParameters())
         if(auto* ranged=dynamic_cast<juce::RangedAudioParameter*>(parameter))
@@ -1120,6 +1129,26 @@ void SpaceInfinityProcessor::loadPreset(int index){
                        "convolverEnabled","eqEnabled","gateEnabled","pumpEnabled"})set(id,0);
     set("lfodepth",0);set("motionDepth",0);set("ampSustain",1);set("ampTimed",1);
     set("analogueUpgrade",1);set("analogueCharacter",0);
+    if(index==1){
+        set("wave",0);set("osc2Wave",1);set("osc1Unison",8);set("osc2Unison",7);
+        set("osc1Width",.90f);set("osc2Width",.96f);set("detune",.008f);set("mix",.32f);
+        set("osc2Octave",1);set("osc2Tune",4);set("noiseLevel",.008f);set("noiseType",2);
+        set("ampLong",1);set("attack",.32f);set("release",.84f);set("ampDecay",.7f);set("ampSustain",1);
+        set("filterMode",1);set("cutoff",2600);set("res",.12f);set("drive",.035f);set("gain",.62f);
+        set("chorusEnabled",1);set("chorus",.32f);set("chorusRate",.16f);set("chorusDepth",.46f);set("chorusDelay",12);set("chorusFeedback",.06f);
+        set("reverbEnabled",1);set("reverb",.48f);set("reverbSize",.90f);set("reverbDamping",.38f);set("reverbWidth",1);set("reverbSpace",2);
+        set("phaserEnabled",1);set("phaser",.055f);set("phaserRate",.073f);set("phaserDepth",.30f);set("phaserFeedback",.12f);
+        set("eqEnabled",1);set("eqMode0",4);set("eq0Frequency",200);set("eq0Q",.7071f);
+        set("eqMode6",3);set("eq6Frequency",3900);set("eq6Q",.7071f);
+        for(int lfo=0;lfo<3;++lfo){
+            set(lfoParameterId(lfo,"Enabled").toRawUTF8(),lfo<2?1:0);
+            set(lfoParameterId(lfo,"Bars").toRawUTF8(),float(lfo==0?2:3));
+            for(int point=0;point<17;++point)
+                set(lfoPointId(lfo,point).toRawUTF8(),1-std::abs(float(point)/8-1));
+        }
+        set(modulationRouteId(4,0,false).toRawUTF8(),12);set(modulationRouteId(4,0,true).toRawUTF8(),-.20f);
+        set(modulationRouteId(5,0,false).toRawUTF8(),1);set(modulationRouteId(5,0,true).toRawUTF8(),.20f);
+    }
     state.state.setProperty("presetKey",library->keyForFactory(index),nullptr);
 }
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter(){return new SpaceInfinityProcessor();}
