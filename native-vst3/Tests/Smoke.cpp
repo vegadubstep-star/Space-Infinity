@@ -42,7 +42,10 @@ int main(int argc,char* argv[])
     if(argc>1&&juce::String(argv[1])=="--preset-tests")return runPresetSmoke();
     if(argc>1&&juce::String(argv[1])=="--extended-tests")return runExtendedSmoke();
     if(argc>1&&juce::String(argv[1])=="--studio-tests")return runStudioSmoke();
-    SpaceInfinityProcessor synth;
+    // Hosts allocate processors on the heap. Keep test dispatch's main stack
+    // small as well, including when it calls another smoke-test entry point.
+    auto synthInstance=std::make_unique<SpaceInfinityProcessor>();
+    auto& synth=*synthInstance;
     constexpr int blockSize=256;
     juce::AudioBuffer<float> audio(2,blockSize);
     const auto& names=synth.presetNames();

@@ -15,3 +15,5 @@ After the workflow succeeds, download **Space-Infinity-Windows-x64** from that r
 Please report the preset name, feature/control, whether it happens in a fresh instance or recalled project, and a short audio/screenshot example for anything that sounds or behaves wrong.
 
 Native Linux validation for this update covers all 119 preset auditions, UI bounds/screenshots at four sizes, preset/state/migration tests, extended engines and the studio tests. The studio tests exercise dynamics, actual delay impulse timing/routing, frequency-selective gating, 15 distinct patterns, external sidechain detection and the optional input bus, EQ slopes, minimum-phase magnitude preservation, sampler/IR displays and embedded state recall. Windows workflow results and FL Studio listening are separate checks.
+
+The smoke tests allocate full processor instances on the heap, matching host allocation and avoiding stack exhaustion with Windows' standard 1 MB stack. The complete seven-test suite also passes locally with an explicit 1 MB stack limit.
