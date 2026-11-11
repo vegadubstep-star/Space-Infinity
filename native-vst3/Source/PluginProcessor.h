@@ -7,6 +7,7 @@
 #include "StudioEffects.h"
 #include "RhythmFX.h"
 #include "StudioEQ.h"
+#include "WorkflowDSP.h"
 class ImpulseWorker;
 class SpaceInfinityProcessor : public juce::AudioProcessor {
 public:
@@ -85,6 +86,18 @@ public:
     juce::String impulseName() const;
     double hostBpm() const {return displayedBpm.load();}
     void loadGatePreset(int);
+    float effectPeak(int stage) {return fxPeak[size_t(stage)].exchange(0); }
+    bool effectClipping(int stage) {return fxClip[size_t(stage)].exchange(false);}
+    juce::StringArray flexibleTargets() const;
+    void assignFlexibleMacro(int macro,int slot,int target);
+    void assignFlexibleSource(int source,int slot,int target);
+    int flexibleSourceTarget(int source,int slot)const{return flexibleRoute[size_t(source<3?source*3+slot:9+(source-3)*16+slot)].load();}
+    int flexibleTargetIndex(const juce::String& id)const {for(size_t i=0;i<flexibleTargetList.size();++i)if(flexibleTargetList[i].id==id)return int(i);return -1;}
+    bool dropModulation(const juce::String&,const juce::String&);
+    juce::String modulationDepthFor(const juce::String&,const juce::String&)const;
+    int flexibleMacroTarget(int macro,int slot) const {return flexibleRoute[size_t(macro*3+slot)].load();}
+    float effectiveParameter(const char* id) const {return param(id);}
+    float gatePhaseView()const{return gateViewPhase.load();}
     int gateStep() const {return displayedGateStep.load();}
 private:
     juce::File lastPresetExportFolder;
@@ -107,7 +120,7 @@ private:
     std::array<std::atomic<float>,32768> scopeSamples{};
     std::atomic<unsigned> scopeWrite{0};unsigned scopeCounter=0;
     std::atomic<float> displayedSamplePosition{-1};
-    juce::SmoothedValue<float> echoWet,irLevel,studioCompWet;
+    juce::SmoothedValue<float> echoWet,irLevel,studioCompWet,reverbDryGain;
     std::unique_ptr<PresetLibrary> library;
     juce::dsp::Oversampling<float> oversampling{2,1,juce::dsp::Oversampling<float>::filterHalfBandPolyphaseIIR,true,true};
     juce::MidiBuffer highRateMidi;
@@ -155,6 +168,7 @@ private:
         AnalogueEnvelope curvedAmp,curvedFilter,pitchEnvelope;
         VoiceCalibration calibration;
         double idleRateA=0,idleRateB=0,pitch=0,subPhase=0;
+        float subEnvelope=0,lastL=0,lastR=0,tailL=0,tailR=0,smoothFc=0;int declickRemaining=0,declickLength=1;
         int source = 0;
         double samplePosition = 0, sampleStep = 0;
         int sampleStart = 0, sampleEnd = 0;
@@ -196,7 +210,16 @@ private:
     int voiceMode=0;
     void selectMonoNote(int source,int root,bool retrigger);
     void noteOn(int,float,int,int,int); void noteOff(int,int);
-    float param(const char* id) const {return state.getRawParameterValue(id)->load();}
+    struct FlexibleTarget {juce::String id,name;juce::RangedAudioParameter* parameter=nullptr;std::atomic<float>* raw=nullptr;};
+    std::vector<FlexibleTarget> flexibleTargetList;std::array<std::atomic<int>,57> flexibleRoute;
+    struct FlexibleValue {const std::atomic<float>* raw=nullptr;juce::RangedAudioParameter* parameter=nullptr;float offset=0;};std::array<FlexibleValue,57> flexibleValue{};
+    std::array<std::atomic<float>*,57> flexibleDepth{};
+    std::atomic<float> gateViewPhase{0};std::array<std::array<std::atomic<float>*,33>,3> gateCurveParameters{};
+    studio::WetEQ delayWetEQ,reverbWetEQ;studio::SmoothFlanger smoothFlanger;juce::AudioBuffer<float> workflowDry;
+    std::array<juce::SmoothedValue<float>,8> fxGain;std::array<std::atomic<float>,8> fxPeak;std::array<std::atomic<bool>,8> fxClip;
+    void initialiseWorkflow();void prepareWorkflow(double);void updateFlexibleRoutes();void restoreFlexibleRoutes();void clearFlexibleRoutes();void configureWetEQ();void finishEffect(int,juce::AudioBuffer<float>&,bool);
+    float param(const char* id) const {return readParameter(state.getRawParameterValue(id));}
+    float readParameter(const std::atomic<float>* raw) const {float value=raw->load();for(const auto& v:flexibleValue)if(v.raw==raw&&v.offset!=0)value=v.parameter->convertFrom0to1(juce::jlimit(0.0f,1.0f,v.parameter->convertTo0to1(value)+v.offset));return value;}
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SpaceInfinityProcessor)
 };
 

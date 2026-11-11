@@ -31,10 +31,10 @@ New-Item -ItemType Directory -Path $release -Force | Out-Null
 $definition = Join-Path $ProjectRoot "installer\SpaceInfinity.iss"
 & $InnoCompiler "/DVst3Bundle=$bundle" "/DReleaseDir=$release" $definition
 if ($LASTEXITCODE -ne 0) { throw "Inno Setup compilation failed." }
-$setup = Join-Path $release "SPACE_INFINITY_0.1.0_Windows_x64_Setup.exe"
+$setup = Join-Path $release "SPACE_INFINITY_0.2.0_Windows_x64_Setup.exe"
 if (-not (Test-Path -LiteralPath $setup -PathType Leaf)) { throw "Installer output is missing." }
 
-$archive = Join-Path $release "SPACE_INFINITY_0.1.0_Windows_x64_VST3.zip"
+$archive = Join-Path $release "SPACE_INFINITY_0.2.0_Windows_x64_VST3.zip"
 Compress-Archive -LiteralPath $bundle -DestinationPath $archive -Force
 Get-FileHash -Algorithm SHA256 -LiteralPath $setup,$archive
 
@@ -43,3 +43,5 @@ foreach ($notice in @("THIRD_PARTY_SAMPLES.md", "SAMPLE_PROVENANCE.json", "CC0-1
     Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Samples/$notice") -Destination $release -Force
 }
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/TESTING_STUDIO_BUILD.md") -Destination (Join-Path $release "READ_ME_FIRST.md") -Force
+
+Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/TEN_CONTROL_UPDATES.md") -Destination (Join-Path $release "TEN_CONTROL_UPDATES.md") -Force

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 
+int runWorkflowSmoke();
 int runExtendedSmoke();
 int runPresetSmoke();
 int runStudioSmoke();
@@ -41,6 +42,7 @@ int renderHardwarePreview()
 int main(int argc,char* argv[])
 {
     juce::ScopedJuceInitialiser_GUI gui;
+    if(argc>1&&juce::String(argv[1])=="--workflow-tests")return runWorkflowSmoke();
     if(argc>1&&juce::String(argv[1])=="--ui-only")return renderHardwarePreview();
     if(argc>1&&juce::String(argv[1])=="--preset-tests")return runPresetSmoke();
     if(argc>1&&juce::String(argv[1])=="--extended-tests")return runExtendedSmoke();

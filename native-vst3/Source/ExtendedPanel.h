@@ -1,5 +1,6 @@
 #pragma once
 #include "PluginProcessor.h"
+#include "WorkflowControls.h"
 class ExtendedPanel final : public juce::Component,private juce::Timer {
     using SliderBinding=juce::AudioProcessorValueTreeState::SliderAttachment;
     using ChoiceBinding=juce::AudioProcessorValueTreeState::ComboBoxAttachment;
@@ -59,20 +60,20 @@ class ExtendedPanel final : public juce::Component,private juce::Timer {
     template<class T> T& own(int page){auto item=std::make_unique<T>();auto& ref=*item;pages[size_t(page)].addAndMakeVisible(ref);controls.push_back(std::move(item));return ref;}
     void label(int page,const juce::String& text,juce::Rectangle<int> area){auto& l=own<juce::Label>(page);l.setText(text,juce::dontSendNotification);l.setBounds(area);l.setColour(juce::Label::textColourId,juce::Colour(0xffd2d4d8));}
     void slider(int page,const char* id,const char* name,int x,int y,int width=350){
-        label(page,name,{x,y,145,26});auto& s=own<juce::Slider>(page);s.setBounds(x+145,y,width-145,27);
+        label(page,name,{x,y,145,26});auto& s=own<ModSlider>(page);s.initialiseModulation(processor,id);s.setBounds(x+145,y,width-145,27);
         s.setSliderStyle(juce::Slider::LinearHorizontal);s.setTextBoxStyle(juce::Slider::TextBoxRight,false,65,23);
         sliders.push_back(std::make_unique<SliderBinding>(processor.state,id,s));
         s.setNumDecimalPlacesToDisplay(3);
-        const auto* p=processor.state.getParameter(id);s.setDoubleClickReturnValue(true,p->convertFrom0to1(p->getDefaultValue()));
+        const auto* p=processor.state.getParameter(id);s.setDoubleClickReturnValue(true,p->convertFrom0to1(p->getDefaultValue()));if(juce::String(id).containsIgnoreCase("attack")||juce::String(id).containsIgnoreCase("release"))configureTimeKnob(s);
     }
     void knob(int page,const char* id,const char* name,int x,int y,int width,const char* unit=""){
         auto& caption=own<juce::Label>(page);caption.setText(name,juce::dontSendNotification);caption.setBounds(x,y,width,20);caption.setJustificationType(juce::Justification::centred);caption.setColour(juce::Label::textColourId,juce::Colour(0xffd2d4d8));
-        auto& s=own<juce::Slider>(page);s.setBounds(x+(width-80)/2,y+21,80,78);
+        auto& s=own<ModSlider>(page);s.initialiseModulation(processor,id);s.setBounds(x+(width-80)/2,y+21,80,78);
         s.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);s.setTextBoxStyle(juce::Slider::TextBoxBelow,false,76,18);
         sliders.push_back(std::make_unique<SliderBinding>(processor.state,id,s));const auto suffix=juce::String(unit);
         s.textFromValueFunction=[suffix](double value){return suffix=="%"?juce::String(value*100,0)+"%":juce::String(value,suffix=="s"?3:2)+(suffix.isEmpty()?juce::String{}:" "+suffix);};
         s.valueFromTextFunction=[suffix](const juce::String& text){return text.getDoubleValue()/(suffix=="%"?100:1);};s.updateText();
-        const auto* p=processor.state.getParameter(id);s.setDoubleClickReturnValue(true,p->convertFrom0to1(p->getDefaultValue()));
+        const auto* p=processor.state.getParameter(id);s.setDoubleClickReturnValue(true,p->convertFrom0to1(p->getDefaultValue()));if(juce::String(id).containsIgnoreCase("attack")||juce::String(id).containsIgnoreCase("release"))configureTimeKnob(s);
     }
     void choice(int page,const char* id,juce::StringArray names,int x,int y,int width){auto& c=own<juce::ComboBox>(page);c.addItemList(names,1);c.setBounds(x,y,width,26);choices.push_back(std::make_unique<ChoiceBinding>(processor.state,id,c));}
     juce::TextButton& action(int page,const char* text,juce::Rectangle<int> area,std::function<void()> callback){auto& b=own<juce::TextButton>(page);b.setButtonText(text);b.setBounds(area);b.onClick=std::move(callback);return b;}

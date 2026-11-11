@@ -1,6 +1,7 @@
 #include "StudioRack.h"
 #include "StudioParameters.h"
 #include "EffectControls.h"
+#include "WorkflowControls.h"
 #include <complex>
 namespace {
 using SliderBinding=juce::AudioProcessorValueTreeState::SliderAttachment;
@@ -10,7 +11,7 @@ class Knob final : public juce::Component {
 public:
     Knob(SpaceInfinityProcessor& p,const juce::String& id,const juce::String& text):binding(p.state,id,slider){
         label.setText(text,juce::dontSendNotification);label.setJustificationType(juce::Justification::centred);label.setFont(juce::Font(juce::FontOptions(10)));
-        slider.setName(text);slider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);slider.setTextBoxStyle(juce::Slider::TextBoxBelow,false,78,16);
+        slider.initialiseModulation(p,id);slider.setName(text);slider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);slider.setTextBoxStyle(juce::Slider::TextBoxBelow,false,78,16);
         slider.setColour(juce::Slider::textBoxOutlineColourId,juce::Colours::transparentBlack);
         juce::String unit;
         for(const auto& c:studioControls)if(id==c.id)unit=c.unit;
@@ -18,7 +19,11 @@ public:
         if(id.containsIgnoreCase("attack")||id.containsIgnoreCase("release"))unit="ms";
         if(id=="gateLow"||id=="gateHigh")unit="Hz";
         if(id.contains("Depth")||id=="convolverMix"||id=="gateDepth"||id=="gateSwing")unit="%";
-        if(id=="sidechainThreshold")unit="dB";
+        if(id=="sidechainThreshold"||id.startsWith("fxOutput")||id.contains("Wet")&&id.endsWith("Gain"))unit="dB";
+        if(id.contains("Wet")&&id.endsWith("Freq"))unit="Hz";
+        if(id=="flangerStereo")unit="deg";
+        if(id=="flangerRate"||id.contains("Wet")&&id.endsWith("Freq")){auto range=slider.getNormalisableRange();range.setSkewForCentre(id=="flangerRate"?.35:1000);slider.setNormalisableRange(range);}
+        slider.setMouseDragSensitivity(350);
         slider.textFromValueFunction=[unit](double value){return juce::String(unit=="%"?value*100:value,unit=="Hz"||unit=="%"?0:unit=="s"?3:1)+(unit.isEmpty()?"":" "+unit);};
         slider.valueFromTextFunction=[unit](const juce::String& s){return s.getDoubleValue()/(unit=="%"?100:1);};
         auto* parameter=p.state.getParameter(id);slider.setDoubleClickReturnValue(true,parameter->convertFrom0to1(parameter->getDefaultValue()));
@@ -27,7 +32,7 @@ public:
         addAndMakeVisible(label);addAndMakeVisible(slider);
     }
     void resized()override{label.setBounds(0,0,getWidth(),13);slider.setBounds(0,13,getWidth(),getHeight()-13);}
-    juce::Slider slider;juce::Label label;SliderBinding binding;
+    ModSlider slider;juce::Label label;SliderBinding binding;
 };
 class Choice final : public juce::Component {
 public:
@@ -190,6 +195,33 @@ public:
 private:
     juce::ComboBox presets;std::vector<std::unique_ptr<juce::Slider>> steps;std::vector<std::unique_ptr<SliderBinding>> stepBindings;
 };
+class FlangerModule final:public Module {
+public:
+    explicit FlangerModule(SpaceInfinityProcessor& p):Module(p,"STEREO FLANGER","flangerEnabled"){
+        choice("flangerMode","Legacy / smooth stereo flanger");
+        const char* ids[]{"flangerRate","flangerDepth","flangerDelay","flangerFeedback","flangerStereo","flanger"};
+        const char* names[]{"RATE","DEPTH","DELAY","FEEDBACK","STEREO","MIX"};for(int i=0;i<6;++i)knob(ids[i],names[i]);
+    }
+    void resized()override{choices[0]->setBounds(getWidth()-180,4,170,22);row({8,37,getWidth()-16,78},0,6);knobs[4]->setEnabled(processor.state.getRawParameterValue("flangerMode")->load()>.5f);}
+};
+class WetEQPanel final:public juce::Component {
+    std::vector<std::unique_ptr<Knob>> controls;
+public:
+    WetEQPanel(SpaceInfinityProcessor& p,const juce::String& prefix){setName(prefix+" three-band wet EQ");for(int b=0;b<3;++b)for(int f=0;f<3;++f){const auto id=prefix+(b==0?"Low":b==1?"Mid":"High")+(f==0?"Freq":f==1?"Gain":"Q");auto k=std::make_unique<Knob>(p,id,f==0?"FREQUENCY":f==1?"GAIN":"Q");addAndMakeVisible(*k);controls.push_back(std::move(k));}}
+    void resized()override{const int bandWidth=getWidth()/3;for(int i=0;i<9;++i)controls[size_t(i)]->setBounds((i/3)*bandWidth+(i%3)*bandWidth/3,28,bandWidth/3,76);}
+    void paint(juce::Graphics& g)override{g.setColour(juce::Colour(0xff11111b));g.fillRect(getLocalBounds());g.setColour(juce::Colour(0xffbcb0db));g.setFont(juce::Font(juce::FontOptions(10,juce::Font::bold)));const int w=getWidth()/3;for(int b=0;b<3;++b){g.drawText(b==0?"WET EQ / LOW SHELF":b==1?"WET EQ / MID BELL":"WET EQ / HIGH SHELF",b*w+8,3,w-16,20,juce::Justification::centred);if(b)g.drawVerticalLine(b*w,7,float(getHeight()-6));}}
+};
+class EffectSlot final:public juce::Component {
+    SpaceInfinityProcessor& p;int index,bodyHeight;std::unique_ptr<WetEQPanel> eq;Knob output;float peak=0;int clip=0;
+public:
+    std::unique_ptr<Module> module;
+    EffectSlot(SpaceInfinityProcessor& processor,int stage,std::unique_ptr<Module> body,int height):p(processor),index(stage),bodyHeight(height),output(p,"fxOutput"+juce::String(stage),"OUTPUT GAIN"),module(std::move(body)){
+        addAndMakeVisible(*module);addAndMakeVisible(output);if(stage==1||stage==7){eq=std::make_unique<WetEQPanel>(p,stage==1?"delayWet":"reverbWet");addAndMakeVisible(*eq);}setName(module->getName());}
+    int height()const{return bodyHeight+(eq?110:0)+78;}
+    void resized()override{module->setBounds(0,0,getWidth(),bodyHeight);if(eq)eq->setBounds(5,bodyHeight,getWidth()-10,110);output.setBounds(getWidth()-105,getHeight()-76,95,72);}
+    void tick(){peak=std::max(p.effectPeak(index),peak*.84f);clip=p.effectClipping(index)?40:std::max(0,clip-1);module->resized();module->repaint();repaint();}
+    void paint(juce::Graphics& g)override{HardwareTheme::module(g,getLocalBounds().toFloat());const int y=getHeight()-55;auto r=juce::Rectangle<int>(15,y,getWidth()-145,16);HardwareTheme::display(g,r.toFloat());const float db=juce::Decibels::gainToDecibels(peak,-60.0f);g.setColour(juce::Colour(clip?0xfff16484:0xffad82ff));g.fillRect(r.reduced(2).withWidth(int((r.getWidth()-4)*juce::jlimit(0.0f,1.0f,(db+60)/60))));g.setFont(10);g.drawText(clip?"CLIP / reduce output gain":"STAGE PEAK  "+(peak>.00001f?juce::String(db,1):juce::String("-inf"))+" dBFS",15,y+21,getWidth()-145,18,juce::Justification::centredLeft);}
+};
 class BasicModule final : public Module {
 public:
     BasicModule(SpaceInfinityProcessor& p,int row):Module(p,effectRows[size_t(row)],effectEnableIds[size_t(row)]){
@@ -202,15 +234,15 @@ public:
 struct StudioRack::Impl {
     explicit Impl(SpaceInfinityProcessor& p){
         add(std::make_unique<CompressorModule>(p),215);add(std::make_unique<DelayModule>(p),238);add(std::make_unique<ConvolverModule>(p),226);add(std::make_unique<RhythmModule>(p),237);
-        for(int row:{1,2,3,5})add(std::make_unique<BasicModule>(p,row),119);
+        add(std::make_unique<BasicModule>(p,1),119);add(std::make_unique<FlangerModule>(p),122);add(std::make_unique<BasicModule>(p,3),119);add(std::make_unique<BasicModule>(p,5),119);
         viewport.setViewedComponent(&content,false);viewport.setScrollBarsShown(true,false);viewport.setScrollBarThickness(10);
     }
-    void add(std::unique_ptr<Module> m,int height){content.addAndMakeVisible(*m);heights.push_back(height);modules.push_back(std::move(m));}
-    juce::Component content;juce::Viewport viewport;std::vector<std::unique_ptr<Module>> modules;std::vector<int> heights;
+    void add(std::unique_ptr<Module> m,int height){auto& processor=m->processor;auto slot=std::make_unique<EffectSlot>(processor,int(modules.size()),std::move(m),height);content.addAndMakeVisible(*slot);heights.push_back(slot->height());modules.push_back(std::move(slot));}
+    juce::Component content;juce::Viewport viewport;std::vector<std::unique_ptr<EffectSlot>> modules;std::vector<int> heights;
 };
 StudioRack::StudioRack(SpaceInfinityProcessor& p):impl(std::make_unique<Impl>(p)){addAndMakeVisible(impl->viewport);setName("Studio FX rack");startTimerHz(20);}
 StudioRack::~StudioRack(){stopTimer();}
 void StudioRack::resized(){impl->viewport.setBounds(getLocalBounds());int y=0;const int width=juce::jmax(1,getWidth()-13);
     for(size_t i=0;i<impl->modules.size();++i){impl->modules[i]->setBounds(0,y,width,impl->heights[i]);y+=impl->heights[i]+8;}impl->content.setSize(width,y);}
-void StudioRack::timerCallback(){if(!isShowing())return;for(auto& m:impl->modules){if(auto* c=dynamic_cast<CompressorModule*>(m.get())){c->resized();c->graph.repaint();}if(auto* d=dynamic_cast<DelayModule*>(m.get())){d->resized();d->graph.repaint();}if(dynamic_cast<ConvolverModule*>(m.get())||dynamic_cast<RhythmModule*>(m.get()))m->repaint();}}
+void StudioRack::timerCallback(){if(!isShowing())return;for(auto& m:impl->modules)m->tick();}
 juce::Component* StudioRack::module(int index)const{return index>=0&&index<int(impl->modules.size())?impl->modules[size_t(index)].get():nullptr;}

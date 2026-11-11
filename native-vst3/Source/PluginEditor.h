@@ -1,15 +1,19 @@
 #pragma once
 #include "PluginProcessor.h"
 #include "HardwareTheme.h"
+#include "MainWorkbench.h"
 class ModulationBadge;
 class StudioRack;
 class SamplerDisplay;
-class SpaceInfinityEditor : public juce::AudioProcessorEditor, private juce::Timer {
+class SpaceInfinityEditor : public juce::AudioProcessorEditor, public juce::DragAndDropContainer, public juce::DragAndDropTarget, private juce::Timer {
 public:
     explicit SpaceInfinityEditor(SpaceInfinityProcessor&);
     ~SpaceInfinityEditor() override;
     void paint(juce::Graphics&) override;
     void resized() override;
+    bool isInterestedInDragSource(const juce::DragAndDropTarget::SourceDetails& d) override {return d.description.toString().startsWith("INFINITY:");}
+    void itemDragMove(const juce::DragAndDropTarget::SourceDetails&) override;
+    void itemDropped(const juce::DragAndDropTarget::SourceDetails&) override {}
 private:
     void timerCallback() override;
     juce::TooltipWindow controlTips{this,650};
@@ -33,6 +37,13 @@ private:
     bool cachedFxPage=false;
     SpaceInfinityProcessor& processor;
     std::unique_ptr<StudioRack> studioRack;
+    std::unique_ptr<MainWorkbench> workbench;
+    std::unique_ptr<SubPanel> subPanel;
+    MasterReadout masterReadout;
+    std::array<ModSlider,2> oscillatorGains;
+    std::array<juce::Label,2> gainLabels;
+    std::array<juce::ToggleButton,4> filterRoutes;
+    std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment>> routeBindings;
     std::unique_ptr<SamplerDisplay> sampleDisplay,liveDisplay;
     juce::Image infinityLogo;
     // Popups borrow the processor and look-and-feel, so their lifetime must
@@ -45,12 +56,12 @@ private:
     juce::String displayedPresetKey;
     juce::TextButton bankButton{"BANK"};
     juce::ComboBox presets, waveform, waveform2, source, motionShape, motionBars;
-    juce::Slider motionDepth, noiseLevel, analogueCharacter;
+    ModSlider motionDepth, noiseLevel, analogueCharacter;
     juce::Label analogueLabel;
     juce::ComboBox noiseType;
-    std::array<juce::Slider,4> oscillatorSliders,unisonTone;
+    std::array<ModSlider,4> oscillatorSliders,unisonTone;
     std::array<juce::Slider,3> octaveControls;
-    std::array<juce::Slider,2> unisonSliders;
+    std::array<ModSlider,2> unisonSliders;
     std::array<juce::Slider,4> macros;
 
     int selectedLfo=0, selectedSource=0;
@@ -99,7 +110,7 @@ private:
     juce::TextButton importButton{"Import WAV"};
     std::unique_ptr<juce::FileChooser> sampleChooser;
     juce::Label title, subtitle;
-    std::array<juce::Slider,17> knobs;
+    std::array<ModSlider,17> knobs;
     std::array<juce::Label,17> labels;
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>> attachments;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> waveAttachment, sourceAttachment;
