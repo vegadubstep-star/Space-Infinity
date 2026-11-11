@@ -58,7 +58,7 @@ int runPresetSmoke(){
     if(synth->replaceBankPreset(0).wasOk())return 83;
     PresetPanel panel(*synth,[]{});panel.setSize(710,465);
     const auto audition=juce::File::getCurrentWorkingDirectory().getChildFile("audition");audition.createDirectory();
-    auto stream=audition.getChildFile("Preset-Manager.png").createOutputStream();if(stream)juce::PNGImageFormat{}.writeImageToStream(panel.createComponentSnapshot(panel.getLocalBounds()),*stream);
+    const auto screenshotFile=audition.getChildFile("Preset-Manager.png");screenshotFile.deleteFile();auto stream=screenshotFile.createOutputStream();if(stream)juce::PNGImageFormat{}.writeImageToStream(panel.createComponentSnapshot(panel.getLocalBounds()),*stream);
     juce::AudioBuffer<float> audio(2,256);synth->loadPreset(0);synth->prepareToPlay(48000,256);
     if(synth->getLatencySamples()<1)return 84;
     for(int i=0;i<factoryCount;++i){synth->loadPreset(i);if(synth->state.getRawParameterValue("analogueUpgrade")->load()!=1)return 85;}

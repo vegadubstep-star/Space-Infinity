@@ -144,9 +144,9 @@ int runAirwaveSmoke(){
 
 int runLeadSmoke(){
  try{
-    for(int preset:{2,3,4,5,6,7,8}){
+    for(int preset:{2,3,4,5,6,7,8,15,16,17,18,19,23,24,28,29,30,32,33}){
         auto synth=std::make_unique<SpaceInfinityProcessor>();synth->loadPreset(preset);
-        require(synth->state.getRawParameterValue("osc1Unison")->load()==(preset==8?1:preset==5||preset==7?3:preset==6?8:7),"lead unison");
+        require(synth->state.getRawParameterValue("osc1Unison")->load()==(preset==8||preset==17||preset==23||preset==28?1:preset==32?2:preset==33?10:preset==5||preset==7||preset==18||preset==19||preset==29?3:preset==6?8:7),"lead unison");
         require(synth->state.getRawParameterValue("ampLong")->load()==0,"lead timing resets after pad");
         synth->prepareToPlay(48000,256);juce::AudioBuffer<float> audio(2,256);
         const auto folder=juce::File::getCurrentWorkingDirectory().getChildFile("audition");folder.createDirectory();
@@ -157,14 +157,14 @@ int runLeadSmoke(){
             if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,69,.8f),0);
             if(block==130)midi.addEvent(juce::MidiMessage::noteOff(1,69),0);
             synth->processBlock(audio,midi);if(phrase<8)require(writer->writeFromAudioSampleBuffer(audio,0,256),"lead preview write");
-            for(int ch=0;ch<2;++ch)for(int i=0;i<256;++i){const float v=audio.getSample(ch,i);require(std::isfinite(v)&&std::abs(v)<=1,"lead finite/headroom");peak=std::max(peak,std::abs(v));if(block>=20&&block<125)levels[size_t(phrase)]+=double(v)*v;}
+            for(int ch=0;ch<2;++ch)for(int i=0;i<256;++i){const float v=audio.getSample(ch,i);require(std::isfinite(v)&&std::abs(v)<=1,"lead finite/headroom");peak=std::max(peak,std::abs(v));if(block>=4&&block<125)levels[size_t(phrase)]+=double(v)*v;}
         }}
         double first=0,last=0;for(int i=2;i<8;++i)first+=levels[size_t(i)];for(int i=18;i<24;++i)last+=levels[size_t(i)];
         require(peak>.01f&&first>1&&last>first*.70,"lead repeated notes retain level");
         std::cout<<synth->presetNames()[preset]<<" repeated-note ratio "<<last/first<<", peak "<<peak<<std::endl;
         juce::MemoryBlock state;synth->getStateInformation(state);auto recalled=std::make_unique<SpaceInfinityProcessor>();recalled->setStateInformation(state.getData(),int(state.getSize()));
         require(recalled->selectedPresetKey()==synth->selectedPresetKey(),"lead stable key recall");
-        for(const char* id:{"osc2Octave","osc2Wave","filterEnvAmount","echoMode","compEnabled","osc1Spread","osc2Spread","osc1Blend","osc2Blend","glideTime","pitchEnvAmount","pitchEnvAttack","pitchEnvDecay"})require(recalled->state.getRawParameterValue(id)->load()==synth->state.getRawParameterValue(id)->load(),"lead parameter recall");
+        for(const char* id:{"osc2Octave","osc2Wave","filterEnvAmount","echoMode","compEnabled","osc1Spread","osc2Spread","osc1Blend","osc2Blend","glideTime","pitchEnvAmount","pitchEnvAttack","pitchEnvDecay","midiBendRange","osc2Semitone"})require(recalled->state.getRawParameterValue(id)->load()==synth->state.getRawParameterValue(id)->load(),"lead parameter recall");
         synth->loadPreset(1);synth->loadPreset(preset);require(synth->state.getRawParameterValue("ampLong")->load()==0,"pad-to-lead timing reset");
     }
     const auto capture=[](int oscillator,float ownSpread,float otherSpread,float blend){
@@ -188,6 +188,17 @@ int runLeadSmoke(){
     set("glideTime",0);set("voiceMode",0);set("pitchEnvAmount",12);set("pitchEnvAttack",0);set("pitchEnvDecay",.1f);glideSynth->prepareToPlay(48000,256);previous=0;
     const double pitchStart=crossings(4,69);crossings(40,-1);const double pitchEnd=crossings(20,-1);
     require(pitchStart>650&&pitchEnd>400&&pitchEnd<480,"pitch envelope returns to played pitch");
+    set("pitchEnvAmount",0);set("midiBendRange",2);glideSynth->prepareToPlay(48000,256);previous=0;crossings(40,69);
+    juce::MidiBuffer bend;bend.addEvent(juce::MidiMessage::pitchWheel(1,16383),0);glideSynth->processBlock(probe,bend);crossings(10,-1);const double bentPitch=crossings(30,-1);
+    require(bentPitch>480&&bentPitch<510,"MIDI bend range gives two semitones");
+    set("osc1Enabled",0);set("osc2Enabled",1);set("mix",1);set("osc2Octave",2);set("osc2Semitone",7);set("detune",0);glideSynth->prepareToPlay(48000,256);previous=0;crossings(40,69);const double coarsePitch=crossings(30,-1);
+    require(coarsePitch>2600&&coarsePitch<2675,"octave plus semitone gives the 31-semitone interval");
+    set("osc1Enabled",1);set("osc2Enabled",0);set("mix",0);set("osc2Octave",0);set("osc2Semitone",0);
+    set(glideSynth->lfoParameterId(0,"Sync").toRawUTF8(),0);set(glideSynth->lfoParameterId(0,"Speed").toRawUTF8(),2);set(glideSynth->modulationRouteId(4,0,false).toRawUTF8(),25);set(glideSynth->modulationRouteId(4,0,true).toRawUTF8(),1);
+    for(int point=0;point<17;++point)set(glideSynth->lfoPointId(0,point).toRawUTF8(),.5f+.5f*std::sin(float(point)*juce::MathConstants<float>::twoPi/16));
+    glideSynth->prepareToPlay(48000,256);previous=0;const double pitchUp=crossings(23,69);crossings(23,-1);const double pitchDown=crossings(23,-1);
+    require(pitchUp>465&&pitchDown<420,"LFO pitch modulation moves above and below the played note");
+    std::cout<<"MIDI wheel / coarse tuning / bipolar pitch: "<<bentPitch<<" / "<<coarsePitch<<" / "<<pitchUp<<" -> "<<pitchDown<<std::endl;
     std::cout<<"Glide output pitch: "<<earlyPitch<<" -> "<<latePitch<<" Hz"<<std::endl;
     std::cout<<"Replacement leads: repeated output, headroom, previews and recall passed"<<std::endl;return 0;
  }catch(const std::exception& e){std::cerr<<"Lead test: "<<e.what()<<std::endl;return 140;}

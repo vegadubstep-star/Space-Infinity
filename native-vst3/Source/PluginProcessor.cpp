@@ -23,6 +23,12 @@ APVTS::ParameterLayout makeLayout(){
     p.add(std::make_unique<juce::AudioParameterInt>(juce::ParameterID{"osc2Unison",1},"Oscillator 2 Unison",1,16,1));
     f("pitchEnvAmount","Pitch Envelope Amount",-24,24,0);f("pitchEnvAttack","Pitch Envelope Attack",0,.5f,.02f);f("pitchEnvDecay","Pitch Envelope Decay",.005f,2,.09f);
     f("pitchEnvVelocity","Velocity to Pitch Envelope",0,1,0);
+    f("midiBendRange","MIDI Bend Range",1,24,24);
+    for(int oscillator=1;oscillator<=2;++oscillator)p.add(std::make_unique<juce::AudioParameterInt>(juce::ParameterID{"osc"+juce::String(oscillator)+"Semitone",1},"Oscillator "+juce::String(oscillator)+" Semitone",-12,12,0));
+    for(int oscillator=1;oscillator<=2;++oscillator){const auto prefix="osc"+juce::String(oscillator);
+        p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{prefix+"PhaseReset",1},"Oscillator "+juce::String(oscillator)+" Retrigger Phase",false));
+        p.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID{prefix+"WarpEnvelope",1},"Oscillator "+juce::String(oscillator)+" Warp Envelope",juce::StringArray{"Off","Amp envelope","Filter envelope"},0));}
+    f("filterInputDrive","Pre-filter Drive",0,1,0);
     f("filterVelocity","Velocity to Cutoff",0,4,0);f("ampVelocity","Velocity to Volume",0,1,1);f("subLevel","Sub Sine Level",0,1,0);f("gateSwing","Gate Swing",0,.5f,0);
     f("glideTime","Legato Glide",0,.5f,0);
     f("osc1Spread","Oscillator 1 Detune Scale",0,2,1);f("osc2Spread","Oscillator 2 Detune Scale",0,2,1);
@@ -51,7 +57,7 @@ APVTS::ParameterLayout makeLayout(){
         const auto label="Oscillator "+juce::String(oscillator)+" Warp";
         p.add(std::make_unique<juce::AudioParameterChoice>(
             juce::ParameterID{prefix+"Warp",1},label,
-            juce::StringArray{"Off",oscillator==1?"FM from B":"FM from A","Mirror","PWM"},0));
+            juce::StringArray{"Off",oscillator==1?"FM from B":"FM from A","Mirror","PWM","FM from Sub"},0));
         p.add(std::make_unique<juce::AudioParameterFloat>(
             juce::ParameterID{prefix+"WarpAmount",1},label+" Amount",
             juce::NormalisableRange<float>(0.0f,1.0f),0.0f));
@@ -207,7 +213,7 @@ juce::StringArray SpaceInfinityProcessor::oscillatorWaves(bool follow){
 }
 float SpaceInfinityProcessor::warpedSample(double position,int shape,int mode,float amount,float modulator){
     if(amount==0.0f||mode==0)return oscillatorSample(position,shape);
-    if(mode==1)return oscillatorSample(position+modulator*amount*1.5,shape);
+    if(mode==1||mode==4)return oscillatorSample(position+modulator*amount*1.5,shape);
     const double phase=position-std::floor(position);
     if(mode==2){
         const double mirror=1.0-std::abs(phase*2.0-1.0);
@@ -318,7 +324,7 @@ juce::String SpaceInfinityProcessor::lfoPointId(int lfo,int point){
     return lfo==0?motionPointId(point):"designerLfo"+juce::String(lfo+1)+"Point"+juce::String(point);
 }
 juce::StringArray SpaceInfinityProcessor::macroTargets(){
-    return {"Off","Cutoff","Detune","Reverb","Attack","Drive","Delay","Chorus","Layer mix","Release","Resonance","Noise","Osc 1 Width","Osc 2 Width","Output","Decay","Sustain","Motion Depth","LFO 1 Speed","Vibrato Depth","Analogue","LFO 2 Speed","LFO 3 Speed","Wavetable Scan","Gate Depth"};
+    return {"Off","Cutoff","Detune","Reverb","Attack","Drive","Delay","Chorus","Layer mix","Release","Resonance","Noise","Osc 1 Width","Osc 2 Width","Output","Decay","Sustain","Motion Depth","LFO 1 Speed","Vibrato Depth","Analogue","LFO 2 Speed","LFO 3 Speed","Wavetable Scan","Gate Depth","Pitch","Osc 1 Warp","Osc 2 Warp"};
 }
 juce::StringArray SpaceInfinityProcessor::motionNames(){
     return {"Slow Rise","Rise and Fall","Rise into Gate","Late Bloom","Long Fall","Soft Pulse",
@@ -472,6 +478,8 @@ void SpaceInfinityProcessor::noteOn(int note,float velocity,int source,int root,
     const bool freeRunning=source==0&&param("analogueUpgrade")>.5f;
     if(freeRunning){found->phase=retainedPhase;found->phase2=retainedPhase2;
         found->extraPhase1=retainedExtraA;found->extraPhase2=retainedExtraB;found->drift=retainedDrift;}
+    if(param("osc1PhaseReset")>.5f){found->phase=0;found->extraPhase1.fill(0);}
+    if(param("osc2PhaseReset")>.5f){found->phase2=0;found->extraPhase2.fill(0);}
     found->active=true;found->pitch=note;found->note=note;found->channel=channel;found->velocity=velocity;found->age=++clock;found->noiseState=uint32_t(found->age)*747796405u+2891336453u;
     if(found->noiseState==0)found->noiseState=1;
     if(!freeRunning)found->drift.reset(found->noiseState^0x9e3779b9u);
@@ -544,7 +552,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     b.clear(); if(b.getNumChannels()<2)return;
     transformPattern(midi,b.getNumSamples());
     auto* left=b.getWritePointer(0);auto* right=b.getWritePointer(1);
-    std::array<float,25> modulation{};
+    std::array<float,28> modulation{};
     for(size_t i=0;i<macroValues.size();++i){
         const float value=macroValues[i]->load();
         for(size_t slot=0;slot<macroRoutes[i].size();++slot){
@@ -580,11 +588,11 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     std::array<std::array<DynamicRoute,3>,4> timeRoutes{};
     for(size_t source=0;source<4;++source)
         for(size_t slot=0;slot<3;++slot)
-            timeRoutes[source][slot]={size_t(juce::jlimit(0,24,int(macroRoutes[source+4][slot]->load()))),
+            timeRoutes[source][slot]={size_t(juce::jlimit(0,27,int(macroRoutes[source+4][slot]->load()))),
                 macroDepths[source+4][slot]->load()};
     const auto routeDynamic=[&timeRoutes](auto& values,size_t source,float value){
         for(const auto& route:timeRoutes[source])
-            if(route.target>0)values[route.target]+=route.depth*value;
+            if(route.target>0)values[route.target]+=route.depth*(route.target==25&&source<3?value*2-1:value);
     };
     auto fxModulation=modulation;
     for(size_t lfo=0;lfo<3;++lfo)if(lfoEnabled[lfo])routeDynamic(fxModulation,lfo,curveAt(lfo,designerPhase[lfo]));
@@ -616,10 +624,11 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     const int wave=int(param("wave"));
     const int waveChoice=int(param("osc2Wave"));
     const int secondWave=waveChoice==0?wave:waveChoice-1;
+    const int warpEnvelope1=int(param("osc1WarpEnvelope")),warpEnvelope2=int(param("osc2WarpEnvelope"));
     const int warp1=int(param("osc1Warp")),warp2=int(param("osc2Warp"));
-    const float warpAmount1=param("osc1WarpAmount"),warpAmount2=param("osc2WarpAmount");
-    const double tune1=std::exp2(param("osc1Octave")+param("osc1Tune")/1200.0);
-    const double tune2=std::exp2(param("osc2Octave")+param("osc2Tune")/1200.0);
+    const float warpAmount1=juce::jlimit(0.0f,1.0f,param("osc1WarpAmount")+.5f*modulation[26]),warpAmount2=juce::jlimit(0.0f,1.0f,param("osc2WarpAmount")+.5f*modulation[27]);
+    const double tune1=std::exp2(param("osc1Octave")+param("osc1Semitone")/12.0+param("osc1Tune")/1200.0);
+    const double tune2=std::exp2(param("osc2Octave")+param("osc2Semitone")/12.0+param("osc2Tune")/1200.0);
     const int unison1=int(param("osc1Unison")),unison2=int(param("osc2Unison"));
     std::array<double,16> unisonRates1{},unisonRates2{};
     const float spreadA=param("osc1Spread"),spreadB=param("osc2Spread"),blendA=param("osc1Blend"),blendB=param("osc2Blend");
@@ -639,6 +648,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     const float width2=juce::jlimit(0.0f,1.0f,param("osc2Width")+0.5f*modulation[13]);
     const float filterA=param("filterAttack"),filterD=param("filterDecay"),filterS=param("filterSustain"),filterR=param("filterRelease");
     const float filterAmount=param("filterEnvAmount"),tableScan=juce::jlimit(0.0f,1.0f,param("wavetableScan")+modulation[23]);
+    const float preFilterDrive=param("filterInputDrive");
     const float filterVelocity=param("filterVelocity"),ampVelocity=param("ampVelocity"),subLevel=param("subLevel");
     const float grainPosition=param("grainPosition"),grainSize=param("grainSize"),grainDensity=param("grainDensity"),grainSpray=param("grainSpray"),grainSpread=param("grainSpread");
     const bool grainReverse=param("sampleReverse")>.5f;
@@ -677,7 +687,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
             const int channel=m.getChannel();
             if(m.isPitchWheel()){
                 const int wheel=m.getPitchWheelValue()-8192;
-                midiBend=24.0f*float(wheel)/(wheel<0?8192.0f:8191.0f);
+                midiBend=param("midiBendRange")*float(wheel)/(wheel<0?8192.0f:8191.0f);
                 pitchBend.setTargetValue(juce::jlimit(-24.0f,24.0f,hostBend+midiBend));
             }else if(m.isNoteOn()){
                 if(userSample(source)&&!sampleGuard.isLocked())continue;
@@ -708,7 +718,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
         }
         lfoPhase+=lfoRate/sr;if(lfoPhase>=1)lfoPhase-=1;
         std::array<float,3> lfoValues{};
-        std::array<float,25> movingModulation{};
+        std::array<float,28> movingModulation{};
         for(size_t lfo=0;lfo<3;++lfo){
             if(!lfoEnabled[lfo])continue;
             lfoValues[lfo]=curveAt(lfo,designerPhase[lfo]);
@@ -809,19 +819,20 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
             const double driftB=std::exp2(double(character)*(double(drift[1])*2.5+(upgraded?v.calibration.tuneB*2:0))/1200);
             v.pitch=v.note+glide*(v.pitch-v.note);
             const float pitchOffset=pitchAmount!=0?pitchAmount*(1-pitchVelocity+pitchVelocity*v.velocity)*v.pitchEnvelope.next(v.released,sr,pitchAttack,pitchDecay,0,.03f):0;
-            const double freq=440.0*bendRatio*std::pow(2.0,(v.pitch+pitchOffset-69.0)/12.0);
+            const double freq=440.0*bendRatio*std::pow(2.0,(v.pitch+pitchOffset+4*(modulation[25]+movingModulation[25])-69.0)/12.0);
             const auto readWave=[&](double phase,int shape){return shape==30?(sampleGuard.isLocked()?wavetable.sample(phase,juce::jlimit(0.0f,1.0f,tableScan+movingModulation[23])):0.0f):oscillatorSample(phase,shape);};
             const auto readWarp=[&](double phase,int shape,int mode,float amount,float mod){
                 if(shape!=30)return warpedSample(phase,shape,mode,amount,mod);
-                if(mode==1)phase+=mod*amount*1.5;
+                if(mode==1||mode==4)phase+=mod*amount*1.5;
                 else if(mode==2){const double t=phase-std::floor(phase);phase=t+((1-std::abs(t*2-1))-t)*amount;}
                 else if(mode==3){const double t=phase-std::floor(phase),split=.5+.45*amount;phase=t<split?.5*t/split:.5+.5*(t-split)/(1-split);}
                 return readWave(phase,shape);
             };
-            if(subLevel>0){v.subPhase+=freq*.5/sr;v.subPhase-=std::floor(v.subPhase);rawSub=subLevel*std::sin(float(juce::MathConstants<double>::twoPi*v.subPhase));}
+            float subModulator=0;
+            if(subLevel>0||warp1==4||warp2==4){v.subPhase+=freq*.5/sr;v.subPhase-=std::floor(v.subPhase);subModulator=std::sin(float(juce::MathConstants<double>::twoPi*v.subPhase));rawSub=subLevel*subModulator;}
             v.idleRateA=freq*tune1*driftA/sr;v.idleRateB=freq*tune2*driftB/sr;
-            const float sourceA=warp2==1?readWave(v.phase,wave):0.0f;
-            const float sourceB=warp1==1?readWave(v.phase2,secondWave):0.0f;
+            const float sourceA=warp2==4?subModulator:warp2==1?readWave(v.phase,wave):0.0f;
+            const float sourceB=warp1==4?subModulator:warp1==1?readWave(v.phase2,secondWave):0.0f;
             const auto stack=[&](double& phase,auto& extras,double rate,const auto& rates,
                                   int count,int shape,float width,float gain,float blend,float detuneScale,double offset,int warp,float amount,float modulator){
                 if(gain==0.0f){
@@ -852,9 +863,9 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                     }
                 }
             };
-            stack(v.phase,v.extraPhase1,freq*tune1*driftA/sr,unisonRates1,unison1,wave,voiceWidth1,voiceGain1,blendA,spreadA,0.19,warp1,warpAmount1,sourceB);
+            stack(v.phase,v.extraPhase1,freq*tune1*driftA/sr,unisonRates1,unison1,wave,voiceWidth1,voiceGain1,blendA,spreadA,0.19,warp1,juce::jlimit(0.0f,1.0f,warpAmount1+.5f*movingModulation[26])*(warpEnvelope1==1?v.env:warpEnvelope1==2?filterEnv:1),sourceB);
             stack(v.phase2,v.extraPhase2,freq*tune2*driftB*(1.0+voiceDetune+0.003*lfo*lfoDepth)/sr,
-                  unisonRates2,unison2,secondWave,voiceWidth2,voiceGain2,blendB,spreadB,0.31,warp2,warpAmount2,sourceA);
+                  unisonRates2,unison2,secondWave,voiceWidth2,voiceGain2,blendB,spreadB,0.31,warp2,juce::jlimit(0.0f,1.0f,warpAmount2+.5f*movingModulation[27])*(warpEnvelope2==1?v.env:warpEnvelope2==2?filterEnv:1),sourceA);
             }
             const float voiceNoise=juce::jlimit(0.0f,1.0f,noiseLevel+.5f*movingModulation[11]);
             if(voiceNoise>0.0f){
@@ -869,6 +880,11 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                 const float warmed=(std::tanh(raw*warmthDrive+warmthBias)-warmthCentre)*warmthScale;
                 raw+=character*(warmed-raw);
                 rawSide+=character*(std::tanh(rawSide*warmthDrive)*warmthScale-rawSide);
+            }
+            if(preFilterDrive>0){
+                const float gain=1+12*preFilterDrive,normalisation=1/std::tanh(gain);
+                const float l=std::tanh((raw+rawSide)*gain)*normalisation,r=std::tanh((raw-rawSide)*gain)*normalisation;
+                raw=.5f*(l+r);rawSide=.5f*(l-r);
             }
             float filtered;
             float filteredSide=0.0f;
@@ -1127,11 +1143,11 @@ void SpaceInfinityProcessor::setStateInformation(const void* data,int size){auto
     }
     state.replaceState(juce::ValueTree::fromXml(*xml));}
 const juce::StringArray& SpaceInfinityProcessor::presetNames(){
-    static const juce::StringArray names{"Init","Skywave Pad","Aurelia Lead","Azure Horizon Lead","Prism Drive Lead","Orbital Expedition Lead","Ionwire Gate Lead","Expanse Motion Pluck","Solo Afterglow Lead","Nebula Pulse Pad","Caustic Circuit Bass","Velvet Transit Chords","Drawbar Ember Bass","Copper Bounce Bass"};
+    static const juce::StringArray names{"Init","Skywave Pad","Aurelia Lead","Azure Horizon Lead","Prism Drive Lead","Orbital Expedition Lead","Ionwire Gate Lead","Expanse Motion Pluck","Solo Afterglow Lead","Nebula Pulse Pad","Caustic Circuit Bass","Velvet Transit Chords","Drawbar Ember Bass","Copper Bounce Bass","Iron Surge Bass","Silken Voltage Lead","Ivory Horizon Keys","Twilight Glide Pluck","Halo Circuit Lead","Marina Glass Lead","Marina Anchor Bass","Marina Silk Arp","Solar Tide Arp","Desert Voltage Lead","Frostline Anthem Lead","Tidal Memory Arp","Aurelia Growl Bass","Rogue Velvet Reese","Obsidian Alloy Stab","Obsidian Spectre Lead","Skybound Motion Lead","Undertow Offbeat Bass","Foundry Low Lead","Titan Forge Lead"};
     return names;
 }
 juce::String SpaceInfinityProcessor::presetCategory(int index){
-    return index==0?"Init":index==1||index==9?"Pads":index>=2&&index<=8?"Leads":index==10||index==12||index==13?"Bass":index==11?"Sequences":juce::String{};
+    return index==0?"Init":index==1||index==9?"Pads":((index>=2&&index<=8)||(index>=15&&index<=19)||index==23||index==24||index==28||index==29||index==30||index==32||index==33)?"Leads":index==10||index==12||index==13||index==14||index==20||index==26||index==27||index==31?"Bass":index==11||index==21||index==22||index==25?"Sequences":juce::String{};
 }
 void SpaceInfinityProcessor::loadPreset(int index){
     if(index<0||index>=presetNames().size())return;
@@ -1167,7 +1183,7 @@ void SpaceInfinityProcessor::loadPreset(int index){
         set(modulationRouteId(4,0,false).toRawUTF8(),12);set(modulationRouteId(4,0,true).toRawUTF8(),-.20f);
         set(modulationRouteId(5,0,false).toRawUTF8(),1);set(modulationRouteId(5,0,true).toRawUTF8(),.20f);
     }
-    if(index>=2&&index<=4){
+    if((index>=2&&index<=4)||index==15||index==16||index==22){
         const bool azure=index==3;
         set("osc1Spread",1);set("osc2Spread",azure?.85f:.54545f);set("osc1Blend",.75f);set("osc2Blend",index==4?.70f:.75f);
         set("wave",0);set("osc2Wave",azure?1:2);set("osc1Unison",7);set("osc2Unison",azure?5:3);
@@ -1314,6 +1330,150 @@ void SpaceInfinityProcessor::loadPreset(int index){
         for(int lfo=0;lfo<3;++lfo)set(lfoParameterId(lfo,"Enabled").toRawUTF8(),0);
         set("delayEnabled",1);set("echoMode",1);set("echoSyncL",0);set("echoSyncR",0);set("echoTimeL",.075f);set("echoTimeR",.075f);set("echoMix",.075f);set("delayFeedback",.12f);
         set("eqEnabled",1);set("eqMode0",4);set("eq0Frequency",28);set("eq0Q",.7071f);set("eq1Frequency",150);set("eq1Gain",1.5f);set("eq1Q",.7f);set("eqMode6",3);set("eq6Frequency",2000);set("eqSlope6",1);set("eq6Q",.7071f);
+    }
+    if(index==14){
+        set("wave",0);set("osc2Wave",1);set("osc1Unison",3);set("osc2Unison",3);set("osc1Tune",-5);set("osc2Tune",5);set("mix",.48f);
+        set("detune",.006f);set("osc1Width",.25f);set("osc2Width",.32f);set("osc1Blend",.8f);set("osc2Blend",.8f);set("subLevel",.28f);set("voiceMode",1);
+        set("attack",.003f);set("ampDecay",.22f);set("ampSustain",.50f);set("release",.07f);set("gain",.48f);set("drive",.15f);set("filterInputDrive",.35f);
+        set("filterMode",4);set("cutoff",320);set("res",.28f);set("filterEnvAmount",3.8f);set("filterAttack",.006f);set("filterDecay",.19f);set("filterSustain",0);set("filterRelease",.07f);set("filterVelocity",1.1f);
+        for(int lfo=0;lfo<3;++lfo){set(lfoParameterId(lfo,"Enabled").toRawUTF8(),lfo==0?1:0);for(int point=0;point<17;++point)set(lfoPointId(lfo,point).toRawUTF8(),1-std::abs(float(point)/8-1));}
+        set(lfoParameterId(0,"Sync").toRawUTF8(),0);set(lfoParameterId(0,"Speed").toRawUTF8(),3);
+        set(modulationRouteId(4,0,false).toRawUTF8(),1);set(modulationRouteId(4,0,true).toRawUTF8(),.12f);
+        set("compEnabled",1);set("compMode",1);set("compThreshold",-18);set("compRatio",3);set("compAttack",8);set("compRelease",80);set("compMix",.35f);set("compGain",2);
+        set("pumpEnabled",1);set("pumpDepth",.15f);set("pumpRate",2);set("pumpRelease",150);set("gateSplit",1);set("sidechainSource",0);
+        set("eqEnabled",1);set("eqMode0",4);set("eq0Frequency",30);set("eq0Q",.7071f);set("eqMode6",3);set("eq6Frequency",7000);set("eq6Q",.7071f);
+    }
+    if(index==15){
+        set("wave",1);set("osc2Wave",2);set("osc1Width",.72f);set("osc2Width",.55f);set("osc2Tune",1);set("detune",.006f);set("osc2Spread",.60f);set("osc2Blend",.70f);
+        set("osc1Warp",1);set("osc1WarpAmount",.018f);set("cutoff",5500);set("res",.10f);set("drive",.055f);
+        set("eq3Frequency",300);set("eq3Gain",-1.5f);set("eq3Q",.75f);set("eq4Frequency",4800);set("eq4Gain",1.8f);set("eq4Q",.8f);set("eq6Frequency",11000);
+        set("echoMode",1);set("echoSyncL",0);set("echoSyncR",0);set("echoTimeL",.125f);set("echoTimeR",.125f);set("echoMix",.15f);set("delayFeedback",.22f);
+        set("chorus",.12f);set("reverb",.18f);
+    }
+    if(index==16){
+        set("cutoff",4200);set("res",.20f);set("filterEnvAmount",.7f);set("filterAttack",.010f);set("filterDecay",.55f);set("filterSustain",.20f);
+        set("osc2Blend",.60f);set("detune",.006f);set("drive",.04f);set("reverb",.40f);set("reverbSize",.86f);set("reverbSpace",2);set("reverbDamping",.42f);
+        set("echoSyncL",0);set("echoSyncR",0);set("echoTimeL",.30f);set("echoTimeR",.30f);set("echoMix",.17f);set("delayFeedback",.28f);
+        set("eq3Frequency",300);set("eq3Gain",-1.8f);set("eq4Frequency",3200);set("eq4Gain",1.2f);
+    }
+    if(index==17){
+        set("wave",0);set("osc2Wave",3);set("mix",.20f);set("osc2Tune",2);set("detune",.0015f);set("osc1Width",.18f);set("osc2Width",.12f);set("voiceMode",2);set("glideTime",.085f);set("midiBendRange",2);
+        set("attack",.004f);set("ampDecay",.28f);set("ampSustain",.04f);set("release",.10f);set("gain",.64f);set("drive",.025f);
+        set("filterMode",1);set("cutoff",3300);set("res",.25f);set("filterEnvAmount",1);set("filterAttack",.035f);set("filterDecay",.20f);set("filterSustain",.10f);
+        for(int lfo=0;lfo<3;++lfo){set(lfoParameterId(lfo,"Enabled").toRawUTF8(),lfo==0?1:0);set(lfoParameterId(lfo,"Sync").toRawUTF8(),0);set(lfoParameterId(lfo,"Speed").toRawUTF8(),.65f);for(int point=0;point<17;++point)set(lfoPointId(lfo,point).toRawUTF8(),1-std::abs(float(point)/8-1));}
+        set(modulationRouteId(4,0,false).toRawUTF8(),1);set(modulationRouteId(4,0,true).toRawUTF8(),.06f);
+        set("delayEnabled",1);set("echoMode",1);set("echoTimeL",.18f);set("echoTimeR",.18f);set("echoMix",.10f);set("delayFeedback",.20f);
+        set("reverbEnabled",1);set("reverb",.12f);set("reverbSize",.43f);set("reverbSpace",0);set("eqEnabled",1);set("eqMode0",4);set("eq0Frequency",180);set("eq0Q",.7071f);set("eq4Frequency",3500);set("eq4Gain",1.3f);
+    }
+    if(index==18){
+        set("wave",0);set("osc2Wave",3);set("osc1Unison",3);set("mix",.25f);set("detune",.004f);set("osc1Width",.38f);set("osc2Width",.20f);set("osc1Warp",1);set("osc1WarpAmount",.075f);set("voiceMode",2);set("glideTime",.045f);set("midiBendRange",2);
+        set("attack",.003f);set("ampDecay",.24f);set("ampSustain",.55f);set("release",.20f);set("gain",.56f);set("drive",.12f);set("filterInputDrive",.10f);
+        set("filterMode",1);set("cutoff",3200);set("res",.24f);set("filterEnvAmount",1.2f);set("filterAttack",.015f);set("filterDecay",.30f);set("filterSustain",.20f);
+        for(int lfo=0;lfo<3;++lfo){set(lfoParameterId(lfo,"Enabled").toRawUTF8(),lfo==0?1:0);for(int point=0;point<17;++point)set(lfoPointId(lfo,point).toRawUTF8(),.5f+.5f*std::sin(float(point)*juce::MathConstants<float>::twoPi/16));}
+        set(lfoParameterId(0,"Sync").toRawUTF8(),0);set(lfoParameterId(0,"Speed").toRawUTF8(),7.5f);set(modulationRouteId(4,0,false).toRawUTF8(),25);set(modulationRouteId(4,0,true).toRawUTF8(),.045f);
+        set("compEnabled",1);set("compMode",1);set("compThreshold",-18);set("compRatio",2);set("compMix",.25f);
+        set("delayEnabled",1);set("echoMode",2);set("echoSyncL",4);set("echoSyncR",4);set("echoMix",.14f);set("delayFeedback",.24f);
+        set("reverbEnabled",1);set("reverb",.19f);set("reverbSize",.52f);set("eqEnabled",1);set("eqMode0",4);set("eq0Frequency",160);set("eq0Q",.7071f);
+    }
+    if(index==19||index==21||index==25){
+        const bool silk=index==21,tidal=index==25;
+        set("wave",tidal?2:silk?6:2);set("osc2Wave",tidal?4:silk?18:7);set("osc1Unison",tidal?3:silk?3:3);set("osc2Unison",silk?3:1);set("osc2Octave",tidal?0:1);set("mix",tidal?.32f:.24f);set("detune",.003f);set("osc1Width",.50f);set("osc2Width",.60f);
+        set("attack",tidal?.025f:silk?.012f:.004f);set("ampDecay",tidal?.42f:.30f);set("ampSustain",tidal?.58f:silk?.36f:.72f);set("release",tidal?.55f:silk?.28f:.15f);set("gain",.68f);set("drive",.035f);
+        set("filterMode",1);set("cutoff",tidal?2400:silk?2800:4200);set("res",.13f);set("filterEnvAmount",tidal?.65f:silk?1.2f:.50f);set("filterAttack",.025f);set("filterDecay",.50f);set("filterSustain",.35f);
+        for(int lfo=0;lfo<3;++lfo){set(lfoParameterId(lfo,"Enabled").toRawUTF8(),lfo==0?1:0);set(lfoParameterId(lfo,"Bars").toRawUTF8(),2);for(int point=0;point<17;++point)set(lfoPointId(lfo,point).toRawUTF8(),1-std::abs(float(point)/8-1));}
+        set(modulationRouteId(4,0,false).toRawUTF8(),1);set(modulationRouteId(4,0,true).toRawUTF8(),.10f);
+        set("chorusEnabled",1);set("chorus",tidal?.13f:.10f);set("chorusRate",.15f);set("chorusDepth",.25f);
+        set("reverbEnabled",1);set("reverb",tidal?.24f:silk?.28f:.15f);set("reverbSize",tidal?.66f:.55f);
+        set("delayEnabled",1);set("echoMode",2);set("echoSyncL",4);set("echoSyncR",4);set("echoMix",tidal?.13f:.12f);set("delayFeedback",.25f);
+        set("eqEnabled",1);set("eqMode0",4);set("eq0Frequency",silk?240:180);set("eq0Q",.7071f);set("eq4Frequency",3500);set("eq4Gain",.7f);
+        if(silk||tidal){set("patternMode",1);set("patternRate",silk?2:1);set("patternGate",tidal?.75f:.55f);set("arpOrder",0);}
+    }
+    if(index==20){
+        set("wave",1);set("osc2Enabled",0);set("mix",0);set("subLevel",.20f);set("detune",0);set("voiceMode",1);set("attack",.003f);set("ampDecay",.24f);set("ampSustain",.40f);set("release",.07f);set("gain",.58f);set("drive",.10f);
+        set("filterMode",4);set("cutoff",900);set("res",.18f);set("filterEnvAmount",1.5f);set("filterAttack",.002f);set("filterDecay",.18f);set("filterSustain",.10f);
+        for(int lfo=0;lfo<3;++lfo)set(lfoParameterId(lfo,"Enabled").toRawUTF8(),0);
+        set("eqEnabled",1);set("eqMode0",4);set("eq0Frequency",30);set("eq0Q",.7071f);
+    }
+    if(index==22||index==24){
+        const bool solar=index==22;
+        set("wave",0);set("osc2Wave",solar?2:1);set("osc1Unison",7);set("osc2Unison",solar?3:5);set("osc2Octave",solar?-1:0);set("osc1Tune",solar?0:-5);set("osc2Tune",5);set("mix",solar?.375f:.42f);set("detune",.0088f);set("osc1Blend",.75f);set("osc2Blend",solar?.5f:.75f);set("osc2Spread",solar?.54545f:1.1f);set("osc1Width",.82f);set("osc2Width",.86f);
+        set("attack",solar?.010f:.002f);set("ampDecay",solar?.40f:.15f);set("ampSustain",solar?.70795f:.50f);set("release",solar?.35f:.20f);set("gain",.60f);set("drive",.10f);set("filterInputDrive",.08f);set("filterMode",1);set("cutoff",solar?5300:6000);set("res",solar?.25f:.15f);
+        for(int lfo=0;lfo<3;++lfo){set(lfoParameterId(lfo,"Enabled").toRawUTF8(),lfo<2?1:0);set(lfoParameterId(lfo,"Sync").toRawUTF8(),0);set(lfoParameterId(lfo,"Speed").toRawUTF8(),lfo==0?.5f:solar?4.5f:3.0f);for(int point=0;point<17;++point)set(lfoPointId(lfo,point).toRawUTF8(),.5f+.5f*std::sin(float(point)*juce::MathConstants<float>::twoPi/16));}
+        set(modulationRouteId(4,0,false).toRawUTF8(),1);set(modulationRouteId(4,0,true).toRawUTF8(),.08f);set(modulationRouteId(4,1,false).toRawUTF8(),0);
+        set(modulationRouteId(5,0,false).toRawUTF8(),solar?25:2);set(modulationRouteId(5,0,true).toRawUTF8(),solar?.0125f:.035f);
+        set("chorusEnabled",1);set("chorus",.13f);set("delayEnabled",1);set("echoMode",2);set("echoSyncL",4);set("echoSyncR",4);set("echoMix",solar?.16f:.22f);set("delayFeedback",.30f);
+        set("reverbEnabled",1);set("reverb",solar?.22f:.38f);set("reverbSize",solar?.65f:.88f);set("reverbSpace",2);
+        set("eqEnabled",1);set("eqMode0",4);set("eq0Frequency",160);set("eq0Q",.7071f);set("eq3Frequency",300);set("eq3Gain",-1.5f);set("eq4Frequency",3200);set("eq4Gain",1.3f);set("midiBendRange",2);
+        if(solar){set("patternMode",1);set("patternRate",2);set("patternGate",.65f);}
+    }
+    if(index==23){
+        set("wave",0);set("osc2Wave",2);set("mix",.50f);set("osc2Octave",2);set("osc2Semitone",7);set("osc2Warp",3);set("osc2WarpAmount",.85f);set("detune",0);set("osc1Width",.08f);set("osc2Width",.12f);
+        set("attack",0);set("ampDecay",6);set("ampSustain",0);set("release",.020f);set("gain",.43f);set("drive",.40f);set("filterInputDrive",.16f);set("filterMode",1);set("cutoff",7200);set("res",.40f);set("analogueCharacter",.12f);
+        for(int lfo=0;lfo<3;++lfo)set(lfoParameterId(lfo,"Enabled").toRawUTF8(),0);
+        set("reverbEnabled",1);set("reverb",.10f);set("reverbSize",.55f);set("eqEnabled",1);set("eqMode0",4);set("eq0Frequency",150);set("eq0Q",.7071f);
+    }
+    if(index==26||index==29||index==30){
+        {const juce::SpinLock::ScopedLockType lock(sampleLock);wavetable.count=3;for(auto& frame:wavetable.frames)frame.fill(0);
+            for(int i=0;i<infinity::Wavetable::points;++i){const double phase=double(i)/infinity::Wavetable::points;wavetable.frames[0][size_t(i)]=oscillatorSample(phase,index==30?0:10);wavetable.frames[1][size_t(i)]=oscillatorSample(phase,index==30?6:13);wavetable.frames[2][size_t(i)]=oscillatorSample(phase,index==30?4:0);}}
+        set("wave",30);set("wavetableScan",.15f);set("osc2Wave",2);set("mix",0);set("osc1Unison",3);set("detune",.002f);set("osc1Width",.24f);set("osc1Warp",1);set("osc1WarpAmount",.18f);set("subLevel",.26f);set("voiceMode",1);
+        set("attack",.003f);set("ampDecay",.22f);set("ampSustain",.68f);set("release",.08f);set("gain",.52f);set("drive",.17f);set("filterInputDrive",.12f);
+        set("filterMode",3);set("cutoff",450);set("res",.52f);set("filterEnvAmount",.7f);set("filterAttack",.003f);set("filterDecay",.18f);set("filterSustain",.12f);set("filterVelocity",.8f);
+        for(int lfo=0;lfo<3;++lfo){set(lfoParameterId(lfo,"Enabled").toRawUTF8(),lfo==0?1:0);set(lfoParameterId(lfo,"Bars").toRawUTF8(),5);for(int point=0;point<17;++point)set(lfoPointId(lfo,point).toRawUTF8(),1-std::abs(float(point)/8-1));}
+        set(modulationRouteId(4,0,false).toRawUTF8(),23);set(modulationRouteId(4,0,true).toRawUTF8(),.45f);set(modulationRouteId(4,1,false).toRawUTF8(),1);set(modulationRouteId(4,1,true).toRawUTF8(),.60f);set(modulationRouteId(4,2,false).toRawUTF8(),26);set(modulationRouteId(4,2,true).toRawUTF8(),.20f);
+        set("compEnabled",1);set("compMode",2);set("compThreshold",-20);set("compRatio",2.5f);set("compBelow",1);set("compMix",.35f);
+        set("delayEnabled",1);set("echoMode",1);set("echoTimeL",.08f);set("echoTimeR",.08f);set("echoMix",.06f);set("delayFeedback",.12f);
+        set("eqEnabled",1);set("eqMode0",4);set("eq0Frequency",34);set("eqSlope0",1);set("eq0Q",.7071f);set("eqMode6",3);set("eq6Frequency",6500);set("eq6Q",.7071f);
+    }
+    if(index==27){
+        set("wave",0);set("osc2Wave",1);set("osc1Octave",-1);set("osc2Octave",-1);set("osc1Unison",3);set("osc2Unison",3);set("osc1Tune",-3);set("osc2Tune",3);set("mix",.45f);set("detune",.0045f);set("osc2Spread",1.18f);set("osc1Width",.25f);set("osc2Width",.32f);set("subLevel",.30f);set("voiceMode",1);
+        set("attack",.008f);set("ampDecay",.30f);set("ampSustain",.75f);set("release",.12f);set("gain",.56f);set("drive",.12f);set("filterInputDrive",.06f);
+        set("filterMode",4);set("cutoff",1600);set("res",.18f);set("filterEnvAmount",.6f);set("filterAttack",.035f);set("filterDecay",.45f);set("filterSustain",.5f);
+        for(int lfo=0;lfo<3;++lfo){set(lfoParameterId(lfo,"Enabled").toRawUTF8(),lfo==0?1:0);for(int point=0;point<17;++point)set(lfoPointId(lfo,point).toRawUTF8(),1-std::abs(float(point)/8-1));}
+        set(lfoParameterId(0,"Sync").toRawUTF8(),0);set(lfoParameterId(0,"Speed").toRawUTF8(),.30f);set(modulationRouteId(4,0,false).toRawUTF8(),1);set(modulationRouteId(4,0,true).toRawUTF8(),.15f);
+        set("eqEnabled",1);set("eqMode0",4);set("eq0Frequency",30);set("eq0Q",.7071f);set("eq1Frequency",210);set("eq1Gain",1.2f);set("eq1Q",.7f);set("eqMode6",3);set("eq6Frequency",5000);set("eq6Q",.7071f);
+    }
+    if(index==28){
+        set("wave",2);set("osc2Wave",1);set("osc1Octave",-2);set("osc2Octave",-2);set("mix",.35f);set("detune",0);set("voiceMode",2);set("glideTime",.035f);set("osc1PhaseReset",1);set("osc2PhaseReset",1);
+        set("osc1Warp",4);set("osc2Warp",4);set("osc1WarpAmount",.23f);set("osc2WarpAmount",.17f);set("osc1WarpEnvelope",1);set("osc2WarpEnvelope",2);
+        set("attack",.003f);set("ampDecay",.12f);set("ampSustain",.08f);set("release",.045f);set("gain",.50f);set("drive",.12f);set("filterInputDrive",.06f);
+        set("filterMode",4);set("cutoff",2400);set("res",.30f);set("filterEnvAmount",1.8f);set("filterAttack",.001f);set("filterDecay",.07f);set("filterSustain",0);set("filterRelease",.025f);
+        for(int lfo=0;lfo<3;++lfo)set(lfoParameterId(lfo,"Enabled").toRawUTF8(),0);set(modulationRouteId(7,0,false).toRawUTF8(),1);set(modulationRouteId(7,0,true).toRawUTF8(),.25f);
+        set("delayEnabled",1);set("echoMode",1);set("echoTimeL",.022f);set("echoTimeR",.022f);set("echoMix",.10f);set("delayFeedback",.18f);set("chorusEnabled",1);set("chorus",.07f);set("chorusRate",.18f);
+        set("compEnabled",1);set("compMode",1);set("compThreshold",-20);set("compRatio",3);set("compMix",.30f);set("eqEnabled",1);set("eqMode0",4);set("eq0Frequency",200);set("eq0Q",.7071f);set("eq4Frequency",3200);set("eq4Gain",1.2f);
+    }
+    if(index==29){
+        set("subLevel",0);set("mix",.23f);set("osc2Tune",3);set("detune",.004f);set("osc1Width",.55f);set("osc2Width",.4f);set("voiceMode",0);set("midiBendRange",2);
+        set("attack",.008f);set("ampDecay",.35f);set("ampSustain",.62f);set("release",.25f);set("gain",.55f);set("drive",.12f);set("filterInputDrive",.08f);set("filterMode",1);set("cutoff",2400);set("res",.26f);set("filterEnvAmount",.8f);set("filterAttack",.02f);set("filterDecay",.4f);set("filterSustain",.3f);
+        set(lfoParameterId(0,"Bars").toRawUTF8(),2);set(modulationRouteId(4,0,true).toRawUTF8(),.25f);set(modulationRouteId(4,1,true).toRawUTF8(),.18f);set(modulationRouteId(4,2,true).toRawUTF8(),.08f);
+        set(lfoParameterId(1,"Enabled").toRawUTF8(),1);set(lfoParameterId(1,"Sync").toRawUTF8(),0);set(lfoParameterId(1,"Speed").toRawUTF8(),5.3f);set(modulationRouteId(5,0,false).toRawUTF8(),25);set(modulationRouteId(5,0,true).toRawUTF8(),.015f);
+        set("phaserEnabled",1);set("phaser",.12f);set("phaserRate",.21f);set("phaserDepth",.42f);set("phaserFeedback",.20f);
+        set("echoMode",2);set("echoSyncL",4);set("echoSyncR",4);set("echoMix",.14f);set("delayFeedback",.28f);set("reverbEnabled",1);set("reverb",.22f);set("reverbSize",.56f);set("pumpEnabled",1);set("pumpDepth",.10f);set("eq0Frequency",180);set("eqSlope0",0);set("eq6Frequency",7500);
+    }
+    if(index==30){
+        set("wave",30);set("osc2Wave",31);set("osc1Unison",7);set("osc2Unison",5);set("osc1Tune",-3);set("osc2Tune",3);set("mix",.38f);set("detune",.007f);set("osc2Spread",1.1f);set("osc1Width",.85f);set("osc2Width",.90f);set("subLevel",0);set("voiceMode",0);set("osc1Warp",0);
+        set("attack",.003f);set("ampDecay",.16f);set("ampSustain",.55f);set("release",.20f);set("gain",.54f);set("drive",.16f);set("filterInputDrive",.10f);set("filterMode",1);set("cutoff",4800);set("res",.20f);set("filterEnvAmount",1.2f);set("filterAttack",.004f);set("filterDecay",.18f);set("filterSustain",.30f);
+        set(lfoParameterId(0,"Bars").toRawUTF8(),2);set(modulationRouteId(4,0,true).toRawUTF8(),.20f);set(modulationRouteId(4,1,true).toRawUTF8(),.10f);set(modulationRouteId(4,2,false).toRawUTF8(),0);
+        set(lfoParameterId(1,"Enabled").toRawUTF8(),1);set(lfoParameterId(1,"Sync").toRawUTF8(),0);set(lfoParameterId(1,"Speed").toRawUTF8(),5);set(modulationRouteId(5,0,false).toRawUTF8(),25);set(modulationRouteId(5,0,true).toRawUTF8(),.008f);
+        set("phaserEnabled",1);set("phaser",.12f);set("phaserRate",1.4f);set("phaserDepth",.35f);set("chorusEnabled",1);set("chorus",.08f);set("compRatio",2.5f);set("compMix",.4f);
+        set("pumpEnabled",1);set("pumpDepth",.18f);set("pumpRelease",180);set("echoMode",2);set("echoSyncL",4);set("echoSyncR",4);set("echoMix",.13f);set("reverbEnabled",1);set("reverb",.17f);set("eq0Frequency",280);set("eqSlope0",0);
+    }
+    if(index==31||index==32){
+        const bool offbeat=index==31;
+        set("wave",6);set("osc2Wave",1);set("osc1Octave",offbeat?-2:-1);set("osc2Octave",offbeat?-1:0);set("osc2Semitone",offbeat?7:0);set("osc1Unison",offbeat?1:2);set("osc2Unison",offbeat?3:2);set("osc1Width",offbeat?0:.12f);set("osc2Width",offbeat?.25f:.38f);set("osc2Tune",offbeat?-12:3);set("mix",offbeat?.20f:.42f);set("detune",.0035f);set("subLevel",offbeat?0:.15f);set("voiceMode",2);set("glideTime",.045f);set("midiBendRange",2);set("osc1PhaseReset",1);set("osc2PhaseReset",1);set("noiseLevel",.005f);
+        set("attack",.003f);set("ampDecay",.20f);set("ampSustain",.45f);set("release",.06f);set("gain",.55f);set("drive",.15f);set("filterInputDrive",.12f);set("filterMode",5);set("cutoff",offbeat?500:4200);set("res",.30f);set("filterEnvAmount",offbeat?2.2f:.8f);set("filterAttack",.001f);set("filterDecay",.09f);set("filterSustain",0);set("filterRelease",.03f);
+        for(int lfo=0;lfo<3;++lfo)set(lfoParameterId(lfo,"Enabled").toRawUTF8(),0);
+        set("compEnabled",1);set("compMode",2);set("compThreshold",-18);set("compRatio",2.5f);set("compBelow",1);set("compMix",.40f);set("compHighGain",-5);
+        set("delayEnabled",1);set("echoMode",1);set("echoTimeL",.022f);set("echoTimeR",.022f);set("echoMix",.06f);set("delayFeedback",.12f);set("echoFrequency",2500);set("echoBandwidth",.40f);
+        set("eqEnabled",1);set("eqMode0",4);set("eq0Frequency",offbeat?25:35);set("eq0Q",.7071f);set("eq4Frequency",3200);set("eq4Gain",offbeat?0:1);set("eqMode6",3);set("eq6Frequency",6500);
+        if(offbeat){set("gateEnabled",1);set("gateRate",2);set("gateDepth",1);set("gateAttack",2);set("gateRelease",6);for(int step=0;step<16;++step)set(("gateStep"+juce::String(step)).toRawUTF8(),step%4<2?0:1);}
+        else {set("phaserEnabled",1);set("phaser",.06f);set("phaserRate",.20f);set("reverbEnabled",1);set("reverb",.12f);}
+    }
+    if(index==33){
+        set("wave",6);set("osc2Wave",1);set("osc1Unison",10);set("osc2Unison",8);set("osc2Tune",4);set("mix",.44f);set("detune",.007f);set("osc1Width",.82f);set("osc2Width",.9f);set("osc1Blend",.75f);set("osc2Blend",.75f);set("subLevel",.08f);
+        set("attack",.002f);set("ampDecay",.24f);set("ampSustain",.65f);set("release",.18f);set("gain",.62f);set("drive",.15f);set("filterInputDrive",.10f);set("filterMode",4);set("cutoff",15000);set("res",.16f);set("filterEnvAmount",.35f);set("filterAttack",.002f);set("filterDecay",.12f);set("filterSustain",0);
+        for(int lfo=0;lfo<3;++lfo){set(lfoParameterId(lfo,"Enabled").toRawUTF8(),lfo==0?1:0);set(lfoParameterId(lfo,"Bars").toRawUTF8(),2);for(int point=0;point<17;++point)set(lfoPointId(lfo,point).toRawUTF8(),1-std::abs(float(point)/8-1));}set(modulationRouteId(4,0,false).toRawUTF8(),1);set(modulationRouteId(4,0,true).toRawUTF8(),-.035f);
+        set("compEnabled",1);set("compMode",2);set("compThreshold",-18);set("compRatio",2.5f);set("compBelow",1);set("compMix",.45f);set("compHighGain",-4);
+        set("delayEnabled",1);set("echoMode",2);set("echoSyncL",4);set("echoSyncR",4);set("echoMix",.10f);set("delayFeedback",.24f);set("reverbEnabled",1);set("reverb",.15f);set("eqEnabled",1);set("eqMode0",4);set("eq0Frequency",100);set("eq0Q",.7071f);set("eq3Frequency",320);set("eq3Gain",-1);set("eq4Frequency",3400);set("eq4Gain",.8f);
     }
     state.state.setProperty("presetKey",library->keyForFactory(index),nullptr);
 }

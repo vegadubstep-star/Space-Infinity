@@ -57,7 +57,7 @@ int runExtendedSmoke(){
     juce::PNGImageFormat png;
     for(auto* child:panel.getChildren())if(auto* tabs=dynamic_cast<juce::TabbedComponent*>(child))for(int tab=0;tab<tabs->getNumTabs();++tab){
         tabs->setCurrentTabIndex(tab);auto snapshot=panel.createComponentSnapshot(panel.getLocalBounds());
-        auto image=audition.getChildFile("Extended-"+juce::String(tab+1)+".png").createOutputStream();if(image)png.writeImageToStream(snapshot,*image);
+        const auto file=audition.getChildFile("Extended-"+juce::String(tab+1)+".png");file.deleteFile();auto image=file.createOutputStream();if(image)png.writeImageToStream(snapshot,*image);
     }
     directory.deleteRecursively();std::cout<<"Extended engine audio, assets/state, arp MIDI and oscillator navigation passed\n";return 0;
 }

@@ -55,7 +55,7 @@ int main(int argc,char* argv[])
     constexpr int blockSize=256;
     juce::AudioBuffer<float> audio(2,blockSize);
     const auto& names=synth.presetNames();
-    if(names.size()!=14 || synth.motionNames().size()!=20) return 1;
+    if(names.size()!=34 || synth.motionNames().size()!=20) return 1;
 
     for(int i=0;i<names.size();++i)
         if(names.indexOf(names[i])!=i) return 9;
@@ -82,6 +82,7 @@ int main(int argc,char* argv[])
     auto* cutoff=synth.state.getParameter("cutoff");
 
     const auto audition=juce::File::getCurrentWorkingDirectory().getChildFile("audition");
+    if(audition.exists()&&!audition.deleteRecursively()) return 17;
     if(audition.createDirectory().failed()) return 17;
     std::ofstream levels(audition.getChildFile("levels.tsv").getFullPathName().toStdString());
     if(!levels) return 18;

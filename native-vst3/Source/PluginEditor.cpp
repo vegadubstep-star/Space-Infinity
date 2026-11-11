@@ -87,8 +87,10 @@ class WarpPanel final : public juce::Component {
 public:
     WarpPanel(SpaceInfinityProcessor& processor,int oscillator)
         : modeBinding(*processor.state.getParameter("osc"+juce::String(oscillator)+"Warp"),mode,nullptr),
-          amountBinding(processor.state,"osc"+juce::String(oscillator)+"WarpAmount",amount){
-        mode.addItemList({"Off",oscillator==1?"FM from B":"FM from A","Mirror","PWM"},1);
+          amountBinding(processor.state,"osc"+juce::String(oscillator)+"WarpAmount",amount),
+          semitoneBinding(processor.state,"osc"+juce::String(oscillator)+"Semitone",semitone),
+          envelopeBinding(processor.state,"osc"+juce::String(oscillator)+"WarpEnvelope",envelope),phaseBinding(processor.state,"osc"+juce::String(oscillator)+"PhaseReset",phaseReset){
+        mode.addItemList({"Off",oscillator==1?"FM from B":"FM from A","Mirror","PWM","FM from Sub"},1);
         mode.setSelectedItemIndex(int(processor.state.getRawParameterValue("osc"+juce::String(oscillator)+"Warp")->load()),juce::dontSendNotification);
         amount.setTextBoxStyle(juce::Slider::TextBoxRight,false,48,22);
         amount.setTooltip("Warp amount. Double-click to reset.");
@@ -96,14 +98,19 @@ public:
         showPercent(amount);
         addAndMakeVisible(mode);
         addAndMakeVisible(amount);
-        setSize(240,82);
+        semitone.setTextBoxStyle(juce::Slider::TextBoxRight,false,60,22);semitone.setTooltip("Semitone offset, in addition to octave and fine tuning.");semitone.setNumDecimalPlacesToDisplay(0);semitone.setDoubleClickReturnValue(true,0);addAndMakeVisible(semitone);
+        envelope.addItemList({"No warp envelope","Amp envelope","Filter envelope"},1);envelope.setSelectedItemIndex(int(processor.state.getRawParameterValue("osc"+juce::String(oscillator)+"WarpEnvelope")->load()),juce::dontSendNotification);addAndMakeVisible(envelope);phaseReset.setButtonText("RETRIGGER PHASE");addAndMakeVisible(phaseReset);
+        setSize(240,184);
     }
-    void resized() override {mode.setBounds(10,9,220,26);amount.setBounds(10,43,220,25);}
+    void resized() override {mode.setBounds(10,9,220,26);amount.setBounds(10,43,220,25);semitone.setBounds(10,78,220,25);envelope.setBounds(10,112,220,25);phaseReset.setBounds(10,147,220,25);}
 private:
     juce::ComboBox mode;
-    juce::Slider amount;
+    juce::Slider amount,semitone;
+    juce::ComboBox envelope;juce::ToggleButton phaseReset;
     juce::ComboBoxParameterAttachment modeBinding;
-    juce::AudioProcessorValueTreeState::SliderAttachment amountBinding;
+    juce::AudioProcessorValueTreeState::SliderAttachment amountBinding,semitoneBinding;
+    juce::AudioProcessorValueTreeState::ComboBoxAttachment envelopeBinding;
+    juce::AudioProcessorValueTreeState::ButtonAttachment phaseBinding;
 };
 class EqPanel final : public juce::Component, private juce::Timer {
 public:
@@ -515,7 +522,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
             travel.setSkewForCentre(i==0?1000.0:0.45);
             slider.setNormalisableRange(travel);
         }
-        if(i==2 || i==3 || i==13 || i==14 || i==12){
+        if(i==12){
             slider.setSliderStyle(juce::Slider::LinearVertical);
             slider.setColour(juce::Slider::thumbColourId,juce::Colour(0xffd48d42));
             slider.setColour(juce::Slider::trackColourId,juce::Colour(0xff10100f));
@@ -774,6 +781,8 @@ void SpaceInfinityEditor::refreshModulationIndicators(){
     }
 }
 juce::Rectangle<int> SpaceInfinityEditor::targetBounds(int target) const{
+    if(target==25)return pitchWheel.getBounds();
+    if(target==26||target==27)return !fxPage?(target==26?warpA.getBounds():warpB.getBounds()):juce::Rectangle<int>{};
     if(target==18||target==21||target==22){
         const int lfo=target==18?0:target-20;
         return !fxPage&&lfo==selectedLfo?(lfoSpeed.isVisible()?lfoSpeed.getBounds():motionBars.getBounds()):juce::Rectangle<int>{};
@@ -954,8 +963,8 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         const int waves[]{waveA,waveBChoice==0?waveA:waveBChoice-1};
         const int modes[]{int(parameter("osc1Warp")),int(parameter("osc2Warp"))};
         const float amounts[]{parameter("osc1WarpAmount"),parameter("osc2WarpAmount")};
-        const double tune[]{std::exp2(parameter("osc1Octave")+parameter("osc1Tune")/1200.0),
-            std::exp2(parameter("osc2Octave")+parameter("osc2Tune")/1200.0)*(1.0+parameter("detune"))};
+        const double tune[]{std::exp2(parameter("osc1Octave")+parameter("osc1Semitone")/12.0+parameter("osc1Tune")/1200.0),
+            std::exp2(parameter("osc2Octave")+parameter("osc2Semitone")/12.0+parameter("osc2Tune")/1200.0)*(1.0+parameter("detune"))};
         const float scannedFrame=parameter("wavetableScan")*float(processor.tableFrameCount()-1);
         const auto tableA=processor.tableFrame(int(scannedFrame)),tableB=processor.tableFrame(int(scannedFrame)+1);
         const auto preview=[&](double phase,int wave){
@@ -974,10 +983,10 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
             juce::Path shape;
             for(int point=0;point<=256;++point){
                 const double phase=double(point)/128.0;
-                const auto modulator=preview(phase*tune[1-oscillator]/tune[oscillator],waves[1-oscillator]);
+                const auto modulator=modes[oscillator]==4?std::sin(float(phase*.5/tune[oscillator])*juce::MathConstants<float>::twoPi):preview(phase*tune[1-oscillator]/tune[oscillator],waves[1-oscillator]);
                 double displayPhase=phase;
                 const int mode=modes[oscillator];const float amount=amounts[oscillator];
-                if(mode==1)displayPhase+=modulator*amount*1.5;
+                if(mode==1||mode==4)displayPhase+=modulator*amount*1.5;
                 else if(mode==2){const double t=phase-std::floor(phase);displayPhase=t+((1-std::abs(t*2-1))-t)*amount;}
                 else if(mode==3){const double t=phase-std::floor(phase),split=.5+.45*amount;displayPhase=t<split?.5*t/split:.5+.5*(t-split)/(1-split);}
                 const auto value=preview(displayPhase,waves[oscillator]);
@@ -989,8 +998,8 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
             g.setColour(juce::Colour(oscillator==0?0xffe6b47e:0xffdba578).withAlpha(active?1.0f:.3f));
             g.strokePath(shape,juce::PathStrokeType(1.6f));
             g.setColour(juce::Colour(0xffb4c0ad));
-            const char* modesText[]{"NORMAL","FM","MIRROR","PWM"};
-            g.drawText(modesText[juce::jlimit(0,3,modes[oscillator])],screen.reduced(4).withHeight(12),juce::Justification::centredRight);
+            const char* modesText[]{"NORMAL","FM","MIRROR","PWM","SUB FM"};
+            g.drawText(modesText[juce::jlimit(0,4,modes[oscillator])],screen.reduced(4).withHeight(12),juce::Justification::centredRight);
             const auto label=[&g](const juce::Component& control,const char* text){
                 g.setColour(juce::Colour(0xffb9b1a2));
                 g.drawText(text,control.getBounds().translated(0,-15).withHeight(13),juce::Justification::centred);

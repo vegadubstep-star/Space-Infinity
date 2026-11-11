@@ -14,7 +14,7 @@ Seven saw voices plus five additional saw voices, tight detune (0.003 shared spr
 
 The amp uses an 8 ms attack, 300 ms decay, 78% sustain and 280 ms release. The 12 dB low-pass starts at 1.25 kHz. A note-triggered filter envelope adds up to 2.4 octaves with an 18 ms attack, 320 ms decay and 24% sustain, creating the melodic opening/breath. A much shallower four-bar LFO adds slow movement. Gentle chorus, filtered eighth-note ping-pong delay, restrained reverb, a +1.5 dB bell around 4.8 kHz, and 30% wet multiband compression add clarity. Upward compression is disabled (below ratio 1), with conservative downward ratio 2:1.
 
-INFINITY does not currently expose wavetable-position modulation or an extra oscillator layer. Legato glide is now available. These patches use width/cutoff movement and oscillator voicing instead. Reverb depth remains host-automatable. The LFO can be bypassed without removing the note-triggered filter envelope.
+Custom wavetable scan modulation and legato glide are now available; these earlier patches retain their programmed width/cutoff movement. There is no extra full oscillator layer beyond A, B and the sine sub. These patches use width/cutoff movement and oscillator voicing instead. Reverb depth remains host-automatable. The LFO can be bypassed without removing the note-triggered filter envelope.
 
 Factory IDs are F122 (Aurelia), F123 (Azure Horizon) and F124 (Prism Drive). Init F120 and Skywave Pad F121 retain their identities; the pad's name changes without replacing its saved identity. Previous F0–F119 sounds remain retired.
 
@@ -51,3 +51,7 @@ The new per-voice pitch envelope controls are in **ENGINES → ANALOGUE**: amoun
 ## Solo Afterglow Lead (Better Off Alone-inspired)
 
 One centred saw, no detune, mono retrigger, with Osc B off. Instant attack, 8 ms decay, full sustain and 20 ms release. Full sustain means the amp decay does not lower the held-note level; articulation comes from note length, the short release and a small 45 ms filter transient above the 3.6 kHz low-pass. A 220 Hz high-pass removes lower weight. Designer LFOs, legacy vibrato, chorus, gate and compression are off. A low-mix 125 ms stereo delay and tiny room reverb add restrained space. Factory ID: F128. No song melody is embedded.
+
+## Silken Voltage Lead (square-lead variation)
+
+A separate interpretation of the repeated saw/pulse lead recipe, using its suggested two-square variation: seven pulse voices above three quieter octave-down pulse voices, 75%/70% blends, 72%/55% widths and a tighter B detune spread. Very light audio-rate FM from B naturally follows keyboard pitch; it is not a keytracked low-frequency oscillator. INFINITY's pulse waveform has a 48% duty cycle. The 10 ms attack, 400 ms decay, -3 dB sustain and 350 ms release remain. A 5.5 kHz low-pass, a small 300 Hz cut and +1.8 dB around 4.8 kHz balance body and presence. Short stereo delay, chorus and restrained reverb finish the sound. Factory ID: F135. The native lead test includes its repeated-note level, bounds, preview and state recall.

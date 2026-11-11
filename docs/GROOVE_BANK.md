@@ -17,4 +17,12 @@ The Nebula wavetable is generated locally and embedded in saved states. Selectin
 
 - **Copper Bounce Bass (F133):** octave-down saw plus a sine sub at the same low octave, 24 dB low-pass, short independent filter/amp envelopes, velocity-driven cutoff accents and a small 45 ms pitch bump that scales with velocity. Moderate saturation and quiet 75 ms slapback add punch. ENGINES → ANALOGUE now includes velocity-to-pitch-envelope depth; its zero default retains the original fixed pitch-envelope amount. Play bass notes in a suitable octave: transposing both the played note and oscillator down can place the fundamental below useful range.
 
-The expanded destination menu keeps raw saved destination indices, but existing host automation of the destination-selector choices may need checking because their normalized range now contains two additional entries.
+The expanded destination menu keeps raw saved destination indices, but existing host automation of the destination-selector choices may need checking because their normalized range now contains additional entries.
+
+## Iron Surge Bass (F134)
+
+Hard-trance womp: two three-voice saw layers at -5/+5 cents, a clean centred sub one octave below played pitch, and a 24 dB low-pass at 320 Hz. Its independent filter envelope rises in 6 ms and falls over 190 ms with zero sustain and a 3.8-octave amount. A restrained 3 Hz cutoff LFO adds wobble; LFO ON bypasses it. The amp has a 3 ms attack, 220 ms decay, 50% sustain and 70 ms release. There is no pitch sweep: the womp comes from the filter, keeping tuning stable.
+
+New **ENGINES → ANALOGUE → Pre-filter drive** adds stereo soft saturation before the voice filter. Its zero default bypasses it for existing sounds. Iron Surge uses 35% pre-filter drive plus existing output drive, gentle parallel compression and a 30 Hz high-pass. The clean sub bypasses that filter/saturator but still passes through the shared output/effects chain. Delay and reverb are off. Bass-only internal pumping is light at 15%; turn off SIDECHAIN to remove it, or explicitly select External audio and route a kick in the host.
+
+The groove check renders 24 repeated notes, checks late/early level and peak headroom, compares pre-filter drive audio with bypass, saves/recalls its settings and writes an eight-second WAV preview.

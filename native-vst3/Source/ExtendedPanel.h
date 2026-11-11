@@ -65,6 +65,15 @@ class ExtendedPanel final : public juce::Component,private juce::Timer {
         s.setNumDecimalPlacesToDisplay(3);
         const auto* p=processor.state.getParameter(id);s.setDoubleClickReturnValue(true,p->convertFrom0to1(p->getDefaultValue()));
     }
+    void knob(int page,const char* id,const char* name,int x,int y,int width,const char* unit=""){
+        auto& caption=own<juce::Label>(page);caption.setText(name,juce::dontSendNotification);caption.setBounds(x,y,width,20);caption.setJustificationType(juce::Justification::centred);caption.setColour(juce::Label::textColourId,juce::Colour(0xffd2d4d8));
+        auto& s=own<juce::Slider>(page);s.setBounds(x+(width-80)/2,y+21,80,78);
+        s.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);s.setTextBoxStyle(juce::Slider::TextBoxBelow,false,76,18);
+        sliders.push_back(std::make_unique<SliderBinding>(processor.state,id,s));const auto suffix=juce::String(unit);
+        s.textFromValueFunction=[suffix](double value){return suffix=="%"?juce::String(value*100,0)+"%":juce::String(value,suffix=="s"?3:2)+(suffix.isEmpty()?juce::String{}:" "+suffix);};
+        s.valueFromTextFunction=[suffix](const juce::String& text){return text.getDoubleValue()/(suffix=="%"?100:1);};s.updateText();
+        const auto* p=processor.state.getParameter(id);s.setDoubleClickReturnValue(true,p->convertFrom0to1(p->getDefaultValue()));
+    }
     void choice(int page,const char* id,juce::StringArray names,int x,int y,int width){auto& c=own<juce::ComboBox>(page);c.addItemList(names,1);c.setBounds(x,y,width,26);choices.push_back(std::make_unique<ChoiceBinding>(processor.state,id,c));}
     juce::TextButton& action(int page,const char* text,juce::Rectangle<int> area,std::function<void()> callback){auto& b=own<juce::TextButton>(page);b.setButtonText(text);b.setBounds(area);b.onClick=std::move(callback);return b;}
     void showResult(const juce::Result& result,const juce::String& success){status.setText(result.wasOk()?success:result.getErrorMessage(),juce::dontSendNotification);}
@@ -94,8 +103,8 @@ public:
         const char* names[]={"FILTER ENV","GRANULAR","ARP / SEQ","WAVETABLE","CONVOLVER","ANALOGUE"};
         for(int i=0;i<6;++i)tabs.addTab(names[i],juce::Colour(0xff252b31),&pages[size_t(i)],false);
         pages[0].addAndMakeVisible(envelope);envelope.setBounds(15,15,690,140);
-        slider(0,"filterAttack","Attack (seconds)",15,175);slider(0,"filterDecay","Decay (seconds)",365,175);
-        slider(0,"filterSustain","Sustain",15,225);slider(0,"filterRelease","Release (seconds)",365,225);
+        knob(0,"filterAttack","ATTACK",15,168,165,"s");knob(0,"filterDecay","DECAY",190,168,165,"s");
+        knob(0,"filterSustain","SUSTAIN",365,168,165,"%");knob(0,"filterRelease","RELEASE",540,168,165,"s");
         slider(0,"filterEnvAmount","Amount (octaves)",15,285,690);
         slider(0,"filterVelocity","Velocity to cutoff (octaves)",15,330,690);
         slider(0,"glideTime","Legato glide (s)",15,365,690);
@@ -136,12 +145,9 @@ public:
         label(4,"Load a mono or stereo WAV impulse response (up to 4 seconds / 4 MB).\nConvolution runs after reverb and before EQ. The impulse is embedded in project state.",{15,235,690,70});
         auto& analogue=own<juce::ToggleButton>(5);analogue.setButtonText("ANALOGUE VOICES + CURVED ENVELOPES");analogue.setBounds(15,25,660,30);
         buttons.push_back(std::make_unique<ButtonBinding>(processor.state,"analogueUpgrade",analogue));
-        slider(5,"pitchEnvAmount","Pitch envelope (semitones)",15,300,690);
-        slider(5,"pitchEnvAttack","Pitch attack (seconds)",15,355);slider(5,"pitchEnvDecay","Pitch decay (seconds)",365,355);
-        slider(5,"analogueCharacter","Character",15,100,690);
-        slider(5,"ampVelocity","Velocity to volume",15,170,690);
-        slider(5,"pitchEnvVelocity","Velocity to pitch envelope",15,260,690);
-        slider(5,"subLevel","Sub sine level",15,225,690);
+        knob(5,"midiBendRange","MIDI BEND",15,65,215,"st");knob(5,"analogueCharacter","CHARACTER",245,65,215,"%");knob(5,"filterInputDrive","PRE-FILTER DRIVE",475,65,215,"%");
+        knob(5,"ampVelocity","VELOCITY TO VOLUME",15,170,215,"%");knob(5,"subLevel","SUB SINE",245,170,215,"%");knob(5,"pitchEnvVelocity","PITCH VELOCITY",475,170,215,"%");
+        knob(5,"pitchEnvAmount","PITCH ENVELOPE",15,275,215,"st");knob(5,"pitchEnvAttack","PITCH ATTACK",245,275,215,"s");knob(5,"pitchEnvDecay","PITCH DECAY",475,275,215,"s");
         addAndMakeVisible(status);status.setBounds(15,433,700,27);status.setColour(juce::Label::textColourId,juce::Colour(0xffd8c8a7));startTimerHz(15);
     }
     void resized() override {tabs.setBounds(0,0,730,425);}
