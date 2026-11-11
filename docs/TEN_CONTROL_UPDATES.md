@@ -17,6 +17,10 @@ The lower main-page area also consolidates the LFO controls and six performance 
 
 This batch does **not** complete the requested LFOTool-style gate interface/separate sequencer page or the further purple-metal/logo redesign. De-click protection is included, but a claim that every reported click is eliminated still requires listening in the user's FL Studio setup.
 
+## Screenshots
+
+[Main page](images/Workflow-Main.png) / [Delay wet EQ](images/Workflow-Delay.png) / [Reverb wet EQ](images/Workflow-Reverb.png) / [Flanger](images/Workflow-Flanger.png)
+
 ## Validation
 
 The workflow test checks actual wet-EQ frequency response, exact flat bypass and dry isolation; extreme flanger feedback; independent oscillator gain/detune; all four filter source paths and six sub waveforms; FX dB gain/peak/clipping; fine millisecond entry; route and parameter state recall; and old-session algorithm defaults. The existing native suites cover the 34-entry factory bank, long-term pad/lead playback, UI at four sizes, embedded assets, dynamics, delay timing, convolution, EQ and gate/sidechain behavior.
