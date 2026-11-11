@@ -71,6 +71,15 @@ class ExtendedPanel final : public juce::Component,private juce::Timer {
             safe->showResult(result,save?"Wavetable exported (512 samples/frame).":"Wavetable loaded into oscillator A.");safe->table.frame=0;safe->updateFrames();
         });
     }
+    void chooseImpulse(){
+        chooser=std::make_unique<juce::FileChooser>("Load impulse response",juce::File{},"*.wav");
+        const juce::Component::SafePointer<ExtendedPanel> safe(this);
+        chooser->launchAsync(juce::FileBrowserComponent::openMode|juce::FileBrowserComponent::canSelectFiles,
+            [safe](const juce::FileChooser& c){
+                if(safe!=nullptr&&c.getResult()!=juce::File{})
+                    safe->showResult(safe->processor.importImpulse(c.getResult()),"Impulse loaded: "+c.getResult().getFileName());
+            });
+    }
     void timerCallback() override {envelope.repaint();}
 public:
     explicit ExtendedPanel(SpaceInfinityProcessor& p):processor(p),table(p),envelope(p){
@@ -114,7 +123,7 @@ public:
         action(3,"USE ON OSC A",{15,350,155,28},[this]{auto* wave=processor.state.getParameter("wave");wave->setValueNotifyingHost(wave->convertTo0to1(30));processor.state.getParameter("source")->setValueNotifyingHost(0);});
         label(3,"Draw on the waveform; release to apply. Up to 64 frames; 512 internal points per frame.\nSelect Custom Wavetable on either oscillator. Import/export and edited frames save with the project.",{185,345,520,55});updateFrames();
         auto& enabled=own<juce::ToggleButton>(4);enabled.setButtonText("CONVOLVER ON");enabled.setBounds(15,25,200,28);buttons.push_back(std::make_unique<ButtonBinding>(processor.state,"convolverEnabled",enabled));
-        action(4,"IMPORT IMPULSE WAV",{15,90,230,34},[this]{chooser=std::make_unique<juce::FileChooser>("Load impulse response",juce::File{},"*.wav");chooser->launchAsync(juce::FileBrowserComponent::openMode|juce::FileBrowserComponent::canSelectFiles,[safe=juce::Component::SafePointer<ExtendedPanel>(this)](const juce::FileChooser& c){if(safe&&c.getResult()!=juce::File{})safe->showResult(safe->processor.importImpulse(c.getResult()),"Impulse loaded: "+c.getResult().getFileName());});});
+        action(4,"IMPORT IMPULSE WAV",{15,90,230,34},[this]{chooseImpulse();});
         slider(4,"convolverMix","Dry / wet",15,170,690);
         label(4,"Load a mono or stereo WAV impulse response (up to 4 seconds / 4 MB).\nConvolution runs after reverb and before EQ. The impulse is embedded in project state.",{15,235,690,70});
         addAndMakeVisible(status);status.setBounds(15,433,700,27);status.setColour(juce::Label::textColourId,juce::Colour(0xffd8c8a7));startTimerHz(15);
