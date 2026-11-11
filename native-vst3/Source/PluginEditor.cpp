@@ -1,4 +1,5 @@
 #include "PluginEditor.h"
+#include "ExtendedPanel.h"
 #include "EffectControls.h"
 #include <array>
 #include <cmath>
@@ -638,6 +639,18 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         addChildComponent(*badge);
         modulationBadges[target]=std::move(badge);
     }
+    for(size_t osc=0;osc<2;++osc){
+        for(auto* button:{&previousWave[osc],&nextWave[osc]})addAndMakeVisible(*button);
+        previousWave[osc].setButtonText("<");nextWave[osc].setButtonText(">");
+        previousWave[osc].setName("Osc "+juce::String(int(osc+1))+" previous waveform");
+        nextWave[osc].setName("Osc "+juce::String(int(osc+1))+" next waveform");
+        const auto step=[this,osc](int direction){auto& selector=osc==0?waveform:waveform2;const int count=selector.getNumItems();
+            const int index=selector.getSelectedItemIndex();selector.setSelectedItemIndex((index+direction+count)%count,juce::sendNotificationSync);};
+        previousWave[osc].onClick=[step]{step(-1);};nextWave[osc].onClick=[step]{step(1);};
+        previousWave[osc].setTooltip("Previous oscillator waveform");nextWave[osc].setTooltip("Next oscillator waveform");
+    }
+    addAndMakeVisible(extendedButton);extendedButton.setTooltip("Filter ADSR, granular, arpeggiator/sequencer, wavetable editor and convolver");
+    extendedButton.onClick=[this]{juce::CallOutBox::launchAsynchronously(std::make_unique<ExtendedPanel>(processor),extendedButton.getBounds(),this);};
     updatePage();
     startTimerHz(30);
 }
@@ -662,6 +675,7 @@ void SpaceInfinityEditor::timerCallback(){
 }
 void SpaceInfinityEditor::updatePage(){
     for(auto* control:mainControls)control->setVisible(!fxPage);
+    for(size_t i=0;i<2;++i){previousWave[i].setVisible(!fxPage);nextWave[i].setVisible(!fxPage);}
     for(const int index:{7,8,9,15,16}){
         knobs[size_t(index)].setVisible(fxPage);
         labels[size_t(index)].setVisible(fxPage);
@@ -1109,6 +1123,7 @@ void SpaceInfinityEditor::resized(){
     noiseLevel.setBounds(w-172,72,134,23);
     mainTab.setBounds(34,111,68,25);
     fxTab.setBounds(107,111,68,25);
+    extendedButton.setBounds(180,111,98,25);
     octaveControls[0].setBounds(w-385,116,64,22);
     pitchWheel.setBounds(w-261,116,220,22);
     const auto layout=mainLayout(w,h);
@@ -1119,7 +1134,9 @@ void SpaceInfinityEditor::resized(){
         (i==0?warpA:warpB).setBounds(region.getX()+78,region.getY(),53,20);
         octaveControls[size_t(i+1)].setBounds(region.getRight()-62,region.getY(),62,20);
         auto& selector=i==0?waveform:waveform2;
-        selector.setBounds(region.getX(),region.getY()+123,region.getWidth(),24);
+        selector.setBounds(region.getX()+28,region.getY()+123,region.getWidth()-56,24);
+        previousWave[size_t(i)].setBounds(region.getX(),region.getY()+123,25,24);
+        nextWave[size_t(i)].setBounds(region.getRight()-25,region.getY()+123,25,24);
         auto controls=juce::Rectangle<int>(region.getX(),region.getY()+169,region.getWidth(),23);
         unisonSliders[size_t(i)].setBounds(controls.removeFromRight(62).reduced(2,0));
         oscillatorSliders[size_t(i*2)].setBounds(controls.removeFromLeft(controls.getWidth()/2).reduced(2,0));
@@ -1223,3 +1240,4 @@ void SpaceInfinityEditor::resized(){
     refreshModulationIndicators();
 }
 juce::AudioProcessorEditor* SpaceInfinityProcessor::createEditor(){return new SpaceInfinityEditor(*this);}
+

@@ -74,6 +74,8 @@ private:
     std::array<juce::Label,28> rackLabels;
     std::array<juce::ToggleButton,6> rackEnabled;
     std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment>,6> rackPower;
+    std::array<juce::TextButton,2> previousWave,nextWave;
+    juce::TextButton extendedButton{"ENGINES"};
     juce::TextButton mainTab{"MAIN"}, fxTab{"FX"};
     std::vector<juce::Component*> mainControls;
     bool fxPage=false;
@@ -90,3 +92,4 @@ private:
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> rootAttachment;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SpaceInfinityEditor)
 };
+

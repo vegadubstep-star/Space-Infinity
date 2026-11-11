@@ -1,6 +1,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "AnalogueCircuit.h"
+#include "ExtendedEngine.h"
 class SpaceInfinityProcessor : public juce::AudioProcessor {
 public:
     SpaceInfinityProcessor();
@@ -44,7 +45,29 @@ public:
     static juce::StringArray sourceNames();
     static const juce::StringArray& presetNames();
     static juce::String presetCategory(int index);
+    juce::Result importWavetable(const juce::File&,int frameSize);
+    juce::Result exportWavetable(const juce::File&);
+    std::array<float,infinity::Wavetable::points> tableFrame(int index);
+    int tableFrameCount();
+    void editTableFrame(int index,const std::array<float,infinity::Wavetable::points>&);
+    void addTableFrame(int copyFrom);
+    void removeTableFrame(int index);
+    juce::Result importImpulse(const juce::File&);
 private:
+    infinity::Wavetable wavetable;
+    infinity::Pattern pattern;
+    juce::MidiBuffer patternMidi;
+    bool transportKnown=false,transportPlaying=false;
+    double previousPpq=0;
+    juce::dsp::Convolution convolver;
+    juce::AudioBuffer<float> convolutionDry;
+    juce::SmoothedValue<float> convolutionWet;
+    juce::MemoryBlock impulseBytes;
+    juce::AudioBuffer<float> pendingImpulse;
+    double pendingImpulseRate=44100;
+    bool impulsePending=false;
+    juce::Result queueImpulse(const juce::MemoryBlock&);
+    void transformPattern(juce::MidiBuffer&,int);
     struct EqState { float z1=0.0f,z2=0.0f; };
     std::array<std::array<EqState,7>,2> eqState{};
     std::array<std::array<std::atomic<float>*,3>,7> eqParameters{};
@@ -59,6 +82,8 @@ private:
     juce::SpinLock sampleLock;
     unsigned sampleRevision = 0;
     struct Voice {
+        infinity::Granulator granular;
+        infinity::Envelope filterEnvelope;
         int source = 0;
         double samplePosition = 0, sampleStep = 0;
         int sampleStart = 0, sampleEnd = 0;
@@ -102,3 +127,4 @@ private:
     float param(const char* id) const {return state.getRawParameterValue(id)->load();}
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SpaceInfinityProcessor)
 };
+
