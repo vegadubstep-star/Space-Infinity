@@ -29,6 +29,7 @@ jobs:
           path: release/*
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: Space-Infinity-Preset-Audition
           path: native-vst3/build/audition

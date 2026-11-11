@@ -6,9 +6,40 @@
 int runExtendedSmoke();
 int runPresetSmoke();
 
-int main()
+int renderHardwarePreview()
+{
+    auto synth=std::make_unique<SpaceInfinityProcessor>();
+    synth->loadPreset(12);
+    auto editor=std::unique_ptr<juce::AudioProcessorEditor>(synth->createEditor());
+    const auto folder=juce::File::getCurrentWorkingDirectory().getChildFile("audition");
+    if(folder.createDirectory().failed())return 101;
+    for(const auto* page:{"MAIN","FX"}){
+        juce::TextButton* tab=nullptr;
+        for(auto* child:editor->getChildren())
+            if(auto* button=dynamic_cast<juce::TextButton*>(child))
+                if(button->getButtonText()==page)tab=button;
+        if(!tab)return 102;
+        tab->onClick();
+        for(const auto size:{juce::Point<int>(800,760),juce::Point<int>(1000,790),juce::Point<int>(1180,820),juce::Point<int>(1500,950)}){
+            editor->setSize(size.x,size.y);
+            for(auto* child:editor->getChildren())
+                if(child->isVisible()&&!editor->getLocalBounds().contains(child->getBounds()))return 103;
+            const auto image=editor->createComponentSnapshot(editor->getLocalBounds(),true,1.0f);
+            const auto file=folder.getChildFile(juce::String("Hardware-")+page+"-"+juce::String(size.x)+".png");
+            file.deleteFile();auto stream=file.createOutputStream();
+            if(!stream||!juce::PNGImageFormat{}.writeImageToStream(image,*stream))return 104;
+        }
+    }
+    std::cout<<"Native hardware editor: Main/FX screenshots and bounds passed at 800, 1000, 1180 and 1500 pixels\n";
+    return 0;
+}
+
+int main(int argc,char* argv[])
 {
     juce::ScopedJuceInitialiser_GUI gui;
+    if(argc>1&&juce::String(argv[1])=="--ui-only")return renderHardwarePreview();
+    if(argc>1&&juce::String(argv[1])=="--preset-tests")return runPresetSmoke();
+    if(argc>1&&juce::String(argv[1])=="--extended-tests")return runExtendedSmoke();
     SpaceInfinityProcessor synth;
     constexpr int blockSize=256;
     juce::AudioBuffer<float> audio(2,blockSize);
@@ -134,7 +165,7 @@ int main()
             if(!std::isfinite(value)||value<0.0f||value>1.0f) return 13;
         }
     }
-    for(const auto size : {juce::Point<int>(800,760),juce::Point<int>(1000,790),juce::Point<int>(1500,950)}){
+    for(const auto size : {juce::Point<int>(800,760),juce::Point<int>(1000,790),juce::Point<int>(1180,820),juce::Point<int>(1500,950)}){
         editor->setSize(size.x,size.y);
         for(auto* child : editor->getChildren())
             if(child->isVisible() && !editor->getLocalBounds().contains(child->getBounds())) return 7;
@@ -151,7 +182,7 @@ int main()
             if(button->getButtonText()=="FX")effectsTab=button;
     if(!effectsTab)return 27;
     effectsTab->onClick();
-    for(const auto size:{juce::Point<int>(800,760),juce::Point<int>(1000,790)}){
+    for(const auto size:{juce::Point<int>(800,760),juce::Point<int>(1000,790),juce::Point<int>(1180,820)}){
         editor->setSize(size.x,size.y);
         for(auto* child:editor->getChildren())
             if(child->isVisible()&&!editor->getLocalBounds().contains(child->getBounds()))return 28;

@@ -1,5 +1,6 @@
 #pragma once
 #include "PluginProcessor.h"
+#include "HardwareTheme.h"
 class ModulationBadge;
 class SpaceInfinityEditor : public juce::AudioProcessorEditor, private juce::Timer {
 public:
@@ -25,12 +26,9 @@ private:
     juce::Rectangle<int> meterBounds;
     float meterPeak=0.0f;
     int clipHold=0;
-    class HardwareLook final : public juce::LookAndFeel_V4 {
-        void drawRotarySlider(juce::Graphics&, int, int, int, int, float, float, float, juce::Slider&) override;
-        void drawButtonBackground(juce::Graphics&, juce::Button&, const juce::Colour&, bool, bool) override;
-        void drawComboBox(juce::Graphics&, int, int, bool, int, int, int, int, juce::ComboBox&) override;
-    };
-    HardwareLook hardwareLook;
+    HardwareTheme hardwareLook;
+    juce::Image hardwareFace;
+    bool cachedFxPage=false;
     SpaceInfinityProcessor& processor;
     void refreshPresetMenu();
     void openPresetManager();
