@@ -1,12 +1,18 @@
 name: Space Infinity Windows build
 on:
   workflow_dispatch:
+    inputs:
+      installer_zip_only:
+        description: Package the already verified release installer into a ZIP
+        type: boolean
+        default: false
   push:
     branches: [codex/windows-build]
 permissions:
   contents: write
 jobs:
   package:
+    if: ${{ !inputs.installer_zip_only }}
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
@@ -55,3 +61,21 @@ jobs:
         with:
           path: native-vst3/build
           key: ${{ steps.native-cache.outputs.cache-primary-key }}
+
+  installer-zip:
+    if: ${{ inputs.installer_zip_only }}
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download verified release assets
+        run: gh release download v0.2.0 --repo "$GITHUB_REPOSITORY" --dir release
+      - name: Package and verify installer ZIP
+        run: python3 scripts/package-installer-zip.py release 0.2.0
+      - name: Publish installer ZIP
+        run: >-
+          gh release upload v0.2.0
+          release/SPACE_INFINITY_0.2.0_Windows_x64_Installer.zip
+          release/SPACE_INFINITY_0.2.0_Windows_x64_Installer.zip.sha256
+          --repo "$GITHUB_REPOSITORY" --clobber
