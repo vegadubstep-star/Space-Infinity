@@ -2,6 +2,8 @@
 #include "PluginEditor.h"
 #include "EffectControls.h"
 #include "FactoryRefinements.h"
+#include "StudioParameters.h"
+#include "FactoryStudio.h"
 #include <BinaryData.h>
 #include <algorithm>
 #include <cmath>
@@ -53,6 +55,29 @@ APVTS::ParameterLayout makeLayout(){
             const auto label=juce::String(effectRows[size_t(control.row)])+" "+control.label;
             f(control.id,label.toRawUTF8(),control.minimum,control.maximum,control.initial);
         }
+    for(const auto& c:studioControls)f(c.id,c.label,c.low,c.high,c.value);
+    const auto flag=[&](const char* id,const char* name,bool value){p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{id,1},name,value));};
+    const auto menu=[&](const char* id,const char* name,juce::StringArray items,int value){p.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID{id,1},name,items,value));};
+    menu("compMode","Compressor mode",{"Legacy","Single","Multiband"},0);flag("compLimit","Peak ceiling",false);
+    menu("echoMode","Delay mode",{"Legacy","Normal","Ping-pong","Tap -> Delay"},0);
+    menu("echoSyncL","Delay L sync",{"ms","1/64","1/32","1/16","1/8","1/4","1/2","1 bar"},0);
+    menu("echoSyncR","Delay R sync",{"ms","1/64","1/32","1/16","1/8","1/4","1/2","1 bar"},0);
+    flag("echoLink","Delay time link",true);flag("echoHQ","Delay high quality",true);
+    menu("irPreset","Impulse",{"Custom / imported","Small Room","Bright Plate","Large Hall","Metal Chamber"},0);
+    flag("irMinimumPhase","IR minimum phase",false);flag("irReverse","IR reverse",false);
+    menu("irSync","IR pre-delay sync",{"ms","1/64","1/32","1/16","1/8","1/4"},0);
+    flag("gateEnabled","Trance gate enabled",false);flag("pumpEnabled","Sidechain enabled",false);
+    menu("gateSplit","Gate / sidechain frequency range",{"Full range","Bass only","Mid band","High band"},0);
+    menu("gateRate","Gate step division",{"1/64","1/32","1/16","1/8","1/4","1/2","1 bar"},2);
+    menu("pumpRate","Sidechain cycle",{"1/16","1/8","1/4","1/2","1 bar","2 bars","4 bars"},2);
+    menu("sidechainSource","Sidechain source",{"Internal pump","External audio"},0);
+    f("gateDepth","Gate depth",0,1,1);f("gateAttack","Gate attack",.1f,50,3);f("gateRelease","Gate release",.1f,300,35);
+    f("pumpDepth","Sidechain depth",0,1,.7f);f("pumpAttack","Sidechain attack",.1f,100,3);f("pumpRelease","Sidechain release",10,1000,180);
+    f("sidechainThreshold","Sidechain threshold",-60,0,-24);f("sidechainRatio","Sidechain ratio",1,20,8);
+    f("gateLow","Split low",20,4000,180);f("gateHigh","Split high",200,16000,2600);
+    for(int i=0;i<16;++i)f(("gateStep"+juce::String(i)).toRawUTF8(),("Gate step "+juce::String(i+1)).toRawUTF8(),0,1,studio::gatePatterns[0][size_t(i)]);
+    for(int i=0;i<7;++i){menu(("eqMode"+juce::String(i)).toRawUTF8(),("EQ "+juce::String(i+1)+" shape").toRawUTF8(),{"Bell","Low shelf","High shelf","Low-pass","High-pass","Notch","Band-pass"},0);
+        menu(("eqSlope"+juce::String(i)).toRawUTF8(),("EQ "+juce::String(i+1)+" slope").toRawUTF8(),{"12 dB/oct","24 dB/oct","36 dB/oct","48 dB/oct"},0);}
     for(size_t row=0;row<effectRows.size();++row)
         p.add(std::make_unique<juce::AudioParameterBool>(
             juce::ParameterID{effectEnableIds[row],1},juce::String(effectRows[row])+" Enabled",true));
@@ -216,7 +241,7 @@ float SpaceInfinityProcessor::oscillatorSample(double phase,int wave){
     const auto left=size_t(index)&511;
     return table[left]+(table[(left+1)&511]-table[left])*float(index-std::floor(index));
 }
-SpaceInfinityProcessor::SpaceInfinityProcessor(const juce::File& presetDirectory):juce::AudioProcessor(BusesProperties().withOutput("Output",juce::AudioChannelSet::stereo(),true)),state(*this,nullptr,"PARAMETERS",makeLayout()){
+SpaceInfinityProcessor::SpaceInfinityProcessor(const juce::File& presetDirectory):juce::AudioProcessor(BusesProperties().withInput("Sidechain",juce::AudioChannelSet::stereo(),false).withOutput("Output",juce::AudioChannelSet::stereo(),true)),state(*this,nullptr,"PARAMETERS",makeLayout()){
     for(size_t band=0;band<eqParameters.size();++band){
         const char* fields[]={"Frequency","Gain","Q"};
         for(size_t field=0;field<3;++field)
@@ -259,7 +284,10 @@ SpaceInfinityProcessor::SpaceInfinityProcessor(const juce::File& presetDirectory
     for(size_t i=0;i<extraSamples.size();++i){int bytes=0;const auto* data=BinaryData::getNamedResource(extraSampleSources[i].resource,bytes);
         if(data&&bytes>0)decodeSample(juce::MemoryBlock(data,size_t(bytes)),extraSamples[i]);}
     juce::StringArray categories;for(int i=0;i<presetNames().size();++i)categories.add(presetCategory(i));
+    for(int i=0;i<7;++i){eqTypes[size_t(i)]=state.getRawParameterValue("eqMode"+juce::String(i));eqSlopes[size_t(i)]=state.getRawParameterValue("eqSlope"+juce::String(i));}
+    for(int i=0;i<16;++i)gateParameters[size_t(i)]=state.getRawParameterValue("gateStep"+juce::String(i));
     library=std::make_unique<PresetLibrary>(presetNames(),categories,presetDirectory,96);
+    startImpulseWorker();
 
 }
 juce::String SpaceInfinityProcessor::motionPointId(int index){return "motionPoint"+juce::String(index);}
@@ -331,6 +359,15 @@ juce::Result SpaceInfinityProcessor::decodeSample(const juce::MemoryBlock& bytes
         sample.audio.applyGain(0.5f);
     }
     sample.sampleRate = reader->sampleRate;
+    sample.view.samples=sample.audio.getNumSamples();sample.view.rate=sample.sampleRate;
+    const float onsetThreshold=juce::jmax(.000001f,sample.audio.getMagnitude(0,sample.audio.getNumSamples())*.01f);
+    int onset=0;while(onset<sample.audio.getNumSamples()-1&&std::abs(sample.audio.getSample(0,onset))<onsetThreshold)++onset;
+    sample.view.onset=float(onset)/juce::jmax(1,sample.audio.getNumSamples()-1);
+    for(int bin=0;bin<512;++bin){
+        const int begin=bin*sample.view.samples/512,end=juce::jmax(begin+1,(bin+1)*sample.view.samples/512);
+        float low=0,high=0;for(int i=begin;i<juce::jmin(end,sample.view.samples);++i){const float v=sample.audio.getSample(0,i);low=juce::jmin(low,v);high=juce::jmax(high,v);}
+        sample.view.low[size_t(bin)]=low;sample.view.high[size_t(bin)]=high;
+    }
     return juce::Result::ok();
 }
 juce::Result SpaceInfinityProcessor::importSample(const juce::File& file){
@@ -347,6 +384,7 @@ juce::Result SpaceInfinityProcessor::importSample(const juce::File& file){
         std::swap(importedBytes,bytes);
         ++sampleRevision;
     }
+    state.state.setProperty("sampleName",file.getFileName(),nullptr);
     state.getParameter("sampleRoot")->setValueNotifyingHost(state.getParameter("sampleRoot")->convertTo0to1(60));
     state.getParameter("source")->setValueNotifyingHost(state.getParameter("source")->convertTo0to1(3.0f));
     return juce::Result::ok();
@@ -355,6 +393,7 @@ void SpaceInfinityProcessor::prepareToPlay(double sampleRate,int maxSamples){
     maximumHostBlock=std::max(1,maxSamples);
     oversampling.initProcessing(size_t(maximumHostBlock));oversampling.reset();
     highRateMidi.ensureSize(262144);
+    sidechainHigh.setSize(1,maximumHostBlock*2);
     setLatencySamples(int(std::ceil(oversampling.getLatencyInSamples())));
     sr=sampleRate*2;maxSamples=maximumHostBlock*2;
     pattern=infinity::Pattern{};patternMidi.ensureSize(262144);
@@ -393,6 +432,9 @@ void SpaceInfinityProcessor::prepareToPlay(double sampleRate,int maxSamples){
     delaySamples.reset(sr,0.07);
     delaySamples.setCurrentAndTargetValue(float(sr*.375));
     delayWet.reset(sr,0.025);delayWet.setCurrentAndTargetValue(param("delay"));
+    studioCompressor.prepare(sr);studioDelay.prepare(sr);rhythm.prepare(sr);
+    echoWet.reset(sr,.025);echoWet.setCurrentAndTargetValue(0);irLevel.reset(sr,.025);irLevel.setCurrentAndTargetValue(1);
+    studioCompWet.reset(sr,.025);studioCompWet.setCurrentAndTargetValue(param("compMix"));
     bandMix.reset(sr,0.025);bandMix.setCurrentAndTargetValue(param("compAmount")>0.001f?1.0f:0.0f);
     delayToneL=delayToneR=0;
     delayBpm=120;
@@ -468,6 +510,12 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     // Process bounded chunks if a host supplies more samples than it announced.
     for(int offset=0;offset<b.getNumSamples();){
         const int count=std::min(maximumHostBlock,b.getNumSamples()-offset);
+        sidechainHigh.clear();
+        if(getBusCount(true)>0&&getBus(true,0)->isEnabled()){
+            const auto input=getBusBuffer(b,true,0);
+            for(int i=0;i<count;++i){float v=0;for(int ch=0;ch<input.getNumChannels();++ch)v+=input.getSample(ch,offset+i)/float(input.getNumChannels());
+                sidechainHigh.setSample(0,i*2,v);sidechainHigh.setSample(0,i*2+1,v);}
+        }
         auto output=juce::dsp::AudioBlock<float>(b).getSubBlock(size_t(offset),size_t(count));output.clear();
         auto up=oversampling.processSamplesUp(output);
         float* channels[]{up.getChannelPointer(0),up.getChannelPointer(1)};
@@ -475,7 +523,10 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
         highRateMidi.clear();
         for(const auto event:midi)if(event.samplePosition>=offset&&event.samplePosition<offset+count)
             highRateMidi.addEvent(event.getMessage(),(event.samplePosition-offset)*2);
-        renderBlock(high,highRateMidi);oversampling.processSamplesDown(output);offset+=count;
+        renderBlock(high,highRateMidi);oversampling.processSamplesDown(output);
+        unsigned write=scopeWrite.load(std::memory_order_relaxed);
+        for(int i=0;i<count;++i){scopeSamples[size_t(write%32768)].store((b.getSample(0,offset+i)+b.getSample(1,offset+i))*.5f,std::memory_order_relaxed);++write;}
+        scopeWrite.store(write,std::memory_order_release);offset+=count;
     }
 }
 void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiBuffer& midi){
@@ -585,6 +636,14 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     const float hostBend=param("pitchBend");
     pitchBend.setTargetValue(juce::jlimit(-24.0f,24.0f,hostBend+midiBend));
     const juce::SpinLock::ScopedTryLockType sampleGuard(sampleLock);
+    for(auto& voice:voices)if(voice.active&&voice.source!=0&&(!userSample(voice.source)||sampleGuard.isLocked())){
+        const auto& sample=sampleForSource(voice.source);const int last=sample.audio.getNumSamples()-1;if(last<2)continue;
+        voice.sampleStart=juce::jlimit(0,last-1,int(param("sampleStart")*last));voice.sampleEnd=juce::jlimit(voice.sampleStart+1,last,int(param("sampleEnd")*last));voice.sampleLoop=param("sampleLoop")>.5f;
+        const int root=voice.source==1?41:voice.source==2?48:voice.source>=5?extraSampleSources[size_t(voice.source-5)].root:int(param("sampleRoot"));
+        voice.sampleStep=sample.sampleRate/sr*std::exp2((voice.note-root)/12.0)*(param("sampleReverse")>.5f?-1:1);
+        voice.samplePosition=juce::jlimit(double(voice.sampleStart),double(voice.sampleEnd),voice.samplePosition);
+    }
+
     const float motionDepth=juce::jlimit(0.0f,1.0f,param("motionDepth")+0.5f*modulation[17]);
     const int requestedMode=int(param("voiceMode"));
     if(voiceMode!=requestedMode){
@@ -838,6 +897,22 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
         left[s]=std::tanh((out+side)*driveGain);
         right[s]=std::tanh((out-side)*driveGain);
     }
+    const auto oldTempo=displayedBpm.exchange(delayBpm,std::memory_order_relaxed);
+    if(std::abs(oldTempo-delayBpm)>.001&&param("irSync")>0)impulseRequest.fetch_add(1,std::memory_order_relaxed);
+    studio::Rhythm::Settings rhythmSettings;
+    rhythmSettings.gate=param("gateEnabled")>.5f;rhythmSettings.pump=param("pumpEnabled")>.5f;
+    rhythmSettings.split=int(param("gateSplit"));rhythmSettings.rate=int(param("gateRate"));rhythmSettings.pumpRate=int(param("pumpRate"));rhythmSettings.sidechain=int(param("sidechainSource"));
+    rhythmSettings.depth=param("gateDepth");rhythmSettings.pumpDepth=param("pumpDepth");rhythmSettings.attack=param("gateAttack");rhythmSettings.release=param("gateRelease");
+    rhythmSettings.pumpAttack=param("pumpAttack");rhythmSettings.pumpRelease=param("pumpRelease");rhythmSettings.threshold=param("sidechainThreshold");rhythmSettings.ratio=param("sidechainRatio");rhythmSettings.low=param("gateLow");rhythmSettings.high=param("gateHigh");
+    for(int i=0;i<16;++i)rhythmSettings.steps[size_t(i)]=gateParameters[size_t(i)]->load();
+    rhythm.configure(rhythmSettings,delayBpm);
+    if(auto* head=getPlayHead())if(auto info=head->getPosition())if(info->getIsPlaying())if(auto ppq=info->getPpqPosition())rhythm.setBeat(*ppq);
+    if(rhythmSettings.gate||rhythmSettings.pump)for(int i=0;i<b.getNumSamples();++i){const auto result=rhythm.process(left[i],right[i],sidechainHigh.getSample(0,juce::jmin(i,sidechainHigh.getNumSamples()-1)));
+        if(rhythmSettings.gate||rhythmSettings.pump){left[i]=result[0];right[i]=result[1];}}
+    else rhythm.advance(b.getNumSamples());
+    displayedGateStep.store(rhythm.displayStep,std::memory_order_relaxed);
+    const int compressorMode=int(param("compMode"));
+    if(compressorMode==0){
     // Compress the dry synth in three bands before the time-based effects.
     const auto amount=param("compEnabled")>0.5f?param("compAmount"):0.0f;
     bandMix.setTargetValue(amount>0.001f?1.0f:0.0f);
@@ -860,6 +935,16 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                 +bandCompressors[1].processSample(ch,mid)+bandCompressors[2].processSample(ch,high);
             output[s]=dry+mix*(compressed-dry);
         }
+    }
+    }else{
+        studio::Compressor::Settings c;c.mode=compressorMode;c.threshold=param("compThreshold");c.ratio=param("compRatio");c.attack=param("compAttack");c.release=param("compRelease");
+        c.low=param("compXLow");c.high=param("compXHigh");c.below=param("compBelow");c.gain=param("compGain");c.output=param("compOutput");c.limit=param("compLimit")>.5f;
+        c.bandGain={param("compLowGain"),param("compMidGain"),param("compHighGain")};c.offset={param("compLowOffset"),param("compMidOffset"),param("compHighOffset")};
+        studioCompressor.configure(c,b.getNumSamples());bandMix.setTargetValue(param("compEnabled")>.5f&&param("compMix")>.0001f?1.0f:0.0f);studioCompWet.setTargetValue(param("compMix"));
+        for(int i=0;i<b.getNumSamples();++i){const auto wet=studioCompressor.process(left[i],right[i]);const float enabled=bandMix.getNextValue(),mix=studioCompWet.getNextValue();
+            left[i]+=enabled*(studioCompressor.dry[0]+mix*(wet[0]-studioCompressor.dry[0])-left[i]);
+            right[i]+=enabled*(studioCompressor.dry[1]+mix*(wet[1]-studioCompressor.dry[1])-right[i]);}
+        for(size_t i=0;i<3;++i){compLevels[i].store(studioCompressor.input[i],std::memory_order_relaxed);compReduction[i].store(studioCompressor.reduction[i],std::memory_order_relaxed);}
     }
     chorus.setRate(param("chorusRate"));
     chorus.setDepth(param("chorusDepth"));
@@ -893,6 +978,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     phaserActive=phaseMix>0.0f;
 
 
+    if(int(param("echoMode"))==0){
     static constexpr double divisions[]{0,.25,.5,.75,1};
     const int division=int(param("delaySync"));
     const bool ping=param("delayMode")>=1;
@@ -909,6 +995,15 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
         delayR.pushSample(0,(ping?0.0f:right[s])+ (ping?delayToneL:delayToneR)*feedback);
         left[s]+=dl*wet;right[s]+=dr*wet;
     }
+    }else{
+        static constexpr double beats[]{0,.0625,.125,.25,.5,1,2,4};
+        const bool linked=param("echoLink")>.5f;const int syncL=int(param("echoSyncL")),syncR=linked?syncL:int(param("echoSyncR"));
+        studio::Delay::Settings e;e.mode=int(param("echoMode"));e.hq=param("echoHQ")>.5f;e.feedback=param("delayFeedback");e.frequency=param("echoFrequency");e.bandwidth=param("echoBandwidth");e.output=param("echoOutput");
+        e.left=float((syncL?60.0/delayBpm*beats[syncL]:param("echoTimeL"))*param("echoOffsetL"));
+        e.right=linked?e.left:float((syncR?60.0/delayBpm*beats[syncR]:param("echoTimeR"))*param("echoOffsetR"));
+        studioDelay.configure(e);echoWet.setTargetValue(param("delayEnabled")>.5f?juce::jlimit(0.0f,1.0f,param("echoMix")+.4f*fxModulation[6]):0);
+        for(int i=0;i<b.getNumSamples();++i){const auto wet=studioDelay.process(left[i],right[i]);const float mix=echoWet.getNextValue();left[i]=(1-mix)*left[i]+mix*wet[0];right[i]=(1-mix)*right[i]+mix*wet[1];}
+    }
     auto params=reverb.getParameters();
     const int space=juce::jlimit(0,2,int(param("reverbSpace")));
     static constexpr float spaceSize[]{-.36f,0.0f,.17f},spaceDamping[]{.11f,0.0f,-.13f};
@@ -918,42 +1013,35 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     params.dryLevel=1-params.wetLevel*.35f;params.width=param("reverbWidth");
     reverb.setParameters(params);reverb.processStereo(left,right,b.getNumSamples());
     if(sampleGuard.isLocked()&&impulsePending){
-        convolver.loadImpulseResponse(std::move(pendingImpulse),pendingImpulseRate,juce::dsp::Convolution::Stereo::yes,juce::dsp::Convolution::Trim::no,juce::dsp::Convolution::Normalise::yes);
+        convolver.loadImpulseResponse(std::move(pendingImpulse),pendingImpulseRate,juce::dsp::Convolution::Stereo::yes,juce::dsp::Convolution::Trim::no,juce::dsp::Convolution::Normalise::no);
         impulsePending=false;
     }
     convolutionWet.setTargetValue(param("convolverEnabled")>.5f?param("convolverMix"):0.0f);
+    irLevel.setTargetValue(juce::Decibels::decibelsToGain(param("irOutput")));
     for(int offset=0;offset<b.getNumSamples();){
         const int n=std::min(convolutionDry.getNumSamples(),b.getNumSamples()-offset);
         for(int channel=0;channel<2;++channel)convolutionDry.copyFrom(channel,0,b,channel,offset,n);
         auto chunk=juce::dsp::AudioBlock<float>(b).getSubBlock(size_t(offset),size_t(n));
         juce::dsp::ProcessContextReplacing<float> convContext(chunk);convolver.process(convContext);
-        for(int i=0;i<n;++i){const float wet=convolutionWet.getNextValue();for(int channel=0;channel<2;++channel){
-            const float dry=convolutionDry.getSample(channel,i);b.setSample(channel,offset+i,dry+wet*(b.getSample(channel,offset+i)-dry));}}
+        for(int i=0;i<n;++i){const float wet=convolutionWet.getNextValue(),level=irLevel.getNextValue();for(int channel=0;channel<2;++channel){
+            const float dry=convolutionDry.getSample(channel,i);b.setSample(channel,offset+i,dry+wet*(b.getSample(channel,offset+i)*level-dry));}}
         offset+=n;
     }
     if(param("eqEnabled")>0.5f){
         for(size_t band=0;band<eqParameters.size();++band){
             const auto& values=eqParameters[band];
             const float gain=values[1]->load();
-            if(std::abs(gain)<0.0001f){
+            const int mode=int(eqTypes[band]->load());
+            const int stages=(mode==3||mode==4)?int(eqSlopes[band]->load())+1:1;
+            if(mode==0&&std::abs(gain)<0.0001f){
                 eqState[0][band]={};
                 eqState[1][band]={};
                 continue;
             }
-            const auto co=juce::dsp::IIR::ArrayCoefficients<float>::makePeakFilter(
-                sr,juce::jlimit(20.0f,float(sr*0.45),values[0]->load()),values[2]->load(),
-                juce::Decibels::decibelsToGain(gain));
-            const float scale=1.0f/co[3];
-            for(int channel=0;channel<2;++channel){
-                auto* samples=b.getWritePointer(channel);
-                auto& memory=eqState[size_t(channel)][band];
-                for(int i=0;i<b.getNumSamples();++i){
-                    const float in=samples[i];
-                    const float out=co[0]*scale*in+memory.z1;
-                    memory.z1=co[1]*scale*in-co[4]*scale*out+memory.z2;
-                    memory.z2=co[2]*scale*in-co[5]*scale*out;
-                    samples[i]=out;
-                }
+            for(int stage=0;stage<stages;++stage){
+                const auto co=studio::eqCoefficients(sr,values[0]->load(),values[2]->load(),gain,mode,stages,stage);const float scale=1/co[3];
+                for(int channel=0;channel<2;++channel){auto* samples=b.getWritePointer(channel);auto& memory=eqState[size_t(channel)][band][size_t(stage)];
+                    for(int i=0;i<b.getNumSamples();++i){const float in=samples[i],out=co[0]*scale*in+memory.z1;memory.z1=co[1]*scale*in-co[4]*scale*out+memory.z2;memory.z2=co[2]*scale*in-co[5]*scale*out;samples[i]=out;}}
             }
         }
     }else eqState={};
@@ -967,14 +1055,18 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
         auto* dst=b.getWritePointer(c);
         for(int s=0;s<b.getNumSamples();++s)dst[s]=std::tanh(dst[s]);
     }
+    displayedSamplePosition.store(-1,std::memory_order_relaxed);
+    for(const auto& voice:voices)if(voice.active&&voice.source!=0&&voice.source==int(param("source"))&&(!userSample(voice.source)||sampleGuard.isLocked())){const auto& sample=sampleForSource(voice.source);
+        double at=voice.samplePosition;if(voice.source==4)for(const auto& grain:voice.granular.grains)if(grain.active){const double length=juce::jmax(1,voice.sampleEnd-voice.sampleStart);double offset=std::fmod(grain.position-voice.sampleStart,length);if(offset<0)offset+=length;at=voice.sampleStart+offset;break;}
+        displayedSamplePosition.store(float(at/juce::jmax(1,sample.audio.getNumSamples()-1)),std::memory_order_relaxed);break;}
 }
 void SpaceInfinityProcessor::getStateInformation(juce::MemoryBlock& m){auto t=state.copyState();std::unique_ptr<juce::XmlElement> xml(t.createXml());{
     const juce::SpinLock::ScopedLockType lock(sampleLock);
     if(importedBytes.getSize()!=0)xml->setAttribute("sampleWav",importedBytes.toBase64Encoding());
     xml->setAttribute("tableFrames",wavetable.count);
     xml->setAttribute("tableData",juce::MemoryBlock(wavetable.frames.data(),sizeof(wavetable.frames)).toBase64Encoding());
-    if(impulseBytes.getSize())xml->setAttribute("impulseWav",impulseBytes.toBase64Encoding());
-}copyXmlToBinary(*xml,m);}
+
+}{const juce::ScopedLock lock(impulseSourceLock);if(impulseBytes.getSize())xml->setAttribute("impulseWav",impulseBytes.toBase64Encoding());}copyXmlToBinary(*xml,m);}
 void SpaceInfinityProcessor::setStateInformation(const void* data,int size){auto xml=getXmlFromBinary(data,size);if(!xml||!xml->hasTagName(state.state.getType()))return;
     Sample next;
     juce::MemoryBlock bytes;
@@ -1320,6 +1412,8 @@ void SpaceInfinityProcessor::loadPreset(int index){
     set("delayMode",float(patch.delayMode));
     set("reverbSpace",float(patch.space));
     set("compAmount",0.0f);
+    set("compMode",0);set("echoMode",0);set("gateEnabled",0);set("pumpEnabled",0);
+    for(int band=0;band<7;++band){set(("eqMode"+juce::String(band)).toRawUTF8(),0);set(("eqSlope"+juce::String(band)).toRawUTF8(),0);}
     set("sampleStart",0.0f);
     set("sampleEnd",1.0f);
     set("sampleLoop",0.0f);
@@ -1406,6 +1500,25 @@ void SpaceInfinityProcessor::loadPreset(int index){
     if(name=="Final Benediction"){set("source",10);set("sampleLoop",1);}
     if(name=="Airlock Mallet"){set("source",15);set("cutoff",10000);set("filterEnvAmount",0);}
     if(name=="Frozen Interlude"){set("source",13);set("cutoff",6000);set("filterEnvAmount",.3f);}
+    const auto& studio=factoryStudioBank[size_t(index)];
+    for(const auto& c:studioControls)set(c.id,c.value);
+    set("compMode",float(studio.compressor));set("compThreshold",studio.threshold);set("compRatio",studio.ratio);set("compGain",studio.makeup);set("compMix",studio.compressionMix);
+    set("compBelow",studio.compressor==2?1.08f:1.0f);set("compLimit",0);
+    set("echoMode",float(studio.delay));set("echoSyncL",4);set("echoSyncR",4);set("echoOffsetL",1);set("echoOffsetR",1.5f);set("echoLink",0);set("echoHQ",1);
+    set("echoMix",studio.delayMix);set("delayFeedback",studio.feedback);set("echoFrequency",bass?1800.0f:pad?3400.0f:5000.0f);set("echoBandwidth",.58f);
+    set("irPreset",float(studio.impulse));set("convolverEnabled",studio.impulseMix>0?1.0f:0.0f);set("convolverMix",studio.impulseMix);set("irDecay",studio.decay);set("irDamp",studio.damping);
+    set("irMinimumPhase",0);set("irReverse",0);set("irSync",0);
+    if(studio.impulseMix>0)set("reverb",juce::jmin(.22f,patch.values[9]));
+    set("eqEnabled",1);set("eqMode0",4);set("eqSlope0",0);set("eq0Frequency",studio.highpass);set("eq0Q",.7071f);
+    set("eqMode6",2);set("eq6Frequency",7000);set("eq6Gain",bass?-.8f:lead?.7f:pad?.4f:0);set("eq6Q",.7071f);
+    set("gateEnabled",float(studio.gate));set("gateDepth",studio.gateDepth);set("gateAttack",3);set("gateRelease",22);set("gateRate",2);
+    set("pumpEnabled",studio.pump>0?1.0f:0.0f);set("pumpDepth",studio.pump);set("pumpAttack",3);set("pumpRelease",180);set("pumpRate",2);set("sidechainSource",0);
+    set("gateSplit",bass?1.0f:0.0f);set("gateLow",180);set("gateHigh",2600);loadGatePreset(studio.gatePattern);
+    const int sampleSource=int(state.getRawParameterValue("source")->load());
+    if(sampleSource!=0&&!userSample(sampleSource)){
+        set("sampleStart",sampleForSource(sampleSource).view.onset);
+        if(name=="Frozen Interlude"||name=="Airlock Mallet")set("filterMode",1);
+    }
     state.state.setProperty("presetKey",library->keyForFactory(index),nullptr);
 }
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter(){return new SpaceInfinityProcessor();}

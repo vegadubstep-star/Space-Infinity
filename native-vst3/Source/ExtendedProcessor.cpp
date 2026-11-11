@@ -117,20 +117,16 @@ juce::Result SpaceInfinityProcessor::importImpulse(const juce::File& file){
     juce::WavAudioFormat format;std::unique_ptr<juce::AudioFormatReader> reader(format.createReaderFor(new juce::MemoryInputStream(bytes,false),true));
     if(!reader||reader->numChannels<1||reader->numChannels>2||reader->sampleRate<8000||reader->sampleRate>192000||reader->lengthInSamples<1||reader->lengthInSamples>reader->sampleRate*4)
         return juce::Result::fail("Choose a mono/stereo WAV impulse response up to 4 seconds.");
+    state.getParameter("irPreset")->setValueNotifyingHost(0);
+    state.state.setProperty("impulseName",file.getFileName(),nullptr);
     const auto result=queueImpulse(bytes);if(result.failed())return result;
     state.getParameter("convolverEnabled")->setValueNotifyingHost(1);return juce::Result::ok();
 }
 juce::Result SpaceInfinityProcessor::queueImpulse(const juce::MemoryBlock& bytes){
-    juce::AudioBuffer<float> decoded;double rate=44100;
-    if(bytes.getSize()){
-        juce::WavAudioFormat format;std::unique_ptr<juce::AudioFormatReader> reader(format.createReaderFor(new juce::MemoryInputStream(bytes,false),true));
-        if(!reader||reader->numChannels<1||reader->numChannels>2||reader->sampleRate<8000||reader->sampleRate>192000||reader->lengthInSamples<1||reader->lengthInSamples>reader->sampleRate*4)
-            return juce::Result::fail("Invalid impulse response.");
-        rate=reader->sampleRate;decoded.setSize(int(reader->numChannels),int(reader->lengthInSamples));
-        if(!reader->read(&decoded,0,decoded.getNumSamples(),0,true,true))return juce::Result::fail("Cannot decode impulse response.");
-    }else {decoded.setSize(1,1);decoded.setSample(0,0,1);}
-    {const juce::SpinLock::ScopedLockType lock(sampleLock);pendingImpulse=std::move(decoded);pendingImpulseRate=rate;impulsePending=true;impulseBytes=bytes;}
-    return juce::Result::ok();
+    if(bytes.getSize()){juce::WavAudioFormat format;std::unique_ptr<juce::AudioFormatReader> r(format.createReaderFor(new juce::MemoryInputStream(bytes,false),true));
+        if(!r||r->numChannels<1||r->numChannels>2||r->sampleRate<8000||r->sampleRate>192000||r->lengthInSamples<1||r->lengthInSamples>r->sampleRate*4)return juce::Result::fail("Invalid impulse response.");}
+    {const juce::ScopedLock lock(impulseSourceLock);impulseBytes=bytes;}
+    impulseRequest.fetch_add(1,std::memory_order_relaxed);rebuildImpulse();return juce::Result::ok();
 }
 
 juce::Result SpaceInfinityProcessor::loadBankPreset(int index){

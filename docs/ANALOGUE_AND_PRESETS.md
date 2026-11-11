@@ -29,3 +29,5 @@ Manual listening and FL Studio host testing remain separate checks.
 Glass Pizzicato was removed at the owner's request. Factory keys retain their previous identities (F96 is retired); existing bank indexes omit that entry on reload and Restore Factory does not reinstate it. Saved project parameters and user preset files are retained.
 
 Removal validation: native Release smoke target compiled; 5 of 6 CTest checks passed, including legacy-bank migration, preset management/navigation, native UI, extended engines and analogue probe. The full audio audition now reaches Frozen Interlude, peak 0.0000587209, which also falls below the existing 0.0001 minimum. It was not removed or changed; the owner requested removal of Glass Pizzicato only. Windows validation remains pending.
+
+The studio revision refreshes all 119 patches with explicit dynamics, delay, convolution and EQ settings; rhythmic sounds also use selective pumping/gating. See STUDIO_FACTORY_BANK.md. Frozen Interlude and Airlock Mallet now use low-pass filtering appropriate to their sampled fundamentals. The native 119-preset audition and full seven-check suite pass with this update.

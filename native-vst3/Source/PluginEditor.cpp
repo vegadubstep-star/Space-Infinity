@@ -2,6 +2,9 @@
 #include "ExtendedPanel.h"
 #include "PresetPanel.h"
 #include "EffectControls.h"
+#include "StudioRack.h"
+#include "SamplerDisplay.h"
+#include <Artwork.h>
 #include <array>
 #include <cmath>
 #include <complex>
@@ -105,11 +108,21 @@ private:
 class EqPanel final : public juce::Component, private juce::Timer {
 public:
     explicit EqPanel(SpaceInfinityProcessor& p):processor(p),enabled(p.state,"eqEnabled",power){
+        setName("Seven-band EQ");
         addAndMakeVisible(power);
-        setSize(540,300);
+        for(int band=0;band<7;++band){
+            modes[size_t(band)].addItemList({"Bell","Low shelf","High shelf","Low-pass","High-pass","Notch","Band-pass"},1);
+            slopes[size_t(band)].addItemList({"12 dB/oct","24 dB/oct","36 dB/oct","48 dB/oct"},1);
+            for(auto* box:{&modes[size_t(band)],&slopes[size_t(band)]})addAndMakeVisible(*box);
+            bindings.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"eqMode"+juce::String(band),modes[size_t(band)]));
+            bindings.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"eqSlope"+juce::String(band),slopes[size_t(band)]));
+        }
+        setSize(760,440);
         startTimerHz(24);
     }
-    void resized() override {power.setBounds(12,4,120,24);}
+    void resized() override {power.setBounds(12,4,120,24);const int width=(getWidth()-24)/7;
+        for(int i=0;i<7;++i){modes[size_t(i)].setBounds(12+i*width,getHeight()-91,width-4,23);slopes[size_t(i)].setBounds(12+i*width,getHeight()-63,width-4,23);}}
+
     void paint(juce::Graphics& g) override{
         g.fillAll(juce::Colour(0xff181817));
         const auto area=graph();
@@ -123,12 +136,15 @@ public:
         juce::Path curve;
         for(int x=0;x<=int(area.getWidth());++x){
             const double frequency=20.0*std::pow(1000.0,double(x)/area.getWidth());
-            const auto z=std::polar(1.0,-juce::MathConstants<double>::twoPi*frequency/48000.0);
             double magnitude=1.0;
             for(int band=0;band<7;++band){
-                const auto c=juce::dsp::IIR::ArrayCoefficients<double>::makePeakFilter(
-                    48000.0,value(band,"Frequency"),value(band,"Q"),std::pow(10.0,value(band,"Gain")/20.0));
-                magnitude*=std::abs((c[0]+c[1]*z+c[2]*z*z)/(c[3]+c[4]*z+c[5]*z*z));
+                const int mode=int(processor.state.getRawParameterValue("eqMode"+juce::String(band))->load());
+                const int count=(mode==3||mode==4)?int(processor.state.getRawParameterValue("eqSlope"+juce::String(band))->load())+1:1;
+                const double sampleRate=processor.getSampleRate()>0?processor.getSampleRate()*2:96000;
+                const auto z=std::polar(1.0,-juce::MathConstants<double>::twoPi*frequency/sampleRate);
+                for(int stage=0;stage<count;++stage){const auto c=studio::eqCoefficients(sampleRate,value(band,"Frequency"),value(band,"Q"),value(band,"Gain"),mode,count,stage);
+                    magnitude*=std::abs((double(c[0])+double(c[1])*z+double(c[2])*z*z)/(double(c[3])+double(c[4])*z+double(c[5])*z*z));}
+
             }
             const auto y=yAt(float(juce::jlimit(-18.0,18.0,20.0*std::log10(magnitude))));
             if(x==0)curve.startNewSubPath(area.getX(),y);else curve.lineTo(area.getX()+float(x),y);
@@ -136,6 +152,7 @@ public:
         g.setColour(juce::Colour(0xffdca55c));
         g.strokePath(curve,juce::PathStrokeType(1.6f));
         for(int band=0;band<7;++band){
+            g.setColour(juce::Colour(0xffcdb2ed));g.setFont(10);g.drawText("BAND "+juce::String(band+1),12+band*(getWidth()-24)/7,getHeight()-111,(getWidth()-24)/7-4,18,juce::Justification::centred);
             const auto x=xAt(value(band,"Frequency")),y=yAt(value(band,"Gain"));
             g.setColour(juce::Colour(band==selected?0xfff6c180:0xffa66d42));
             g.fillEllipse(x-9,y-9,18,18);
@@ -176,9 +193,11 @@ private:
     SpaceInfinityProcessor& processor;
     juce::ToggleButton power{"EQ enabled"};
     juce::AudioProcessorValueTreeState::ButtonAttachment enabled;
+    std::array<juce::ComboBox,7> modes,slopes;
+    std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment>> bindings;
     int selected=-1;
     void timerCallback() override {repaint();}
-    juce::Rectangle<float> graph() const {return getLocalBounds().toFloat().reduced(12).withTrimmedTop(20).withTrimmedBottom(16);}
+    juce::Rectangle<float> graph() const {return getLocalBounds().toFloat().reduced(12).withTrimmedTop(23).withTrimmedBottom(107);}
     juce::RangedAudioParameter* parameter(int band,const char* field) const {return processor.state.getParameter(processor.eqId(band,field));}
     float value(int band,const char* field) const {auto* p=parameter(band,field);return p->convertFrom0to1(p->getValue());}
     void set(int band,const char* field,float v){auto* p=parameter(band,field);p->setValueNotifyingHost(p->convertTo0to1(v));}
@@ -229,6 +248,11 @@ void drawInset(juce::Graphics& g,juce::Rectangle<float> bounds){
 }
 SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcessorEditor(&p),processor(p){
     setLookAndFeel(&hardwareLook);
+    infinityLogo=juce::ImageFileFormat::loadFrom(Artwork::InfinityLogo_png,Artwork::InfinityLogo_pngSize);
+    if(infinityLogo.isValid()){juce::Rectangle<int> ink;
+        for(int y=0;y<infinityLogo.getHeight();++y)for(int x=0;x<infinityLogo.getWidth();++x)if(infinityLogo.getPixelAt(x,y).getAlpha()>128)ink=ink.getUnion({x,y,1,1});
+        infinityLogo=infinityLogo.getClippedImage(ink.expanded(2).getIntersection(infinityLogo.getBounds()));}
+
     setResizable(true,true);setResizeLimits(800,760,1500,950);setSize(1180,820);
     title.setText("SPACE INFINITY",juce::dontSendNotification);title.setFont(juce::Font(juce::FontOptions(29.0f,juce::Font::bold).withKerningFactor(.075f)));title.setColour(juce::Label::textColourId,juce::Colour(0xffefe4cb));addAndMakeVisible(title);
     subtitle.setText("ORBITAL AUDIO  /  POLYPHONIC ANALOGUE SYNTHESIZER",juce::dontSendNotification);subtitle.setFont(juce::Font(juce::FontOptions(10.0f).withKerningFactor(.09f)));subtitle.setColour(juce::Label::textColourId,juce::Colour(0xffcbb99b));addAndMakeVisible(subtitle);
@@ -556,6 +580,10 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     }
     addAndMakeVisible(extendedButton);extendedButton.setTooltip("Filter ADSR, granular, arpeggiator/sequencer, wavetable editor and convolver");
     extendedButton.onClick=[this]{juce::CallOutBox::launchAsynchronously(std::make_unique<ExtendedPanel>(processor),extendedButton.getBounds(),this);};
+    studioRack=std::make_unique<StudioRack>(processor);addAndMakeVisible(*studioRack);
+    sampleDisplay=std::make_unique<SamplerDisplay>(processor,false);addAndMakeVisible(*sampleDisplay);
+    liveDisplay=std::make_unique<SamplerDisplay>(processor,true);addAndMakeVisible(*liveDisplay);
+    title.setVisible(false);
     updatePage();
     // Text boxes are constructed before their sliders acquire this parent.
     // Refresh cached child artwork once the complete control tree is attached.
@@ -590,6 +618,9 @@ void SpaceInfinityEditor::timerCallback(){
     const float peak=processor.takeOutputPeak();
     meterPeak=juce::jmax(peak,meterPeak*0.88f);
     clipHold=peak>=1.0f?30:juce::jmax(0,clipHold-1);
+    const bool sampled=processor.state.getRawParameterValue("source")->load()>.5f;
+    if(sampleDisplay)sampleDisplay->setVisible(!fxPage&&sampled);
+    if(liveDisplay)liveDisplay->setVisible(!fxPage&&sampled);
     refreshModulationIndicators();
     repaint();
 }
@@ -612,6 +643,14 @@ void SpaceInfinityEditor::updatePage(){
         labels[size_t(index)].setVisible(false);
     }
     compAmount.setVisible(false);
+    for(size_t i=0;i<rackControls.size();++i){rackControls[i].setVisible(false);rackLabels[i].setVisible(false);}
+    for(auto& power:rackEnabled)power.setVisible(false);
+    delaySync.setVisible(false);delayMode.setVisible(false);reverbSpace.setVisible(false);
+    if(studioRack)studioRack->setVisible(fxPage);
+    const bool sampled=processor.state.getRawParameterValue("source")->load()>.5f;
+    if(sampleDisplay)sampleDisplay->setVisible(!fxPage&&sampled);
+    if(liveDisplay)liveDisplay->setVisible(!fxPage&&sampled);
+
     knobs[12].setSliderStyle(fxPage?juce::Slider::LinearHorizontal:juce::Slider::LinearVertical);
     knobs[12].setVisible(true);
     labels[12].setVisible(true);
@@ -862,9 +901,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         hardwareFace=juce::Image(juce::Image::RGB,getWidth(),getHeight(),false);
         juce::Graphics surface(hardwareFace);
         HardwareTheme::chassis(surface,getLocalBounds());
-        if(fxPage){
-            for(int row=0;row<6;++row)drawInset(surface,effectRowBounds(getWidth(),getHeight(),row).toFloat());
-        }else{
+        if(!fxPage){
             const auto layout=mainLayout(getWidth(),getHeight());
             for(const auto region:{layout.oscillators[0],layout.oscillators[1],layout.filter,layout.macros,layout.envelope,layout.motion})
                 HardwareTheme::module(surface,region.toFloat(),region.getY()==layout.macros.getY());
@@ -873,6 +910,8 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         cachedFxPage=fxPage;
     }
     g.drawImageAt(hardwareFace,0,0);
+    if(infinityLogo.isValid())g.drawImageWithin(infinityLogo,30,10,juce::jmin(440,getWidth()-390),78,juce::RectanglePlacement::centred|juce::RectanglePlacement::onlyReduceInSize,false);
+
     g.setFont(10.0f);
     g.setColour(juce::Colour(0xffb7ab9b));
     g.drawText("PROGRAM MEMORY",getWidth()-330,24,200,15,juce::Justification::centredLeft);
@@ -880,16 +919,6 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     g.drawText("MASTER OCT",getWidth()-466,116,77,22,juce::Justification::right);
     g.drawText("PITCH",getWidth()-316,116,51,22,juce::Justification::right);
     if(fxPage){
-        const juce::Colour colours[]{juce::Colour(0xffd1b065),juce::Colour(0xff72a2ac),
-            juce::Colour(0xffbf9d72),juce::Colour(0xff839d75),juce::Colour(0xffa28fb7),juce::Colour(0xff7ea6ae)};
-        for(int row=0;row<6;++row){
-            auto bounds=effectRowBounds(getWidth(),getHeight(),row);
-            g.setColour(colours[row]);
-            g.fillRect(bounds.getX()+2,bounds.getY()+3,3,bounds.getHeight()-6);
-        }
-        g.setColour(juce::Colour(0xffc2b5a4));
-        g.drawText("TIMING",delaySync.getBounds().translated(0,-15).withHeight(13),juce::Justification::centredLeft);
-        g.drawText("SPACE",reverbSpace.getBounds().translated(0,-15).withHeight(13),juce::Justification::centredLeft);
     }else{
         const auto layout=mainLayout(getWidth(),getHeight());
         const auto parameter=[this](const char* id){return processor.state.getRawParameterValue(id)->load();};
@@ -1042,7 +1071,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
 void SpaceInfinityEditor::resized(){
     const int w=getWidth(),h=getHeight();
     title.setBounds(38,23,juce::jmin(450,w-390),40);
-    subtitle.setBounds(39,65,juce::jmin(450,w-390),24);
+    subtitle.setBounds(39,79,juce::jmin(450,w-390),24);
     presets.setBounds(w-330,42,226,25);
     previousPreset.setBounds(w-100,42,29,25);
     nextPreset.setBounds(w-67,42,29,25);
@@ -1054,7 +1083,10 @@ void SpaceInfinityEditor::resized(){
     extendedButton.setBounds(180,111,98,25);
     octaveControls[0].setBounds(w-385,116,64,22);
     pitchWheel.setBounds(w-261,116,220,22);
+    if(studioRack)studioRack->setBounds(28,150,w-56,h-212);
     const auto layout=mainLayout(w,h);
+    if(sampleDisplay)sampleDisplay->setBounds(layout.oscillators[0].getX()+10,layout.oscillators[0].getY()+33,layout.oscillators[0].getWidth()-20,68);
+    if(liveDisplay)liveDisplay->setBounds(layout.oscillators[1].getX()+10,layout.oscillators[1].getY()+33,layout.oscillators[1].getWidth()-20,68);
     for(int i=0;i<2;++i){
         auto region=layout.oscillators[i].reduced(8);
         auto& power=i==0?osc1:osc2;

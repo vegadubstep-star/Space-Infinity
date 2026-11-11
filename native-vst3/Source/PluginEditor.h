@@ -2,6 +2,8 @@
 #include "PluginProcessor.h"
 #include "HardwareTheme.h"
 class ModulationBadge;
+class StudioRack;
+class SamplerDisplay;
 class SpaceInfinityEditor : public juce::AudioProcessorEditor, private juce::Timer {
 public:
     explicit SpaceInfinityEditor(SpaceInfinityProcessor&);
@@ -30,6 +32,9 @@ private:
     juce::Image hardwareFace;
     bool cachedFxPage=false;
     SpaceInfinityProcessor& processor;
+    std::unique_ptr<StudioRack> studioRack;
+    std::unique_ptr<SamplerDisplay> sampleDisplay,liveDisplay;
+    juce::Image infinityLogo;
     void refreshPresetMenu();
     void openPresetManager();
     juce::String displayedPresetKey;

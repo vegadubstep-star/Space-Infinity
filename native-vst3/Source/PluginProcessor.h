@@ -4,9 +4,19 @@
 #include "ExtendedEngine.h"
 #include "PresetLibrary.h"
 #include "SampleSources.h"
+#include "StudioEffects.h"
+#include "RhythmFX.h"
+#include "StudioEQ.h"
+class ImpulseWorker;
 class SpaceInfinityProcessor : public juce::AudioProcessor {
 public:
     explicit SpaceInfinityProcessor(const juce::File& presetDirectory={});
+    ~SpaceInfinityProcessor() override;
+    bool isBusesLayoutSupported(const BusesLayout& layout) const override {
+        const auto input=layout.getMainInputChannelSet();
+        return layout.getMainOutputChannelSet()==juce::AudioChannelSet::stereo()
+            &&(input.isDisabled()||input==juce::AudioChannelSet::mono()||input==juce::AudioChannelSet::stereo());
+    }
     void prepareToPlay(double,int) override;
     void releaseResources() override {}
     void processBlock(juce::AudioBuffer<float>&,juce::MidiBuffer&) override;
@@ -16,7 +26,7 @@ public:
     bool acceptsMidi() const override {return true;}
     bool producesMidi() const override {return false;}
     bool isMidiEffect() const override {return false;}
-    double getTailLengthSeconds() const override {return 4.0;}
+    double getTailLengthSeconds() const override;
     int getNumPrograms() override {return 1;}
     int getCurrentProgram() override {return 0;}
     void setCurrentProgram(int) override {}
@@ -62,7 +72,39 @@ public:
     void addTableFrame(int copyFrom);
     void removeTableFrame(int index);
     juce::Result importImpulse(const juce::File&);
+    struct SampleView {std::array<float,512> low{},high{};int samples=0;double rate=0;float onset=0;};
+    bool sampleView(int source,SampleView&);
+    std::array<float,1024> outputScope(bool fullRate=false) const;
+    float samplePlayhead() const {return displayedSamplePosition.load();}
+    std::array<float,3> compressorLevels() const;
+    std::array<float,3> compressorReduction() const;
+    std::array<float,512> impulseView() const;
+    bool impulseBuilding() const {return irBusy.load();}
+    juce::String impulseName() const;
+    double hostBpm() const {return displayedBpm.load();}
+    void loadGatePreset(int);
+    int gateStep() const {return displayedGateStep.load();}
 private:
+    friend class ImpulseWorker;
+    std::unique_ptr<juce::Thread> impulseWorker;
+    void rebuildImpulse();
+    void startImpulseWorker();
+    juce::CriticalSection impulseSourceLock;
+    juce::CriticalSection impulsePreparationLock;
+    std::atomic<unsigned> impulseRequest{0},impulseCompleted{0};
+    std::atomic<bool> irBusy{false};
+    std::array<std::atomic<float>,512> displayedImpulse{};
+    std::atomic<double> displayedBpm{120};
+    studio::Compressor studioCompressor;
+    studio::Delay studioDelay;
+    studio::Rhythm rhythm;
+    std::atomic<int> displayedGateStep{0};
+    juce::AudioBuffer<float> sidechainHigh;
+    std::array<std::atomic<float>,3> compLevels{},compReduction{};
+    std::array<std::atomic<float>,32768> scopeSamples{};
+    std::atomic<unsigned> scopeWrite{0};unsigned scopeCounter=0;
+    std::atomic<float> displayedSamplePosition{-1};
+    juce::SmoothedValue<float> echoWet,irLevel,studioCompWet;
     std::unique_ptr<PresetLibrary> library;
     juce::dsp::Oversampling<float> oversampling{2,1,juce::dsp::Oversampling<float>::filterHalfBandPolyphaseIIR,true,true};
     juce::MidiBuffer highRateMidi;
@@ -84,12 +126,15 @@ private:
     juce::Result queueImpulse(const juce::MemoryBlock&);
     void transformPattern(juce::MidiBuffer&,int);
     struct EqState { float z1=0.0f,z2=0.0f; };
-    std::array<std::array<EqState,7>,2> eqState{};
+    std::array<std::array<std::array<EqState,4>,7>,2> eqState{};
     std::array<std::array<std::atomic<float>*,3>,7> eqParameters{};
+    std::array<std::atomic<float>*,7> eqTypes{},eqSlopes{};
+    std::array<std::atomic<float>*,16> gateParameters{};
     std::atomic<float> outputPeak{0.0f};
     struct Sample {
         juce::AudioBuffer<float> audio;
         double sampleRate = 0;
+        SampleView view;
     };
     static juce::Result decodeSample(const juce::MemoryBlock&, Sample&);
     Sample choirAh, choirOoh, importedSample;

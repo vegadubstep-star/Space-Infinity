@@ -5,6 +5,7 @@
 
 int runExtendedSmoke();
 int runPresetSmoke();
+int runStudioSmoke();
 
 int renderHardwarePreview()
 {
@@ -40,6 +41,7 @@ int main(int argc,char* argv[])
     if(argc>1&&juce::String(argv[1])=="--ui-only")return renderHardwarePreview();
     if(argc>1&&juce::String(argv[1])=="--preset-tests")return runPresetSmoke();
     if(argc>1&&juce::String(argv[1])=="--extended-tests")return runExtendedSmoke();
+    if(argc>1&&juce::String(argv[1])=="--studio-tests")return runStudioSmoke();
     SpaceInfinityProcessor synth;
     constexpr int blockSize=256;
     juce::AudioBuffer<float> audio(2,blockSize);

@@ -16,7 +16,7 @@ Reviewed 11 November 2026:
 
 ## Implemented in the native editor
 
-- Oxblood enamel, charcoal metal modules, subtly brushed surface grain, walnut-coloured end cheeks, machined screws and folded chassis rails.
+- Purple anodised-metal panels with fixed-light glare, charcoal metal modules, subtly brushed surface grain, walnut-coloured end cheeks, machined screws and folded chassis rails.
 - Fluted rotary skirts, layered contact shadows, fixed-light cap reflections, inset pointer marks, silk-screened scales and satin-metal secondary knobs.
 - Fader slots with printed calibration, shaded caps and amber index lines; illuminated slide switches and sculpted mode buttons.
 - Recessed programme and waveform displays; coordinated amber/ivory display traces and typography.
@@ -29,7 +29,7 @@ Parameters and attachments remain connected to the existing native controls. DSP
 
 On Windows, build with the existing scripts. Native tests are also available on Linux by configuring with `-DSPACE_INFINITY_BUILD_TESTS=ON` and the JUCE desktop dependencies installed. Run `SpaceInfinitySmoke --ui-only` on a display to write real native Main/FX screenshots at 800, 1000, 1180 and 1500 pixels and check visible controls remain inside the editor.
 
-No u-he, Davies or NKK graphics, logos, skin files or product photographs are included in the plugin. All shipped interface artwork is original JUCE drawing code in `Source/HardwareTheme.h`.
+No u-he, Davies or NKK graphics, logos, skin files or product photographs are included in the plugin. Hardware materials and controls use original JUCE drawing code in `Source/HardwareTheme.h`. The owner-supplied INFINITY logo is adapted as a transparent PNG for the header.
 
 ## Validation on 11 November 2026
 
@@ -40,3 +40,7 @@ No u-he, Davies or NKK graphics, logos, skin files or product photographs are in
 - A new Windows CI run is required for this revision. Windows/FL Studio testing was not performed in the Linux environment. CI now retains the audition/screenshots artifact after test failures while the release package remains gated on successful validation.
 
 `hardware-main.png` and `hardware-fx.png` are native component renders from the built editor. `hardware-standalone.png` captures the running Linux application, including its native window frame; it is not a generated design concept.
+
+## Current studio revision
+
+The owner subsequently requested purple gleaming metal and supplied the INFINITY logo. The updated interface, live sampler displays, expanded compressor/delay/convolver, EQ shapes/slopes, frequency-selective trance gate/sidechain, and all 119 refreshed factory presets are described in [STUDIO_FEATURES.md](STUDIO_FEATURES.md). The quiet sampled-preset issue recorded above is resolved by correcting unsuitable high/band-pass settings; the complete seven-test native suite and 119-preset audition now pass. Windows/FL Studio validation remains a separate check.

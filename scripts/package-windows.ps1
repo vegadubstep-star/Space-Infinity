@@ -42,3 +42,4 @@ Get-FileHash -Algorithm SHA256 -LiteralPath $setup,$archive
 foreach ($notice in @("THIRD_PARTY_SAMPLES.md", "SAMPLE_PROVENANCE.json", "CC0-1.0.txt")) {
     Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Samples/$notice") -Destination $release -Force
 }
+Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/TESTING_STUDIO_BUILD.md") -Destination (Join-Path $release "READ_ME_FIRST.md") -Force

@@ -47,11 +47,16 @@ public:
 
     static void module(juce::Graphics& g,juce::Rectangle<float> r,bool oxblood=false) {
         g.setColour(juce::Colour(0x85000000));g.fillRoundedRectangle(r.translated(0,2),2);
-        juce::ColourGradient surface(juce::Colour(oxblood?0xff683331:0xff343735),0,r.getY(),
-            juce::Colour(oxblood?0xff452320:0xff242725),0,r.getBottom(),false);
-        surface.addColour(.2,juce::Colour(oxblood?0xff5d2c29:0xff303330));
+        juce::ColourGradient surface(juce::Colour(oxblood?0xff68418d:0xff343735),0,r.getY(),
+            juce::Colour(oxblood?0xff2b183f:0xff242725),0,r.getBottom(),false);
+        surface.addColour(.2,juce::Colour(oxblood?0xff8c5baa:0xff303330));
         g.setGradientFill(surface);g.fillRoundedRectangle(r,2);
         texture(g,r,.065f);
+        if(oxblood){juce::Graphics::ScopedSaveState save(g);g.reduceClipRegion(r.toNearestInt());
+            juce::ColourGradient shine(juce::Colours::transparentWhite,r.getX(),r.getY(),juce::Colours::transparentWhite,r.getRight(),r.getBottom(),false);
+            shine.addColour(.13,juce::Colour(0x30e2cdfa));shine.addColour(.23,juce::Colour(0x08d4c0ec));shine.addColour(.55,juce::Colours::transparentWhite);shine.addColour(.76,juce::Colour(0x13c5a0ef));
+            g.setGradientFill(shine);g.fillRect(r);}
+
         g.setColour(juce::Colour(0x308e8e7a));g.drawHorizontalLine(int(r.getY()),r.getX()+1,r.getRight()-1);
         g.setColour(juce::Colour(0x9b101310));g.drawHorizontalLine(int(r.getBottom()-1),r.getX()+1,r.getRight()-1);
         g.drawVerticalLine(int(r.getRight()-1),r.getY()+1,r.getBottom()-1);
@@ -95,10 +100,14 @@ public:
         g.setColour(juce::Colour(0xff1c211e));g.fillRoundedRectangle(face,3);
         texture(g,face);
         auto header=juce::Rectangle<float>(25,8,r.getWidth()-50,97);
-        juce::ColourGradient enamel(juce::Colour(0xff783d37),0,8,juce::Colour(0xff411e1c),0,105,false);
-        enamel.addColour(.3,juce::Colour(0xff66312d));
+        juce::ColourGradient enamel(juce::Colour(0xff6b428f),0,8,juce::Colour(0xff2a173c),0,105,false);
+        enamel.addColour(.3,juce::Colour(0xff895ca8));
         g.setGradientFill(enamel);g.fillRoundedRectangle(header,2);
-        texture(g,header,.095f);
+        texture(g,header,.065f);
+        juce::ColourGradient reflection(juce::Colours::transparentWhite,header.getX(),header.getY(),juce::Colours::transparentWhite,header.getRight(),header.getBottom(),false);
+        reflection.addColour(.14,juce::Colour(0x43e9dbff));reflection.addColour(.25,juce::Colour(0x10cdb0ee));reflection.addColour(.7,juce::Colour(0x00b99ad8));reflection.addColour(.89,juce::Colour(0x1fdec3ff));
+        g.setGradientFill(reflection);g.fillRect(header.reduced(1));
+
         g.setColour(juce::Colour(0xffa2765d));g.drawHorizontalLine(9,28,r.getWidth()-28);
         g.setColour(juce::Colour(0xff100e0b));g.drawHorizontalLine(105,25,r.getWidth()-25);
         g.setColour(juce::Colour(0xff766c56));g.drawHorizontalLine(106,25,r.getWidth()-25);
