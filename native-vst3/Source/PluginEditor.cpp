@@ -494,9 +494,10 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     const char* ids[]={"cutoff","res","attack","release","detune","mix","drive","chorus","delay","reverb","lforate","lfodepth","gain","ampDecay","ampSustain","flanger","phaser"};
     const int decimals[]={0,2,3,3,3,2,2,2,2,2,2,2,2,3,2,2,2};
     const char* units[]={" Hz",""," s"," s","","","","","",""," Hz","",""," s","","",""};
-    const char* texts[]={"CUTOFF","RESONANCE","ATTACK","RELEASE","DETUNE","LAYER","DRIVE","CHORUS","DELAY","REVERB","LFO RATE","LFO DEPTH","OUTPUT","DECAY","SUSTAIN","FLANGER","PHASER"};
+    const char* texts[]={"CUTOFF","RESONANCE","ATTACK","RELEASE","GLOBAL DETUNE","LAYER","DRIVE","CHORUS","DELAY","REVERB","LFO RATE","LFO DEPTH","OUTPUT","DECAY","SUSTAIN","FLANGER","PHASER"};
     for(int i=0;i<17;i++){
         auto& slider=knobs[i];slider.setName(texts[i]);slider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);slider.setTextBoxStyle(juce::Slider::TextBoxBelow,false,70,19);
+        if(i==4)slider.setTooltip("Shared unison detune for both oscillators, scaled by each oscillator's SPREAD control. This does not control volume.");
         slider.setColour(juce::Slider::rotarySliderFillColourId,juce::Colour(0xffe84953));slider.setColour(juce::Slider::thumbColourId,juce::Colours::white);
         slider.setColour(juce::Slider::textBoxTextColourId,juce::Colour(0xffd9d1bb));slider.setColour(juce::Slider::textBoxOutlineColourId,juce::Colours::transparentBlack);
         addAndMakeVisible(slider);
@@ -1152,7 +1153,7 @@ void SpaceInfinityEditor::resized(){
     analogueCharacter.setBounds(characterBounds.getRight()-92,characterBounds.getBottom()-64,79,62);
     const auto oscBottom=layout.oscillators[0];
     labels[4].setBounds(oscBottom.getRight()-96,oscBottom.getBottom()-80,90,15);
-    labels[4].setText("MASTER",juce::dontSendNotification);
+    labels[4].setText("GLOBAL DETUNE",juce::dontSendNotification);
     knobs[4].setBounds(oscBottom.getRight()-92,oscBottom.getBottom()-64,79,62);
     auto filterControls=layout.filter.reduced(7).withTrimmedTop(21);
     filterControls.removeFromRight(52);
