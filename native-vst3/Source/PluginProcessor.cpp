@@ -10,7 +10,7 @@ APVTS::ParameterLayout makeLayout(){
     APVTS::ParameterLayout p;
     auto f=[&](const char* id,const char* label,float low,float high,float def){p.add(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID{id,1},label,juce::NormalisableRange<float>(low,high),def));};
     f("cutoff","Filter Cutoff",80,16000,8000);f("res","Resonance",0,0.95f,0.12f);
-    f("attack","Attack",0.0f,1.5f,0.01f);f("release","Release",0.0f,1.5f,0.5f);
+    f("attack","Attack",0.0f,1.0f,0.01f);f("release","Release",0.0f,1.0f,0.5f);
     f("ampDecay","Amp Decay",0.005f,8.0f,0.35f);
     f("ampSustain","Amp Sustain",0.0f,1.0f,1.0f);
     p.add(std::make_unique<juce::AudioParameterBool>(juce::ParameterID{"osc1Enabled",1},"Oscillator 1 Enabled",true));
@@ -454,8 +454,8 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
     for(size_t lfo=0;lfo<3;++lfo)
         lfoSteps[lfo]*=std::exp2(fxModulation[size_t(speedTargets[lfo])]*2.0f);
 
-    const float attack=juce::jlimit(0.0f,1.5f,param("attack")*std::exp2(modulation[4]*3));
-    const float release=juce::jlimit(0.0f,1.5f,param("release")*std::exp2(modulation[9]*2));
+    const float attack=juce::jlimit(0.0f,1.0f,param("attack")*std::exp2(modulation[4]*3));
+    const float release=juce::jlimit(0.0f,1.0f,param("release")*std::exp2(modulation[9]*2));
     const float mix=juce::jlimit(0.0f,1.0f,param("mix")+0.4f*modulation[8]);
     const float detune=juce::jlimit(0.0f,0.04f,param("detune")+0.02f*modulation[2]);
     const float cutoff=param("cutoff")*std::exp2(modulation[1]*2);
@@ -586,8 +586,8 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
                 routeDynamic(movingModulation,lfo,value);
             }
             routeDynamic(movingModulation,3,v.env);
-            const float voiceAttack=juce::jlimit(0.0f,1.5f,attack*std::exp2(movingModulation[4]*3));
-            const float voiceRelease=juce::jlimit(0.0f,1.5f,release*std::exp2(movingModulation[9]*2));
+            const float voiceAttack=juce::jlimit(0.0f,1.0f,attack*std::exp2(movingModulation[4]*3));
+            const float voiceRelease=juce::jlimit(0.0f,1.0f,release*std::exp2(movingModulation[9]*2));
             const float voiceAttackStep=movingModulation[4]==0.0f?attackStep:float(1.0/std::max(1.0,double(voiceAttack)*sr));
             const float voiceLegacyAttack=movingModulation[4]==0.0f?legacyAttackStep:
                 voiceAttack==0.0f?1.0f:float(1.0-std::exp(-double(voiceAttackStep)));
@@ -1118,7 +1118,7 @@ void SpaceInfinityProcessor::loadPreset(int index){
     constexpr const char* ids[]={"cutoff","res","attack","release","detune","mix","drive",
         "chorus","delay","reverb","lforate","lfodepth","gain","wave","ampDecay","ampSustain"};
     for(size_t i=0;i<std::size(ids);++i)
-        set(ids[i],i==2||i==3?juce::jlimit(0.0f,1.5f,patch.values[i]):patch.values[i]);
+        set(ids[i],i==2||i==3?juce::jlimit(0.0f,1.0f,patch.values[i]):patch.values[i]);
     set("source",float(patch.source));
     set("ampTimed",1.0f);
     set("flanger",0.0f);

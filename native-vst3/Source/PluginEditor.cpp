@@ -877,14 +877,14 @@ void SpaceInfinityEditor::mouseDrag(const juce::MouseEvent& e){
         };
         const float time=juce::jlimit(0.0f,envelopeDragDuration,
             float(e.x-envelopeGraph.getX())/float(envelopeGraph.getWidth())*envelopeDragDuration);
-        if(envelopeDrag==0)set("attack",juce::jlimit(0.0f,1.5f,time));
+        if(envelopeDrag==0)set("attack",juce::jlimit(0.0f,1.0f,time));
         if(envelopeDrag==1){
             set("ampDecay",juce::jlimit(.005f,8.0f,time-float(knobs[2].getValue())));
             set("ampSustain",juce::jlimit(0.0f,1.0f,
                 float(envelopeGraph.getBottom()-4-e.y)/float(envelopeGraph.getHeight()-8)));
         }
         if(envelopeDrag==2)
-            set("release",juce::jlimit(0.0f,1.5f,time-float(knobs[2].getValue()+knobs[13].getValue())-.4f));
+            set("release",juce::jlimit(0.0f,1.0f,time-float(knobs[2].getValue()+knobs[13].getValue())-.4f));
     }else if(lastMotionPoint>=0)drawMotionAt(e.getPosition());
 }
 void SpaceInfinityEditor::mouseUp(const juce::MouseEvent& e){

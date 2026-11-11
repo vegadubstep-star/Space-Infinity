@@ -43,7 +43,7 @@ int main()
     levels << "Preset\tPeak dBFS\tRMS dBFS\n";
     for(const auto* id:{"attack","release"}){
         auto* parameter=synth.state.getParameter(id);
-        if(parameter->convertFrom0to1(0.0f)!=0.0f || parameter->convertFrom0to1(1.0f)!=1.5f) return 26;
+        if(parameter->convertFrom0to1(0.0f)!=0.0f || parameter->convertFrom0to1(1.0f)!=1.0f) return 26;
     }
     float quietest=1.0f, loudest=0.0f;
     for(int index=0;index<names.size();++index){
