@@ -339,7 +339,7 @@ juce::Result SpaceInfinityProcessor::importSample(const juce::File& file){
         ++sampleRevision;
     }
     state.getParameter("sampleRoot")->setValueNotifyingHost(state.getParameter("sampleRoot")->convertTo0to1(60));
-    state.getParameter("source")->setValueNotifyingHost(1.0f);
+    state.getParameter("source")->setValueNotifyingHost(state.getParameter("source")->convertTo0to1(3.0f));
     return juce::Result::ok();
 }
 void SpaceInfinityProcessor::prepareToPlay(double sampleRate,int maxSamples){

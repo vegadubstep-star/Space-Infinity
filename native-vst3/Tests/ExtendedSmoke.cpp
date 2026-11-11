@@ -3,7 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include <stdexcept>
-int main(){
+int runExtendedSmoke(){
     juce::ScopedJuceInitialiser_GUI gui;
     SpaceInfinityProcessor synth;constexpr int block=256;juce::AudioBuffer<float> audio(2,block);
     auto set=[&](const juce::String& id,float value){auto* p=synth.state.getParameter(id);if(!p)throw std::runtime_error(id.toStdString());p->setValueNotifyingHost(p->convertTo0to1(value));};
@@ -31,7 +31,12 @@ int main(){
     const auto impulse=directory.getChildFile("impulse.wav");if(!makeWav(impulse,ir,48000)||synth.importImpulse(impulse).failed())return 58;
     juce::MemoryBlock state;synth.getStateInformation(state);SpaceInfinityProcessor restored;restored.setStateInformation(state.getData(),int(state.getSize()));
     if(restored.tableFrameCount()!=2||std::abs(restored.tableFrame(0)[30]-expected[30])>.00001f||restored.state.getRawParameterValue("convolverEnabled")->load()!=1)return 59;
-    synth.prepareToPlay(48000,block);set("convolverMix",.8f);if(render(80)<.01)return 60;
+    synth.prepareToPlay(48000,block);
+    // Allow the background FFT engine to install the decoded test impulse.
+    for(int i=0;i<8;++i){juce::MidiBuffer empty;synth.processBlock(audio,empty);juce::Thread::sleep(10);}
+    set("convolverMix",0);synth.prepareToPlay(48000,block);const double dryConvolution=render(80);
+    set("convolverMix",1);synth.prepareToPlay(48000,block);const double wetConvolution=render(80);
+    if(wetConvolution<.01||std::abs(wetConvolution-dryConvolution)<.01)return 60;
     synth.prepareToPlay(48000,block);set("patternMode",1);set("patternRate",3);int on=0,off=0;
     for(int b=0;b<160;++b){juce::MidiBuffer midi;if(b==0){midi.addEvent(juce::MidiMessage::noteOn(1,60,.7f),0);midi.addEvent(juce::MidiMessage::noteOn(1,64,.7f),0);}if(b==130)midi.addEvent(juce::MidiMessage::allSoundOff(1),0);synth.processBlock(audio,midi);for(const auto m:synth.generatedNotes()){on+=m.getMessage().isNoteOn()?1:0;off+=m.getMessage().isNoteOff()?1:0;}}
     if(on<5||on!=off)return 61;
@@ -53,5 +58,5 @@ int main(){
         tabs->setCurrentTabIndex(tab);auto snapshot=panel.createComponentSnapshot(panel.getLocalBounds());
         auto image=audition.getChildFile("Extended-"+juce::String(tab+1)+".png").createOutputStream();if(image)png.writeImageToStream(snapshot,*image);
     }
-    directory.deleteRecursively();std::cout<<"Extended engine audio, assets/state, arp MIDI and oscillator navigation passed\n";
+    directory.deleteRecursively();std::cout<<"Extended engine audio, assets/state, arp MIDI and oscillator navigation passed\n";return 0;
 }

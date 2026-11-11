@@ -11,7 +11,8 @@ foreach ($tool in @("cmake", "git")) {
 Write-Host "Configuring SPACE INFINITY Windows x64 VST3 from $SourceDir"
 & cmake -S $SourceDir -B $BuildDir -G "Visual Studio 17 2022" -A x64
 if ($LASTEXITCODE -ne 0) { throw "CMake configuration failed. Resolve errors before building." }
-& cmake --build $BuildDir --config $Configuration
+& cmake --build $BuildDir --config $Configuration --parallel 2
 if ($LASTEXITCODE -ne 0) { throw "Build failed. See compiler/linker errors above." }
 Write-Host "Build command succeeded. Verify the actual VST3 under $BuildDir\SpaceInfinity_artefacts\$Configuration\VST3 before installing."
 Write-Host "IMPORTANT: Compilation does not establish compatibility with FL Studio; test it in the host."
+

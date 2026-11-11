@@ -3,6 +3,8 @@
 #include <iostream>
 #include <fstream>
 
+int runExtendedSmoke();
+
 int main()
 {
     juce::ScopedJuceInitialiser_GUI gui;
@@ -284,4 +286,6 @@ int main()
         for(int slot=0;slot<3;++slot)
             if(synth.state.getRawParameterValue(synth.modulationRouteId(source,slot,false))->load()!=0.0f)return 42;
     std::cout << "Factory peaks " << quietest << " to " << loudest << '\n';
+    return runExtendedSmoke();
 }
+
