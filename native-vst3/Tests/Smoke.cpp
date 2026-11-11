@@ -10,7 +10,7 @@ int runStudioSmoke();
 int renderHardwarePreview()
 {
     auto synth=std::make_unique<SpaceInfinityProcessor>();
-    synth->loadPreset(12);
+    synth->loadPreset(0);
     auto editor=std::unique_ptr<juce::AudioProcessorEditor>(synth->createEditor());
     const auto folder=juce::File::getCurrentWorkingDirectory().getChildFile("audition");
     if(folder.createDirectory().failed())return 101;
@@ -49,7 +49,7 @@ int main(int argc,char* argv[])
     constexpr int blockSize=256;
     juce::AudioBuffer<float> audio(2,blockSize);
     const auto& names=synth.presetNames();
-    if(names.size()!=119 || synth.motionNames().size()!=20) return 1;
+    if(names.size()!=1 || synth.motionNames().size()!=20) return 1;
 
     for(int i=0;i<names.size();++i)
         if(names.indexOf(names[i])!=i) return 9;
@@ -90,6 +90,7 @@ int main(int argc,char* argv[])
         synth.loadPreset(index);
         const auto expectedCutoff=cutoff->getValue();
         cutoff->setValueNotifyingHost(expectedCutoff>0.5f?0.0f:1.0f);
+        factoryMenu->setSelectedId(0,juce::dontSendNotification);
         factoryMenu->setSelectedId(index+1,juce::sendNotificationSync);
         if(factoryMenu->getText()!=names[index] || std::abs(cutoff->getValue()-expectedCutoff)>0.001f)
             return 11;

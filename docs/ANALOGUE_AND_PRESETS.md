@@ -1,3 +1,5 @@
+> Historical notes: the factory bank described below has been removed. See [current bank status](STUDIO_FACTORY_BANK.md).
+
 # Analogue engine and preset bank update
 
 ## Engine

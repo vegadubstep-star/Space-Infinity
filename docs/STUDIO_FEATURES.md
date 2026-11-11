@@ -22,20 +22,6 @@ The compressor, delay and convolver control sets were checked against Xfer's [Se
 
 ## Factory bank
 
-All 119 retained patches have explicit studio-engine settings documented in [STUDIO_FACTORY_BANK.md](STUDIO_FACTORY_BANK.md). Bass/lead patches use restrained dynamics and tempo movement; pads and choirs use shaped convolution space; sampled instruments gain onset trimming and more suitable filtering. Frozen Interlude and Airlock Mallet now use low-pass filtering instead of high/band-pass settings that removed most of their sampled fundamentals. Glass Pizzicato remains removed. Listening/mastering and FL Studio host validation are the owner's next checks; programmed refinements alone do not establish final sound quality.
+The previous factory bank has been removed. Only a dry **Init** sound remains while the owner specifies the replacement bank. See [factory bank status](STUDIO_FACTORY_BANK.md).
 
-Saved projects and user presets retain their embedded parameters/assets; earlier states default new effects to compatible/off settings rather than automatically adopting revised factory sounds. Select a factory patch again to hear its refreshed version.
-
-## Actual native screenshots
-
-![Sampler and live output](images/studio-sampler.png)
-
-![Compressor](images/studio-compressor.png)
-
-![Delay](images/studio-delay.png)
-
-![Convolver](images/studio-convolver.png)
-
-![Trance gate and sidechain](images/studio-gate.png)
-
-![Seven-band EQ](images/studio-eq.png)
+Saved projects and user presets retain their embedded parameters/assets. Old factory IDs are retired rather than reassigned.

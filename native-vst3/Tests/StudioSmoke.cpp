@@ -37,7 +37,7 @@ int runStudioSmoke(){
     for(int i=0;i<12000;++i)duck=sc.process(.5f,.5f,1)[0];require(duck<.1f,"external sidechain detection");
     auto externalEnergy=[](float trigger){
         auto synth=std::make_unique<SpaceInfinityProcessor>();auto layout=synth->getBusesLayout();layout.inputBuses.set(0,juce::AudioChannelSet::stereo());require(synth->setBusesLayout(layout),"external bus layout");
-        synth->loadPreset(12);auto set=[&](const char* id,float v){auto* p=synth->state.getParameter(id);p->setValueNotifyingHost(p->convertTo0to1(v));};
+        synth->loadPreset(0);auto set=[&](const char* id,float v){auto* p=synth->state.getParameter(id);p->setValueNotifyingHost(p->convertTo0to1(v));};
         for(const char* id:{"compEnabled","delayEnabled","chorusEnabled","reverbEnabled","convolverEnabled","eqEnabled","gateEnabled"})set(id,0);
         set("pumpEnabled",1);set("sidechainSource",1);set("gateSplit",0);set("pumpDepth",1);set("sidechainThreshold",-30);set("sidechainRatio",8);
         synth->prepareToPlay(48000,256);juce::AudioBuffer<float> audio(2,256);double energy=0;
@@ -57,7 +57,7 @@ int runStudioSmoke(){
     require(std::abs(impulse.getSample(0,0))>.8f,"minimum-phase energy position");
     for(int bin:{1,7,40,100}){std::complex<double> actual{},original{};for(int i=0;i<512;++i){const auto z=std::polar(1.0,-juce::MathConstants<double>::twoPi*bin*i/1024);actual+=double(impulse.getSample(0,i))*z;if(i==100)original+=z;if(i==180)original+=.3*z;}
         require(std::abs(std::abs(actual)-std::abs(original))<.01,"minimum-phase magnitude preservation");}
-    auto synth=std::make_unique<SpaceInfinityProcessor>();synth->loadPreset(12);synth->prepareToPlay(48000,256);
+    auto synth=std::make_unique<SpaceInfinityProcessor>();synth->loadPreset(0);synth->prepareToPlay(48000,256);
     auto set=[&](const char* id,float v){auto* p=synth->state.getParameter(id);require(p!=nullptr,id);p->setValueNotifyingHost(p->convertTo0to1(v));};
     // A real imported waveform, trim/reverse, audio history and embedded state.
     const auto directory=juce::File::getSpecialLocation(juce::File::tempDirectory).getNonexistentChildFile("InfinityStudio",{},false);directory.createDirectory();
