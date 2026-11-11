@@ -48,7 +48,7 @@ private:
     juce::Slider motionDepth, noiseLevel, analogueCharacter;
     juce::Label analogueLabel;
     juce::ComboBox noiseType;
-    std::array<juce::Slider,4> oscillatorSliders;
+    std::array<juce::Slider,4> oscillatorSliders,unisonTone;
     std::array<juce::Slider,3> octaveControls;
     std::array<juce::Slider,2> unisonSliders;
     std::array<juce::Slider,4> macros;

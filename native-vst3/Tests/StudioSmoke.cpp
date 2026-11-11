@@ -105,7 +105,7 @@ int runAirwaveSmoke(){
  try{
     auto synth=std::make_unique<SpaceInfinityProcessor>();synth->loadPreset(1);
     auto set=[&](const juce::String& id,float value){auto* p=synth->state.getParameter(id);require(p!=nullptr,"pad parameter exists");p->setValueNotifyingHost(p->convertTo0to1(value));};
-    require(synth->presetNames()[1]=="Airwave Pad","pad bank entry");
+    require(synth->presetNames()[1]=="Skywave Pad","pad bank entry");
     require(synth->state.getRawParameterValue("ampSustain")->load()==1,"pad full sustain");
     require(synth->state.getRawParameterValue("ampLong")->load()==1,"pad long envelope");
     synth->prepareToPlay(48000,256);juce::AudioBuffer<float> audio(2,256);
@@ -140,4 +140,55 @@ int runAirwaveSmoke(){
     require(recalled->state.getRawParameterValue("vibratoEnabled")->load()==0&&recalled->state.getRawParameterValue("ampLong")->load()==1&&recalled->state.getRawParameterValue(synth->lfoParameterId(2,"Enabled"))->load()==0,"bypass and long envelope recall");
     std::cout<<"Airwave sustained/retriggered level, long release, LFO bypass and state recall passed"<<std::endl;return 0;
  }catch(const std::exception& e){std::cerr<<"Airwave test: "<<e.what()<<std::endl;return 130;}
+}
+
+int runLeadSmoke(){
+ try{
+    for(int preset:{2,3,4,5,6,7,8}){
+        auto synth=std::make_unique<SpaceInfinityProcessor>();synth->loadPreset(preset);
+        require(synth->state.getRawParameterValue("osc1Unison")->load()==(preset==8?1:preset==5||preset==7?3:preset==6?8:7),"lead unison");
+        require(synth->state.getRawParameterValue("ampLong")->load()==0,"lead timing resets after pad");
+        synth->prepareToPlay(48000,256);juce::AudioBuffer<float> audio(2,256);
+        const auto folder=juce::File::getCurrentWorkingDirectory().getChildFile("audition");folder.createDirectory();
+        const auto file=folder.getChildFile(synth->presetNames()[preset]+" Preview.wav");file.deleteFile();auto stream=file.createOutputStream();
+        juce::WavAudioFormat format;std::unique_ptr<juce::AudioFormatWriter> writer(format.createWriterFor(stream.get(),48000,2,24,{},0));require(writer!=nullptr,"lead preview writer");stream.release();
+        std::array<double,24> levels{};float peak=0;
+        for(int phrase=0;phrase<24;++phrase){for(int block=0;block<188;++block){juce::MidiBuffer midi;
+            if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,69,.8f),0);
+            if(block==130)midi.addEvent(juce::MidiMessage::noteOff(1,69),0);
+            synth->processBlock(audio,midi);if(phrase<8)require(writer->writeFromAudioSampleBuffer(audio,0,256),"lead preview write");
+            for(int ch=0;ch<2;++ch)for(int i=0;i<256;++i){const float v=audio.getSample(ch,i);require(std::isfinite(v)&&std::abs(v)<=1,"lead finite/headroom");peak=std::max(peak,std::abs(v));if(block>=20&&block<125)levels[size_t(phrase)]+=double(v)*v;}
+        }}
+        double first=0,last=0;for(int i=2;i<8;++i)first+=levels[size_t(i)];for(int i=18;i<24;++i)last+=levels[size_t(i)];
+        require(peak>.01f&&first>1&&last>first*.70,"lead repeated notes retain level");
+        std::cout<<synth->presetNames()[preset]<<" repeated-note ratio "<<last/first<<", peak "<<peak<<std::endl;
+        juce::MemoryBlock state;synth->getStateInformation(state);auto recalled=std::make_unique<SpaceInfinityProcessor>();recalled->setStateInformation(state.getData(),int(state.getSize()));
+        require(recalled->selectedPresetKey()==synth->selectedPresetKey(),"lead stable key recall");
+        for(const char* id:{"osc2Octave","osc2Wave","filterEnvAmount","echoMode","compEnabled","osc1Spread","osc2Spread","osc1Blend","osc2Blend","glideTime","pitchEnvAmount","pitchEnvAttack","pitchEnvDecay"})require(recalled->state.getRawParameterValue(id)->load()==synth->state.getRawParameterValue(id)->load(),"lead parameter recall");
+        synth->loadPreset(1);synth->loadPreset(preset);require(synth->state.getRawParameterValue("ampLong")->load()==0,"pad-to-lead timing reset");
+    }
+    const auto capture=[](int oscillator,float ownSpread,float otherSpread,float blend){
+        auto p=std::make_unique<SpaceInfinityProcessor>();p->loadPreset(0);
+        const auto set=[&](const juce::String& id,float v){auto* parameter=p->state.getParameter(id);parameter->setValueNotifyingHost(parameter->convertTo0to1(v));};
+        set("mix",oscillator==1?0:1);set("osc1Unison",7);set("osc2Unison",7);set("detune",.02f);set("attack",0);
+        set("osc"+juce::String(oscillator)+"Spread",ownSpread);set("osc"+juce::String(3-oscillator)+"Spread",otherSpread);set("osc"+juce::String(oscillator)+"Blend",blend);
+        p->prepareToPlay(48000,256);juce::AudioBuffer<float> audio(2,256);std::vector<float> samples;
+        for(int b=0;b<64;++b){juce::MidiBuffer midi;if(b==0)midi.addEvent(juce::MidiMessage::noteOn(1,69,.8f),0);p->processBlock(audio,midi);for(int i=0;i<256;++i)samples.push_back(audio.getSample(0,i));}return samples;
+    };
+    const auto difference=[](const auto& a,const auto& b){double sum=0;for(size_t i=0;i<a.size();++i)sum+=std::abs(a[i]-b[i]);return sum;};
+    for(int oscillator:{1,2}){const auto base=capture(oscillator,1,1,1);require(difference(base,capture(oscillator,1,0,1))<.00001,"other oscillator spread stays independent");require(difference(base,capture(oscillator,0,1,1))>1,"own spread changes real output");require(difference(base,capture(oscillator,1,1,0))>1,"unison blend changes real output");}
+    // Measure real output pitch during an overlapping octave change.
+    auto glideSynth=std::make_unique<SpaceInfinityProcessor>();glideSynth->loadPreset(0);
+    const auto set=[&](const char* id,float v){auto* p=glideSynth->state.getParameter(id);p->setValueNotifyingHost(p->convertTo0to1(v));};
+    set("wave",2);set("osc2Enabled",0);set("mix",0);set("attack",0);set("voiceMode",2);set("glideTime",.12f);set("cutoff",16000);
+    glideSynth->prepareToPlay(48000,256);juce::AudioBuffer<float> probe(2,256);float previous=0;
+    const auto crossings=[&](int blocks,int note){int count=0;for(int b=0;b<blocks;++b){juce::MidiBuffer midi;if(b==0&&note>=0)midi.addEvent(juce::MidiMessage::noteOn(1,note,.8f),0);glideSynth->processBlock(probe,midi);for(int i=0;i<256;++i){const float v=probe.getSample(0,i);if(previous<=0&&v>0)++count;previous=v;}}return count*48000.0/(blocks*256);};
+    crossings(40,69);const double earlyPitch=crossings(4,81);crossings(110,-1);const double latePitch=crossings(20,-1);
+    require(earlyPitch>400&&earlyPitch<700&&latePitch>820&&latePitch<930,"legato glide reaches target gradually");
+    set("glideTime",0);set("voiceMode",0);set("pitchEnvAmount",12);set("pitchEnvAttack",0);set("pitchEnvDecay",.1f);glideSynth->prepareToPlay(48000,256);previous=0;
+    const double pitchStart=crossings(4,69);crossings(40,-1);const double pitchEnd=crossings(20,-1);
+    require(pitchStart>650&&pitchEnd>400&&pitchEnd<480,"pitch envelope returns to played pitch");
+    std::cout<<"Glide output pitch: "<<earlyPitch<<" -> "<<latePitch<<" Hz"<<std::endl;
+    std::cout<<"Replacement leads: repeated output, headroom, previews and recall passed"<<std::endl;return 0;
+ }catch(const std::exception& e){std::cerr<<"Lead test: "<<e.what()<<std::endl;return 140;}
 }

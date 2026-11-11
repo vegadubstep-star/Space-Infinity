@@ -404,6 +404,13 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
             slider.updateText();
         }
     }
+    const char* toneIds[]{"osc1Spread","osc1Blend","osc2Spread","osc2Blend"};
+    for(size_t i=0;i<unisonTone.size();++i){auto& slider=unisonTone[i];slider.setName(i%2==0?"Oscillator detune scale":"Unison blend");
+        slider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);slider.setTextBoxStyle(juce::Slider::TextBoxBelow,false,56,18);addAndMakeVisible(slider);
+        attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,toneIds[i],slider));slider.setDoubleClickReturnValue(true,1);
+        if(i%2)showPercent(slider);else {slider.textFromValueFunction=[](double value){return juce::String(value,2)+" x";};slider.updateText();}
+        slider.setTooltip(i%2?"Side-voice level relative to centre voices. 100% preserves the original equal blend.":"Multiply the master unison spread for this oscillator. 1x preserves the original spread.");
+    }
     for(size_t i=0;i<unisonSliders.size();++i){
         auto& slider=unisonSliders[i];
         slider.setName("Unison voices");
@@ -991,6 +998,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
             label(oscillatorSliders[size_t(oscillator*2)],"FINE");
             label(oscillatorSliders[size_t(oscillator*2+1)],"WIDTH");
             label(unisonSliders[size_t(oscillator)],"VOICES");
+            label(unisonTone[size_t(oscillator*2)],"SPREAD x");label(unisonTone[size_t(oscillator*2+1)],"BLEND");
             const auto octave=octaveControls[size_t(oscillator+1)].getBounds();
         g.drawText("OCT",octave.getX()-28,octave.getY(),25,octave.getHeight(),juce::Justification::right);
         }
@@ -1118,17 +1126,20 @@ void SpaceInfinityEditor::resized(){
         selector.setBounds(region.getX()+28,region.getY()+106,region.getWidth()-56,23);
         previousWave[size_t(i)].setBounds(region.getX(),region.getY()+106,25,23);
         nextWave[size_t(i)].setBounds(region.getRight()-25,region.getY()+106,25,23);
-        auto controls=juce::Rectangle<int>(region.getX()+7,region.getY()+151,region.getWidth()-14,76);
+        auto controls=juce::Rectangle<int>(region.getX()+7,region.getY()+151,region.getWidth()-14,64);
         unisonSliders[size_t(i)].setBounds(controls.removeFromRight(controls.getWidth()/3).reduced(2,0));
         oscillatorSliders[size_t(i*2)].setBounds(controls.removeFromLeft(controls.getWidth()/2).reduced(2,0));
         oscillatorSliders[size_t(i*2+1)].setBounds(controls.reduced(2,0));
+        auto bottom=juce::Rectangle<int>(region.getX()+5,region.getBottom()-57,region.getWidth()-103,56);
+        unisonTone[size_t(i*2)].setBounds(bottom.removeFromLeft(bottom.getWidth()/2).reduced(3,0));unisonTone[size_t(i*2+1)].setBounds(bottom.reduced(3,0));
     }
     const auto characterBounds=layout.oscillators[1];
-    analogueLabel.setBounds(characterBounds.getX()+8,characterBounds.getBottom()-52,characterBounds.getWidth()-100,15);
+    analogueLabel.setBounds(characterBounds.getRight()-96,characterBounds.getBottom()-80,90,15);
+    analogueLabel.setText("CHARACTER",juce::dontSendNotification);
     analogueCharacter.setBounds(characterBounds.getRight()-92,characterBounds.getBottom()-64,79,62);
     const auto oscBottom=layout.oscillators[0];
-    labels[4].setBounds(oscBottom.getX()+10,oscBottom.getBottom()-52,oscBottom.getWidth()-110,30);
-    labels[4].setText("UNISON SPREAD",juce::dontSendNotification);
+    labels[4].setBounds(oscBottom.getRight()-96,oscBottom.getBottom()-80,90,15);
+    labels[4].setText("MASTER",juce::dontSendNotification);
     knobs[4].setBounds(oscBottom.getRight()-92,oscBottom.getBottom()-64,79,62);
     auto filterControls=layout.filter.reduced(7).withTrimmedTop(21);
     filterControls.removeFromRight(52);

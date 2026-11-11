@@ -31,6 +31,7 @@ public:
                     if(e.factory==retiredFactory)continue;
                     if(retiredFactory>=0&&e.factory>retiredFactory)--e.factory;
                     if(e.factory>=factoryNames.size()||e.key!=keyForFactory(e.factory))continue;e.file={};
+                    if(firstFactory==120&&e.factory==1&&e.name=="Airwave Pad")e.name=factoryNames[e.factory];
                 }
                 else if(!safeFilename(e.file)||e.key!="U"+e.file.upToLastOccurrenceOf(".",false,false))continue;
                 bank.push_back(std::move(e));

@@ -22,6 +22,6 @@ The compressor, delay and convolver control sets were checked against Xfer's [Se
 
 ## Factory bank
 
-The previous factory bank has been removed. The new bank begins with a dry **Init** sound and [Airwave Pad](AIRWAVE_PAD.md), with saved LFO bypass and extended amp timing. See [factory bank status](STUDIO_FACTORY_BANK.md).
+The previous factory bank has been removed. The new bank begins with a dry **Init** sound and [Skywave Pad](AIRWAVE_PAD.md), with saved LFO bypass and extended amp timing. [Aurelia Lead, Azure Horizon Lead, Prism Drive Lead, Orbital Expedition Lead, Ionwire Gate Lead, Expanse Motion Pluck and Solo Afterglow Lead](TRANCE_LEADS.md) add the next seven owner-specified trance recipes. See [factory bank status](STUDIO_FACTORY_BANK.md).
 
 Saved projects and user presets retain their embedded parameters/assets. Old factory IDs are retired rather than reassigned.
