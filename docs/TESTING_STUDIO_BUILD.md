@@ -4,7 +4,7 @@
 
 Use the latest `codex/windows-build` revision. The Windows GitHub Actions run builds the VST3/Standalone, runs native tests, verifies installation/uninstallation, and publishes the Windows x64 installer/archive plus native screenshots/audio auditions. A running workflow is not a completed Windows validation.
 
-After the workflow succeeds, download **Space-Infinity-Windows-x64** from that run's Artifacts section. Extract it, close FL Studio, run the setup, then reopen FL Studio and scan/load **SPACE INFINITY**. The plugin keeps its existing host identity; its new header wordmark reads INFINITY.
+Download the setup directly from the [v0.2.0 Windows release](https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.2.0). Close FL Studio, run `SPACE_INFINITY_0.2.0_Windows_x64_Setup.exe`, then reopen FL Studio and scan/load **SPACE INFINITY**. For manual installation, use the VST3 ZIP from the same release. `SHA256SUMS.txt` contains checksums for both files. Actions artifacts are optional copies: their upload status does not control the verified release download. The plugin keeps its existing host identity; its new header wordmark reads INFINITY.
 
 1. Confirm that the factory bank has Init plus 33 programmed sounds (34 entries total). Existing user-saved presets should remain available, and Restore Factory should not bring back old sounds. Save two user sounds and verify that the arrows continue from the selected sound.
 2. Import a WAV and play MIDI notes. Check the source waveform, trim handles, reverse, root note and the live output waveform while adjusting the filter/envelope/effects.

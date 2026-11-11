@@ -1,9 +1,10 @@
 name: Space Infinity Windows build
 on:
+  workflow_dispatch:
   push:
     branches: [codex/windows-build]
 permissions:
-  contents: read
+  contents: write
 jobs:
   package:
     runs-on: windows-2022
@@ -23,20 +24,33 @@ jobs:
         run: ctest --test-dir native-vst3/build -C Release --output-on-failure
       - name: Verify installer and VST3 archive
         run: .\scripts\verify-windows-release.ps1
-      - uses: actions/upload-artifact@v4
+      - name: Publish verified Windows release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: .\scripts\publish-windows-release.ps1
+      - name: Optional installer artifact
+        uses: actions/upload-artifact@v4
+        continue-on-error: true
+        timeout-minutes: 2
         with:
+          retention-days: 7
+          compression-level: 0
           name: Space-Infinity-Windows-x64
           path: release/*
           if-no-files-found: error
-      - uses: actions/upload-artifact@v4
-        if: always()
+      - name: Optional preset auditions
+        uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        timeout-minutes: 2
         with:
+          retention-days: 3
           name: Space-Infinity-Preset-Audition
           path: native-vst3/build/audition
           if-no-files-found: error
 
       - name: Cache native build for subsequent updates
-        if: always() && steps.native-cache.outputs.cache-hit != 'true'
+        if: ${{ !cancelled() && steps.native-cache.outputs.cache-hit != 'true' }}
         uses: actions/cache/save@v4
         with:
           path: native-vst3/build
