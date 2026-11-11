@@ -84,9 +84,17 @@ int runStudioSmoke(){
     StudioRack* rack=nullptr;for(auto* child:editor->getChildren())if(auto* r=dynamic_cast<StudioRack*>(child))rack=r;require(rack!=nullptr,"FX rack");
     for(int i=0;i<8;++i){auto* m=rack->module(i);require(m!=nullptr,"FX module");require(screenshot(*m,"Studio-FX-"+juce::String(i+1)),"FX screenshot");}
     require(screenshot(*editor,"Studio-FX-Rack"),"rack screenshot");
-    for(auto* child:editor->getChildren())if(auto* button=dynamic_cast<juce::TextButton*>(child))if(button->getButtonText()=="OPEN 7-BAND EQ")button->onClick();
-    if(auto* eq=named(*editor,"Seven-band EQ"))require(screenshot(*eq,"Studio-EQ"),"EQ screenshot");
-    editor.reset();other.reset();synth.reset();directory.deleteRecursively();
+    juce::TextButton* eqButton=nullptr;
+    for(auto* child:editor->getChildren())if(auto* button=dynamic_cast<juce::TextButton*>(child))if(button->getButtonText()=="OPEN 7-BAND EQ")eqButton=button;
+    require(eqButton!=nullptr,"EQ button");eqButton->onClick();
+    auto* eq=named(*editor,"Seven-band EQ");require(eq!=nullptr,"EQ popup");require(screenshot(*eq,"Studio-EQ"),"EQ screenshot");
+    juce::Component::SafePointer<juce::Component> firstPopup(eq);
+    eqButton->onClick();require(firstPopup==nullptr,"reopening releases the previous popup");
+    juce::Component::SafePointer<juce::Component> lastPopup(named(*editor,"Seven-band EQ"));require(lastPopup!=nullptr,"replacement EQ popup");
+    std::cout<<"Studio screenshots complete; checking editor/popup teardown"<<std::endl;
+    editor.reset();require(lastPopup==nullptr,"editor owns and destroys its popup");
+    std::cout<<"Editor and popup released; closing processor instances"<<std::endl;
+    other.reset();synth.reset();directory.deleteRecursively();
     std::cout<<"Studio dynamics, delay modes/timing, frequency-selective gate, 15 patterns, external detector, EQ slopes, minimum phase, sampler/IR waveforms and embedded state passed\n";
     return 0;
  }catch(const std::exception& e){std::cerr<<"Studio check failed: "<<e.what()<<'\n';return 120;}

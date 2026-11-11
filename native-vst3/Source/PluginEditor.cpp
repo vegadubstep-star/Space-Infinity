@@ -284,12 +284,12 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     addAndMakeVisible(nextPreset);
     addAndMakeVisible(warpA);
     addAndMakeVisible(warpB);
-    warpA.onClick=[this]{juce::CallOutBox::launchAsynchronously(std::make_unique<WarpPanel>(processor,1),warpA.getBounds(),this);};
-    warpB.onClick=[this]{juce::CallOutBox::launchAsynchronously(std::make_unique<WarpPanel>(processor,2),warpB.getBounds(),this);};
+    warpA.onClick=[this]{openPopup(std::make_unique<WarpPanel>(processor,1),warpA.getBounds());};
+    warpB.onClick=[this]{openPopup(std::make_unique<WarpPanel>(processor,2),warpB.getBounds());};
     addAndMakeVisible(eqButton);
     eqButton.setTooltip("Open the seven-band parametric EQ");
     eqButton.onClick=[this]{
-        juce::CallOutBox::launchAsynchronously(std::make_unique<EqPanel>(processor),eqButton.getBounds(),this);
+        openPopup(std::make_unique<EqPanel>(processor),eqButton.getBounds());
     };
     addAndMakeVisible(osc1);
     addAndMakeVisible(osc2);
@@ -579,7 +579,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         previousWave[osc].setTooltip("Previous oscillator waveform");nextWave[osc].setTooltip("Next oscillator waveform");
     }
     addAndMakeVisible(extendedButton);extendedButton.setTooltip("Filter ADSR, granular, arpeggiator/sequencer, wavetable editor and convolver");
-    extendedButton.onClick=[this]{juce::CallOutBox::launchAsynchronously(std::make_unique<ExtendedPanel>(processor),extendedButton.getBounds(),this);};
+    extendedButton.onClick=[this]{openPopup(std::make_unique<ExtendedPanel>(processor),extendedButton.getBounds());};
     studioRack=std::make_unique<StudioRack>(processor);addAndMakeVisible(*studioRack);
     sampleDisplay=std::make_unique<SamplerDisplay>(processor,false);addAndMakeVisible(*sampleDisplay);
     liveDisplay=std::make_unique<SamplerDisplay>(processor,true);addAndMakeVisible(*liveDisplay);
@@ -592,6 +592,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
 }
 SpaceInfinityEditor::~SpaceInfinityEditor(){
     stopTimer();
+    popup.reset();popupContent.reset();
     for(size_t point=0;point<motionGestures.size();++point)
         if(motionGestures[point])
             processor.state.getParameter(processor.lfoPointId(selectedLfo,int(point)))->endChangeGesture();
@@ -602,10 +603,16 @@ SpaceInfinityEditor::~SpaceInfinityEditor(){
     }
     setLookAndFeel(nullptr);
 }
+void SpaceInfinityEditor::openPopup(std::unique_ptr<juce::Component> content,juce::Rectangle<int> target){
+    popup.reset();popupContent.reset();
+    popupContent=std::move(content);
+    popup=std::make_unique<juce::CallOutBox>(*popupContent,target,this);
+    popup->enterModalState(true,nullptr,false);
+}
 void SpaceInfinityEditor::openPresetManager(){
     processor.presetBank().reload();refreshPresetMenu();
     const juce::Component::SafePointer<SpaceInfinityEditor> safe(this);
-    juce::CallOutBox::launchAsynchronously(std::make_unique<PresetPanel>(processor,[safe]{if(safe!=nullptr)safe->refreshPresetMenu();}),bankButton.getBounds(),this);
+    openPopup(std::make_unique<PresetPanel>(processor,[safe]{if(safe!=nullptr)safe->refreshPresetMenu();}),bankButton.getBounds());
 }
 void SpaceInfinityEditor::refreshPresetMenu(){
     presets.clear(juce::dontSendNotification);

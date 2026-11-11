@@ -35,6 +35,11 @@ private:
     std::unique_ptr<StudioRack> studioRack;
     std::unique_ptr<SamplerDisplay> sampleDisplay,liveDisplay;
     juce::Image infinityLogo;
+    // Popups borrow the processor and look-and-feel, so their lifetime must
+    // end before the editor and processor that they refer to are destroyed.
+    std::unique_ptr<juce::Component> popupContent;
+    std::unique_ptr<juce::CallOutBox> popup;
+    void openPopup(std::unique_ptr<juce::Component>,juce::Rectangle<int>);
     void refreshPresetMenu();
     void openPresetManager();
     juce::String displayedPresetKey;
