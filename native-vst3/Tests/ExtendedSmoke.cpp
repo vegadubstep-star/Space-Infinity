@@ -2,6 +2,7 @@
 #include "../Source/ExtendedPanel.h"
 #include <iostream>
 #include <cmath>
+#include <stdexcept>
 int main(){
     juce::ScopedJuceInitialiser_GUI gui;
     SpaceInfinityProcessor synth;constexpr int block=256;juce::AudioBuffer<float> audio(2,block);
@@ -32,7 +33,7 @@ int main(){
     if(restored.tableFrameCount()!=2||std::abs(restored.tableFrame(0)[30]-expected[30])>.00001f||restored.state.getRawParameterValue("convolverEnabled")->load()!=1)return 59;
     synth.prepareToPlay(48000,block);set("convolverMix",.8f);if(render(80)<.01)return 60;
     synth.prepareToPlay(48000,block);set("patternMode",1);set("patternRate",3);int on=0,off=0;
-    for(int b=0;b<160;++b){juce::MidiBuffer midi;if(b==0){midi.addEvent(juce::MidiMessage::noteOn(1,60,.7f),0);midi.addEvent(juce::MidiMessage::noteOn(1,64,.7f),0);}if(b==130)midi.addEvent(juce::MidiMessage::allSoundOff(1),0);synth.processBlock(audio,midi);for(const auto m:midi){on+=m.getMessage().isNoteOn()?1:0;off+=m.getMessage().isNoteOff()?1:0;}}
+    for(int b=0;b<160;++b){juce::MidiBuffer midi;if(b==0){midi.addEvent(juce::MidiMessage::noteOn(1,60,.7f),0);midi.addEvent(juce::MidiMessage::noteOn(1,64,.7f),0);}if(b==130)midi.addEvent(juce::MidiMessage::allSoundOff(1),0);synth.processBlock(audio,midi);for(const auto m:synth.generatedNotes()){on+=m.getMessage().isNoteOn()?1:0;off+=m.getMessage().isNoteOff()?1:0;}}
     if(on<5||on!=off)return 61;
     std::unique_ptr<juce::AudioProcessorEditor> editor(synth.createEditor());
     for(int oscillator=1;oscillator<=2;++oscillator){
@@ -47,6 +48,10 @@ int main(){
     }
     ExtendedPanel panel(synth);panel.setSize(730,465);
     const auto audition=juce::File::getCurrentWorkingDirectory().getChildFile("audition");audition.createDirectory();
-    juce::PNGImageFormat png;auto snapshot=panel.createComponentSnapshot(panel.getLocalBounds());auto image=audition.getChildFile("Extended-Engines.png").createOutputStream();if(image)png.writeImageToStream(snapshot,*image);
+    juce::PNGImageFormat png;
+    for(auto* child:panel.getChildren())if(auto* tabs=dynamic_cast<juce::TabbedComponent*>(child))for(int tab=0;tab<tabs->getNumTabs();++tab){
+        tabs->setCurrentTabIndex(tab);auto snapshot=panel.createComponentSnapshot(panel.getLocalBounds());
+        auto image=audition.getChildFile("Extended-"+juce::String(tab+1)+".png").createOutputStream();if(image)png.writeImageToStream(snapshot,*image);
+    }
     directory.deleteRecursively();std::cout<<"Extended engine audio, assets/state, arp MIDI and oscillator navigation passed\n";
 }

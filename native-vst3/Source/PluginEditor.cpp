@@ -990,6 +990,14 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         const float amounts[]{parameter("osc1WarpAmount"),parameter("osc2WarpAmount")};
         const double tune[]{std::exp2(parameter("osc1Octave")+parameter("osc1Tune")/1200.0),
             std::exp2(parameter("osc2Octave")+parameter("osc2Tune")/1200.0)*(1.0+parameter("detune"))};
+        const float scannedFrame=parameter("wavetableScan")*float(processor.tableFrameCount()-1);
+        const auto tableA=processor.tableFrame(int(scannedFrame)),tableB=processor.tableFrame(int(scannedFrame)+1);
+        const auto preview=[&](double phase,int wave){
+            if(wave!=30)return SpaceInfinityProcessor::oscillatorSample(phase,wave);
+            phase-=std::floor(phase);const double x=phase*infinity::Wavetable::points;const int a=int(x)%infinity::Wavetable::points,b=(a+1)%infinity::Wavetable::points;
+            const auto read=[&](const auto& table){return table[size_t(a)]+float(x-a)*(table[size_t(b)]-table[size_t(a)]);};
+            return read(tableA)+(read(tableB)-read(tableA))*(scannedFrame-std::floor(scannedFrame));
+        };
         for(int oscillator=0;oscillator<2;++oscillator){
             const auto bounds=layout.oscillators[oscillator];
             const auto screen=juce::Rectangle<int>(bounds.getX()+8,bounds.getY()+31,bounds.getWidth()-16,94);
@@ -1000,9 +1008,13 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
             juce::Path shape;
             for(int point=0;point<=256;++point){
                 const double phase=double(point)/128.0;
-                const auto modulator=SpaceInfinityProcessor::oscillatorSample(
-                    phase*tune[1-oscillator]/tune[oscillator],waves[1-oscillator]);
-                const auto value=SpaceInfinityProcessor::warpedSample(phase,waves[oscillator],modes[oscillator],amounts[oscillator],modulator);
+                const auto modulator=preview(phase*tune[1-oscillator]/tune[oscillator],waves[1-oscillator]);
+                double displayPhase=phase;
+                const int mode=modes[oscillator];const float amount=amounts[oscillator];
+                if(mode==1)displayPhase+=modulator*amount*1.5;
+                else if(mode==2){const double t=phase-std::floor(phase);displayPhase=t+((1-std::abs(t*2-1))-t)*amount;}
+                else if(mode==3){const double t=phase-std::floor(phase),split=.5+.45*amount;displayPhase=t<split?.5*t/split:.5+.5*(t-split)/(1-split);}
+                const auto value=preview(displayPhase,waves[oscillator]);
                 const float x=float(screen.getX())+float(point)*float(screen.getWidth())/256.0f;
                 const float y=float(screen.getCentreY())-value*float(screen.getHeight())*.42f;
                 if(point==0)shape.startNewSubPath(x,y);else shape.lineTo(x,y);

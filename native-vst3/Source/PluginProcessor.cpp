@@ -220,6 +220,12 @@ SpaceInfinityProcessor::SpaceInfinityProcessor():juce::AudioProcessor(BusesPrope
         for(size_t field=0;field<3;++field)
             eqParameters[band][field]=state.getRawParameterValue(eqId(int(band),fields[field]));
     }
+    for(int step=0;step<16;++step){
+        const auto suffix=juce::String(step);
+        stepParameters[0][size_t(step)]=state.getRawParameterValue("stepPitch"+suffix);
+        stepParameters[1][size_t(step)]=state.getRawParameterValue("stepVelocity"+suffix);
+        stepParameters[2][size_t(step)]=state.getRawParameterValue("stepOn"+suffix);
+    }
     state.getParameter("ampTimed")->setValueNotifyingHost(1.0f);
     oscillatorSample(0.0,4); // Initialise lookup tables before audio processing.
     for(size_t i=0;i<macroValues.size();++i){
@@ -544,9 +550,9 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
         voiceMode=requestedMode;
     }
     const double masterOctave=param("masterOctave");
-    auto msg=midi.begin();
+    auto msg=patternMidi.begin();
     for(int s=0;s<b.getNumSamples();++s){
-        while(msg!=midi.end()&&(*msg).samplePosition<=s){
+        while(msg!=patternMidi.end()&&(*msg).samplePosition<=s){
             const auto m=(*msg).getMessage();
             ++msg;
             const int channel=m.getChannel();

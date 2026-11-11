@@ -45,6 +45,7 @@ public:
     static juce::StringArray sourceNames();
     static const juce::StringArray& presetNames();
     static juce::String presetCategory(int index);
+    const juce::MidiBuffer& generatedNotes() const noexcept {return patternMidi;}
     juce::Result importWavetable(const juce::File&,int frameSize);
     juce::Result exportWavetable(const juce::File&);
     std::array<float,infinity::Wavetable::points> tableFrame(int index);
@@ -57,6 +58,7 @@ private:
     infinity::Wavetable wavetable;
     infinity::Pattern pattern;
     juce::MidiBuffer patternMidi;
+    std::array<std::array<std::atomic<float>*,16>,3> stepParameters{};
     bool transportKnown=false,transportPlaying=false;
     double previousPpq=0;
     juce::dsp::Convolution convolver;

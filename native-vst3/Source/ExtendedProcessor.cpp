@@ -27,14 +27,13 @@ void SpaceInfinityProcessor::transformPattern(juce::MidiBuffer& midi,int samples
         transportKnown=true;transportPlaying=playing;
     }
     if(stopped){pattern.stop([&](bool on,int ch,int n,float v){emitAt(on,ch,n,v,0);});pattern.held={};}
-    if(mode==0){patternMidi.addEvents(midi,0,samples,0);midi.swapWith(patternMidi);return;}
+    if(mode==0){patternMidi.addEvents(midi,0,samples,0);return;}
     pattern.order=int(param("arpOrder"));pattern.octaves=int(param("arpOctaves"));
     pattern.length=int(param("sequenceLength"));pattern.gate=param("patternGate");
     for(int step=0;step<16;++step){
-        const auto suffix=juce::String(step);
-        pattern.pitch[size_t(step)]=int(state.getRawParameterValue("stepPitch"+suffix)->load());
-        pattern.velocity[size_t(step)]=state.getRawParameterValue("stepVelocity"+suffix)->load();
-        pattern.enabled[size_t(step)]=state.getRawParameterValue("stepOn"+suffix)->load()>.5f;
+        pattern.pitch[size_t(step)]=int(stepParameters[0][size_t(step)]->load());
+        pattern.velocity[size_t(step)]=stepParameters[1][size_t(step)]->load();
+        pattern.enabled[size_t(step)]=stepParameters[2][size_t(step)]->load()>.5f;
     }
     static constexpr double beats[]{1,.5,.25,.125,1.0/3,1.0/6};
     const double interval=sr*60/std::max(1.0,bpm)*beats[juce::jlimit(0,5,int(param("patternRate")))];
@@ -53,7 +52,7 @@ void SpaceInfinityProcessor::transformPattern(juce::MidiBuffer& midi,int samples
         }
         pattern.next(interval,emit);
     }
-    midi.swapWith(patternMidi);
+
 }
 std::array<float,infinity::Wavetable::points> SpaceInfinityProcessor::tableFrame(int index){
     const juce::SpinLock::ScopedLockType lock(sampleLock);
