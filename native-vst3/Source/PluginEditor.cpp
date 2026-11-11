@@ -338,9 +338,13 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     const auto stepPreset=[this](int direction){
         const int count=int(processor.presetBank().entries().size());
         if(count==0)return;
-        const int current=presets.getSelectedId();
-        const int next=current==0 ? (direction>0?1:count) : (current-1+direction+count)%count+1;
-        presets.setSelectedId(next,juce::sendNotificationSync);
+        // Bank loads and host restores can precede the editor's timer refresh.
+        // Resolve the actual loaded sound by stable key, never a stale menu row.
+        const int current=processor.presetBank().indexForKey(processor.selectedPresetKey());
+        const int next=current<0 ? (direction>0?0:count-1) : (current+direction+count)%count;
+        const auto result=processor.loadBankPreset(next);
+        refreshPresetMenu();
+        if(result.failed())juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon,"Preset",result.getErrorMessage());
     };
     previousPreset.setName("Previous preset");
     nextPreset.setName("Next preset");
@@ -1268,4 +1272,3 @@ void SpaceInfinityEditor::resized(){
     refreshModulationIndicators();
 }
 juce::AudioProcessorEditor* SpaceInfinityProcessor::createEditor(){return new SpaceInfinityEditor(*this);}
-

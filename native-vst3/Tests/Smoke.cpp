@@ -32,7 +32,7 @@ int main()
         if(child->getName()=="Next preset") next=dynamic_cast<juce::TextButton*>(child);
     }
     if(!previous || !next) return 22;
-    factoryMenu->setSelectedId(names.size(),juce::dontSendNotification);
+    synth.loadPreset(names.size()-1);
     next->onClick();
     if(factoryMenu->getSelectedId()!=1) return 23;
     previous->onClick();
@@ -290,4 +290,3 @@ int main()
     const int extended=runExtendedSmoke();if(extended)return extended;
     return runPresetSmoke();
 }
-
