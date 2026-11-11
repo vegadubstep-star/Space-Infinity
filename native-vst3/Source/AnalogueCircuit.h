@@ -96,3 +96,24 @@ inline void advanceTimedEnvelope(float& level,bool& decaying,float& releaseStart
         level+=std::clamp(sustain-level,-step,step);
     }
 }
+
+// Finite-duration capacitor-style curves, with exact endpoints even at short times.
+struct AnalogueEnvelope {
+    double phase=0;float level=0,releaseLevel=0,decayLevel=1;int stage=0;
+    static float charge(double t) noexcept {return float(-std::expm1(-4*std::clamp(t,0.0,1.0))/(-std::expm1(-4.0)));}
+    float next(bool released,double sr,float attack,float decay,float sustain,float release) noexcept {
+        if(released&&stage!=3){stage=3;phase=0;releaseLevel=level;}
+        if(stage==3){phase+=1/std::max(1.0,double(release)*sr);level=releaseLevel*(1-charge(phase));if(phase>=1)level=0;}
+        else if(stage==0){phase+=1/std::max(1.0,double(attack)*sr);level=charge(phase);if(phase>=1){level=1;stage=1;phase=0;decayLevel=1;}}
+        else if(stage==1){phase+=1/std::max(1.0,double(decay)*sr);level=sustain+(decayLevel-sustain)*(1-charge(phase));if(phase>=1){stage=2;level=sustain;}}
+        else level+=.01f*(sustain-level);
+        return level;
+    }
+};
+struct VoiceCalibration {
+    float tuneA=0,tuneB=0,cutoff=0,timing=0,gain=0;
+    static VoiceCalibration forVoice(int index) noexcept {
+        AnalogueDrift random;random.reset(0x75a37du+uint32_t(index)*9719u);
+        return {random.random(),random.random(),random.random(),random.random(),random.random()};
+    }
+};

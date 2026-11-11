@@ -37,3 +37,8 @@ if (-not (Test-Path -LiteralPath $setup -PathType Leaf)) { throw "Installer outp
 $archive = Join-Path $release "SPACE_INFINITY_0.1.0_Windows_x64_VST3.zip"
 Compress-Archive -LiteralPath $bundle -DestinationPath $archive -Force
 Get-FileHash -Algorithm SHA256 -LiteralPath $setup,$archive
+
+
+foreach ($notice in @("THIRD_PARTY_SAMPLES.md", "SAMPLE_PROVENANCE.json", "CC0-1.0.txt")) {
+    Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Samples/$notice") -Destination $release -Force
+}

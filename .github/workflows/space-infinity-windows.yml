@@ -9,6 +9,12 @@ jobs:
     runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/cache/restore@v4
+        id: native-cache
+        with:
+          path: native-vst3/build
+          key: windows-juce807-v2-${{ hashFiles('native-vst3/**', 'scripts/**') }}
+          restore-keys: windows-juce807-v2-
       - name: Install Inno Setup
         run: choco install innosetup --yes --no-progress
       - name: Build and package
@@ -27,3 +33,10 @@ jobs:
           name: Space-Infinity-Preset-Audition
           path: native-vst3/build/audition
           if-no-files-found: error
+
+      - name: Cache native build for subsequent updates
+        if: always() && steps.native-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: native-vst3/build
+          key: ${{ steps.native-cache.outputs.cache-primary-key }}

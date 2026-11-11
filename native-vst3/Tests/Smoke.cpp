@@ -4,6 +4,7 @@
 #include <fstream>
 
 int runExtendedSmoke();
+int runPresetSmoke();
 
 int main()
 {
@@ -12,7 +13,7 @@ int main()
     constexpr int blockSize=256;
     juce::AudioBuffer<float> audio(2,blockSize);
     const auto& names=synth.presetNames();
-    if(names.size()!=104 || synth.motionNames().size()!=20) return 1;
+    if(names.size()!=120 || synth.motionNames().size()!=20) return 1;
 
     for(int i=0;i<names.size();++i)
         if(names.indexOf(names[i])!=i) return 9;
@@ -286,6 +287,7 @@ int main()
         for(int slot=0;slot<3;++slot)
             if(synth.state.getRawParameterValue(synth.modulationRouteId(source,slot,false))->load()!=0.0f)return 42;
     std::cout << "Factory peaks " << quietest << " to " << loudest << '\n';
-    return runExtendedSmoke();
+    const int extended=runExtendedSmoke();if(extended)return extended;
+    return runPresetSmoke();
 }
 

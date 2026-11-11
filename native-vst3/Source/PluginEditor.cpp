@@ -1,5 +1,6 @@
 #include "PluginEditor.h"
 #include "ExtendedPanel.h"
+#include "PresetPanel.h"
 #include "EffectControls.h"
 #include <array>
 #include <cmath>
@@ -329,20 +330,14 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     setResizable(true,true);setResizeLimits(800,760,1500,950);setSize(1000,790);
     title.setText("SPACE  INFINITY",juce::dontSendNotification);title.setFont(juce::Font(juce::FontOptions(30.0f,juce::Font::bold)));title.setColour(juce::Label::textColourId,juce::Colours::white);addAndMakeVisible(title);
     subtitle.setText("DRAG A SOURCE TO A CONTROL. DRAG ITS BADGE FOR DEPTH.",juce::dontSendNotification);subtitle.setColour(juce::Label::textColourId,juce::Colour(0xffc0c0c8));addAndMakeVisible(subtitle);
-    const auto& factoryNames=SpaceInfinityProcessor::presetNames();
-    juce::StringArray banks;
-    for(int i=0;i<factoryNames.size();++i)
-        banks.addIfNotAlreadyThere(SpaceInfinityProcessor::presetCategory(i));
-    for(const auto& bank:banks){
-        juce::PopupMenu items;
-        for(int i=0;i<factoryNames.size();++i)
-            if(SpaceInfinityProcessor::presetCategory(i)==bank)
-                items.addItem(i+1,factoryNames[i]);
-        presets.getRootMenu()->addSubMenu(bank,items);
-    }
-    presets.setTextWhenNothingSelected("Select a sound");presets.onChange=[this]{processor.loadPreset(presets.getSelectedId()-1);};addAndMakeVisible(presets);
+    refreshPresetMenu();
+    presets.setTextWhenNothingSelected("Select a sound");
+    presets.onChange=[this]{const auto result=processor.loadBankPreset(presets.getSelectedId()-1);
+        if(result.failed())juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon,"Preset",result.getErrorMessage());
+        displayedPresetKey=processor.selectedPresetKey();};addAndMakeVisible(presets);
     const auto stepPreset=[this](int direction){
-        const int count=SpaceInfinityProcessor::presetNames().size();
+        const int count=int(processor.presetBank().entries().size());
+        if(count==0)return;
         const int current=presets.getSelectedId();
         const int next=current==0 ? (direction>0?1:count) : (current-1+direction+count)%count+1;
         presets.setSelectedId(next,juce::sendNotificationSync);
@@ -353,6 +348,8 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     nextPreset.setTooltip("Next preset");
     previousPreset.onClick=[stepPreset]{stepPreset(-1);};
     nextPreset.onClick=[stepPreset]{stepPreset(1);};
+    addAndMakeVisible(bankButton);bankButton.setTooltip("Save, rename, delete and reorder presets");
+    bankButton.onClick=[this]{openPresetManager();};
     addAndMakeVisible(previousPreset);
     addAndMakeVisible(nextPreset);
     addAndMakeVisible(warpA);
@@ -620,7 +617,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     eqButton.setButtonText("OPEN 7-BAND EQ");
     for(auto* child:getChildren())
         if(child->isVisible()&&child!=&title&&child!=&subtitle&&child!=&presets
-           &&child!=&previousPreset&&child!=&nextPreset&&child!=&noiseType&&child!=&noiseLevel)mainControls.push_back(child);
+           &&child!=&previousPreset&&child!=&nextPreset&&child!=&bankButton&&child!=&noiseType&&child!=&noiseLevel)mainControls.push_back(child);
     addAndMakeVisible(mainTab);
     addAndMakeVisible(fxTab);
     mainTab.setTooltip("Oscillators, envelopes, Motion, macros and sampler");
@@ -666,7 +663,19 @@ SpaceInfinityEditor::~SpaceInfinityEditor(){
     }
     setLookAndFeel(nullptr);
 }
+void SpaceInfinityEditor::openPresetManager(){
+    processor.presetBank().reload();refreshPresetMenu();
+    const juce::Component::SafePointer<SpaceInfinityEditor> safe(this);
+    juce::CallOutBox::launchAsynchronously(std::make_unique<PresetPanel>(processor,[safe]{if(safe!=nullptr)safe->refreshPresetMenu();}),bankButton.getBounds(),this);
+}
+void SpaceInfinityEditor::refreshPresetMenu(){
+    presets.clear(juce::dontSendNotification);
+    const auto& entries=processor.presetBank().entries();for(size_t i=0;i<entries.size();++i)presets.addItem(entries[i].name,int(i+1));
+    displayedPresetKey=processor.selectedPresetKey();const int index=processor.presetBank().indexForKey(displayedPresetKey);
+    if(index>=0)presets.setSelectedItemIndex(index,juce::dontSendNotification);
+}
 void SpaceInfinityEditor::timerCallback(){
+    if(displayedPresetKey!=processor.selectedPresetKey())refreshPresetMenu();
     const float peak=processor.takeOutputPeak();
     meterPeak=juce::jmax(peak,meterPeak*0.88f);
     clipHold=peak>=1.0f?30:juce::jmax(0,clipHold-1);
@@ -1075,9 +1084,15 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
             return juce::Point<float>(envelope.getX()+envelope.getWidth()*time/total,envelope.getBottom()-4-(envelope.getHeight()-8)*level);
         };
         juce::Path env;
-        env.startNewSubPath(envPoint(0,0));env.lineTo(envPoint(attack,1));
-        env.lineTo(envPoint(attack+decay,sustain));env.lineTo(envPoint(attack+decay+.4f,sustain));
-        env.lineTo(envPoint(total,0));
+        env.startNewSubPath(envPoint(0,0));
+        const bool curved=parameter("analogueUpgrade")>.5f;
+        for(int segment=0;segment<3;++segment)for(int i=1;i<=40;++i){
+            const float t=float(i)/40,curve=curved?AnalogueEnvelope::charge(t):t;
+            if(segment==0)env.lineTo(envPoint(attack*t,curve));
+            if(segment==1)env.lineTo(envPoint(attack+decay*t,1+(sustain-1)*curve));
+            if(segment==2)env.lineTo(envPoint(attack+decay+.4f+float(knobs[3].getValue())*t,sustain*(1-curve)));
+            if(segment==1&&i==40)env.lineTo(envPoint(attack+decay+.4f,sustain));
+        }
         g.setColour(juce::Colour(0xffb3a2d6));g.strokePath(env,juce::PathStrokeType(1.6f));
         for(const auto point:envelopeNodes())g.fillEllipse(point.x-3,point.y-3,6,6);
         g.setColour(juce::Colour(0xff263d43));
@@ -1131,6 +1146,7 @@ void SpaceInfinityEditor::resized(){
     presets.setBounds(w-330,42,226,25);
     previousPreset.setBounds(w-100,42,29,25);
     nextPreset.setBounds(w-67,42,29,25);
+    bankButton.setBounds(w-330,72,60,23);
     noiseType.setBounds(w-266,72,90,23);
     noiseLevel.setBounds(w-172,72,134,23);
     mainTab.setBounds(34,111,68,25);

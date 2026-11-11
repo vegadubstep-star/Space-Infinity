@@ -2,9 +2,11 @@
 #include <JuceHeader.h>
 #include "AnalogueCircuit.h"
 #include "ExtendedEngine.h"
+#include "PresetLibrary.h"
+#include "SampleSources.h"
 class SpaceInfinityProcessor : public juce::AudioProcessor {
 public:
-    SpaceInfinityProcessor();
+    explicit SpaceInfinityProcessor(const juce::File& presetDirectory={});
     void prepareToPlay(double,int) override;
     void releaseResources() override {}
     void processBlock(juce::AudioBuffer<float>&,juce::MidiBuffer&) override;
@@ -24,6 +26,12 @@ public:
     void setStateInformation(const void*,int) override;
     juce::AudioProcessorValueTreeState state;
     void loadPreset(int index);
+    PresetLibrary& presetBank() noexcept {return *library;}
+    juce::Result loadBankPreset(int index);
+    juce::Result saveNewPreset(const juce::String& name);
+    juce::Result replaceBankPreset(int index);
+    juce::String selectedPresetKey() const {return state.state.getProperty("presetKey").toString();}
+
     static juce::String eqId(int band,const char* field);
     static constexpr std::array<float,7> eqFrequencies{60,120,250,500,1000,3000,8000};
     static juce::StringArray oscillatorWaves(bool follow=false);
@@ -55,6 +63,11 @@ public:
     void removeTableFrame(int index);
     juce::Result importImpulse(const juce::File&);
 private:
+    std::unique_ptr<PresetLibrary> library;
+    juce::dsp::Oversampling<float> oversampling{2,1,juce::dsp::Oversampling<float>::filterHalfBandPolyphaseIIR,true,true};
+    juce::MidiBuffer highRateMidi;
+    int maximumHostBlock=512;
+    void renderBlock(juce::AudioBuffer<float>&,juce::MidiBuffer&);
     infinity::Wavetable wavetable;
     infinity::Pattern pattern;
     juce::MidiBuffer patternMidi;
@@ -80,12 +93,20 @@ private:
     };
     static juce::Result decodeSample(const juce::MemoryBlock&, Sample&);
     Sample choirAh, choirOoh, importedSample;
+    std::array<Sample,16> extraSamples;
+    const Sample& sampleForSource(int source) const {
+        return source==1?choirAh:source==2?choirOoh:source>=5&&source<21?extraSamples[size_t(source-5)]:importedSample;
+    }
+    static bool userSample(int source) noexcept {return source==3||source==4;}
     juce::MemoryBlock importedBytes;
     juce::SpinLock sampleLock;
     unsigned sampleRevision = 0;
     struct Voice {
         infinity::Granulator granular;
         infinity::Envelope filterEnvelope;
+        AnalogueEnvelope curvedAmp,curvedFilter;
+        VoiceCalibration calibration;
+        double idleRateA=0,idleRateB=0;
         int source = 0;
         double samplePosition = 0, sampleStep = 0;
         int sampleStart = 0, sampleEnd = 0;

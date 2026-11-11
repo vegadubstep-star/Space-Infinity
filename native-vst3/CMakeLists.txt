@@ -7,7 +7,24 @@ FetchContent_MakeAvailable(juce)
 juce_add_plugin(SpaceInfinity COMPANY_NAME "Orbital Audio" BUNDLE_ID "com.orbitalaudio.spaceinfinity" PLUGIN_MANUFACTURER_CODE Orbt PLUGIN_CODE SInf FORMATS VST3 Standalone PRODUCT_NAME "SPACE INFINITY" IS_SYNTH TRUE NEEDS_MIDI_INPUT TRUE NEEDS_MIDI_OUTPUT FALSE COPY_PLUGIN_AFTER_BUILD FALSE)
 juce_add_binary_data(SpaceInfinitySamples SOURCES
     Samples/Orbital_Choir_Ah_Chord_F2.wav
-    Samples/Ethereal_Choir_Ooh_C3.wav)
+    Samples/Ethereal_Choir_Ooh_C3.wav
+    Samples/Choir_claudia_ah.wav
+    Samples/Choir_claudia_ih.wav
+    Samples/Choir_claudia_oh.wav
+    Samples/Choir_mirko_ah.wav
+    Samples/Choir_mirko_oh.wav
+    Samples/Choir_sven_ah.wav
+    Samples/Choir_sven_ih.wav
+    Samples/Choir_sven_oh.wav
+    Samples/VCSL_Bowed_Psaltery.wav
+    Samples/VCSL_FM_Clavi.wav
+    Samples/VCSL_FM_Piano.wav
+    Samples/VCSL_Glockenspiel.wav
+    Samples/VCSL_Lute_Pluck.wav
+    Samples/VCSL_Marimba.wav
+    Samples/VCSL_Recorder_Stab.wav
+    Samples/VCSL_Vibraphone.wav
+)
 juce_generate_juce_header(SpaceInfinity)
 target_sources(SpaceInfinity PRIVATE Source/PluginProcessor.cpp Source/PluginEditor.cpp Source/ExtendedProcessor.cpp)
 target_compile_definitions(SpaceInfinity PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0)
@@ -16,7 +33,7 @@ target_link_libraries(SpaceInfinity PRIVATE SpaceInfinitySamples juce::juce_audi
 if(WIN32)
     juce_add_console_app(SpaceInfinitySmoke PRODUCT_NAME "Space Infinity Smoke")
     juce_generate_juce_header(SpaceInfinitySmoke)
-    target_sources(SpaceInfinitySmoke PRIVATE Tests/Smoke.cpp Tests/ExtendedSmoke.cpp)
+    target_sources(SpaceInfinitySmoke PRIVATE Tests/Smoke.cpp Tests/ExtendedSmoke.cpp Tests/PresetSmoke.cpp)
     target_compile_definitions(SpaceInfinitySmoke PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0)
     target_link_libraries(SpaceInfinitySmoke PRIVATE SpaceInfinity SpaceInfinitySamples juce::juce_audio_utils juce::juce_dsp)
     add_executable(SpaceInfinityAnalogueProbe Tests/AnalogueProbe.cpp)

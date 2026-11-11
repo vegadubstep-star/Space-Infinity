@@ -33,12 +33,18 @@ class ExtendedPanel final : public juce::Component,private juce::Timer {
             g.fillAll(juce::Colour(0xff10171a));const auto value=[&](const char* id){return processor.state.getRawParameterValue(id)->load();};
             const float a=value("filterAttack"),d=value("filterDecay"),s=value("filterSustain"),r=value("filterRelease"),total=a+d+r+.4f;
             const auto x=[&](float t){return 10+(getWidth()-20)*t/total;};const auto y=[&](float v){return getHeight()-10-v*(getHeight()-20);};
-            juce::Path path;path.startNewSubPath(x(0),y(0));path.lineTo(x(a),y(1));path.lineTo(x(a+d),y(s));path.lineTo(x(a+d+.4f),y(s));path.lineTo(x(total),y(0));
+            juce::Path path;path.startNewSubPath(x(0),y(0));const bool curved=value("analogueUpgrade")>.5f;
+            for(int segment=0;segment<3;++segment)for(int i=1;i<=40;++i){const float t=float(i)/40,c=curved?AnalogueEnvelope::charge(t):t;
+                if(segment==0)path.lineTo(x(a*t),y(c));
+                if(segment==1)path.lineTo(x(a+d*t),y(1+(s-1)*c));
+                if(segment==2)path.lineTo(x(a+d+.4f+r*t),y(s*(1-c)));
+                if(segment==1&&i==40)path.lineTo(x(a+d+.4f),y(s));}
+
             g.setColour(juce::Colour(0xffd1a4ed));g.strokePath(path,juce::PathStrokeType(2));
         }
     };
     SpaceInfinityProcessor& processor;
-    std::array<juce::Component,5> pages;
+    std::array<juce::Component,6> pages;
     juce::TabbedComponent tabs{juce::TabbedButtonBar::TabsAtTop};
     std::vector<std::unique_ptr<juce::Component>> controls;
     std::vector<std::unique_ptr<SliderBinding>> sliders;
@@ -56,6 +62,7 @@ class ExtendedPanel final : public juce::Component,private juce::Timer {
         label(page,name,{x,y,145,26});auto& s=own<juce::Slider>(page);s.setBounds(x+145,y,width-145,27);
         s.setSliderStyle(juce::Slider::LinearHorizontal);s.setTextBoxStyle(juce::Slider::TextBoxRight,false,65,23);
         sliders.push_back(std::make_unique<SliderBinding>(processor.state,id,s));
+        s.setNumDecimalPlacesToDisplay(3);
         const auto* p=processor.state.getParameter(id);s.setDoubleClickReturnValue(true,p->convertFrom0to1(p->getDefaultValue()));
     }
     void choice(int page,const char* id,juce::StringArray names,int x,int y,int width){auto& c=own<juce::ComboBox>(page);c.addItemList(names,1);c.setBounds(x,y,width,26);choices.push_back(std::make_unique<ChoiceBinding>(processor.state,id,c));}
@@ -84,8 +91,8 @@ class ExtendedPanel final : public juce::Component,private juce::Timer {
 public:
     explicit ExtendedPanel(SpaceInfinityProcessor& p):processor(p),table(p),envelope(p){
         setSize(730,465);addAndMakeVisible(tabs);
-        const char* names[]={"FILTER ENV","GRANULAR","ARP / SEQ","WAVETABLE","CONVOLVER"};
-        for(int i=0;i<5;++i)tabs.addTab(names[i],juce::Colour(0xff252b31),&pages[size_t(i)],false);
+        const char* names[]={"FILTER ENV","GRANULAR","ARP / SEQ","WAVETABLE","CONVOLVER","ANALOGUE"};
+        for(int i=0;i<6;++i)tabs.addTab(names[i],juce::Colour(0xff252b31),&pages[size_t(i)],false);
         pages[0].addAndMakeVisible(envelope);envelope.setBounds(15,15,690,140);
         slider(0,"filterAttack","Attack (seconds)",15,175);slider(0,"filterDecay","Decay (seconds)",365,175);
         slider(0,"filterSustain","Sustain",15,225);slider(0,"filterRelease","Release (seconds)",365,225);
@@ -121,11 +128,15 @@ public:
         action(3,"SAW",{620,55,75,27},[this]{for(size_t i=0;i<table.data.size();++i)table.data[i]=2*float(i)/float(table.data.size())-1;processor.editTableFrame(table.frame,table.data);table.reload();});
         slider(3,"wavetableScan","Frame scan",15,305,690);
         action(3,"USE ON OSC A",{15,350,155,28},[this]{auto* wave=processor.state.getParameter("wave");wave->setValueNotifyingHost(wave->convertTo0to1(30));processor.state.getParameter("source")->setValueNotifyingHost(0);});
-        label(3,"Draw on the waveform; release to apply. Up to 64 frames; 512 internal points per frame.\nSelect Custom Wavetable on either oscillator. Import/export and edited frames save with the project.",{185,345,520,55});updateFrames();
+        label(3,"Draw, then release to apply. Up to 64 frames, 512 points each.\nChoose Custom Wavetable on either oscillator. Saves with project.",{185,345,520,50});updateFrames();
         auto& enabled=own<juce::ToggleButton>(4);enabled.setButtonText("CONVOLVER ON");enabled.setBounds(15,25,200,28);buttons.push_back(std::make_unique<ButtonBinding>(processor.state,"convolverEnabled",enabled));
         action(4,"IMPORT IMPULSE WAV",{15,90,230,34},[this]{chooseImpulse();});
         slider(4,"convolverMix","Dry / wet",15,170,690);
         label(4,"Load a mono or stereo WAV impulse response (up to 4 seconds / 4 MB).\nConvolution runs after reverb and before EQ. The impulse is embedded in project state.",{15,235,690,70});
+        auto& analogue=own<juce::ToggleButton>(5);analogue.setButtonText("ANALOGUE VOICES + CURVED ENVELOPES");analogue.setBounds(15,25,660,30);
+        buttons.push_back(std::make_unique<ButtonBinding>(processor.state,"analogueUpgrade",analogue));
+        slider(5,"analogueCharacter","Character",15,100,690);
+        label(5,"Continuous oscillator phases, calibrated voice differences, gentle drift and capacitor-style envelopes.\nCharacter sets the amount of tuning, filter and level variation.\nThe engine runs at 2x the host rate with filtered downsampling for cleaner driven stages.",{15,170,690,120});
         addAndMakeVisible(status);status.setBounds(15,433,700,27);status.setColour(juce::Label::textColourId,juce::Colour(0xffd8c8a7));startTimerHz(15);
     }
     void resized() override {tabs.setBounds(0,0,730,425);}

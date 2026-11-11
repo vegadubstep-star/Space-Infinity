@@ -1,0 +1,153 @@
+{
+  "license": "CC0-1.0",
+  "voice_tree": "08eba76eadfdc16ded3209f65d3890bf1a2b8c0c",
+  "vcsl_tree": "c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e",
+  "samples": [
+    {
+      "file": "Choir_claudia_ah.wav",
+      "label": "Soprano Ah Choir",
+      "root": 60,
+      "origin": "SpectMorph CC0 vocal recording; six-layer detuned choir design with root-note tuning",
+      "url": "https://github.com/swesterfeld/spectmorph-instruments/blob/master/claudia-ah/claudia-ah-1-60.flac",
+      "source_sha256": "53ff1eb27bb2497af928aeb778b6231f18ff09762cb32a33560bba8d9ce1059c",
+      "output_sha256": "b57faf2db5508ff5850c3f11e09ac187f4b4e6813c93c948c67cd720acd5c466"
+    },
+    {
+      "file": "Choir_claudia_ih.wav",
+      "label": "Soprano Ih Choir",
+      "root": 60,
+      "origin": "SpectMorph CC0 vocal recording; six-layer detuned choir design with root-note tuning",
+      "url": "https://github.com/swesterfeld/spectmorph-instruments/blob/master/claudia-ih/claudia-ih-2-60.flac",
+      "source_sha256": "c1260b016e416e0f1061cea10023ac2fbc54944dd3f77045456838864eb113d0",
+      "output_sha256": "23f55b6cd517416ce5b4820c1f3fbfb8a497c52cca75e024070a4a36f9024931"
+    },
+    {
+      "file": "Choir_claudia_oh.wav",
+      "label": "Soprano Oh Choir",
+      "root": 60,
+      "origin": "SpectMorph CC0 vocal recording; six-layer detuned choir design with root-note tuning",
+      "url": "https://github.com/swesterfeld/spectmorph-instruments/blob/master/claudia-oh/claudia-oh-1-60.flac",
+      "source_sha256": "c8685ad331cf448d311fba30361d1fba1ceed14d0ac59d341a8c91ffad7b75c5",
+      "output_sha256": "c09b81f7cd1a67ee2e95f7bbf7c86667e9a700b5ff3e4fcf9b0408de9ef1bbeb"
+    },
+    {
+      "file": "Choir_mirko_ah.wav",
+      "label": "Tenor Ah Choir",
+      "root": 48,
+      "origin": "SpectMorph CC0 vocal recording; six-layer detuned choir design with root-note tuning",
+      "url": "https://github.com/swesterfeld/spectmorph-instruments/blob/master/mirko-ah/mirko-ah-48.flac",
+      "source_sha256": "4b74bf8c618c5ef2d3897985bc68d623f4ef11bc589aa586015aea55219acb27",
+      "output_sha256": "07126de02448b96447cb5cdf47dcfc146df99a3ec1bc7d602c09fda09a0cff62"
+    },
+    {
+      "file": "Choir_mirko_oh.wav",
+      "label": "Tenor Oh Choir",
+      "root": 48,
+      "origin": "SpectMorph CC0 vocal recording; six-layer detuned choir design with root-note tuning",
+      "url": "https://github.com/swesterfeld/spectmorph-instruments/blob/master/mirko-oh/mirko-oh-48.flac",
+      "source_sha256": "bcf20d731b691dab082aece78efafe478bd2cf66d8d1e9a9894b1b9a4404bec2",
+      "output_sha256": "04ba57ff0452faefb4307f4bd5bb175473955cf3621e45c9b573869f98d0ebd4"
+    },
+    {
+      "file": "Choir_sven_ah.wav",
+      "label": "Bass Ah Choir",
+      "root": 49,
+      "origin": "SpectMorph CC0 vocal recording; six-layer detuned choir design with root-note tuning",
+      "url": "https://github.com/swesterfeld/spectmorph-instruments/blob/master/sven-ah/Sven-a-49.flac",
+      "source_sha256": "27f9b851b0e0745f90d2319a116fdc0b2a2b47a9fea829170749584d046dbfa1",
+      "output_sha256": "16741cb78ab538451dca1da3d7a67bb8f702989313cd4690c47e1e99d7bc85ed"
+    },
+    {
+      "file": "Choir_sven_ih.wav",
+      "label": "Bass Ih Choir",
+      "root": 48,
+      "origin": "SpectMorph CC0 vocal recording; six-layer detuned choir design with root-note tuning",
+      "url": "https://github.com/swesterfeld/spectmorph-instruments/blob/master/sven-ih/Sven-i-48.flac",
+      "source_sha256": "cbdf3eb956f3b54da38a517743e6341c12caa4a634c7faacaa7113ff9ca88324",
+      "output_sha256": "6f13db6e64ce07394e252420de4642e62488beb39c7ea76c20dacd14379a65a4"
+    },
+    {
+      "file": "Choir_sven_oh.wav",
+      "label": "Bass Oh Choir",
+      "root": 48,
+      "origin": "SpectMorph CC0 vocal recording; six-layer detuned choir design with root-note tuning",
+      "url": "https://github.com/swesterfeld/spectmorph-instruments/blob/master/sven-oh/Sven-o-48.flac",
+      "source_sha256": "609b07e92ce7d1a87614f3bc8138cacde9ccc42e62591219cb28b38824a0c479",
+      "output_sha256": "656fac21bdf25dc6c55cfdbaf4942a91d313b91ece775dd6a6da373f24fa05e3"
+    },
+    {
+      "file": "VCSL_Vibraphone.wav",
+      "label": "Vibraphone",
+      "root": 84,
+      "origin": "VCSL CC0 recording; mono conversion, trim, fades and level adjustment",
+      "url": "https://github.com/sgossner/VCSL/blob/master/Idiophones/Struck Idiophones/Vibraphone/Soft Mallets/Vibes_soft_C5_v1_rr1_Main.wav",
+      "source_sha256": "be995c1164dcbbcf83688d095864a4abd0feaa68b71d1d2e78c35f62461fc03b",
+      "output_sha256": "fb71c516b612c6867ea7cfad7fd578598c7c173276f1c6d5aa1ea9472221418f"
+    },
+    {
+      "file": "VCSL_Glockenspiel.wav",
+      "label": "Glockenspiel",
+      "root": 84,
+      "origin": "VCSL CC0 recording; mono conversion, trim, fades and level adjustment",
+      "url": "https://github.com/sgossner/VCSL/blob/master/Idiophones/Struck Idiophones/Glockenspiel/glock_soft_C5_02.wav",
+      "source_sha256": "4fa149e6f224557df5fab98ad660a8f192bc6fbf2556077dd1089509bf4424e2",
+      "output_sha256": "39d237cdf38269c05f077ed79af489f1a1a9de9e34601a591207e42e270a0722"
+    },
+    {
+      "file": "VCSL_Marimba.wav",
+      "label": "Marimba",
+      "root": 72,
+      "origin": "VCSL CC0 recording; mono conversion, trim, fades and level adjustment",
+      "url": "https://github.com/sgossner/VCSL/blob/master/Idiophones/Struck Idiophones/Marimba/Marimba_hit_Outrigger_C4_med_01.wav",
+      "source_sha256": "3e88c006eef05e8f7891f8f6027042006199a4ec3b53a0ad7308f9782a52d4df",
+      "output_sha256": "4509d5dd9f031d76665fdc021e80d6d8be1aea9afcf8d5388f4f943d3ef8ab46"
+    },
+    {
+      "file": "VCSL_Lute_Pluck.wav",
+      "label": "Lute Pluck",
+      "root": 72,
+      "origin": "VCSL CC0 recording; mono conversion, trim, fades and level adjustment",
+      "url": "https://github.com/sgossner/VCSL/blob/master/Chordophones/Zithers/Harpsichord, English/Sustains/Lute/ZuckermannKitHarpsi_Lute_Sus_C4_rr1.wav",
+      "source_sha256": "49ba716ecee46f50122d41713f43860bc8e52e7f270e08c8297bf0f92a2dac1d",
+      "output_sha256": "b662a38d0b2c8dd46c4cd8c310b9ca4b47ef87b0d38945716110f05bc9363fca"
+    },
+    {
+      "file": "VCSL_FM_Clavi.wav",
+      "label": "FM Clavi",
+      "root": 72,
+      "origin": "VCSL CC0 recording; mono conversion, trim, fades and level adjustment",
+      "url": "https://github.com/sgossner/VCSL/blob/master/Electrophones/TX81Z/Clavisynth/Clavisynth_C3_vl2.wav",
+      "source_sha256": "eccc4d3c7cb08871c91b682272f7efc3b968516888e46c29246b90d96421b2a7",
+      "output_sha256": "75f7520ef6561c2c9450ce95764f6be0eaee8c47a95047b32a89d9a6fed5c719"
+    },
+    {
+      "file": "VCSL_FM_Piano.wav",
+      "label": "FM Piano",
+      "root": 60,
+      "origin": "VCSL CC0 recording; mono conversion, trim, fades and level adjustment",
+      "url": "https://github.com/sgossner/VCSL/blob/master/Electrophones/TX81Z/FM Piano/FMPiano_C4_vl1.wav",
+      "source_sha256": "416848bf8bf2e64135e61aca6f4cd07bdd3c705e9a7cb9eea4ceb1906b7f9a8c",
+      "output_sha256": "d8c0657a48174c9e7cfb9cee72ff4d6ed621a25679785a5c681186764bab7138"
+    },
+    {
+      "file": "VCSL_Bowed_Psaltery.wav",
+      "label": "Bowed Psaltery",
+      "root": 84,
+      "origin": "VCSL CC0 recording; mono conversion, trim, fades and level adjustment",
+      "url": "https://github.com/sgossner/VCSL/blob/master/Chordophones/Zithers/Psaltery, Bowed and Plucked/Spiccato/BowedPsaltery_C5_Main_Spic_rr1.wav",
+      "source_sha256": "a960da68236c627ca33a89188c12b2ba2314b607f5df3001587141a18048df7b",
+      "output_sha256": "b627dece377239ab7a547975ec5a2dd3691f8b7d1a8df9ce1d82157c211d19cf"
+    },
+    {
+      "file": "VCSL_Recorder_Stab.wav",
+      "label": "Recorder Stab",
+      "root": 72,
+      "origin": "VCSL CC0 recording; mono conversion, trim, fades and level adjustment",
+      "url": "https://github.com/sgossner/VCSL/blob/master/Aerophones/Edge-blown Aerophones/Baroque Alto Recorder/Staccato/AltRecorder_Stac_C4_rr1_Main.wav",
+      "source_sha256": "34c08414dc6f02eb37f97fbbaf9be1a92c27643ccf51ba20c8eabe8cd1357625",
+      "output_sha256": "db892c728a1e119d9fdf35fa63a0ba829ce70d82fb943d964523f81c1d7965c6"
+    }
+  ],
+  "voice_commit": "08eba76eadfdc16ded3209f65d3890bf1a2b8c0c",
+  "vcsl_commit": "c1ea7bcc3c7309650ab0da9d15c9cd1fbc4a4c7e"
+}

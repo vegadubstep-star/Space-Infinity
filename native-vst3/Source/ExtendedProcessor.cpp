@@ -132,3 +132,18 @@ juce::Result SpaceInfinityProcessor::queueImpulse(const juce::MemoryBlock& bytes
     {const juce::SpinLock::ScopedLockType lock(sampleLock);pendingImpulse=std::move(decoded);pendingImpulseRate=rate;impulsePending=true;impulseBytes=bytes;}
     return juce::Result::ok();
 }
+
+juce::Result SpaceInfinityProcessor::loadBankPreset(int index){
+    const auto& entries=library->entries();if(index<0||index>=int(entries.size()))return juce::Result::fail("Select a preset.");
+    const auto entry=entries[size_t(index)];
+    if(entry.factory>=0)loadPreset(entry.factory);
+    else {juce::MemoryBlock bytes;const auto result=library->read(index,bytes);if(result.failed())return result;setStateInformation(bytes.getData(),int(bytes.getSize()));}
+    state.state.setProperty("presetKey",entry.key,nullptr);return juce::Result::ok();
+}
+juce::Result SpaceInfinityProcessor::saveNewPreset(const juce::String& name){
+    juce::MemoryBlock bytes;getStateInformation(bytes);juce::String key;
+    const auto result=library->add(name,bytes,key);if(result.wasOk())state.state.setProperty("presetKey",key,nullptr);return result;
+}
+juce::Result SpaceInfinityProcessor::replaceBankPreset(int index){
+    juce::MemoryBlock bytes;getStateInformation(bytes);return library->replace(index,bytes);
+}

@@ -1,7 +1,17 @@
 #include "../Source/ExtendedEngine.h"
+#include "../Source/AnalogueCircuit.h"
 #include <cassert>
 #include <iostream>
 int main(){
+    AnalogueEnvelope curved;
+    for(int i=0;i<24000;++i)curved.next(false,48000,1,.2f,1,1);
+    assert(curved.level>.8f&&curved.level<1);
+    for(int i=0;i<24002;++i)curved.next(false,48000,1,.2f,1,1);
+    assert(curved.level>.999f);
+    for(int i=0;i<48001;++i)curved.next(true,48000,1,.2f,1,1);
+    assert(curved.level==0);
+    const auto c1=VoiceCalibration::forVoice(0),c2=VoiceCalibration::forVoice(1);
+    assert(c1.tuneA==VoiceCalibration::forVoice(0).tuneA&&c1.tuneA!=c2.tuneA&&std::abs(c1.cutoff)<=1);
     infinity::Envelope env;for(int i=0;i<48000;++i)env.next(false,48000,1,.2f,1,1);
     assert(env.level>.999f);for(int i=0;i<48001;++i)env.next(true,48000,1,.2f,1,1);assert(env.level==0);
     infinity::Wavetable table;assert(std::abs(table.sample(.25,0)-1)<.001f);

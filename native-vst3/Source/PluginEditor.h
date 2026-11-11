@@ -32,6 +32,10 @@ private:
     };
     HardwareLook hardwareLook;
     SpaceInfinityProcessor& processor;
+    void refreshPresetMenu();
+    void openPresetManager();
+    juce::String displayedPresetKey;
+    juce::TextButton bankButton{"BANK"};
     juce::ComboBox presets, waveform, waveform2, source, motionShape, motionBars;
     juce::Slider motionDepth, noiseLevel, analogueCharacter;
     juce::Label analogueLabel;
