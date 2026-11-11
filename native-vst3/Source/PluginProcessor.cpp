@@ -259,7 +259,7 @@ SpaceInfinityProcessor::SpaceInfinityProcessor(const juce::File& presetDirectory
     for(size_t i=0;i<extraSamples.size();++i){int bytes=0;const auto* data=BinaryData::getNamedResource(extraSampleSources[i].resource,bytes);
         if(data&&bytes>0)decodeSample(juce::MemoryBlock(data,size_t(bytes)),extraSamples[i]);}
     juce::StringArray categories;for(int i=0;i<presetNames().size();++i)categories.add(presetCategory(i));
-    library=std::make_unique<PresetLibrary>(presetNames(),categories,presetDirectory);
+    library=std::make_unique<PresetLibrary>(presetNames(),categories,presetDirectory,96);
 
 }
 juce::String SpaceInfinityProcessor::motionPointId(int index){return "motionPoint"+juce::String(index);}
@@ -1114,7 +1114,6 @@ constexpr FactoryPatch factoryBank[]={
 {"Strobelight Chord",{1512.50019f,0.24000f,0.02800f,0.54000f,0.02320f,0.35484f,0.31000f,0.19000f,0.30000f,0.17000f,1.17100f,0.60000f,0.46000f,1.00000f,0.34500f,0.75000f},0,2,0,0,8,1,0.25000f,3},
 {"Rave Chapel Organ",{3925.37215f,0.07000f,0.00400f,0.15600f,0.00160f,0.35484f,0.12000f,0.08000f,0.13000f,0.14000f,1.17100f,0.60000f,0.46000f,2.00000f,0.20500f,0.86000f},0,2,0,0,0,2,0.00000f,1},
 {"Warehouse Drawbars",{2191.63152f,0.13000f,0.00400f,0.18800f,0.00160f,0.35484f,0.12000f,0.11000f,0.10000f,0.15000f,1.17100f,0.60000f,0.46000f,2.00000f,0.16500f,0.81000f},0,1,0,0,0,2,0.00000f,1},
-{"Glass Pizzicato",{263.24222f,0.14000f,0.00400f,0.17200f,0.00160f,0.35484f,0.12000f,0.05000f,0.32000f,0.23000f,1.17100f,0.60000f,0.46000f,3.00000f,0.11700f,0.02000f},0,3,1,1,0,2,0.00000f,2},
 {"Airlock Mallet",{1160.49677f,0.18000f,0.00400f,0.28800f,0.00160f,0.35484f,0.12000f,0.08000f,0.28000f,0.34000f,1.17100f,0.60000f,0.46000f,2.00000f,0.22500f,0.01000f},0,3,1,2,0,2,0.00000f,3},
 {"Meteor Lift",{447.15546f,0.38000f,1.08200f,0.78000f,0.00160f,0.35484f,0.12000f,0.28000f,0.23000f,0.29000f,1.17100f,0.60000f,0.46000f,0.00000f,0.46500f,0.87000f},0,4,1,2,3,1,0.27000f,1},
 {"Gravity Drop",{1971.27374f,0.27000f,0.00400f,0.74000f,0.00160f,0.35484f,0.12000f,0.11000f,0.18000f,0.29000f,1.17100f,0.60000f,0.46000f,1.00000f,0.48500f,0.09000f},0,2,0,2,12,0,0.00000f,1},
@@ -1139,7 +1138,7 @@ constexpr FactoryPatch factoryBank[]={
 {"Bowed Psaltery Mist",{8000.00000f,0.08000f,0.00300f,0.35000f,0.00200f,0.45000f,0.05000f,0.10000f,0.13000f,0.18000f,1.00000f,0.04000f,0.58000f,0.00000f,0.25000f,0.20000f},19,2,1,2,0,2,0.00000f,1},
 {"Recorder Stab Rave",{8000.00000f,0.08000f,0.00300f,0.35000f,0.00200f,0.45000f,0.05000f,0.10000f,0.13000f,0.18000f,1.00000f,0.04000f,0.58000f,0.00000f,0.25000f,0.20000f},20,2,1,2,0,2,0.00000f,1}
 };
-static_assert(std::size(factoryBank)==120);
+static_assert(std::size(factoryBank)==119);
 }
 const juce::StringArray& SpaceInfinityProcessor::presetNames(){
     static const auto names=[]{
@@ -1243,7 +1242,6 @@ juce::String SpaceInfinityProcessor::presetCategory(int index){
 "Light Pads",
 "Light Pads",
 "Light Pads",
-"Trance Tools",
 "Trance Tools",
 "Trance Tools",
 "Trance Tools",
@@ -1406,10 +1404,9 @@ void SpaceInfinityProcessor::loadPreset(int index){
     for(int i=0;i<8;++i)if(name==sampledChoirs[i]){set("source",float(5+i));set("sampleLoop",1);set("filterMode",1);set("cutoff",juce::jmax(1800.0f,patch.values[0]));set("gain",.60f);}
     if(name=="Reverse Procession"){set("source",5);set("sampleReverse",1);set("sampleLoop",1);}
     if(name=="Final Benediction"){set("source",10);set("sampleLoop",1);}
-    if(name=="Glass Pizzicato"){set("source",14);set("cutoff",12000);set("filterEnvAmount",0);}
     if(name=="Airlock Mallet"){set("source",15);set("cutoff",10000);set("filterEnvAmount",0);}
     if(name=="Frozen Interlude"){set("source",13);set("cutoff",6000);set("filterEnvAmount",.3f);}
-    state.state.setProperty("presetKey","F"+juce::String(index),nullptr);
+    state.state.setProperty("presetKey",library->keyForFactory(index),nullptr);
 }
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter(){return new SpaceInfinityProcessor();}
 

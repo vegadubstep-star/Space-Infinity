@@ -44,7 +44,7 @@ int main(int argc,char* argv[])
     constexpr int blockSize=256;
     juce::AudioBuffer<float> audio(2,blockSize);
     const auto& names=synth.presetNames();
-    if(names.size()!=120 || synth.motionNames().size()!=20) return 1;
+    if(names.size()!=119 || synth.motionNames().size()!=20) return 1;
 
     for(int i=0;i<names.size();++i)
         if(names.indexOf(names[i])!=i) return 9;

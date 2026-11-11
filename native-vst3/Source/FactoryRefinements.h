@@ -4,7 +4,7 @@ struct FactoryRefinement {
     float character;int voicesA,voicesB;float widthA,widthB,detune,filterAmount,filterDecay,filterSustain,lfoDepth;
     int shape,waveA,waveB,voiceMode;
 };
-inline constexpr std::array<FactoryRefinement,120> factoryRefinements{{
+inline constexpr std::array<FactoryRefinement,119> factoryRefinements{{
     {0.270f,7,5,0.480f,0.540f,0.00900f,0.350f,0.700f,0.650f,0.000f,1,-1,-1,0}, // HARD TRANCE LEAD: Wide anthem lead
     {0.200f,3,2,0.300f,0.380f,0.00700f,0.500f,0.320f,0.250f,0.000f,1,-1,-1,0}, // JV CHOIR INSPIRED: Textured original
     {0.220f,3,2,0.240f,0.320f,0.00600f,1.100f,0.230f,0.100f,0.000f,1,-1,-1,0}, // RAVE STAB 1996: Fast pluck / stab
@@ -101,7 +101,6 @@ inline constexpr std::array<FactoryRefinement,120> factoryRefinements{{
     {0.200f,3,2,0.300f,0.380f,0.00700f,0.500f,0.320f,0.250f,0.000f,1,-1,-1,0}, // Strobelight Chord: Textured original
     {0.200f,3,2,0.300f,0.380f,0.00700f,0.500f,0.320f,0.250f,0.000f,1,17,18,0}, // Rave Chapel Organ: Textured original
     {0.200f,3,2,0.300f,0.380f,0.00700f,0.500f,0.320f,0.250f,0.000f,1,18,17,0}, // Warehouse Drawbars: Textured original
-    {0.220f,3,2,0.240f,0.320f,0.00600f,1.100f,0.180f,0.100f,0.000f,1,-1,-1,0}, // Glass Pizzicato: Fast pluck / stab
     {0.220f,3,2,0.240f,0.320f,0.00600f,1.100f,0.205f,0.100f,0.000f,1,20,2,0}, // Airlock Mallet: Fast pluck / stab
     {0.200f,3,2,0.300f,0.380f,0.00700f,0.500f,0.320f,0.250f,0.000f,1,-1,-1,0}, // Meteor Lift: Textured original
     {0.200f,3,2,0.300f,0.380f,0.00700f,0.500f,0.320f,0.250f,0.000f,1,-1,-1,0}, // Gravity Drop: Textured original

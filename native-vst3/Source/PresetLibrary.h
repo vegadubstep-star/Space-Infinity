@@ -7,13 +7,14 @@
 class PresetLibrary {
 public:
     struct Entry {juce::String key,name,category,file;int factory=-1;};
-    PresetLibrary(juce::StringArray names,juce::StringArray categories,const juce::File& requested={})
-        :factoryNames(std::move(names)),factoryCategories(std::move(categories)),
+    PresetLibrary(juce::StringArray names,juce::StringArray categories,const juce::File& requested={},int retiredFactoryId=-1)
+        :factoryNames(std::move(names)),factoryCategories(std::move(categories)),retiredFactory(retiredFactoryId),
          directory(requested==juce::File{}?juce::File::getSpecialLocation(juce::File::userApplicationDataDirectory).getChildFile("Orbital Audio/Space Infinity/Presets"):requested),
          lock("SpaceInfinityBank"+juce::String(directory.getFullPathName().hashCode64())) {reload();}
     const std::vector<Entry>& entries() const noexcept {return bank;}
     juce::File folder() const {return directory;}
     int indexForKey(const juce::String& key) const {for(size_t i=0;i<bank.size();++i)if(bank[i].key==key)return int(i);return -1;}
+    juce::String keyForFactory(int index) const {return "F"+juce::String(factoryId(index));}
     juce::Result reload(){
         auto file=manifest();snapshot=file.existsAsFile()?file.loadFileAsString():juce::String{};
         bank.clear();
@@ -24,7 +25,11 @@ public:
                 if(!node->hasTagName("PRESET"))continue;
                 Entry e{node->getStringAttribute("key"),node->getStringAttribute("name").substring(0,64),node->getStringAttribute("category").substring(0,40),node->getStringAttribute("file"),node->getIntAttribute("factory",-1)};
                 if(e.name.isEmpty()||indexForKey(e.key)>=0)continue;
-                if(e.factory>=0){if(e.factory>=factoryNames.size()||e.key!="F"+juce::String(e.factory))continue;e.file={};}
+                if(e.factory>=0){
+                    if(e.factory==retiredFactory)continue;
+                    if(retiredFactory>=0&&e.factory>retiredFactory)--e.factory;
+                    if(e.factory>=factoryNames.size()||e.key!=keyForFactory(e.factory))continue;e.file={};
+                }
                 else if(!safeFilename(e.file)||e.key!="U"+e.file.upToLastOccurrenceOf(".",false,false))continue;
                 bank.push_back(std::move(e));
             }
@@ -67,13 +72,14 @@ public:
     juce::Result sortByName(){return mutate([&]{std::stable_sort(bank.begin(),bank.end(),[](const Entry& a,const Entry& b){return a.name.compareIgnoreCase(b.name)<0;});return juce::Result::ok();});}
     juce::Result restoreFactory(){return mutate([&]{auto users=bank;defaults();for(const auto& e:users)if(e.factory<0)bank.push_back(e);return juce::Result::ok();});}
 private:
-    juce::StringArray factoryNames,factoryCategories;juce::File directory;juce::InterProcessLock lock;
+    juce::StringArray factoryNames,factoryCategories;int retiredFactory=-1;juce::File directory;juce::InterProcessLock lock;
     std::vector<Entry> bank;juce::String snapshot;bool lastOperationRan=false;
     bool valid(int index) const {return index>=0&&index<int(bank.size());}
     juce::File manifest() const {return directory.getChildFile("bank.xml");}
     static juce::String cleanName(juce::String name){return name.trim().replaceCharacters("\r\n\t","   ").substring(0,64);}
     static bool safeFilename(const juce::String& name){return name.startsWith("user_")&&name.endsWith(".sipreset")&&name.length()<64&&name.containsOnly("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.");}
-    void defaults(){bank.clear();for(int i=0;i<factoryNames.size();++i)bank.push_back({"F"+juce::String(i),factoryNames[i],factoryCategories[i],{},i});}
+    int factoryId(int index) const {return retiredFactory>=0&&index>=retiredFactory?index+1:index;}
+    void defaults(){bank.clear();for(int i=0;i<factoryNames.size();++i)bank.push_back({keyForFactory(i),factoryNames[i],factoryCategories[i],{},i});}
     static juce::Result writeBytes(const juce::File& target,const juce::MemoryBlock& bytes){juce::TemporaryFile temp(target);
         if(!temp.getFile().replaceWithData(bytes.getData(),bytes.getSize())||!temp.overwriteTargetFileWithTemporary())return juce::Result::fail("Cannot write preset file.");return juce::Result::ok();}
     juce::Result mutate(const std::function<juce::Result()>& operation){
@@ -86,7 +92,7 @@ private:
         const auto previous=bank;lastOperationRan=true;auto result=operation();
         if(result.failed()){bank=previous;return result;}
         juce::XmlElement xml("SPACE_INFINITY_BANK");xml.setAttribute("revision",juce::Uuid().toString());
-        for(const auto& e:bank){auto* node=xml.createNewChildElement("PRESET");node->setAttribute("key",e.key);node->setAttribute("name",e.name);node->setAttribute("category",e.category);node->setAttribute("file",e.file);node->setAttribute("factory",e.factory);}
+        for(const auto& e:bank){auto* node=xml.createNewChildElement("PRESET");node->setAttribute("key",e.key);node->setAttribute("name",e.name);node->setAttribute("category",e.category);node->setAttribute("file",e.file);node->setAttribute("factory",e.factory>=0?factoryId(e.factory):-1);}
         const auto text=xml.toString();juce::TemporaryFile temp(manifest());
         if(!temp.getFile().replaceWithText(text)||!temp.overwriteTargetFileWithTemporary()){bank=previous;return juce::Result::fail("Cannot save preset bank order.");}
         snapshot=text;return juce::Result::ok();
