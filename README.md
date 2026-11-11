@@ -28,3 +28,5 @@ The [test guide](docs/TESTING_STUDIO_BUILD.md) explains where to download the in
 See [groove bank additions](docs/GROOVE_BANK.md) for the new rhythmic, bass and house patches.
 
 See [further melodic interpretations](docs/ANTHEM_BANK.md) for the newest leads, arps and performance controls.
+
+[Save As and material finish](docs/SAVE_AS_AND_MATERIALS.md): BANK → SAVE AS... writes a portable `.sipreset` to your chosen folder. The updated interface uses deep violet anodised metal, brushed knob caps and smoked displays.

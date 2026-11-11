@@ -946,7 +946,11 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         cachedFxPage=fxPage;
     }
     g.drawImageAt(hardwareFace,0,0);
-    if(infinityLogo.isValid())g.drawImageWithin(infinityLogo,30,10,juce::jmin(440,getWidth()-390),78,juce::RectanglePlacement::centred|juce::RectanglePlacement::onlyReduceInSize,false);
+    if(infinityLogo.isValid()){
+        const int logoWidth=juce::jmin(440,getWidth()-390);const int placement=juce::RectanglePlacement::centred|juce::RectanglePlacement::onlyReduceInSize;
+        g.setColour(juce::Colour(0xbb08050c));g.drawImageWithin(infinityLogo,31,12,logoWidth,78,placement,true);
+        juce::ColourGradient foil(juce::Colour(0xfffff4dd),0,16,juce::Colour(0xffa99b8c),0,82,false);foil.addColour(.30,juce::Colour(0xffefe5d8));foil.addColour(.53,juce::Colour(0xffb9a995));foil.addColour(.57,juce::Colour(0xfffff8ea));foil.addColour(.72,juce::Colour(0xffe2d1b9));g.setGradientFill(foil);g.drawImageWithin(infinityLogo,30,10,logoWidth,78,placement,true);
+    }
 
     g.setFont(10.0f);
     g.setColour(juce::Colour(0xffb7ab9b));
@@ -995,7 +999,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
                 if(point==0)shape.startNewSubPath(x,y);else shape.lineTo(x,y);
             }
             const bool active=parameter(oscillator==0?"osc1Enabled":"osc2Enabled")>.5f;
-            g.setColour(juce::Colour(oscillator==0?0xffe6b47e:0xffdba578).withAlpha(active?1.0f:.3f));
+            g.setColour(juce::Colour(oscillator==0?0xffd0befa:0xffe3bf8e).withAlpha(active?1.0f:.3f));
             g.strokePath(shape,juce::PathStrokeType(1.6f));
             g.setColour(juce::Colour(0xffb4c0ad));
             const char* modesText[]{"NORMAL","FM","MIRROR","PWM","SUB FM"};

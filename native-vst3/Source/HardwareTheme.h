@@ -45,30 +45,40 @@ public:
         g.drawLine(x-radius*.5f,y+radius*.35f+1,x+radius*.5f,y-radius*.35f+1,.5f);
     }
 
-    static void module(juce::Graphics& g,juce::Rectangle<float> r,bool oxblood=false) {
-        g.setColour(juce::Colour(0x85000000));g.fillRoundedRectangle(r.translated(0,2),2);
-        juce::ColourGradient surface(juce::Colour(oxblood?0xff68418d:0xff343735),0,r.getY(),
-            juce::Colour(oxblood?0xff2b183f:0xff242725),0,r.getBottom(),false);
-        surface.addColour(.2,juce::Colour(oxblood?0xff8c5baa:0xff303330));
-        g.setGradientFill(surface);g.fillRoundedRectangle(r,2);
-        texture(g,r,.065f);
-        if(oxblood){juce::Graphics::ScopedSaveState save(g);g.reduceClipRegion(r.toNearestInt());
-            juce::ColourGradient shine(juce::Colours::transparentWhite,r.getX(),r.getY(),juce::Colours::transparentWhite,r.getRight(),r.getBottom(),false);
-            shine.addColour(.13,juce::Colour(0x30e2cdfa));shine.addColour(.23,juce::Colour(0x08d4c0ec));shine.addColour(.55,juce::Colours::transparentWhite);shine.addColour(.76,juce::Colour(0x13c5a0ef));
-            g.setGradientFill(shine);g.fillRect(r);}
-
-        g.setColour(juce::Colour(0x308e8e7a));g.drawHorizontalLine(int(r.getY()),r.getX()+1,r.getRight()-1);
-        g.setColour(juce::Colour(0x9b101310));g.drawHorizontalLine(int(r.getBottom()-1),r.getX()+1,r.getRight()-1);
-        g.drawVerticalLine(int(r.getRight()-1),r.getY()+1,r.getBottom()-1);
+    static void purpleMetal(juce::Graphics& g,juce::Rectangle<float> r,float radius=3){
+        juce::ColourGradient metal(juce::Colour(0xff160d23),0,r.getY(),juce::Colour(0xff1a102a),0,r.getBottom(),false);
+        metal.addColour(.075,juce::Colour(0xff63407f));metal.addColour(.12,juce::Colour(0xffc5a7df));
+        metal.addColour(.18,juce::Colour(0xff6e448e));metal.addColour(.40,juce::Colour(0xff382344));
+        metal.addColour(.79,juce::Colour(0xff22142f));metal.addColour(.94,juce::Colour(0xff573c6b));
+        g.setGradientFill(metal);g.fillRoundedRectangle(r,radius);texture(g,r,.11f);
+        juce::Graphics::ScopedSaveState save(g);juce::Path clip;clip.addRoundedRectangle(r,radius);g.reduceClipRegion(clip);
+        juce::ColourGradient softbox(juce::Colours::transparentWhite,r.getX(),r.getY(),juce::Colours::transparentWhite,r.getRight(),r.getBottom(),false);
+        softbox.addColour(.18,juce::Colour(0x28f5e7ff));softbox.addColour(.29,juce::Colour(0x05e8d2ff));softbox.addColour(.80,juce::Colour(0x00ffffff));
+        g.setGradientFill(softbox);g.fillRect(r);
+        g.setColour(juce::Colour(0x50e4c9fa));g.drawHorizontalLine(int(r.getY()+1),r.getX()+3,r.getRight()-3);
     }
-
-    static void display(juce::Graphics& g,juce::Rectangle<float> r) {
-        g.setColour(juce::Colour(0xff0a0b0a));g.fillRoundedRectangle(r.expanded(3),3);
-        g.setColour(juce::Colour(0xff6b6658));g.drawRoundedRectangle(r.expanded(3),3,.7f);
-        g.setGradientFill(juce::ColourGradient(juce::Colour(0xff141a17),0,r.getY(),
-            juce::Colour(0xff070d0b),0,r.getBottom(),false));
-        g.fillRect(r);
-        g.setColour(juce::Colour(0x16e4efde));g.fillRect(r.withHeight(juce::jmin(12.0f,r.getHeight()*.14f)));
+    static void module(juce::Graphics& g,juce::Rectangle<float> r,bool violet=false){
+        for(int i=4;i>0;--i){g.setColour(juce::Colours::black.withAlpha(.035f));g.fillRoundedRectangle(r.expanded(float(i)*.35f).translated(0,float(i)),4);}
+        juce::ColourGradient edge(juce::Colour(0xff716677),r.getX(),r.getY(),juce::Colour(0xff08090e),r.getRight(),r.getBottom(),false);
+        edge.addColour(.18,juce::Colour(0xff27222d));g.setGradientFill(edge);g.fillRoundedRectangle(r,4);
+        auto face=r.reduced(1.2f);
+        juce::ColourGradient surface(juce::Colour(violet?0xff403148:0xff36343b),0,face.getY(),juce::Colour(0xff15151c),0,face.getBottom(),false);
+        surface.addColour(.10,juce::Colour(violet?0xff302439:0xff2b2931));surface.addColour(.72,juce::Colour(0xff1b1a22));surface.addColour(.98,juce::Colour(0xff302b37));
+        g.setGradientFill(surface);g.fillRoundedRectangle(face,3);texture(g,face,.10f);
+        g.setColour(juce::Colour(violet?0x669c6fc9:0x446f637d));g.drawHorizontalLine(int(face.getY()+1),face.getX()+3,face.getRight()-3);
+        g.setColour(juce::Colour(0x8804050a));g.drawRoundedRectangle(r.reduced(.5f),4,.7f);
+    }
+    static void display(juce::Graphics& g,juce::Rectangle<float> r){
+        auto bezel=r.expanded(3);
+        g.setColour(juce::Colour(0x99000000));g.fillRoundedRectangle(bezel.translated(0,2),4);
+        juce::ColourGradient rim(juce::Colour(0xff8c8394),bezel.getX(),bezel.getY(),juce::Colour(0xff111019),bezel.getRight(),bezel.getBottom(),false);
+        rim.addColour(.2,juce::Colour(0xff292533));g.setGradientFill(rim);g.fillRoundedRectangle(bezel,4);
+        g.setColour(juce::Colour(0xff03050a));g.fillRoundedRectangle(bezel.reduced(1.2f),3);
+        g.setGradientFill(juce::ColourGradient(juce::Colour(0xff10131d),0,r.getY(),juce::Colour(0xff04070d),0,r.getBottom(),false));g.fillRect(r);
+        juce::Graphics::ScopedSaveState save(g);g.reduceClipRegion(r.toNearestInt());
+        juce::ColourGradient reflection(juce::Colour(0x16d8e3f4),r.getX(),r.getY(),juce::Colours::transparentWhite,r.getCentreX(),r.getBottom(),false);
+        reflection.addColour(.30,juce::Colour(0x06ffffff));reflection.addColour(.40,juce::Colours::transparentWhite);g.setGradientFill(reflection);g.fillRect(r);
+        g.setColour(juce::Colour(0x18c5c0da));g.drawHorizontalLine(int(r.getY()),r.getX(),r.getRight());
     }
 
     static void chassis(juce::Graphics& g,juce::Rectangle<int> area) {
@@ -76,8 +86,8 @@ public:
         g.fillAll(juce::Colour(0xff101210));
         for(const float x:{0.0f,r.getWidth()-23}) {
             const auto wood=juce::Rectangle<float>(x,1,23,r.getHeight()-2);
-            juce::ColourGradient finish(juce::Colour(0xff291b13),x,0,juce::Colour(0xff9a6741),x+23,0,false);
-            finish.addColour(.16,juce::Colour(0xff75482a));finish.addColour(.75,juce::Colour(0xff4e2e1c));
+            juce::ColourGradient finish(juce::Colour(0xff140f11),x,0,juce::Colour(0xff68452e),x+23,0,false);
+            finish.addColour(.16,juce::Colour(0xff4f3228));finish.addColour(.75,juce::Colour(0xff281c1b));
             g.setGradientFill(finish);g.fillRoundedRectangle(wood,4);
             juce::Graphics::ScopedSaveState save(g);g.reduceClipRegion(wood.toNearestInt());
             // Long, irregular longitudinal pores, rather than evenly spaced stripes.
@@ -97,17 +107,10 @@ public:
         g.setGradientFill(juce::ColourGradient(juce::Colour(0xff4c4b43),0,0,juce::Colour(0xff151916),0,r.getBottom(),false));
         g.fillRoundedRectangle(face,4);
         face=face.reduced(2);
-        g.setColour(juce::Colour(0xff1c211e));g.fillRoundedRectangle(face,3);
+        g.setColour(juce::Colour(0xff111219));g.fillRoundedRectangle(face,3);
         texture(g,face);
         auto header=juce::Rectangle<float>(25,8,r.getWidth()-50,97);
-        juce::ColourGradient enamel(juce::Colour(0xff6b428f),0,8,juce::Colour(0xff2a173c),0,105,false);
-        enamel.addColour(.3,juce::Colour(0xff895ca8));
-        g.setGradientFill(enamel);g.fillRoundedRectangle(header,2);
-        texture(g,header,.065f);
-        juce::ColourGradient reflection(juce::Colours::transparentWhite,header.getX(),header.getY(),juce::Colours::transparentWhite,header.getRight(),header.getBottom(),false);
-        reflection.addColour(.14,juce::Colour(0x43e9dbff));reflection.addColour(.25,juce::Colour(0x10cdb0ee));reflection.addColour(.7,juce::Colour(0x00b99ad8));reflection.addColour(.89,juce::Colour(0x1fdec3ff));
-        g.setGradientFill(reflection);g.fillRect(header.reduced(1));
-
+        purpleMetal(g,header);
         g.setColour(juce::Colour(0xffa2765d));g.drawHorizontalLine(9,28,r.getWidth()-28);
         g.setColour(juce::Colour(0xff100e0b));g.drawHorizontalLine(105,25,r.getWidth()-25);
         g.setColour(juce::Colour(0xff766c56));g.drawHorizontalLine(106,25,r.getWidth()-25);
@@ -118,52 +121,28 @@ public:
         g.setColour(juce::Colour(0xff090c09));g.drawHorizontalLine(143,25,r.getWidth()-25);
     }
 
-    void drawRotarySlider(juce::Graphics& g,int x,int y,int width,int height,
-        float pos,float start,float end,juce::Slider& slider) override {
-        const auto bounds=juce::Rectangle<float>(float(x),float(y),float(width),float(height));
-        const auto c=bounds.getCentre();
-        const float r=juce::jmin(43.0f,juce::jmin(bounds.getWidth(),bounds.getHeight())*.44f);
-        if(r<3)return;
-        const auto radial=[c](float a,float radius){return c.getPointOnCircumference(radius,a);};
-        const float angle=start+pos*(end-start);
-        const auto& properties=slider.getProperties();
-        if(properties.contains("modDepth")) {
-            const float last=start+juce::jlimit(0.0f,1.0f,pos+float(double(properties["modDepth"]))* .5f)*(end-start);
-            juce::Path arc;arc.addCentredArc(c.x,c.y,r*1.09f,r*1.09f,0,std::min(angle,last),std::max(angle,last),true);
-            g.setColour(juce::Colour(juce::uint32(juce::int64(properties["modColour"]))));
-            g.strokePath(arc,juce::PathStrokeType(2));
-        }
-        for(int i=0;i<=20;++i) {
-            const float a=start+(end-start)*float(i)/20;
-            g.setColour(juce::Colour(i%5?0xff9b998a:0xffe0d8c5).withMultipliedAlpha(slider.isEnabled()?1.0f:.4f));
-            g.drawLine({radial(a,r*(i%5?.96f:.90f)),radial(a,r*1.04f)},i%5?.65f:1.2f);
-        }
-        auto skirt=juce::Rectangle<float>(r*1.63f,r*1.63f).withCentre(c);
-        for(int i=5;i>0;--i) {
-            g.setColour(juce::Colour(0x10000000));g.fillEllipse(skirt.expanded(float(i)*.65f).translated(1.2f,3.0f+float(i)*.2f));
-        }
-        g.setGradientFill(juce::ColourGradient(juce::Colour(0xff6b6b5f),c.x-r,c.y-r,juce::Colour(0xff080b09),c.x+r,c.y+r,false));
-        g.fillEllipse(skirt);
-        g.setColour(juce::Colour(0xff090c09));g.drawEllipse(skirt,.8f);
-        for(int i=0;i<40;++i) {
-            const float a=angle+juce::MathConstants<float>::twoPi*float(i)/40;
-            const float light=.5f+.5f*std::cos(a+2.35f);
-            g.setColour(juce::Colour::fromRGB(juce::uint8(25+light*37),juce::uint8(28+light*37),juce::uint8(25+light*32)));
-            g.drawLine({radial(a,r*.64f),radial(a,r*.80f)},juce::jmax(.7f,r*.045f));
-        }
-        const auto cap=skirt.reduced(r*.17f).translated(-.3f,-.8f);
-        const bool metal=slider.getName().containsIgnoreCase("fine")||slider.getName().containsIgnoreCase("width")
-            ||slider.getName().containsIgnoreCase("character");
-        juce::ColourGradient top(juce::Colour(metal?0xffc2bfb0:0xff60645a),cap.getX(),cap.getY(),
-            juce::Colour(metal?0xff5c6159:0xff151a16),cap.getRight(),cap.getBottom(),false);
-        top.addColour(.34,juce::Colour(metal?0xffe7e1cd:0xff454b41));
-        top.addColour(.68,juce::Colour(metal?0xff969c8e:0xff30382e));
-        g.setGradientFill(top);g.fillEllipse(cap);
-        g.setColour(juce::Colour(0x786e7566));g.drawEllipse(cap,.7f);
-        g.setColour(juce::Colour(0x1811130e));g.drawEllipse(cap.reduced(1.5f),.5f);
-        const auto p1=radial(angle,r*.28f),p2=radial(angle,r*.64f);
-        g.setColour(juce::Colour(metal?0xff31352b:0xff10150e));g.drawLine({p1.translated(1,1),p2.translated(1,1)},3);
-        g.setColour(juce::Colour(metal?0xff282c23:0xffede6d1));g.drawLine({p1,p2},juce::jmax(1.6f,r*.066f));
+    void drawRotarySlider(juce::Graphics& g,int x,int y,int width,int height,float pos,float start,float end,juce::Slider& slider) override {
+        const auto bounds=juce::Rectangle<float>(float(x),float(y),float(width),float(height));const auto c=bounds.getCentre();
+        const float r=juce::jmin(43.0f,juce::jmin(bounds.getWidth(),bounds.getHeight())*.44f);if(r<3)return;
+        const auto radial=[c](float a,float radius){return c.getPointOnCircumference(radius,a);};const float angle=start+pos*(end-start);
+        for(int i=0;i<=24;++i){const float a=start+(end-start)*float(i)/24;g.setColour(juce::Colour(i%6?0xff817b8b:0xffe0d7e3).withMultipliedAlpha(slider.isEnabled()?1.0f:.4f));g.drawLine({radial(a,r*(i%6?.98f:.94f)),radial(a,r*1.07f)},i%6?.55f:1.1f);}
+        auto skirt=juce::Rectangle<float>(r*1.65f,r*1.65f).withCentre(c);
+        for(int i=6;i>0;--i){g.setColour(juce::Colours::black.withAlpha(.055f));g.fillEllipse(skirt.expanded(float(i)*.45f).translated(1,2+float(i)*.35f));}
+        juce::ColourGradient rim(juce::Colour(0xffb2a7bf),c.x-r,c.y-r,juce::Colour(0xff090a10),c.x+r,c.y+r,false);rim.addColour(.25,juce::Colour(0xff55515e));rim.addColour(.54,juce::Colour(0xff13141b));g.setGradientFill(rim);g.fillEllipse(skirt.expanded(.9f));
+        g.setColour(juce::Colour(0xff12131a));g.fillEllipse(skirt.reduced(.7f));
+        for(int i=0;i<48;++i){const float a=angle+juce::MathConstants<float>::twoPi*float(i)/48;const float light=.5f+.5f*std::cos(a+2.4f);
+            g.setColour(juce::Colour::fromRGB(juce::uint8(17+light*66),juce::uint8(18+light*63),juce::uint8(25+light*69)));g.drawLine({radial(a,r*.60f),radial(a,r*.79f)},juce::jmax(.65f,r*.045f));}
+        const auto cap=skirt.reduced(r*.17f).translated(-.35f,-.9f);const bool champagne=slider.getName().containsIgnoreCase("fine")||slider.getName().containsIgnoreCase("width");
+        juce::ColourGradient metal(juce::Colour(champagne?0xfff1e7d4:0xffd9dbe4),cap.getX(),cap.getY(),juce::Colour(champagne?0xff5e5651:0xff444654),cap.getRight(),cap.getBottom(),false);
+        metal.addColour(.20,juce::Colour(champagne?0xffb5aa95:0xff7d8291));metal.addColour(.34,juce::Colour(champagne?0xfffff3dc:0xffeef0f5));metal.addColour(.55,juce::Colour(champagne?0xffc5b89e:0xffa0a4b3));metal.addColour(.78,juce::Colour(champagne?0xff877e71:0xff666b7c));
+        g.setGradientFill(metal);g.fillEllipse(cap);
+        {juce::Graphics::ScopedSaveState save(g);juce::Path clip;clip.addEllipse(cap);g.reduceClipRegion(clip);
+            for(float yy=cap.getY();yy<cap.getBottom();yy+=1.4f){g.setColour(juce::Colour(0x0c10121b));g.drawHorizontalLine(int(yy),cap.getX(),cap.getRight());}
+            for(int i=1;i<7;++i){g.setColour(juce::Colour(0x121c1823));g.drawEllipse(cap.reduced(float(i)*r*.045f),.45f);}}
+        g.setColour(juce::Colour(0xbde9e4f1));g.drawEllipse(cap,.65f);g.setColour(juce::Colour(0x9022222d));g.drawEllipse(cap.reduced(1),.65f);
+        juce::Path lightArc;lightArc.addCentredArc(c.x,c.y,r*.89f,r*.89f,0,start,angle,true);g.setColour(juce::Colour(0x708d63b1));g.strokePath(lightArc,juce::PathStrokeType(1.3f));
+        const auto& props=slider.getProperties();if(props.contains("modDepth")){const float last=start+juce::jlimit(0.0f,1.0f,pos+float(double(props["modDepth"]))*.5f)*(end-start);juce::Path arc;arc.addCentredArc(c.x,c.y,r*1.13f,r*1.13f,0,std::min(angle,last),std::max(angle,last),true);g.setColour(juce::Colour(juce::uint32(juce::int64(props["modColour"]))));g.strokePath(arc,juce::PathStrokeType(2));}
+        const auto p1=radial(angle,r*.22f),p2=radial(angle,r*.62f);g.setColour(juce::Colour(0x90ffffff));g.drawLine({p1.translated(.7f,.8f),p2.translated(.7f,.8f)},juce::jmax(2.2f,r*.085f));g.setColour(juce::Colour(0xff11131d));g.drawLine({p1,p2},juce::jmax(1.7f,r*.064f));
     }
 
     void drawLinearSlider(juce::Graphics& g,int x,int y,int w,int h,float pos,float minimum,float maximum,
@@ -203,19 +182,19 @@ public:
     static void switchBody(juce::Graphics& g,juce::Rectangle<float> r,bool down,bool lit=false) {
         g.setColour(juce::Colour(0xff090d09));g.fillRoundedRectangle(r,3);
         r=r.reduced(1.5f);if(down)r=r.translated(0,1);
-        juce::ColourGradient plastic(juce::Colour(down?0xff272d25:0xff555b4e),0,r.getY(),
-            juce::Colour(0xff242b21),0,r.getBottom(),false);
-        plastic.addColour(.48,juce::Colour(down?0xff242a20:0xff393f33));
+        juce::ColourGradient plastic(juce::Colour(down?0xff272d25:0xff605765),0,r.getY(),
+            juce::Colour(0xff191722),0,r.getBottom(),false);
+        plastic.addColour(.48,juce::Colour(down?0xff242a20:0xff36303d));
         g.setGradientFill(plastic);g.fillRoundedRectangle(r,2);
-        g.setColour(juce::Colour(lit?0xffbd8c62:0xff6d7463));g.drawHorizontalLine(int(r.getY()),r.getX()+2,r.getRight()-2);
+        g.setColour(juce::Colour(lit?0xffc3a1e6:0xff6d7463));g.drawHorizontalLine(int(r.getY()),r.getX()+2,r.getRight()-2);
         g.setColour(juce::Colour(0xff0d120b));g.drawHorizontalLine(int(r.getBottom()-1),r.getX()+1,r.getRight()-1);
     }
 
     void drawButtonBackground(juce::Graphics& g,juce::Button& b,const juce::Colour&,bool hover,bool down) override {
         const bool lit=b.getToggleState();switchBody(g,b.getLocalBounds().toFloat(),down,lit);
         if(lit) {
-            g.setColour(juce::Colour(0x44ff5b29));g.fillRoundedRectangle(4,float(b.getHeight()-5),float(b.getWidth()-8),3,1);
-            g.setColour(juce::Colour(0xffe6b07d));g.fillRoundedRectangle(5,float(b.getHeight()-4),float(b.getWidth()-10),1.5f,.7f);
+            g.setColour(juce::Colour(0x44956bdb));g.fillRoundedRectangle(4,float(b.getHeight()-5),float(b.getWidth()-8),3,1);
+            g.setColour(juce::Colour(0xffd3b6f2));g.fillRoundedRectangle(5,float(b.getHeight()-4),float(b.getWidth()-10),1.5f,.7f);
         } else if(hover) {g.setColour(juce::Colour(0x0cfff3d0));g.fillRoundedRectangle(b.getLocalBounds().toFloat().reduced(2),2);}
     }
 
@@ -226,8 +205,8 @@ public:
         g.setGradientFill(juce::ColourGradient(juce::Colour(0xffa3a897),xx,cy-4,juce::Colour(0xff333c2c),xx,cy+4,false));
         g.fillRoundedRectangle(xx,cy-4,6,8,1);
         const auto lamp=juce::Rectangle<float>(3,3).withCentre({25,cy});
-        if(b.getToggleState()){g.setColour(juce::Colour(0x33ff5025));g.fillEllipse(lamp.expanded(2));}
-        g.setColour(juce::Colour(b.getToggleState()?0xfffc945f:0xff442c20));g.fillEllipse(lamp);
+        if(b.getToggleState()){g.setColour(juce::Colour(0x339d70df));g.fillEllipse(lamp.expanded(2));}
+        g.setColour(juce::Colour(b.getToggleState()?0xffd9b9ff:0xff35253e));g.fillEllipse(lamp);
         g.setColour(juce::Colour(hover?0xfff1e7cf:0xffd3cbb7));g.setFont(juce::Font(juce::FontOptions(11.0f)));
         g.drawText(b.getButtonText(),31,0,b.getWidth()-31,b.getHeight(),juce::Justification::centredLeft,true);
     }
@@ -262,15 +241,9 @@ public:
 private:
     static const juce::Image& grain() {
         static const auto tile=[] {
-            juce::Image image(juce::Image::RGB,256,256,false);
-            juce::Random random(0x51a7cafe);
-            for(int y=0;y<256;++y){
-                const int brushing=random.nextInt(19)-9;
-                for(int x=0;x<256;++x){
-                    const auto v=juce::uint8(juce::jlimit(0,255,116+brushing+random.nextInt(57)));
-                    image.setPixelAt(x,y,juce::Colour(v,v,v));
-                }
-            }
+            juce::Image image(juce::Image::RGB,1024,128,false);juce::Random random(0x51a7cafe);
+            for(int y=0;y<128;++y){const int brushing=random.nextInt(19)-9;float streak=float(random.nextInt(9)-4);
+                for(int x=0;x<1024;++x){streak=.98f*streak+.02f*float(random.nextInt(21)-10);const auto v=juce::uint8(juce::jlimit(0,255,128+brushing+int(streak)+random.nextInt(11)-5));image.setPixelAt(x,y,juce::Colour(v,v,v));}}
             return image;
         }();
         return tile;

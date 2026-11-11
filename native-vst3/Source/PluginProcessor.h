@@ -40,6 +40,8 @@ public:
     juce::Result loadBankPreset(int index);
     juce::Result saveNewPreset(const juce::String& name);
     juce::Result replaceBankPreset(int index);
+    juce::Result exportPreset(const juce::File&,bool overwrite=false);
+    juce::File presetExportFolder() const {return lastPresetExportFolder.isDirectory()?lastPresetExportFolder:library->folder();}
     juce::String selectedPresetKey() const {return state.state.getProperty("presetKey").toString();}
 
     static juce::String eqId(int band,const char* field);
@@ -85,6 +87,7 @@ public:
     void loadGatePreset(int);
     int gateStep() const {return displayedGateStep.load();}
 private:
+    juce::File lastPresetExportFolder;
     friend class ImpulseWorker;
     std::unique_ptr<juce::Thread> impulseWorker;
     void rebuildImpulse();

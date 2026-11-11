@@ -143,3 +143,13 @@ juce::Result SpaceInfinityProcessor::saveNewPreset(const juce::String& name){
 juce::Result SpaceInfinityProcessor::replaceBankPreset(int index){
     juce::MemoryBlock bytes;getStateInformation(bytes);return library->replace(index,bytes);
 }
+
+juce::Result SpaceInfinityProcessor::exportPreset(const juce::File& file,bool overwrite){
+    if(!file.hasFileExtension("sipreset")||file.isDirectory())return juce::Result::fail("Choose a .sipreset filename.");
+    if(!file.getParentDirectory().isDirectory())return juce::Result::fail("The selected folder does not exist.");
+    if(file.existsAsFile()&&!overwrite)return juce::Result::fail("A preset with that filename already exists.");
+    juce::MemoryBlock bytes;getStateInformation(bytes);juce::TemporaryFile temporary(file);
+    if(!temporary.getFile().replaceWithData(bytes.getData(),bytes.getSize())||!temporary.overwriteTargetFileWithTemporary())
+        return juce::Result::fail("Cannot save the preset in that folder. Check the folder permissions and free space.");
+    lastPresetExportFolder=file.getParentDirectory();return juce::Result::ok();
+}

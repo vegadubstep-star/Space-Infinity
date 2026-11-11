@@ -38,6 +38,17 @@ int runPresetSmoke(){
     if(renamedBank.entries().size()!=size_t(factoryCount)||renamedBank.entries()[size_t(renamedBank.indexForKey("F121"))].name!="Skywave Pad")return 116;
     renamedPad.reset();
     synth->loadPreset(0);auto* cutoff=synth->state.getParameter("cutoff");cutoff->setValueNotifyingHost(cutoff->convertTo0to1(1234));
+    const auto exportedFolder=folder.getChildFile("Chosen Folder");exportedFolder.createDirectory();const auto exportedFile=exportedFolder.getChildFile("My Custom Sound.sipreset");
+    const auto originalKey=synth->selectedPresetKey();
+    if(synth->exportPreset(exportedFile).failed()||synth->selectedPresetKey()!=originalKey||synth->presetBank().entries().size()!=size_t(factoryCount))return 117;
+    juce::MemoryBlock exported,unchanged;if(!exportedFile.loadFileAsData(exported))return 118;
+    cutoff->setValueNotifyingHost(cutoff->convertTo0to1(2222));
+    if(synth->exportPreset(exportedFile).wasOk()||!exportedFile.loadFileAsData(unchanged)||exported!=unchanged)return 119;
+    exported.reset();if(synth->exportPreset(exportedFile,true).failed()||!exportedFile.loadFileAsData(exported)||synth->presetExportFolder()!=exportedFolder)return 120;
+    auto exportedRecall=std::make_unique<SpaceInfinityProcessor>(folder.getChildFile("Export Recall"));exportedRecall->setStateInformation(exported.getData(),int(exported.getSize()));
+    if(std::abs(exportedRecall->state.getRawParameterValue("cutoff")->load()-2222)>.01f){std::cerr<<"Export recall cutoff: "<<exportedRecall->state.getRawParameterValue("cutoff")->load()<<std::endl;return 121;}
+    if(synth->exportPreset(exportedFolder.getChildFile("Wrong.txt")).wasOk()||synth->exportPreset(folder.getChildFile("Missing/Sound.sipreset")).wasOk())return 122;
+    exportedRecall.reset();cutoff->setValueNotifyingHost(cutoff->convertTo0to1(1234));
     if(synth->saveNewPreset("My Analogue Lead").failed())return 70;
     auto& bank=synth->presetBank();const auto key=synth->selectedPresetKey();
     if(bank.entries().size()!=size_t(factoryCount+1)||bank.indexForKey(key)!=factoryCount)return 71;

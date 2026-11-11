@@ -50,8 +50,7 @@ public:
     Module(SpaceInfinityProcessor& p,juce::String name,const char* enable):processor(p),title(std::move(name)),power(p,enable,""){addAndMakeVisible(power);setName(title);}
     void paint(juce::Graphics& g)override{
         HardwareTheme::module(g,getLocalBounds().toFloat(),false);
-        juce::ColourGradient violet(juce::Colour(0xff62418b),0,0,juce::Colour(0xff251c38),0,29,false);violet.addColour(.18,juce::Colour(0xff946fb7));
-        g.setGradientFill(violet);g.fillRect(1,1,getWidth()-2,28);
+        HardwareTheme::purpleMetal(g,{1,1,float(getWidth()-2),28},3);
         g.setColour(juce::Colour(0xffeee1cf));g.setFont(juce::Font(juce::FontOptions(12,juce::Font::bold)));g.drawText(title,38,2,180,26,juce::Justification::centredLeft);
         power.setBounds(8,3,28,24);
     }
