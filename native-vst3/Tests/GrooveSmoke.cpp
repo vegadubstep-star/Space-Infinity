@@ -1,0 +1,31 @@
+#include "../Source/PluginProcessor.h"
+#include <iostream>
+#include <stdexcept>
+namespace {
+void check(bool condition,const char* message){if(!condition)throw std::runtime_error(message);}
+void set(SpaceInfinityProcessor& p,const juce::String& id,float value){auto* parameter=p.state.getParameter(id);check(parameter!=nullptr,"parameter exists");parameter->setValueNotifyingHost(parameter->convertTo0to1(value));}
+void dry(SpaceInfinityProcessor& p){for(const char* id:{"compEnabled","delayEnabled","reverbEnabled","chorusEnabled","convolverEnabled","eqEnabled","pumpEnabled","gateEnabled"})set(p,id,0);}
+double energy(SpaceInfinityProcessor& p,float velocity,int note=48){p.prepareToPlay(48000,256);juce::AudioBuffer<float> audio(2,256);double sum=0;for(int block=0;block<188;++block){juce::MidiBuffer midi;if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,note,velocity),0);p.processBlock(audio,midi);if(block>60)for(int i=0;i<256;++i){const float v=audio.getSample(0,i);check(std::isfinite(v)&&std::abs(v)<1,"bounded audio");sum+=v*v;}}return sum;}
+}
+int runGrooveSmoke(){try{
+    const auto at=[](float swing,int samples){studio::Rhythm fx;fx.prepare(48000);studio::Rhythm::Settings s;s.gate=true;s.rate=2;s.swing=swing;s.attack=.1f;s.release=.1f;for(int i=0;i<16;++i)s.steps[size_t(i)]=i%2?0:1;fx.configure(s,120);float out=0;for(int i=0;i<samples;++i)out=fx.process(1,1,0)[0];return out;};
+    check(at(0,6600)<.1f&&at(.2f,6600)>.9f&&at(.2f,7800)<.1f,"swing delays the offbeat boundary");
+    const auto acid=[](float velocity){auto p=std::make_unique<SpaceInfinityProcessor>();p->loadPreset(10);dry(*p);set(*p,"ampVelocity",0);set(*p,"filterEnvAmount",0);set(*p,"ampSustain",1);set(*p,"res",.1f);set(*p,"drive",0);return energy(*p,velocity);};
+    const double soft=acid(.3f),hard=acid(1);check(soft>0&&hard>soft*1.3,"velocity opens acid cutoff independently of volume");std::cout<<"Acid accent energy ratio: "<<hard/soft<<std::endl;
+    const auto organ=[](float velocity,bool sensitive){auto p=std::make_unique<SpaceInfinityProcessor>();p->loadPreset(12);dry(*p);set(*p,"filterVelocity",0);set(*p,"ampVelocity",sensitive?1:0);return energy(*p,velocity);};
+    const double flatSoft=organ(.3f,false),flatHard=organ(1,false);check(std::abs(flatSoft-flatHard)<flatHard*.00001,"organ volume can ignore velocity");check(organ(1,true)>organ(.3f,true)*4,"velocity volume control still works");
+    const auto sub=[](float cutoff,float level){auto p=std::make_unique<SpaceInfinityProcessor>();p->loadPreset(0);dry(*p);set(*p,"osc1Enabled",0);set(*p,"osc2Enabled",0);set(*p,"subLevel",level);set(*p,"cutoff",cutoff);return energy(*p,.8f);};
+    const double low=sub(80,.4f),high=sub(16000,.4f);check(low>1&&std::abs(low-high)<high*.00001&&sub(80,0)<.00001,"sine sub bypasses the voice filter");
+    const auto table=[](bool moving){auto p=std::make_unique<SpaceInfinityProcessor>();p->loadPreset(9);dry(*p);set(*p,"ampLong",0);set(*p,"attack",0);set(*p,"osc2Enabled",0);set(*p,"mix",0);set(*p,"noiseLevel",0);set(*p,"cutoff",16000);set(*p,"macro0",0);set(*p,p->lfoParameterId(0,"Enabled"),moving?1:0);set(*p,p->lfoParameterId(1,"Enabled"),0);set(*p,p->lfoParameterId(2,"Enabled"),0);set(*p,p->lfoParameterId(0,"Sync"),0);set(*p,p->lfoParameterId(0,"Speed"),1);
+        p->prepareToPlay(48000,256);juce::AudioBuffer<float> audio(2,256);std::vector<float> result;for(int b=0;b<188;++b){juce::MidiBuffer midi;if(b==0)midi.addEvent(juce::MidiMessage::noteOn(1,60,.8f),0);p->processBlock(audio,midi);for(int i=0;i<256;++i)result.push_back(audio.getSample(0,i));}return result;};
+    const auto still=table(false),moving=table(true);double difference=0;for(size_t i=0;i<still.size();++i)difference+=std::abs(still[i]-moving[i]);check(difference>1,"wavetable scan modulation changes actual audio");
+    auto pad=std::make_unique<SpaceInfinityProcessor>();pad->loadPreset(9);check(pad->tableFrameCount()==3,"factory wavetable frames");pad->prepareToPlay(48000,256);juce::AudioBuffer<float> audio(2,256);double first=0,last=0;
+    const auto folder=juce::File::getCurrentWorkingDirectory().getChildFile("audition");folder.createDirectory();const auto file=folder.getChildFile("Nebula Pulse Pad Preview.wav");file.deleteFile();auto stream=file.createOutputStream();juce::WavAudioFormat wav;std::unique_ptr<juce::AudioFormatWriter> writer(wav.createWriterFor(stream.get(),48000,2,24,{},0));check(writer!=nullptr,"pad preview");stream.release();
+    for(int b=0;b<4500;++b){juce::MidiBuffer midi;if(b==0)for(int note:{48,55,60})midi.addEvent(juce::MidiMessage::noteOn(1,note,.8f),0);pad->processBlock(audio,midi);if(b<2250)check(writer->writeFromAudioSampleBuffer(audio,0,256),"pad preview write");for(int ch=0;ch<2;++ch)for(int i=0;i<256;++i){const float v=audio.getSample(ch,i);check(std::isfinite(v)&&std::abs(v)<1,"pad bounded");if(b>=375&&b<1125)first+=v*v;if(b>=3375&&b<4125)last+=v*v;}}
+    check(first>1&&last>first*.65,"gated pad keeps its sustained level");std::cout<<"Nebula sustained energy ratio: "<<last/first<<std::endl;
+    auto house=std::make_unique<SpaceInfinityProcessor>();house->loadPreset(11);house->prepareToPlay(48000,256);int notes=0;float minVelocity=1,maxVelocity=0;double chordEnergy=0;
+    for(int b=0;b<750;++b){juce::MidiBuffer midi;if(b==0)for(int note:{48,52,55})midi.addEvent(juce::MidiMessage::noteOn(1,note,.8f),0);house->processBlock(audio,midi);for(const auto event:house->generatedNotes())if(event.getMessage().isNoteOn()){++notes;minVelocity=std::min(minVelocity,event.getMessage().getFloatVelocity());maxVelocity=std::max(maxVelocity,event.getMessage().getFloatVelocity());}for(int i=0;i<256;++i)chordEnergy+=audio.getSample(0,i)*audio.getSample(0,i);}
+    check(notes>20&&maxVelocity-minVelocity>.25f&&chordEnergy>1,"house arp produces audible accented notes");
+    juce::MemoryBlock state;pad->getStateInformation(state);house->setStateInformation(state.getData(),int(state.getSize()));check(house->tableFrameCount()==3&&house->selectedPresetKey()=="F129"&&house->state.getRawParameterValue("gateSwing")->load()==pad->state.getRawParameterValue("gateSwing")->load(),"new table and gate recall");
+    std::cout<<"Groove bank: swing, accents, sub, wavetable movement, sustained pad and arp passed"<<std::endl;return 0;
+}catch(const std::exception& e){std::cerr<<"Groove bank: "<<e.what()<<std::endl;return 150;}}

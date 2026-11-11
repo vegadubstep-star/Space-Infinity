@@ -17,7 +17,7 @@ public:
         for(const auto& c:effectControls)if(id==c.id)unit=c.unit;
         if(id.containsIgnoreCase("attack")||id.containsIgnoreCase("release"))unit="ms";
         if(id=="gateLow"||id=="gateHigh")unit="Hz";
-        if(id.contains("Depth")||id=="convolverMix"||id=="gateDepth")unit="%";
+        if(id.contains("Depth")||id=="convolverMix"||id=="gateDepth"||id=="gateSwing")unit="%";
         if(id=="sidechainThreshold")unit="dB";
         slider.textFromValueFunction=[unit](double value){return juce::String(unit=="%"?value*100:value,unit=="Hz"||unit=="%"?0:unit=="s"?3:1)+(unit.isEmpty()?"":" "+unit);};
         slider.valueFromTextFunction=[unit](const juce::String& s){return s.getDoubleValue()/(unit=="%"?100:1);};
@@ -180,14 +180,14 @@ public:
         presets.addItemList(juce::StringArray(studio::gateNames.data(),int(studio::gateNames.size())),1);presets.setTextWhenNothingSelected("15 gate presets");presets.onChange=[this]{processor.loadGatePreset(presets.getSelectedId()-1);};addAndMakeVisible(presets);
         for(int i=0;i<16;++i){auto slider=std::make_unique<juce::Slider>();slider->setSliderStyle(juce::Slider::LinearVertical);slider->setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);slider->setTooltip("Gate step "+juce::String(i+1));addAndMakeVisible(*slider);
             steps.push_back(std::move(slider));stepBindings.push_back(std::make_unique<SliderBinding>(processor.state,"gateStep"+juce::String(i),*steps.back()));}
-        const char* ids[]{"gateDepth","gateAttack","gateRelease","pumpDepth","pumpAttack","pumpRelease","sidechainThreshold","sidechainRatio","gateLow","gateHigh"};
-        const char* names[]{"GATE DEPTH","ATTACK","RELEASE","DUCK DEPTH","SC ATTACK","SC RELEASE","SC THRESH","SC RATIO","SPLIT LOW","SPLIT HIGH"};for(int i=0;i<10;++i)knob(ids[i],names[i]);
+        const char* ids[]{"gateDepth","gateAttack","gateRelease","pumpDepth","pumpAttack","pumpRelease","sidechainThreshold","sidechainRatio","gateLow","gateHigh","gateSwing"};
+        const char* names[]{"GATE DEPTH","ATTACK","RELEASE","DUCK DEPTH","SC ATTACK","SC RELEASE","SC THRESH","SC RATIO","SPLIT LOW","SPLIT HIGH","SWING"};for(int i=0;i<11;++i)knob(ids[i],names[i]);
     }
     void paint(juce::Graphics& g)override{Module::paint(g);const int step=processor.gateStep();g.setColour(juce::Colour(0xffd6bbf5));if(step<int(steps.size()))g.drawRect(steps[size_t(step)]->getBounds().expanded(1),1);}
     void resized()override{presets.setBounds(230,4,180,22);switches[0]->setBounds(getWidth()-135,4,130,22);
         const int w=(getWidth()-24)/16;for(int i=0;i<16;++i)steps[size_t(i)]->setBounds(12+i*w,40,w-3,63);
         const int cw=(getWidth()-24)/4;for(int i=0;i<4;++i)choices[size_t(i)]->setBounds(12+i*cw,111,cw-6,23);
-        row({8,145,getWidth()-16,80},0,10);}
+        row({8,145,getWidth()-16,80},0,11);}
 private:
     juce::ComboBox presets;std::vector<std::unique_ptr<juce::Slider>> steps;std::vector<std::unique_ptr<SliderBinding>> stepBindings;
 };

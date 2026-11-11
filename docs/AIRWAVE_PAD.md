@@ -10,6 +10,8 @@ First replacement factory sound, programmed from the owner's Rank 1 Airwave-insp
 
 Each LFO has an **LFO ON** switch for the selected tab. Turning it off removes its voice and effects modulation, including the direct LFO 1 motion-to-cutoff path, while retaining the curve/routes. **VIBRATO** separately bypasses the older sine LFO's pitch/filter movement. Both are saved and automatable. They do not disable chorus or phaser's internal modulation.
 
-The bank now contains Init, Skywave Pad, Aurelia Lead, Azure Horizon Lead, Prism Drive Lead, Orbital Expedition Lead, Ionwire Gate Lead, Expanse Motion Pluck and Solo Afterglow Lead. Previous F0–F119 presets remain retired; Init is F120 and Skywave Pad is F121. Existing bank manifests gain the new sound without discarding user presets or restoring deliberately deleted sounds on every reload.
+The bank now contains Init, Skywave Pad, Aurelia Lead, Azure Horizon Lead, Prism Drive Lead, Orbital Expedition Lead, Ionwire Gate Lead, Expanse Motion Pluck, Solo Afterglow Lead, Nebula Pulse Pad, Caustic Circuit Bass, Velvet Transit Chords, Drawbar Ember Bass and Copper Bounce Bass. Previous F0–F119 presets remain retired; Init is F120 and Skywave Pad is F121. Existing bank manifests gain the new sound without discarding user presets or restoring deliberately deleted sounds on every reload.
 
 Automated checks cover roughly a minute of repeated chords, a held chord over multiple LFO cycles, the extended release, LFO bypass and saved-state recall. This establishes bounded output and guards against cumulative attenuation in this patch; it does not yet explain the owner's reported fading in the previous bank or replace FL Studio listening checks.
+
+See [groove bank additions](GROOVE_BANK.md) for the rhythmic pad, acid, house, organ and bounce patches and their new controls.

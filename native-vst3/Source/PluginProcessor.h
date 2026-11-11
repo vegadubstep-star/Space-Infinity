@@ -151,7 +151,7 @@ private:
         infinity::Envelope filterEnvelope;
         AnalogueEnvelope curvedAmp,curvedFilter,pitchEnvelope;
         VoiceCalibration calibration;
-        double idleRateA=0,idleRateB=0,pitch=0;
+        double idleRateA=0,idleRateB=0,pitch=0,subPhase=0;
         int source = 0;
         double samplePosition = 0, sampleStep = 0;
         int sampleStart = 0, sampleEnd = 0;

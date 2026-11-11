@@ -97,8 +97,8 @@ public:
         slider(0,"filterAttack","Attack (seconds)",15,175);slider(0,"filterDecay","Decay (seconds)",365,175);
         slider(0,"filterSustain","Sustain",15,225);slider(0,"filterRelease","Release (seconds)",365,225);
         slider(0,"filterEnvAmount","Amount (octaves)",15,285,690);
-        label(0,"Independent envelope per note. Negative amount closes the filter. Zero amount bypasses it.",{15,335,690,40});
-        slider(0,"glideTime","Legato glide (seconds; synth oscillator only)",15,385,690);
+        slider(0,"filterVelocity","Velocity to cutoff (octaves)",15,330,690);
+        slider(0,"glideTime","Legato glide (s)",15,365,690);
         slider(1,"grainPosition","Position",15,40);slider(1,"grainSize","Grain size (ms)",365,40);
         slider(1,"grainDensity","Grains / second",15,100);slider(1,"grainSpray","Position spray",365,100);
         slider(1,"grainSpread","Stereo spread",15,160);
@@ -139,7 +139,9 @@ public:
         slider(5,"pitchEnvAmount","Pitch envelope (semitones)",15,300,690);
         slider(5,"pitchEnvAttack","Pitch attack (seconds)",15,355);slider(5,"pitchEnvDecay","Pitch decay (seconds)",365,355);
         slider(5,"analogueCharacter","Character",15,100,690);
-        label(5,"Continuous oscillator phases, calibrated voice differences, gentle drift and capacitor-style envelopes.\nCharacter sets the amount of tuning, filter and level variation.\nThe engine runs at 2x the host rate with filtered downsampling for cleaner driven stages.",{15,170,690,120});
+        slider(5,"ampVelocity","Velocity to volume",15,170,690);
+        slider(5,"pitchEnvVelocity","Velocity to pitch envelope",15,260,690);
+        slider(5,"subLevel","Sub sine level",15,225,690);
         addAndMakeVisible(status);status.setBounds(15,433,700,27);status.setColour(juce::Label::textColourId,juce::Colour(0xffd8c8a7));startTimerHz(15);
     }
     void resized() override {tabs.setBounds(0,0,730,425);}

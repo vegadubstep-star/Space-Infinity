@@ -17,7 +17,7 @@ inline constexpr std::array<std::array<float,16>,15> gatePatterns{{
 class Rhythm {
 public:
     struct Settings {bool gate=false,pump=false;int split=0,rate=2,pumpRate=2,sidechain=0;
-        float depth=1,pumpDepth=.7f,attack=3,release=35,pumpAttack=3,pumpRelease=180,threshold=-24,ratio=8,low=180,high=2600;
+        float swing=0,depth=1,pumpDepth=.7f,attack=3,release=35,pumpAttack=3,pumpRelease=180,threshold=-24,ratio=8,low=180,high=2600;
         std::array<float,16> steps=gatePatterns[0];};
     void prepare(double rate){sr=rate;juce::dsp::ProcessSpec spec{sr,512,2};lo.prepare(spec);hi.prepare(spec);align.prepare(spec);align.setType(juce::dsp::LinkwitzRileyFilterType::allpass);gateGain=1;pumpGain=1;detector=0;beat=0;}
     void configure(const Settings& value,double tempo){s=value;bpm=juce::jlimit(20.0,400.0,tempo);
@@ -28,7 +28,8 @@ public:
     std::array<float,2> process(float l,float r,float external){
         static constexpr double lengths[]{.0625,.125,.25,.5,1,2,4};
         const double step=lengths[size_t(juce::jlimit(0,6,s.rate))];
-        const int index=int(std::floor(beat/step))%16;displayStep=juce::jlimit(0,15,index);
+        const double pair=std::floor(beat/(step*2));
+        const int index=(int(pair)*2+(beat-pair*step*2>=step*(1+juce::jlimit(0.0f,.5f,s.swing))?1:0))%16;displayStep=juce::jlimit(0,15,index);
         const float target=s.gate?1-s.depth+s.depth*s.steps[size_t(displayStep)]:1;
         const float gc=std::exp(-1.0f/(float(sr)*juce::jmax(.0002f,(target<gateGain?s.release:s.attack)*.001f)));
         gateGain=target+gc*(gateGain-target);

@@ -65,7 +65,7 @@ private:
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> lfoBarsBinding,lfoSyncBinding,lfoModeBinding;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> lfoSpeedBinding;
     std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>,17> lfoPointBindings;
-    std::array<std::unique_ptr<ModulationBadge>,23> modulationBadges;
+    std::array<std::unique_ptr<ModulationBadge>,25> modulationBadges;
     void bindLfoControls();
     void updateLfoRateVisibility();
     void refreshModulationIndicators();

@@ -1,9 +1,24 @@
-# Factory bank reset
+# Current factory bank
 
-The previous 119 factory sounds and their refinement tables have been removed at the owner’s request. The factory list now contains **Init**, **Skywave Pad**, **Aurelia Lead**, **Azure Horizon Lead**, **Prism Drive Lead**, **Orbital Expedition Lead**, **Ionwire Gate Lead**, **Expanse Motion Pluck** and **Solo Afterglow Lead**. Init is a dry oscillator sound with full sustain and no LFO depth, gate, pumping or effects. [Skywave Pad](AIRWAVE_PAD.md) is the first replacement, programmed from the owner’s specification.
+The previous 119 factory presets are removed. The replacement bank has thirteen sounds plus Init. User-saved presets remain available.
 
-Existing bank indexes retire all previous factory IDs F0–F119. Init uses F120, Skywave Pad uses F121, Aurelia Lead uses F122, Azure Horizon Lead uses F123, Prism Drive Lead uses F124, Orbital Expedition Lead uses F125, Ionwire Gate Lead uses F126, Expanse Motion Pluck uses F127 and Solo Afterglow Lead uses F128, so old identities are never reassigned. User-saved files and their ordering remain intact; Init is inserted when an older bank is opened. Restore Factory restores these nine entries and preserves user sounds.
+| ID | Preset |
+|---|---|
+| F120 | Init |
+| F121 | Skywave Pad |
+| F122 | Aurelia Lead |
+| F123 | Azure Horizon Lead |
+| F124 | Prism Drive Lead |
+| F125 | Orbital Expedition Lead |
+| F126 | Ionwire Gate Lead |
+| F127 | Expanse Motion Pluck |
+| F128 | Solo Afterglow Lead |
+| F129 | Nebula Pulse Pad |
+| F130 | Caustic Circuit Bass |
+| F131 | Velvet Transit Chords |
+| F132 | Drawbar Ember Bass |
+| F133 | Copper Bounce Bass |
 
-Saved DAW projects and user presets still recall their stored parameters and embedded audio; deleting a factory listing does not rewrite existing music projects.
+Previous F0–F119 identities stay retired. Saved DAW projects and user presets still recall their stored parameters and embedded audio; removing a factory listing does not rewrite music projects. The pad rename preserves F121.
 
-See [new trance leads](TRANCE_LEADS.md) for the lead recipes and implementation differences.
+Existing bank manifests gain the new sounds while retaining user files. Restore Factory restores the current bank and preserves user sounds. See [Skywave](AIRWAVE_PAD.md), [trance leads](TRANCE_LEADS.md), and [groove additions](GROOVE_BANK.md) for settings and implementation details.
