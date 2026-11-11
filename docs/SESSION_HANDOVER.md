@@ -4,6 +4,22 @@ Repository: `vegadubstep-star/Space-Infinity`
 Working branch: `codex/windows-build`  
 Native version: **0.2.0**
 
+## Latest status — download now verified
+
+The outage has cleared. Workflow [43104018106](https://github.com/vegadubstep-star/Space-Infinity/actions/runs/43104018106) completed successfully: Windows build, all eleven native suites, installer/archive verification and release publishing.
+
+**v0.2.0 is published and ready to test:**
+
+- [Windows setup](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.2.0/SPACE_INFINITY_0.2.0_Windows_x64_Setup.exe)
+- [Release page / manual VST3 archive](https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.2.0)
+
+Both assets were actually downloaded and matched `SHA256SUMS.txt`. The archive passed ZIP integrity verification and contains a Windows x64 PE VST3 module.
+
+- Setup SHA-256: `dea033f2f92c6b87a7fe926e2718381dd444235bed531de949ae580880b103f4`
+- VST3 ZIP SHA-256: `d2e273fcf1726d1ecfdda9348da03920d765b2f2965140d3dff110abe5e39663`
+
+Next: user testing in FL Studio. Close FL Studio before running the setup, reopen and test a fresh instance. The remaining gate/sequencer and visual work is listed below. Earlier outage notes describe the previous shutdown state; the release blocker is now resolved.
+
 ## Saved work
 
 - `8deb548`: ten synth control/FX updates.
