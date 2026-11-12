@@ -1,8 +1,12 @@
-# SPACE INFINITY 0.4.1 — hard-trance badge and output light
+# SPACE INFINITY 0.4.2 — hard-trance badge and output light
 
-Version 0.4.1 adds the approved sharper hard-trance badge and its output-reactive purple light, retaining the complete 0.4.0 controls update. [Light active](images/Logo-Active.png) / [Idle metal finish](images/Logo-Idle.png).
+Version 0.4.2 adds the approved sharper hard-trance badge and its output-reactive purple light, retaining the complete 0.4.0 controls update. [Light active](images/Logo-Active.png) / [Idle metal finish](images/Logo-Idle.png).
 
 This update keeps the existing analogue filters and controls and adds more direct control over hardware-like variation. It also includes a [module-by-module Serum 2 audit](SERUM2_FEATURE_AUDIT.md). The audit finds real feature gaps; this release is not represented as a full Serum 2 replacement or an identical Xfer sound engine.
+
+## Logo fit hotfix
+
+The Windows alpha-mask path can use the parent texture of a cropped image, making only the top of the wordmark visible. The badge is now baked into complete, zero-origin software RGBA images before native drawing. Windows receives ordinary fitted images for the metal, shadow and reactive light; the approved artwork is unchanged. The backing is 4x resolution and layout checks cover 100%, 125%, 150%, 200%, 300% and 400% scale. The regression fixture has a large source offset and verifies that lower strokes remain visible.
 
 ## Changes
 
@@ -29,7 +33,7 @@ Two visible LFOs, broad macro routing, WT POS, 3D frame views, the six original 
 
 ## Test it
 
-Download the **v0.4.1 Windows installer ZIP** from its release page, extract it, close FL Studio, run Setup.exe and reopen a fresh synth instance. Keep older installers if you want to compare versions.
+Download the **v0.4.2 Windows installer ZIP** from its release page, extract it, close FL Studio, run Setup.exe and reopen a fresh synth instance. Keep older installers if you want to compare versions.
 
 1. Compare the new component switch on/off on a factory preset. Turn up one control at a time. VCA drive can compress peaks; it is a tone control, not an automatic loudness-matching switch.
 2. Check that old saved sounds recall and the original analogue/filter controls still work.

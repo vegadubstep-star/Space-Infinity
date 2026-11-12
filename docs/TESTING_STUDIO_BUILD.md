@@ -1,6 +1,6 @@
-# Testing SPACE INFINITY 0.4.1
+# Testing SPACE INFINITY 0.4.2
 
-Download the **installer ZIP** from the [v0.4.1 release](https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.4.1) once its Windows workflow has published it. Sign into GitHub if needed. Extract All, close FL Studio, run `SPACE_INFINITY_0.4.1_Windows_x64_Setup.exe`, then reopen FL Studio and load a fresh SPACE INFINITY instance. The plugin identity and user preset storage are preserved.
+Download the **installer ZIP** from the [v0.4.2 release](https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.4.2) once its Windows workflow has published it. Sign into GitHub if needed. Extract All, close FL Studio, run `SPACE_INFINITY_0.4.2_Windows_x64_Setup.exe`, then reopen FL Studio and load a fresh SPACE INFINITY instance. The plugin identity and user preset storage are preserved.
 
 [Analogue update](ANALOGUE_AND_PARITY_UPDATE.md) / [Serum 2 audit](SERUM2_FEATURE_AUDIT.md) / [earlier rhythm changes](RHYTHM_AND_METAL_UPDATE.md) / [previous control and FX updates](TEN_CONTROL_UPDATES.md)
 
@@ -24,4 +24,4 @@ Latest UI checks: MAIN shows both amp/filter curves above their knobs. Adjust At
 
 MAIN analogue/pitch checks: Character, PRE DRIVE, ANALOGUE and LAB should sit beside the filter at all four sizes. PITCH opens a separate pitch page; ANALOGUE has no pitch-envelope or pitch-bend controls. Set Mono or Legato, raise PORTAMENTO and overlap notes to hear glide (including sample playback). Automate Pitch Wheel in FL Studio for risers; zero is centre and +12 st raises one octave.
 
-Logo check (0.4.1): the approved clean hard-trance badge must clear the pitch wheel at every size. Play sound: purple illumination fills within the letters with final output level. Lower master output to zero: the light should decay smoothly to idle, with no MIDI-only flashes or light from a muted signal. The metal lettering remains visible at silence.
+Logo check (0.4.2): the approved clean hard-trance badge must clear the pitch wheel at every size. Play sound: purple illumination fills within the letters with final output level. Lower master output to zero: the light should decay smoothly to idle, with no MIDI-only flashes or light from a muted signal. The metal lettering remains visible at silence.

@@ -53,7 +53,7 @@ private:
     std::array<juce::ToggleButton,4> filterRoutes;
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment>> routeBindings;
     std::unique_ptr<SamplerDisplay> sampleDisplay,liveDisplay;
-    juce::Image infinityLogo;
+    juce::Image infinityLogo,logoShadow,logoLight;
     // Popups borrow the processor and look-and-feel, so their lifetime must
     // end before the editor and processor that they refer to are destroyed.
     std::unique_ptr<juce::Component> popupContent;

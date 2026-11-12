@@ -1,3 +1,9 @@
+# 0.4.2 logo clipping hotfix — Windows validation pending
+
+User reports only the top of the logo is visible in the installed synth. JUCE 8 Direct2D alpha-mask drawing obtains the parent bitmap of a subsection without applying its source area offset. Prior off-screen captures did not exercise that native window path. Removed all on-screen cropped-mask rendering for this badge. LogoArtwork.h now physically copies coverage into a zero-origin software mask and bakes complete 4x RGBA metal/shadow/light tiles; the window draws ordinary fitted images. Approved master artwork is unchanged.
+
+Seven local relevant suites passed, including a large source-offset fixture with lower-stroke checks at 100/125/150/200/300/400% scale. Added actual Windows peer captures for each available rendering engine at 100/125/150/200% app scale, comparing lower logo strokes against the complete render. This Windows-only check must pass before release. Version bumped to 0.4.2; inventory regenerated. Do not give the 0.4.1 installer as the clipping fix.
+
 # Verified release — SPACE INFINITY 0.4.1
 
 **Published and ready to test.**

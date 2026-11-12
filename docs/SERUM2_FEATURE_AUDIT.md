@@ -1,4 +1,4 @@
-# Serum 2 manual audit — SPACE INFINITY 0.4.1
+# Serum 2 manual audit — SPACE INFINITY 0.4.2
 
 Audited against Xfer’s [official Serum 2 User Guide](https://xferrecords.com/manual/serum-2/docs), accessed 12 November 2026. Page numbers below refer to the printed guide. The supplementary analogue reference is u-he’s [Diva User Guide](https://u-he.com/downloads/manuals/plugins/diva/Diva-user-guide.pdf), especially Trimmers and Transient Mode, pp. 47–48.
 

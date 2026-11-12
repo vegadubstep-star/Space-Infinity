@@ -5,6 +5,7 @@
 #include "StudioRack.h"
 #include "SamplerDisplay.h"
 #include <Artwork.h>
+#include "LogoArtwork.h"
 #include <array>
 #include <cmath>
 #include <complex>
@@ -260,14 +261,8 @@ void drawInset(juce::Graphics& g,juce::Rectangle<float> bounds){
 }
 SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcessorEditor(&p),processor(p){
     setLookAndFeel(&hardwareLook);
-    const auto brandMaster=juce::ImageFileFormat::loadFrom(Artwork::InfinityLogo_png,Artwork::InfinityLogo_pngSize);
-    if(brandMaster.isValid()){
-        // The clean monochrome master supplies coverage, not a baked black plate.
-        infinityLogo=juce::Image(juce::Image::ARGB,brandMaster.getWidth(),brandMaster.getHeight(),true);
-        juce::Image::BitmapData source(brandMaster,juce::Image::BitmapData::readOnly),mask(infinityLogo,juce::Image::BitmapData::writeOnly);juce::Rectangle<int> ink;
-        for(int y=0;y<brandMaster.getHeight();++y)for(int x=0;x<brandMaster.getWidth();++x){const auto pixel=source.getPixelColour(x,y);const float coverage=juce::jlimit(0.0f,1.0f,(pixel.getBrightness()-.12f)/.76f)*pixel.getFloatAlpha();mask.setPixelColour(x,y,juce::Colours::white.withAlpha(coverage));if(coverage>.5f)ink=ink.getUnion({x,y,1,1});}
-        infinityLogo=infinityLogo.getClippedImage(ink.expanded(2).getIntersection(infinityLogo.getBounds()));
-    }
+    const LogoArtwork badge(juce::ImageFileFormat::loadFrom(Artwork::InfinityLogo_png,Artwork::InfinityLogo_pngSize));
+    infinityLogo=badge.metal;logoShadow=badge.shadow;logoLight=badge.light;
 
     setResizable(true,true);setResizeLimits(800,760,1500,950);setSize(1180,820);
     title.setText("SPACE INFINITY",juce::dontSendNotification);title.setFont(juce::Font(juce::FontOptions(29.0f,juce::Font::bold).withKerningFactor(.075f)));title.setColour(juce::Label::textColourId,juce::Colour(0xffefe4cb));addAndMakeVisible(title);
@@ -990,15 +985,13 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     if(infinityLogo.isValid()){
         g.setImageResamplingQuality(juce::Graphics::highResamplingQuality);
         const int logoWidth=juce::jmin(250,getWidth()-540);const int placement=juce::RectanglePlacement::xLeft|juce::RectanglePlacement::yMid;
-        g.setColour(juce::Colour(0xbb08050c));g.drawImageWithin(infinityLogo,53,24,logoWidth,58,placement,true);
-        juce::ColourGradient foil(juce::Colour(0xffaea3c5),0,22,juce::Colour(0xff50405f),0,80,false);foil.addColour(.30,juce::Colour(0xffb6a5d0));foil.addColour(.53,juce::Colour(0xff655076));foil.addColour(.57,juce::Colour(0xffd4c5ea));foil.addColour(.72,juce::Colour(0xff8b72a8));g.setGradientFill(foil);g.drawImageWithin(infinityLogo,52,22,logoWidth,58,placement,true);
+        g.setOpacity(1);g.drawImageWithin(logoShadow,53,24,logoWidth,58,placement,false);
+        g.drawImageWithin(infinityLogo,52,22,logoWidth,58,placement,false);
         if(logoLevel>0){
-            // Illuminate inside the letter coverage only, like a level light in a metal badge.
-            juce::Graphics::ScopedSaveState illuminated(g);const float litWidth=logoWidth*logoLevel;
-            g.reduceClipRegion(juce::Rectangle<int>(52,22,juce::roundToInt(litWidth),58));
-            const float alpha=.2f+.75f*logoLevel;juce::ColourGradient light(juce::Colour(0xffbf7aff).withAlpha(alpha),52,51,juce::Colour(0xfff4ddff).withAlpha(alpha),52+litWidth,51,false);light.addColour(.74,juce::Colour(0xffedb7ff).withAlpha(alpha));g.setGradientFill(light);g.drawImageWithin(infinityLogo,52,22,logoWidth,58,placement,true);
+            juce::Graphics::ScopedSaveState illuminated(g);
+            g.reduceClipRegion(juce::Rectangle<int>(52,22,juce::roundToInt(logoWidth*logoLevel),58));
+            g.setOpacity(.2f+.75f*logoLevel);g.drawImageWithin(logoLight,52,22,logoWidth,58,placement,false);
         }
-
     }
 
     g.setFont(10.0f);

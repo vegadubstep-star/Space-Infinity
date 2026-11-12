@@ -2,6 +2,12 @@
 #include <cmath>
 #include <iostream>
 #include <fstream>
+#if JUCE_WINDOWS
+ #ifndef NOMINMAX
+  #define NOMINMAX
+ #endif
+ #include <windows.h>
+#endif
 
 int runAnalogueTailProbe();
 int runAnalogueExpansionSmoke();
@@ -17,9 +23,30 @@ int runLeadSmoke();
 int runGrooveSmoke();
 
 int writeParameterInventory(const juce::File& file){
-    auto p=std::make_unique<SpaceInfinityProcessor>();auto* root=new juce::DynamicObject;juce::var result(root);root->setProperty("native_version","0.4.1");root->setProperty("manual_reference","https://xferrecords.com/manual/serum-2/docs");root->setProperty("notes","Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.");juce::Array<juce::var> rows;
+    auto p=std::make_unique<SpaceInfinityProcessor>();auto* root=new juce::DynamicObject;juce::var result(root);root->setProperty("native_version","0.4.2");root->setProperty("manual_reference","https://xferrecords.com/manual/serum-2/docs");root->setProperty("notes","Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.");juce::Array<juce::var> rows;
     for(auto* parameter:p->getParameters())if(auto* a=dynamic_cast<juce::RangedAudioParameter*>(parameter)){auto* row=new juce::DynamicObject;row->setProperty("id",a->paramID);row->setProperty("name",a->getName(120));row->setProperty("type",dynamic_cast<juce::AudioParameterBool*>(a)?"boolean":dynamic_cast<juce::AudioParameterChoice*>(a)?"choice":dynamic_cast<juce::AudioParameterInt*>(a)?"integer":"float");row->setProperty("minimum",a->convertFrom0to1(0));row->setProperty("maximum",a->convertFrom0to1(1));row->setProperty("host_default",a->convertFrom0to1(a->getDefaultValue()));row->setProperty("init_value",p->state.getRawParameterValue(a->paramID)->load());if(auto* choice=dynamic_cast<juce::AudioParameterChoice*>(a)){juce::Array<juce::var> names;for(const auto& name:choice->choices)names.add(name);row->setProperty("choices",names);}rows.add(juce::var(row));}root->setProperty("parameter_count",rows.size());root->setProperty("parameters",rows);if(file.getParentDirectory().createDirectory().failed()||!file.replaceWithText(juce::JSON::toString(result)))return 125;std::cout<<"Exported "<<rows.size()<<" native parameters to "<<file.getFullPathName()<<'\n';return 0;
 }
+
+#if JUCE_WINDOWS
+int verifyNativeLogo(juce::AudioProcessorEditor& editor,const juce::File& folder){
+    editor.setSize(800,760);editor.setOpaque(true);editor.addToDesktop(0);editor.setVisible(true);
+    auto& desktop=juce::Desktop::getInstance();const float previousScale=desktop.getGlobalScaleFactor();
+    const auto engines=editor.getPeer()->getAvailableRenderingEngines();int captures=0;
+    for(int engine=0;engine<engines.size();++engine)for(float scale:{1.0f,1.25f,1.5f,2.0f}){
+        desktop.setGlobalScaleFactor(scale);auto* peer=editor.getPeer();peer->setCurrentRenderingEngine(engine);editor.repaint();
+        for(int tick=0;tick<30;++tick){MSG message;while(PeekMessageW(&message,nullptr,0,0,PM_REMOVE)){TranslateMessage(&message);DispatchMessageW(&message);}peer->performAnyPendingRepaintsNow();juce::Thread::sleep(15);}
+        const auto actual=juce::createSnapshotOfNativeWindow(peer->getNativeHandle());
+        if(!actual.isValid()){std::cout<<"Native logo capture unavailable: "<<engines[engine]<<"\n";continue;}
+        const auto image=actual.rescaled(editor.getWidth(),editor.getHeight(),juce::Graphics::highResamplingQuality);
+        const auto reference=editor.createComponentSnapshot(editor.getLocalBounds());juce::Image::BitmapData expectedPixels(reference,juce::Image::BitmapData::readOnly),actualPixels(image,juce::Image::BitmapData::readOnly);int count=0,matching=0;
+        for(int y=45;y<76;++y)for(int x=52;x<302;++x){const auto expected=expectedPixels.getPixelColour(x,y),background=expectedPixels.getPixelColour(310,y);if(int(expected.getGreen())-int(background.getGreen())>35){++count;const auto pixel=actualPixels.getPixelColour(x,y);if(std::abs(int(pixel.getRed())-int(expected.getRed()))<35&&std::abs(int(pixel.getGreen())-int(expected.getGreen()))<35&&std::abs(int(pixel.getBlue())-int(expected.getBlue()))<35)++matching;}}
+        std::cout<<"Native logo "<<engines[engine]<<" scale "<<scale<<": "<<matching<<"/"<<count<<" lower-stroke pixels match\n";
+        auto file=folder.getChildFile("Logo-Native-"+juce::String(engine)+"-"+juce::String(int(scale*100))+".png");file.deleteFile();auto stream=file.createOutputStream();if(!stream||!juce::PNGImageFormat{}.writeImageToStream(actual,*stream))return 106;
+        if(count<150||matching<count*.9)return 107;++captures;
+    }
+    desktop.setGlobalScaleFactor(previousScale);editor.removeFromDesktop();return captures>0?0:108;
+}
+#endif
 
 int renderHardwarePreview()
 {
@@ -48,6 +75,10 @@ int renderHardwarePreview()
             if(!stream||!juce::PNGImageFormat{}.writeImageToStream(image,*stream))return 104;
         }
     }
+    for(float scale:{1.0f,1.25f,1.5f,2.0f,3.0f,4.0f}){const auto image=editor->createComponentSnapshot({48,18,260,68},true,scale);const auto file=folder.getChildFile("Logo-DPI-"+juce::String(int(scale*100))+".png");file.deleteFile();auto stream=file.createOutputStream();if(!stream||!juce::PNGImageFormat{}.writeImageToStream(image,*stream))return 105;}
+   #if JUCE_WINDOWS
+    if(const int result=verifyNativeLogo(*editor,folder))return result;
+   #endif
     std::cout<<"Native hardware editor: Main/FX/Gate/Seq screenshots and bounds passed at 800, 1000, 1180 and 1500 pixels\n";
     return 0;
 }
