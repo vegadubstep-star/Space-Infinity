@@ -1,8 +1,18 @@
-# 0.4.2 logo clipping hotfix — Windows validation pending
+# Verified hotfix — SPACE INFINITY 0.4.2
 
-User reports only the top of the logo is visible in the installed synth. JUCE 8 Direct2D alpha-mask drawing obtains the parent bitmap of a subsection without applying its source area offset. Prior off-screen captures did not exercise that native window path. Removed all on-screen cropped-mask rendering for this badge. LogoArtwork.h now physically copies coverage into a zero-origin software mask and bakes complete 4x RGBA metal/shadow/light tiles; the window draws ordinary fitted images. Approved master artwork is unchanged.
+Published and ready. [Installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.4.2/SPACE_INFINITY_0.4.2_Windows_x64_Installer.zip). Release source: 8486d987246b0f7f641ca82ddbe8b5fc6442d8fa. Windows workflow: 43323636209. Native tests (all 15), installer/archive checks and publication passed. Actual release ZIP/VST3 downloaded: integrity, published hashes, embedded Setup hash, Windows x64 PE, approved logo master bytes, packaged notes and 1,068-parameter inventory/version 0.4.2 verified.
 
-Seven local relevant suites passed, including a large source-offset fixture with lower-stroke checks at 100/125/150/200/300/400% scale. Added actual Windows peer captures for each available rendering engine at 100/125/150/200% app scale, comparing lower logo strokes against the complete render. This Windows-only check must pass before release. Version bumped to 0.4.2; inventory regenerated. Do not give the 0.4.1 installer as the clipping fix.
+User reported only the logo's top visible on Windows. JUCE Direct2D's alpha-mask path used the parent bitmap of a cropped image without its area offset. LogoArtwork.h now physically copies coverage to a zero-origin software mask and bakes complete 4x RGBA metal/shadow/light images. Window painting draws ordinary fitted images with no cropped alpha-mask clipping. Approved artwork and reactive purple light are retained.
+
+Local source-offset/lower-stroke regression checks passed at 100/125/150/200/300/400%. Windows HardwareUI now creates native windows for every available rendering engine at 100/125/150/200% app scale and compares lower logo strokes against the complete render; that check passed. Optional native screenshot artifact download was denied by the environment's Azure Blob proxy (403); do not claim manual inspection of those PNGs. The automated native capture comparison passed, and actual installer downloads were verified independently. Do not retry the denied Blob route without a legitimate environment-policy change.
+
+Close FL Studio completely before installing, then load a fresh instance. 0.4.1 is not the clipping fix. Local evidence: /workspace/work/workflow-update/v042-logo-fit-tests.log; release verification: /workspace/work/release-verification/v0.4.2/.
+
+- Installer ZIP SHA-256: ffee8f489f10f49c54e692e0996e1ef6b16ec0ee7282bd363d9453a966d795cc
+- Setup SHA-256: 60e5220513417f12f0541abc7d66969804cea3d0a8c066ca54d1724759c27136
+- VST3 ZIP SHA-256: b61c2d95fcbd6a6ec44a07acf06c77c78d8adce7d77aea1603dbe54e6f4090ef
+
+## Previous release history
 
 # Verified release — SPACE INFINITY 0.4.1
 
