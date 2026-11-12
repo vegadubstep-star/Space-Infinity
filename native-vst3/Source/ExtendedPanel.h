@@ -99,9 +99,9 @@ class ExtendedPanel final : public juce::Component,private juce::Timer {
     }
     void timerCallback() override {envelope.repaint();}
 public:
-    explicit ExtendedPanel(SpaceInfinityProcessor& p):processor(p),table(p),envelope(p){
+    explicit ExtendedPanel(SpaceInfinityProcessor& p,std::function<void()> showSequence={}):processor(p),table(p),envelope(p){
         setSize(730,465);addAndMakeVisible(tabs);
-        const char* names[]={"FILTER ENV","GRANULAR","ARP / SEQ","WAVETABLE","CONVOLVER","ANALOGUE"};
+        const char* names[]={"FILTER ENV","GRANULAR","SEQUENCER","WAVETABLE","CONVOLVER","ANALOGUE"};
         for(int i=0;i<6;++i)tabs.addTab(names[i],juce::Colour(0xff252b31),&pages[size_t(i)],false);
         pages[0].addAndMakeVisible(envelope);envelope.setBounds(15,15,690,140);
         knob(0,"filterAttack","ATTACK",15,168,165,"s");knob(0,"filterDecay","DECAY",190,168,165,"s");
@@ -114,20 +114,8 @@ public:
         slider(1,"grainSpread","Stereo spread",15,160);
         action(1,"USE GRANULAR WAV",{15,230,200,30},[this]{auto* source=processor.state.getParameter("source");source->setValueNotifyingHost(source->convertTo0to1(4));});
         label(1,"Import a WAV on the Main page, then select Granular WAV. Uses sample trim, root note and reverse.\nUp to 32 overlapping, windowed grains per note; release follows the amp envelope.",{15,280,690,65});
-        choice(2,"patternMode",{"Off","Arpeggiator","Sequencer","Arp + Seq"},15,15,170);
-        choice(2,"arpOrder",{"Up","Down","Up-Down","Random"},195,15,145);
-        choice(2,"patternRate",{"1/4","1/8","1/16","1/32","1/8 triplet","1/16 triplet"},350,15,130);
-        slider(2,"arpOctaves","Octaves",15,55,330);slider(2,"patternGate","Gate",365,55,340);
-        slider(2,"sequenceLength","Steps",15,95,330);
-        label(2,"Hold notes to play. Sequence pitches are semitones relative to the held root / arpeggiated note.",{15,130,690,30});
-        for(int i=0;i<16;++i){const int x=80+i*39;label(2,juce::String(i+1),{x,170,36,22});
-            auto& pitch=own<juce::Slider>(2);pitch.setSliderStyle(juce::Slider::LinearVertical);pitch.setTextBoxStyle(juce::Slider::TextBoxBelow,false,37,21);pitch.setBounds(x,197,37,100);
-            sliders.push_back(std::make_unique<SliderBinding>(processor.state,"stepPitch"+juce::String(i),pitch));
-            auto& vel=own<juce::Slider>(2);vel.setSliderStyle(juce::Slider::LinearVertical);vel.setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);vel.setBounds(x,305,37,45);
-            vel.setTooltip("Step "+juce::String(i+1)+" velocity");sliders.push_back(std::make_unique<SliderBinding>(processor.state,"stepVelocity"+juce::String(i),vel));
-            auto& on=own<juce::ToggleButton>(2);on.setBounds(x+4,355,29,25);buttons.push_back(std::make_unique<ButtonBinding>(processor.state,"stepOn"+juce::String(i),on));
-        }
-        label(2,"Pitch",{8,235,64,23});label(2,"Velocity",{8,315,64,23});label(2,"On/rest",{8,355,64,23});
+        label(2,"The note sequencer has its own SEQ page, separate from the audio gate.",{20,45,680,60});
+        action(2,"OPEN SEQUENCER PAGE",{20,125,280,40},[showSequence]{if(showSequence)showSequence();});
         pages[3].addAndMakeVisible(table);table.setBounds(15,100,690,180);
         frame.setSliderStyle(juce::Slider::LinearHorizontal);frame.setTextBoxStyle(juce::Slider::TextBoxRight,false,60,24);frame.setBounds(80,55,230,27);
         frame.onValueChange=[this]{table.frame=juce::jlimit(0,processor.tableFrameCount()-1,int(frame.getValue())-1);table.reload();};pages[3].addAndMakeVisible(frame);
@@ -147,7 +135,7 @@ public:
         auto& analogue=own<juce::ToggleButton>(5);analogue.setButtonText("ANALOGUE VOICES + CURVED ENVELOPES");analogue.setBounds(15,25,660,30);
         buttons.push_back(std::make_unique<ButtonBinding>(processor.state,"analogueUpgrade",analogue));
         knob(5,"midiBendRange","MIDI BEND",15,65,215,"st");knob(5,"analogueCharacter","CHARACTER",245,65,215,"%");knob(5,"filterInputDrive","PRE-FILTER DRIVE",475,65,215,"%");
-        knob(5,"ampVelocity","VELOCITY TO VOLUME",15,170,215,"%");knob(5,"subLevel","SUB SINE",245,170,215,"%");knob(5,"pitchEnvVelocity","PITCH VELOCITY",475,170,215,"%");
+        knob(5,"ampVelocity","VELOCITY TO VOLUME",15,170,215,"%");knob(5,"subLevel","SUB LEVEL",245,170,215,"%");knob(5,"pitchEnvVelocity","PITCH VELOCITY",475,170,215,"%");
         knob(5,"pitchEnvAmount","PITCH ENVELOPE",15,275,215,"st");knob(5,"pitchEnvAttack","PITCH ATTACK",245,275,215,"s");knob(5,"pitchEnvDecay","PITCH DECAY",475,275,215,"s");
         addAndMakeVisible(status);status.setBounds(15,433,700,27);status.setColour(juce::Label::textColourId,juce::Colour(0xffd8c8a7));startTimerHz(15);
     }

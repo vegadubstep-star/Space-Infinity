@@ -21,20 +21,18 @@ public:
         float swing=0,depth=1,pumpDepth=.7f,attack=3,release=35,pumpAttack=3,pumpRelease=180,threshold=-24,ratio=8,low=180,high=2600;
         std::array<float,16> steps=gatePatterns[0];};
     void prepare(double rate){sr=rate;juce::dsp::ProcessSpec spec{sr,512,2};lo.prepare(spec);hi.prepare(spec);align.prepare(spec);align.setType(juce::dsp::LinkwitzRileyFilterType::allpass);gateGain=1;pumpGain=1;detector=0;beat=0;held.fill(false);heldCount=0;}
-    void configure(const Settings& value,double tempo){s=value;bpm=juce::jlimit(20.0,400.0,tempo);
+    void configure(const Settings& value,double tempo){s=value;s.pwm=juce::jlimit(.1f,.9f,s.pwm);s.smooth=juce::jlimit(.1f,50.0f,s.smooth);s.curve.count=juce::jlimit(2,33,s.curve.count);bpm=juce::jlimit(20.0,400.0,tempo);
         lo.setCutoffFrequency(juce::jlimit(20.0f,float(sr*.2),s.low));
         const float high=juce::jlimit(s.low*1.25f,float(sr*.44),s.high);hi.setCutoffFrequency(high);align.setCutoffFrequency(high);}
     void setBeat(double ppq){beat=ppq;}
     void midi(const juce::MidiMessage& m){if(m.isAllNotesOff()||m.isAllSoundOff()){held.fill(false);heldCount=0;}else if(m.isNoteOnOrOff()){const int key=(m.getChannel()-1)*128+m.getNoteNumber();if(m.isNoteOn()){if(!held[size_t(key)])++heldCount;held[size_t(key)]=true;if(s.retrigger)beat=0;}else if(held[size_t(key)]){held[size_t(key)]=false;--heldCount;}}}
-    void advance(int samples){beat+=samples*bpm/(60*sr);if(beat>1000000)beat-=1000000;}
+    void advance(int samples){beat+=samples*bpm/(60*sr);if(beat>1000000)beat-=1000000;displayPhase=phaseAtBeat();}
     std::array<float,2> process(float l,float r,float external){
         static constexpr double lengths[]{.0625,.125,.25,.5,1,2,4};
         const double step=lengths[size_t(juce::jlimit(0,6,s.rate))];
         const double pair=std::floor(beat/(step*2));
         const int index=(int(pair)*2+(beat-pair*step*2>=step*(1+juce::jlimit(0.0f,.5f,s.swing))?1:0))%16;displayStep=juce::jlimit(0,15,index);
-        static constexpr double cycles[]{.0625,.125,.25,.5,1,2,4,8,16};const double length=cycles[size_t(juce::jlimit(0,8,s.curveRate))];double cycle=std::fmod(beat/length+s.phase,1.0);if(cycle<0)cycle+=1;
-        const double split=.5+.5*juce::jlimit(0.0f,.5f,s.swing);cycle=cycle<split?cycle*.5/split:.5+(cycle-split)*.5/(1-split);
-        cycle=cycle<s.pwm?cycle*.5/s.pwm:.5+(cycle-s.pwm)*.5/(1-s.pwm);displayPhase=float(cycle);
+        const float cycle=phaseAtBeat();displayPhase=cycle;
         const float level=s.curveMode?s.curve.value(float(cycle)):s.steps[size_t(displayStep)];
         const float target=s.gate?1-s.depth+s.depth*(s.noteGate&&heldCount==0?0:level):1;
         const float gc=std::exp(-1.0f/(float(sr)*juce::jmax(.0002f,(s.curveMode?s.smooth:(target<gateGain?s.release:s.attack))*.001f)));
@@ -63,6 +61,7 @@ public:
     }
     float displayPhase=0;int displayStep=0;float gateGain=1,pumpGain=1;
 private:
+    float phaseAtBeat()const{static constexpr double cycles[]{.0625,.125,.25,.5,1,2,4,8,16,32,64};const double length=cycles[size_t(juce::jlimit(0,10,s.curveRate))];double phase=std::fmod(beat/length+s.phase,1.0);if(phase<0)phase+=1;const double split=.5+.5*juce::jlimit(0.0f,.5f,s.swing);phase=phase<split?phase*.5/split:.5+(phase-split)*.5/(1-split);return float(phase<s.pwm?phase*.5/s.pwm:.5+(phase-s.pwm)*.5/(1-s.pwm));}
     std::array<bool,2048> held{};int heldCount=0;
     Settings s;double sr=48000,bpm=120,beat=0;float detector=0;
     juce::dsp::LinkwitzRileyFilter<float> lo,hi,align;

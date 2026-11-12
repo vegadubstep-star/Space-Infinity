@@ -2,6 +2,7 @@
 #include "PluginProcessor.h"
 #include "HardwareTheme.h"
 #include "MainWorkbench.h"
+#include "RhythmPages.h"
 class ModulationBadge;
 class StudioRack;
 class SamplerDisplay;
@@ -37,6 +38,12 @@ private:
     bool cachedFxPage=false;
     SpaceInfinityProcessor& processor;
     std::unique_ptr<StudioRack> studioRack;
+    std::unique_ptr<rhythmui::GatePage> gatePage;
+    std::unique_ptr<rhythmui::SequencerPage> sequencerPage;
+    std::array<ModSourceButton,3> pageLfoSources;
+    juce::TextButton gateTab{"GATE"},sequenceTab{"SEQ"};
+    int auxiliaryPage=0;
+    void showPage(int page);
     std::unique_ptr<MainWorkbench> workbench;
     std::unique_ptr<SubPanel> subPanel;
     MasterReadout masterReadout;
@@ -60,7 +67,7 @@ private:
     juce::Label analogueLabel;
     juce::ComboBox noiseType;
     std::array<ModSlider,4> oscillatorSliders,unisonTone;
-    std::array<juce::Slider,3> octaveControls;
+    std::array<ModSlider,3> octaveControls;
     std::array<ModSlider,2> unisonSliders;
     std::array<juce::Slider,4> macros;
 
@@ -87,9 +94,9 @@ private:
     std::array<juce::Slider,17> motionPoints;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> motionDepthAttachment;
     juce::ComboBox delaySync, delayMode, reverbSpace, sampleLoop, sampleReverse, filterMode, voiceMode;
-    std::array<juce::Slider,2> sampleTrim;
+    std::array<ModSlider,2> sampleTrim;
     std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>,2> trimAttachments;
-    juce::Slider sampleRoot, compAmount, pitchWheel;
+    ModSlider sampleRoot, compAmount, pitchWheel;
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment>> fxChoices;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> compAttachment, pitchAttachment;
     juce::ToggleButton osc1{"OSC 1"}, osc2{"OSC 2"};

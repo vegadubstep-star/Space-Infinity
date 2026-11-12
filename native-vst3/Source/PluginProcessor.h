@@ -85,6 +85,7 @@ public:
     bool impulseBuilding() const {return irBusy.load();}
     juce::String impulseName() const;
     double hostBpm() const {return displayedBpm.load();}
+    void useGateCurveFromSteps();
     void loadGatePreset(int);
     float effectPeak(int stage) {return fxPeak[size_t(stage)].exchange(0); }
     bool effectClipping(int stage) {return fxClip[size_t(stage)].exchange(false);}
@@ -98,6 +99,8 @@ public:
     int flexibleMacroTarget(int macro,int slot) const {return flexibleRoute[size_t(macro*3+slot)].load();}
     float effectiveParameter(const char* id) const {return param(id);}
     float gatePhaseView()const{return gateViewPhase.load();}
+    int sequenceStep() const{return displayedPatternStep.load();}
+    static int legacyTargetIndex(const juce::String&);
     int gateStep() const {return displayedGateStep.load();}
 private:
     juce::File lastPresetExportFolder;
@@ -128,6 +131,7 @@ private:
     void renderBlock(juce::AudioBuffer<float>&,juce::MidiBuffer&);
     infinity::Wavetable wavetable;
     infinity::Pattern pattern;
+    std::atomic<int> displayedPatternStep{-1};
     juce::MidiBuffer patternMidi;
     std::array<std::array<std::atomic<float>*,16>,3> stepParameters{};
     bool transportKnown=false,transportPlaying=false;
@@ -168,7 +172,7 @@ private:
         AnalogueEnvelope curvedAmp,curvedFilter,pitchEnvelope;
         VoiceCalibration calibration;
         double idleRateA=0,idleRateB=0,pitch=0,subPhase=0;
-        float subEnvelope=0,lastL=0,lastR=0,tailL=0,tailR=0,smoothFc=0;int declickRemaining=0,declickLength=1;
+        float subEnvelope=0,lastL=0,lastR=0,tailL=0,tailR=0,smoothFc=0;int declickRemaining=0,declickLength=1,retireRemaining=0,retireLength=1;
         int source = 0;
         double samplePosition = 0, sampleStep = 0;
         int sampleStart = 0, sampleEnd = 0;
@@ -184,6 +188,9 @@ private:
         float filterState[2]{}, filterCascade[2]{};
         unsigned sampleRevision = 0; bool active=false, released=false, decaying=false; int note=-1, channel=1; float velocity=0, env=0, cutoff=0; double phase=0, phase2=0; uint64_t age=0; };
     std::array<Voice,24> voices{};
+    std::array<juce::SmoothedValue<float>,10> liveGains;
+    std::atomic<bool> resetVoicesRequested{false};
+    void retireVoice(Voice&);
     std::array<std::atomic<float>*,4> macroValues{};
     std::array<std::array<std::atomic<float>*,3>,8> macroRoutes{}, macroDepths{};
     std::array<std::array<std::atomic<float>*,17>,3> designerPoints{};
@@ -211,15 +218,15 @@ private:
     void selectMonoNote(int source,int root,bool retrigger);
     void noteOn(int,float,int,int,int); void noteOff(int,int);
     struct FlexibleTarget {juce::String id,name;juce::RangedAudioParameter* parameter=nullptr;std::atomic<float>* raw=nullptr;};
-    std::vector<FlexibleTarget> flexibleTargetList;std::array<std::atomic<int>,57> flexibleRoute;
-    struct FlexibleValue {const std::atomic<float>* raw=nullptr;juce::RangedAudioParameter* parameter=nullptr;float offset=0;};std::array<FlexibleValue,57> flexibleValue{};
+    std::vector<FlexibleTarget> flexibleTargetList;std::array<std::atomic<int>,57> flexibleRoute;std::atomic<bool> flexibleAssigned{false};
+    struct FlexibleValue {std::atomic<int> target{-1};std::atomic<float> offset{0};};std::array<FlexibleValue,57> flexibleValue{};
     std::array<std::atomic<float>*,57> flexibleDepth{};
     std::atomic<float> gateViewPhase{0};std::array<std::array<std::atomic<float>*,33>,3> gateCurveParameters{};
     studio::WetEQ delayWetEQ,reverbWetEQ;studio::SmoothFlanger smoothFlanger;juce::AudioBuffer<float> workflowDry;
     std::array<juce::SmoothedValue<float>,8> fxGain;std::array<std::atomic<float>,8> fxPeak;std::array<std::atomic<bool>,8> fxClip;
     void initialiseWorkflow();void prepareWorkflow(double);void updateFlexibleRoutes();void restoreFlexibleRoutes();void clearFlexibleRoutes();void configureWetEQ();void finishEffect(int,juce::AudioBuffer<float>&,bool);
     float param(const char* id) const {return readParameter(state.getRawParameterValue(id));}
-    float readParameter(const std::atomic<float>* raw) const {float value=raw->load();for(const auto& v:flexibleValue)if(v.raw==raw&&v.offset!=0)value=v.parameter->convertFrom0to1(juce::jlimit(0.0f,1.0f,v.parameter->convertTo0to1(value)+v.offset));return value;}
+    float readParameter(const std::atomic<float>* raw) const {float value=raw->load();if(!flexibleAssigned.load(std::memory_order_relaxed))return value;for(const auto& v:flexibleValue){const int index=v.target.load(std::memory_order_relaxed);if(index>=0){const auto& t=flexibleTargetList[size_t(index)];if(t.raw==raw){const float offset=v.offset.load(std::memory_order_relaxed);if(offset!=0)value=t.parameter->convertFrom0to1(juce::jlimit(0.0f,1.0f,t.parameter->convertTo0to1(value)+offset));}}}return value;}
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(SpaceInfinityProcessor)
 };
 

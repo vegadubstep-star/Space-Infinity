@@ -13,28 +13,73 @@ public:
     }
 };
 class CurveEditor:public juce::Component {
-    SpaceInfinityProcessor& p;bool gate;int lfo=0,drag=-1;float lastX=0,lastY=0;int snap=8;
+    SpaceInfinityProcessor& p;
+    bool gate,paintMode=false,snapEnabled=false,painting=false;
+    int lfo=0,drag=-1,segment=-1,snap=16;
+    float startBend=0;
+    juce::StringArray gestures;
     float get(const juce::String& id)const{return p.state.getRawParameterValue(id)->load();}
-    void set(const juce::String& id,float v){auto* a=p.state.getParameter(id);a->beginChangeGesture();a->setValueNotifyingHost(a->convertTo0to1(v));a->endChangeGesture();}
+    void write(const juce::String& id,float v){auto* a=p.state.getParameter(id);a->setValueNotifyingHost(a->convertTo0to1(v));}
+    void set(const juce::String& id,float v){auto* a=p.state.getParameter(id);a->beginChangeGesture();write(id,v);a->endChangeGesture();}
     int count()const{return gate?juce::jlimit(2,33,int(get("gateCurveCount"))):17;}
     juce::String yId(int i)const{return gate?"gateCurveY"+juce::String(i):p.lfoPointId(lfo,i);}
     float xAt(int i)const{return gate?get("gateCurveX"+juce::String(i)):float(i)/16;}
-    juce::Rectangle<float> graph()const{return getLocalBounds().toFloat().reduced(7,7);}
+    juce::Rectangle<float> graph()const{return getLocalBounds().toFloat().reduced(9,9);}
     juce::Point<float> point(int i)const{auto r=graph();return {r.getX()+xAt(i)*r.getWidth(),r.getBottom()-get(yId(i))*r.getHeight()};}
     int nearest(juce::Point<float> pos)const{int best=-1;float distance=10;for(int i=0;i<count();++i){const float d=pos.getDistanceFrom(point(i));if(d<distance){distance=d;best=i;}}return best;}
+    studio::EditableCurve curve()const{studio::EditableCurve c;c.count=count();for(int i=0;i<c.count;++i){c.x[size_t(i)]=xAt(i);c.y[size_t(i)]=get(yId(i));c.bend[size_t(i)]=gate?get("gateCurveBend"+juce::String(i)):0;}return c;}
+    void begin(const juce::String& id){if(!gestures.contains(id)){p.state.getParameter(id)->beginChangeGesture();gestures.add(id);}}
+    void finish(){for(const auto& id:gestures)p.state.getParameter(id)->endChangeGesture();gestures.clear();drag=segment=-1;painting=false;}
+    void ensureCurve(){if(gate&&get("gateMode")<.5f)p.useGateCurveFromSteps();}
+    void changed(){if(edited)edited();repaint();}
 public:
     std::function<void()> edited;
     CurveEditor(SpaceInfinityProcessor& processor,bool isGate):p(processor),gate(isGate){setName(gate?"Audio gate curve":"LFO curve");setMouseCursor(juce::MouseCursor::CrosshairCursor);}
-    void selectLfo(int i){lfo=i;repaint();}void setSnap(int n){snap=n;}
-    void paint(juce::Graphics& g)override{auto r=graph();HardwareTheme::display(g,r);g.setColour(juce::Colour(0xff252539));for(int i=1;i<snap;++i)g.drawVerticalLine(juce::roundToInt(r.getX()+r.getWidth()*i/snap),r.getY(),r.getBottom());for(int i=1;i<4;++i)g.drawHorizontalLine(juce::roundToInt(r.getY()+r.getHeight()*i/4),r.getX(),r.getRight());studio::EditableCurve curve;curve.count=count();for(int i=0;i<curve.count;++i){curve.x[size_t(i)]=xAt(i);curve.y[size_t(i)]=get(yId(i));curve.bend[size_t(i)]=gate?get("gateCurveBend"+juce::String(i)):0;}
-        juce::Path path;for(int i=0;i<=256;++i){float x=float(i)/256,y=curve.value(x);if(i==0)path.startNewSubPath(r.getX(),r.getBottom()-y*r.getHeight());else path.lineTo(r.getX()+x*r.getWidth(),r.getBottom()-y*r.getHeight());}auto fill=path;fill.lineTo(r.getBottomRight());fill.lineTo(r.getBottomLeft());fill.closeSubPath();g.setGradientFill(juce::ColourGradient(juce::Colour(0x664b7bdc),0,r.getY(),juce::Colour(0x1048337e),0,r.getBottom(),false));g.fillPath(fill);g.setColour(juce::Colour(0xffc2b5ff));g.strokePath(path,juce::PathStrokeType(1.7f));for(int i=0;i<count();++i){auto pt=point(i);g.setColour(juce::Colour(i==drag?0xffffffff:0xffd6d1eb));g.fillEllipse(pt.x-2.6f,pt.y-2.6f,5.2f,5.2f);}const float phase=gate?p.gatePhaseView():p.lfoDisplayPhase(lfo);g.setColour(juce::Colour(0x80f0dfaa));g.drawVerticalLine(juce::roundToInt(r.getX()+phase*r.getWidth()),r.getY(),r.getBottom());}
-    void mouseDown(const juce::MouseEvent& e)override{drag=nearest(e.position);lastX=e.position.x;lastY=e.position.y;if(!gate&&drag<0)drag=juce::jlimit(0,16,juce::roundToInt((e.position.x-graph().getX())/graph().getWidth()*16));mouseDrag(e);}
-    void mouseDrag(const juce::MouseEvent& e)override{if(drag<0)return;const auto r=graph();float x=juce::jlimit(0.0f,1.0f,(e.position.x-r.getX())/r.getWidth()),y=1-juce::jlimit(0.0f,1.0f,(e.position.y-r.getY())/r.getHeight());if(e.mods.isAltDown()){x=std::round(x*snap)/snap;y=std::round(y*snap)/snap;}
-        if(gate){if(drag>0&&drag<count()-1)set("gateCurveX"+juce::String(drag),juce::jlimit(xAt(drag-1)+.0001f,xAt(drag+1)-.0001f,x));set(yId(drag),y);}else {const int next=juce::jlimit(0,16,juce::roundToInt(x*16));const int first=drag;const float old=get(yId(first));for(int i=std::min(first,next);i<=std::max(first,next);++i){float t=first==next?1:float(i-first)/float(next-first);set(yId(i),old+(y-old)*t);}drag=next;}if(edited)edited();repaint();}
-    void mouseUp(const juce::MouseEvent&)override{drag=-1;}
-    void mouseDoubleClick(const juce::MouseEvent& e)override{if(!gate){set(yId(juce::jlimit(0,16,juce::roundToInt((e.position.x-graph().getX())/graph().getWidth()*16))),.5f);repaint();return;}const int old=count(),hit=nearest(e.position);if(hit>0&&hit<old-1){for(int i=hit;i<old-1;++i){set("gateCurveX"+juce::String(i),xAt(i+1));set(yId(i),get(yId(i+1)));set("gateCurveBend"+juce::String(i),get("gateCurveBend"+juce::String(i+1)));}set("gateCurveCount",float(old-1));}else if(hit<0&&old<33){const auto r=graph();const float x=juce::jlimit(.0001f,.9999f,(e.position.x-r.getX())/r.getWidth());int at=1;while(at<old-1&&xAt(at)<x)++at;for(int i=old;i>at;--i){set("gateCurveX"+juce::String(i),xAt(i-1));set(yId(i),get(yId(i-1)));set("gateCurveBend"+juce::String(i),get("gateCurveBend"+juce::String(i-1)));}set("gateCurveX"+juce::String(at),x);set(yId(at),1-juce::jlimit(0.0f,1.0f,(e.position.y-r.getY())/r.getHeight()));set("gateCurveBend"+juce::String(at),0);set("gateCurveCount",float(old+1));}repaint();}
-    void mouseWheelMove(const juce::MouseEvent& e,const juce::MouseWheelDetails& wheel)override{if(!gate)return;const float x=(e.position.x-graph().getX())/graph().getWidth();int segment=0;while(segment<count()-2&&xAt(segment+1)<x)++segment;const auto id="gateCurveBend"+juce::String(segment);set(id,juce::jlimit(-1.0f,1.0f,get(id)+wheel.deltaY*.5f));repaint();}
-    void shape(int index){const int n=gate?17:17;if(gate)set("gateCurveCount",float(n));for(int i=0;i<n;++i){const float x=float(i)/16;float y=index==0?.5f-.5f*std::cos(x*juce::MathConstants<float>::twoPi):index==1?1-std::abs(x*2-1):index==2?x:index==3?1-x:index==4?(x<.5f?1:0):index==5?std::sqrt(x):float(((i*37+11)%17))/16;if(gate){set("gateCurveX"+juce::String(i),x);set("gateCurveBend"+juce::String(i),0);}set(yId(i),y);}if(gate)set("gateMode",1);if(edited)edited();repaint();}
+    ~CurveEditor()override{finish();}
+    void selectLfo(int i){finish();lfo=i;repaint();}
+    void setSnap(int n){snap=juce::jlimit(2,64,n);repaint();}
+    void setSnapEnabled(bool enabled){snapEnabled=enabled;}
+    void setPaintMode(bool enabled){paintMode=enabled;}
+    void paint(juce::Graphics& g)override{
+        const auto r=graph();HardwareTheme::display(g,r);
+        g.setColour(juce::Colour(0xff2c2543));for(int i=1;i<snap;++i)g.drawVerticalLine(juce::roundToInt(r.getX()+r.getWidth()*i/snap),r.getY(),r.getBottom());
+        for(int i=1;i<4;++i)g.drawHorizontalLine(juce::roundToInt(r.getY()+r.getHeight()*i/4),r.getX(),r.getRight());
+        const bool legacy=gate&&get("gateMode")<.5f;
+        juce::Path path;const auto c=curve();
+        for(int i=0;i<=512;++i){const float x=float(i)/512;const float y=legacy?get("gateStep"+juce::String(juce::jmin(15,int(x*16)))):c.value(x);const float px=r.getX()+x*r.getWidth(),py=r.getBottom()-y*r.getHeight();if(i==0)path.startNewSubPath(px,py);else path.lineTo(px,py);}
+        auto fill=path;fill.lineTo(r.getBottomRight());fill.lineTo(r.getBottomLeft());fill.closeSubPath();
+        g.setGradientFill(juce::ColourGradient(juce::Colour(0x994f79d8),0,r.getY(),juce::Colour(0x28392777),0,r.getBottom(),false));g.fillPath(fill);
+        g.setColour(juce::Colour(0xffbdb1ff));g.strokePath(path,juce::PathStrokeType(1.8f));
+        if(!legacy)for(int i=0;i<count();++i){const auto pt=point(i);g.setColour(juce::Colour(i==drag?0xffffffff:0xffd6d1eb));g.fillEllipse(pt.x-3,pt.y-3,6,6);}
+        const float phase=gate?p.gatePhaseView():p.lfoDisplayPhase(lfo);g.setColour(juce::Colour(0x99f0dfaa));g.drawVerticalLine(juce::roundToInt(r.getX()+phase*r.getWidth()),r.getY(),r.getBottom());
+        if(legacy){g.setFont(10);g.setColour(juce::Colour(0xffded5ee));g.drawText("STEP PATTERN / edit to convert to a curve",r.toNearestInt().reduced(8).withHeight(18),juce::Justification::centredLeft);}
+    }
+    void mouseDown(const juce::MouseEvent& e)override{
+        finish();ensureCurve();painting=!gate||paintMode||e.mods.isShiftDown();
+        if(painting&&gate){const auto c=curve();set("gateCurveCount",17);for(int i=0;i<17;++i){set("gateCurveX"+juce::String(i),float(i)/16);set(yId(i),c.value(float(i)/16));set("gateCurveBend"+juce::String(i),0);}}
+        if(painting){drag=juce::jlimit(0,16,juce::roundToInt((e.position.x-graph().getX())/graph().getWidth()*16));for(int i=0;i<17;++i)begin(yId(i));}
+        else{drag=nearest(e.position);if(drag>=0){begin(yId(drag));if(drag>0&&drag<count()-1)begin("gateCurveX"+juce::String(drag));}
+            else{const float x=(e.position.x-graph().getX())/graph().getWidth();segment=0;while(segment<count()-2&&xAt(segment+1)<x)++segment;const auto id="gateCurveBend"+juce::String(segment);startBend=get(id);begin(id);}}
+        mouseDrag(e);
+    }
+    void mouseDrag(const juce::MouseEvent& e)override{
+        const auto r=graph();float x=juce::jlimit(0.0f,1.0f,(e.position.x-r.getX())/r.getWidth()),y=1-juce::jlimit(0.0f,1.0f,(e.position.y-r.getY())/r.getHeight());
+        if(snapEnabled||e.mods.isAltDown()){x=std::round(x*snap)/snap;y=std::round(y*snap)/snap;}
+        if(segment>=0){write("gateCurveBend"+juce::String(segment),juce::jlimit(-1.0f,1.0f,startBend-float(e.getDistanceFromDragStartY())/r.getHeight()*2));}
+        else if(drag>=0&&painting){const int next=juce::jlimit(0,16,juce::roundToInt(x*16)),first=drag;const float old=get(yId(first));for(int i=std::min(first,next);i<=std::max(first,next);++i){const float t=first==next?1:float(i-first)/float(next-first);write(yId(i),old+(y-old)*t);}drag=next;}
+        else if(drag>=0){if(drag>0&&drag<count()-1)write("gateCurveX"+juce::String(drag),juce::jlimit(xAt(drag-1)+.000001f,xAt(drag+1)-.000001f,x));write(yId(drag),y);}
+        changed();
+    }
+    void mouseUp(const juce::MouseEvent&)override{finish();}
+    void mouseDoubleClick(const juce::MouseEvent& e)override{
+        finish();ensureCurve();if(!gate){set(yId(juce::jlimit(0,16,juce::roundToInt((e.position.x-graph().getX())/graph().getWidth()*16))),.5f);changed();return;}
+        const int old=count(),hit=nearest(e.position);
+        if(hit>0&&hit<old-1){for(int i=hit;i<old-1;++i){set("gateCurveX"+juce::String(i),xAt(i+1));set(yId(i),get(yId(i+1)));set("gateCurveBend"+juce::String(i),get("gateCurveBend"+juce::String(i+1)));}set("gateCurveCount",float(old-1));}
+        else if(hit<0&&old<33){const auto r=graph();float x=juce::jlimit(.00001f,.99999f,(e.position.x-r.getX())/r.getWidth());if(snapEnabled||e.mods.isAltDown())x=juce::jlimit(.00001f,.99999f,std::round(x*snap)/snap);int at=1;while(at<old-1&&xAt(at)<x)++at;for(int i=old;i>at;--i){set("gateCurveX"+juce::String(i),xAt(i-1));set(yId(i),get(yId(i-1)));set("gateCurveBend"+juce::String(i),get("gateCurveBend"+juce::String(i-1)));}set("gateCurveX"+juce::String(at),x);set(yId(at),1-juce::jlimit(0.0f,1.0f,(e.position.y-r.getY())/r.getHeight()));set("gateCurveBend"+juce::String(at),0);set("gateCurveCount",float(old+1));}
+        changed();
+    }
+    void mouseWheelMove(const juce::MouseEvent& e,const juce::MouseWheelDetails& wheel)override{if(!gate)return;ensureCurve();const float x=(e.position.x-graph().getX())/graph().getWidth();int at=0;while(at<count()-2&&xAt(at+1)<x)++at;const auto id="gateCurveBend"+juce::String(at);set(id,juce::jlimit(-1.0f,1.0f,get(id)+wheel.deltaY*.5f));changed();}
+    void shape(int index){finish();if(gate){set("gateCurveCount",17);set("gateMode",1);}for(int i=0;i<17;++i){const float x=float(i)/16;const float y=index==0?.5f-.5f*std::cos(x*juce::MathConstants<float>::twoPi):index==1?1-std::abs(x*2-1):index==2?x:index==3?1-x:index==4?(x<.5f?1:0):index==5?std::sqrt(x):float(((i*37+11)%17))/16;if(gate){set("gateCurveX"+juce::String(i),x);set("gateCurveBend"+juce::String(i),0);}set(yId(i),y);}changed();}
 };
 class MainWorkbench:public juce::Component,private juce::Timer {
     SpaceInfinityProcessor& p;std::function<void(std::unique_ptr<juce::Component>,juce::Rectangle<int>)> open;
@@ -47,6 +92,7 @@ class MainWorkbench:public juce::Component,private juce::Timer {
     void select(int i){selected=i;graph.selectLfo(i);syncBind.reset();rateBind.reset();modeBind.reset();speedBind.reset();enabledBind.reset();syncBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(i,"Sync"),sync);rateBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(i,"Bars"),rate);modeBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(i,"Mode"),mode);speedBind=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(p.state,p.lfoParameterId(i,"Speed"),speed);enabledBind=std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(p.state,p.lfoParameterId(i,"Enabled"),enabled);speed.initialiseModulation(p,p.lfoParameterId(i,"Speed"));for(int n=0;n<3;++n)tabs[size_t(n)].setToggleState(n==i,juce::dontSendNotification);resized();repaint();}
     void timerCallback()override{if(!isShowing())return;speed.setVisible(sync.getSelectedId()==1);rate.setVisible(sync.getSelectedId()==2);graph.repaint();}
 public:
+    void selectSource(int i){select(juce::jlimit(0,2,i));}
     ~MainWorkbench() override {stopTimer();}
     MainWorkbench(SpaceInfinityProcessor& processor,decltype(open) opener):p(processor),open(std::move(opener)),graph(p,false){setName("Main envelopes, performance macros and LFO editor");
         const char* ids[]{"attack","ampDecay","ampSustain","release","filterAttack","filterDecay","filterSustain","filterRelease","filterEnvAmount"};const char* labels[]{"ATTACK","DECAY","SUSTAIN","RELEASE","ATTACK","DECAY","SUSTAIN","RELEASE","AMOUNT"};for(int i=0;i<9;++i){attach(env[size_t(i)],ids[i]);env[size_t(i)].setName(juce::String(i<4?"Amp ":"Filter ")+labels[i]);envLabels[size_t(i)].setText(labels[i],juce::dontSendNotification);envLabels[size_t(i)].setJustificationType(juce::Justification::centred);envLabels[size_t(i)].setFont(juce::Font(juce::FontOptions(9)));addAndMakeVisible(env[size_t(i)]);addAndMakeVisible(envLabels[size_t(i)]);if(i==0||i==1||i==3||i==4||i==5||i==7)configureTimeKnob(env[size_t(i)]);if(i<4)env[size_t(i)].onDragStart=[this]{p.state.getParameter("ampTimed")->setValueNotifyingHost(1);};if(i==8){env[size_t(i)].textFromValueFunction=[](double v){return juce::String(v,2)+" oct";};env[size_t(i)].valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue();};env[size_t(i)].updateText();}if(i==2||i==6){env[size_t(i)].textFromValueFunction=[](double v){return juce::String(v*100,0)+"%";};env[size_t(i)].valueFromTextFunction=[](const juce::String& v){return v.getDoubleValue()/100;};env[size_t(i)].updateText();}}

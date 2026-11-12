@@ -6,6 +6,7 @@ public:
     explicit StudioRack(SpaceInfinityProcessor&);
     ~StudioRack() override;
     void resized() override;
+    std::function<void()> onOpenGate;
     juce::Component* module(int index)const;
 private:
     struct Impl;std::unique_ptr<Impl> impl;

@@ -1,27 +1,18 @@
-# Testing the INFINITY studio build
+# Testing SPACE INFINITY 0.3.0
 
-**Version 0.2.0:** see [the ten control updates](TEN_CONTROL_UPDATES.md). The release contains `SPACE_INFINITY_0.2.0_Windows_x64_Setup.exe`. Start with the two main-page envelope rows, oscillator gains/detune, filter routing/sub panel, then the delay/reverb wet EQs and FX output meters.
+Download the **installer ZIP** from the [v0.3.0 release](https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.3.0) once its Windows workflow has published it. Sign into GitHub if needed. Extract All, close FL Studio, run `SPACE_INFINITY_0.3.0_Windows_x64_Setup.exe`, then reopen FL Studio and load a fresh SPACE INFINITY instance. The plugin identity and user preset storage are preserved.
 
-Use the latest `codex/windows-build` revision. The Windows GitHub Actions run builds the VST3/Standalone, runs native tests, verifies installation/uninstallation, and publishes the Windows x64 installer/archive plus native screenshots/audio auditions. A running workflow is not a completed Windows validation.
+[This batch's ten changes](RHYTHM_AND_METAL_UPDATE.md) / [previous control and FX updates](TEN_CONTROL_UPDATES.md)
 
-Download the setup directly from the [v0.2.0 Windows release](https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.2.0). Close FL Studio, run `SPACE_INFINITY_0.2.0_Windows_x64_Setup.exe`, then reopen FL Studio and scan/load **SPACE INFINITY**. For manual installation, use the VST3 ZIP from the same release. `SHA256SUMS.txt` contains checksums for both files. Actions artifacts are optional copies: their upload status does not control the verified release download. The plugin keeps its existing host identity; its new header wordmark reads INFINITY.
+1. **MAIN:** check both oscillator gain/detune/blend controls, AMP ENVELOPE and FILTER ENVELOPE, the sub waveform/octave/level and A/B/SUB/NOISE filter routing. Try typing `0.25 ms` into Attack and Shift-dragging for fine adjustment.
+2. **GATE:** select one of the 15 presets or a curve shape. Double-click inside the graph to add/remove points. Drag points; drag a segment or scroll to bend it. Try snap, Shift-draw and Alt-snap. Step pattern uses the legacy step-rate control; Curve mode uses a full-cycle rate and phase/PWM/smooth controls.
+3. Try MIDI NOTE RETRIGGER and NOTE GATE while playing. Gate affects audio; it does not generate notes. Select Bass only to gate/duck the low frequencies while preserving higher bands. External sidechain still needs a host-routed trigger and the optional plugin Sidechain input.
+4. **SEQ:** hold a note/chord, choose Sequencer/Arpeggiator/Arp + Seq and change pitches, velocities and on/rest buttons. Check that edits do not change the gate curve. NOTE LENGTH sets MIDI articulation, independently of GATE depth.
+5. **Modulation:** drag an LFO handle onto an FX/GATE/SEQ knob. Edit the signed amount, use ZERO/REMOVE, or Alt-wheel over the target to change the amount. Check that its base value stays unchanged. Existing performance/LFO/envelope routes appear in target menus. Convolution wet/output controls are live destinations; offline IR transformations and sample trim/root are not offered as live destinations.
+6. **FX:** try delay and reverb wet EQs, output gains and meters, compressor, convolver and smooth stereo flanger. Set a wet mix to zero when checking that its wet EQ leaves the dry signal unchanged. The GATE shortcut opens the dedicated page. Hover OPEN 7-BAND EQ during an LFO drag to open the EQ's frequency/gain/Q targets.
+7. **Audio checks:** play repeated notes for several minutes, including short bass notes with the filter down. Try the sub on/off, oscillator gain changes, sample ends, sample looping and changing presets while holding notes. Report preset names and a short recording if clicks or fading remain.
+8. **Saving:** BANK -> SAVE AS lets you choose a folder. Save/reload custom gate curves, sequencer notes, modulation amounts and imported sample/IR assets. Previous user-saved sounds should still load.
 
-1. Confirm that the factory bank has Init plus 33 programmed sounds (34 entries total). Existing user-saved presets should remain available, and Restore Factory should not bring back old sounds. Save two user sounds and verify that the arrows continue from the selected sound.
-2. Import a WAV and play MIDI notes. Check the source waveform, trim handles, reverse, root note and the live output waveform while adjusting the filter/envelope/effects.
-3. Open FX and try Single/Multiband compression. The three lanes show live band levels/reduction; drag a lane to change its threshold.
-4. Compare Normal, Ping-pong and Tap → Delay. Try separate L/R BPM divisions, linking, offsets, HQ and dragging the filter graph. Double-click the graph for the output spectrum.
-5. Scroll to Convolver. Try the four built-in impulses and your own WAV IR, then size/tone/minimum-phase/pre-delay/attack/decay/damping/reverse. Save and reload a user preset to check embedded sample and IR recall.
-6. Open the seven-band EQ. Compare bell/shelf/pass/notch shapes and the 12/24/36/48 dB slopes. Drag nodes and scroll over a node for Q.
-7. Try all 15 trance-gate presets. Select Bass only to leave the higher bands moving freely. Internal pump works without another audio track. For External audio, enable the optional Sidechain input in the host and route your kick/trigger to it; FL Studio routing still needs this manual host check.
+All twelve native test suites must pass before publishing. They cover factory-bank/state compatibility, repeated-note levels, the new gate/sequencer/modulation controls, bass-only gating, fifteen preset conversions and measured click reduction. UI screenshots and bounds are checked for all four pages at 800/1000/1180/1500 pixels. Windows CI additionally installs/uninstalls the setup and verifies that its installed VST3 matches the manual archive. The release publisher creates and verifies an installer ZIP and checks asset sizes before making the release public. FL Studio listening is a separate user check.
 
-Please report the preset name, feature/control, whether it happens in a fresh instance or recalled project, and a short audio/screenshot example for anything that sounds or behaves wrong.
-
-Native Linux validation for this update covers the Init audition and factory-bank migration, UI bounds/screenshots at four sizes, preset/state/migration tests, extended engines and the studio tests. The studio tests exercise dynamics, actual delay impulse timing/routing, frequency-selective gating, 15 distinct patterns, external sidechain detection and the optional input bus, EQ slopes, minimum-phase magnitude preservation, sampler/IR displays and embedded state recall. Windows workflow results and FL Studio listening are separate checks.
-
-The smoke tests allocate full processor instances on the heap, matching host allocation and avoiding stack exhaustion with Windows' standard 1 MB stack. The complete eleven-test suite also passes locally with an explicit 1 MB stack limit.
-
-Try Skywave Pad with a held chord and repeated notes. Each selected LFO tab has LFO ON, with a separate VIBRATO switch. LONG x3 extends attack/release to three seconds; seconds shown on those knobs include the multiplier. The additional Airwave test checks long-term output and bypass/state behavior.
-
-Try Aurelia Lead, Azure Horizon Lead, Prism Drive Lead, Orbital Expedition Lead, Ionwire Gate Lead, Expanse Motion Pluck, Solo Afterglow Lead, Nebula Pulse Pad, Caustic Circuit Bass, Velvet Transit Chords, Drawbar Ember Bass and Copper Bounce Bass with repeated notes and melodies. Azure Horizon should open its filter on each note. Compare the lead patches with LFO ON disabled. The lead test produces WAV previews in the audition artifact.
-
-See [groove bank additions](GROOVE_BANK.md) for the rhythmic pad, acid, house, organ and bounce patches and their new controls.
+Use the installer ZIP for normal setup. The standalone VST3 ZIP is the manual-install alternative. Checksums accompany both downloads. Actions artifacts are optional copies; the primary download is the GitHub Release.

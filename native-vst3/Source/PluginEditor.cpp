@@ -90,6 +90,7 @@ public:
           amountBinding(processor.state,"osc"+juce::String(oscillator)+"WarpAmount",amount),
           semitoneBinding(processor.state,"osc"+juce::String(oscillator)+"Semitone",semitone),
           envelopeBinding(processor.state,"osc"+juce::String(oscillator)+"WarpEnvelope",envelope),phaseBinding(processor.state,"osc"+juce::String(oscillator)+"PhaseReset",phaseReset){
+        amount.initialiseModulation(processor,"osc"+juce::String(oscillator)+"WarpAmount");semitone.initialiseModulation(processor,"osc"+juce::String(oscillator)+"Semitone");
         mode.addItemList({"Off",oscillator==1?"FM from B":"FM from A","Mirror","PWM","FM from Sub"},1);
         mode.setSelectedItemIndex(int(processor.state.getRawParameterValue("osc"+juce::String(oscillator)+"Warp")->load()),juce::dontSendNotification);
         amount.setTextBoxStyle(juce::Slider::TextBoxRight,false,48,22);
@@ -105,7 +106,7 @@ public:
     void resized() override {mode.setBounds(10,9,220,26);amount.setBounds(10,43,220,25);semitone.setBounds(10,78,220,25);envelope.setBounds(10,112,220,25);phaseReset.setBounds(10,147,220,25);}
 private:
     juce::ComboBox mode;
-    juce::Slider amount,semitone;
+    ModSlider amount,semitone;
     juce::ComboBox envelope;juce::ToggleButton phaseReset;
     juce::ComboBoxParameterAttachment modeBinding;
     juce::AudioProcessorValueTreeState::SliderAttachment amountBinding,semitoneBinding;
@@ -124,10 +125,12 @@ public:
             bindings.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"eqMode"+juce::String(band),modes[size_t(band)]));
             bindings.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"eqSlope"+juce::String(band),slopes[size_t(band)]));
         }
+        bandPicker.addItemList({"Band 1","Band 2","Band 3","Band 4","Band 5","Band 6","Band 7"},1);bandPicker.setSelectedId(1);bandPicker.onChange=[this]{bindBand(bandPicker.getSelectedId()-1);};addAndMakeVisible(bandPicker);
+        for(auto& slider:bandValues){slider.setSliderStyle(juce::Slider::LinearHorizontal);slider.setTextBoxStyle(juce::Slider::TextBoxRight,false,66,22);addAndMakeVisible(slider);}bindBand(0);
         setSize(760,440);
         startTimerHz(24);
     }
-    void resized() override {power.setBounds(12,4,120,24);const int width=(getWidth()-24)/7;
+    void resized() override {power.setBounds(12,4,120,24);bandPicker.setBounds(12,getHeight()-30,85,24);const int controlWidth=(getWidth()-112)/3;for(int i=0;i<3;++i)bandValues[size_t(i)].setBounds(105+i*controlWidth,getHeight()-30,controlWidth-5,24);const int width=(getWidth()-24)/7;
         for(int i=0;i<7;++i){modes[size_t(i)].setBounds(12+i*width,getHeight()-91,width-4,23);slopes[size_t(i)].setBounds(12+i*width,getHeight()-63,width-4,23);}}
 
     void paint(juce::Graphics& g) override{
@@ -167,12 +170,12 @@ public:
             g.drawText(juce::String(band+1),int(x)-9,int(y)-9,18,18,juce::Justification::centred);
         }
         g.setColour(juce::Colour(0xffbdb3a6));
-        g.drawText("Drag frequency / gain    •    Scroll over a band to change Q",
-                   12,getHeight()-26,getWidth()-24,20,juce::Justification::centredLeft);
+
     }
     void mouseDown(const juce::MouseEvent& e) override{
         selected=bandAt(e.position);
         if(selected<0)return;
+        bandPicker.setSelectedId(selected+1,juce::dontSendNotification);bindBand(selected);
         for(const auto* field:{"Frequency","Gain"})parameter(selected,field)->beginChangeGesture();
     }
     void mouseDrag(const juce::MouseEvent& e) override{
@@ -202,6 +205,8 @@ private:
     juce::AudioProcessorValueTreeState::ButtonAttachment enabled;
     std::array<juce::ComboBox,7> modes,slopes;
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment>> bindings;
+    juce::ComboBox bandPicker;std::array<ModSlider,3> bandValues;std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>,3> bandBindings;
+    void bindBand(int band){if(band<0||band>6)return;const char* fields[]{"Frequency","Gain","Q"};for(int i=0;i<3;++i){auto& slider=bandValues[size_t(i)];bandBindings[size_t(i)].reset();const auto id=processor.eqId(band,fields[i]);slider.initialiseModulation(processor,id);slider.setName("EQ "+juce::String(band+1)+" "+fields[i]);bandBindings[size_t(i)]=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,id,slider);slider.setDoubleClickReturnValue(true,processor.state.getParameter(id)->convertFrom0to1(processor.state.getParameter(id)->getDefaultValue()));slider.textFromValueFunction=[i](double v){return juce::String(v,i==0?0:2)+(i==0?" Hz":i==1?" dB":" Q");};slider.valueFromTextFunction=[](const juce::String& text){return text.getDoubleValue();};slider.updateText();}}
     int selected=-1;
     void timerCallback() override {repaint();}
     juce::Rectangle<float> graph() const {return getLocalBounds().toFloat().reduced(12).withTrimmedTop(23).withTrimmedBottom(107);}
@@ -308,7 +313,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     source.addItemList(SpaceInfinityProcessor::sourceNames(),1);
     addAndMakeVisible(source);
     sourceAttachment=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"source",source);
-    sampleRoot.setSliderStyle(juce::Slider::IncDecButtons);
+    sampleRoot.initialiseModulation(processor,"sampleRoot");sampleRoot.setSliderStyle(juce::Slider::IncDecButtons);
     sampleRoot.setTextBoxStyle(juce::Slider::TextBoxLeft,false,68,24);
     sampleRoot.setTooltip("Root MIDI note for imported WAV");
     addAndMakeVisible(sampleRoot);
@@ -434,7 +439,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     const char* octaveNames[]={"Master octave","Osc 1 octave","Osc 2 octave"};
     for(size_t i=0;i<octaveControls.size();++i){
         auto& control=octaveControls[i];
-        control.setSliderStyle(juce::Slider::IncDecButtons);
+        control.initialiseModulation(processor,octaveIds[i]);control.setSliderStyle(juce::Slider::IncDecButtons);
         control.setTextBoxStyle(juce::Slider::TextBoxLeft,false,23,17);
         control.setName(octaveNames[i]);
         control.setTooltip(octaveNames[i]);
@@ -463,7 +468,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     const char* trimIds[]={"sampleStart","sampleEnd"};
     const char* trimNames[]={"Sample start","Sample end"};
     for(size_t i=0;i<sampleTrim.size();++i){
-        auto& trim=sampleTrim[i];
+        auto& trim=sampleTrim[i];trim.initialiseModulation(processor,i==0?"sampleStart":"sampleEnd");
         trim.setName(trimNames[i]);
         trim.setTooltip(trimNames[i]);
         trim.setSliderStyle(juce::Slider::LinearHorizontal);
@@ -483,7 +488,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     compAmount.setName("Multiband amount");
     addAndMakeVisible(compAmount);
     compAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"compAmount",compAmount);
-    pitchWheel.setSliderStyle(juce::Slider::LinearHorizontal);
+    pitchWheel.initialiseModulation(processor,"pitchBend");pitchWheel.setSliderStyle(juce::Slider::LinearHorizontal);
     pitchWheel.setTextBoxStyle(juce::Slider::TextBoxRight,false,56,20);
     pitchWheel.setDoubleClickReturnValue(true,0.0);
     pitchWheel.setName("Pitch Wheel");
@@ -581,8 +586,8 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     addAndMakeVisible(fxTab);
     mainTab.setTooltip("Oscillators, envelopes, Motion, macros and sampler");
     fxTab.setTooltip("Open the effects and equaliser page");
-    mainTab.onClick=[this]{fxPage=false;updatePage();};
-    fxTab.onClick=[this]{fxPage=true;updatePage();};
+    mainTab.onClick=[this]{showPage(0);};
+    fxTab.onClick=[this]{showPage(1);};
     for(size_t target=1;target<modulationBadges.size();++target){
         auto badge=std::make_unique<ModulationBadge>();
         badge->setName("Modulation depth "+processor.macroTargets()[int(target)]);
@@ -606,8 +611,10 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         previousWave[osc].setTooltip("Previous oscillator waveform");nextWave[osc].setTooltip("Next oscillator waveform");
     }
     addAndMakeVisible(extendedButton);extendedButton.setTooltip("Filter ADSR, granular, arpeggiator/sequencer, wavetable editor and convolver");
-    extendedButton.onClick=[this]{openPopup(std::make_unique<ExtendedPanel>(processor),extendedButton.getBounds());};
-    studioRack=std::make_unique<StudioRack>(processor);addAndMakeVisible(*studioRack);
+    extendedButton.onClick=[this]{openPopup(std::make_unique<ExtendedPanel>(processor,[safe=juce::Component::SafePointer<SpaceInfinityEditor>(this)]{juce::MessageManager::callAsync([safe]{if(safe){safe->popup.reset();safe->popupContent.reset();safe->showPage(3);}});}),extendedButton.getBounds());};
+    studioRack=std::make_unique<StudioRack>(processor);addAndMakeVisible(*studioRack);studioRack->onOpenGate=[this]{showPage(2);};
+    gatePage=std::make_unique<rhythmui::GatePage>(processor);sequencerPage=std::make_unique<rhythmui::SequencerPage>(processor);addAndMakeVisible(*gatePage);addAndMakeVisible(*sequencerPage);addAndMakeVisible(gateTab);addAndMakeVisible(sequenceTab);gateTab.onClick=[this]{showPage(2);};sequenceTab.onClick=[this]{showPage(3);};
+    for(int i=0;i<3;++i){auto& b=pageLfoSources[size_t(i)];b.setButtonText("LFO "+juce::String(i+1)+" +");b.description="INFINITY:LFO:"+juce::String(i);b.setTooltip("Drag to a control here, or click to edit this LFO on MAIN.");b.onClick=[this,i]{showPage(0);workbench->selectSource(i);};addAndMakeVisible(b);}
     sampleDisplay=std::make_unique<SamplerDisplay>(processor,false);addAndMakeVisible(*sampleDisplay);
     liveDisplay=std::make_unique<SamplerDisplay>(processor,true);addAndMakeVisible(*liveDisplay);
     title.setVisible(false);
@@ -687,12 +694,14 @@ void SpaceInfinityEditor::updatePage(){
     for(size_t i=0;i<rackControls.size();++i){rackControls[i].setVisible(false);rackLabels[i].setVisible(false);}
     for(auto& power:rackEnabled)power.setVisible(false);
     delaySync.setVisible(false);delayMode.setVisible(false);reverbSpace.setVisible(false);
-    if(studioRack)studioRack->setVisible(fxPage);
+    if(studioRack)studioRack->setVisible(fxPage&&auxiliaryPage==0);
+    if(gatePage)gatePage->setVisible(auxiliaryPage==1);if(sequencerPage)sequencerPage->setVisible(auxiliaryPage==2);for(auto& b:pageLfoSources)b.setVisible(fxPage);eqButton.setVisible(fxPage&&auxiliaryPage==0);
     const bool sampled=processor.state.getRawParameterValue("source")->load()>.5f;
     if(sampleDisplay)sampleDisplay->setVisible(!fxPage&&sampled);
     if(liveDisplay)liveDisplay->setVisible(!fxPage&&sampled);
 
     knobs[12].setSliderStyle(fxPage?juce::Slider::LinearHorizontal:juce::Slider::LinearVertical);
+    octaveControls[0].setVisible(true);pitchWheel.setVisible(true);
     knobs[12].setVisible(true);
     labels[12].setVisible(true);
     knobs[10].setVisible(false);labels[10].setVisible(false);
@@ -705,7 +714,7 @@ void SpaceInfinityEditor::updatePage(){
     for(auto* c:std::array<juce::Component*,6>{&sampleRoot,&sampleTrim[0],&sampleTrim[1],&sampleLoop,&sampleReverse,&importButton})c->setVisible(!fxPage&&sampled);
     for(auto& c:oscillatorGains)c.setVisible(!fxPage);for(auto& c:gainLabels)c.setVisible(!fxPage);for(auto& c:filterRoutes)c.setVisible(!fxPage);
     mainTab.setToggleState(!fxPage,juce::dontSendNotification);
-    fxTab.setToggleState(fxPage,juce::dontSendNotification);
+    fxTab.setToggleState(fxPage&&auxiliaryPage==0,juce::dontSendNotification);gateTab.setToggleState(auxiliaryPage==1,juce::dontSendNotification);sequenceTab.setToggleState(auxiliaryPage==2,juce::dontSendNotification);
     resized();
     refreshModulationIndicators();
     repaint();
@@ -796,6 +805,7 @@ void SpaceInfinityEditor::refreshModulationIndicators(){
     }
 }
 juce::Rectangle<int> SpaceInfinityEditor::targetBounds(int target) const{
+    if(fxPage)return {};
     if(target==25)return pitchWheel.getBounds();
     if(target==26||target==27)return !fxPage?(target==26?warpA.getBounds():warpB.getBounds()):juce::Rectangle<int>{};
     if(target==18||target==21||target==22){
@@ -889,8 +899,8 @@ void SpaceInfinityEditor::mouseDown(const juce::MouseEvent& e){
 }
 void SpaceInfinityEditor::mouseDrag(const juce::MouseEvent& e){
     if(draggedMacro>=0){
-        if(fxTab.getBounds().contains(e.getPosition())&&!fxPage){fxPage=true;updatePage();}
-        if(mainTab.getBounds().contains(e.getPosition())&&fxPage){fxPage=false;updatePage();}
+        if(fxTab.getBounds().contains(e.getPosition())&&!fxPage){showPage(1);}
+        if(mainTab.getBounds().contains(e.getPosition())&&fxPage){showPage(0);}
         hoverTarget=targetAt(e.getPosition());
         repaint();
     }else if(envelopeDrag>=0){
@@ -962,17 +972,17 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     }
     g.drawImageAt(hardwareFace,0,0);
     if(infinityLogo.isValid()){
-        const int logoWidth=juce::jmin(440,getWidth()-390);const int placement=juce::RectanglePlacement::centred|juce::RectanglePlacement::onlyReduceInSize;
-        g.setColour(juce::Colour(0xbb08050c));g.drawImageWithin(infinityLogo,31,12,logoWidth,78,placement,true);
-        juce::ColourGradient foil(juce::Colour(0xfffff4dd),0,16,juce::Colour(0xffa99b8c),0,82,false);foil.addColour(.30,juce::Colour(0xffefe5d8));foil.addColour(.53,juce::Colour(0xffb9a995));foil.addColour(.57,juce::Colour(0xfffff8ea));foil.addColour(.72,juce::Colour(0xffe2d1b9));g.setGradientFill(foil);g.drawImageWithin(infinityLogo,30,10,logoWidth,78,placement,true);
+        const int logoWidth=juce::jmin(490,getWidth()-400);const int placement=juce::RectanglePlacement::xLeft|juce::RectanglePlacement::yMid;
+        g.setColour(juce::Colour(0xbb08050c));g.drawImageWithin(infinityLogo,41,12,logoWidth,76,placement,true);
+        juce::ColourGradient foil(juce::Colour(0xfffff5ff),0,16,juce::Colour(0xff8b6cba),0,82,false);foil.addColour(.30,juce::Colour(0xffe5d5ff));foil.addColour(.53,juce::Colour(0xffa88acb));foil.addColour(.57,juce::Colour(0xffffffff));foil.addColour(.72,juce::Colour(0xffcbb2f2));g.setGradientFill(foil);g.drawImageWithin(infinityLogo,40,10,logoWidth,76,placement,true);
     }
 
     g.setFont(10.0f);
     g.setColour(juce::Colour(0xffb7ab9b));
     g.drawText("PROGRAM MEMORY",getWidth()-330,24,200,15,juce::Justification::centredLeft);
     g.drawText("NOISE",getWidth()-330,73,58,22,juce::Justification::centredLeft);
-    g.drawText("MASTER OCT",getWidth()-466,116,77,22,juce::Justification::right);
-    g.drawText("PITCH",getWidth()-316,116,51,22,juce::Justification::right);
+    g.drawText("MASTER OCT",getWidth()-397,116,72,22,juce::Justification::right);
+    g.drawText("PITCH",getWidth()-265,116,43,22,juce::Justification::right);
     if(fxPage){
     }else{
         const auto layout=mainLayout(getWidth(),getHeight());
@@ -1135,11 +1145,10 @@ void SpaceInfinityEditor::resized(){
     bankButton.setBounds(w-330,72,60,23);
     noiseType.setBounds(w-266,72,90,23);
     noiseLevel.setBounds(w-172,72,134,23);
-    mainTab.setBounds(34,111,68,25);
-    fxTab.setBounds(107,111,68,25);
-    extendedButton.setBounds(180,111,98,25);
-    octaveControls[0].setBounds(w-385,116,64,22);
-    pitchWheel.setBounds(w-261,116,220,22);
+    mainTab.setBounds(34,111,58,25);fxTab.setBounds(97,111,50,25);gateTab.setBounds(152,111,60,25);sequenceTab.setBounds(217,111,60,25);extendedButton.setBounds(282,111,78,25);
+    octaveControls[0].setBounds(w-320,116,52,22);pitchWheel.setBounds(w-216,116,176,22);
+    if(gatePage)gatePage->setBounds(28,150,w-56,h-212);if(sequencerPage)sequencerPage->setBounds(28,150,w-56,h-212);
+    for(int i=0;i<3;++i)pageLfoSources[size_t(i)].setBounds(210+i*60,h-53,57,28);
     if(studioRack)studioRack->setBounds(28,150,w-56,h-212);
     const auto layout=mainLayout(w,h);
     if(sampleDisplay)sampleDisplay->setBounds(layout.oscillators[0].getX()+10,layout.oscillators[0].getY()+33,layout.oscillators[0].getWidth()-20,68);
@@ -1270,4 +1279,5 @@ void SpaceInfinityEditor::resized(){
 }
 juce::AudioProcessorEditor* SpaceInfinityProcessor::createEditor(){return new SpaceInfinityEditor(*this);}
 
-void SpaceInfinityEditor::itemDragMove(const juce::DragAndDropTarget::SourceDetails& d){if(fxTab.getBounds().contains(d.localPosition)&&!fxPage){fxPage=true;updatePage();}else if(mainTab.getBounds().contains(d.localPosition)&&fxPage){fxPage=false;updatePage();}}
+void SpaceInfinityEditor::showPage(int page){auxiliaryPage=page>=2?page-1:0;fxPage=page!=0;updatePage();}
+void SpaceInfinityEditor::itemDragMove(const juce::DragAndDropTarget::SourceDetails& d){if(fxTab.getBounds().contains(d.localPosition))showPage(1);else if(mainTab.getBounds().contains(d.localPosition))showPage(0);else if(gateTab.getBounds().contains(d.localPosition))showPage(2);else if(sequenceTab.getBounds().contains(d.localPosition))showPage(3);else if(eqButton.isVisible()&&eqButton.getBounds().contains(d.localPosition)&&(!popupContent||popupContent->getName()!="Seven-band EQ"))openPopup(std::make_unique<EqPanel>(processor),eqButton.getBounds());}

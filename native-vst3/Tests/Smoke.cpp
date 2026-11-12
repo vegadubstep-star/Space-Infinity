@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 
+int runRhythmWorkflowSmoke();
 int runWorkflowSmoke();
 int runExtendedSmoke();
 int runPresetSmoke();
@@ -18,13 +19,16 @@ int renderHardwarePreview()
     auto editor=std::unique_ptr<juce::AudioProcessorEditor>(synth->createEditor());
     const auto folder=juce::File::getCurrentWorkingDirectory().getChildFile("audition");
     if(folder.createDirectory().failed())return 101;
-    for(const auto* page:{"MAIN","FX"}){
+    for(const auto* page:{"MAIN","FX","GATE","SEQ"}){
         juce::TextButton* tab=nullptr;
         for(auto* child:editor->getChildren())
             if(auto* button=dynamic_cast<juce::TextButton*>(child))
                 if(button->getButtonText()==page)tab=button;
         if(!tab)return 102;
         tab->onClick();
+        const auto parameter=[&](const juce::String& id,float value){auto* a=synth->state.getParameter(id);a->setValueNotifyingHost(a->convertTo0to1(value));};
+        if(juce::String(page)=="GATE"){parameter("gateEnabled",1);parameter("gateMode",1);parameter("gateCurveRate",4);parameter("gateCurveCount",3);for(int i=0;i<3;++i){parameter("gateCurveX"+juce::String(i),float(i)/2);parameter("gateCurveY"+juce::String(i),i==0?.08f:i==1?.8f:1);parameter("gateCurveBend"+juce::String(i),i==0?.6f:-.45f);}}
+        if(juce::String(page)=="SEQ"){parameter("patternMode",2);for(int i=0;i<16;++i){parameter("stepPitch"+juce::String(i),i%4==0?0:i%4==1?7:i%4==2?12:3);parameter("stepVelocity"+juce::String(i),i%4==0?1:.6f);}}
         for(const auto size:{juce::Point<int>(800,760),juce::Point<int>(1000,790),juce::Point<int>(1180,820),juce::Point<int>(1500,950)}){
             editor->setSize(size.x,size.y);
             for(auto* child:editor->getChildren())
@@ -35,13 +39,14 @@ int renderHardwarePreview()
             if(!stream||!juce::PNGImageFormat{}.writeImageToStream(image,*stream))return 104;
         }
     }
-    std::cout<<"Native hardware editor: Main/FX screenshots and bounds passed at 800, 1000, 1180 and 1500 pixels\n";
+    std::cout<<"Native hardware editor: Main/FX/Gate/Seq screenshots and bounds passed at 800, 1000, 1180 and 1500 pixels\n";
     return 0;
 }
 
 int main(int argc,char* argv[])
 {
     juce::ScopedJuceInitialiser_GUI gui;
+    if(argc>1&&juce::String(argv[1])=="--rhythm-workflow-tests")return runRhythmWorkflowSmoke();
     if(argc>1&&juce::String(argv[1])=="--workflow-tests")return runWorkflowSmoke();
     if(argc>1&&juce::String(argv[1])=="--ui-only")return renderHardwarePreview();
     if(argc>1&&juce::String(argv[1])=="--preset-tests")return runPresetSmoke();

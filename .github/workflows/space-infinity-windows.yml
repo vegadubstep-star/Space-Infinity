@@ -6,6 +6,10 @@ on:
         description: Package the already verified release installer into a ZIP
         type: boolean
         default: false
+      release_version:
+        description: Existing release version to repackage (blank uses the current native version)
+        type: string
+        default: ''
   push:
     branches: [codex/windows-build]
 permissions:
@@ -69,13 +73,26 @@ jobs:
       GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
+      - name: Resolve release version
+        env:
+          REQUESTED_RELEASE_VERSION: ${{ inputs.release_version }}
+        run: |
+          python3 - <<'PYTHON'
+          import os, re
+          from pathlib import Path
+          version = os.environ.get('REQUESTED_RELEASE_VERSION') or re.search(r'project\(SpaceInfinity VERSION ([0-9.]+)', Path('native-vst3/CMakeLists.txt').read_text()).group(1)
+          if not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+', version):
+              raise SystemExit('Invalid release version')
+          with open(os.environ['GITHUB_ENV'], 'a') as output:
+              output.write('RELEASE_VERSION=' + version + '\n')
+          PYTHON
       - name: Download verified release assets
-        run: gh release download v0.2.0 --repo "$GITHUB_REPOSITORY" --dir release
+        run: gh release download "v$RELEASE_VERSION" --repo "$GITHUB_REPOSITORY" --dir release
       - name: Package and verify installer ZIP
-        run: python3 scripts/package-installer-zip.py release 0.2.0
+        run: python3 scripts/package-installer-zip.py release "$RELEASE_VERSION"
       - name: Publish installer ZIP
         run: >-
-          gh release upload v0.2.0
-          release/SPACE_INFINITY_0.2.0_Windows_x64_Installer.zip
-          release/SPACE_INFINITY_0.2.0_Windows_x64_Installer.zip.sha256
+          gh release upload "v$RELEASE_VERSION"
+          "release/SPACE_INFINITY_${RELEASE_VERSION}_Windows_x64_Installer.zip"
+          "release/SPACE_INFINITY_${RELEASE_VERSION}_Windows_x64_Installer.zip.sha256"
           --repo "$GITHUB_REPOSITORY" --clobber

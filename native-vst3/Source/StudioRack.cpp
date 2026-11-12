@@ -177,23 +177,13 @@ private:
     void open(){chooser=std::make_unique<juce::FileChooser>("Load impulse response",juce::File{},"*.wav");juce::Component::SafePointer<ConvolverModule> safe(this);
         chooser->launchAsync(juce::FileBrowserComponent::openMode|juce::FileBrowserComponent::canSelectFiles,[safe](const juce::FileChooser& c){if(safe&&c.getResult()!=juce::File{})safe->import(c.getResult());});}
 };
-class RhythmModule final : public Module {
+class RhythmModule final:public Module {
+    juce::TextButton edit{"OPEN GATE EDITOR"};
 public:
-    explicit RhythmModule(SpaceInfinityProcessor& p):Module(p,"TRANCE GATE / SIDECHAIN","gateEnabled"){
-        toggle("pumpEnabled","SIDECHAIN");choice("gateSplit","Affected frequency range");choice("gateRate","Gate step duration");choice("pumpRate","Pump cycle");choice("sidechainSource","Internal pump / external host input");
-        presets.addItemList(juce::StringArray(studio::gateNames.data(),int(studio::gateNames.size())),1);presets.setTextWhenNothingSelected("15 gate presets");presets.onChange=[this]{processor.loadGatePreset(presets.getSelectedId()-1);};addAndMakeVisible(presets);
-        for(int i=0;i<16;++i){auto slider=std::make_unique<juce::Slider>();slider->setSliderStyle(juce::Slider::LinearVertical);slider->setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);slider->setTooltip("Gate step "+juce::String(i+1));addAndMakeVisible(*slider);
-            steps.push_back(std::move(slider));stepBindings.push_back(std::make_unique<SliderBinding>(processor.state,"gateStep"+juce::String(i),*steps.back()));}
-        const char* ids[]{"gateDepth","gateAttack","gateRelease","pumpDepth","pumpAttack","pumpRelease","sidechainThreshold","sidechainRatio","gateLow","gateHigh","gateSwing"};
-        const char* names[]{"GATE DEPTH","ATTACK","RELEASE","DUCK DEPTH","SC ATTACK","SC RELEASE","SC THRESH","SC RATIO","SPLIT LOW","SPLIT HIGH","SWING"};for(int i=0;i<11;++i)knob(ids[i],names[i]);
+    RhythmModule(SpaceInfinityProcessor& p,std::function<void()> open):Module(p,"TRANCE GATE / SIDECHAIN","gateEnabled"){
+        addAndMakeVisible(edit);edit.onClick=std::move(open);toggle("pumpEnabled","SIDECHAIN");knob("gateDepth","GATE DEPTH");knob("pumpDepth","DUCK DEPTH");choice("gateSplit","Affected frequency range");
     }
-    void paint(juce::Graphics& g)override{Module::paint(g);const int step=processor.gateStep();g.setColour(juce::Colour(0xffd6bbf5));if(step<int(steps.size()))g.drawRect(steps[size_t(step)]->getBounds().expanded(1),1);}
-    void resized()override{presets.setBounds(230,4,180,22);switches[0]->setBounds(getWidth()-135,4,130,22);
-        const int w=(getWidth()-24)/16;for(int i=0;i<16;++i)steps[size_t(i)]->setBounds(12+i*w,40,w-3,63);
-        const int cw=(getWidth()-24)/4;for(int i=0;i<4;++i)choices[size_t(i)]->setBounds(12+i*cw,111,cw-6,23);
-        row({8,145,getWidth()-16,80},0,11);}
-private:
-    juce::ComboBox presets;std::vector<std::unique_ptr<juce::Slider>> steps;std::vector<std::unique_ptr<SliderBinding>> stepBindings;
+    void resized()override{switches[0]->setBounds(getWidth()-140,3,135,24);edit.setBounds(18,48,185,32);choices[0]->setBounds(18,91,185,25);row({225,36,getWidth()-240,82},0,2);}
 };
 class FlangerModule final:public Module {
 public:
@@ -232,15 +222,15 @@ public:
 };
 }
 struct StudioRack::Impl {
-    explicit Impl(SpaceInfinityProcessor& p){
-        add(std::make_unique<CompressorModule>(p),215);add(std::make_unique<DelayModule>(p),238);add(std::make_unique<ConvolverModule>(p),226);add(std::make_unique<RhythmModule>(p),237);
+    explicit Impl(SpaceInfinityProcessor& p,std::function<void()> openGate){
+        add(std::make_unique<CompressorModule>(p),215);add(std::make_unique<DelayModule>(p),238);add(std::make_unique<ConvolverModule>(p),226);add(std::make_unique<RhythmModule>(p,std::move(openGate)),129);
         add(std::make_unique<BasicModule>(p,1),119);add(std::make_unique<FlangerModule>(p),122);add(std::make_unique<BasicModule>(p,3),119);add(std::make_unique<BasicModule>(p,5),119);
         viewport.setViewedComponent(&content,false);viewport.setScrollBarsShown(true,false);viewport.setScrollBarThickness(10);
     }
     void add(std::unique_ptr<Module> m,int height){auto& processor=m->processor;auto slot=std::make_unique<EffectSlot>(processor,int(modules.size()),std::move(m),height);content.addAndMakeVisible(*slot);heights.push_back(slot->height());modules.push_back(std::move(slot));}
     juce::Component content;juce::Viewport viewport;std::vector<std::unique_ptr<EffectSlot>> modules;std::vector<int> heights;
 };
-StudioRack::StudioRack(SpaceInfinityProcessor& p):impl(std::make_unique<Impl>(p)){addAndMakeVisible(impl->viewport);setName("Studio FX rack");startTimerHz(20);}
+StudioRack::StudioRack(SpaceInfinityProcessor& p):impl(std::make_unique<Impl>(p,[this]{if(onOpenGate)onOpenGate();})){addAndMakeVisible(impl->viewport);setName("Studio FX rack");startTimerHz(20);}
 StudioRack::~StudioRack(){stopTimer();}
 void StudioRack::resized(){impl->viewport.setBounds(getLocalBounds());int y=0;const int width=juce::jmax(1,getWidth()-13);
     for(size_t i=0;i<impl->modules.size();++i){impl->modules[i]->setBounds(0,y,width,impl->heights[i]);y+=impl->heights[i]+8;}impl->content.setSize(width,y);}
