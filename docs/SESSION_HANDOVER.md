@@ -1,12 +1,25 @@
-# Latest continuation — 12 November 2026
+# Verified release — 12 November 2026
 
-Candidate **v0.3.0** now includes the ten rhythm/metal updates plus two visible LFO editors, free LFO points/bends and timing controls, all six macros with 16 destinations each and target-ring amount dragging, independent WT POS controls, actual 3D frame previews, six original 303/acid waveform families and manual-documented unison controls. See [release notes](RHYTHM_AND_METAL_UPDATE.md) for behavior and exact-parity limitations.
+**v0.3.0 is published and ready to test.**
 
-All **14 native suites passed locally**, with a 1 MiB stack limit, including expanded legacy/intermediate/new unison audio checks. The original v0.3.0 Windows run failed on a nested lambda capture; the capture has been rewritten for MSVC. A new Windows build must pass all native suites, installer/archive verification and publishing before v0.3.0 is described as downloadable. The previous v0.2.0 release is still verified; it does not include these additions.
+- [Windows installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.3.0/SPACE_INFINITY_0.3.0_Windows_x64_Installer.zip)
+- [Release page](https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.3.0)
+- [Successful Windows workflow](https://github.com/vegadubstep-star/Space-Infinity/actions/runs/43201726777)
+- Release source: `f52c79723805b2c1faf2dbb435dc3ef87793e7c9` on `codex/windows-build`.
 
-The official Serum 2 PDF manual was consulted (oscillators pp. 41–48, LFOs pp. 189–194). Its unpublished detune curves were not invented as exact Xfer values. Normal LFO controls are implemented independently; Path/Chaos/S&H and certain advanced editor gestures are not included. The release notes list limitations explicitly.
+Windows compilation, all **14 native suites**, install/uninstall and VST3 archive verification, publishing and optional artifact/cache steps passed. The actual published installer ZIP and VST3 ZIP were downloaded, integrity-checked and matched their published checksums. The installer inside its ZIP matched the external installer checksum, and the VST3 module was confirmed to be Windows x64 PE. Extract All, close FL Studio, run Setup.exe, reopen FL Studio and test a fresh instance.
 
-The working checkout is `/workspace/work/native-design`, branch `codex/windows-build`. Generated `audition/` is intentionally untracked and reproducible. Build/test logs are in `/workspace/work/workflow-update/`. Release publishing creates and verifies the user-requested installer ZIP automatically.
+- Installer ZIP SHA-256: `9cd9f5ec63c899d023287ea520f6311e7dd9584c010168132e9a176e94bf5f7a`
+- Installer SHA-256: `34896ea3f978fc79d5858206e0869baa08f384b14e1054db5a999b895a18119b`
+- VST3 ZIP SHA-256: `41a62e28f3e417a33af0d892526ca80e9ae67dd894544368eadec61340d0437b`
+
+This release includes the ten rhythm/metal updates plus two visible LFO editors, free LFO points/bends and timing controls, all six macros with 16 destinations each and target-ring amount dragging, independent WT POS controls, actual 3D frame previews, six original 303/acid waveform families and manual-documented unison controls. See [release notes](RHYTHM_AND_METAL_UPDATE.md) for behavior and exact-parity limitations, and [testing instructions](TESTING_STUDIO_BUILD.md).
+
+The official Serum 2 PDF manual was consulted (oscillators pp. 41–48, LFOs pp. 189–194). Its unpublished detune curves were not presented as exact Xfer values. Normal LFO controls are implemented independently; Path/Chaos/S&H and certain advanced editor gestures are not included. Phase-memory/phase-legato and a second simultaneous warp stage are not included. The release notes make these limitations explicit. User's latest Copilot detune explanation agrees with the core unison-pitch/Blend/modulation behavior; it does not supply a numerical tuning formula.
+
+Local evidence: all 14 suites passed with a 1 MiB stack limit; the last B-position assignment compatibility fix also passed four targeted suites. The previous Windows compiler capture failure was fixed; a superseded run was cancelled before publication. No unresolved build or publication blocker remains. FL Studio listening and host integration remain the user's next checks.
+
+The working checkout is `/workspace/work/native-design`. Generated `audition/` is intentionally untracked and reproducible. Logs are in `/workspace/work/workflow-update/`; downloaded release proof is `/workspace/work/release-verification/v0.3.0/DOWNLOAD_VERIFIED.json`. All source changes are committed and pushed. GitHub builds run remotely; the user's PC need not stay powered on.
 
 ---
 
