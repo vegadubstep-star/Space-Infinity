@@ -7,12 +7,17 @@ This update keeps the existing analogue filters and controls and adds more direc
 - **Logo fit:** smaller INFINITY logo with more top/side clearance, checked at the supported window sizes.
 
 - **ANALOG LAB:** ENGINES → ANALOG LAB contains separate VCO wander, slow thermal drift, filter/envelope/voice tolerances, pulse drift, VCA drive/asymmetry, circuit memory and AC coupling. The component switch bypasses the new variation/colour controls. Fresh non-Init presets use gentle settings; Init is neutral.
-- **Original analogue section retained:** Character, analogue voices/curved envelopes, pre-filter drive, pitch envelope, velocity controls and all six existing filters remain available.
+- **Analogue controls on MAIN:** Character, pre-filter drive and the analogue-voice switch sit beside the filter. LAB opens component settings. Pitch controls have moved out of ANALOGUE into a separate PITCH page; all original parameters remain available.
+- **Portamento and pitch:** PORTAMENTO is now a main-page time knob. Overlapping notes glide in Mono and Legato; zero gives instant pitch. A vertical hardware-style pitch wheel on MAIN exposes the existing **Pitch Wheel** parameter (±24 semitones) for FL Studio automation and macro/LFO assignments. Click PITCH above it for pitch envelopes, incoming MIDI wheel range and A4 tuning.
 - **Matched stereo filters:** high-pass and band-pass now apply their selected response to the stereo side too. Channel-wise warmth preserves panning. The matched-stereo switch is independent of the component-colour switch. Old saved states retain their legacy settings. Enable MATCHED STEREO FILTERS on older sounds before assessing the new pan controls.
-- **Envelope controls:** amp and filter now have Hold plus independent attack/decay/release contours. CURVES on MAIN opens both editable graphs; ENGINES also provides AMP ENV and FILTER ENV pages. Drag nodes to edit times/levels and drag segments to bend curves.
-- **Pan and tuning:** separate oscillator pan on MAIN, sub pan in its main panel, noise pan and A4 tuning in ANALOG LAB.
+- **Envelope controls:** amp and filter now have Hold plus independent attack/decay/release contours. MAIN now shows both envelope graphs above their knobs, updating live as times, sustain or curves change; drag their nodes and segments directly. CURVES opens the larger view; ENGINES also provides AMP ENV and FILTER ENV pages. Drag nodes to edit times/levels and drag segments to bend curves.
+- **Pan and tuning:** separate oscillator pan on MAIN, sub pan in its main panel, noise pan in ANALOG LAB and A4 tuning in PITCH.
 - **Clean base VCO option:** updated saw/pulse edge correction is independent of Character, with base sub saw/pulse support. Imported/morphed/warped waveforms do not gain full Serum-style band-limiting from this option.
 - **FX rack order:** the fixed rack is displayed in actual audio order without changing saved stage IDs or the processing chain.
+
+LFO shape presets now use fewer anchors (two for ramps, three for triangle, four for square and five for the curved sine-style shape). Small outlined handles show where to bend each segment. Grid and Draw controls live in Advanced; existing detailed curves remain editable.
+
+FX OUTPUT GAIN now reads **MUTE** at its fully left position and smoothly silences the full stage, including dry audio. Other positions keep their existing dB values and automation range. Previously saved −24 dB output values now mean mute; raise them slightly if you intended quiet output. Meters remain after stage gain and clear their held clip indication once a muted stage is silent. The convolver opens with Size, Tone, Pre-delay, Decay and Dry/Wet, with all additional controls retained behind Advanced. Wet Level affects the convolver return only; OUTPUT GAIN affects the whole stage. The logo retains its smaller fit with high-quality image resampling.
 
 Two visible LFOs, broad macro routing, WT POS, 3D frame views, the six original acid waveform families, wet EQs and the separate gate/sequencer from v0.3.0 remain included.
 
@@ -31,4 +36,8 @@ The audit and complete [native control inventory](audit/NATIVE_PARAMETER_INVENTO
 
 ## Native screenshots
 
-[Main and smaller logo](images/Rhythm-Main.png) / [Analogue Lab](images/Analogue-Lab.png) / [Amp envelope](images/Analogue-Amp-Envelope.png) / [Filter envelope](images/Analogue-Filter-Envelope.png)
+[Main controls and envelope graphs](images/Rhythm-Main.png) / [Simple reverb and convolver](images/FX-Spaces.png) / [Pitch settings](images/Pitch-Settings.png) / [Analogue Lab](images/Analogue-Lab.png) / [Amp envelope](images/Analogue-Amp-Envelope.png) / [Filter envelope](images/Analogue-Filter-Envelope.png)
+
+### FL Studio pitch risers
+
+Move the main-page pitch wheel, then use **Tools → Last tweaked → Create automation clip** in FL Studio (or the wrapper parameter browser → Pitch Wheel → Create automation clip). Draw the rise in the clip; centre is zero, the maximum is +24 semitones. Double-click the wheel to centre it. The PITCH page’s MIDI Wheel Range controls incoming MIDI pitch-wheel messages; the automation wheel displays its pitch directly in semitones.

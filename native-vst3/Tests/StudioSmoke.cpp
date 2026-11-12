@@ -185,12 +185,14 @@ int runLeadSmoke(){
     const auto crossings=[&](int blocks,int note){int count=0;for(int b=0;b<blocks;++b){juce::MidiBuffer midi;if(b==0&&note>=0)midi.addEvent(juce::MidiMessage::noteOn(1,note,.8f),0);glideSynth->processBlock(probe,midi);for(int i=0;i<256;++i){const float v=probe.getSample(0,i);if(previous<=0&&v>0)++count;previous=v;}}return count*48000.0/(blocks*256);};
     crossings(40,69);const double earlyPitch=crossings(4,81);crossings(110,-1);const double latePitch=crossings(20,-1);
     require(earlyPitch>400&&earlyPitch<700&&latePitch>820&&latePitch<930,"legato glide reaches target gradually");
+    set("voiceMode",1);set("glideTime",.12f);glideSynth->prepareToPlay(48000,256);previous=0;crossings(40,69);const double monoEarly=crossings(4,81);crossings(110,-1);const double monoLate=crossings(20,-1);require(monoEarly>400&&monoEarly<700&&monoLate>820&&monoLate<930,"mono portamento retriggers envelope while gliding pitch");
     set("glideTime",0);set("voiceMode",0);set("pitchEnvAmount",12);set("pitchEnvAttack",0);set("pitchEnvDecay",.1f);glideSynth->prepareToPlay(48000,256);previous=0;
     const double pitchStart=crossings(4,69);crossings(40,-1);const double pitchEnd=crossings(20,-1);
     require(pitchStart>650&&pitchEnd>400&&pitchEnd<480,"pitch envelope returns to played pitch");
     set("pitchEnvAmount",0);set("midiBendRange",2);glideSynth->prepareToPlay(48000,256);previous=0;crossings(40,69);
     juce::MidiBuffer bend;bend.addEvent(juce::MidiMessage::pitchWheel(1,16383),0);glideSynth->processBlock(probe,bend);crossings(10,-1);const double bentPitch=crossings(30,-1);
     require(bentPitch>480&&bentPitch<510,"MIDI bend range gives two semitones");
+    set("pitchBend",12);glideSynth->prepareToPlay(48000,256);previous=0;crossings(40,69);const double automatedPitch=crossings(30,-1);require(automatedPitch>850&&automatedPitch<920,"host pitch wheel parameter automates octave riser");set("pitchBend",0);
     set("osc1Enabled",0);set("osc2Enabled",1);set("mix",1);set("osc2Octave",2);set("osc2Semitone",7);set("detune",0);glideSynth->prepareToPlay(48000,256);previous=0;crossings(40,69);const double coarsePitch=crossings(30,-1);
     require(coarsePitch>2600&&coarsePitch<2675,"octave plus semitone gives the 31-semitone interval");
     set("osc1Enabled",1);set("osc2Enabled",0);set("mix",0);set("osc2Octave",0);set("osc2Semitone",0);

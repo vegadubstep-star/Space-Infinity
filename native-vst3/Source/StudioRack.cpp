@@ -24,10 +24,10 @@ public:
         if(id=="flangerStereo")unit="deg";
         if(id=="flangerRate"||id.contains("Wet")&&id.endsWith("Freq")){auto range=slider.getNormalisableRange();range.setSkewForCentre(id=="flangerRate"?.35:1000);slider.setNormalisableRange(range);}
         slider.setMouseDragSensitivity(350);
-        slider.textFromValueFunction=[unit](double value){return juce::String(unit=="%"?value*100:value,unit=="Hz"||unit=="%"?0:unit=="s"?3:1)+(unit.isEmpty()?"":" "+unit);};
-        slider.valueFromTextFunction=[unit](const juce::String& s){return s.getDoubleValue()/(unit=="%"?100:1);};
+        slider.textFromValueFunction=[unit,id](double value){if(id.startsWith("fxOutput")&&value<=-24)return juce::String("MUTE");return juce::String(unit=="%"?value*100:value,unit=="Hz"||unit=="%"?0:unit=="s"?3:1)+(unit.isEmpty()?"":" "+unit);};
+        slider.valueFromTextFunction=[unit,id](const juce::String& s){if(id.startsWith("fxOutput")&&(s.containsIgnoreCase("mute")||s.containsIgnoreCase("inf")))return -24.0;return s.getDoubleValue()/(unit=="%"?100:1);};
         auto* parameter=p.state.getParameter(id);slider.setDoubleClickReturnValue(true,parameter->convertFrom0to1(parameter->getDefaultValue()));
-        slider.setTooltip(text+" — drag to adjust; Shift for fine adjustment; double-click resets.");
+        slider.setTooltip(text+(id.startsWith("fxOutput")?" — full stage output; fully left = MUTE":"")+" — drag to adjust; Shift for fine adjustment; double-click resets.");
         slider.updateText();
         addAndMakeVisible(label);addAndMakeVisible(slider);
     }
@@ -152,9 +152,9 @@ public:
     explicit ConvolverModule(SpaceInfinityProcessor& p):Module(p,"CONVOLVER","convolverEnabled"){
         choice("irPreset","Impulse library");choice("irSync","Pre-delay BPM / milliseconds");toggle("irMinimumPhase","MIN PHASE");toggle("irReverse","REVERSE");
         const char* ids[]{"irSize","irTone","irPredelay","irAttack","irDecay","irDamp","irGain","convolverMix","irOutput"};
-        const char* names[]{"SIZE","TONE","PRE-DELAY","ATTACK","DECAY","DAMP","IR GAIN","MIX","LEVEL"};for(int i=0;i<9;++i)knob(ids[i],names[i]);
-        for(auto* b:{&previous,&next,&load})addAndMakeVisible(*b);
-        previous.onClick=[this]{step(-1);};next.onClick=[this]{step(1);};load.onClick=[this]{open();};
+        const char* names[]{"SIZE","TONE","PRE-DELAY","ATTACK","DECAY","DAMP","IR DRIVE","DRY / WET","WET LEVEL"};for(int i=0;i<9;++i)knob(ids[i],names[i]);
+        for(auto* b:{&previous,&next,&load,&advanced})addAndMakeVisible(*b);
+        advanced.setClickingTogglesState(true);advanced.onClick=[this]{resized();repaint();};previous.onClick=[this]{step(-1);};next.onClick=[this]{step(1);};load.onClick=[this]{open();};
         setName("CONVOLVER — drop a WAV impulse here; imported IR is embedded in presets");
     }
     bool isInterestedInFileDrag(const juce::StringArray& files)override{return files.size()==1&&files[0].endsWithIgnoreCase(".wav");}
@@ -164,13 +164,16 @@ public:
         for(int i=0;i<512;++i)wave.lineTo(r.getX()+r.getWidth()*i/511,r.getBottom()-juce::jlimit(0.0f,1.0f,(juce::Decibels::gainToDecibels(data[size_t(i)],-72.0f)+72)/72)*(r.getHeight()-18));
         wave.lineTo(r.getBottomRight());wave.closeSubPath();g.setGradientFill(juce::ColourGradient(juce::Colour(0xffb7d890),0,r.getY(),juce::Colour(0x303e5a4a),0,r.getBottom(),false));g.fillPath(wave);
         g.setColour(juce::Colour(0xffdedbc3));g.setFont(10);g.drawText(processor.impulseBuilding()?"PREPARING IMPULSE...":processor.impulseName(),impulseArea().reduced(5).withHeight(13),juce::Justification::centredLeft);
-        g.drawText("IR embedded in saved preset / project",12,150,getWidth()/3,17,juce::Justification::centredLeft);
+        g.drawText("IR saved inside your preset",12,150,getWidth()/3,17,juce::Justification::centredLeft);if(!advanced.getToggleState()){g.setColour(juce::Colour(0xffcbb9e8));g.drawText("Choose a space, set its size and decay, then blend with DRY / WET.",getWidth()/3+20,145,getWidth()*2/3-30,40,juce::Justification::centred);}
     }
     void resized()override{choices[0]->setBounds(150,4,175,22);previous.setBounds(330,4,24,22);next.setBounds(357,4,24,22);load.setBounds(386,4,77,22);
-        switches[0]->setBounds(getWidth()-230,4,115,22);switches[1]->setBounds(getWidth()-115,4,110,22);
-        row({getWidth()/3+20,42,getWidth()*2/3-30,82},0,6);row({getWidth()/3+20,137,getWidth()*2/3-30,79},6,3);choices[1]->setBounds(12,176,getWidth()/3-10,24);}
+        const bool full=advanced.getToggleState();for(auto& k:knobs)k->setVisible(full);for(auto& t:switches)t->setVisible(full);choices[1]->setVisible(full);
+        advanced.setBounds(12,202,juce::jmin(150,getWidth()/3-10),22);
+        if(full){switches[0]->setBounds(getWidth()-230,4,115,22);switches[1]->setBounds(getWidth()-115,4,110,22);row({getWidth()/3+20,42,getWidth()*2/3-30,82},0,6);row({getWidth()/3+20,137,getWidth()*2/3-30,79},6,3);choices[1]->setBounds(12,176,getWidth()/3-10,24);}
+        else{const int ids[]{0,1,2,4,7};const int x=getWidth()/3+20,width=getWidth()*2/3-30;for(int i=0;i<5;++i){auto& k=knobs[size_t(ids[i])];k->setVisible(true);k->setBounds(x+i*width/5,50,width/5,84);}}
+    }
 private:
-    juce::TextButton previous{"<"},next{">"},load{"LOAD IR"};std::unique_ptr<juce::FileChooser> chooser;
+    juce::TextButton previous{"<"},next{">"},load{"LOAD IR"},advanced{"ADVANCED"};std::unique_ptr<juce::FileChooser> chooser;
     juce::Rectangle<int> impulseArea()const{return {12,42,getWidth()/3-5,99};}
     void step(int direction){auto& box=choices[0]->box;box.setSelectedItemIndex((box.getSelectedItemIndex()+direction+5)%5,juce::sendNotificationSync);}
     void import(const juce::File& file){const auto r=processor.importImpulse(file);if(r.failed())juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon,"Impulse response",r.getErrorMessage());repaint();}
@@ -209,14 +212,14 @@ public:
         addAndMakeVisible(*module);addAndMakeVisible(output);if(stage==1||stage==7){eq=std::make_unique<WetEQPanel>(p,stage==1?"delayWet":"reverbWet");addAndMakeVisible(*eq);}setName(module->getName());}
     int height()const{return bodyHeight+(eq?110:0)+78;}
     void resized()override{module->setBounds(0,0,getWidth(),bodyHeight);if(eq)eq->setBounds(5,bodyHeight,getWidth()-10,110);output.setBounds(getWidth()-105,getHeight()-76,95,72);}
-    void tick(){peak=std::max(p.effectPeak(index),peak*.84f);clip=p.effectClipping(index)?40:std::max(0,clip-1);module->resized();module->repaint();repaint();}
+    void tick(){const float live=p.effectPeak(index);const bool clipped=p.effectClipping(index);peak=std::max(live,peak*.84f);clip=clipped?40:std::max(0,clip-1);if(output.slider.getValue()<=-24&&live<.00001f){peak=0;clip=0;}module->resized();module->repaint();repaint();}
     void paint(juce::Graphics& g)override{HardwareTheme::module(g,getLocalBounds().toFloat());const int y=getHeight()-55;auto r=juce::Rectangle<int>(15,y,getWidth()-145,16);HardwareTheme::display(g,r.toFloat());const float db=juce::Decibels::gainToDecibels(peak,-60.0f);g.setColour(juce::Colour(clip?0xfff16484:0xffad82ff));g.fillRect(r.reduced(2).withWidth(int((r.getWidth()-4)*juce::jlimit(0.0f,1.0f,(db+60)/60))));g.setFont(10);g.drawText(clip?"CLIP / reduce output gain":"STAGE PEAK  "+(peak>.00001f?juce::String(db,1):juce::String("-inf"))+" dBFS",15,y+21,getWidth()-145,18,juce::Justification::centredLeft);}
 };
 class BasicModule final : public Module {
 public:
     BasicModule(SpaceInfinityProcessor& p,int row):Module(p,effectRows[size_t(row)],effectEnableIds[size_t(row)]){
         for(const auto& c:effectControls)if(c.row==row)knob(c.id,c.label);
-        if(row==5)choice("reverbSpace","Reverb space");
+        if(row==5){choice("reverbSpace","Choose a room, hall or plate, then adjust size and blend.");const char* names[]{"SIZE / DECAY","DARKEN","WIDTH","DRY / WET"};const char* tips[]{"Larger spaces have longer reverb tails.","Turn up to soften the high frequencies in the reverb tail.","Stereo spread of the reverb return.","Blend the reverb with your dry sound. Fully left gives dry sound; OUTPUT GAIN controls the entire stage."};for(int i=0;i<4;++i){knobs[size_t(i)]->label.setText(names[i],juce::dontSendNotification);knobs[size_t(i)]->slider.setTooltip(tips[i]);}}
     }
     void resized()override{const int width=getWidth()-(choices.empty()?12:145);row({8,37,width,75},0,int(knobs.size()));if(!choices.empty())choices[0]->setBounds(getWidth()-135,61,125,24);}
 };

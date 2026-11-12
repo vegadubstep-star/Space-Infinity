@@ -65,7 +65,10 @@ private:
     juce::TextButton bankButton{"BANK"};
     juce::ComboBox presets, waveform, waveform2, source, motionShape, motionBars;
     ModSlider motionDepth, noiseLevel, analogueCharacter;
-    juce::Label analogueLabel;
+    juce::Label analogueLabel,preDriveLabel,portamentoLabel;
+    ModSlider preDrive,portamento;
+    juce::ToggleButton analogueOn{"ANALOGUE"};
+    juce::TextButton analogueLabButton{"LAB"},pitchSettings{"PITCH"};
     juce::ComboBox noiseType;
     std::array<ModSlider,4> oscillatorSliders,unisonTone;
     std::array<ModSlider,3> octaveControls;

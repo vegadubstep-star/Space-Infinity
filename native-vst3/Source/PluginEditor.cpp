@@ -459,6 +459,10 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
         processor.state,"analogueCharacter",analogueCharacter));
     showPercent(analogueCharacter);
+    preDrive.initialiseModulation(processor,"filterInputDrive");preDrive.setName("Pre-filter drive");preDrive.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);preDrive.setTextBoxStyle(juce::Slider::TextBoxBelow,false,70,16);preDrive.setMouseDragSensitivity(350);preDrive.setDoubleClickReturnValue(true,0);preDrive.setTooltip("Drive into the filter before resonance; distinct from the output saturation DRIVE.");attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"filterInputDrive",preDrive));showPercent(preDrive);addAndMakeVisible(preDrive);preDriveLabel.setText("PRE DRIVE",juce::dontSendNotification);preDriveLabel.setJustificationType(juce::Justification::centred);addAndMakeVisible(preDriveLabel);
+    portamento.initialiseModulation(processor,"glideTime");portamento.setName("Portamento time");portamento.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);portamento.setTextBoxStyle(juce::Slider::TextBoxBelow,false,65,16);configureTimeKnob(portamento);portamento.setDoubleClickReturnValue(true,0);portamento.textFromValueFunction=[](double v){return juce::String(v*1000,1)+" ms";};portamento.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/1000;};portamento.setTooltip("Glide time in Mono or Legato. Overlap notes to glide; zero gives instant pitch. Shift-drag for fine control.");attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"glideTime",portamento));portamento.textFromValueFunction=[](double v){return juce::String(v*1000,1)+" ms";};portamento.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/1000;};portamento.updateText();addAndMakeVisible(portamento);portamentoLabel.setText("PORTAMENTO",juce::dontSendNotification);portamentoLabel.setJustificationType(juce::Justification::centred);portamentoLabel.setFont(juce::Font(juce::FontOptions(9)));addAndMakeVisible(portamentoLabel);
+    routeBindings.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(processor.state,"analogueUpgrade",analogueOn));addAndMakeVisible(analogueOn);addAndMakeVisible(analogueLabButton);analogueLabButton.onClick=[this]{auto panel=std::make_unique<ExtendedPanel>(processor);panel->selectTab(7);openPopup(std::move(panel),analogueLabButton.getBounds());};addAndMakeVisible(pitchSettings);pitchSettings.setTooltip("Pitch envelope, tuning and MIDI wheel range");pitchSettings.onClick=[this]{auto panel=std::make_unique<ExtendedPanel>(processor);panel->selectTab(8);openPopup(std::move(panel),pitchSettings.getBounds());};
+
     analogueLabel.setText("ANALOGUE CHARACTER",juce::dontSendNotification);
     analogueLabel.setJustificationType(juce::Justification::centred);
     analogueLabel.setColour(juce::Label::textColourId,juce::Colour(0xffd9d1bb));
@@ -488,11 +492,11 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     compAmount.setName("Multiband amount");
     addAndMakeVisible(compAmount);
     compAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"compAmount",compAmount);
-    pitchWheel.initialiseModulation(processor,"pitchBend");pitchWheel.setSliderStyle(juce::Slider::LinearHorizontal);
-    pitchWheel.setTextBoxStyle(juce::Slider::TextBoxRight,false,56,20);
+    pitchWheel.initialiseModulation(processor,"pitchBend");pitchWheel.setSliderStyle(juce::Slider::LinearVertical);
+    pitchWheel.setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);
     pitchWheel.setDoubleClickReturnValue(true,0.0);
     pitchWheel.setName("Pitch Wheel");
-    pitchWheel.setTooltip("Pitch Wheel ±24 semitones. Double-click to centre.");
+    pitchWheel.setTooltip("Automatable Pitch Wheel ±24 semitones. In FL Studio: tweak this wheel, then Tools > Last tweaked > Create automation clip. Right-click for modulation assignments; double-click centres.");
     addAndMakeVisible(pitchWheel);
     pitchAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"pitchBend",pitchWheel);
     pitchWheel.textFromValueFunction=[](double value){return juce::String(value,1)+" st";};
@@ -713,7 +717,8 @@ void SpaceInfinityEditor::updatePage(){
     motionDepth.setVisible(false);
     updateLfoRateVisibility();
     for(int i:{2,3,4,13,14}){knobs[size_t(i)].setVisible(false);labels[size_t(i)].setVisible(false);}for(auto& m:macros)m.setVisible(false);
-    for(auto* c:std::array<juce::Component*,10>{&analogueCharacter,&analogueLabel,&motionShape,&motionBars,&lfoMode,&lfoSync,&lfoSpeed,&lfoPower,&longEnvelope,&vibratoPower})c->setVisible(false);
+    for(auto* c:std::array<juce::Component*,8>{&motionShape,&motionBars,&lfoMode,&lfoSync,&lfoSpeed,&lfoPower,&longEnvelope,&vibratoPower})c->setVisible(false);
+    for(auto* c:std::array<juce::Component*,6>{&analogueCharacter,&analogueLabel,&preDrive,&preDriveLabel,&analogueOn,&analogueLabButton})c->setVisible(!fxPage);
     if(workbench){workbench->setVisible(!fxPage);workbench->toFront(false);}if(subPanel)subPanel->setVisible(!fxPage&&!sampled);
     for(auto* c:std::array<juce::Component*,6>{&sampleRoot,&sampleTrim[0],&sampleTrim[1],&sampleLoop,&sampleReverse,&importButton})c->setVisible(!fxPage&&sampled);
     for(auto& c:oscillatorGains)c.setVisible(!fxPage);for(auto& c:wtPositions)c.setVisible(!fxPage);for(auto& c:oscillatorPans)c.setVisible(!fxPage);for(auto& c:unisonButtons)c.setVisible(!fxPage);for(auto& c:gainLabels)c.setVisible(!fxPage);for(auto& c:filterRoutes)c.setVisible(!fxPage);
@@ -976,6 +981,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     }
     g.drawImageAt(hardwareFace,0,0);
     if(infinityLogo.isValid()){
+        g.setImageResamplingQuality(juce::Graphics::highResamplingQuality);
         const int logoWidth=juce::jlimit(220,340,getWidth()-480);const int placement=juce::RectanglePlacement::xLeft|juce::RectanglePlacement::yMid;
         g.setColour(juce::Colour(0xbb08050c));g.drawImageWithin(infinityLogo,53,24,logoWidth,58,placement,true);
         juce::ColourGradient foil(juce::Colour(0xfffff5ff),0,22,juce::Colour(0xff8b6cba),0,80,false);foil.addColour(.30,juce::Colour(0xffe5d5ff));foil.addColour(.53,juce::Colour(0xffa88acb));foil.addColour(.57,juce::Colour(0xffffffff));foil.addColour(.72,juce::Colour(0xffcbb2f2));g.setGradientFill(foil);g.drawImageWithin(infinityLogo,52,22,logoWidth,58,placement,true);
@@ -985,8 +991,9 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     g.setColour(juce::Colour(0xffb7ab9b));
     g.drawText("PROGRAM MEMORY",getWidth()-330,24,200,15,juce::Justification::centredLeft);
     g.drawText("NOISE",getWidth()-330,73,58,22,juce::Justification::centredLeft);
+    g.setFont(8);g.drawText(juce::String(pitchWheel.getValue(),1)+" st",370,58,26,14,juce::Justification::centred);g.setFont(10);
     g.drawText("MASTER OCT",getWidth()-397,116,72,22,juce::Justification::right);
-    g.drawText("PITCH",getWidth()-265,116,43,22,juce::Justification::right);
+
     if(fxPage){
     }else{
         const auto layout=mainLayout(getWidth(),getHeight());
@@ -1025,7 +1032,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         g.drawText("OCT",octave.getX()-28,octave.getY(),25,octave.getHeight(),juce::Justification::right);
         }
         g.setColour(juce::Colour(0xffb9b1a2));
-        g.drawText("VOLTAGE CONTROLLED FILTER",layout.filter.reduced(9,4).withHeight(17),juce::Justification::centredLeft);
+        g.drawText("FILTER",layout.filter.reduced(9,4).withWidth(65).withHeight(17),juce::Justification::centredLeft);
         g.drawText("PERFORMANCE",layout.macros.reduced(8,3).withHeight(17),juce::Justification::centredLeft);
         g.setColour(juce::Colour(selectedSource==7?0xff665172:0xff353b3c));
         HardwareTheme::switchBody(g,envelopeTab.toFloat(),false,selectedSource==7);
@@ -1130,7 +1137,7 @@ void SpaceInfinityEditor::resized(){
     noiseType.setBounds(w-266,72,90,23);
     noiseLevel.setBounds(w-172,72,134,23);
     mainTab.setBounds(34,111,58,25);fxTab.setBounds(97,111,50,25);gateTab.setBounds(152,111,60,25);sequenceTab.setBounds(217,111,60,25);extendedButton.setBounds(282,111,78,25);
-    octaveControls[0].setBounds(w-320,116,52,22);pitchWheel.setBounds(w-216,116,176,22);
+    octaveControls[0].setBounds(w-320,116,52,22);pitchWheel.setBounds(326,23,45,75);pitchSettings.setBounds(327,9,48,17);portamento.setBounds(394,28,70,57);portamentoLabel.setBounds(394,10,70,16);
     if(gatePage)gatePage->setBounds(28,150,w-56,h-212);if(sequencerPage)sequencerPage->setBounds(28,150,w-56,h-212);
     for(int i=0;i<3;++i)pageLfoSources[size_t(i)].setBounds(210+i*60,h-53,57,28);
     if(studioRack)studioRack->setBounds(28,150,w-56,h-212);
@@ -1161,16 +1168,18 @@ void SpaceInfinityEditor::resized(){
     knobs[4].setBounds(oscBottom.getRight()-92,oscBottom.getBottom()-64,79,62);
     auto filterControls=layout.filter.reduced(7).withTrimmedTop(21);
     filterControls.removeFromRight(52);
-    const int gridHeight=(layout.filter.getHeight()-130)/2;
+    const int gridHeight=(layout.filter.getHeight()-130)/3;
     const int indices[]{0,1,6,5};
     for(int i=0;i<4;++i){
         auto row=juce::Rectangle<int>(filterControls.getX(),filterControls.getY()+(i/2)*gridHeight,filterControls.getWidth(),gridHeight);
         const int half=row.getWidth()/2;
         auto cell=juce::Rectangle<int>(row.getX()+(i%2)*half,row.getY(),half,row.getHeight()).reduced(2,0);
         const auto index=size_t(indices[i]);
-        labels[index].setBounds(cell.removeFromTop(17));
+        labels[index].setFont(juce::Font(juce::FontOptions(10)));labels[index].setBounds(cell.removeFromTop(10));
         knobs[index].setBounds(cell);
     }
+    {auto row=juce::Rectangle<int>(filterControls.getX(),filterControls.getY()+2*gridHeight,filterControls.getWidth(),gridHeight);auto a=row.removeFromLeft(row.getWidth()/2).reduced(2,0);analogueLabel.setFont(juce::Font(juce::FontOptions(9)));analogueLabel.setBounds(a.removeFromTop(10));analogueCharacter.setBounds(a);auto b=row.reduced(2,0);preDriveLabel.setFont(juce::Font(juce::FontOptions(9)));preDriveLabel.setBounds(b.removeFromTop(10));preDrive.setBounds(b);}
+    analogueOn.setBounds(layout.filter.getRight()-141,layout.filter.getY()+2,100,18);analogueLabButton.setBounds(layout.filter.getRight()-40,layout.filter.getY()+2,35,18);
     filterMode.setBounds(layout.filter.getX()+8,layout.filter.getBottom()-71,layout.filter.getWidth()-70,22);
     voiceMode.setBounds(layout.filter.getX()+8,layout.filter.getBottom()-32,juce::jmax(95,layout.filter.getWidth()-70),23);
     labels[12].setText("OUT",juce::dontSendNotification);
@@ -1253,7 +1262,7 @@ void SpaceInfinityEditor::resized(){
     if(workbench)workbench->setBounds(30,layout.macros.getY(),w-60,layout.macros.getHeight());
     if(subPanel)subPanel->setBounds(194,h-73,juce::jmax(330,w-390),64);
     for(int i=0;i<2;++i){auto r=layout.oscillators[i];gainLabels[size_t(i)].setBounds(oscillatorGains[size_t(i)].getBounds().translated(0,-15).withHeight(13));}
-    const int routeWidth=(layout.filter.getWidth()-70)/4;for(int i=0;i<4;++i){if(routeWidth<52){const int cell=(layout.filter.getWidth()-70)/2;filterRoutes[size_t(i)].setBounds(layout.filter.getX()+5+(i%2)*cell,layout.filter.getBottom()-112+(i/2)*20,cell,18);}else filterRoutes[size_t(i)].setBounds(layout.filter.getX()+5+i*routeWidth,layout.filter.getBottom()-100,routeWidth,22);}
+    const int routeWidth=(layout.filter.getWidth()-70)/4;for(int i=0;i<4;++i){const char* names[]{"A","B","SUB","NOISE"};filterRoutes[size_t(i)].setButtonText(routeWidth<52?(i==2?"S":i==3?"N":names[i]):names[i]);filterRoutes[size_t(i)].setBounds(layout.filter.getX()+5+i*routeWidth,layout.filter.getBottom()-100,routeWidth,22);}
     masterReadout.setBounds(fxPage?juce::Rectangle<int>(w-390,h-54,94,30):juce::Rectangle<int>(layout.filter.getRight()-64,layout.filter.getBottom()-28,58,22));
     if(!fxPage)knobs[12].setBounds(layout.filter.getRight()-59,layout.filter.getY()+42,44,layout.filter.getHeight()-76);
     refreshModulationIndicators();

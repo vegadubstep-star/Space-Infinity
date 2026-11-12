@@ -151,6 +151,9 @@ public:
         if(style!=juce::Slider::LinearHorizontal&&!vertical) {
             LookAndFeel_V4::drawLinearSlider(g,x,y,w,h,pos,minimum,maximum,style,slider);return;
         }
+        if(vertical&&slider.getName()=="Pitch Wheel"){
+            auto r=juce::Rectangle<float>(float(x+w/2-12),float(y),24,float(h));g.setColour(juce::Colour(0xff09070e));g.fillRoundedRectangle(r.expanded(3,1),4);juce::ColourGradient drum(juce::Colour(0xff32253e),r.getX(),r.getY(),juce::Colour(0xff32253e),r.getX(),r.getBottom(),false);drum.addColour(.5,juce::Colour(0xffb9a2d4));g.setGradientFill(drum);g.fillRoundedRectangle(r,4);g.setColour(juce::Colour(0xff312139));for(int line=0;line<13;++line){const float yy=r.getY()+2+(r.getHeight()-4)*line/12;g.drawHorizontalLine(int(yy),r.getX()+2,r.getRight()-2);}g.setColour(juce::Colour(0xfff4dcff));g.fillRoundedRectangle(r.getX()+2,juce::jlimit(r.getY(),r.getBottom()-3,pos-1.5f),r.getWidth()-4,3,1);g.setColour(juce::Colour(0xffb28ad9));g.drawRoundedRectangle(r,4,1);return;
+        }
         const float cx=float(x)+float(w)*.5f,cy=float(y)+float(h)*.5f;
         for(int i=0;i<=10;++i) {
             const float t=float(i)/10;

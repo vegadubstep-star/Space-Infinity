@@ -54,6 +54,7 @@ public:
         g.setGradientFill(juce::ColourGradient(juce::Colour(0x994f79d8),0,r.getY(),juce::Colour(0x28392777),0,r.getBottom(),false));g.fillPath(fill);
         g.setColour(juce::Colour(0xffbdb1ff));g.strokePath(path,juce::PathStrokeType(1.8f));
         if(!legacy)for(int i=0;i<count();++i){const auto pt=point(i);g.setColour(juce::Colour(i==drag?0xffffffff:0xffd6d1eb));g.fillEllipse(pt.x-3,pt.y-3,6,6);}
+        if(!legacy)for(int i=0;i<c.count-1;++i){const float x=(c.x[size_t(i)]+c.x[size_t(i+1)])*.5f;const auto pt=juce::Point<float>(r.getX()+x*r.getWidth(),r.getBottom()-c.value(x)*r.getHeight());g.setColour(juce::Colour(0xff9c7cda));g.drawEllipse(pt.x-3,pt.y-3,6,6,1);}
         const float phase=gate?p.gatePhaseView():p.lfoDisplayPhase(lfo);g.setColour(juce::Colour(0x99f0dfaa));g.drawVerticalLine(juce::roundToInt(r.getX()+phase*r.getWidth()),r.getY(),r.getBottom());
         if(legacy){g.setFont(10);g.setColour(juce::Colour(0xffded5ee));g.drawText("STEP PATTERN / edit to convert to a curve",r.toNearestInt().reduced(8).withHeight(18),juce::Justification::centredLeft);}
     }
@@ -83,11 +84,22 @@ public:
         changed();
     }
     void mouseWheelMove(const juce::MouseEvent& e,const juce::MouseWheelDetails& wheel)override{ensureCurve();const float x=(e.position.x-graph().getX())/graph().getWidth();int at=0;while(at<count()-2&&xAt(at+1)<x)++at;const auto id=pointId("Bend",at);set(id,juce::jlimit(-1.0f,1.0f,get(id)+wheel.deltaY*.5f));changed();}
-    void shape(int index){finish();ensureCurve();set(field("Count"),17);if(gate)set("gateMode",1);for(int i=0;i<17;++i){const float x=float(i)/16;const float y=index==0?.5f-.5f*std::cos(x*juce::MathConstants<float>::twoPi):index==1?1-std::abs(x*2-1):index==2?x:index==3?1-x:index==4?(x<.5f?1:0):index==5?std::sqrt(x):float(((i*37+11)%17))/16;set(pointId("X",i),x);set(pointId("Bend",i),0);set(yId(i),y);}changed();}
+    void shape(int index){finish();ensureCurve();if(gate)set("gateMode",1);
+        const int n=index==0?5:index==1?3:index==4?4:index==6?17:2;set(field("Count"),float(n));
+        for(int i=0;i<n;++i){float x=float(i)/(n-1),y=0,bend=0;
+            if(index==0){y=.5f-.5f*std::cos(x*juce::MathConstants<float>::twoPi);bend=i%2==0?.25f:-.25f;}
+            else if(index==1)y=1-std::abs(x*2-1);
+            else if(index==2)y=x;else if(index==3)y=1-x;
+            else if(index==4){x=i==0?0:i==1?.4999f:i==2?.5f:1;y=i<2?1:0;}
+            else if(index==5){y=x;bend=-1.0f/3;}
+            else y=float(((i*37+11)%17))/16;
+            set(pointId("X",i),x);set(pointId("Bend",i),bend);set(yId(i),y);
+        }changed();}
+
 };
 class LfoPane:public juce::Component,private juce::Timer {
     SpaceInfinityProcessor& p;std::function<void(std::unique_ptr<juce::Component>,juce::Rectangle<int>)> open;
-    int selected=0;ModSourceButton source;juce::ComboBox selector,shape,sync,rate,mode,grid;juce::ToggleButton enabled{"ON"},snap{"Snap"},draw{"Draw"};ModSlider speed;juce::TextButton routes{"ROUTES"},expand{"EDIT"};CurveEditor graph;
+    int selected=0;ModSourceButton source;juce::ComboBox selector,shape,sync,rate,mode,grid;juce::ToggleButton enabled{"ON"},snap{"Snap"},draw{"Draw"};ModSlider speed;juce::TextButton routes{"ROUTES"},expand{"ADVANCED"};CurveEditor graph;
     std::array<ModSlider,4> advanced;std::array<juce::Label,4> advancedLabels;juce::ComboBox direction;std::array<juce::ToggleButton,4> advancedButtons;
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>> advancedBindings;std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment>> advancedButtonBindings;std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> directionBind;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> syncBind,rateBind,modeBind;
@@ -106,7 +118,7 @@ public:
         grid.addItemList({"4","8","16","32"},1);grid.setSelectedId(3);grid.onChange=[this]{graph.setSnap(grid.getText().getIntValue());};snap.onClick=[this]{graph.setSnapEnabled(snap.getToggleState());};draw.onClick=[this]{graph.setPaintMode(draw.getToggleState());};
         speed.setSliderStyle(juce::Slider::LinearHorizontal);speed.setTextBoxStyle(juce::Slider::TextBoxRight,false,44,20);
         for(juce::Component* c:std::array<juce::Component*,15>{&source,&selector,&shape,&sync,&rate,&mode,&grid,&enabled,&snap,&draw,&speed,&routes,&expand,&graph,&hint})addAndMakeVisible(c);
-        hint.setText("Double-click points / drag curves / Shift: draw",juce::dontSendNotification);hint.setFont(juce::Font(juce::FontOptions(9)));hint.setJustificationType(juce::Justification::centredLeft);
+        hint.setText("Drag points to move / drag between points to bend",juce::dontSendNotification);hint.setFont(juce::Font(juce::FontOptions(9)));hint.setJustificationType(juce::Justification::centredLeft);
         graph.edited=[this]{shape.setSelectedId(0,juce::dontSendNotification);shape.setTextWhenNothingSelected("Custom");};routes.onClick=[this]{open(std::make_unique<RoutePanel>(p,selected+3,true),getBounds());};
         expand.onClick=[this]{auto pane=std::make_unique<LfoPane>(p,selected,open);pane->setSize(760,410);pane->expand.setVisible(false);open(std::move(pane),getBounds());};select(initial);startTimerHz(20);
     }
@@ -120,18 +132,21 @@ public:
     void resized()override{auto r=getLocalBounds().reduced(5);auto top=r.removeFromTop(23);enabled.setBounds(top.removeFromRight(49));const bool compact=getWidth()<220;selector.setVisible(!compact);source.setBounds(compact?top:top.removeFromLeft(76));if(!compact)selector.setBounds(top);
         top=r.removeFromTop(24);shape.setBounds(top.removeFromLeft(top.getWidth()/2).reduced(1));mode.setBounds(top.reduced(1));
         auto foot=r.removeFromBottom(23);sync.setBounds(foot.removeFromLeft(57));rate.setBounds(foot);speed.setBounds(foot);rate.setVisible(sync.getSelectedId()==2);speed.setVisible(sync.getSelectedId()==1);
-        auto tools=r.removeFromBottom(getWidth()<220?46:23);if(getWidth()<220){auto actions=tools.removeFromBottom(23);routes.setBounds(actions.removeFromLeft(actions.getWidth()/2).reduced(1));expand.setBounds(actions.reduced(1));const int w=tools.getWidth()/3;grid.setBounds(tools.removeFromLeft(w));snap.setBounds(tools.removeFromLeft(w));draw.setBounds(tools);}else{const int w=tools.getWidth()/5;grid.setBounds(tools.removeFromLeft(w));snap.setBounds(tools.removeFromLeft(w));draw.setBounds(tools.removeFromLeft(w));routes.setBounds(tools.removeFromLeft(w));expand.setBounds(tools);}
-        const bool full=getHeight()>320;direction.setVisible(full);for(auto& button:advancedButtons)button.setVisible(full);for(int i=0;i<4;++i){advanced[size_t(i)].setVisible(full);advancedLabels[size_t(i)].setVisible(full);}
+        const bool full=getHeight()>320;grid.setVisible(full);snap.setVisible(full);draw.setVisible(full);
+        auto tools=r.removeFromBottom(23);if(full){const int w=tools.getWidth()/5;grid.setBounds(tools.removeFromLeft(w));snap.setBounds(tools.removeFromLeft(w));draw.setBounds(tools.removeFromLeft(w));routes.setBounds(tools.removeFromLeft(w));expand.setBounds(tools);}else{routes.setBounds(tools.removeFromLeft(tools.getWidth()/2).reduced(1));expand.setBounds(tools.reduced(1));}
+        direction.setVisible(full);for(auto& button:advancedButtons)button.setVisible(full);for(int i=0;i<4;++i){advanced[size_t(i)].setVisible(full);advancedLabels[size_t(i)].setVisible(full);}
         if(full){auto knobs=r.removeFromBottom(75);for(int i=0;i<4;++i){auto cell=knobs.removeFromLeft(knobs.getWidth()/(4-i));advancedLabels[size_t(i)].setBounds(cell.removeFromTop(17));advanced[size_t(i)].setBounds(cell);}auto switches=r.removeFromBottom(24);direction.setBounds(switches.removeFromLeft(switches.getWidth()/3));for(int i=0;i<4;++i)advancedButtons[size_t(i)].setBounds(switches.removeFromLeft(switches.getWidth()/(4-i)));}
         hint.setVisible(getWidth()>260);if(getWidth()>260)hint.setBounds(r.removeFromBottom(15));graph.setBounds(r);
 
     }
     void paint(juce::Graphics& g)override{HardwareTheme::module(g,getLocalBounds().toFloat(),true);}
 };
-class MainWorkbench:public juce::Component {
+class MainWorkbench:public juce::Component,private juce::Timer {
     SpaceInfinityProcessor& p;std::function<void(std::unique_ptr<juce::Component>,juce::Rectangle<int>)> open;
     std::array<ModSlider,11> env;std::array<juce::Label,11> envLabels;std::array<ModSlider,6> macro;std::array<ModSourceButton,6> macroLabels;
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>> bindings;
+    std::array<EnvelopeView,2> envelopeGraphs;
+    void timerCallback()override{for(auto& graph:envelopeGraphs)graph.repaint();}
     juce::TextButton contours{"CURVES"};
     juce::ToggleButton longEnv{"LONG x3"},declick{"DE-CLICK"},vibrato{"VIBRATO"};
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> longBind,declickBind,vibratoBind;
@@ -140,7 +155,7 @@ class MainWorkbench:public juce::Component {
 public:
     void selectSource(int i){lfos[size_t(i==1?1:0)]->select(juce::jlimit(0,2,i));}
     ~MainWorkbench() override =default;
-    MainWorkbench(SpaceInfinityProcessor& processor,decltype(open) opener):p(processor),open(std::move(opener)){setName("Main envelopes, performance macros and LFO editor");
+    MainWorkbench(SpaceInfinityProcessor& processor,decltype(open) opener):p(processor),open(std::move(opener)),envelopeGraphs{EnvelopeView(p,true),EnvelopeView(p,false)}{for(auto& graph:envelopeGraphs)addAndMakeVisible(graph);startTimerHz(24);setName("Main envelopes, performance macros and LFO editor");
         const char* ids[]{"attack","ampHold","ampDecay","ampSustain","release","filterAttack","filterHold","filterDecay","filterSustain","filterRelease","filterEnvAmount"};const char* labels[]{"ATTACK","HOLD","DECAY","SUSTAIN","RELEASE","ATTACK","HOLD","DECAY","SUSTAIN","RELEASE","AMOUNT"};for(int i=0;i<11;++i){attach(env[size_t(i)],ids[i]);env[size_t(i)].setName(juce::String(i<5?"Amp ":"Filter ")+labels[i]);envLabels[size_t(i)].setText(labels[i],juce::dontSendNotification);envLabels[size_t(i)].setJustificationType(juce::Justification::centred);envLabels[size_t(i)].setFont(juce::Font(juce::FontOptions(9)));addAndMakeVisible(env[size_t(i)]);addAndMakeVisible(envLabels[size_t(i)]);if(i==0||i==1||i==2||i==4||i==5||i==6||i==7||i==9)configureTimeKnob(env[size_t(i)]);if(i<5)env[size_t(i)].onDragStart=[this]{p.state.getParameter("ampTimed")->setValueNotifyingHost(1);};if(i==10){env[size_t(i)].textFromValueFunction=[](double v){return juce::String(v,2)+" oct";};env[size_t(i)].valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue();};env[size_t(i)].updateText();}if(i==3||i==8){env[size_t(i)].textFromValueFunction=[](double v){return juce::String(v*100,0)+"%";};env[size_t(i)].valueFromTextFunction=[](const juce::String& v){return v.getDoubleValue()/100;};env[size_t(i)].updateText();}}
         for(int i=0;i<6;++i){const auto id=i<3?"macro"+juce::String(i):"freeMacro"+juce::String(i-3);attach(macro[size_t(i)],id);macroLabels[size_t(i)].setButtonText(i<3?p.macroNames()[i]+" +":"MACRO "+juce::String(i+1)+" +");if(i<3)macroLabels[size_t(i)].description="INFINITY:PERFORMANCE:"+juce::String(i);if(i>=3)macroLabels[size_t(i)].description="INFINITY:MACRO:"+juce::String(i-3);macroLabels[size_t(i)].onClick=[this,i]{open(std::make_unique<RoutePanel>(p,i<3?i+6:i-3,true),getBounds());};macro[size_t(i)].textFromValueFunction=[](double v){return juce::String(v*100,0)+"%";};macro[size_t(i)].valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/100;};macro[size_t(i)].updateText();addAndMakeVisible(macro[size_t(i)]);addAndMakeVisible(macroLabels[size_t(i)]);}
         for(int i=0;i<2;++i){lfos[size_t(i)]=std::make_unique<LfoPane>(p,i,open);addAndMakeVisible(*lfos[size_t(i)]);}for(juce::Component* control:std::array<juce::Component*,3>{&longEnv,&declick,&vibrato})addAndMakeVisible(control);
@@ -151,7 +166,8 @@ public:
     void resized()override{auto area=getLocalBounds();const int mw=juce::jlimit(132,180,getWidth()/6),ew=juce::jlimit(300,460,getWidth()*39/100);macroArea=area.removeFromLeft(mw);area.removeFromLeft(8);envArea=area.removeFromLeft(ew);area.removeFromLeft(8);lfoArea=area;
         for(int i=0;i<6;++i){const int col=i<3?0:1,row=i%3;auto cell=juce::Rectangle<int>(macroArea.getX()+col*mw/2,24+row*(getHeight()-24)/3,mw/2,(getHeight()-24)/3);macroLabels[size_t(i)].setBounds(cell.removeFromTop(17).reduced(2,0));macro[size_t(i)].setBounds(cell.reduced(3,0));}
         const int eh=getHeight()/2;longEnv.setBounds(envArea.getRight()-165,2,77,20);declick.setBounds(envArea.getRight()-88,2,88,20);
-        for(int i=0;i<11;++i){const int row=i<5?0:1,index=i<5?i:i-5,n=row==0?5:6;auto cell=juce::Rectangle<int>(envArea.getX()+index*ew/n,row*eh+24,ew/n,eh-26);envLabels[size_t(i)].setBounds(cell.removeFromTop(12));env[size_t(i)].setBounds(cell);}
+        const int graphHeight=juce::jlimit(32,65,eh-85);for(int row=0;row<2;++row)envelopeGraphs[size_t(row)].setBounds(envArea.getX()+6,row*eh+24,ew-12,graphHeight);
+        for(int i=0;i<11;++i){const int row=i<5?0:1,index=i<5?i:i-5,n=row==0?5:6;auto cell=juce::Rectangle<int>(envArea.getX()+index*ew/n,row*eh+26+graphHeight,ew/n,eh-28-graphHeight);envLabels[size_t(i)].setBounds(cell.removeFromTop(12));env[size_t(i)].setBounds(cell);}
         auto r=lfoArea.reduced(2);const bool stacked=r.getWidth()<420&&r.getHeight()>450;
         auto first=stacked?r.removeFromTop(r.getHeight()/2):r.removeFromLeft(r.getWidth()/2);lfos[0]->setBounds(first.reduced(2));lfos[1]->setBounds(r.reduced(2));vibrato.setBounds(envArea.getRight()-82,eh+1,80,20);contours.setBounds(envArea.getRight()-150,eh+1,65,20);}
 

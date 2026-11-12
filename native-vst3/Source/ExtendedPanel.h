@@ -29,7 +29,7 @@ class ExtendedPanel final : public juce::Component,private juce::Timer {
     };
     class EnvelopeCanvas final:public EnvelopeView {public:explicit EnvelopeCanvas(SpaceInfinityProcessor& p):EnvelopeView(p,false){}};
     SpaceInfinityProcessor& processor;
-    std::array<juce::Component,8> pages;
+    std::array<juce::Component,9> pages;
     juce::TabbedComponent tabs{juce::TabbedButtonBar::TabsAtTop};
     std::vector<std::unique_ptr<juce::Component>> controls;
     std::vector<std::unique_ptr<SliderBinding>> sliders;
@@ -85,8 +85,8 @@ class ExtendedPanel final : public juce::Component,private juce::Timer {
 public:
     explicit ExtendedPanel(SpaceInfinityProcessor& p,std::function<void()> showSequence={}):processor(p),table(p),envelope(p),ampEnvelope(p,true){
         setSize(730,465);addAndMakeVisible(tabs);
-        const char* names[]={"FILTER ENV","GRANULAR","SEQUENCER","WAVETABLE","CONVOLVER","ANALOGUE","AMP ENV","ANALOG LAB"};
-        for(int i=0;i<8;++i)tabs.addTab(names[i],juce::Colour(0xff252b31),&pages[size_t(i)],false);
+        const char* names[]={"FILTER ENV","GRANULAR","SEQUENCER","WAVETABLE","CONVOLVER","ANALOGUE","AMP ENV","ANALOG LAB","PITCH"};
+        for(int i=0;i<9;++i)tabs.addTab(names[i],juce::Colour(0xff252b31),&pages[size_t(i)],false);
         pages[0].addAndMakeVisible(envelope);envelope.setBounds(15,15,690,110);pages[6].addAndMakeVisible(ampEnvelope);ampEnvelope.setBounds(15,15,690,110);
         for(int row=0;row<2;++row){const int page=row==0?6:0;const char* ampIds[]{"attack","ampHold","ampDecay","ampSustain","release"};const char* filterIds[]{"filterAttack","filterHold","filterDecay","filterSustain","filterRelease"};const char* titles[]{"ATTACK","HOLD","DECAY","SUSTAIN","RELEASE"};for(int i=0;i<5;++i)knob(page,row==0?ampIds[i]:filterIds[i],titles[i],15+i*135,127,130,i==3?"%":"s");for(int i=0;i<3;++i){const auto id=juce::String(row==0?"amp":"filter")+(i==0?"AttackCurve":i==1?"DecayCurve":"ReleaseCurve");knob(page,id.toRawUTF8(),i==0?"ATTACK CURVE":i==1?"DECAY CURVE":"RELEASE CURVE",15+i*135,242,130);}if(row==1){knob(page,"filterEnvAmount","AMOUNT",420,242,130,"oct");knob(page,"filterVelocity","VELOCITY",555,242,130,"oct");}else knob(page,"ampVelocity","VELOCITY",420,242,130,"%");slider(page,"glideTime","Legato glide (s)",15,365,690);}
         slider(1,"grainPosition","Position",15,40);slider(1,"grainSize","Grain size (ms)",365,40);
@@ -114,12 +114,14 @@ public:
         label(4,"Load a mono or stereo WAV impulse response (up to 4 seconds / 4 MB).\nConvolution runs after reverb and before EQ. The impulse is embedded in project state.",{15,235,690,70});
         auto& analogue=own<juce::ToggleButton>(5);analogue.setButtonText("ANALOGUE VOICES + CURVED ENVELOPES");analogue.setBounds(15,25,660,30);
         buttons.push_back(std::make_unique<ButtonBinding>(processor.state,"analogueUpgrade",analogue));
-        knob(5,"midiBendRange","MIDI BEND",15,65,215,"st");knob(5,"analogueCharacter","CHARACTER",245,65,215,"%");knob(5,"filterInputDrive","PRE-FILTER DRIVE",475,65,215,"%");
-        knob(5,"ampVelocity","VELOCITY TO VOLUME",15,170,215,"%");knob(5,"subLevel","SUB LEVEL",245,170,215,"%");knob(5,"pitchEnvVelocity","PITCH VELOCITY",475,170,215,"%");
-        knob(5,"pitchEnvAmount","PITCH ENVELOPE",15,275,215,"st");knob(5,"pitchEnvAttack","PITCH ATTACK",245,275,215,"s");knob(5,"pitchEnvDecay","PITCH DECAY",475,275,215,"s");
+        knob(5,"analogueCharacter","CHARACTER",15,65,215,"%");knob(5,"filterInputDrive","PRE-FILTER DRIVE",245,65,215,"%");knob(5,"ampVelocity","VELOCITY TO VOLUME",475,65,215,"%");knob(5,"subLevel","SUB LEVEL",15,180,215,"%");
+        label(5,"Character and pre-filter drive are also beside the filter on MAIN.\nPitch, bend and pitch-envelope settings are on the PITCH page.",{245,190,445,65});
+        knob(8,"pitchBend","AUTOMATION PITCH",15,35,215,"st");knob(8,"midiBendRange","MIDI WHEEL RANGE",245,35,215,"st");knob(8,"concertPitch","A4 TUNING",475,35,215,"Hz");knob(8,"pitchEnvAmount","PITCH ENVELOPE",15,155,215,"st");knob(8,"pitchEnvAttack","PITCH ATTACK",245,155,215,"s");knob(8,"pitchEnvDecay","PITCH DECAY",475,155,215,"s");knob(8,"pitchEnvVelocity","PITCH VELOCITY",15,275,215,"%");
+        label(8,"The main-page wheel exposes Pitch Wheel to FL Studio automation (±24 semitones).\nMIDI Wheel Range sets the range of an incoming MIDI pitch wheel.\nUse Mono or Legato and PORTAMENTO for gliding notes.",{245,290,445,90});
         auto& lab=own<juce::ToggleButton>(7);lab.setButtonText("COMPONENT VARIATION / COLOUR");lab.setBounds(15,10,310,28);buttons.push_back(std::make_unique<ButtonBinding>(processor.state,"analogueLabEnabled",lab));auto& stereo=own<juce::ToggleButton>(7);stereo.setButtonText("MATCHED STEREO FILTERS");stereo.setBounds(330,10,225,28);buttons.push_back(std::make_unique<ButtonBinding>(processor.state,"stereoFilterUpgrade",stereo));auto& clean=own<juce::ToggleButton>(7);clean.setButtonText("CLEAN BASE VCO");clean.setTooltip("Independent saw/pulse edge correction; does not cover all wavetable or warp modes.");clean.setBounds(570,10,145,28);buttons.push_back(std::make_unique<ButtonBinding>(processor.state,"cleanVCO",clean));
-        const char* labIds[]{"analogueOscDrift","analogueThermal","analogueFilterSpread","analogueEnvSpread","analogueVoiceSpread","analoguePulseDrift","analogueVCADrive","analogueAsymmetry","analogueMemory","analogueCoupling","noisePan","concertPitch"};const char* labNames[]{"VCO WANDER","THERMAL DRIFT","FILTER TOLERANCE","ENVELOPE TOLERANCE","VOICE TOLERANCE","PULSE DRIFT","VCA DRIVE","ASYMMETRY","CIRCUIT MEMORY","AC COUPLING","NOISE PAN","A4 TUNING"};for(int i=0;i<12;++i)knob(7,labIds[i],labNames[i],15+(i%4)*174,46+(i/4)*110,168,i==11?"Hz":"%");
+        const char* labIds[]{"analogueOscDrift","analogueThermal","analogueFilterSpread","analogueEnvSpread","analogueVoiceSpread","analoguePulseDrift","analogueVCADrive","analogueAsymmetry","analogueMemory","analogueCoupling","noisePan"};const char* labNames[]{"VCO WANDER","THERMAL DRIFT","FILTER TOLERANCE","ENVELOPE TOLERANCE","VOICE TOLERANCE","PULSE DRIFT","VCA DRIVE","ASYMMETRY","CIRCUIT MEMORY","AC COUPLING","NOISE PAN"};for(int i=0;i<11;++i)knob(7,labIds[i],labNames[i],15+(i%4)*174,46+(i/4)*110,168,i==11?"Hz":"%");
         addAndMakeVisible(status);status.setBounds(15,433,700,27);status.setColour(juce::Label::textColourId,juce::Colour(0xffd8c8a7));startTimerHz(15);
     }
+    void selectTab(int index){tabs.setCurrentTabIndex(juce::jlimit(0,8,index));}
     void resized() override {tabs.setBounds(0,0,730,425);}
 };

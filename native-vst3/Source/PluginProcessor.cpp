@@ -396,14 +396,14 @@ juce::StringArray SpaceInfinityProcessor::motionNames(){
 studio::EditableCurve SpaceInfinityProcessor::lfoCurve(int lfo) const {
     studio::EditableCurve c;const auto n=size_t(juce::jlimit(0,2,lfo));const bool free=designerCurveEnabled[n]->load()>.5f;
     c.count=free?juce::jlimit(2,33,int(designerCurveCount[n]->load())):17;
-    for(int i=0;i<c.count;++i){const auto j=size_t(i);c.x[j]=free?designerX[n][j]->load():float(i)/16;c.y[j]=free?designerY[n][j]->load():designerPoints[n][j]->load();c.bend[j]=free?designerBend[n][j]->load():0;}return c;
+    for(int i=0;i<c.count;++i){const auto j=size_t(i);c.x[j]=free?designerX[n][j]->load():float(i)/16;c.y[j]=free?designerY[n][j]->load():designerPoints[n][j]->load();c.bend[j]=free?designerBend[n][j]->load():0;}if(!free){for(int i=1;i<c.count-1;){const float expected=c.y[size_t(i-1)]+(c.y[size_t(i+1)]-c.y[size_t(i-1)])*(c.x[size_t(i)]-c.x[size_t(i-1)])/(c.x[size_t(i+1)]-c.x[size_t(i-1)]);if(std::abs(expected-c.y[size_t(i)])<.000001f){for(int j=i;j<c.count-1;++j){c.x[size_t(j)]=c.x[size_t(j+1)];c.y[size_t(j)]=c.y[size_t(j+1)];}--c.count;}else ++i;}}return c;
 }
 float SpaceInfinityProcessor::lfoCurveValue(int lfo,double phase) const {return lfoCurve(lfo).value(float(phase));}
 void SpaceInfinityProcessor::enableLfoCurve(int lfo){
     const auto id=[lfo](const char* field){return lfoParameterId(lfo,field);};
     if(state.getRawParameterValue(id("CurveEnabled"))->load()>.5f)return;
     const auto set=[this](const juce::String& key,float value){auto* a=state.getParameter(key);a->beginChangeGesture();a->setValueNotifyingHost(a->convertTo0to1(value));a->endChangeGesture();};
-    for(int i=0;i<17;++i){const auto n=juce::String(i);set(id("X")+n,float(i)/16);set(id("Y")+n,designerPoints[size_t(lfo)][size_t(i)]->load());set(id("Bend")+n,0);}set(id("CurveCount"),17);set(id("CurveEnabled"),1);
+    const auto c=lfoCurve(lfo);for(int i=0;i<c.count;++i){const auto n=juce::String(i);set(id("X")+n,c.x[size_t(i)]);set(id("Y")+n,c.y[size_t(i)]);set(id("Bend")+n,0);}set(id("CurveCount"),float(c.count));set(id("CurveEnabled"),1);
 }
 void SpaceInfinityProcessor::loadMotionShape(int index){loadLfoShape(0,index);}
 void SpaceInfinityProcessor::loadLfoShape(int lfo,int index){
@@ -546,6 +546,7 @@ void SpaceInfinityProcessor::noteOn(int note,float velocity,int source,int root,
     auto* found=&voices[0];
     if(voiceMode==0)for(auto& v:voices)if(!v.active){found=&v;break;}
     if(voiceMode==0&&found->active)found=&*std::min_element(voices.begin(),voices.end(),[](const Voice& a,const Voice& b){return a.age<b.age;});
+    const bool glideFromPrevious=voiceMode!=0&&found->active&&!found->released&&param("glideTime")>0;const double retainedPitch=found->pitch;
     const auto retainedPhase=found->phase,retainedPhase2=found->phase2;
     const auto retainedExtraA=found->extraPhase1,retainedExtraB=found->extraPhase2;
     const float oldL=(found->active||found->retireRemaining>0)?found->lastL:0,oldR=(found->active||found->retireRemaining>0)?found->lastR:0;
@@ -558,7 +559,7 @@ void SpaceInfinityProcessor::noteOn(int note,float velocity,int source,int root,
     if(param("osc1PhaseReset")>.5f){found->phase=0;found->extraPhase1.fill(0);}
     if(param("osc2PhaseReset")>.5f){found->phase2=0;found->extraPhase2.fill(0);}
     if(param("declickEnabled")>.5f){found->tailL=oldL;found->tailR=oldR;found->declickLength=found->declickRemaining=juce::jmax(1,int(sr*(param("subLevel")>0?.004:.0015)));}
-    found->active=true;found->pitch=note;found->note=note;found->channel=channel;found->velocity=velocity;found->age=++clock;found->noiseState=uint32_t(found->age)*747796405u+2891336453u;
+    found->active=true;found->pitch=glideFromPrevious?retainedPitch:note;found->note=note;found->channel=channel;found->velocity=velocity;found->age=++clock;found->noiseState=uint32_t(found->age)*747796405u+2891336453u;
     if(found->noiseState==0)found->noiseState=1;
     if(!freeRunning)found->drift.reset(found->noiseState^0x9e3779b9u);
     if(!freeRunning&&source==0&&param("analogueCharacter")>0.0f){
@@ -916,10 +917,12 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                 v.decaying=v.env>=1.0f;
             }else v.env+=juce::jlimit(-voiceDecayStep,voiceDecayStep,voiceSustain-v.env);
             if(v.released&&v.env<0.0001f){retireVoice(v);out+=(v.lastL+v.lastR)*.5f;side+=(v.lastL-v.lastR)*.5f;continue;}
+            v.pitch=v.note+glide*(v.pitch-v.note);
+            const double sampleGlide=std::exp2((v.pitch-v.note)/12.0);
             float raw=0, rawSide=0,rawSub=0,bypass=0,bypassSide=0;
             if(v.source==4){
                 const auto grains=v.granular.next(importedSample.audio.getReadPointer(0),v.sampleStart,v.sampleEnd,
-                    std::abs(v.sampleStep)*bendRatio*(concertPitch/440.0),sr,grainPosition,grainSize,grainDensity,grainSpray,grainSpread,grainReverse);
+                    std::abs(v.sampleStep)*sampleGlide*bendRatio*(concertPitch/440.0),sr,grainPosition,grainSize,grainDensity,grainSpray,grainSpread,grainReverse);
                 raw=(grains[0]+grains[1])*.5f;rawSide=(grains[0]-grains[1])*.5f;
             }else if(v.source!=0){
                 const auto& sample=sampleForSource(v.source);
@@ -933,12 +936,11 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                 const auto* data=sample.audio.getReadPointer(0);
                 raw=data[index]+static_cast<float>(v.samplePosition-index)*(data[index+1]-data[index]);
                 if(declick&&v.sampleLoop){const float edge=juce::jlimit(1.0f,float(v.sampleEnd-v.sampleStart)/4,float(sample.sampleRate*.0015));const float distance=float(std::min(v.samplePosition-v.sampleStart,double(v.sampleEnd)-v.samplePosition));if(distance<edge)raw*=.5f-.5f*std::cos(juce::MathConstants<float>::pi*juce::jlimit(0.0f,1.0f,distance/edge));}
-                v.samplePosition+=v.sampleStep*bendRatio*(concertPitch/440.0);
+                v.samplePosition+=v.sampleStep*sampleGlide*bendRatio*(concertPitch/440.0);
             }else{
             const auto drift=(character>0.0f||detail[0]>0||detail[5]>0)?v.drift.next(driftSlew,driftInterval):std::array<float,2>{};
             const double driftA=std::exp2(double(character)*(double(drift[0])*2.5+(upgraded?v.calibration.tuneA*2:0))/1200+(double(drift[0])*detail[0]*7+board[0]*detail[1]*3+v.calibration.tuneA*detail[4]*3)/1200);
             const double driftB=std::exp2(double(character)*(double(drift[1])*2.5+(upgraded?v.calibration.tuneB*2:0))/1200+(double(drift[1])*detail[0]*7+(board[0]*.8+board[1]*.2)*detail[1]*3+v.calibration.tuneB*detail[4]*3)/1200);
-            v.pitch=v.note+glide*(v.pitch-v.note);
             const float pitchOffset=pitchAmount!=0?pitchAmount*(1-pitchVelocity+pitchVelocity*v.velocity)*v.pitchEnvelope.next(v.released,sr,pitchAttack,pitchDecay,0,.03f):0;
             const double freq=concertPitch*bendRatio*std::pow(2.0,(v.pitch+pitchOffset+4*(modulation[25]+movingModulation[25])-69.0)/12.0);
             const auto readWave=[&](double phase,int shape,float scan){if(shape==1&&detail[5]>0){const double x=phase-std::floor(phase),split=.48+detail[5]*drift[1]*.035;phase=x<split?.48*x/split:.48+.52*(x-split)/(1-split);}return shape==30?(sampleGuard.isLocked()?wavetable.sample(phase,scan):0.0f):oscillatorFrameSample(phase,shape,scan);};

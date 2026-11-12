@@ -1,8 +1,12 @@
 # v0.4.0 candidate — 12 November 2026
 
-The analogue/manual-audit update is complete locally. All **15 native suites passed** at a 1 MiB stack limit. The parameter inventory verifies **1,068 unique IDs**, finite ranges and valid defaults/Init values. Release scripts parse and publisher mocks pass success, failed-upload and wrong-size cases, including audit/inventory ZIP contents and absolute release links.
+The analogue/manual-audit update and latest main-page envelope/LFO/FX fixes are complete locally. All **15 native suites passed** at a 1 MiB stack limit. The parameter inventory verifies **1,068 unique IDs**, finite ranges and valid defaults/Init values. Release scripts parse and publisher mocks pass success, failed-upload and wrong-size cases, including audit/inventory ZIP contents and absolute release links.
 
 This candidate preserves the existing analogue/filter controls and adds separate component controls, matched stereo processing, source pan/A4 tuning, Hold/contours/editable envelope graphs, clean base VCO correction and an FX display matching the existing audio order. The logo is smaller and fully visible at all four native QA sizes. See [update notes](ANALOGUE_AND_PARITY_UPDATE.md) and [honest Serum manual comparison](SERUM2_FEATURE_AUDIT.md). Full Serum parity is **not** claimed.
+
+Latest steering also moves Character/pre-filter drive/analogue switch beside the filter, removes pitch from ANALOGUE (new PITCH tab), exposes main PORTAMENTO and vertical automatable Pitch Wheel, and adds Mono overlap glide. All parameter IDs/ranges remain unchanged.
+
+Latest steering: live editable amp/filter graphs are now on MAIN; simpler few-anchor LFO shapes and bend handles with Grid/Draw under Advanced; high-quality logo resampling; smooth full-stage FX mute at the existing output minimum (display MUTE), post-gain meter/clip clear at silence; convolver primary controls and Advanced; clearer reverb controls. Old output values at −24 dB now mute; other values/ranges remain unchanged.
 
 Pending: Windows build, all native suites, installation/uninstallation and archive verification, release publishing, actual installer ZIP/VST3 downloads and hash checks. Do not describe v0.4.0 as ready until these complete. v0.3.0 remains the last verified release, recorded below.
 
