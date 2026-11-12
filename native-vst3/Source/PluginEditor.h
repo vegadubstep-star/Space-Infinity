@@ -48,7 +48,7 @@ private:
     std::unique_ptr<MainWorkbench> workbench;
     std::unique_ptr<SubPanel> subPanel;
     MasterReadout masterReadout;
-    std::array<ModSlider,2> oscillatorGains,wtPositions;
+    std::array<ModSlider,2> oscillatorGains,wtPositions,oscillatorPans;
     std::array<juce::Label,2> gainLabels;
     std::array<juce::ToggleButton,4> filterRoutes;
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment>> routeBindings;

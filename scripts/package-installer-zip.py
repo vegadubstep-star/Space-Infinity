@@ -23,8 +23,10 @@ archive = root / f'{prefix}_Installer.zip'
 folder = prefix + '/'
 files = [setup, 'READ_ME_FIRST.md', 'TEN_CONTROL_UPDATES.md',
          'THIRD_PARTY_SAMPLES.md', 'SAMPLE_PROVENANCE.json', 'CC0-1.0.txt']
-if (root / 'RHYTHM_AND_METAL_UPDATE.md').is_file():
-    files.append('RHYTHM_AND_METAL_UPDATE.md')
+for optional in ['RHYTHM_AND_METAL_UPDATE.md', 'ANALOGUE_AND_PARITY_UPDATE.md',
+                 'SERUM2_FEATURE_AUDIT.md', 'audit/NATIVE_PARAMETER_INVENTORY.json']:
+    if (root / optional).is_file():
+        files.append(optional)
 for name in files:
     if not (root / name).is_file():
         raise SystemExit(f'Missing release file: {name}')

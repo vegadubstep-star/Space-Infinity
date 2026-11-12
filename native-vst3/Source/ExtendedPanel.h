@@ -1,6 +1,7 @@
 #pragma once
 #include "PluginProcessor.h"
 #include "WorkflowControls.h"
+#include "EnvelopeControls.h"
 class ExtendedPanel final : public juce::Component,private juce::Timer {
     using SliderBinding=juce::AudioProcessorValueTreeState::SliderAttachment;
     using ChoiceBinding=juce::AudioProcessorValueTreeState::ComboBoxAttachment;
@@ -26,33 +27,16 @@ class ExtendedPanel final : public juce::Component,private juce::Timer {
             data[size_t(point)]=value;last=point;lastValue=value;repaint();
         }
     };
-    class EnvelopeCanvas final : public juce::Component {
-        SpaceInfinityProcessor& processor;
-    public:
-        explicit EnvelopeCanvas(SpaceInfinityProcessor& p):processor(p){}
-        void paint(juce::Graphics& g) override {
-            g.fillAll(juce::Colour(0xff10171a));const auto value=[&](const char* id){return processor.state.getRawParameterValue(id)->load();};
-            const float a=value("filterAttack"),d=value("filterDecay"),s=value("filterSustain"),r=value("filterRelease"),total=a+d+r+.4f;
-            const auto x=[&](float t){return 10+(getWidth()-20)*t/total;};const auto y=[&](float v){return getHeight()-10-v*(getHeight()-20);};
-            juce::Path path;path.startNewSubPath(x(0),y(0));const bool curved=value("analogueUpgrade")>.5f;
-            for(int segment=0;segment<3;++segment)for(int i=1;i<=40;++i){const float t=float(i)/40,c=curved?AnalogueEnvelope::charge(t):t;
-                if(segment==0)path.lineTo(x(a*t),y(c));
-                if(segment==1)path.lineTo(x(a+d*t),y(1+(s-1)*c));
-                if(segment==2)path.lineTo(x(a+d+.4f+r*t),y(s*(1-c)));
-                if(segment==1&&i==40)path.lineTo(x(a+d+.4f),y(s));}
-
-            g.setColour(juce::Colour(0xffd1a4ed));g.strokePath(path,juce::PathStrokeType(2));
-        }
-    };
+    class EnvelopeCanvas final:public EnvelopeView {public:explicit EnvelopeCanvas(SpaceInfinityProcessor& p):EnvelopeView(p,false){}};
     SpaceInfinityProcessor& processor;
-    std::array<juce::Component,6> pages;
+    std::array<juce::Component,8> pages;
     juce::TabbedComponent tabs{juce::TabbedButtonBar::TabsAtTop};
     std::vector<std::unique_ptr<juce::Component>> controls;
     std::vector<std::unique_ptr<SliderBinding>> sliders;
     std::vector<std::unique_ptr<ChoiceBinding>> choices;
     std::vector<std::unique_ptr<ButtonBinding>> buttons;
     TableCanvas table;
-    EnvelopeCanvas envelope;
+    EnvelopeCanvas envelope;EnvelopeView ampEnvelope;
     juce::Slider frame;
     juce::ComboBox frameSize;
     juce::Label status;
@@ -67,7 +51,7 @@ class ExtendedPanel final : public juce::Component,private juce::Timer {
         const auto* p=processor.state.getParameter(id);s.setDoubleClickReturnValue(true,p->convertFrom0to1(p->getDefaultValue()));if(juce::String(id).containsIgnoreCase("attack")||juce::String(id).containsIgnoreCase("release"))configureTimeKnob(s);
     }
     void knob(int page,const char* id,const char* name,int x,int y,int width,const char* unit=""){
-        auto& caption=own<juce::Label>(page);caption.setText(name,juce::dontSendNotification);caption.setBounds(x,y,width,20);caption.setJustificationType(juce::Justification::centred);caption.setColour(juce::Label::textColourId,juce::Colour(0xffd2d4d8));
+        auto& caption=own<juce::Label>(page);caption.setText(name,juce::dontSendNotification);caption.setFont(juce::Font(juce::FontOptions(11)));caption.setBounds(x,y,width,20);caption.setJustificationType(juce::Justification::centred);caption.setColour(juce::Label::textColourId,juce::Colour(0xffd2d4d8));
         auto& s=own<ModSlider>(page);s.initialiseModulation(processor,id);s.setBounds(x+(width-80)/2,y+21,80,78);
         s.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);s.setTextBoxStyle(juce::Slider::TextBoxBelow,false,76,18);
         sliders.push_back(std::make_unique<SliderBinding>(processor.state,id,s));const auto suffix=juce::String(unit);
@@ -97,18 +81,14 @@ class ExtendedPanel final : public juce::Component,private juce::Timer {
                     safe->showResult(safe->processor.importImpulse(c.getResult()),"Impulse loaded: "+c.getResult().getFileName());
             });
     }
-    void timerCallback() override {envelope.repaint();}
+    void timerCallback() override {envelope.repaint();ampEnvelope.repaint();}
 public:
-    explicit ExtendedPanel(SpaceInfinityProcessor& p,std::function<void()> showSequence={}):processor(p),table(p),envelope(p){
+    explicit ExtendedPanel(SpaceInfinityProcessor& p,std::function<void()> showSequence={}):processor(p),table(p),envelope(p),ampEnvelope(p,true){
         setSize(730,465);addAndMakeVisible(tabs);
-        const char* names[]={"FILTER ENV","GRANULAR","SEQUENCER","WAVETABLE","CONVOLVER","ANALOGUE"};
-        for(int i=0;i<6;++i)tabs.addTab(names[i],juce::Colour(0xff252b31),&pages[size_t(i)],false);
-        pages[0].addAndMakeVisible(envelope);envelope.setBounds(15,15,690,140);
-        knob(0,"filterAttack","ATTACK",15,168,165,"s");knob(0,"filterDecay","DECAY",190,168,165,"s");
-        knob(0,"filterSustain","SUSTAIN",365,168,165,"%");knob(0,"filterRelease","RELEASE",540,168,165,"s");
-        slider(0,"filterEnvAmount","Amount (octaves)",15,285,690);
-        slider(0,"filterVelocity","Velocity to cutoff (octaves)",15,330,690);
-        slider(0,"glideTime","Legato glide (s)",15,365,690);
+        const char* names[]={"FILTER ENV","GRANULAR","SEQUENCER","WAVETABLE","CONVOLVER","ANALOGUE","AMP ENV","ANALOG LAB"};
+        for(int i=0;i<8;++i)tabs.addTab(names[i],juce::Colour(0xff252b31),&pages[size_t(i)],false);
+        pages[0].addAndMakeVisible(envelope);envelope.setBounds(15,15,690,110);pages[6].addAndMakeVisible(ampEnvelope);ampEnvelope.setBounds(15,15,690,110);
+        for(int row=0;row<2;++row){const int page=row==0?6:0;const char* ampIds[]{"attack","ampHold","ampDecay","ampSustain","release"};const char* filterIds[]{"filterAttack","filterHold","filterDecay","filterSustain","filterRelease"};const char* titles[]{"ATTACK","HOLD","DECAY","SUSTAIN","RELEASE"};for(int i=0;i<5;++i)knob(page,row==0?ampIds[i]:filterIds[i],titles[i],15+i*135,127,130,i==3?"%":"s");for(int i=0;i<3;++i){const auto id=juce::String(row==0?"amp":"filter")+(i==0?"AttackCurve":i==1?"DecayCurve":"ReleaseCurve");knob(page,id.toRawUTF8(),i==0?"ATTACK CURVE":i==1?"DECAY CURVE":"RELEASE CURVE",15+i*135,242,130);}if(row==1){knob(page,"filterEnvAmount","AMOUNT",420,242,130,"oct");knob(page,"filterVelocity","VELOCITY",555,242,130,"oct");}else knob(page,"ampVelocity","VELOCITY",420,242,130,"%");slider(page,"glideTime","Legato glide (s)",15,365,690);}
         slider(1,"grainPosition","Position",15,40);slider(1,"grainSize","Grain size (ms)",365,40);
         slider(1,"grainDensity","Grains / second",15,100);slider(1,"grainSpray","Position spray",365,100);
         slider(1,"grainSpread","Stereo spread",15,160);
@@ -137,6 +117,8 @@ public:
         knob(5,"midiBendRange","MIDI BEND",15,65,215,"st");knob(5,"analogueCharacter","CHARACTER",245,65,215,"%");knob(5,"filterInputDrive","PRE-FILTER DRIVE",475,65,215,"%");
         knob(5,"ampVelocity","VELOCITY TO VOLUME",15,170,215,"%");knob(5,"subLevel","SUB LEVEL",245,170,215,"%");knob(5,"pitchEnvVelocity","PITCH VELOCITY",475,170,215,"%");
         knob(5,"pitchEnvAmount","PITCH ENVELOPE",15,275,215,"st");knob(5,"pitchEnvAttack","PITCH ATTACK",245,275,215,"s");knob(5,"pitchEnvDecay","PITCH DECAY",475,275,215,"s");
+        auto& lab=own<juce::ToggleButton>(7);lab.setButtonText("COMPONENT VARIATION / COLOUR");lab.setBounds(15,10,310,28);buttons.push_back(std::make_unique<ButtonBinding>(processor.state,"analogueLabEnabled",lab));auto& stereo=own<juce::ToggleButton>(7);stereo.setButtonText("MATCHED STEREO FILTERS");stereo.setBounds(330,10,225,28);buttons.push_back(std::make_unique<ButtonBinding>(processor.state,"stereoFilterUpgrade",stereo));auto& clean=own<juce::ToggleButton>(7);clean.setButtonText("CLEAN BASE VCO");clean.setTooltip("Independent saw/pulse edge correction; does not cover all wavetable or warp modes.");clean.setBounds(570,10,145,28);buttons.push_back(std::make_unique<ButtonBinding>(processor.state,"cleanVCO",clean));
+        const char* labIds[]{"analogueOscDrift","analogueThermal","analogueFilterSpread","analogueEnvSpread","analogueVoiceSpread","analoguePulseDrift","analogueVCADrive","analogueAsymmetry","analogueMemory","analogueCoupling","noisePan","concertPitch"};const char* labNames[]{"VCO WANDER","THERMAL DRIFT","FILTER TOLERANCE","ENVELOPE TOLERANCE","VOICE TOLERANCE","PULSE DRIFT","VCA DRIVE","ASYMMETRY","CIRCUIT MEMORY","AC COUPLING","NOISE PAN","A4 TUNING"};for(int i=0;i<12;++i)knob(7,labIds[i],labNames[i],15+(i%4)*174,46+(i/4)*110,168,i==11?"Hz":"%");
         addAndMakeVisible(status);status.setBounds(15,433,700,27);status.setColour(juce::Label::textColourId,juce::Colour(0xffd8c8a7));startTimerHz(15);
     }
     void resized() override {tabs.setBounds(0,0,730,425);}

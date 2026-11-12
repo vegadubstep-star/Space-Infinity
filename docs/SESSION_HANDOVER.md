@@ -1,3 +1,15 @@
+# v0.4.0 candidate — 12 November 2026
+
+The analogue/manual-audit update is complete locally. All **15 native suites passed** at a 1 MiB stack limit. The parameter inventory verifies **1,068 unique IDs**, finite ranges and valid defaults/Init values. Release scripts parse and publisher mocks pass success, failed-upload and wrong-size cases, including audit/inventory ZIP contents and absolute release links.
+
+This candidate preserves the existing analogue/filter controls and adds separate component controls, matched stereo processing, source pan/A4 tuning, Hold/contours/editable envelope graphs, clean base VCO correction and an FX display matching the existing audio order. The logo is smaller and fully visible at all four native QA sizes. See [update notes](ANALOGUE_AND_PARITY_UPDATE.md) and [honest Serum manual comparison](SERUM2_FEATURE_AUDIT.md). Full Serum parity is **not** claimed.
+
+Pending: Windows build, all native suites, installation/uninstallation and archive verification, release publishing, actual installer ZIP/VST3 downloads and hash checks. Do not describe v0.4.0 as ready until these complete. v0.3.0 remains the last verified release, recorded below.
+
+The isolated checkpoint branch was used for local work. The final change is being squashed onto codex/windows-build so the WIP skip-ci commit does not suppress the release workflow. Generated audition/ remains untracked and reproducible. Local evidence: /workspace/work/workflow-update/v04-final-all-tests.log and v04-tail-probe.log. Do not edit production sources during compilation.
+
+---
+
 # Verified release — 12 November 2026
 
 **v0.3.0 is published and ready to test.**

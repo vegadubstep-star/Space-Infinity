@@ -232,7 +232,7 @@ struct StudioRack::Impl {
 };
 StudioRack::StudioRack(SpaceInfinityProcessor& p):impl(std::make_unique<Impl>(p,[this]{if(onOpenGate)onOpenGate();})){addAndMakeVisible(impl->viewport);setName("Studio FX rack");startTimerHz(20);}
 StudioRack::~StudioRack(){stopTimer();}
-void StudioRack::resized(){impl->viewport.setBounds(getLocalBounds());int y=0;const int width=juce::jmax(1,getWidth()-13);
-    for(size_t i=0;i<impl->modules.size();++i){impl->modules[i]->setBounds(0,y,width,impl->heights[i]);y+=impl->heights[i]+8;}impl->content.setSize(width,y);}
+void StudioRack::resized(){impl->viewport.setBounds(getLocalBounds());int y=0,focusOrder=1;const int width=juce::jmax(1,getWidth()-13);
+    for(const int stage:{3,0,4,5,6,1,7,2}){const auto i=size_t(stage);impl->modules[i]->setBounds(0,y,width,impl->heights[i]);impl->modules[i]->setExplicitFocusOrder(focusOrder++);y+=impl->heights[i]+8;}impl->content.setSize(width,y);}
 void StudioRack::timerCallback(){if(!isShowing())return;for(auto& m:impl->modules)m->tick();}
 juce::Component* StudioRack::module(int index)const{return index>=0&&index<int(impl->modules.size())?impl->modules[size_t(index)].get():nullptr;}

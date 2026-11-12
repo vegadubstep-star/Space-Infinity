@@ -52,7 +52,7 @@ int runExtendedSmoke(){
         const int last=SpaceInfinityProcessor::oscillatorWaves(oscillator==2).size()-1;if(int(synth.state.getRawParameterValue(id)->load())!=last)return 63;
         next->onClick();if(synth.state.getRawParameterValue(id)->load()!=0)return 64;
     }
-    ExtendedPanel panel(synth);panel.setSize(730,465);
+    ExtendedPanel panel(synth);panel.setLookAndFeel(&editor->getLookAndFeel());panel.setSize(730,465);
     const auto audition=juce::File::getCurrentWorkingDirectory().getChildFile("audition");audition.createDirectory();
     juce::PNGImageFormat png;
     for(auto* child:panel.getChildren())if(auto* tabs=dynamic_cast<juce::TabbedComponent*>(child))for(int tab=0;tab<tabs->getNumTabs();++tab){

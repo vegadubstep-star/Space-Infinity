@@ -224,6 +224,13 @@ APVTS::ParameterLayout makeLayout(){
     f("osc2WTPos","Oscillator B wavetable position",0,1,0);flag("independentWTPos","Independent wavetable position",false);
     flag("manualUnison","Manual aligned unison controls",false);
     for(int osc=1;osc<=2;++osc){const auto prefix="osc"+juce::String(osc);menu((prefix+"UnisonMode").toRawUTF8(),"Unison mode",{"Linear","Super","Exp","Inv","Random"},0);menu((prefix+"Stack").toRawUTF8(),"Unison stack",{"Off","12 (1x)","12 (2x)","12 (3x)","12+7 (1x)","12+7 (2x)","12+7 (3x)","Center -12","Center -24"},0);f((prefix+"Range").toRawUTF8(),"Unison range cents",0,120,36);f((prefix+"Phase").toRawUTF8(),"Oscillator phase",0,1,0);f((prefix+"Rand").toRawUTF8(),"Oscillator random phase",0,1,1);f((prefix+"WTSpread").toRawUTF8(),"Unison wavetable spread",0,1,0);f((prefix+"WarpSpread").toRawUTF8(),"Unison warp spread",0,1,0);}
+    flag("cleanVCO","Clean base saw/pulse VCO",false);flag("analogueLabEnabled","Analogue component controls",false);flag("stereoFilterUpgrade","Matched stereo filter response",false);
+    const char* detailIds[]{"analogueOscDrift","analogueThermal","analogueFilterSpread","analogueEnvSpread","analogueVoiceSpread","analoguePulseDrift","analogueVCADrive","analogueAsymmetry","analogueMemory","analogueCoupling"};
+    const char* detailNames[]{"VCO wander","Thermal drift","Filter tolerance","Envelope tolerance","Voice tolerance","Pulse-width drift","VCA drive","VCA asymmetry","Circuit memory","AC coupling"};
+    for(int i=0;i<10;++i)f(detailIds[i],detailNames[i],0,1,0);
+    f("ampHold","Amp envelope hold",0,8,0);f("filterHold","Filter envelope hold",0,8,0);
+    for(const char* prefix:{"amp","filter"})for(const char* phase:{"Attack","Decay","Release"})f((juce::String(prefix)+phase+"Curve").toRawUTF8(),(juce::String(prefix)+" "+phase+" contour").toRawUTF8(),-1,1,0);
+    f("osc1Pan","Oscillator A pan",-1,1,0);f("osc2Pan","Oscillator B pan",-1,1,0);f("subPan","Sub pan",-1,1,0);f("noisePan","Noise pan",-1,1,0);f("concertPitch","Concert pitch A4",400,480,440);
     return p;
 }
 float osc(double x,int wave){ x-=std::floor(x); switch(wave){case 1:return x<0.48?1.0f:-1.0f;case 2:return std::sin(float(juce::MathConstants<double>::twoPi*x));case 3:return float(4*std::abs(x-0.5)-1);default:return float(2*x-1);} }
@@ -751,6 +758,16 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     const float gainTargets[]{osc1Enabled?oscGainA:0,osc2Enabled?oscGainB:0,mix,noiseLevel,subLevel,float(routeA),float(routeB),float(routeSub),float(routeNoise),res};for(int i=0;i<10;++i)liveGains[size_t(i)].setTargetValue(gainTargets[i]);
     const bool grainReverse=param("sampleReverse")>.5f;
     const int filterMode=int(param("filterMode"));
+    const bool cleanVco=param("cleanVCO")>.5f;
+    const bool stereoFilters=param("stereoFilterUpgrade")>.5f,analogueLab=param("analogueLabEnabled")>.5f;
+    const char* detailIds[]{"analogueOscDrift","analogueThermal","analogueFilterSpread","analogueEnvSpread","analogueVoiceSpread","analoguePulseDrift","analogueVCADrive","analogueAsymmetry","analogueMemory","analogueCoupling"};
+    for(int i=0;i<10;++i)analogueDetails[size_t(i)].setTargetValue(analogueLab?param(detailIds[i]):0);
+    const char* panIds[]{"osc1Pan","osc2Pan","subPan","noisePan"};for(int i=0;i<4;++i)sourcePans[size_t(i)].setTargetValue(param(panIds[i]));
+    const float ampHold=param("ampHold"),filterHold=param("filterHold"),concertPitch=param("concertPitch");
+    const std::array<float,3> ampCurves{param("ampAttackCurve"),param("ampDecayCurve"),param("ampReleaseCurve")},filterCurves{param("filterAttackCurve"),param("filterDecayCurve"),param("filterReleaseCurve")};
+    const bool ampContour=std::any_of(ampCurves.begin(),ampCurves.end(),[](float x){return x!=0;}),filterContour=std::any_of(filterCurves.begin(),filterCurves.end(),[](float x){return x!=0;});
+    const float thermalSlew=float(1-std::exp(-1/(sr*8)));const int thermalInterval=juce::jmax(1,int(sr*.67));
+
     const int source=int(param("source")), root=int(param("sampleRoot"));
     analogueAmount.setTargetValue(juce::jlimit(0.0f,1.0f,param("analogueCharacter")+0.5f*fxModulation[20]));
     analogueCutoff.setTargetValue(juce::jlimit(50.0f,float(sr*.4),cutoff));
@@ -827,6 +844,12 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
         float out=0, side=0;const float lfo=std::sin(float(juce::MathConstants<double>::twoPi*lfoPhase));
         std::array<float,10> live{};for(int i=0;i<10;++i){const float next=liveGains[size_t(i)].getNextValue();live[size_t(i)]=declick?next:gainTargets[i];}
         const float character=analogueAmount.getNextValue();
+        std::array<float,10> detail{};for(int i=0;i<10;++i)detail[size_t(i)]=analogueDetails[size_t(i)].getNextValue();
+        std::array<float,4> pan{};for(int i=0;i<4;++i)pan[size_t(i)]=sourcePans[size_t(i)].getNextValue();
+        const auto panSignal=[](float& mid,float& side,float position){if(position==0)return;const float angle=(position+1)*juce::MathConstants<float>::pi*.25f;const float l=(mid+side)*(position>=1?0:std::cos(angle)*1.41421356237f),r=(mid-side)*(position<=-1?0:std::sin(angle)*1.41421356237f);mid=(l+r)*.5f;side=(l-r)*.5f;};
+        const auto board=detail[1]>0?boardDrift.next(thermalSlew,thermalInterval):std::array<float,2>{};
+        const auto colour=AnalogueColourSettings::make(detail[6],detail[7],detail[8],detail[9],sr);
+
         const float circuitDrive=1.0f+character*3.0f;
         const float warmthDrive=1.0f+character*1.8f;
         const float warmthBias=character*0.07f;
@@ -864,10 +887,11 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                 voiceRelease==0.0f?0.0f:float(std::exp(-1.0/(voiceRelease*sr)));
             const float voiceSustain=juce::jlimit(0.0f,1.0f,sustain+.5f*movingModulation[16]);
             const float voiceDecayStep=decayStep/std::exp2(movingModulation[15]*2);
-            const float timing=upgraded?std::exp2(v.calibration.timing*character*.10f):1;
-            const float filterEnv=upgraded?v.curvedFilter.next(v.released,sr,juce::jmin(1.0f,filterA*timing),filterD*timing,filterS,juce::jmin(1.0f,filterR*timing)):
+            const float timing=std::exp2(v.calibration.timing*((upgraded?character*.10f:0)+detail[3]*.2f));
+            const float curveBase=upgraded?0:-.5f;
+            const float filterEnv=(upgraded||filterHold>0||filterContour)?v.curvedFilter.next(v.released,sr,juce::jmin(1.0f,filterA*timing),filterD*timing,filterS,juce::jmin(1.0f,filterR*timing),filterHold*timing,filterCurves[0]+curveBase,filterCurves[1]+curveBase,filterCurves[2]+curveBase):
                 v.filterEnvelope.next(v.released,sr,filterA,filterD,filterS,filterR);
-            const float targetVoiceFc=juce::jlimit(50.0f,float(sr*.4),fc*std::exp2(movingModulation[1]*2+filterEnv*filterAmount+(v.velocity-.5f)*filterVelocity+(upgraded?v.calibration.cutoff*character*.09f:0)));
+            const float targetVoiceFc=juce::jlimit(50.0f,float(sr*.4),fc*std::exp2(movingModulation[1]*2+filterEnv*filterAmount+(v.velocity-.5f)*filterVelocity+(upgraded?v.calibration.cutoff*character*.09f:0)+v.calibration.cutoff*detail[2]*.12f));
             if(v.smoothFc<=0)v.smoothFc=targetVoiceFc;else v.smoothFc+=(declick?cutoffSmoothing:1)*(targetVoiceFc-v.smoothFc);
             const float voiceFc=v.smoothFc;
             const float voiceG=std::tan(float(juce::MathConstants<double>::pi*voiceFc/sr));
@@ -880,8 +904,8 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
             const float voiceWidth1=juce::jlimit(0.0f,1.0f,width1+.5f*movingModulation[12]);
             const float voiceWidth2=juce::jlimit(0.0f,1.0f,width2+.5f*movingModulation[13]);
 
-            if(timedEnvelope&&upgraded){
-                v.env=v.curvedAmp.next(v.released,sr,juce::jmin(ampScale,voiceAttack*timing),juce::jlimit(.005f,8.0f,float(1.0/(voiceDecayStep*sr))*timing),voiceSustain,juce::jmin(ampScale,voiceRelease*timing));
+            if((timedEnvelope||ampHold>0||ampContour)&&(upgraded||ampHold>0||ampContour)){
+                v.env=v.curvedAmp.next(v.released,sr,juce::jmin(ampScale,voiceAttack*timing),juce::jlimit(.005f,8.0f,float(1.0/(voiceDecayStep*sr))*timing),voiceSustain,juce::jmin(ampScale,voiceRelease*timing),ampHold*timing,ampCurves[0]+curveBase,ampCurves[1]+curveBase,ampCurves[2]+curveBase);
             }else if(timedEnvelope){
                 advanceTimedEnvelope(v.env,v.decaying,v.releaseStart,v.released,voiceAttackStep,
                     voiceDecayStep,voiceSustain,float(voiceRelease*sr));
@@ -895,7 +919,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
             float raw=0, rawSide=0,rawSub=0,bypass=0,bypassSide=0;
             if(v.source==4){
                 const auto grains=v.granular.next(importedSample.audio.getReadPointer(0),v.sampleStart,v.sampleEnd,
-                    std::abs(v.sampleStep)*bendRatio,sr,grainPosition,grainSize,grainDensity,grainSpray,grainSpread,grainReverse);
+                    std::abs(v.sampleStep)*bendRatio*(concertPitch/440.0),sr,grainPosition,grainSize,grainDensity,grainSpray,grainSpread,grainReverse);
                 raw=(grains[0]+grains[1])*.5f;rawSide=(grains[0]-grains[1])*.5f;
             }else if(v.source!=0){
                 const auto& sample=sampleForSource(v.source);
@@ -909,15 +933,15 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                 const auto* data=sample.audio.getReadPointer(0);
                 raw=data[index]+static_cast<float>(v.samplePosition-index)*(data[index+1]-data[index]);
                 if(declick&&v.sampleLoop){const float edge=juce::jlimit(1.0f,float(v.sampleEnd-v.sampleStart)/4,float(sample.sampleRate*.0015));const float distance=float(std::min(v.samplePosition-v.sampleStart,double(v.sampleEnd)-v.samplePosition));if(distance<edge)raw*=.5f-.5f*std::cos(juce::MathConstants<float>::pi*juce::jlimit(0.0f,1.0f,distance/edge));}
-                v.samplePosition+=v.sampleStep*bendRatio;
+                v.samplePosition+=v.sampleStep*bendRatio*(concertPitch/440.0);
             }else{
-            const auto drift=character>0.0f?v.drift.next(driftSlew,driftInterval):std::array<float,2>{};
-            const double driftA=std::exp2(double(character)*(double(drift[0])*2.5+(upgraded?v.calibration.tuneA*2:0))/1200);
-            const double driftB=std::exp2(double(character)*(double(drift[1])*2.5+(upgraded?v.calibration.tuneB*2:0))/1200);
+            const auto drift=(character>0.0f||detail[0]>0||detail[5]>0)?v.drift.next(driftSlew,driftInterval):std::array<float,2>{};
+            const double driftA=std::exp2(double(character)*(double(drift[0])*2.5+(upgraded?v.calibration.tuneA*2:0))/1200+(double(drift[0])*detail[0]*7+board[0]*detail[1]*3+v.calibration.tuneA*detail[4]*3)/1200);
+            const double driftB=std::exp2(double(character)*(double(drift[1])*2.5+(upgraded?v.calibration.tuneB*2:0))/1200+(double(drift[1])*detail[0]*7+(board[0]*.8+board[1]*.2)*detail[1]*3+v.calibration.tuneB*detail[4]*3)/1200);
             v.pitch=v.note+glide*(v.pitch-v.note);
             const float pitchOffset=pitchAmount!=0?pitchAmount*(1-pitchVelocity+pitchVelocity*v.velocity)*v.pitchEnvelope.next(v.released,sr,pitchAttack,pitchDecay,0,.03f):0;
-            const double freq=440.0*bendRatio*std::pow(2.0,(v.pitch+pitchOffset+4*(modulation[25]+movingModulation[25])-69.0)/12.0);
-            const auto readWave=[&](double phase,int shape,float scan){return shape==30?(sampleGuard.isLocked()?wavetable.sample(phase,scan):0.0f):oscillatorFrameSample(phase,shape,scan);};
+            const double freq=concertPitch*bendRatio*std::pow(2.0,(v.pitch+pitchOffset+4*(modulation[25]+movingModulation[25])-69.0)/12.0);
+            const auto readWave=[&](double phase,int shape,float scan){if(shape==1&&detail[5]>0){const double x=phase-std::floor(phase),split=.48+detail[5]*drift[1]*.035;phase=x<split?.48*x/split:.48+.52*(x-split)/(1-split);}return shape==30?(sampleGuard.isLocked()?wavetable.sample(phase,scan):0.0f):oscillatorFrameSample(phase,shape,scan);};
             const float scanA=juce::jlimit(0.0f,1.0f,tableScan+movingModulation[23]),scanB=independentWTPos?tableScanB:scanA;
             const auto readWarp=[&](double phase,int shape,int mode,float amount,float mod,float scan){
                 if(mode==1||mode==4)phase+=mod*amount*1.5;
@@ -926,7 +950,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                 return readWave(phase,shape,scan);
             };
             float subModulator=0;
-            if(live[4]>0||warp1==4||warp2==4){v.subPhase+=freq*subRatio/sr;v.subPhase-=std::floor(v.subPhase);subModulator=oscillatorSample(v.subPhase,subShape);v.subEnvelope+=(declick?cutoffSmoothing:1)*((v.released?0.0f:1.0f)-v.subEnvelope);rawSub=live[4]*subModulator*v.subEnvelope;}
+            if(live[4]>0||warp1==4||warp2==4){v.subPhase+=freq*subRatio/sr;v.subPhase-=std::floor(v.subPhase);subModulator=oscillatorSample(v.subPhase,subShape);if(cleanVco){const double increment=freq*subRatio/sr;if(subShape==0)subModulator-=analoguePolyBlep(v.subPhase,increment);if(subShape==1)subModulator+=analoguePolyBlep(v.subPhase,increment)-analoguePolyBlep(v.subPhase-.48,increment);if(std::abs(increment)>=.5)subModulator=0;}v.subEnvelope+=(declick?cutoffSmoothing:1)*((v.released?0.0f:1.0f)-v.subEnvelope);rawSub=live[4]*subModulator*v.subEnvelope;}
             v.idleRateA=freq*tune1*driftA/sr;v.idleRateB=freq*tune2*driftB/sr;
             const float sourceA=warp2==4?subModulator:warp2==1?readWave(v.phase,wave,scanA):0.0f;
             const float sourceB=warp1==4?subModulator:warp1==1?readWave(v.phase2,secondWave,scanB):0.0f;
@@ -950,10 +974,11 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                     position-=std::floor(position);
                     const float frame=juce::jlimit(0.0f,1.0f,scan+(manualUnison?float(spread)*wtSpread[size_t(oscillator)]:0));const float warpAmount=juce::jlimit(0.0f,1.0f,amount+(manualUnison?float(spread)*warpSpread[size_t(oscillator)]:0));
                     float sample=readWarp(position,shape,warp,warpAmount,modulator,frame);
-                    if(warp==0&&character>0.0f){
-                        if(shape==0)sample-=character*analoguePolyBlep(position,increment);
-                        if(shape==1)sample+=character*(analoguePolyBlep(position,increment)-analoguePolyBlep(position-.48,increment));
+                    if(warp==0&&(cleanVco||character>0.0f)){const float edgeAmount=cleanVco?juce::jlimit(0.0f,1.0f,1-frame*16):character;
+                        if(shape==0)sample-=edgeAmount*analoguePolyBlep(position,increment);
+                        if(shape==1)sample+=edgeAmount*(analoguePolyBlep(position,increment)-analoguePolyBlep(position-(.48+detail[5]*drift[1]*.035),increment));
                     }
+                    if(cleanVco&&std::abs(increment)>=.5)sample=0;
                     raw+=sample*level;
                     if(width>0.0f){
                         if(count==1&&!manualUnison)rawSide+=width*level*(sample-readWarp(position+offset,shape,warp,amount,modulator,scan))*0.5f;
@@ -962,14 +987,16 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                 }
             };
             stack(v.phase,v.extraPhase1,freq*tune1*driftA/sr,unisonRates1,unison1,wave,voiceWidth1,voiceGain1,blendA,spreadA,0.19,warp1,juce::jlimit(0.0f,1.0f,warpAmount1+.5f*movingModulation[26])*(warpEnvelope1==1?v.env:warpEnvelope1==2?filterEnv:1),sourceB,scanA,0);
+            panSignal(raw,rawSide,pan[0]);
             bypass+=raw*(1-live[5]);bypassSide+=rawSide*(1-live[5]);raw*=live[5];rawSide*=live[5];
             const float beforeB=raw,beforeSideB=rawSide;
             stack(v.phase2,v.extraPhase2,freq*tune2*driftB*(1.0+(manualUnison?0:voiceDetune)+0.003*lfo*lfoDepth)/sr,
                   unisonRates2,unison2,secondWave,voiceWidth2,voiceGain2,blendB,spreadB,0.31,warp2,juce::jlimit(0.0f,1.0f,warpAmount2+.5f*movingModulation[27])*(warpEnvelope2==1?v.env:warpEnvelope2==2?filterEnv:1),sourceA,scanB,1);
+            {float mid=raw-beforeB,sidePart=rawSide-beforeSideB;panSignal(mid,sidePart,pan[1]);raw=beforeB+mid;rawSide=beforeSideB+sidePart;}
             bypass+=(raw-beforeB)*(1-live[6]);bypassSide+=(rawSide-beforeSideB)*(1-live[6]);raw=beforeB+(raw-beforeB)*live[6];rawSide=beforeSideB+(rawSide-beforeSideB)*live[6];
             }
             if(v.source!=0){bypass+=raw*(1-live[5]);bypassSide+=rawSide*(1-live[5]);raw*=live[5];rawSide*=live[5];}
-            raw+=rawSub*live[7];rawSub*=1-live[7];
+            float subSide=0;panSignal(rawSub,subSide,pan[2]);raw+=rawSub*live[7];rawSide+=subSide*live[7];bypassSide+=subSide*(1-live[7]);rawSub*=1-live[7];
             const float voiceNoise=juce::jlimit(0.0f,1.0f,live[3]+.5f*movingModulation[11]);
             if(voiceNoise>0.0f){
                 auto& rng=v.noiseState;
@@ -977,12 +1004,11 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                 const float white=float(rng>>8)*(2.0f/16777215.0f)-1.0f;
                 v.noiseMemory+=0.10f*(white-v.noiseMemory);
                 const float noise=noiseType==1?v.noiseMemory*2.5f:noiseType==2?white-v.noiseMemory:white;
-                raw+=noise*voiceNoise*.5f*live[8];bypass+=noise*voiceNoise*.5f*(1-live[8]);
+                float mid=noise*voiceNoise*.5f,sidePart=0;panSignal(mid,sidePart,pan[3]);raw+=mid*live[8];rawSide+=sidePart*live[8];bypass+=mid*(1-live[8]);bypassSide+=sidePart*(1-live[8]);
             }
             if(character>0.0f){
-                const float warmed=(std::tanh(raw*warmthDrive+warmthBias)-warmthCentre)*warmthScale;
-                raw+=character*(warmed-raw);
-                rawSide+=character*(std::tanh(rawSide*warmthDrive)*warmthScale-rawSide);
+                if(stereoFilters){const float l=(std::tanh((raw+rawSide)*warmthDrive+warmthBias)-warmthCentre)*warmthScale,r=(std::tanh((raw-rawSide)*warmthDrive+warmthBias)-warmthCentre)*warmthScale;raw+=character*((l+r)*.5f-raw);rawSide+=character*((l-r)*.5f-rawSide);}
+                else{const float warmed=(std::tanh(raw*warmthDrive+warmthBias)-warmthCentre)*warmthScale;raw+=character*(warmed-raw);rawSide+=character*(std::tanh(rawSide*warmthDrive)*warmthScale-rawSide);}
             }
             if(preFilterDrive>0){
                 const float gain=1+12*preFilterDrive,normalisation=1/std::tanh(gain);
@@ -1002,20 +1028,14 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                 v.cutoff+=voiceOnePole*(raw*(1+voiceRes*0.7f)-v.cutoff);
                 filtered=v.cutoff;
             }else{
-                const auto stage=[g=voiceG](float input,float k,float* memory){
-                    const float band=(memory[0]+g*(input-memory[1]))/(1.0f+g*(g+k));
-                    const float low=memory[1]+g*band;
-                    memory[0]=2.0f*band-memory[0];
-                    memory[1]=2.0f*low-memory[1];
-                    return std::array<float,3>{low,input-k*band-low,band};
-                };
+                const auto stage=[g=voiceG](float input,float damping,float* memory){return analogueSvf(input,g,damping,memory);};
                 const auto response=stage(raw,1.4142f-voiceRes*1.34f,v.filterState);
                 filtered=filterMode==4 ? stage(response[0],1.4142f,v.filterCascade)[0]
                                        : response[size_t(filterMode-1)];
             }
             if(filterMode!=5){
-                v.stereoSide+=voiceOnePole*(rawSide-v.stereoSide);
-                filteredSide=v.stereoSide;
+                if(!stereoFilters||filterMode==0){v.stereoSide+=voiceOnePole*(rawSide*(stereoFilters?1+voiceRes*.7f:1)-v.stereoSide);filteredSide=v.stereoSide;}
+                else{const auto response=analogueSvf(rawSide,voiceG,1.4142f-voiceRes*1.34f,v.filterSideState);filteredSide=filterMode==4?analogueSvf(response[0],voiceG,1.4142f,v.filterSideCascade)[0]:response[size_t(filterMode-1)];}
             }
             if(character>0.0f){
                 float channels[]{filtered+filteredSide,filtered-filteredSide};
@@ -1033,8 +1053,9 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                 filtered=std::tanh(filtered*ratio);
                 filteredSide=std::tanh(filteredSide*ratio);
             }
-            const float level=(1-ampVelocity+ampVelocity*v.velocity)*v.env*0.14f*(upgraded?1+v.calibration.gain*character*.025f:1);
+            const float level=(1-ampVelocity+ampVelocity*v.velocity)*v.env*0.14f*((upgraded?1+v.calibration.gain*character*.025f:1)+v.calibration.gain*detail[4]*.08f);
             float voiceL=(filtered+rawSub+bypass+filteredSide+bypassSide)*level,voiceR=(filtered+rawSub+bypass-filteredSide-bypassSide)*level;
+            voiceL=v.colour.process(voiceL,colour,0);voiceR=v.colour.process(voiceR,colour,1);
             if(v.declickRemaining>0){const float t=1-float(v.declickRemaining)/float(v.declickLength);voiceL=voiceL*t+v.tailL*(1-t);voiceR=voiceR*t+v.tailR*(1-t);--v.declickRemaining;}
             v.lastL=voiceL;v.lastR=voiceR;out+=(voiceL+voiceR)*.5f;
             side+=(voiceL-voiceR)*.5f;
@@ -1600,6 +1621,9 @@ void SpaceInfinityProcessor::loadPreset(int index){
     for(int i=0;i<2;++i)set(("osc"+juce::String(i+1)+"Detune").toRawUTF8(),juce::jlimit(0.0f,1.0f,param("detune")*param(("osc"+juce::String(i+1)+"Spread").toRawUTF8())/.04f));
     set("independentWTPos",1);set("osc2WTPos",param("wavetableScan"));
     for(int i=1;i<=2;++i){const auto id="osc"+juce::String(i)+"Blend";const float old=param(id.toRawUTF8());set(id.toRawUTF8(),.75f*old);}
+    set("cleanVCO",1);set("stereoFilterUpgrade",1);set("analogueLabEnabled",1);
+    if(index>0){set("analogueOscDrift",.07f);set("analogueThermal",.06f);set("analogueFilterSpread",.08f);set("analogueEnvSpread",.07f);set("analogueVoiceSpread",.08f);set("analoguePulseDrift",.04f);set("analogueVCADrive",.08f);set("analogueAsymmetry",.05f);set("analogueMemory",.05f);set("analogueCoupling",.03f);}
+
     set("manualUnison",1);
     set("modernUnison",1);set("flangerMode",1);
     state.state.setProperty("presetKey",library->keyForFactory(index),nullptr);resetVoicesRequested.store(true);

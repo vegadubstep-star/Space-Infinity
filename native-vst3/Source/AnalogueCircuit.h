@@ -100,12 +100,13 @@ inline void advanceTimedEnvelope(float& level,bool& decaying,float& releaseStart
 // Finite-duration capacitor-style curves, with exact endpoints even at short times.
 struct AnalogueEnvelope {
     double phase=0;float level=0,releaseLevel=0,decayLevel=1;int stage=0;
-    static float charge(double t) noexcept {return float(-std::expm1(-4*std::clamp(t,0.0,1.0))/(-std::expm1(-4.0)));}
-    float next(bool released,double sr,float attack,float decay,float sustain,float release) noexcept {
+    static float charge(double t,float curve=0) noexcept {const double k=4+8*curve;t=std::clamp(t,0.0,1.0);return std::abs(k)<.00001?float(t):float(-std::expm1(-k*t)/(-std::expm1(-k)));}
+    float next(bool released,double sr,float attack,float decay,float sustain,float release,float hold=0,float attackCurve=0,float decayCurve=0,float releaseCurve=0) noexcept {
         if(released&&stage!=3){stage=3;phase=0;releaseLevel=level;}
-        if(stage==3){phase+=1/std::max(1.0,double(release)*sr);level=releaseLevel*(1-charge(phase));if(phase>=1)level=0;}
-        else if(stage==0){phase+=1/std::max(1.0,double(attack)*sr);level=charge(phase);if(phase>=1){level=1;stage=1;phase=0;decayLevel=1;}}
-        else if(stage==1){phase+=1/std::max(1.0,double(decay)*sr);level=sustain+(decayLevel-sustain)*(1-charge(phase));if(phase>=1){stage=2;level=sustain;}}
+        if(stage==3){phase+=1/std::max(1.0,double(release)*sr);level=releaseLevel*(1-charge(phase,releaseCurve));if(phase>=1)level=0;}
+        else if(stage==0){phase+=1/std::max(1.0,double(attack)*sr);level=charge(phase,attackCurve);if(phase>=1){level=1;stage=hold>0?4:1;phase=0;decayLevel=1;}}
+        else if(stage==4){level=1;phase+=1/std::max(1.0,double(hold)*sr);if(phase>=1){stage=1;phase=0;}}
+        else if(stage==1){phase+=1/std::max(1.0,double(decay)*sr);level=sustain+(decayLevel-sustain)*(1-charge(phase,decayCurve));if(phase>=1){stage=2;level=sustain;}}
         else level+=.01f*(sustain-level);
         return level;
     }
@@ -117,3 +118,30 @@ struct VoiceCalibration {
         return {random.random(),random.random(),random.random(),random.random(),random.random()};
     }
 };
+
+// Independent, bounded VCA/colour model. A short feedback memory provides
+// rate-dependent colour; it is not a measured recreation of a specific circuit.
+struct AnalogueColourSettings {
+    float gain=1,bias=0,centre=0,normalisation=1,memory=0,memorySlew=1,dcCoefficient=0,wet=0;
+    bool active=false,distort=false;
+    static AnalogueColourSettings make(float drive,float asymmetry,float memory,float coupling,double sr) noexcept {
+        AnalogueColourSettings s;s.active=drive>0||asymmetry>0||memory>0||coupling>0;if(!s.active)return s;
+        s.gain=1+9*drive;s.bias=.12f*asymmetry;s.centre=std::tanh(s.bias*s.gain);s.normalisation=1/std::max(.1f,s.gain*(1-s.centre*s.centre));
+        s.distort=drive>0||asymmetry>0;s.memory=.15f*memory;s.memorySlew=float(1-std::exp(-1/(sr*(.0004+.002*memory))));
+        s.dcCoefficient=float(std::exp(-6.283185307179586*(2+18*coupling)/sr));s.wet=std::max({drive,asymmetry,memory,coupling});return s;
+    }
+};
+struct AnalogueColour {
+    std::array<float,2> memory{},input{},output{};
+    float process(float x,const AnalogueColourSettings& s,int channel) noexcept {
+        if(!s.active)return x;const auto ch=size_t(channel);memory[ch]+=s.memorySlew*(x+s.memory*memory[ch]-memory[ch]);
+        const float fed=(x+s.memory*memory[ch])*(1-s.memory);
+        const float shaped=s.distort?(std::tanh((fed+s.bias)*s.gain)-s.centre)*s.normalisation:fed;
+        const float ac=shaped-input[ch]+s.dcCoefficient*output[ch];input[ch]=shaped;output[ch]=ac;
+        return shaped+s.wet*(ac-shaped);
+    }
+};
+inline std::array<float,3> analogueSvf(float input,float g,float damping,float* state) noexcept {
+    const float band=(state[0]+g*(input-state[1]))/(1+g*(g+damping)),low=state[1]+g*band;
+    state[0]=2*band-state[0];state[1]=2*low-state[1];return {low,input-damping*band-low,band};
+}

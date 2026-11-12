@@ -120,7 +120,7 @@ int runAirwaveSmoke(){
     synth->prepareToPlay(48000,256);render(375,0,-1);const double heldEarly=render(375,-1,-1);
     render(3000,-1,-1);const double heldLate=render(375,-1,-1);
     require(heldLate>heldEarly*.55,"held pad does not progressively fade");
-    render(1,-1,0);const double longTail=render(280,-1,-1);require(longTail>1,"pad release lasts beyond one second");render(600,-1,-1);require(render(188,-1,-1)<.2,"pad tail eventually decays");
+    render(1,-1,0);const double longTail=render(280,-1,-1);require(longTail>1,"pad release lasts beyond one second");render(600,-1,-1);const double tailEnd=render(188,-1,-1);std::cout<<"Airwave release energy "<<longTail<<" -> "<<tailEnd<<std::endl;require(tailEnd/188<longTail/280*.005,"pad tail power decays relative to its release level");render(187,-1,-1);const double tailFinal=render(188,-1,-1);std::cout<<"Airwave final tail energy "<<tailFinal<<std::endl;require(tailFinal<.05&&tailFinal<tailEnd*.25,"pad tail continues decaying to silence");
     // Every LFO must bypass its routes at both voice and effects destinations.
     for(int lfo=0;lfo<3;++lfo){
         const auto measure=[&](bool enabled,bool routed){synth=std::make_unique<SpaceInfinityProcessor>();synth->loadPreset(0);set("attack",0);set("release",0);set("mix",0);set("osc2Enabled",0);

@@ -193,11 +193,14 @@ private:
         std::array<float,3> lfoMemory{};
         std::array<AnalogueLadder,2> ladder;
         uint32_t noiseState=1;
+        AnalogueColour colour;float filterSideState[2]{},filterSideCascade[2]{};
         std::array<double,127> extraPhase1{}, extraPhase2{};
         float filterState[2]{}, filterCascade[2]{};
         unsigned sampleRevision = 0; bool active=false, released=false, decaying=false; int note=-1, channel=1; float velocity=0, env=0, cutoff=0; double phase=0, phase2=0; uint64_t age=0; };
     std::array<Voice,24> voices{};
     std::array<juce::SmoothedValue<float>,10> liveGains;
+    std::array<juce::SmoothedValue<float>,10> analogueDetails;
+    std::array<juce::SmoothedValue<float>,4> sourcePans;AnalogueDrift boardDrift;
     std::atomic<bool> resetVoicesRequested{false};
     void retireVoice(Voice&);
     std::array<std::atomic<float>*,4> macroValues{};

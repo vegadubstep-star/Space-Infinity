@@ -26,22 +26,28 @@ $checksums = foreach ($name in @($setupName, $archiveName)) {
 }
 $checksums | Set-Content -LiteralPath $checksumPath -Encoding utf8
 $files += 'SHA256SUMS.txt'
-if (Test-Path -LiteralPath (Join-Path $releaseDir 'RHYTHM_AND_METAL_UPDATE.md')) { $files += 'RHYTHM_AND_METAL_UPDATE.md' }
+foreach ($document in @('RHYTHM_AND_METAL_UPDATE.md', 'ANALOGUE_AND_PARITY_UPDATE.md', 'SERUM2_FEATURE_AUDIT.md')) {
+    if (Test-Path -LiteralPath (Join-Path $releaseDir $document)) { $files += $document }
+}
 & python (Join-Path $PSScriptRoot 'package-installer-zip.py') $releaseDir $version
 if ($LASTEXITCODE -ne 0) { throw 'Installer ZIP packaging failed.' }
 $files += "SPACE_INFINITY_${version}_Windows_x64_Installer.zip"
 $files += "SPACE_INFINITY_${version}_Windows_x64_Installer.zip.sha256"
 $repo = $env:GITHUB_REPOSITORY
+$notesSource = Join-Path $root 'docs/ANALOGUE_AND_PARITY_UPDATE.md'
+if (-not (Test-Path -LiteralPath $notesSource)) { $notesSource = Join-Path $root 'docs/RHYTHM_AND_METAL_UPDATE.md' }
 # Keep a new release private until its installer and archive have uploaded.
 $existing = & gh release view $tag --repo $repo --json targetCommitish,isDraft 2>$null
 if ($LASTEXITCODE -ne 0) {
     & gh release create $tag --repo $repo --target $env:GITHUB_SHA --draft --prerelease `
         --title "SPACE INFINITY $version - Windows x64" `
-        --notes-file (Join-Path $root 'docs/RHYTHM_AND_METAL_UPDATE.md')
+        --notes-file $notesSource
     if ($LASTEXITCODE -ne 0) { throw 'Could not create the draft release.' }
 }
 $notesFile = Join-Path $releaseDir 'RELEASE_NOTES.md'
-$notes = (Get-Content -LiteralPath (Join-Path $root 'docs/RHYTHM_AND_METAL_UPDATE.md') -Raw).Replace('(images/', "(https://github.com/$repo/blob/$($env:GITHUB_SHA)/docs/images/")
+$notes = (Get-Content -LiteralPath $notesSource -Raw).Replace('(images/', "(https://github.com/$repo/blob/$($env:GITHUB_SHA)/docs/images/")
+$docsUrl = "https://github.com/$repo/blob/$($env:GITHUB_SHA)/docs/"
+$notes = $notes.Replace('(SERUM2_FEATURE_AUDIT.md)', "(${docsUrl}SERUM2_FEATURE_AUDIT.md)").Replace('(audit/NATIVE_PARAMETER_INVENTORY.json)', "(${docsUrl}audit/NATIVE_PARAMETER_INVENTORY.json)")
 $notes | Set-Content -LiteralPath $notesFile -Encoding utf8
 $paths = @($files | ForEach-Object { Join-Path $releaseDir $_ })
 $uploaded = $false
