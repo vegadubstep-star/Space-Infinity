@@ -31,7 +31,7 @@ private:
     float lastMotionValue=0.0f;
     std::array<bool,17> motionGestures{};
     juce::Rectangle<int> meterBounds;
-    float meterPeak=0.0f;
+    float meterPeak=0.0f,logoLevel=0.0f;
     int clipHold=0;
     HardwareTheme hardwareLook;
     juce::Image hardwareFace;

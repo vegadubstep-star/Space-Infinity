@@ -1,3 +1,15 @@
+# v0.4.1 logo refinement — in progress
+
+User approved the sharper, less busy hard-trance wordmark ("CLASS"). Source artwork generated at /workspace/generated_images/exec-7a814659-2539-4da1-9b3b-672c2198bf47.png; copied to native-vst3/Assets/InfinityLogo.png without deleting the original. Runtime luminance coverage supplies a clean mask; native foil shading remains purple metal. Badge capped at 250 px to clear the pitch controls. Version bumped to 0.4.1. The badge now includes output-reactive purple illumination clipped inside the letter mask, driven by the same post-output peak used for the master meter, with fast attack/smooth release. Actual audio lights it; master-muting held notes fades it to idle. Seven relevant local native/UI/workflow suites passed; final badge colour/layout checks passed at all four sizes. Windows publication and download verification are pending.
+
+# Verified v0.4.0 — 12 November 2026
+
+v0.4.0 is published and downloaded/verified, source 4ad577fe644f1787bd20631446644de2e1a35889, workflow 43261025047. All 15 Windows suites, installer checks, archive verification, publication and cache steps passed. Actual downloaded installer ZIP, contained Setup and VST3 ZIP match published checksums; VST3 is Windows x64 PE. Latest packaged notes match source and inventory has 1,068 parameters.
+
+- Installer ZIP SHA-256: 1cc5156c9f67187ed1c80918b321a3c55db6f50adf81e985bba8a0a0bc652966
+- Setup SHA-256: 84812f4a1824bbf4806a4cb7d93e79f5f08ecfc708dacd7e3d2b780c8ee2f929
+- VST3 ZIP SHA-256: b96bd9cea3a94c6c51db2fa67a32c41abc85a056abcc9a1b802660bfb6ca6143
+
 # v0.4.0 candidate — 12 November 2026
 
 The analogue/manual-audit update and latest main-page envelope/LFO/FX fixes are complete locally. All **15 native suites passed** at a 1 MiB stack limit. The parameter inventory verifies **1,068 unique IDs**, finite ranges and valid defaults/Init values. Release scripts parse and publisher mocks pass success, failed-upload and wrong-size cases, including audit/inventory ZIP contents and absolute release links.

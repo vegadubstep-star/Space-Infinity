@@ -1,6 +1,6 @@
-# Testing SPACE INFINITY 0.4.0
+# Testing SPACE INFINITY 0.4.1
 
-Download the **installer ZIP** from the [v0.4.0 release](https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.4.0) once its Windows workflow has published it. Sign into GitHub if needed. Extract All, close FL Studio, run `SPACE_INFINITY_0.4.0_Windows_x64_Setup.exe`, then reopen FL Studio and load a fresh SPACE INFINITY instance. The plugin identity and user preset storage are preserved.
+Download the **installer ZIP** from the [v0.4.1 release](https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.4.1) once its Windows workflow has published it. Sign into GitHub if needed. Extract All, close FL Studio, run `SPACE_INFINITY_0.4.1_Windows_x64_Setup.exe`, then reopen FL Studio and load a fresh SPACE INFINITY instance. The plugin identity and user preset storage are preserved.
 
 [Analogue update](ANALOGUE_AND_PARITY_UPDATE.md) / [Serum 2 audit](SERUM2_FEATURE_AUDIT.md) / [earlier rhythm changes](RHYTHM_AND_METAL_UPDATE.md) / [previous control and FX updates](TEN_CONTROL_UPDATES.md)
 
@@ -23,3 +23,5 @@ Use the installer ZIP for normal setup. The standalone VST3 ZIP is the manual-in
 Latest UI checks: MAIN shows both amp/filter curves above their knobs. Adjust Attack, Hold, Decay, Sustain and Release and confirm each graph changes. LFO shape presets should show few main anchors; use outlined midpoint handles to bend segments, or Advanced for Grid/Draw. For delay, reverb and convolver, fully lower OUTPUT GAIN until MUTE is displayed: both dry and wet stage output should become silent after the short smoothing ramp, with no live stage peak. Raising gain should restore sound. DRY/WET and convolver WET LEVEL affect wet blending rather than muting the whole stage. Saved output values at the old −24 dB minimum now mute.
 
 MAIN analogue/pitch checks: Character, PRE DRIVE, ANALOGUE and LAB should sit beside the filter at all four sizes. PITCH opens a separate pitch page; ANALOGUE has no pitch-envelope or pitch-bend controls. Set Mono or Legato, raise PORTAMENTO and overlap notes to hear glide (including sample playback). Automate Pitch Wheel in FL Studio for risers; zero is centre and +12 st raises one octave.
+
+Logo check (0.4.1): the approved clean hard-trance badge must clear the pitch wheel at every size. Play sound: purple illumination fills within the letters with final output level. Lower master output to zero: the light should decay smoothly to idle, with no MIDI-only flashes or light from a muted signal. The metal lettering remains visible at silence.
