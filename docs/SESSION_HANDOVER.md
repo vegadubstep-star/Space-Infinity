@@ -1,115 +1,36 @@
-# v0.4.1 logo refinement — in progress
+# Verified release — SPACE INFINITY 0.4.1
 
-User approved the sharper, less busy hard-trance wordmark ("CLASS"). Source artwork generated at /workspace/generated_images/exec-7a814659-2539-4da1-9b3b-672c2198bf47.png; copied to native-vst3/Assets/InfinityLogo.png without deleting the original. Runtime luminance coverage supplies a clean mask; native foil shading remains purple metal. Badge capped at 250 px to clear the pitch controls. Version bumped to 0.4.1. The badge now includes output-reactive purple illumination clipped inside the letter mask, driven by the same post-output peak used for the master meter, with fast attack/smooth release. Actual audio lights it; master-muting held notes fades it to idle. Seven relevant local native/UI/workflow suites passed; final badge colour/layout checks passed at all four sizes. Windows publication and download verification are pending.
+**Published and ready to test.**
 
-# Verified v0.4.0 — 12 November 2026
+- [Installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.4.1/SPACE_INFINITY_0.4.1_Windows_x64_Installer.zip)
+- [Release](https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.4.1)
+- [Windows workflow](https://github.com/vegadubstep-star/Space-Infinity/actions/runs/43317914127)
+- Verified release source: `ef7ee9d64143353a1d897781dd633809318e245d` on `codex/windows-build`.
 
-v0.4.0 is published and downloaded/verified, source 4ad577fe644f1787bd20631446644de2e1a35889, workflow 43261025047. All 15 Windows suites, installer checks, archive verification, publication and cache steps passed. Actual downloaded installer ZIP, contained Setup and VST3 ZIP match published checksums; VST3 is Windows x64 PE. Latest packaged notes match source and inventory has 1,068 parameters.
+Windows compilation, all 15 native suites, installation/uninstallation, VST3/archive verification and publication passed. The actual published installer ZIP and VST3 archive were downloaded and verified. ZIP integrity/checksum and contained Setup checksum match published values; the VST3 is Windows x64 PE and contains the exact approved logo master bytes. Packaged update notes match source; the native inventory contains 1,068 unique parameters and version 0.4.1. Optional artifact/cache steps may finish after publication; they do not gate the verified download.
 
-- Installer ZIP SHA-256: 1cc5156c9f67187ed1c80918b321a3c55db6f50adf81e985bba8a0a0bc652966
-- Setup SHA-256: 84812f4a1824bbf4806a4cb7d93e79f5f08ecfc708dacd7e3d2b780c8ee2f929
-- VST3 ZIP SHA-256: b96bd9cea3a94c6c51db2fa67a32c41abc85a056abcc9a1b802660bfb6ca6143
+## Latest user requests completed
 
-# v0.4.0 candidate — 12 November 2026
+The user approved the sharper, less busy hard-trance INFINITY wordmark ("CLASS"), then requested output-reactive illumination inside the letters. The approved master is committed at `native-vst3/Assets/InfinityLogo.png`; original generated artwork remains at `/workspace/generated_images/exec-7a814659-2539-4da1-9b3b-672c2198bf47.png`. Runtime luminance coverage removes the black master background, supplies clean anti-aliased letter edges and receives the purple metal finish. The 250 px cap clears the pitch wheel at all four supported sizes. Post-output peak drives purple illumination inside the letter mask, with quick rise/smooth decay. A real-audio UI test verifies lighting and fade to idle when master output mutes held notes.
 
-The analogue/manual-audit update and latest main-page envelope/LFO/FX fixes are complete locally. All **15 native suites passed** at a 1 MiB stack limit. The parameter inventory verifies **1,068 unique IDs**, finite ranges and valid defaults/Init values. Release scripts parse and publisher mocks pass success, failed-upload and wrong-size cases, including audit/inventory ZIP contents and absolute release links.
+Retained 0.4 controls: live editable amp/filter envelope graphs on MAIN; simpler few-anchor LFO shapes/bend handles with Grid/Draw in Advanced; Character/pre-filter drive/analogue switch beside the filter; LAB opens component controls; pitch controls moved out of ANALOGUE into PITCH; main PORTAMENTO plus Mono/Legato overlap glide, including sample playback; a vertical automatable Pitch Wheel for FL Studio risers. Active FX output controls now show MUTE at their existing minimum and smoothly silence dry+wet stage output; other dB values/ranges are unchanged. Old saved -24 dB FX output settings now mute. Convolver has five primary controls with details in Advanced; reverb has clearer controls and wet EQ.
 
-This candidate preserves the existing analogue/filter controls and adds separate component controls, matched stereo processing, source pan/A4 tuning, Hold/contours/editable envelope graphs, clean base VCO correction and an FX display matching the existing audio order. The logo is smaller and fully visible at all four native QA sizes. See [update notes](ANALOGUE_AND_PARITY_UPDATE.md) and [honest Serum manual comparison](SERUM2_FEATURE_AUDIT.md). Full Serum parity is **not** claimed.
+FL Studio pitch automation: tweak Pitch Wheel, then Tools > Last tweaked > Create automation clip. 50% is normal pitch, 75% is +12 semitones, 100% is +24. Double-click the wheel to centre. Select Mono or Legato to use PORTAMENTO. Extract All, close FL Studio, run the Setup file, then load a fresh instance.
 
-Latest steering also moves Character/pre-filter drive/analogue switch beside the filter, removes pitch from ANALOGUE (new PITCH tab), exposes main PORTAMENTO and vertical automatable Pitch Wheel, and adds Mono overlap glide. All parameter IDs/ranges remain unchanged.
+All prior analogue controls/filters remain. See [update notes](ANALOGUE_AND_PARITY_UPDATE.md) and [Serum manual audit](SERUM2_FEATURE_AUDIT.md). Full Serum parity/proprietary DSP identity is not claimed.
 
-Latest steering: live editable amp/filter graphs are now on MAIN; simpler few-anchor LFO shapes and bend handles with Grid/Draw under Advanced; high-quality logo resampling; smooth full-stage FX mute at the existing output minimum (display MUTE), post-gain meter/clip clear at silence; convolver primary controls and Advanced; clearer reverb controls. Old output values at −24 dB now mute; other values/ranges remain unchanged.
+## Verification
 
-Pending: Windows build, all native suites, installation/uninstallation and archive verification, release publishing, actual installer ZIP/VST3 downloads and hash checks. Do not describe v0.4.0 as ready until these complete. v0.3.0 remains the last verified release, recorded below.
+- Installer ZIP SHA-256: `3e21eb3565113150ac3a814ee6d32dfddc860a427da3af0909ea140805964e8e`
+- Setup SHA-256: `1f0af5af34759e9991a4b94e868c7a5dd81fcc92ce6a44ffdcbd86843ca73492`
+- VST3 ZIP SHA-256: `91cd78553e1a98540de71c8c30497113a558baeeb38695e9b966e86d4c0d3588`
 
-The isolated checkpoint branch was used for local work. The final change is being squashed onto codex/windows-build so the WIP skip-ci commit does not suppress the release workflow. Generated audition/ remains untracked and reproducible. Local evidence: /workspace/work/workflow-update/v04-final-all-tests.log and v04-tail-probe.log. Do not edit production sources during compilation.
+Download evidence: `/workspace/work/release-verification/v0.4.1/` (metadata, archives, checksums and DOWNLOAD_VERIFIED.json). Local targeted checks: `/workspace/work/workflow-update/v041-logo-ui-tests.log` and `v041-final-logo-tests.log`. Native screenshots: docs/images/Rhythm-Main.png, Logo-Idle.png and Logo-Active.png.
 
----
+## Workspace/build
 
-# Verified release — 12 November 2026
+Checkout: /workspace/work/native-design. JUCE 8.0.7: /workspace/work/JUCE. CMake: /workspace/work/build-tools/cmake/data/bin/cmake. Native local build: native-vst3/build-linux. Smoke executable: native-vst3/build-linux/SpaceInfinitySmoke_artefacts/Release/SpaceInfinitySmoke. Use DISPLAY=:99 and XDG_CACHE_HOME=/workspace/work/runtime-cache; local checks used a 1 MiB stack limit. Read the cloud runtime skill on resume. Do not edit production source during compilation. Generated audition/ remains untracked; do not commit the whole directory.
 
-**v0.3.0 is published and ready to test.**
+Pushing codex/windows-build triggers Windows build/test/install/publish. Bump the native/installer/package/exporter version for the next release; do not overwrite a verified published release. The publisher uses CI GITHUB_TOKEN (direct workspace upload previously failed); do not print credentials. Download and verify actual release assets before saying a new release is ready.
 
-- [Windows installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.3.0/SPACE_INFINITY_0.3.0_Windows_x64_Installer.zip)
-- [Release page](https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.3.0)
-- [Successful Windows workflow](https://github.com/vegadubstep-star/Space-Infinity/actions/runs/43201726777)
-- Release source: `f52c79723805b2c1faf2dbb435dc3ef87793e7c9` on `codex/windows-build`.
-
-Windows compilation, all **14 native suites**, install/uninstall and VST3 archive verification, publishing and optional artifact/cache steps passed. The actual published installer ZIP and VST3 ZIP were downloaded, integrity-checked and matched their published checksums. The installer inside its ZIP matched the external installer checksum, and the VST3 module was confirmed to be Windows x64 PE. Extract All, close FL Studio, run Setup.exe, reopen FL Studio and test a fresh instance.
-
-- Installer ZIP SHA-256: `9cd9f5ec63c899d023287ea520f6311e7dd9584c010168132e9a176e94bf5f7a`
-- Installer SHA-256: `34896ea3f978fc79d5858206e0869baa08f384b14e1054db5a999b895a18119b`
-- VST3 ZIP SHA-256: `41a62e28f3e417a33af0d892526ca80e9ae67dd894544368eadec61340d0437b`
-
-This release includes the ten rhythm/metal updates plus two visible LFO editors, free LFO points/bends and timing controls, all six macros with 16 destinations each and target-ring amount dragging, independent WT POS controls, actual 3D frame previews, six original 303/acid waveform families and manual-documented unison controls. See [release notes](RHYTHM_AND_METAL_UPDATE.md) for behavior and exact-parity limitations, and [testing instructions](TESTING_STUDIO_BUILD.md).
-
-The official Serum 2 PDF manual was consulted (oscillators pp. 41–48, LFOs pp. 189–194). Its unpublished detune curves were not presented as exact Xfer values. Normal LFO controls are implemented independently; Path/Chaos/S&H and certain advanced editor gestures are not included. Phase-memory/phase-legato and a second simultaneous warp stage are not included. The release notes make these limitations explicit. User's latest Copilot detune explanation agrees with the core unison-pitch/Blend/modulation behavior; it does not supply a numerical tuning formula.
-
-Local evidence: all 14 suites passed with a 1 MiB stack limit; the last B-position assignment compatibility fix also passed four targeted suites. The previous Windows compiler capture failure was fixed; a superseded run was cancelled before publication. No unresolved build or publication blocker remains. FL Studio listening and host integration remain the user's next checks.
-
-The working checkout is `/workspace/work/native-design`. Generated `audition/` is intentionally untracked and reproducible. Logs are in `/workspace/work/workflow-update/`; downloaded release proof is `/workspace/work/release-verification/v0.3.0/DOWNLOAD_VERIFIED.json`. All source changes are committed and pushed. GitHub builds run remotely; the user's PC need not stay powered on.
-
----
-
-# Session handover — 11 November 2026
-
-Repository: `vegadubstep-star/Space-Infinity`  
-Working branch: `codex/windows-build`  
-Native version: **0.2.0**
-
-## Latest status — download now verified
-
-The outage has cleared. Workflow [43104018106](https://github.com/vegadubstep-star/Space-Infinity/actions/runs/43104018106) completed successfully: Windows build, all eleven native suites, installer/archive verification and release publishing.
-
-**v0.2.0 is published and ready to test:**
-
-- [Windows setup](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.2.0/SPACE_INFINITY_0.2.0_Windows_x64_Setup.exe)
-- [Release page / manual VST3 archive](https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.2.0)
-
-Both assets were actually downloaded and matched `SHA256SUMS.txt`. The archive passed ZIP integrity verification and contains a Windows x64 PE VST3 module.
-
-- Setup SHA-256: `dea033f2f92c6b87a7fe926e2718381dd444235bed531de949ae580880b103f4`
-- VST3 ZIP SHA-256: `d2e273fcf1726d1ecfdda9348da03920d765b2f2965140d3dff110abe5e39663`
-
-Next: user testing in FL Studio. Close FL Studio before running the setup, reopen and test a fresh instance. The remaining gate/sequencer and visual work is listed below. Earlier outage notes describe the previous shutdown state; the release blocker is now resolved.
-
-## Saved work
-
-- `8deb548`: ten synth control/FX updates.
-- `18f6039`: legacy/new unison regression coverage and actual interface screenshots.
-- `d7acf15`: publishing fix using versioned GitHub Releases, verified asset sizes/checksums, draft-before-publish, retries, optional bounded artifact uploads and manual workflow dispatch.
-- All source changes, documentation and selected screenshots are committed and pushed. The only untracked local directory is generated `audition/` test output; it is reproducible and is not needed to build the synth.
-
-The ten-item batch is described in [TEN_CONTROL_UPDATES.md](TEN_CONTROL_UPDATES.md): oscillator gains; separate oscillator detune; main-page amp/filter envelopes; finer envelope timing; A/B/sub/noise filter routing; main-page sub controls; delay wet EQ; reverb wet EQ; FX gain/metering; smoother stereo flanger. It also contains the consolidated LFO/macros interface and saved modulation routes.
-
-All eleven native suites passed locally. Windows build, native tests and installer installation/uninstallation/archive verification passed on run `43094870299`. That run failed to publish its Actions artifact. Its follow-up upload also stalled; cancellation was requested. Do not present this run as a downloadable v0.2.0 release.
-
-The new publishing script passed local PowerShell syntax and mocked success, failed-upload and mismatched-size scenarios. Actual release publishing still needs confirmation from the queued Windows run.
-
-## External blocker at shutdown
-
-GitHub's public status API reported a **major Actions outage**. The repaired workflow was still **queued** at the final status check. The user's PC does not need to stay on: GitHub-hosted workflows run remotely.
-
-- Repaired workflow: https://github.com/vegadubstep-star/Space-Infinity/actions/runs/43098621648
-- GitHub status: https://www.githubstatus.com/
-- Expected release, once published: https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.2.0
-- Expected installer: `SPACE_INFINITY_0.2.0_Windows_x64_Setup.exe`
-- Expected manual archive: `SPACE_INFINITY_0.2.0_Windows_x64_VST3.zip`
-
-No v0.2.0 download was confirmed at shutdown. Do not substitute an older v0.1.0 installer.
-
-## Resume tomorrow
-
-1. Check GitHub status and workflow `43098621648`, then check whether release `v0.2.0` exists and is published rather than a draft.
-2. Verify the setup/archive assets are available. Download the installer and `SHA256SUMS.txt` and compare the SHA-256 checksum before telling the user it is ready.
-3. If publishing failed, inspect that run's logs and repair/retry the publishing step. The primary download now uses GitHub Releases; optional Actions artifacts must not block it.
-4. Send the verified download link. Ask the user to close FL Studio, install, reopen and test in a fresh project. See [TESTING_STUDIO_BUILD.md](TESTING_STUDIO_BUILD.md).
-5. Prioritize listening for clicks and fading with repeated notes, plus main-page envelopes, routing/sub, both oscillator gains/detune and wet EQ/FX meters. Host-side FL Studio testing has not been performed here.
-
-## Still outside this completed batch
-
-- Finish the LFOTool-style gate editor and separate note-sequencer presentation.
-- Further vivid purple-metal material and logo-fit redesign.
-- Continue checking the reported clicks across presets and the usability/coverage of modulation dragging. De-click protection is implemented, but no claim that every click is eliminated has been made.
-
-Preserve user presets and legacy parameter IDs/algorithm compatibility. User testing is the next priority once a real installer download is available.
+Previous verified release 0.4.0: source 4ad577fe644f1787bd20631446644de2e1a35889, workflow 43261025047; installer ZIP SHA-256 1cc5156c9f67187ed1c80918b321a3c55db6f50adf81e985bba8a0a0bc652966.
