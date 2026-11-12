@@ -1,3 +1,15 @@
+# Latest continuation — 12 November 2026
+
+Candidate **v0.3.0** now includes the ten rhythm/metal updates plus two visible LFO editors, free LFO points/bends and timing controls, all six macros with 16 destinations each and target-ring amount dragging, independent WT POS controls, actual 3D frame previews, six original 303/acid waveform families and manual-documented unison controls. See [release notes](RHYTHM_AND_METAL_UPDATE.md) for behavior and exact-parity limitations.
+
+All **14 native suites passed locally**, with a 1 MiB stack limit, including expanded legacy/intermediate/new unison audio checks. The original v0.3.0 Windows run failed on a nested lambda capture; the capture has been rewritten for MSVC. A new Windows build must pass all native suites, installer/archive verification and publishing before v0.3.0 is described as downloadable. The previous v0.2.0 release is still verified; it does not include these additions.
+
+The official Serum 2 PDF manual was consulted (oscillators pp. 41–48, LFOs pp. 189–194). Its unpublished detune curves were not invented as exact Xfer values. Normal LFO controls are implemented independently; Path/Chaos/S&H and certain advanced editor gestures are not included. The release notes list limitations explicitly.
+
+The working checkout is `/workspace/work/native-design`, branch `codex/windows-build`. Generated `audition/` is intentionally untracked and reproducible. Build/test logs are in `/workspace/work/workflow-update/`. Release publishing creates and verifies the user-requested installer ZIP automatically.
+
+---
+
 # Session handover — 11 November 2026
 
 Repository: `vegadubstep-star/Space-Infinity`  

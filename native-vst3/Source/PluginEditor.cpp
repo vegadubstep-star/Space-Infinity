@@ -420,10 +420,10 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     const char* toneIds[]{"osc1Detune","osc1Blend","osc2Detune","osc2Blend"};
     for(size_t i=0;i<unisonTone.size();++i){auto& slider=unisonTone[i];slider.initialiseModulation(processor,toneIds[i]);slider.setName(i%2==0?"Oscillator detune":"Unison blend");
         slider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);slider.setTextBoxStyle(juce::Slider::TextBoxBelow,false,56,18);addAndMakeVisible(slider);
-        attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,toneIds[i],slider));slider.setDoubleClickReturnValue(true,i%2?1:.2);
-        showPercent(slider);slider.setMouseDragSensitivity(300);
+        attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,toneIds[i],slider));slider.setDoubleClickReturnValue(true,i%2?.75:.2);
+        if(i%2)showPercent(slider);else{slider.textFromValueFunction=[](double v){return juce::String(v,2);};slider.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue();};slider.updateText();}slider.setMouseDragSensitivity(300);
         if(i%2==0){slider.onDragStart=[this]{processor.state.getParameter("modernUnison")->setValueNotifyingHost(1);};slider.onValueChange=[this,&slider]{if(slider.hasKeyboardFocus(true))processor.state.getParameter("modernUnison")->setValueNotifyingHost(1);};}
-        slider.setTooltip(i%2?"Side-voice level relative to centre voices. 100% preserves the original equal blend.":"Independent detune amount for this oscillator. Shift-drag for fine control.");
+        slider.setTooltip(i%2?"Updated unison: 75% gives equal voice levels; only applies above two voices. Legacy sessions retain their previous blend law.":"Independent detune amount for this oscillator. Shift-drag for fine control.");
     }
     for(size_t i=0;i<unisonSliders.size();++i){
         auto& slider=unisonSliders[i];
@@ -611,7 +611,8 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         previousWave[osc].setTooltip("Previous oscillator waveform");nextWave[osc].setTooltip("Next oscillator waveform");
     }
     addAndMakeVisible(extendedButton);extendedButton.setTooltip("Filter ADSR, granular, arpeggiator/sequencer, wavetable editor and convolver");
-    extendedButton.onClick=[this]{openPopup(std::make_unique<ExtendedPanel>(processor,[safe=juce::Component::SafePointer<SpaceInfinityEditor>(this)]{juce::MessageManager::callAsync([safe]{if(safe){safe->popup.reset();safe->popupContent.reset();safe->showPage(3);}});}),extendedButton.getBounds());};
+    const juce::Component::SafePointer<SpaceInfinityEditor> safeEditor(this);
+    extendedButton.onClick=[this,safeEditor]{openPopup(std::make_unique<ExtendedPanel>(processor,[safe=safeEditor]{juce::MessageManager::callAsync([safe]{if(safe){safe->popup.reset();safe->popupContent.reset();safe->showPage(3);}});}),extendedButton.getBounds());};
     studioRack=std::make_unique<StudioRack>(processor);addAndMakeVisible(*studioRack);studioRack->onOpenGate=[this]{showPage(2);};
     gatePage=std::make_unique<rhythmui::GatePage>(processor);sequencerPage=std::make_unique<rhythmui::SequencerPage>(processor);addAndMakeVisible(*gatePage);addAndMakeVisible(*sequencerPage);addAndMakeVisible(gateTab);addAndMakeVisible(sequenceTab);gateTab.onClick=[this]{showPage(2);};sequenceTab.onClick=[this]{showPage(3);};
     for(int i=0;i<3;++i){auto& b=pageLfoSources[size_t(i)];b.setButtonText("LFO "+juce::String(i+1)+" +");b.description="INFINITY:LFO:"+juce::String(i);b.setTooltip("Drag to a control here, or click to edit this LFO on MAIN.");b.onClick=[this,i]{showPage(0);workbench->selectSource(i);};addAndMakeVisible(b);}
@@ -620,7 +621,9 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     title.setVisible(false);
     workbench=std::make_unique<MainWorkbench>(processor,[this](std::unique_ptr<juce::Component> c,juce::Rectangle<int> r){openPopup(std::move(c),r);});addAndMakeVisible(*workbench);
     subPanel=std::make_unique<SubPanel>(processor);addAndMakeVisible(*subPanel);addAndMakeVisible(masterReadout);
-    for(int i=0;i<2;++i){auto& gain=oscillatorGains[size_t(i)];const auto id="osc"+juce::String(i+1)+"Gain";gain.initialiseModulation(processor,id);gain.setName("Oscillator "+juce::String(i+1)+" gain");gain.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);gain.setTextBoxStyle(juce::Slider::TextBoxBelow,false,72,18);gain.setMouseDragSensitivity(300);gain.setDoubleClickReturnValue(true,0);attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,id,gain));gain.textFromValueFunction=[](double v){return juce::String(v,1)+" dB";};gain.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue();};gain.updateText();addAndMakeVisible(gain);gainLabels[size_t(i)].setText("GAIN",juce::dontSendNotification);gainLabels[size_t(i)].setJustificationType(juce::Justification::centred);addAndMakeVisible(gainLabels[size_t(i)]);}
+    for(int i=0;i<2;++i){auto& button=unisonButtons[size_t(i)];button.setButtonText("UNI");button.setName("Oscillator "+juce::String(i+1)+" unison options");button.setTooltip("Unison mode, stacking, range, phase, random phase and frame/warp spread");button.onClick=[this,i]{openPopup(std::make_unique<UnisonPanel>(processor,i),unisonButtons[size_t(i)].getBounds());};addAndMakeVisible(button);}
+    for(int i=0;i<2;++i){auto& knob=wtPositions[size_t(i)];const juce::String id=i==0?"wavetableScan":"osc2WTPos";knob.initialiseModulation(processor,id);knob.setName("Oscillator "+juce::String(i+1)+" wavetable position");knob.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);knob.setTextBoxStyle(juce::Slider::TextBoxBelow,false,55,18);attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,id,knob));knob.textFromValueFunction=[this,i](double v){int wave=int(processor.state.getRawParameterValue(i==0?"wave":"osc2Wave")->load());if(i==1)wave=wave==0?int(processor.state.getRawParameterValue("wave")->load()):wave-1;return juce::String(1+v*(wave==30?juce::jmax(0,processor.tableFrameCount()-1):16),1);};knob.valueFromTextFunction=[this,i](const juce::String& text){int wave=int(processor.state.getRawParameterValue(i==0?"wave":"osc2Wave")->load());if(i==1)wave=wave==0?int(processor.state.getRawParameterValue("wave")->load()):wave-1;return (text.getDoubleValue()-1)/juce::jmax(1,wave==30?processor.tableFrameCount()-1:16);};knob.onDragStart=[this]{processor.state.getParameter("independentWTPos")->setValueNotifyingHost(1);};knob.setMouseDragSensitivity(300);knob.setDoubleClickReturnValue(true,0);knob.setTooltip("Wavetable frame position, starting at frame 1. Drag an LFO or macro here to sweep frames.");knob.updateText();addAndMakeVisible(knob);}
+    for(int i=0;i<2;++i){auto& gain=oscillatorGains[size_t(i)];const auto id="osc"+juce::String(i+1)+"Gain";gain.initialiseModulation(processor,id);gain.setName("Oscillator "+juce::String(i+1)+" gain");gain.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);gain.setTextBoxStyle(juce::Slider::TextBoxBelow,false,55,18);gain.setMouseDragSensitivity(300);gain.setDoubleClickReturnValue(true,0);attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,id,gain));gain.textFromValueFunction=[](double v){return juce::String(v,1)+" dB";};gain.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue();};gain.updateText();addAndMakeVisible(gain);gainLabels[size_t(i)].setText("GAIN",juce::dontSendNotification);gainLabels[size_t(i)].setJustificationType(juce::Justification::centred);addAndMakeVisible(gainLabels[size_t(i)]);}
     const char* routeIds[]{"routeA","routeB","routeSub","routeNoise"};const char* routeNames[]{"A","B","SUB","NOISE"};for(int i=0;i<4;++i){auto& b=filterRoutes[size_t(i)];b.setButtonText(routeNames[i]);b.setTooltip("Route "+juce::String(routeNames[i])+" through the filter; off bypasses the filter.");addAndMakeVisible(b);routeBindings.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(processor.state,routeIds[i],b));}
     updatePage();
     // Text boxes are constructed before their sliders acquire this parent.
@@ -712,7 +715,7 @@ void SpaceInfinityEditor::updatePage(){
     for(auto* c:std::array<juce::Component*,10>{&analogueCharacter,&analogueLabel,&motionShape,&motionBars,&lfoMode,&lfoSync,&lfoSpeed,&lfoPower,&longEnvelope,&vibratoPower})c->setVisible(false);
     if(workbench){workbench->setVisible(!fxPage);workbench->toFront(false);}if(subPanel)subPanel->setVisible(!fxPage&&!sampled);
     for(auto* c:std::array<juce::Component*,6>{&sampleRoot,&sampleTrim[0],&sampleTrim[1],&sampleLoop,&sampleReverse,&importButton})c->setVisible(!fxPage&&sampled);
-    for(auto& c:oscillatorGains)c.setVisible(!fxPage);for(auto& c:gainLabels)c.setVisible(!fxPage);for(auto& c:filterRoutes)c.setVisible(!fxPage);
+    for(auto& c:oscillatorGains)c.setVisible(!fxPage);for(auto& c:wtPositions)c.setVisible(!fxPage);for(auto& c:unisonButtons)c.setVisible(!fxPage);for(auto& c:gainLabels)c.setVisible(!fxPage);for(auto& c:filterRoutes)c.setVisible(!fxPage);
     mainTab.setToggleState(!fxPage,juce::dontSendNotification);
     fxTab.setToggleState(fxPage&&auxiliaryPage==0,juce::dontSendNotification);gateTab.setToggleState(auxiliaryPage==1,juce::dontSendNotification);sequenceTab.setToggleState(auxiliaryPage==2,juce::dontSendNotification);
     resized();
@@ -993,42 +996,22 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         const int modes[]{int(parameter("osc1Warp")),int(parameter("osc2Warp"))};
         const float amounts[]{parameter("osc1WarpAmount"),parameter("osc2WarpAmount")};
         const double tune[]{std::exp2(parameter("osc1Octave")+parameter("osc1Semitone")/12.0+parameter("osc1Tune")/1200.0),
-            std::exp2(parameter("osc2Octave")+parameter("osc2Semitone")/12.0+parameter("osc2Tune")/1200.0)*(1.0+parameter("detune"))};
-        const float scannedFrame=parameter("wavetableScan")*float(processor.tableFrameCount()-1);
-        const auto tableA=processor.tableFrame(int(scannedFrame)),tableB=processor.tableFrame(int(scannedFrame)+1);
-        const auto preview=[&](double phase,int wave){
-            if(wave!=30)return SpaceInfinityProcessor::oscillatorSample(phase,wave);
-            phase-=std::floor(phase);const double x=phase*infinity::Wavetable::points;const int a=int(x)%infinity::Wavetable::points,b=(a+1)%infinity::Wavetable::points;
-            const auto read=[&](const auto& table){return table[size_t(a)]+float(x-a)*(table[size_t(b)]-table[size_t(a)]);};
-            return read(tableA)+(read(tableB)-read(tableA))*(scannedFrame-std::floor(scannedFrame));
-        };
+            std::exp2(parameter("osc2Octave")+parameter("osc2Semitone")/12.0+parameter("osc2Tune")/1200.0)*(1.0+(parameter("manualUnison")>.5f?0:parameter("detune")))};
+        const float scans[]{parameter("wavetableScan"),parameter("independentWTPos")>.5f?parameter("osc2WTPos"):parameter("wavetableScan")};
         for(int oscillator=0;oscillator<2;++oscillator){
             const auto bounds=layout.oscillators[oscillator];
-            const auto screen=juce::Rectangle<int>(bounds.getX()+13,bounds.getY()+36,bounds.getWidth()-26,62);
-            HardwareTheme::display(g,screen.toFloat());
-            g.setColour(juce::Colour(0xff20322c));
-            g.drawHorizontalLine(screen.getCentreY(),float(screen.getX()),float(screen.getRight()));
-            for(int i=1;i<5;++i)g.drawVerticalLine(screen.getX()+screen.getWidth()*i/5,float(screen.getY()),float(screen.getBottom()));
-            juce::Path shape;
-            for(int point=0;point<=256;++point){
-                const double phase=double(point)/128.0;
-                const auto modulator=modes[oscillator]==4?std::sin(float(phase*.5/tune[oscillator])*juce::MathConstants<float>::twoPi):preview(phase*tune[1-oscillator]/tune[oscillator],waves[1-oscillator]);
-                double displayPhase=phase;
-                const int mode=modes[oscillator];const float amount=amounts[oscillator];
-                if(mode==1||mode==4)displayPhase+=modulator*amount*1.5;
-                else if(mode==2){const double t=phase-std::floor(phase);displayPhase=t+((1-std::abs(t*2-1))-t)*amount;}
-                else if(mode==3){const double t=phase-std::floor(phase),split=.5+.45*amount;displayPhase=t<split?.5*t/split:.5+.5*(t-split)/(1-split);}
-                const auto value=preview(displayPhase,waves[oscillator]);
-                const float x=float(screen.getX())+float(point)*float(screen.getWidth())/256.0f;
-                const float y=float(screen.getCentreY())-value*float(screen.getHeight())*.42f;
-                if(point==0)shape.startNewSubPath(x,y);else shape.lineTo(x,y);
-            }
-            const bool active=parameter(oscillator==0?"osc1Enabled":"osc2Enabled")>.5f;
-            g.setColour(juce::Colour(oscillator==0?0xffd0befa:0xffe3bf8e).withAlpha(active?1.0f:.3f));
-            g.strokePath(shape,juce::PathStrokeType(1.6f));
-            g.setColour(juce::Colour(0xffb4c0ad));
-            const char* modesText[]{"NORMAL","FM","MIRROR","PWM","SUB FM"};
-            g.drawText(modesText[juce::jlimit(0,4,modes[oscillator])],screen.reduced(4).withHeight(12),juce::Justification::centredRight);
+            const auto screen=juce::Rectangle<int>(bounds.getX()+13,bounds.getY()+36,bounds.getWidth()-26,80);
+            HardwareTheme::display(g,screen.toFloat());const bool active=parameter(oscillator==0?"osc1Enabled":"osc2Enabled")>.5f;
+            const auto drawFrame=[&](float scan,bool selected){
+                const float depth=scan*22;const int frames=waves[oscillator]==30?processor.tableFrameCount():17;const float frame=scan*juce::jmax(0,frames-1);const auto tableA=processor.tableFrame(int(frame)),tableB=processor.tableFrame(int(frame)+1);
+                const auto preview=[&](double phase){if(waves[oscillator]!=30)return SpaceInfinityProcessor::oscillatorFrameSample(phase,waves[oscillator],scan);phase-=std::floor(phase);const double x=phase*infinity::Wavetable::points;const int i=int(x)%infinity::Wavetable::points,j=(i+1)%infinity::Wavetable::points;const auto read=[&](const auto& table){return table[size_t(i)]+float(x-i)*(table[size_t(j)]-table[size_t(i)]);};return read(tableA)+(read(tableB)-read(tableA))*(frame-std::floor(frame));};
+                juce::Path path;for(int point=0;point<=192;++point){double phase=double(point)/192;const int mode=modes[oscillator];const float amount=amounts[oscillator];const float mod=mode==4?std::sin(float(phase*.5/tune[oscillator])*juce::MathConstants<float>::twoPi):SpaceInfinityProcessor::oscillatorFrameSample(phase*tune[1-oscillator]/tune[oscillator],waves[1-oscillator]==30?2:waves[1-oscillator],scans[1-oscillator]);
+                    if(mode==1||mode==4)phase+=mod*amount*1.5;else if(mode==2){const double x=phase-std::floor(phase);phase=x+((1-std::abs(x*2-1))-x)*amount;}else if(mode==3){const double x=phase-std::floor(phase),split=.5+.45*amount;phase=x<split?.5*x/split:.5+.5*(x-split)/(1-split);}
+                    const float x=screen.getX()+5+depth+float(point)/192*(screen.getWidth()-34);const float y=screen.getCentreY()+15-depth-preview(phase)*18;if(point==0)path.startNewSubPath(x,y);else path.lineTo(x,y);}
+                if(selected){g.setColour(juce::Colour(0x446d39bf));g.strokePath(path,juce::PathStrokeType(5));}g.setColour(juce::Colour(selected?0xfff0ddff:0xff8b63bf).withAlpha(active?(selected?1.0f:.38f):.15f));g.strokePath(path,juce::PathStrokeType(selected?1.8f:.8f));
+            };
+            for(int layer=8;layer>=0;--layer)drawFrame(float(layer)/8,false);drawFrame(scans[oscillator],true);
+            g.setColour(juce::Colour(0xffcdb6e3));g.setFont(9);const int frames=waves[oscillator]==30?processor.tableFrameCount():17;g.drawText("FRAME "+juce::String(1+scans[oscillator]*juce::jmax(0,frames-1),1)+" / "+juce::String(frames),screen.reduced(4).removeFromBottom(12),juce::Justification::centredLeft);
             const auto label=[&g](const juce::Component& control,const char* text){
                 g.setColour(juce::Colour(0xffb9b1a2));
                 g.drawText(text,control.getBounds().translated(0,-15).withHeight(13),juce::Justification::centred);
@@ -1036,7 +1019,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
             label(oscillatorSliders[size_t(oscillator*2)],"FINE");
             label(oscillatorSliders[size_t(oscillator*2+1)],"WIDTH");
             label(unisonSliders[size_t(oscillator)],"VOICES");
-            label(unisonTone[size_t(oscillator*2)],"DETUNE");label(unisonTone[size_t(oscillator*2+1)],"BLEND");
+            label(unisonTone[size_t(oscillator*2)],"DETUNE");label(unisonTone[size_t(oscillator*2+1)],"BLEND");label(wtPositions[size_t(oscillator)],"WT POS");
             const auto octave=octaveControls[size_t(oscillator+1)].getBounds();
         g.drawText("OCT",octave.getX()-28,octave.getY(),25,octave.getHeight(),juce::Justification::right);
         }
@@ -1151,24 +1134,23 @@ void SpaceInfinityEditor::resized(){
     for(int i=0;i<3;++i)pageLfoSources[size_t(i)].setBounds(210+i*60,h-53,57,28);
     if(studioRack)studioRack->setBounds(28,150,w-56,h-212);
     const auto layout=mainLayout(w,h);
-    if(sampleDisplay)sampleDisplay->setBounds(layout.oscillators[0].getX()+10,layout.oscillators[0].getY()+33,layout.oscillators[0].getWidth()-20,68);
-    if(liveDisplay)liveDisplay->setBounds(layout.oscillators[1].getX()+10,layout.oscillators[1].getY()+33,layout.oscillators[1].getWidth()-20,68);
+    if(sampleDisplay)sampleDisplay->setBounds(layout.oscillators[0].getX()+10,layout.oscillators[0].getY()+33,layout.oscillators[0].getWidth()-20,86);
+    if(liveDisplay)liveDisplay->setBounds(layout.oscillators[1].getX()+10,layout.oscillators[1].getY()+33,layout.oscillators[1].getWidth()-20,86);
     for(int i=0;i<2;++i){
         auto region=layout.oscillators[i].reduced(8);
         auto& power=i==0?osc1:osc2;
-        power.setBounds(region.getX(),region.getY(),72,20);
-        (i==0?warpA:warpB).setBounds(region.getX()+78,region.getY(),53,20);
+        power.setBounds(region.getX(),region.getY(),60,20);
+        (i==0?warpA:warpB).setBounds(region.getX()+65,region.getY(),40,20);unisonButtons[size_t(i)].setBounds(region.getX()+109,region.getY(),40,20);
         octaveControls[size_t(i+1)].setBounds(region.getRight()-62,region.getY(),62,20);
         auto& selector=i==0?waveform:waveform2;
-        selector.setBounds(region.getX()+28,region.getY()+106,region.getWidth()-56,23);
-        previousWave[size_t(i)].setBounds(region.getX(),region.getY()+106,25,23);
-        nextWave[size_t(i)].setBounds(region.getRight()-25,region.getY()+106,25,23);
-        auto controls=juce::Rectangle<int>(region.getX()+7,region.getY()+151,region.getWidth()-14,64);
+        selector.setBounds(region.getX()+28,region.getY()+124,region.getWidth()-56,23);
+        previousWave[size_t(i)].setBounds(region.getX(),region.getY()+124,25,23);
+        nextWave[size_t(i)].setBounds(region.getRight()-25,region.getY()+124,25,23);
+        auto controls=juce::Rectangle<int>(region.getX()+7,region.getY()+169,region.getWidth()-14,52);
         unisonSliders[size_t(i)].setBounds(controls.removeFromRight(controls.getWidth()/3).reduced(2,0));
         oscillatorSliders[size_t(i*2)].setBounds(controls.removeFromLeft(controls.getWidth()/2).reduced(2,0));
         oscillatorSliders[size_t(i*2+1)].setBounds(controls.reduced(2,0));
-        auto bottom=juce::Rectangle<int>(region.getX()+5,region.getBottom()-57,region.getWidth()-103,56);
-        unisonTone[size_t(i*2)].setBounds(bottom.removeFromLeft(bottom.getWidth()/2).reduced(3,0));unisonTone[size_t(i*2+1)].setBounds(bottom.reduced(3,0));
+        auto bottom=juce::Rectangle<int>(region.getX()+2,region.getBottom()-57,region.getWidth()-4,56);const int cell=bottom.getWidth()/4;unisonTone[size_t(i*2)].setBounds(bottom.removeFromLeft(cell).reduced(1,0));unisonTone[size_t(i*2+1)].setBounds(bottom.removeFromLeft(cell).reduced(1,0));wtPositions[size_t(i)].setBounds(bottom.removeFromLeft(cell).reduced(1,0));oscillatorGains[size_t(i)].setBounds(bottom.reduced(1,0));
     }
     const auto characterBounds=layout.oscillators[1];
     analogueLabel.setBounds(characterBounds.getRight()-96,characterBounds.getBottom()-80,90,15);
@@ -1271,7 +1253,7 @@ void SpaceInfinityEditor::resized(){
     }
     if(workbench)workbench->setBounds(30,layout.macros.getY(),w-60,layout.macros.getHeight());
     if(subPanel)subPanel->setBounds(194,h-73,juce::jmax(330,w-390),64);
-    for(int i=0;i<2;++i){auto r=layout.oscillators[i];gainLabels[size_t(i)].setBounds(r.getRight()-96,r.getBottom()-80,90,15);oscillatorGains[size_t(i)].setBounds(r.getRight()-92,r.getBottom()-64,79,62);}
+    for(int i=0;i<2;++i){auto r=layout.oscillators[i];gainLabels[size_t(i)].setBounds(oscillatorGains[size_t(i)].getBounds().translated(0,-15).withHeight(13));}
     const int routeWidth=(layout.filter.getWidth()-70)/4;for(int i=0;i<4;++i){if(routeWidth<52){const int cell=(layout.filter.getWidth()-70)/2;filterRoutes[size_t(i)].setBounds(layout.filter.getX()+5+(i%2)*cell,layout.filter.getBottom()-112+(i/2)*20,cell,18);}else filterRoutes[size_t(i)].setBounds(layout.filter.getX()+5+i*routeWidth,layout.filter.getBottom()-100,routeWidth,22);}
     masterReadout.setBounds(fxPage?juce::Rectangle<int>(w-390,h-54,94,30):juce::Rectangle<int>(layout.filter.getRight()-64,layout.filter.getBottom()-28,58,22));
     if(!fxPage)knobs[12].setBounds(layout.filter.getRight()-59,layout.filter.getY()+42,44,layout.filter.getHeight()-76);

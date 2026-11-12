@@ -167,16 +167,16 @@ int runLeadSmoke(){
         for(const char* id:{"osc2Octave","osc2Wave","filterEnvAmount","echoMode","compEnabled","osc1Spread","osc2Spread","osc1Blend","osc2Blend","glideTime","pitchEnvAmount","pitchEnvAttack","pitchEnvDecay","midiBendRange","osc2Semitone"})require(recalled->state.getRawParameterValue(id)->load()==synth->state.getRawParameterValue(id)->load(),"lead parameter recall");
         synth->loadPreset(1);synth->loadPreset(preset);require(synth->state.getRawParameterValue("ampLong")->load()==0,"pad-to-lead timing reset");
     }
-    const auto capture=[](int oscillator,float ownSpread,float otherSpread,float blend,bool modern){
+    const auto capture=[](int oscillator,float ownSpread,float otherSpread,float blend,int generation){
         auto p=std::make_unique<SpaceInfinityProcessor>();p->loadPreset(0);
         const auto set=[&](const juce::String& id,float v){auto* parameter=p->state.getParameter(id);parameter->setValueNotifyingHost(parameter->convertTo0to1(v));};
         set("mix",oscillator==1?0:1);set("osc1Unison",7);set("osc2Unison",7);set("detune",.02f);set("attack",0);
-        set("modernUnison",modern?1:0);const auto field=modern?"Detune":"Spread";const float scale=modern?.5f:1;set("osc"+juce::String(oscillator)+field,ownSpread*scale);set("osc"+juce::String(3-oscillator)+field,otherSpread*scale);set("osc"+juce::String(oscillator)+"Blend",blend);
+        set("manualUnison",generation==2?1:0);set("modernUnison",generation!=0?1:0);const auto field=generation!=0?"Detune":"Spread";const float scale=generation!=0?.5f:1;set("osc"+juce::String(oscillator)+field,ownSpread*scale);set("osc"+juce::String(3-oscillator)+field,otherSpread*scale);set("osc"+juce::String(oscillator)+"Blend",blend);
         p->prepareToPlay(48000,256);juce::AudioBuffer<float> audio(2,256);std::vector<float> samples;
         for(int b=0;b<64;++b){juce::MidiBuffer midi;if(b==0)midi.addEvent(juce::MidiMessage::noteOn(1,69,.8f),0);p->processBlock(audio,midi);for(int i=0;i<256;++i)samples.push_back(audio.getSample(0,i));}return samples;
     };
     const auto difference=[](const auto& a,const auto& b){double sum=0;for(size_t i=0;i<a.size();++i)sum+=std::abs(a[i]-b[i]);return sum;};
-    for(bool modern:{false,true})for(int oscillator:{1,2}){const auto base=capture(oscillator,1,1,1,modern);require(difference(base,capture(oscillator,1,0,1,modern))<.00001,"other oscillator detune/spread stays independent");require(difference(base,capture(oscillator,0,1,1,modern))>1,"own detune/spread changes real output");require(difference(base,capture(oscillator,1,1,0,modern))>1,"unison blend changes real output");}
+    for(int generation:{0,1,2})for(int oscillator:{1,2}){const auto base=capture(oscillator,1,1,1,generation);require(difference(base,capture(oscillator,1,0,1,generation))<.00001,"other oscillator detune/spread stays independent");require(difference(base,capture(oscillator,0,1,1,generation))>1,"own detune/spread changes real output");require(difference(base,capture(oscillator,1,1,0,generation))>1,"unison blend changes real output");}
     // Measure real output pitch during an overlapping octave change.
     auto glideSynth=std::make_unique<SpaceInfinityProcessor>();glideSynth->loadPreset(0);
     const auto set=[&](const char* id,float v){auto* p=glideSynth->state.getParameter(id);p->setValueNotifyingHost(p->convertTo0to1(v));};

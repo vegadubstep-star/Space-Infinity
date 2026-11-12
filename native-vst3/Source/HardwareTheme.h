@@ -204,11 +204,11 @@ public:
         const float xx=b.getToggleState()?12.0f:3.0f;
         g.setGradientFill(juce::ColourGradient(juce::Colour(0xffa3a897),xx,cy-4,juce::Colour(0xff333c2c),xx,cy+4,false));
         g.fillRoundedRectangle(xx,cy-4,6,8,1);
-        const auto lamp=juce::Rectangle<float>(3,3).withCentre({25,cy});
+        const bool compact=b.getWidth()<70;const auto lamp=juce::Rectangle<float>(3,3).withCentre({compact?20.0f:25.0f,cy});
         if(b.getToggleState()){g.setColour(juce::Colour(0x339d70df));g.fillEllipse(lamp.expanded(2));}
         g.setColour(juce::Colour(b.getToggleState()?0xffd9b9ff:0xff35253e));g.fillEllipse(lamp);
-        g.setColour(juce::Colour(hover?0xfff1e7cf:0xffd3cbb7));g.setFont(juce::Font(juce::FontOptions(11.0f)));
-        g.drawText(b.getButtonText(),31,0,b.getWidth()-31,b.getHeight(),juce::Justification::centredLeft,true);
+        g.setColour(juce::Colour(hover?0xfff1e7cf:0xffd3cbb7));g.setFont(juce::Font(juce::FontOptions(compact?9.5f:11.0f)));
+        const int textX=compact?23:31;g.drawText(b.getButtonText(),textX,0,b.getWidth()-textX,b.getHeight(),juce::Justification::centredLeft,true);
     }
 
     void drawComboBox(juce::Graphics& g,int w,int h,bool down,int,int,int,int,juce::ComboBox& box) override {
@@ -224,7 +224,8 @@ public:
         g.setColour(juce::Colour(0xffc2b58f));g.strokePath(chevron,juce::PathStrokeType(1));
     }
 
-    juce::Font getComboBoxFont(juce::ComboBox&) override {return juce::Font(juce::FontOptions(12.0f));}
+    juce::Font getComboBoxFont(juce::ComboBox& box) override {return juce::Font(juce::FontOptions(box.getWidth()<60?10.0f:12.0f));}
+    void positionComboBoxText(juce::ComboBox& box,juce::Label& label)override{label.setBounds(3,1,juce::jmax(1,box.getWidth()-24),box.getHeight()-2);label.setFont(getComboBoxFont(box));}
     juce::Font getTextButtonFont(juce::TextButton&,int h) override {return juce::Font(juce::FontOptions(juce::jmin(11.5f,float(h)*.45f),juce::Font::bold));}
 
     juce::Label* createSliderTextBox(juce::Slider& slider) override {

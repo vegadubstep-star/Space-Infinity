@@ -211,6 +211,19 @@ APVTS::ParameterLayout makeLayout(){
     for(int lfo=0;lfo<3;++lfo)for(int slot=0;slot<16;++slot)f(("lfoFlexDepth"+juce::String(lfo)+"_"+juce::String(slot)).toRawUTF8(),"LFO assignment amount",-1,1,.25f);
     f("osc1Gain","Oscillator A Gain",-60,6,0);f("osc2Gain","Oscillator B Gain",-60,6,0);f("osc1Detune","Oscillator A Detune",0,1,.2f);f("osc2Detune","Oscillator B Detune",0,1,.2f);flag("modernUnison","Independent Unison",false);
     for(int macro=0;macro<3;++macro){f(("freeMacro"+juce::String(macro)).toRawUTF8(),("Assignable macro "+juce::String(macro+1)).toRawUTF8(),0,1,0);for(int slot=0;slot<3;++slot)f(("freeMacroDepth"+juce::String(macro)+"_"+juce::String(slot)).toRawUTF8(),"Assignable macro depth",-1,1,1);}
+    for(int source=0;source<9;++source)for(int slot=0;slot<16;++slot)if(source>=6||(source<3&&slot>=3))f(SpaceInfinityProcessor::flexibleDepthId(source,slot).toRawUTF8(),"Macro assignment amount",-1,1,1);
+    for(int lfo=0;lfo<3;++lfo){
+        const auto id=[lfo](const char* field){return SpaceInfinityProcessor::lfoParameterId(lfo,field);};
+        flag(id("CurveEnabled").toRawUTF8(),"LFO free point editor",false);
+        f(id("Phase").toRawUTF8(),"LFO phase",0,1,0);f(id("Delay").toRawUTF8(),"LFO delay",0,8,0);f(id("Rise").toRawUTF8(),"LFO rise",0,8,0);f(id("Smooth").toRawUTF8(),"LFO smoothing ms",0,1000,0);
+        menu(id("Direction").toRawUTF8(),"LFO direction",{"Forward","Reverse","Ping Pong"},0);flag(id("Mono").toRawUTF8(),"LFO mono",false);flag(id("Triplet").toRawUTF8(),"LFO triplet",false);flag(id("Dotted").toRawUTF8(),"LFO dotted",false);flag(id("Host").toRawUTF8(),"LFO host anchor",false);f(id("Loopback").toRawUTF8(),"LFO envelope loopback",-1,1,-1);
+
+        p.add(std::make_unique<juce::AudioParameterInt>(juce::ParameterID{id("CurveCount"),1},"LFO point count",2,33,17));
+        for(int i=0;i<33;++i){f((id("X")+juce::String(i)).toRawUTF8(),"LFO point time",0,1,juce::jmin(1.0f,float(i)/16));f((id("Y")+juce::String(i)).toRawUTF8(),"LFO point level",0,1,juce::jmin(1.0f,float(i)/16));f((id("Bend")+juce::String(i)).toRawUTF8(),"LFO segment curve",-1,1,0);}
+    }
+    f("osc2WTPos","Oscillator B wavetable position",0,1,0);flag("independentWTPos","Independent wavetable position",false);
+    flag("manualUnison","Manual aligned unison controls",false);
+    for(int osc=1;osc<=2;++osc){const auto prefix="osc"+juce::String(osc);menu((prefix+"UnisonMode").toRawUTF8(),"Unison mode",{"Linear","Super","Exp","Inv","Random"},0);menu((prefix+"Stack").toRawUTF8(),"Unison stack",{"Off","12 (1x)","12 (2x)","12 (3x)","12+7 (1x)","12+7 (2x)","12+7 (3x)","Center -12","Center -24"},0);f((prefix+"Range").toRawUTF8(),"Unison range cents",0,120,36);f((prefix+"Phase").toRawUTF8(),"Oscillator phase",0,1,0);f((prefix+"Rand").toRawUTF8(),"Oscillator random phase",0,1,1);f((prefix+"WTSpread").toRawUTF8(),"Unison wavetable spread",0,1,0);f((prefix+"WarpSpread").toRawUTF8(),"Unison warp spread",0,1,0);}
     return p;
 }
 float osc(double x,int wave){ x-=std::floor(x); switch(wave){case 1:return x<0.48?1.0f:-1.0f;case 2:return std::sin(float(juce::MathConstants<double>::twoPi*x));case 3:return float(4*std::abs(x-0.5)-1);default:return float(2*x-1);} }
@@ -219,7 +232,7 @@ juce::String SpaceInfinityProcessor::eqId(int band,const char* field){
     return "eq"+juce::String(band)+field;
 }
 juce::StringArray SpaceInfinityProcessor::oscillatorWaves(bool follow){
-    juce::StringArray names{"Saw","Pulse","Sine","Triangle","Narrow Pulse","Wide Pulse","Rounded Saw","Folded Sine","Double Sine","Rectified","Vowel Ah","Vowel Oh","Vowel Ee","Reed","Hollow Reed","Brass","Soft Brass","Organ","Drawbar","Glass","Bell","Metal","Sync Rise","Sync Fall","Bent Ramp","Steps","Buzz","Octave Saw","Fifth Stack","Sub Harmonics","Custom Wavetable"};
+    juce::StringArray names{"Saw","Pulse","Sine","Triangle","Narrow Pulse","Wide Pulse","Rounded Saw","Folded Sine","Double Sine","Rectified","Vowel Ah","Vowel Oh","Vowel Ee","Reed","Hollow Reed","Brass","Soft Brass","Organ","Drawbar","Glass","Bell","Metal","Sync Rise","Sync Fall","Bent Ramp","Steps","Buzz","Octave Saw","Fifth Stack","Sub Harmonics","Custom Wavetable","303 Saw","303 Square","Acid Pulse","Acid Resonant Saw","Acid Squelch","Acid Bite"};
     if(follow)names.insert(0,"Follow Osc 1");
     return names;
 }
@@ -235,7 +248,31 @@ float SpaceInfinityProcessor::warpedSample(double position,int shape,int mode,fl
     const double mapped=phase<split?0.5*phase/split:0.5+0.5*(phase-split)/(1.0-split);
     return oscillatorSample(mapped,shape);
 }
+float SpaceInfinityProcessor::oscillatorFrameSample(double phase,int wave,float position){
+    wave=juce::jlimit(0,36,wave);if(wave==30)return 0;position=juce::jlimit(0.0f,1.0f,position);
+    if(position==0&&wave<30)return oscillatorSample(phase,wave);
+    static const auto bank=[]{
+        std::vector<float> data(size_t(36*17*512));
+        for(int w=0;w<37;++w){if(w==30)continue;const int family=w>30?w-1:w;
+            for(int frame=0;frame<17;++frame){float peak=0,mean=0;const float morph=float(frame)/16;auto* table=data.data()+(family*17+frame)*512;
+                for(int i=0;i<512;++i){const double x=double(i)/512;float sample=0;
+                    if(w<30){const double warped=x+.12*morph*std::sin(x*juce::MathConstants<double>::twoPi);sample=(1-morph*.45f)*oscillatorSample(warped,w)+morph*.45f*oscillatorSample(x*2+(w%3)*.07, (w+1)%30);}
+                    else{const int type=w-31;const float duty=type==1?.5f:type==2?.12f+.28f*morph:.35f;
+                        for(int h=1;h<=48;++h){float a=1.0f/h;if(type==1)a=h%2?1.0f/h:0;if(type==2)a=std::sin(juce::MathConstants<float>::pi*h*duty)/h;
+                            const float centre=2+10*morph;const float peakBand=std::exp(-std::pow((h-centre)/1.7f,2.0f));a*=std::exp(-float(h)*(.012f+.075f*morph));
+                            if(type>=3)a*=1+(type-1)*1.2f*peakBand;
+                            sample+=a*std::sin(float(x*juce::MathConstants<double>::twoPi*h)+(type==5?h*.17f:0));}
+                        if(type==4||type==5)sample=.8f*std::tanh(sample*(1.3f+2*morph))+.2f*morph*std::sin(float(x*juce::MathConstants<double>::twoPi*(type==4?3:5)));}
+                    table[i]=sample;mean+=sample/512;}
+                for(int i=0;i<512;++i){table[i]-=mean;peak=std::max(peak,std::abs(table[i]));}if(peak>0)for(int i=0;i<512;++i)table[i]/=peak;
+            }
+        }return data;
+    }();
+    const int family=wave>30?wave-1:wave;const float f=position*16;const int a=juce::jmin(15,int(f));const double x=(phase-std::floor(phase))*512;const int i=int(x)&511,j=(i+1)&511;
+    const auto read=[&](int frame){const auto* table=bank.data()+(family*17+frame)*512;return table[i]+float(x-std::floor(x))*(table[j]-table[i]);};return read(a)+(read(a+1)-read(a))*(f-a);
+}
 float SpaceInfinityProcessor::oscillatorSample(double phase,int wave){
+    if(wave>=31)return oscillatorFrameSample(phase,wave,0);
     if(wave<4)return osc(phase,wave);
     static const auto tables=[]{
         std::array<std::array<float,512>,26> result{};
@@ -280,6 +317,7 @@ SpaceInfinityProcessor::SpaceInfinityProcessor(const juce::File& presetDirectory
     }
     state.getParameter("analogueUpgrade")->setValueNotifyingHost(1.0f);
     state.getParameter("ampTimed")->setValueNotifyingHost(1.0f);
+    oscillatorFrameSample(0.0,31,0);
     oscillatorSample(0.0,4); // Initialise lookup tables before audio processing.
     for(size_t i=0;i<macroValues.size();++i){
         const auto suffix=juce::String(int(i));
@@ -298,6 +336,10 @@ SpaceInfinityProcessor::SpaceInfinityProcessor(const juce::File& presetDirectory
     for(int lfo=0;lfo<3;++lfo){
         for(int point=0;point<17;++point)
             designerPoints[size_t(lfo)][size_t(point)]=state.getRawParameterValue(lfoPointId(lfo,point));
+        const char* advanced[]{"Phase","Delay","Rise","Smooth","Direction","Mono","Triplet","Dotted","Host","Loopback"};for(int j=0;j<10;++j)designerAdvanced[size_t(lfo)][size_t(j)]=state.getRawParameterValue(lfoParameterId(lfo,advanced[j]));
+        designerCurveEnabled[size_t(lfo)]=state.getRawParameterValue(lfoParameterId(lfo,"CurveEnabled"));
+        designerCurveCount[size_t(lfo)]=state.getRawParameterValue(lfoParameterId(lfo,"CurveCount"));
+        for(int point=0;point<33;++point){const auto n=juce::String(point);designerX[size_t(lfo)][size_t(point)]=state.getRawParameterValue(lfoParameterId(lfo,"X")+n);designerY[size_t(lfo)][size_t(point)]=state.getRawParameterValue(lfoParameterId(lfo,"Y")+n);designerBend[size_t(lfo)][size_t(point)]=state.getRawParameterValue(lfoParameterId(lfo,"Bend")+n);}
         const char* fields[]={"Speed","Sync","Bars","Mode"};
         designerEnabled[size_t(lfo)]=state.getRawParameterValue(lfoParameterId(lfo,"Enabled"));
         for(size_t i=0;i<4;++i)
@@ -344,6 +386,18 @@ juce::StringArray SpaceInfinityProcessor::motionNames(){
         "Double Swell","Triple Swell","Terraces","Descending Steps","Peak Hold","Dip and Return",
         "Quick Strike","Reverse Pull","Saw Rise","Saw Fall","Alternating Gates","Syncopated","Wave Train","Final Lift"};
 }
+studio::EditableCurve SpaceInfinityProcessor::lfoCurve(int lfo) const {
+    studio::EditableCurve c;const auto n=size_t(juce::jlimit(0,2,lfo));const bool free=designerCurveEnabled[n]->load()>.5f;
+    c.count=free?juce::jlimit(2,33,int(designerCurveCount[n]->load())):17;
+    for(int i=0;i<c.count;++i){const auto j=size_t(i);c.x[j]=free?designerX[n][j]->load():float(i)/16;c.y[j]=free?designerY[n][j]->load():designerPoints[n][j]->load();c.bend[j]=free?designerBend[n][j]->load():0;}return c;
+}
+float SpaceInfinityProcessor::lfoCurveValue(int lfo,double phase) const {return lfoCurve(lfo).value(float(phase));}
+void SpaceInfinityProcessor::enableLfoCurve(int lfo){
+    const auto id=[lfo](const char* field){return lfoParameterId(lfo,field);};
+    if(state.getRawParameterValue(id("CurveEnabled"))->load()>.5f)return;
+    const auto set=[this](const juce::String& key,float value){auto* a=state.getParameter(key);a->beginChangeGesture();a->setValueNotifyingHost(a->convertTo0to1(value));a->endChangeGesture();};
+    for(int i=0;i<17;++i){const auto n=juce::String(i);set(id("X")+n,float(i)/16);set(id("Y")+n,designerPoints[size_t(lfo)][size_t(i)]->load());set(id("Bend")+n,0);}set(id("CurveCount"),17);set(id("CurveEnabled"),1);
+}
 void SpaceInfinityProcessor::loadMotionShape(int index){loadLfoShape(0,index);}
 void SpaceInfinityProcessor::loadLfoShape(int lfo,int index){
     static const std::vector<float> curves[]={
@@ -357,6 +411,7 @@ void SpaceInfinityProcessor::loadLfoShape(int lfo,int index){
         {1,1,0,0,.55f,.55f,0,0,1},{0,.85f,.85f,0,.3f,0,1,.2f,0},
         {.50f,.90f,.50f,.10f,.50f,.90f,.50f,.10f,.50f},{.08f,.12f,.10f,.18f,.36f,.68f,1}};
     if(lfo<0||lfo>=3||index<0||index>=int(std::size(curves)))return;
+    state.getParameter(lfoParameterId(lfo,"CurveEnabled"))->setValueNotifyingHost(0);
     const auto& curve=curves[index];
     for(int i=0;i<17;++i){
         const float x=float(i)*float(curve.size()-1)/16.0f;
@@ -475,7 +530,7 @@ void SpaceInfinityProcessor::prepareToPlay(double sampleRate,int maxSamples){
         v.idleRateA=v.idleRateB=220/sr;
     } lfoPhase=0; clock=0;
     heldNotes={};noteOrder=0;voiceMode=int(param("voiceMode"));
-    designerPhase={};
+    designerPhase={};designerAge={};designerMemory={};
     for(auto& phase:displayedLfoPhase)phase.store(0.0f);
 }
 void SpaceInfinityProcessor::noteOn(int note,float velocity,int source,int root,int channel){
@@ -506,6 +561,7 @@ void SpaceInfinityProcessor::noteOn(int note,float velocity,int source,int root,
         for(auto& position:found->extraPhase1)position=phase();
         for(auto& position:found->extraPhase2)position=phase();
     }
+    if(source==0&&param("manualUnison")>.5f){for(int osc=0;osc<2;++osc){const auto prefix="osc"+juce::String(osc+1);if(param((prefix+"PhaseReset").toRawUTF8())>.5f)continue;const double start=param((prefix+"Phase").toRawUTF8()),randomness=param((prefix+"Rand").toRawUTF8());auto phase=[&]{const double x=start+randomness*(.5+.5*found->drift.random());return x-std::floor(x);};(osc==0?found->phase:found->phase2)=phase();auto& extras=osc==0?found->extraPhase1:found->extraPhase2;for(auto& x:extras)x=phase();}}
     found->source=source;
     if(source != 0){
         if(userSample(source))found->sampleRevision=sampleRevision;
@@ -559,7 +615,7 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
         highRateMidi.clear();
         for(const auto event:midi)if(event.samplePosition>=offset&&event.samplePosition<offset+count)
             highRateMidi.addEvent(event.getMessage(),(event.samplePosition-offset)*2);
-        renderBlock(high,highRateMidi);oversampling.processSamplesDown(output);
+        hostChunkSeconds=double(offset)*2/sr;renderBlock(high,highRateMidi);oversampling.processSamplesDown(output);
         unsigned write=scopeWrite.load(std::memory_order_relaxed);
         for(int i=0;i<count;++i){scopeSamples[size_t(write%32768)].store((b.getSample(0,offset+i)+b.getSample(1,offset+i))*.5f,std::memory_order_relaxed);++write;}
         scopeWrite.store(write,std::memory_order_release);offset+=count;
@@ -570,7 +626,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     b.clear(); if(b.getNumChannels()<2)return;
     if(resetVoicesRequested.exchange(false)){for(auto& v:voices)if(v.active)retireVoice(v);heldNotes={};noteOrder=0;pattern.held={};pattern.activeNote=-1;pattern.index=0;pattern.remaining=0;}
     transformPattern(midi,b.getNumSamples());
-    for(const auto event:midi)if(event.samplePosition==0&&event.getMessage().isNoteOn())for(int i=0;i<3;++i)if(designerControls[size_t(i)][3]->load()>.5f)designerPhase[size_t(i)]=0;
+    for(const auto event:midi)if(event.samplePosition==0&&event.getMessage().isNoteOn())for(int i=0;i<3;++i)if(designerControls[size_t(i)][3]->load()>.5f){designerPhase[size_t(i)]=0;designerAge[size_t(i)]=0;}
     updateFlexibleRoutes();
     auto* left=b.getWritePointer(0);auto* right=b.getWritePointer(1);
     std::array<float,28> modulation{};
@@ -586,12 +642,13 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
         if(auto position=playHead->getPosition())
             if(auto bpm=position->getBpm())
                 if(*bpm>0.0)delayBpm=*bpm;
-    std::array<std::array<float,17>,3> curves{};
+    std::array<studio::EditableCurve,3> curves{};
     std::array<double,3> lfoSteps{};
+    std::array<studio::LfoTiming,3> timing{};std::array<bool,3> lfoMono{};std::array<float,3> loopback{};
     std::array<int,3> lfoModes{};
     std::array<bool,3> lfoEnabled{};
     for(size_t lfo=0;lfo<3;++lfo){
-        for(size_t point=0;point<17;++point)curves[lfo][point]=designerPoints[lfo][point]->load();
+        curves[lfo]=lfoCurve(int(lfo));
         const auto& control=designerControls[lfo];
         static constexpr double lengths[]{1,2,4,8,.5,.25,.125,.0625};
         const int division=juce::jlimit(0,7,int(readParameter(control[2])));
@@ -599,11 +656,19 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
             ?delayBpm/(240.0*sr*lengths[division]):readParameter(control[0])/sr;
         lfoModes[lfo]=int(control[3]->load());
         lfoEnabled[lfo]=designerEnabled[lfo]->load()>.5f;
+        const auto& advanced=designerAdvanced[lfo];timing[lfo]={readParameter(advanced[0]),readParameter(advanced[1]),readParameter(advanced[2]),readParameter(advanced[3]),int(advanced[4]->load())};lfoMono[lfo]=advanced[5]->load()>.5f;loopback[lfo]=advanced[9]->load();
+        if(control[1]->load()>.5f){if(advanced[6]->load()>.5f)lfoSteps[lfo]*=1.5;if(advanced[7]->load()>.5f)lfoSteps[lfo]/=1.5;}
+        if(lfoModes[lfo]==0&&advanced[8]->load()>.5f)if(auto* playHead=getPlayHead())if(auto pos=playHead->getPosition()){
+            if(control[1]->load()>.5f){if(auto ppq=pos->getPpqPosition()){designerPhase[lfo]=(*ppq+hostChunkSeconds*delayBpm/60)/(lengths[division]*4);if(advanced[6]->load()>.5f)designerPhase[lfo]*=1.5;if(advanced[7]->load()>.5f)designerPhase[lfo]/=1.5;}}
+            else if(auto seconds=pos->getTimeInSeconds())designerPhase[lfo]=(*seconds+hostChunkSeconds)*readParameter(control[0]);
+            const double cycle=timing[lfo].direction==2?2:1;designerPhase[lfo]=std::fmod(std::max(0.0,designerPhase[lfo]),cycle);
+        }
+
     }
-    const auto curveAt=[&curves](size_t lfo,double phase){
-        const double x=std::clamp(phase,0.0,1.0)*16.0;
-        const size_t point=std::min(size_t(x),size_t(15));
-        return curves[lfo][point]+(curves[lfo][point+1]-curves[lfo][point])*float(x-double(point));
+    const auto advanceLfo=[&](size_t lfo,double& phase){
+        const double end=timing[lfo].direction==2?2:1;phase+=lfoSteps[lfo];
+        if(lfoModes[lfo]==2){if(phase>=end){if(loopback[lfo]>=0&&loopback[lfo]<1)phase=loopback[lfo]+std::fmod(phase-end,end-loopback[lfo]);else phase=end;}}
+        else if(phase>=end)phase-=end;
     };
     struct DynamicRoute {size_t target=0;float depth=0.0f;};
     std::array<std::array<DynamicRoute,3>,4> timeRoutes{};
@@ -616,7 +681,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
             if(route.target>0)values[route.target]+=route.depth*(route.target==25&&source<3?value*2-1:value);
     };
     auto fxModulation=modulation;
-    for(size_t lfo=0;lfo<3;++lfo)if(lfoEnabled[lfo])routeDynamic(fxModulation,lfo,curveAt(lfo,designerPhase[lfo]));
+    for(size_t lfo=0;lfo<3;++lfo)if(lfoEnabled[lfo]){float memory=designerMemory[lfo];const float value=designerAge[lfo]>0?memory:timing[lfo].output(curves[lfo],designerPhase[lfo],0,sr,memory);routeDynamic(fxModulation,lfo,value);}
     float currentEnvelope=0.0f;
     for(const auto& voice:voices)if(voice.active)currentEnvelope=std::max(currentEnvelope,voice.env);
     routeDynamic(fxModulation,3,currentEnvelope);
@@ -653,20 +718,23 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     const double tune2=std::exp2(param("osc2Octave")+param("osc2Semitone")/12.0+param("osc2Tune")/1200.0);
     const int unison1=int(param("osc1Unison")),unison2=int(param("osc2Unison"));
     const float oscGainA=juce::Decibels::decibelsToGain(param("osc1Gain")),oscGainB=juce::Decibels::decibelsToGain(param("osc2Gain"));
-    std::array<double,16> unisonRates1{},unisonRates2{};
+    std::array<double,128> unisonRates1{},unisonRates2{};
+    const bool manualUnison=param("manualUnison")>.5f;std::array<infinity::UnisonSettings,2> unisonSettings;for(int i=0;i<2;++i){const auto prefix="osc"+juce::String(i+1);auto& u=unisonSettings[size_t(i)];u.mode=int(param((prefix+"UnisonMode").toRawUTF8()));u.stack=int(param((prefix+"Stack").toRawUTF8()));u.amount=param((prefix+"Detune").toRawUTF8());u.range=param((prefix+"Range").toRawUTF8());u.blend=param((prefix+"Blend").toRawUTF8());}
+    const float wtSpread[]{param("osc1WTSpread"),param("osc2WTSpread")},warpSpread[]{param("osc1WarpSpread"),param("osc2WarpSpread")};
     const bool modernUnison=param("modernUnison")>.5f;
     const float detuneA=modernUnison?param("osc1Detune")*.04f:detune*param("osc1Spread"),detuneB=modernUnison?param("osc2Detune")*.04f:detune*param("osc2Spread");
     const float spreadA=modernUnison?1:param("osc1Spread"),spreadB=modernUnison?1:param("osc2Spread"),blendA=param("osc1Blend"),blendB=param("osc2Blend");
     const float pitchVelocity=param("pitchEnvVelocity"),pitchAmount=param("pitchEnvAmount"),pitchAttack=param("pitchEnvAttack"),pitchDecay=param("pitchEnvDecay");
     const double glide=param("glideTime")>0?std::exp(-1.0/(param("glideTime")*sr)):0;
-    const auto prepareStack=[](auto& rates,int count,float amount){
+    const auto prepareStack=[&](auto& rates,int count,float amount,int oscillator){
+        if(manualUnison){const auto& u=unisonSettings[size_t(oscillator)];for(int group=0;group<u.groups();++group)for(int i=0;i<count;++i)rates[size_t(group*count+i)]=u.ratio(i,count,group);return;}
         for(int i=0;i<count;++i){
             const double spread=count==1?0.0:2.0*i/(count-1)-1.0;
             rates[size_t(i)]=std::exp2(spread*amount*0.75);
         }
     };
-    prepareStack(unisonRates1,unison1,detuneA);
-    prepareStack(unisonRates2,unison2,detuneB);
+    prepareStack(unisonRates1,unison1,detuneA,0);
+    prepareStack(unisonRates2,unison2,detuneB,1);
     const float noiseLevel=juce::jlimit(0.0f,1.0f,param("noiseLevel")+0.5f*modulation[11]);
     const int noiseType=int(param("noiseType"));
     const double subRatio=std::exp2(param("subOctave"));static constexpr int subShapes[]{2,3,0,1,4,6};const int subShape=subShapes[juce::jlimit(0,5,int(param("subWave")))];
@@ -674,6 +742,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     const float width1=juce::jlimit(0.0f,1.0f,param("osc1Width")+0.5f*modulation[12]);
     const float width2=juce::jlimit(0.0f,1.0f,param("osc2Width")+0.5f*modulation[13]);
     const float filterA=param("filterAttack"),filterD=param("filterDecay"),filterS=param("filterSustain"),filterR=param("filterRelease");
+    const bool independentWTPos=param("independentWTPos")>.5f;const float tableScanB=param("osc2WTPos");
     const float filterAmount=param("filterEnvAmount"),tableScan=juce::jlimit(0.0f,1.0f,param("wavetableScan")+modulation[23]);
     const float preFilterDrive=param("filterInputDrive");
     const float filterVelocity=param("filterVelocity"),ampVelocity=param("ampVelocity"),subLevel=param("subEnabled")>.5f?param("subLevel"):0;
@@ -720,7 +789,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                 pitchBend.setTargetValue(juce::jlimit(-24.0f,24.0f,hostBend+midiBend));
             }else if(m.isNoteOn()){
                 if(userSample(source)&&!sampleGuard.isLocked())continue;
-                for(size_t lfo=0;lfo<3;++lfo)if(lfoModes[lfo]!=0)designerPhase[lfo]=0.0;
+                for(size_t lfo=0;lfo<3;++lfo)if(lfoModes[lfo]!=0){designerPhase[lfo]=0.0;designerAge[lfo]=0;}
                 if(voiceMode==0)noteOn(m.getNoteNumber(),m.getFloatVelocity(),source,root,channel);
                 else{
                     heldNotes[size_t((channel-1)*128+m.getNoteNumber())]={++noteOrder,m.getFloatVelocity()};
@@ -750,11 +819,9 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
         std::array<float,28> movingModulation{};
         for(size_t lfo=0;lfo<3;++lfo){
             if(!lfoEnabled[lfo])continue;
-            lfoValues[lfo]=curveAt(lfo,designerPhase[lfo]);
-            designerPhase[lfo]+=lfoSteps[lfo];
-            if(lfoModes[lfo]==2)designerPhase[lfo]=std::min(1.0,designerPhase[lfo]);
-            else designerPhase[lfo]-=std::floor(designerPhase[lfo]);
-            displayedLfoPhase[lfo].store(float(designerPhase[lfo]),std::memory_order_relaxed);
+            lfoValues[lfo]=timing[lfo].output(curves[lfo],designerPhase[lfo],designerAge[lfo],sr,designerMemory[lfo]);designerAge[lfo]+=1/sr;
+            advanceLfo(lfo,designerPhase[lfo]);
+            displayedLfoPhase[lfo].store(timing[lfo].position(designerPhase[lfo]),std::memory_order_relaxed);
         }
         const float movement=lfoValues[0];
         float out=0, side=0;const float lfo=std::sin(float(juce::MathConstants<double>::twoPi*lfoPhase));
@@ -772,8 +839,8 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
         for(auto& v:voices){if(v.retireRemaining>0){const float t=float(v.retireRemaining)/v.retireLength;const float fade=.5f-.5f*std::cos(juce::MathConstants<float>::pi*t);v.lastL=v.tailL*fade;v.lastR=v.tailR*fade;out+=(v.lastL+v.lastR)*.5f;side+=(v.lastL-v.lastR)*.5f;--v.retireRemaining;continue;}if(!v.active){
             if(upgraded){const auto advance=[](double& phase,double rate){phase+=rate;phase-=std::floor(phase);};
                 advance(v.phase,v.idleRateA);advance(v.phase2,v.idleRateB);
-                for(auto& phase:v.extraPhase1)advance(phase,v.idleRateA);
-                for(auto& phase:v.extraPhase2)advance(phase,v.idleRateB);}
+                for(int i=0;i<(manualUnison?unison1*unisonSettings[0].groups()-1:15);++i)advance(v.extraPhase1[size_t(i)],v.idleRateA);
+                for(int i=0;i<(manualUnison?unison2*unisonSettings[1].groups()-1:15);++i)advance(v.extraPhase2[size_t(i)],v.idleRateB);}
             continue;
         }
             if(userSample(v.source) && !sampleGuard.isLocked())continue;
@@ -782,11 +849,8 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
             for(size_t lfo=0;lfo<3;++lfo){
                 if(!lfoEnabled[lfo])continue;
                 float value=lfoValues[lfo];
-                if(lfoModes[lfo]!=0){
-                    value=curveAt(lfo,v.lfoPhase[lfo]);
-                    v.lfoPhase[lfo]+=lfoSteps[lfo];
-                    if(lfoModes[lfo]==2)v.lfoPhase[lfo]=std::min(1.0,v.lfoPhase[lfo]);
-                    else v.lfoPhase[lfo]-=std::floor(v.lfoPhase[lfo]);
+                if(lfoModes[lfo]!=0&&!lfoMono[lfo]){
+                    value=timing[lfo].output(curves[lfo],v.lfoPhase[lfo],v.lfoAge[lfo],sr,v.lfoMemory[lfo]);v.lfoAge[lfo]+=1/sr;advanceLfo(lfo,v.lfoPhase[lfo]);
                 }
                 routeDynamic(movingModulation,lfo,value);
             }
@@ -853,54 +917,55 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
             v.pitch=v.note+glide*(v.pitch-v.note);
             const float pitchOffset=pitchAmount!=0?pitchAmount*(1-pitchVelocity+pitchVelocity*v.velocity)*v.pitchEnvelope.next(v.released,sr,pitchAttack,pitchDecay,0,.03f):0;
             const double freq=440.0*bendRatio*std::pow(2.0,(v.pitch+pitchOffset+4*(modulation[25]+movingModulation[25])-69.0)/12.0);
-            const auto readWave=[&](double phase,int shape){return shape==30?(sampleGuard.isLocked()?wavetable.sample(phase,juce::jlimit(0.0f,1.0f,tableScan+movingModulation[23])):0.0f):oscillatorSample(phase,shape);};
-            const auto readWarp=[&](double phase,int shape,int mode,float amount,float mod){
-                if(shape!=30)return warpedSample(phase,shape,mode,amount,mod);
+            const auto readWave=[&](double phase,int shape,float scan){return shape==30?(sampleGuard.isLocked()?wavetable.sample(phase,scan):0.0f):oscillatorFrameSample(phase,shape,scan);};
+            const float scanA=juce::jlimit(0.0f,1.0f,tableScan+movingModulation[23]),scanB=independentWTPos?tableScanB:scanA;
+            const auto readWarp=[&](double phase,int shape,int mode,float amount,float mod,float scan){
                 if(mode==1||mode==4)phase+=mod*amount*1.5;
                 else if(mode==2){const double t=phase-std::floor(phase);phase=t+((1-std::abs(t*2-1))-t)*amount;}
                 else if(mode==3){const double t=phase-std::floor(phase),split=.5+.45*amount;phase=t<split?.5*t/split:.5+.5*(t-split)/(1-split);}
-                return readWave(phase,shape);
+                return readWave(phase,shape,scan);
             };
             float subModulator=0;
             if(live[4]>0||warp1==4||warp2==4){v.subPhase+=freq*subRatio/sr;v.subPhase-=std::floor(v.subPhase);subModulator=oscillatorSample(v.subPhase,subShape);v.subEnvelope+=(declick?cutoffSmoothing:1)*((v.released?0.0f:1.0f)-v.subEnvelope);rawSub=live[4]*subModulator*v.subEnvelope;}
             v.idleRateA=freq*tune1*driftA/sr;v.idleRateB=freq*tune2*driftB/sr;
-            const float sourceA=warp2==4?subModulator:warp2==1?readWave(v.phase,wave):0.0f;
-            const float sourceB=warp1==4?subModulator:warp1==1?readWave(v.phase2,secondWave):0.0f;
+            const float sourceA=warp2==4?subModulator:warp2==1?readWave(v.phase,wave,scanA):0.0f;
+            const float sourceB=warp1==4?subModulator:warp1==1?readWave(v.phase2,secondWave,scanB):0.0f;
             const auto stack=[&](double& phase,auto& extras,double rate,const auto& rates,
-                                  int count,int shape,float width,float gain,float blend,float detuneScale,double offset,int warp,float amount,float modulator){
+                                  int count,int shape,float width,float gain,float blend,float detuneScale,double offset,int warp,float amount,float modulator,float scan,int oscillator){
                 if(gain==0.0f){
                     phase+=rate*rates[0];
                     phase-=std::floor(phase);
                     return;
                 }
                 const int centres=count==1?1:count%2==0?2:1;
-                const float normalisation=centres+(count-centres)*blend;
+                float normalisation=centres+(count-centres)*blend;const auto& settings=unisonSettings[size_t(oscillator)];if(manualUnison){normalisation=0;for(int i=0;i<count;++i)normalisation+=settings.weight(i,count);normalisation*=settings.groups();}normalisation=juce::jmax(.00001f,normalisation);
                 const float spreadDelta=voiceDetune-detune;
-                for(int i=0;i<count;++i){
-                    auto& position=i==0?phase:extras[size_t(i-1)];
-                    const double spread=count==1?0.0:2.0*double(i)/double(count-1)-1.0;
-                    const bool centre=std::abs(2*i-(count-1))<=1;
-                    const float level=gain*(centre?1.0f:blend)/normalisation;
+                for(int i=0;i<count*(manualUnison?settings.groups():1);++i){
+                    const int local=i%count;auto& position=i==0?phase:extras[size_t(i-1)];
+                    const double spread=count==1?0.0:2.0*double(local)/double(count-1)-1.0;
+                    const bool centre=std::abs(2*local-(count-1))<=1;
+                    const float level=gain*(manualUnison?settings.weight(local,count):(centre?1.0f:blend))/normalisation;
                     const double increment=rate*rates[size_t(i)]*(1.0+0.5198603854*spreadDelta*detuneScale*spread);
                     position+=increment;
                     position-=std::floor(position);
-                    float sample=readWarp(position,shape,warp,amount,modulator);
+                    const float frame=juce::jlimit(0.0f,1.0f,scan+(manualUnison?float(spread)*wtSpread[size_t(oscillator)]:0));const float warpAmount=juce::jlimit(0.0f,1.0f,amount+(manualUnison?float(spread)*warpSpread[size_t(oscillator)]:0));
+                    float sample=readWarp(position,shape,warp,warpAmount,modulator,frame);
                     if(warp==0&&character>0.0f){
                         if(shape==0)sample-=character*analoguePolyBlep(position,increment);
                         if(shape==1)sample+=character*(analoguePolyBlep(position,increment)-analoguePolyBlep(position-.48,increment));
                     }
                     raw+=sample*level;
                     if(width>0.0f){
-                        if(count==1)rawSide+=width*level*(sample-readWarp(position+offset,shape,warp,amount,modulator))*0.5f;
-                        else rawSide+=sample*level*width*(2.0f*float(i)/float(count-1)-1.0f);
+                        if(count==1&&!manualUnison)rawSide+=width*level*(sample-readWarp(position+offset,shape,warp,amount,modulator,scan))*0.5f;
+                        else if(count>1)rawSide+=sample*level*width*(2.0f*float(local)/float(count-1)-1.0f);
                     }
                 }
             };
-            stack(v.phase,v.extraPhase1,freq*tune1*driftA/sr,unisonRates1,unison1,wave,voiceWidth1,voiceGain1,blendA,spreadA,0.19,warp1,juce::jlimit(0.0f,1.0f,warpAmount1+.5f*movingModulation[26])*(warpEnvelope1==1?v.env:warpEnvelope1==2?filterEnv:1),sourceB);
+            stack(v.phase,v.extraPhase1,freq*tune1*driftA/sr,unisonRates1,unison1,wave,voiceWidth1,voiceGain1,blendA,spreadA,0.19,warp1,juce::jlimit(0.0f,1.0f,warpAmount1+.5f*movingModulation[26])*(warpEnvelope1==1?v.env:warpEnvelope1==2?filterEnv:1),sourceB,scanA,0);
             bypass+=raw*(1-live[5]);bypassSide+=rawSide*(1-live[5]);raw*=live[5];rawSide*=live[5];
             const float beforeB=raw,beforeSideB=rawSide;
-            stack(v.phase2,v.extraPhase2,freq*tune2*driftB*(1.0+voiceDetune+0.003*lfo*lfoDepth)/sr,
-                  unisonRates2,unison2,secondWave,voiceWidth2,voiceGain2,blendB,spreadB,0.31,warp2,juce::jlimit(0.0f,1.0f,warpAmount2+.5f*movingModulation[27])*(warpEnvelope2==1?v.env:warpEnvelope2==2?filterEnv:1),sourceA);
+            stack(v.phase2,v.extraPhase2,freq*tune2*driftB*(1.0+(manualUnison?0:voiceDetune)+0.003*lfo*lfoDepth)/sr,
+                  unisonRates2,unison2,secondWave,voiceWidth2,voiceGain2,blendB,spreadB,0.31,warp2,juce::jlimit(0.0f,1.0f,warpAmount2+.5f*movingModulation[27])*(warpEnvelope2==1?v.env:warpEnvelope2==2?filterEnv:1),sourceA,scanB,1);
             bypass+=(raw-beforeB)*(1-live[6]);bypassSide+=(rawSide-beforeSideB)*(1-live[6]);raw=beforeB+(raw-beforeB)*live[6];rawSide=beforeSideB+(rawSide-beforeSideB)*live[6];
             }
             if(v.source!=0){bypass+=raw*(1-live[5]);bypassSide+=rawSide*(1-live[5]);raw*=live[5];rawSide*=live[5];}
@@ -1533,6 +1598,9 @@ void SpaceInfinityProcessor::loadPreset(int index){
         set("delayEnabled",1);set("echoMode",2);set("echoSyncL",4);set("echoSyncR",4);set("echoMix",.10f);set("delayFeedback",.24f);set("reverbEnabled",1);set("reverb",.15f);set("eqEnabled",1);set("eqMode0",4);set("eq0Frequency",100);set("eq0Q",.7071f);set("eq3Frequency",320);set("eq3Gain",-1);set("eq4Frequency",3400);set("eq4Gain",.8f);
     }
     for(int i=0;i<2;++i)set(("osc"+juce::String(i+1)+"Detune").toRawUTF8(),juce::jlimit(0.0f,1.0f,param("detune")*param(("osc"+juce::String(i+1)+"Spread").toRawUTF8())/.04f));
+    set("independentWTPos",1);set("osc2WTPos",param("wavetableScan"));
+    for(int i=1;i<=2;++i){const auto id="osc"+juce::String(i)+"Blend";const float old=param(id.toRawUTF8());set(id.toRawUTF8(),.75f*old);}
+    set("manualUnison",1);
     set("modernUnison",1);set("flangerMode",1);
     state.state.setProperty("presetKey",library->keyForFactory(index),nullptr);resetVoicesRequested.store(true);
 }

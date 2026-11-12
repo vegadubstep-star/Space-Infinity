@@ -8,6 +8,7 @@
 #include "RhythmFX.h"
 #include "StudioEQ.h"
 #include "WorkflowDSP.h"
+#include "ManualUnison.h"
 class ImpulseWorker;
 class SpaceInfinityProcessor : public juce::AudioProcessor {
 public:
@@ -48,6 +49,7 @@ public:
     static juce::String eqId(int band,const char* field);
     static constexpr std::array<float,7> eqFrequencies{60,120,250,500,1000,3000,8000};
     static juce::StringArray oscillatorWaves(bool follow=false);
+    static float oscillatorFrameSample(double phase,int wave,float position);
     static float oscillatorSample(double phase,int wave);
     static float warpedSample(double phase,int wave,int mode,float amount,float modulator);
     float takeOutputPeak() noexcept { return outputPeak.exchange(0.0f); }
@@ -60,6 +62,9 @@ public:
     static juce::String lfoParameterId(int lfo,const char* field);
     static juce::String lfoPointId(int lfo,int point);
     void loadLfoShape(int lfo,int index);
+    void enableLfoCurve(int lfo);
+    studio::EditableCurve lfoCurve(int lfo) const;
+    float lfoCurveValue(int lfo,double phase) const;
     float lfoDisplayPhase(int index) const noexcept {return displayedLfoPhase[size_t(index)].load();}
     static juce::String motionPointId(int index);
     juce::Result importSample(const juce::File& file);
@@ -92,11 +97,14 @@ public:
     juce::StringArray flexibleTargets() const;
     void assignFlexibleMacro(int macro,int slot,int target);
     void assignFlexibleSource(int source,int slot,int target);
-    int flexibleSourceTarget(int source,int slot)const{return flexibleRoute[size_t(source<3?source*3+slot:9+(source-3)*16+slot)].load();}
+    static int flexibleRouteIndex(int source,int slot){return source<3?(slot<3?source*3+slot:105+source*13+slot-3):source<6?9+(source-3)*16+slot:57+(source-6)*16+slot;}
+    static juce::String flexibleDepthId(int source,int slot){return juce::String(source<3?"freeMacroDepth":source<6?"lfoFlexDepth":"performanceFlexDepth")+juce::String(source<3?source:source<6?source-3:source-6)+"_"+juce::String(slot);}
+    static juce::String flexibleTargetId(int source,int slot){return juce::String(source<3?"freeMacroTarget":source<6?"lfoFlexTarget":"performanceFlexTarget")+juce::String(source<3?source:source<6?source-3:source-6)+"_"+juce::String(slot);}
+    int flexibleSourceTarget(int source,int slot)const{return flexibleRoute[size_t(flexibleRouteIndex(source,slot))].load();}
     int flexibleTargetIndex(const juce::String& id)const {for(size_t i=0;i<flexibleTargetList.size();++i)if(flexibleTargetList[i].id==id)return int(i);return -1;}
     bool dropModulation(const juce::String&,const juce::String&);
     juce::String modulationDepthFor(const juce::String&,const juce::String&)const;
-    int flexibleMacroTarget(int macro,int slot) const {return flexibleRoute[size_t(macro*3+slot)].load();}
+    int flexibleMacroTarget(int macro,int slot) const {return flexibleRoute[size_t(flexibleRouteIndex(macro,slot))].load();}
     float effectiveParameter(const char* id) const {return param(id);}
     float gatePhaseView()const{return gateViewPhase.load();}
     int sequenceStep() const{return displayedPatternStep.load();}
@@ -181,10 +189,11 @@ private:
         float releaseStart=-1.0f;
         float dcInput[2]{},dcOutput[2]{};
         AnalogueDrift drift;
-        std::array<double,3> lfoPhase{};
+        std::array<double,3> lfoPhase{},lfoAge{};
+        std::array<float,3> lfoMemory{};
         std::array<AnalogueLadder,2> ladder;
         uint32_t noiseState=1;
-        std::array<double,15> extraPhase1{}, extraPhase2{};
+        std::array<double,127> extraPhase1{}, extraPhase2{};
         float filterState[2]{}, filterCascade[2]{};
         unsigned sampleRevision = 0; bool active=false, released=false, decaying=false; int note=-1, channel=1; float velocity=0, env=0, cutoff=0; double phase=0, phase2=0; uint64_t age=0; };
     std::array<Voice,24> voices{};
@@ -196,9 +205,13 @@ private:
     std::array<std::array<std::atomic<float>*,17>,3> designerPoints{};
     std::array<std::array<std::atomic<float>*,4>,3> designerControls{};
     std::array<std::atomic<float>*,3> designerEnabled{};
-    std::array<double,3> designerPhase{};
+    std::array<double,3> designerPhase{},designerAge{};
+    std::array<float,3> designerMemory{};
+    std::array<std::array<std::atomic<float>*,10>,3> designerAdvanced{};
+    std::array<std::atomic<float>*,3> designerCurveEnabled{},designerCurveCount{};
+    std::array<std::array<std::atomic<float>*,33>,3> designerX{},designerY{},designerBend{};
     std::array<std::atomic<float>,3> displayedLfoPhase{};
-    double sr=44100, lfoPhase=0; uint64_t clock=0;
+    double sr=44100, lfoPhase=0, hostChunkSeconds=0; uint64_t clock=0;
     juce::dsp::Chorus<float> chorus, flanger;
     juce::dsp::Phaser<float> phaser;
     bool flangerActive=false, phaserActive=false;
@@ -218,9 +231,9 @@ private:
     void selectMonoNote(int source,int root,bool retrigger);
     void noteOn(int,float,int,int,int); void noteOff(int,int);
     struct FlexibleTarget {juce::String id,name;juce::RangedAudioParameter* parameter=nullptr;std::atomic<float>* raw=nullptr;};
-    std::vector<FlexibleTarget> flexibleTargetList;std::array<std::atomic<int>,57> flexibleRoute;std::atomic<bool> flexibleAssigned{false};
-    struct FlexibleValue {std::atomic<int> target{-1};std::atomic<float> offset{0};};std::array<FlexibleValue,57> flexibleValue{};
-    std::array<std::atomic<float>*,57> flexibleDepth{};
+    std::vector<FlexibleTarget> flexibleTargetList;std::array<std::atomic<int>,144> flexibleRoute;std::atomic<bool> flexibleAssigned{false};
+    struct FlexibleValue {std::atomic<int> target{-1};std::atomic<float> offset{0};};std::array<FlexibleValue,144> flexibleValue{};
+    std::array<std::atomic<float>*,144> flexibleDepth{};
     std::atomic<float> gateViewPhase{0};std::array<std::array<std::atomic<float>*,33>,3> gateCurveParameters{};
     studio::WetEQ delayWetEQ,reverbWetEQ;studio::SmoothFlanger smoothFlanger;juce::AudioBuffer<float> workflowDry;
     std::array<juce::SmoothedValue<float>,8> fxGain;std::array<std::atomic<float>,8> fxPeak;std::array<std::atomic<bool>,8> fxClip;

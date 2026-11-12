@@ -49,7 +49,7 @@ int runExtendedSmoke(){
             if(button->getName()=="Osc "+juce::String(oscillator)+" previous waveform")previous=button;
         }
         if(!next||!previous)return 62;const auto id=oscillator==1?"wave":"osc2Wave";set(id,0);previous->onClick();
-        const int last=oscillator==1?30:31;if(int(synth.state.getRawParameterValue(id)->load())!=last)return 63;
+        const int last=SpaceInfinityProcessor::oscillatorWaves(oscillator==2).size()-1;if(int(synth.state.getRawParameterValue(id)->load())!=last)return 63;
         next->onClick();if(synth.state.getRawParameterValue(id)->load()!=0)return 64;
     }
     ExtendedPanel panel(synth);panel.setSize(730,465);

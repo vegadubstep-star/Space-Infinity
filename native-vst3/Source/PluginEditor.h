@@ -41,13 +41,14 @@ private:
     std::unique_ptr<rhythmui::GatePage> gatePage;
     std::unique_ptr<rhythmui::SequencerPage> sequencerPage;
     std::array<ModSourceButton,3> pageLfoSources;
+    std::array<juce::TextButton,2> unisonButtons;
     juce::TextButton gateTab{"GATE"},sequenceTab{"SEQ"};
     int auxiliaryPage=0;
     void showPage(int page);
     std::unique_ptr<MainWorkbench> workbench;
     std::unique_ptr<SubPanel> subPanel;
     MasterReadout masterReadout;
-    std::array<ModSlider,2> oscillatorGains;
+    std::array<ModSlider,2> oscillatorGains,wtPositions;
     std::array<juce::Label,2> gainLabels;
     std::array<juce::ToggleButton,4> filterRoutes;
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment>> routeBindings;

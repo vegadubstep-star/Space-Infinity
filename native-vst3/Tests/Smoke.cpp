@@ -3,6 +3,8 @@
 #include <iostream>
 #include <fstream>
 
+int runOscillatorWorkflowSmoke();
+int runDualLfoSmoke();
 int runRhythmWorkflowSmoke();
 int runWorkflowSmoke();
 int runExtendedSmoke();
@@ -46,6 +48,8 @@ int renderHardwarePreview()
 int main(int argc,char* argv[])
 {
     juce::ScopedJuceInitialiser_GUI gui;
+    if(argc>1&&juce::String(argv[1])=="--oscillator-workflow-tests")return runOscillatorWorkflowSmoke();
+    if(argc>1&&juce::String(argv[1])=="--dual-lfo-tests")return runDualLfoSmoke();
     if(argc>1&&juce::String(argv[1])=="--rhythm-workflow-tests")return runRhythmWorkflowSmoke();
     if(argc>1&&juce::String(argv[1])=="--workflow-tests")return runWorkflowSmoke();
     if(argc>1&&juce::String(argv[1])=="--ui-only")return renderHardwarePreview();

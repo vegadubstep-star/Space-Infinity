@@ -28,4 +28,21 @@ struct EditableCurve {
     int count=2;std::array<float,33> x{},y{},bend{};
     float value(float phase)const{phase=juce::jlimit(0.0f,1.0f,phase);int b=1;while(b<count-1&&x[size_t(b)]<phase)++b;const int a=b-1;float t=juce::jlimit(0.0f,1.0f,(phase-x[size_t(a)])/juce::jmax(.0001f,x[size_t(b)]-x[size_t(a)]));t=std::pow(t,std::exp2(bend[size_t(a)]*3));return y[size_t(a)]+t*(y[size_t(b)]-y[size_t(a)]);}
 };
+struct LfoTiming {
+    float phase=0,delay=0,rise=0,smooth=0;int direction=0;
+    float position(double cycle)const {
+        if(direction==2){cycle=std::fmod(cycle+phase,2.0);return float(cycle<=1?cycle:2-cycle);}
+        cycle=juce::jlimit(0.0,1.0,cycle)+phase;if(cycle>1)cycle-=std::floor(cycle);
+        return direction==1?1-float(cycle):float(cycle);
+    }
+    float output(const EditableCurve& curve,double cycle,double age,double sr,float& memory)const {
+        const float start=curve.value(position(0));
+        const float depth=age<delay?0:rise<=0?1:juce::jlimit(0.0f,1.0f,float((age-delay)/rise));
+        const float target=start+(curve.value(position(cycle))-start)*depth;
+        if(age==0||smooth<=0)memory=target;
+        else memory+=(target-memory)*float(1-std::exp(-1.0/(sr*smooth*.001)));
+        return memory;
+    }
+};
+
 }
