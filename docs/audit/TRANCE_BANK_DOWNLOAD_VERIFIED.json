@@ -1,0 +1,9 @@
+{
+  "installer_zip_sha256": "88b4917e15bc4c94bab0d25a1e16c6423366d91b034df3355eb86ccffed1ba4e",
+  "installer_sha256": "53c476ae821486b08c5db4f4e7eb4aea495b714f7c176d0cfeee648f7f29260d",
+  "vst3_zip_sha256": "13786b45125789486cf7dc4d3c907237bfe973da48d8bb44a1fa1032adfa427c",
+  "vst3_module": "SPACE INFINITY.vst3/Contents/x86_64-win/SPACE INFINITY.vst3",
+  "factory_presets": 160,
+  "multisample_zones_verified": 42,
+  "native_parameters": 1068
+}

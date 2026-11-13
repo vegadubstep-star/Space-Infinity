@@ -1,10 +1,22 @@
-# 0.5.0 trance-bank replacement — native checks passed, Windows release pending
+# Verified release — SPACE INFINITY 0.5.0
+
+Published and ready for the user's DAW test. [Installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.5.0/SPACE_INFINITY_0.5.0_Windows_x64_Installer.zip). Source: `4a2957a2eeac8a20126bb4b3b2f03c6a4580501d`. [Windows workflow 43414906507](https://github.com/vegadubstep-star/Space-Infinity/actions/runs/43414906507) completed successfully, including all 15 native suites, install/uninstall, archive verification, publication and optional artifacts/cache.
+
+Downloaded the actual published installer ZIP and VST3 archive. Verified ZIP integrity, published ZIP/Setup/VST3 hashes, x64 PE, version 0.5.0, exact embedded factory JSON, **all 42 WAV zones byte-for-byte**, approved logo, packaged research/catalogue/provenance and the 1,068-parameter inventory (27 source choices). The VST3 SDK's generated moduleinfo.json has trailing commas; the independent verifier accepts that SDK syntax while checking version/identity. No release files were altered to pass verification.
+
+- Installer ZIP SHA-256: `88b4917e15bc4c94bab0d25a1e16c6423366d91b034df3355eb86ccffed1ba4e`
+- Setup SHA-256: `53c476ae821486b08c5db4f4e7eb4aea495b714f7c176d0cfeee648f7f29260d`
+- VST3 ZIP SHA-256: `13786b45125789486cf7dc4d3c907237bfe973da48d8bb44a1fa1032adfa427c`
+
+Evidence: `/workspace/work/release-verification/v0.5.0/DOWNLOAD_VERIFIED.json`; local native audit and 160 six-second audition WAVs: `/workspace/work/trance-research/`. Do not commit the untracked `audition/` or Python cache directory. These are track-inspired authored sounds, not artist originals or proven identical replicas; the user's listening test remains necessary. Close FL Studio, Extract All, run Setup.exe, then load a fresh instance.
+
+## Implementation handover
 
 User requested a complete trance/90s German hard-trance factory replacement and explicitly authorised importing online samples. Exact requested counts total **160**, corrected from an earlier arithmetic error of 170. Built 160 new sounds plus Init; personal user presets and saved project parameter states are retained. New factory generation F1000 retires old factory entries.
 
 Added 42 CC0 stereo pitch/velocity zones (VCSL / VSCO 2 CE): grand, upright, violin/cello sections, spiccato/pizzicato. Native per-note key/layer selection, stereo playback and crossfaded sustain loops. Pinned source/output hashes and roots in `native-vst3/Samples/Trance/PROVENANCE.json`. Research, catalogue and validation are in `docs/TRANCE_FACTORY_BANK*.md`, `docs/TRANCE_PRESET_CATALOGUE.md`, `docs/audit/TRANCE_BANK_VALIDATION.md`. Blueprint, sample preparation and measured calibration scripts are committed. No copyrighted record samples, commercial ROM/library rips or song MIDI.
 
-All 15 local native suites passed, including bank headroom, dry unsequenced basses, arp stopping, sample loops, personal-bank migration and six 24-note fade checks. Full profile output/160 audition WAVs are outside Git at `/workspace/work/trance-research/`; no audition directory should be committed. Windows version and installer set to 0.5.0. Release publication and actual download verification still pending; do not call ready until completed. Latest previously verified download is 0.4.2 below.
+All 15 local native suites passed, including bank headroom, dry unsequenced basses, arp stopping, sample loops, personal-bank migration and six 24-note fade checks. Full profile output/160 audition WAVs are outside Git at `/workspace/work/trance-research/`; no audition directory should be committed. Version 0.5.0 has now passed Windows publication and actual download verification above.
 
 ## Earlier verified release
 

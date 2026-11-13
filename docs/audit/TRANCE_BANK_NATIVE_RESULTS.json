@@ -1,0 +1,93 @@
+{
+  "source_commit": "4a2957a2eeac8a20126bb4b3b2f03c6a4580501d",
+  "factory_count": 160,
+  "blueprint_sha256": "26a3ddef3a1b3ad9de2390b8d2df80e9d76d09e8f365ec3be4490beca7911241",
+  "profile_sha256": "bbf90fb2df88f1579be95b359bf253db97c902c42b1fc3f1f54ca5d09d51f8e6",
+  "native_suites_passed": 15,
+  "categories": {
+    "90s German Leads": {
+      "count": 10,
+      "peak_min": 0.4844,
+      "peak_max": 0.4854,
+      "raw_peak_max": 0.53
+    },
+    "Acid": {
+      "count": 10,
+      "peak_min": 0.4846,
+      "peak_max": 0.4874,
+      "raw_peak_max": 0.5324
+    },
+    "Airy Pads": {
+      "count": 10,
+      "peak_min": 0.3797,
+      "peak_max": 0.38,
+      "raw_peak_max": 0.4
+    },
+    "Arps and Sequences": {
+      "count": 20,
+      "peak_min": 0.3346,
+      "peak_max": 0.4854,
+      "raw_peak_max": 0.53
+    },
+    "Choir Stabs": {
+      "count": 10,
+      "peak_min": 0.4834,
+      "peak_max": 0.486,
+      "raw_peak_max": 0.53
+    },
+    "Dark Pads": {
+      "count": 10,
+      "peak_min": 0.3791,
+      "peak_max": 0.38,
+      "raw_peak_max": 0.4002
+    },
+    "Hard Trance Leads": {
+      "count": 10,
+      "peak_min": 0.4808,
+      "peak_max": 0.4854,
+      "raw_peak_max": 0.53
+    },
+    "Offbeat Bass Stabs": {
+      "count": 15,
+      "peak_min": 0.3568,
+      "peak_max": 0.4696,
+      "raw_peak_max": 0.5097
+    },
+    "Rolling Bass": {
+      "count": 15,
+      "peak_min": 0.3364,
+      "peak_max": 0.4541,
+      "raw_peak_max": 0.49
+    },
+    "Strings": {
+      "count": 10,
+      "peak_min": 0.4445,
+      "peak_max": 0.4615,
+      "raw_peak_max": 0.4996
+    },
+    "Sub Bass Stabs": {
+      "count": 5,
+      "peak_min": 0.3514,
+      "peak_max": 0.4277,
+      "raw_peak_max": 0.457
+    },
+    "Trance Pianos": {
+      "count": 5,
+      "peak_min": 0.4847,
+      "peak_max": 0.4854,
+      "raw_peak_max": 0.53
+    },
+    "Trance Plucks": {
+      "count": 20,
+      "peak_min": 0.4728,
+      "peak_max": 0.4854,
+      "raw_peak_max": 0.53
+    },
+    "Uplifting Leads": {
+      "count": 10,
+      "peak_min": 0.4743,
+      "peak_max": 0.4937,
+      "raw_peak_max": 0.5431
+    }
+  }
+}
