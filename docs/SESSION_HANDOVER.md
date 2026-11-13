@@ -1,9 +1,21 @@
-# Active update — SPACE INFINITY 0.6.1 (not published yet)
+# Verified release — SPACE INFINITY 0.6.1
 
-Implemented stronger 17-mode distortion (Input/Tone/HQ), all 10 acids and 35 basses revoiced, 10 choir stabs using all nine owner uploads, portable embedded-sample preset/WAV exporter, MAIN portamento and meaningful Studio/Vintage Analogue Lab. 160 presets plus Init, 1106 parameters, 39 source choices, 60 sample zones. See ACID_BASS_AND_CHOIR_UPDATE.md. New user recordings are not CC0; originals and provenance retained.
+Ready for the owner's FL Studio listening test. [Installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.6.1/SPACE_INFINITY_0.6.1_Windows_x64_Installer.zip) and [Choir Stabs ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.6.1/SPACE_INFINITY_0.6.1_Choir_Stabs.zip). Close FL Studio, Extract All, run Setup, then load a fresh instance and select the new factory sounds. The separate pack has ten embedded-sample presets and ten stereo WAV hits.
 
-Final native 18/18 suites and Python importer passed. All160 auditions measured -29.60..-27.86 LUFS, spread1.74LU, max raw chord peak0.7800004 (docs/audit/TRANCE_LOUDNESS_061.json). Final profiles/WAVs: /workspace/work/levels-061-final-{solo,chord}. Portable choir pack verified (ten embedded-sample presets plus ten stereo WAVs), local ZIP /workspace/work/SPACE_INFINITY_0.6.1_Choir_Stabs.zip SHA256 6915815da0226416d6057ca463353d619535d6aee99435aa581cbc89449a084e. Native export uses JUCE MemoryBlock encoding, handled by pack validator. Windows CI/publication and downloaded-byte verification remain. Keep production fixed during Windows build. Do not commit audition/ or scripts/__pycache__/. No subagents authorized. GH_TOKEN working; connected GitHub tools are fallback. Independent verifier prepared: /workspace/work/workflow-update/verify-v061-download.py.
+Source commit **45e7fcc3a440de77bb4fe4e37164e93f907cae7d**. [Windows workflow43495801570](https://github.com/vegadubstep-star/Space-Infinity/actions/runs/43495801570) completed successfully, including all18 native suites, Python importer, installer/uninstaller, binary identity and publication. Both optional artifacts and the build cache completed.
 
+Completed stronger17-mode distortion (Input/Tone/HQ), all10 acids and35 basses revoiced, ten choir stabs using all nine owner uploads, MAIN portamento and audible Studio/Vintage Analogue Lab. 160 presets plus Init;1106 parameters,39 source choices,60 sample zones.56 designs revised and104 retained. Original owner WAVs and provenance retained separately from CC0 materials. See ACID_BASS_AND_CHOIR_UPDATE.md and audit/ACID_BASS_CHOIR_061_VALIDATION.md.
+
+Final native auditions: -29.60..-27.86 LUFS,1.74LU spread,max raw chord peak0.7800004. Evidence docs/audit/TRANCE_LOUDNESS_061.json; full profiles/WAVs /workspace/work/levels-061-final-{solo,chord}. Local native18/18 and Python importer passed.
+
+Downloaded all24 actual GitHub Release assets with working CLI credentials. Every file matches published SHA-256/size metadata. Independent readback verified installer ZIP/Setup hash, x64 PE/version, approved logo, exact bank, all60 sample zones, updated docs/provenance and1106-parameter inventory. The downloaded choir pack was separately decoded/validated:10 embedded-sample presets and10 stereo48k WAV hits. Evidence /workspace/work/release-verification/v0.6.1/{DOWNLOAD_VERIFIED.json,PUBLISHED_ASSET_DIGESTS.json,WINDOWS_WORKFLOW.log}.
+
+- installer_zip_sha256: `13d197d45effb21fbaa3908cd6c045b35cdcfb5d9a79e1e62ba0e93360fe4fe4`
+- installer_sha256: `a072f725bb0e94c72ceed1328f5417f46744bc1255babe91b67b95a68c4b0d41`
+- vst3_zip_sha256: `ce668c88fdb7f9cfedb4bad97a85e6583d31033f58bbaa00af33a444353fea15`
+- choir_pack_sha256: `c370a62b9a7a4b1a14e9b02635e98007a1ec654e2600419d400068236d776465`
+
+No pending source or release work. Musical/DAW listening is the owner's next evaluation. These are authored sounds, not claimed identical artist patches. No subagents authorized. Do not commit untracked audition/ or scripts/__pycache__/ (including tests cache). GH_TOKEN worked throughout publication; connected GitHub tools remain fallback if it expires. Keep production fixed during builds.
 
 ## Previous verified release
 
