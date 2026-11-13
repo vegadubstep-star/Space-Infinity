@@ -18,12 +18,12 @@ int runWorkflowSmoke();
 int runExtendedSmoke();
 int runPresetSmoke();
 int runStudioSmoke();
-int runAirwaveSmoke();
+int runTranceBankSmoke(int group,const juce::File& profile={});
 int runLeadSmoke();
-int runGrooveSmoke();
+
 
 int writeParameterInventory(const juce::File& file){
-    auto p=std::make_unique<SpaceInfinityProcessor>();auto* root=new juce::DynamicObject;juce::var result(root);root->setProperty("native_version","0.4.2");root->setProperty("manual_reference","https://xferrecords.com/manual/serum-2/docs");root->setProperty("notes","Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.");juce::Array<juce::var> rows;
+    auto p=std::make_unique<SpaceInfinityProcessor>();auto* root=new juce::DynamicObject;juce::var result(root);root->setProperty("native_version","0.5.0");root->setProperty("manual_reference","https://xferrecords.com/manual/serum-2/docs");root->setProperty("notes","Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.");juce::Array<juce::var> rows;
     for(auto* parameter:p->getParameters())if(auto* a=dynamic_cast<juce::RangedAudioParameter*>(parameter)){auto* row=new juce::DynamicObject;row->setProperty("id",a->paramID);row->setProperty("name",a->getName(120));row->setProperty("type",dynamic_cast<juce::AudioParameterBool*>(a)?"boolean":dynamic_cast<juce::AudioParameterChoice*>(a)?"choice":dynamic_cast<juce::AudioParameterInt*>(a)?"integer":"float");row->setProperty("minimum",a->convertFrom0to1(0));row->setProperty("maximum",a->convertFrom0to1(1));row->setProperty("host_default",a->convertFrom0to1(a->getDefaultValue()));row->setProperty("init_value",p->state.getRawParameterValue(a->paramID)->load());if(auto* choice=dynamic_cast<juce::AudioParameterChoice*>(a)){juce::Array<juce::var> names;for(const auto& name:choice->choices)names.add(name);row->setProperty("choices",names);}rows.add(juce::var(row));}root->setProperty("parameter_count",rows.size());root->setProperty("parameters",rows);if(file.getParentDirectory().createDirectory().failed()||!file.replaceWithText(juce::JSON::toString(result)))return 125;std::cout<<"Exported "<<rows.size()<<" native parameters to "<<file.getFullPathName()<<'\n';return 0;
 }
 
@@ -86,6 +86,7 @@ int renderHardwarePreview()
 int main(int argc,char* argv[])
 {
     juce::ScopedJuceInitialiser_GUI gui;
+    if(argc>2&&juce::String(argv[1])=="--trance-bank-profile")return runTranceBankSmoke(2,juce::File(argv[2]));
     if(argc>2&&juce::String(argv[1])=="--parameter-inventory")return writeParameterInventory(juce::File(argv[2]));
     if(argc>1&&juce::String(argv[1])=="--analogue-tail-probe")return runAnalogueTailProbe();
     if(argc>1&&juce::String(argv[1])=="--analogue-expansion-tests")return runAnalogueExpansionSmoke();
@@ -96,9 +97,9 @@ int main(int argc,char* argv[])
     if(argc>1&&juce::String(argv[1])=="--ui-only")return renderHardwarePreview();
     if(argc>1&&juce::String(argv[1])=="--preset-tests")return runPresetSmoke();
     if(argc>1&&juce::String(argv[1])=="--extended-tests")return runExtendedSmoke();
-    if(argc>1&&juce::String(argv[1])=="--groove-tests")return runGrooveSmoke();
+    if(argc>1&&juce::String(argv[1])=="--groove-tests")return runTranceBankSmoke(0);
     if(argc>1&&juce::String(argv[1])=="--lead-tests")return runLeadSmoke();
-    if(argc>1&&juce::String(argv[1])=="--pad-tests")return runAirwaveSmoke();
+    if(argc>1&&juce::String(argv[1])=="--pad-tests")return runTranceBankSmoke(1);
     if(argc>1&&juce::String(argv[1])=="--studio-tests")return runStudioSmoke();
     // Hosts allocate processors on the heap. Keep test dispatch's main stack
     // small as well, including when it calls another smoke-test entry point.
@@ -107,7 +108,7 @@ int main(int argc,char* argv[])
     constexpr int blockSize=256;
     juce::AudioBuffer<float> audio(2,blockSize);
     const auto& names=synth.presetNames();
-    if(names.size()!=34 || synth.motionNames().size()!=20) return 1;
+    if(names.size()!=161 || synth.motionNames().size()!=20) return 1;
 
     for(int i=0;i<names.size();++i)
         if(names.indexOf(names[i])!=i) return 9;

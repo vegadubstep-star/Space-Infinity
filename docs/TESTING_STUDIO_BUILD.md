@@ -1,8 +1,8 @@
-# Testing SPACE INFINITY 0.4.2
+# Testing SPACE INFINITY 0.5.0
 
-Download the **installer ZIP** from the [v0.4.2 release](https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.4.2) once its Windows workflow has published it. Sign into GitHub if needed. Extract All, close FL Studio, run `SPACE_INFINITY_0.4.2_Windows_x64_Setup.exe`, then reopen FL Studio and load a fresh SPACE INFINITY instance. The plugin identity and user preset storage are preserved.
+Download the **installer ZIP** from the [v0.5.0 release](https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.5.0) once its Windows workflow has published it. Sign into GitHub if needed. Extract All, close FL Studio, run `SPACE_INFINITY_0.5.0_Windows_x64_Setup.exe`, then reopen FL Studio and load a fresh SPACE INFINITY instance. The plugin identity and user preset storage are preserved.
 
-[Analogue update](ANALOGUE_AND_PARITY_UPDATE.md) / [Serum 2 audit](SERUM2_FEATURE_AUDIT.md) / [earlier rhythm changes](RHYTHM_AND_METAL_UPDATE.md) / [previous control and FX updates](TEN_CONTROL_UPDATES.md)
+[New trance bank](TRANCE_FACTORY_BANK.md) / [Preset catalogue](TRANCE_PRESET_CATALOGUE.md) / [Analogue update](ANALOGUE_AND_PARITY_UPDATE.md) / [Serum 2 audit](SERUM2_FEATURE_AUDIT.md) / [earlier rhythm changes](RHYTHM_AND_METAL_UPDATE.md) / [previous control and FX updates](TEN_CONTROL_UPDATES.md)
 
 1. **Analogue additions:** ENGINES → ANALOG LAB. Compare component variation/colour on/off, matched stereo filters and clean base VCO. Change one control at a time. Init is neutral. Also check source pan, A4 tuning and the smaller fully visible logo.
 2. **Envelopes:** Try amp/filter Hold and CURVES on MAIN; drag graph nodes and contour segments. Original analogue filters and controls remain available.
@@ -24,4 +24,6 @@ Latest UI checks: MAIN shows both amp/filter curves above their knobs. Adjust At
 
 MAIN analogue/pitch checks: Character, PRE DRIVE, ANALOGUE and LAB should sit beside the filter at all four sizes. PITCH opens a separate pitch page; ANALOGUE has no pitch-envelope or pitch-bend controls. Set Mono or Legato, raise PORTAMENTO and overlap notes to hear glide (including sample playback). Automate Pitch Wheel in FL Studio for risers; zero is centre and +12 st raises one octave.
 
-Logo check (0.4.2): the approved clean hard-trance badge must clear the pitch wheel at every size. Play sound: purple illumination fills within the letters with final output level. Lower master output to zero: the light should decay smoothly to idle, with no MIDI-only flashes or light from a muted signal. The metal lettering remains visible at silence.
+Logo check (0.5.0): the approved clean hard-trance badge must clear the pitch wheel at every size. Play sound: purple illumination fills within the letters with final output level. Lower master output to zero: the light should decay smoothly to idle, with no MIDI-only flashes or light from a muted signal. The metal lettering remains visible at silence.
+
+0.5.0 bank checks: 160 new sounds plus Init; browse the 14 category headings. All 35 basses and ten acid patches should follow your MIDI with the sequencer, gate and pump off. Arps/sequences should start with held notes and stop with MIDI note-off. Try piano velocity layers and hold the sampled string sections past five seconds to hear their sustain loops. Compare successive lead notes over a minute for stable level. This bank intentionally replaces prior factory sounds while preserving user files.

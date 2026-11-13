@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.22)
-project(SpaceInfinity VERSION 0.4.2 LANGUAGES C CXX)
+project(SpaceInfinity VERSION 0.5.0 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 include(FetchContent)
 FetchContent_Declare(juce GIT_REPOSITORY https://github.com/juce-framework/JUCE.git GIT_TAG 8.0.7)
 FetchContent_MakeAvailable(juce)
 juce_add_plugin(SpaceInfinity COMPANY_NAME "Orbital Audio" BUNDLE_ID "com.orbitalaudio.spaceinfinity" PLUGIN_MANUFACTURER_CODE Orbt PLUGIN_CODE SInf FORMATS VST3 Standalone PRODUCT_NAME "SPACE INFINITY" IS_SYNTH TRUE NEEDS_MIDI_INPUT TRUE NEEDS_MIDI_OUTPUT FALSE COPY_PLUGIN_AFTER_BUILD FALSE)
-juce_add_binary_data(SpaceInfinitySamples SOURCES
+file(GLOB TRANCE_SAMPLE_FILES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/Samples/Trance/*.wav")
+juce_add_binary_data(SpaceInfinitySamples SOURCES ${TRANCE_SAMPLE_FILES}
     Samples/Orbital_Choir_Ah_Chord_F2.wav
     Samples/Ethereal_Choir_Ooh_C3.wav
     Samples/Choir_claudia_ah.wav
@@ -25,17 +26,18 @@ juce_add_binary_data(SpaceInfinitySamples SOURCES
     Samples/VCSL_Recorder_Stab.wav
     Samples/VCSL_Vibraphone.wav
 )
+juce_add_binary_data(SpaceInfinityFactoryBank HEADER_NAME FactoryBankData.h NAMESPACE FactoryBankData SOURCES Presets/TranceFactoryBank.json)
 juce_generate_juce_header(SpaceInfinity)
 juce_add_binary_data(SpaceInfinityArtwork HEADER_NAME Artwork.h NAMESPACE Artwork SOURCES Assets/InfinityLogo.png)
 target_sources(SpaceInfinity PRIVATE Source/PluginProcessor.cpp Source/PluginEditor.cpp Source/ExtendedProcessor.cpp Source/StudioProcessor.cpp Source/StudioRack.cpp)
 target_compile_definitions(SpaceInfinity PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0 JUCE_VST3_CAN_REPLACE_VST2=0)
-target_link_libraries(SpaceInfinity PRIVATE SpaceInfinityArtwork SpaceInfinitySamples juce::juce_audio_utils juce::juce_dsp juce::juce_recommended_config_flags juce::juce_recommended_lto_flags juce::juce_recommended_warning_flags)
+target_link_libraries(SpaceInfinity PRIVATE SpaceInfinityFactoryBank SpaceInfinityArtwork SpaceInfinitySamples juce::juce_audio_utils juce::juce_dsp juce::juce_recommended_config_flags juce::juce_recommended_lto_flags juce::juce_recommended_warning_flags)
 
 option(SPACE_INFINITY_BUILD_TESTS "Build native smoke tests on other desktop platforms" OFF)
 if(WIN32 OR SPACE_INFINITY_BUILD_TESTS)
     juce_add_console_app(SpaceInfinitySmoke PRODUCT_NAME "Space Infinity Smoke")
     juce_generate_juce_header(SpaceInfinitySmoke)
-    target_sources(SpaceInfinitySmoke PRIVATE Tests/Smoke.cpp Tests/ExtendedSmoke.cpp Tests/PresetSmoke.cpp Tests/StudioSmoke.cpp Tests/GrooveSmoke.cpp Tests/WorkflowSmoke.cpp Tests/RhythmWorkflowSmoke.cpp Tests/DualLfoSmoke.cpp Tests/OscillatorWorkflowSmoke.cpp Tests/AnalogueExpansionSmoke.cpp)
+    target_sources(SpaceInfinitySmoke PRIVATE Tests/Smoke.cpp Tests/ExtendedSmoke.cpp Tests/PresetSmoke.cpp Tests/StudioSmoke.cpp Tests/TranceBankSmoke.cpp Tests/WorkflowSmoke.cpp Tests/RhythmWorkflowSmoke.cpp Tests/DualLfoSmoke.cpp Tests/OscillatorWorkflowSmoke.cpp Tests/AnalogueExpansionSmoke.cpp)
     target_compile_definitions(SpaceInfinitySmoke PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0)
     target_link_libraries(SpaceInfinitySmoke PRIVATE SpaceInfinity SpaceInfinitySamples juce::juce_audio_utils juce::juce_dsp)
     add_executable(SpaceInfinityAnalogueProbe Tests/AnalogueProbe.cpp)

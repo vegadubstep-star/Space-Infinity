@@ -4,6 +4,7 @@
 #include "ExtendedEngine.h"
 #include "PresetLibrary.h"
 #include "SampleSources.h"
+#include "FactorySampleZones.h"
 #include "StudioEffects.h"
 #include "RhythmFX.h"
 #include "StudioEQ.h"
@@ -164,10 +165,14 @@ private:
         double sampleRate = 0;
         SampleView view;
     };
-    static juce::Result decodeSample(const juce::MemoryBlock&, Sample&);
+    static juce::Result decodeSample(const juce::MemoryBlock&, Sample&,bool keepStereo=false);
     Sample choirAh, choirOoh, importedSample;
     std::array<Sample,16> extraSamples;
-    const Sample& sampleForSource(int source) const {
+    std::array<Sample,factorySampleZones.size()> factorySamples;
+    int factoryZoneForSource(int source,int note,float velocity)const;
+    int rootForSource(int source,int zone,int importedRoot)const;
+    const Sample& sampleForSource(int source,int zone=-1) const {
+        if(source>=21){const int selected=zone>=0?zone:factoryZoneForSource(source,60,.7f);if(selected>=0&&selected<int(factorySamples.size()))return factorySamples[size_t(selected)];}
         return source==1?choirAh:source==2?choirOoh:source>=5&&source<21?extraSamples[size_t(source-5)]:importedSample;
     }
     static bool userSample(int source) noexcept {return source==3||source==4;}
@@ -181,7 +186,7 @@ private:
         VoiceCalibration calibration;
         double idleRateA=0,idleRateB=0,pitch=0,subPhase=0;
         float subEnvelope=0,lastL=0,lastR=0,tailL=0,tailR=0,smoothFc=0;int declickRemaining=0,declickLength=1,retireRemaining=0,retireLength=1;
-        int source = 0;
+        int source = 0,sampleZone=-1,sampleLoopStart=0;
         double samplePosition = 0, sampleStep = 0;
         int sampleStart = 0, sampleEnd = 0;
         bool sampleLoop = false;

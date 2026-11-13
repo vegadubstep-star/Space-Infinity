@@ -1,5 +1,5 @@
 {
-  "native_version": "0.4.2",
+  "native_version": "0.5.0",
   "manual_reference": "https://xferrecords.com/manual/serum-2/docs",
   "notes": "Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.",
   "parameter_count": 1068,
@@ -2078,7 +2078,7 @@
       "name": "Sound Source",
       "type": "choice",
       "minimum": 0.0,
-      "maximum": 20.0,
+      "maximum": 26.0,
       "host_default": 0.0,
       "init_value": 0.0,
       "choices": [
@@ -2102,7 +2102,13 @@
         "FM Clavi",
         "FM Piano",
         "Bowed Psaltery",
-        "Recorder Stab"
+        "Recorder Stab",
+        "Studio Grand Multisample",
+        "Upright Multisample",
+        "Violin Section Multisample",
+        "Cello Section Multisample",
+        "Spiccato Strings Multisample",
+        "Pizzicato Strings Multisample"
       ]
     },
     {

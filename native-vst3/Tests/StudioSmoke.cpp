@@ -101,72 +101,8 @@ int runStudioSmoke(){
 }
 
 // Sustained and retriggered pad output must not accumulate a loss of level.
-int runAirwaveSmoke(){
- try{
-    auto synth=std::make_unique<SpaceInfinityProcessor>();synth->loadPreset(1);
-    auto set=[&](const juce::String& id,float value){auto* p=synth->state.getParameter(id);require(p!=nullptr,"pad parameter exists");p->setValueNotifyingHost(p->convertTo0to1(value));};
-    require(synth->presetNames()[1]=="Skywave Pad","pad bank entry");
-    require(synth->state.getRawParameterValue("ampSustain")->load()==1,"pad full sustain");
-    require(synth->state.getRawParameterValue("ampLong")->load()==1,"pad long envelope");
-    synth->prepareToPlay(48000,256);juce::AudioBuffer<float> audio(2,256);
-    const auto render=[&](int blocks,int noteOn,int noteOff){double energy=0;for(int block=0;block<blocks;++block){juce::MidiBuffer midi;
-        for(int n:{48,55,60}){if(block==noteOn)midi.addEvent(juce::MidiMessage::noteOn(1,n,.75f),0);if(block==noteOff)midi.addEvent(juce::MidiMessage::noteOff(1,n),0);}
-        synth->processBlock(audio,midi);for(int ch=0;ch<2;++ch)for(int i=0;i<256;++i){float v=audio.getSample(ch,i);require(std::isfinite(v)&&std::abs(v)<=1,"pad finite/headroom");energy+=double(v)*v;}}return energy;};
-    std::array<double,24> levels{};
-    for(int note=0;note<24;++note){render(190,0,-1);levels[size_t(note)]=render(185,-1,-1);render(94,-1,0);}
-    double first=0,last=0;for(int i=2;i<8;++i)first+=levels[size_t(i)];for(int i=18;i<24;++i)last+=levels[size_t(i)];
-    require(first>1&&last>first*.65,"retriggered pad does not progressively fade");
-    std::cout<<"Airwave repeated-note energy ratio: "<<last/first<<std::endl;
-    synth->prepareToPlay(48000,256);render(375,0,-1);const double heldEarly=render(375,-1,-1);
-    render(3000,-1,-1);const double heldLate=render(375,-1,-1);
-    require(heldLate>heldEarly*.55,"held pad does not progressively fade");
-    render(1,-1,0);const double longTail=render(280,-1,-1);require(longTail>1,"pad release lasts beyond one second");render(600,-1,-1);const double tailEnd=render(188,-1,-1);std::cout<<"Airwave release energy "<<longTail<<" -> "<<tailEnd<<std::endl;require(tailEnd/188<longTail/280*.005,"pad tail power decays relative to its release level");render(187,-1,-1);const double tailFinal=render(188,-1,-1);std::cout<<"Airwave final tail energy "<<tailFinal<<std::endl;require(tailFinal<.05&&tailFinal<tailEnd*.25,"pad tail continues decaying to silence");
-    // Every LFO must bypass its routes at both voice and effects destinations.
-    for(int lfo=0;lfo<3;++lfo){
-        const auto measure=[&](bool enabled,bool routed){synth=std::make_unique<SpaceInfinityProcessor>();synth->loadPreset(0);set("attack",0);set("release",0);set("mix",0);set("osc2Enabled",0);
-            for(int p=0;p<17;++p)set(synth->lfoPointId(lfo,p),1);
-            set(synth->lfoParameterId(lfo,"Enabled"),enabled?1:0);
-            set(synth->modulationRouteId(lfo+4,0,false),routed?14:0);set(synth->modulationRouteId(lfo+4,0,true),-1);
-            set(synth->modulationRouteId(lfo+4,1,false),routed?1:0);set(synth->modulationRouteId(lfo+4,1,true),-1);
-            synth->prepareToPlay(48000,256);return render(188,0,-1);};
-        const double baseline=measure(false,false),bypassed=measure(false,true),active=measure(true,true);
-        require(std::abs(bypassed-baseline)<baseline*.00001,"disabled LFO has no remaining modulation");require(active<baseline*.4,"LFO enabled modulation audible");
-    }
-    const auto legacyEnergy=[&](float depth){synth=std::make_unique<SpaceInfinityProcessor>();synth->loadPreset(0);set("vibratoEnabled",0);set("lfodepth",depth);synth->prepareToPlay(48000,256);return render(188,0,-1);};
-    const double legacyDry=legacyEnergy(0),legacyBypass=legacyEnergy(1);
-    require(std::abs(legacyDry-legacyBypass)<legacyDry*.00001,"legacy vibrato bypass removes pitch/filter modulation");
-    set("vibratoEnabled",0);set("ampLong",1);set(synth->lfoParameterId(2,"Enabled"),0);
-    juce::MemoryBlock state;synth->getStateInformation(state);auto recalled=std::make_unique<SpaceInfinityProcessor>();recalled->setStateInformation(state.getData(),int(state.getSize()));
-    require(recalled->state.getRawParameterValue("vibratoEnabled")->load()==0&&recalled->state.getRawParameterValue("ampLong")->load()==1&&recalled->state.getRawParameterValue(synth->lfoParameterId(2,"Enabled"))->load()==0,"bypass and long envelope recall");
-    std::cout<<"Airwave sustained/retriggered level, long release, LFO bypass and state recall passed"<<std::endl;return 0;
- }catch(const std::exception& e){std::cerr<<"Airwave test: "<<e.what()<<std::endl;return 130;}
-}
-
 int runLeadSmoke(){
  try{
-    for(int preset:{2,3,4,5,6,7,8,15,16,17,18,19,23,24,28,29,30,32,33}){
-        auto synth=std::make_unique<SpaceInfinityProcessor>();synth->loadPreset(preset);
-        require(synth->state.getRawParameterValue("osc1Unison")->load()==(preset==8||preset==17||preset==23||preset==28?1:preset==32?2:preset==33?10:preset==5||preset==7||preset==18||preset==19||preset==29?3:preset==6?8:7),"lead unison");
-        require(synth->state.getRawParameterValue("ampLong")->load()==0,"lead timing resets after pad");
-        synth->prepareToPlay(48000,256);juce::AudioBuffer<float> audio(2,256);
-        const auto folder=juce::File::getCurrentWorkingDirectory().getChildFile("audition");folder.createDirectory();
-        const auto file=folder.getChildFile(synth->presetNames()[preset]+" Preview.wav");file.deleteFile();auto stream=file.createOutputStream();
-        juce::WavAudioFormat format;std::unique_ptr<juce::AudioFormatWriter> writer(format.createWriterFor(stream.get(),48000,2,24,{},0));require(writer!=nullptr,"lead preview writer");stream.release();
-        std::array<double,24> levels{};float peak=0;
-        for(int phrase=0;phrase<24;++phrase){for(int block=0;block<188;++block){juce::MidiBuffer midi;
-            if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,69,.8f),0);
-            if(block==130)midi.addEvent(juce::MidiMessage::noteOff(1,69),0);
-            synth->processBlock(audio,midi);if(phrase<8)require(writer->writeFromAudioSampleBuffer(audio,0,256),"lead preview write");
-            for(int ch=0;ch<2;++ch)for(int i=0;i<256;++i){const float v=audio.getSample(ch,i);require(std::isfinite(v)&&std::abs(v)<=1,"lead finite/headroom");peak=std::max(peak,std::abs(v));if(block>=4&&block<125)levels[size_t(phrase)]+=double(v)*v;}
-        }}
-        double first=0,last=0;for(int i=2;i<8;++i)first+=levels[size_t(i)];for(int i=18;i<24;++i)last+=levels[size_t(i)];
-        require(peak>.01f&&first>1&&last>first*.70,"lead repeated notes retain level");
-        std::cout<<synth->presetNames()[preset]<<" repeated-note ratio "<<last/first<<", peak "<<peak<<std::endl;
-        juce::MemoryBlock state;synth->getStateInformation(state);auto recalled=std::make_unique<SpaceInfinityProcessor>();recalled->setStateInformation(state.getData(),int(state.getSize()));
-        require(recalled->selectedPresetKey()==synth->selectedPresetKey(),"lead stable key recall");
-        for(const char* id:{"osc2Octave","osc2Wave","filterEnvAmount","echoMode","compEnabled","osc1Spread","osc2Spread","osc1Blend","osc2Blend","glideTime","pitchEnvAmount","pitchEnvAttack","pitchEnvDecay","midiBendRange","osc2Semitone"})require(recalled->state.getRawParameterValue(id)->load()==synth->state.getRawParameterValue(id)->load(),"lead parameter recall");
-        synth->loadPreset(1);synth->loadPreset(preset);require(synth->state.getRawParameterValue("ampLong")->load()==0,"pad-to-lead timing reset");
-    }
     const auto capture=[](int oscillator,float ownSpread,float otherSpread,float blend,int generation){
         auto p=std::make_unique<SpaceInfinityProcessor>();p->loadPreset(0);
         const auto set=[&](const juce::String& id,float v){auto* parameter=p->state.getParameter(id);parameter->setValueNotifyingHost(parameter->convertTo0to1(v));};

@@ -1,0 +1,1762 @@
+[
+  {
+    "id": "TI001",
+    "design_hash": "41607f21b101553d",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 1.087157,
+      "osc2Gain": 1.087157
+    },
+    "measured_peak": 0.41291,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI002",
+    "design_hash": "55d08bc253477c1e",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": -4.326837,
+      "osc2Gain": -4.326837
+    },
+    "measured_peak": 0.50838,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI003",
+    "design_hash": "1a3c1b266b12ad8e",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 4.574756,
+      "osc2Gain": 4.574756
+    },
+    "measured_peak": 0.356675,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI004",
+    "design_hash": "eeb2515e5ed526f6",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 1.584965,
+      "osc2Gain": 1.584965
+    },
+    "measured_peak": 0.405041,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI005",
+    "design_hash": "62f3aedb006e236d",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 1.421409,
+      "osc2Gain": 1.421409
+    },
+    "measured_peak": 0.406556,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI006",
+    "design_hash": "3de22cc80439a9fe",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 0.825162,
+      "osc2Gain": 0.825162
+    },
+    "measured_peak": 0.417596,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI007",
+    "design_hash": "ff41b1e124ff3059",
+    "settings": {
+      "gain": 0.919155,
+      "osc1Gain": 6,
+      "osc2Gain": 6
+    },
+    "measured_peak": 0.326574,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI008",
+    "design_hash": "886600efbebf3c8c",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 3.473226,
+      "osc2Gain": 3.473226
+    },
+    "measured_peak": 0.378061,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI009",
+    "design_hash": "1ced7f9a30748ec9",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 4.75679,
+      "osc2Gain": 4.75679
+    },
+    "measured_peak": 0.361033,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI010",
+    "design_hash": "0775d95c3d18859f",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 2.363231,
+      "osc2Gain": 2.363231
+    },
+    "measured_peak": 0.402489,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI011",
+    "design_hash": "c70207b739b094c5",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 2.746753,
+      "osc2Gain": 2.746753
+    },
+    "measured_peak": 0.384842,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI012",
+    "design_hash": "552f8f47b19e8f3f",
+    "settings": {
+      "gain": 1.2,
+      "osc1Gain": 6,
+      "osc2Gain": 6
+    },
+    "measured_peak": 0.28547,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI013",
+    "design_hash": "6ad87647d5f9d561",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 3.807526,
+      "osc2Gain": 3.807526
+    },
+    "measured_peak": 0.374274,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI014",
+    "design_hash": "6b6c9165f5840474",
+    "settings": {
+      "gain": 1.035376,
+      "osc1Gain": 6,
+      "osc2Gain": 6
+    },
+    "measured_peak": 0.29407,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI015",
+    "design_hash": "f0b6b42f848ddc3d",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 1.015607,
+      "osc2Gain": 1.015607
+    },
+    "measured_peak": 0.413291,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI016",
+    "design_hash": "1ff42e1e380c7a46",
+    "settings": {
+      "gain": 1.148612,
+      "osc1Gain": 6,
+      "osc2Gain": 6
+    },
+    "measured_peak": 0.324635,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI017",
+    "design_hash": "da7f25f8935f6eb2",
+    "settings": {
+      "gain": 1.2,
+      "osc1Gain": 6,
+      "osc2Gain": 6
+    },
+    "measured_peak": 0.323234,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI018",
+    "design_hash": "71e17c168425055f",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 5.582523,
+      "osc2Gain": 5.582523
+    },
+    "measured_peak": 0.339304,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI019",
+    "design_hash": "d87a05c2fe157140",
+    "settings": {
+      "gain": 1.2,
+      "osc1Gain": 6,
+      "osc2Gain": 6
+    },
+    "measured_peak": 0.317266,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI020",
+    "design_hash": "7db3822692e1fe96",
+    "settings": {
+      "gain": 1.2,
+      "osc1Gain": 6,
+      "osc2Gain": 6
+    },
+    "measured_peak": 0.297462,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI021",
+    "design_hash": "7b8b2c2a77fbfae6",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 3.995318,
+      "osc2Gain": 3.995318
+    },
+    "measured_peak": 0.368229,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI022",
+    "design_hash": "f799664de03bc647",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": -2.108311,
+      "osc2Gain": -2.108311
+    },
+    "measured_peak": 0.468606,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI023",
+    "design_hash": "8a42891fe7b0c0d6",
+    "settings": {
+      "gain": 1.12552,
+      "osc1Gain": 6,
+      "osc2Gain": 6
+    },
+    "measured_peak": 0.299249,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI024",
+    "design_hash": "250f32679b474aaa",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 3.675867,
+      "osc2Gain": 3.675867
+    },
+    "measured_peak": 0.373027,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI025",
+    "design_hash": "c496cd706f93a8c5",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 4.503313,
+      "osc2Gain": 4.503313
+    },
+    "measured_peak": 0.357135,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI026",
+    "design_hash": "89186475ac9e6650",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 3.827631,
+      "osc2Gain": 3.827631
+    },
+    "measured_peak": 0.372962,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI027",
+    "design_hash": "54a6cf29367e011b",
+    "settings": {
+      "gain": 1.2,
+      "osc1Gain": 6,
+      "osc2Gain": 6
+    },
+    "measured_peak": 0.284324,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI028",
+    "design_hash": "1aa4c5a4cd43b7c5",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 4.559226,
+      "osc2Gain": 4.559226
+    },
+    "measured_peak": 0.361558,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI029",
+    "design_hash": "323f5f9f4fc4de0d",
+    "settings": {
+      "gain": 0.903025,
+      "osc1Gain": 6,
+      "osc2Gain": 6
+    },
+    "measured_peak": 0.339651,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI030",
+    "design_hash": "1c320b2129f0b03c",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 3.880935,
+      "osc2Gain": 3.880935
+    },
+    "measured_peak": 0.383247,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI031",
+    "design_hash": "64cd8ba9c60f7505",
+    "settings": {
+      "gain": 0.861532,
+      "osc1Gain": 6,
+      "osc2Gain": 6
+    },
+    "measured_peak": 0.332145,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI032",
+    "design_hash": "acc496e096b37f01",
+    "settings": {
+      "gain": 1.2,
+      "osc1Gain": 6,
+      "osc2Gain": 6
+    },
+    "measured_peak": 0.27525,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI033",
+    "design_hash": "57beee087f4446dc",
+    "settings": {
+      "gain": 1.067989,
+      "osc1Gain": 6,
+      "osc2Gain": 6
+    },
+    "measured_peak": 0.309494,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI034",
+    "design_hash": "a6a250b74adf2287",
+    "settings": {
+      "gain": 1.2,
+      "osc1Gain": 6,
+      "osc2Gain": 6
+    },
+    "measured_peak": 0.247139,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI035",
+    "design_hash": "9f77d2c03dda5ea7",
+    "settings": {
+      "gain": 0.85,
+      "osc1Gain": 3.724511,
+      "osc2Gain": 3.724511
+    },
+    "measured_peak": 0.369648,
+    "target_raw_peak": 0.46
+  },
+  {
+    "id": "TI036",
+    "design_hash": "2abb5a23804441ec",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 4.173598,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485268,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI037",
+    "design_hash": "b45c032a96b8329a",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 3.601253,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.442011,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI038",
+    "design_hash": "3453e856548cf4e1",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 4.276424,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485271,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI039",
+    "design_hash": "6d9f6bc4dcbcbb76",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": -1.421279,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.504762,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI040",
+    "design_hash": "a440ef427f75283f",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 3.815933,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485473,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI041",
+    "design_hash": "812bafcf386158f8",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 5.0201,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485236,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI042",
+    "design_hash": "a6c97a6f266c2b05",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 3.868603,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485513,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI043",
+    "design_hash": "9ca894aac7054355",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 1.330253,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485273,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI044",
+    "design_hash": "650fa8e6c65f35c7",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": -0.024271,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485502,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI045",
+    "design_hash": "bb134390068dce43",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": -3.267264,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.489951,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI046",
+    "design_hash": "f81bc0925a009b2c",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": -1.597751,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.484861,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI047",
+    "design_hash": "075c28c2c0c8da97",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 0.790357,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.474427,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI048",
+    "design_hash": "11800a4545f7192b",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 4.790772,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485305,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI049",
+    "design_hash": "a14f7bd8dedd67b0",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 4.67271,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.465059,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI050",
+    "design_hash": "c7c0f142e63039c4",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 1.470539,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.4831,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI051",
+    "design_hash": "8c64fe3d90af17f1",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 1.059466,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485397,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI052",
+    "design_hash": "aa59291214c70260",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": -3.525634,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485508,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI053",
+    "design_hash": "7977d968335ccfcb",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 3.456887,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485209,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI054",
+    "design_hash": "ce4aea6c62def33d",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 2.201796,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485388,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI055",
+    "design_hash": "3f75070b6286c18a",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 4.270587,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.460066,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI056",
+    "design_hash": "f50d37b92e2d9228",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 1.289039,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.486519,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI057",
+    "design_hash": "d151f036154593fd",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": -1.061785,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485298,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI058",
+    "design_hash": "d8435ca6712c735b",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": -1.156199,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.48519,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI059",
+    "design_hash": "b189f317c3b134c1",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 0.088922,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485311,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI060",
+    "design_hash": "f634046637278b4f",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 5.495053,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.468155,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI061",
+    "design_hash": "ed87509ee9d38330",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 5.26399,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.122624,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI062",
+    "design_hash": "d9d6de631cc46555",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 1.280638,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485334,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI063",
+    "design_hash": "074de00bfe91979c",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 0.481159,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.4783,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI064",
+    "design_hash": "12c93e3238c6f685",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 2.325117,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485357,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI065",
+    "design_hash": "21f9e0be7cdf2109",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 0.254855,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.48602,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI066",
+    "design_hash": "ce5ef7800db51654",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 4.552256,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.481334,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI067",
+    "design_hash": "4774fbd63b3f3bbf",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 5.026489,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485237,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI068",
+    "design_hash": "a5fa0dd155fcc855",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 11.866793,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485242,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI069",
+    "design_hash": "bf88811ab7c0ce3f",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 12,
+      "fxOutput1": 3.379628
+    },
+    "measured_peak": 0.46079,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI070",
+    "design_hash": "390c14d14a0385be",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 11.087204,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.474988,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI071",
+    "design_hash": "7dbc842df032c282",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 9.390933,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.476757,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI072",
+    "design_hash": "43c5d577363e4843",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 2.186246,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.454869,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI073",
+    "design_hash": "1109fbd24fb705e0",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 11.708773,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.457844,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI074",
+    "design_hash": "87bcaccce160dd88",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 7.329326,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.108963,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI075",
+    "design_hash": "533f1a4bde3a8cf7",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 10.418857,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.076447,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI076",
+    "design_hash": "2c3f83988665ea72",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 8.404807,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485506,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI077",
+    "design_hash": "fa8ea5a91b0c7946",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 2.457442,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485385,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI078",
+    "design_hash": "5c03e57997255f31",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 2.343659,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.452758,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI079",
+    "design_hash": "5fc147b93f8ec613",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 1.897027,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.458072,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI080",
+    "design_hash": "2337abea39986d93",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 2.053381,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485377,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI081",
+    "design_hash": "deb0a27b0c6ab8a5",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 12,
+      "fxOutput1": 8.840499
+    },
+    "measured_peak": 0.02309,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI082",
+    "design_hash": "0b8fbbc68262fc65",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 2.517449,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.472029,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI083",
+    "design_hash": "84e2b88b823cf3a0",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 3.015291,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485292,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI084",
+    "design_hash": "a046beb92c50333f",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 6.935395,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485393,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI085",
+    "design_hash": "3226f86b59938998",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 5.639394,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.452438,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI086",
+    "design_hash": "b6905b35ba374942",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 0.328411,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.379952,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI087",
+    "design_hash": "3bcd76121f1212bb",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 5.38975,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.379732,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI088",
+    "design_hash": "8834205e12ef06e5",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 9.156058,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.379867,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI089",
+    "design_hash": "87cd528eadcf510e",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 0.036207,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.379956,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI090",
+    "design_hash": "41ea16dcee740717",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 3.101736,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.379951,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI091",
+    "design_hash": "0e6bf7cb519223f2",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 3.716975,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.379712,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI092",
+    "design_hash": "f0dcc13541baa439",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 1.957489,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.379904,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI093",
+    "design_hash": "0a741f2c23b296f7",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 2.722666,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.379919,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI094",
+    "design_hash": "7e523140df40a2f7",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": -0.272719,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.37995,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI095",
+    "design_hash": "f028ea11854769f4",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 9.150218,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.379936,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI096",
+    "design_hash": "82f62ac09f189e05",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 5.997147,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.37911,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI097",
+    "design_hash": "c0cbfffefe4d0239",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 6.371106,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.37958,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI098",
+    "design_hash": "a639f4c83c118fae",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": -2.598367,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.379939,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI099",
+    "design_hash": "ad942947a05ffba4",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 7.30714,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.3795,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI100",
+    "design_hash": "5c3daceea04bdbbe",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 4.064917,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.379376,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI101",
+    "design_hash": "b31dcb81b516b4e4",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": -5.674493,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.379519,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI102",
+    "design_hash": "9e5b650a0eedccf1",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 1.888977,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.37995,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI103",
+    "design_hash": "708daf59d259da86",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": -0.203642,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.379842,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI104",
+    "design_hash": "d51edfb5dea11de2",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 8.642746,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.379936,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI105",
+    "design_hash": "e94673eeabcd7dd0",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 1.278058,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.379834,
+    "target_raw_peak": 0.4
+  },
+  {
+    "id": "TI106",
+    "design_hash": "2c7ee3dc31a009d4",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 5.352384,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.445437,
+    "target_raw_peak": 0.48
+  },
+  {
+    "id": "TI107",
+    "design_hash": "17629d62f5f51d52",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 5.009866,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.444475,
+    "target_raw_peak": 0.48
+  },
+  {
+    "id": "TI108",
+    "design_hash": "585b87e224ab3636",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 5.116538,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.446247,
+    "target_raw_peak": 0.48
+  },
+  {
+    "id": "TI109",
+    "design_hash": "e5980825db763db9",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 2.446923,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.445166,
+    "target_raw_peak": 0.48
+  },
+  {
+    "id": "TI110",
+    "design_hash": "587d16d85939c4f0",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 9.593848,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.444654,
+    "target_raw_peak": 0.48
+  },
+  {
+    "id": "TI111",
+    "design_hash": "727f667303aea34c",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 7.016623,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.446241,
+    "target_raw_peak": 0.48
+  },
+  {
+    "id": "TI112",
+    "design_hash": "b3ecd138850891af",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 5.189751,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.447794,
+    "target_raw_peak": 0.48
+  },
+  {
+    "id": "TI113",
+    "design_hash": "d23bf33c5f1aa1ce",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 4.448993,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.446233,
+    "target_raw_peak": 0.48
+  },
+  {
+    "id": "TI114",
+    "design_hash": "461345517a4ab937",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 2.945429,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.444857,
+    "target_raw_peak": 0.48
+  },
+  {
+    "id": "TI115",
+    "design_hash": "c7d36f605bb65297",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 3.212995,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.446217,
+    "target_raw_peak": 0.48
+  },
+  {
+    "id": "TI116",
+    "design_hash": "021c3e500a6b5bcc",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 6.786355,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.484635,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI117",
+    "design_hash": "adbde19f399b9b93",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 7.324558,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.484977,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI118",
+    "design_hash": "1b0457cae7a46bf1",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 5.489338,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.48534,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI119",
+    "design_hash": "810cd097b0a2e015",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 7.63087,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485392,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI120",
+    "design_hash": "3647c0e5d1444245",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 7.624421,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.484844,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI121",
+    "design_hash": "4e343cac767bebb8",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 7.632629,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.487735,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI122",
+    "design_hash": "8cdc541efe7961ae",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 10.721575,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485313,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI123",
+    "design_hash": "f0e977589599d6ef",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 12,
+      "fxOutput1": 2.912737
+    },
+    "measured_peak": 0.480117,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI124",
+    "design_hash": "9829bfef98c92660",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 8.457181,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485397,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI125",
+    "design_hash": "b6115e66bbaaca26",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 12,
+      "fxOutput1": 1.564722
+    },
+    "measured_peak": 0.485179,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI126",
+    "design_hash": "92331a1cc6e5b898",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 8.570032,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.486412,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI127",
+    "design_hash": "9c2824d459ff5971",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 12,
+      "fxOutput1": 2.168257
+    },
+    "measured_peak": 0.485371,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI128",
+    "design_hash": "ec39ef3de7856e74",
+    "settings": {
+      "gain": 1.2,
+      "fxOutput7": 12,
+      "fxOutput1": 12
+    },
+    "measured_peak": 0.334634,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI129",
+    "design_hash": "939c10f109c4ae78",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 9.84406,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485198,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI130",
+    "design_hash": "9e358ee77400d7ae",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 12,
+      "fxOutput1": 6.173742
+    },
+    "measured_peak": 0.469093,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI131",
+    "design_hash": "4179a09c7d1ac51d",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 5.924901,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485614,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI132",
+    "design_hash": "d23e76395c3e8d35",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 9.113033,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485304,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI133",
+    "design_hash": "66fc4f127b80f823",
+    "settings": {
+      "gain": 1.2,
+      "fxOutput7": 12,
+      "fxOutput1": 12
+    },
+    "measured_peak": 0.42942,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI134",
+    "design_hash": "d6acd1fb5ccd4a60",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 12,
+      "fxOutput1": 6.225323
+    },
+    "measured_peak": 0.485327,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI135",
+    "design_hash": "c481c40a16a6422c",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 11.709895,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485251,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI136",
+    "design_hash": "7aea6fafa2e0785f",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 7.51951,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.486193,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI137",
+    "design_hash": "b53739b7186c7c57",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 7.470579,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485206,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI138",
+    "design_hash": "0a3fa9e72aca66c6",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 9.134772,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485345,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI139",
+    "design_hash": "0885750733af3312",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 8.724814,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485344,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI140",
+    "design_hash": "12d5f02a75f84ea4",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 8.27984,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.485175,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI141",
+    "design_hash": "a8e36ab15b576045",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 12,
+      "fxOutput1": 4.072428
+    },
+    "measured_peak": 0.03758,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI142",
+    "design_hash": "83a5005a1b2d8562",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 12,
+      "fxOutput1": 6.508445
+    },
+    "measured_peak": 0.028395,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI143",
+    "design_hash": "75377ae1347b6ec8",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 10.706328,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.069551,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI144",
+    "design_hash": "1c069d192b32be5a",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 12,
+      "fxOutput1": 6.986902
+    },
+    "measured_peak": 0.026992,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI145",
+    "design_hash": "7e68ace4cf4a2b99",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 9.565084,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.079563,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI146",
+    "design_hash": "b82ef701c5078bcc",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 12,
+      "fxOutput1": 4.785757
+    },
+    "measured_peak": 0.034772,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI147",
+    "design_hash": "9f3d27f77b5c5c53",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 12,
+      "fxOutput1": 6.438778
+    },
+    "measured_peak": 0.02875,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI148",
+    "design_hash": "ae919d611fde3fa9",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 7.404927,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.102078,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI149",
+    "design_hash": "c4f3bff54fbbbf47",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 9.720201,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.078306,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI150",
+    "design_hash": "91757dc2d5eb7f94",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 10.343144,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.072744,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI151",
+    "design_hash": "cfbad242f5fd80fe",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 4.497007,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.472174,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI152",
+    "design_hash": "2308fc31c221574f",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 5.835608,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.473929,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI153",
+    "design_hash": "c9a9794461c449eb",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 6.834194,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.472959,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI154",
+    "design_hash": "92320f8d9f61ea2a",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 7.314471,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.471714,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI155",
+    "design_hash": "8fae3d92298c48dd",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 1.552509,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.473492,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI156",
+    "design_hash": "9bde0d7997c6f925",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": -0.21617,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.48903,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI157",
+    "design_hash": "8353d9ebda9d55a5",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 6.697066,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.471615,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI158",
+    "design_hash": "866b5e552b7a5afa",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 3.70073,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.475236,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI159",
+    "design_hash": "86f8aaf060741b7a",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": -0.046931,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.486033,
+    "target_raw_peak": 0.53
+  },
+  {
+    "id": "TI160",
+    "design_hash": "3211459f02691bb7",
+    "settings": {
+      "gain": 0.75,
+      "fxOutput7": 9.662416,
+      "fxOutput1": 0.0
+    },
+    "measured_peak": 0.473394,
+    "target_raw_peak": 0.53
+  }
+]

@@ -31,10 +31,10 @@ New-Item -ItemType Directory -Path $release -Force | Out-Null
 $definition = Join-Path $ProjectRoot "installer\SpaceInfinity.iss"
 & $InnoCompiler "/DVst3Bundle=$bundle" "/DReleaseDir=$release" $definition
 if ($LASTEXITCODE -ne 0) { throw "Inno Setup compilation failed." }
-$setup = Join-Path $release "SPACE_INFINITY_0.4.2_Windows_x64_Setup.exe"
+$setup = Join-Path $release "SPACE_INFINITY_0.5.0_Windows_x64_Setup.exe"
 if (-not (Test-Path -LiteralPath $setup -PathType Leaf)) { throw "Installer output is missing." }
 
-$archive = Join-Path $release "SPACE_INFINITY_0.4.2_Windows_x64_VST3.zip"
+$archive = Join-Path $release "SPACE_INFINITY_0.5.0_Windows_x64_VST3.zip"
 Compress-Archive -LiteralPath $bundle -DestinationPath $archive -Force
 Get-FileHash -Algorithm SHA256 -LiteralPath $setup,$archive
 
@@ -48,8 +48,10 @@ Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/TEN_CONTROL_UPDATES.md") -D
 
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/RHYTHM_AND_METAL_UPDATE.md") -Destination (Join-Path $release "RHYTHM_AND_METAL_UPDATE.md") -Force
 
-foreach ($document in @("ANALOGUE_AND_PARITY_UPDATE.md", "SERUM2_FEATURE_AUDIT.md")) {
+foreach ($document in @("ANALOGUE_AND_PARITY_UPDATE.md", "SERUM2_FEATURE_AUDIT.md", "TRANCE_FACTORY_BANK.md", "TRANCE_FACTORY_BANK_RESEARCH.md", "TRANCE_PRESET_CATALOGUE.md")) {
     Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/$document") -Destination (Join-Path $release $document) -Force
 }
 New-Item -ItemType Directory -Path (Join-Path $release "audit") -Force | Out-Null
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/audit/NATIVE_PARAMETER_INVENTORY.json") -Destination (Join-Path $release "audit/NATIVE_PARAMETER_INVENTORY.json") -Force
+
+Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Samples/Trance/PROVENANCE.json") -Destination (Join-Path $release "TRANCE_SAMPLE_PROVENANCE.json") -Force

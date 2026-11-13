@@ -26,3 +26,13 @@ CC0 dedication: https://creativecommons.org/publicdomain/zero/1.0/
 | Recorder Stab | 72 | https://github.com/sgossner/VCSL/blob/master/Aerophones/Edge-blown Aerophones/Baroque Alto Recorder/Staccato/AltRecorder_Stac_C4_rr1_Main.wav |
 
 Processing and original/output SHA-256 hashes are recorded in SAMPLE_PROVENANCE.json. All new WAVs are 44.1 kHz, 24-bit mono. Choirs are 2.6 seconds; other sounds retain up to four seconds. Existing two choir samples retain their original credits.
+
+## 0.5.0 recorded piano and string multisamples
+
+42 additional stereo pitch/velocity zones derive from Sam Gossner / Versilian Studios' **VCSL** and **VSCO 2 Community Edition**, both released under CC0-1.0. They provide grand and upright piano, violin and cello sections, spiccato and pizzicato strings. The original recordings may be redistributed commercially, including within a sampler plugin.
+
+- VCSL: https://github.com/sgossner/VCSL — https://github.com/sgossner/VCSL/blob/master/LICENSE
+- VSCO 2 CE: https://versilian-studios.com/vsco-community/ — https://github.com/sgossner/VSCO-2-CE/blob/master/LICENSE
+- Pinned source commits, paths, Git blob hashes, source/output SHA-256 and effective MIDI roots are in **TRANCE_SAMPLE_PROVENANCE.json** in the installer ZIP (repository: `Samples/Trance/PROVENANCE.json`).
+
+Processing: onset trimming, DC removal, brief edge fades, stereo 44.1 kHz PCM16, up to seven seconds for pianos and 4.5 seconds for sustained strings. Velocity-layer gains retain dynamic contrast. Sustain loops and per-note nearest-key/layer selection run inside the synth. Libraries use different octave conventions; the effective MIDI roots in the manifest take precedence over filenames.

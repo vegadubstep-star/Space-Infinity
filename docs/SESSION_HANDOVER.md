@@ -1,3 +1,13 @@
+# 0.5.0 trance-bank replacement — native checks passed, Windows release pending
+
+User requested a complete trance/90s German hard-trance factory replacement and explicitly authorised importing online samples. Exact requested counts total **160**, corrected from an earlier arithmetic error of 170. Built 160 new sounds plus Init; personal user presets and saved project parameter states are retained. New factory generation F1000 retires old factory entries.
+
+Added 42 CC0 stereo pitch/velocity zones (VCSL / VSCO 2 CE): grand, upright, violin/cello sections, spiccato/pizzicato. Native per-note key/layer selection, stereo playback and crossfaded sustain loops. Pinned source/output hashes and roots in `native-vst3/Samples/Trance/PROVENANCE.json`. Research, catalogue and validation are in `docs/TRANCE_FACTORY_BANK*.md`, `docs/TRANCE_PRESET_CATALOGUE.md`, `docs/audit/TRANCE_BANK_VALIDATION.md`. Blueprint, sample preparation and measured calibration scripts are committed. No copyrighted record samples, commercial ROM/library rips or song MIDI.
+
+All 15 local native suites passed, including bank headroom, dry unsequenced basses, arp stopping, sample loops, personal-bank migration and six 24-note fade checks. Full profile output/160 audition WAVs are outside Git at `/workspace/work/trance-research/`; no audition directory should be committed. Windows version and installer set to 0.5.0. Release publication and actual download verification still pending; do not call ready until completed. Latest previously verified download is 0.4.2 below.
+
+## Earlier verified release
+
 # Verified hotfix — SPACE INFINITY 0.4.2
 
 Published and ready. [Installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.4.2/SPACE_INFINITY_0.4.2_Windows_x64_Installer.zip). Release source: 8486d987246b0f7f641ca82ddbe8b5fc6442d8fa. Windows workflow: 43323636209. Native tests (all 15), installer/archive checks and publication passed. Actual release ZIP/VST3 downloaded: integrity, published hashes, embedded Setup hash, Windows x64 PE, approved logo master bytes, packaged notes and 1,068-parameter inventory/version 0.4.2 verified.

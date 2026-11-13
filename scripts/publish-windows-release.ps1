@@ -26,7 +26,7 @@ $checksums = foreach ($name in @($setupName, $archiveName)) {
 }
 $checksums | Set-Content -LiteralPath $checksumPath -Encoding utf8
 $files += 'SHA256SUMS.txt'
-foreach ($document in @('RHYTHM_AND_METAL_UPDATE.md', 'ANALOGUE_AND_PARITY_UPDATE.md', 'SERUM2_FEATURE_AUDIT.md')) {
+foreach ($document in @('RHYTHM_AND_METAL_UPDATE.md', 'ANALOGUE_AND_PARITY_UPDATE.md', 'SERUM2_FEATURE_AUDIT.md', 'TRANCE_FACTORY_BANK.md', 'TRANCE_FACTORY_BANK_RESEARCH.md', 'TRANCE_PRESET_CATALOGUE.md', 'TRANCE_SAMPLE_PROVENANCE.json')) {
     if (Test-Path -LiteralPath (Join-Path $releaseDir $document)) { $files += $document }
 }
 & python (Join-Path $PSScriptRoot 'package-installer-zip.py') $releaseDir $version
@@ -34,7 +34,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Installer ZIP packaging failed.' }
 $files += "SPACE_INFINITY_${version}_Windows_x64_Installer.zip"
 $files += "SPACE_INFINITY_${version}_Windows_x64_Installer.zip.sha256"
 $repo = $env:GITHUB_REPOSITORY
-$notesSource = Join-Path $root 'docs/ANALOGUE_AND_PARITY_UPDATE.md'
+$notesSource = Join-Path $root 'docs/TRANCE_FACTORY_BANK.md'
 if (-not (Test-Path -LiteralPath $notesSource)) { $notesSource = Join-Path $root 'docs/RHYTHM_AND_METAL_UPDATE.md' }
 # Keep a new release private until its installer and archive have uploaded.
 $existing = & gh release view $tag --repo $repo --json targetCommitish,isDraft 2>$null
@@ -48,6 +48,7 @@ $notesFile = Join-Path $releaseDir 'RELEASE_NOTES.md'
 $notes = (Get-Content -LiteralPath $notesSource -Raw).Replace('(images/', "(https://github.com/$repo/blob/$($env:GITHUB_SHA)/docs/images/")
 $docsUrl = "https://github.com/$repo/blob/$($env:GITHUB_SHA)/docs/"
 $notes = $notes.Replace('(SERUM2_FEATURE_AUDIT.md)', "(${docsUrl}SERUM2_FEATURE_AUDIT.md)").Replace('(audit/NATIVE_PARAMETER_INVENTORY.json)', "(${docsUrl}audit/NATIVE_PARAMETER_INVENTORY.json)")
+$notes = $notes.Replace('(TRANCE_FACTORY_BANK_RESEARCH.md)', "(${docsUrl}TRANCE_FACTORY_BANK_RESEARCH.md)")
 $notes | Set-Content -LiteralPath $notesFile -Encoding utf8
 $paths = @($files | ForEach-Object { Join-Path $releaseDir $_ })
 $uploaded = $false

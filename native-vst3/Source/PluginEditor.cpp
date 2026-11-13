@@ -661,7 +661,8 @@ void SpaceInfinityEditor::openPresetManager(){
 }
 void SpaceInfinityEditor::refreshPresetMenu(){
     presets.clear(juce::dontSendNotification);
-    const auto& entries=processor.presetBank().entries();for(size_t i=0;i<entries.size();++i)presets.addItem(entries[i].name,int(i+1));
+    const auto& entries=processor.presetBank().entries();juce::String category;for(size_t i=0;i<entries.size();++i){if(entries[i].category!=category){category=entries[i].category;presets.addSectionHeading(category);}presets.addItem(entries[i].name,int(i+1));}
+    presets.setTooltip(processor.state.state.getProperty("factoryReference").toString()+"\n"+processor.state.state.getProperty("factoryDescription").toString());
     displayedPresetKey=processor.selectedPresetKey();const int index=processor.presetBank().indexForKey(displayedPresetKey);
     if(index>=0)presets.setSelectedItemIndex(index,juce::dontSendNotification);
 }
