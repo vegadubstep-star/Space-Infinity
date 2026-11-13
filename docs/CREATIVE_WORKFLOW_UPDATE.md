@@ -20,7 +20,7 @@ In Presets, edit NAME, CREATOR and comma-separated TAGS. SAVE DETAILS changes th
 
 REPLACE saves the current sound over a selected musical factory or user slot locally; previous edited versions go into Backups. Init remains the reset sound. EXPORT EDITS ZIP collects local factory replacements and metadata so they can be incorporated into a later shipped bank. Upload that ZIP when your refinements are ready. RESTORE FACTORY returns the local list to the shipped bank while retaining user files and backups.
 
-To make a hybrid, select a preset and press PARENT A, select another and press PARENT B, choose the blend and press HYBRIDISE. Preview, then SAVE NEW. Sample/wavetable assets stay with A; continuous filter, envelope and FX settings blend, and discrete choices switch at the midpoint. Patterns/gates/pump start off and the hybrid starts conservatively trimmed. The parents remain unchanged. This is a starting point for sound design, not a guarantee every pair will blend musically.
+To make a hybrid, select a preset and press PARENT A, select another and press PARENT B, choose the blend and press HYBRIDISE. Preview, then SAVE NEW. Sample/wavetable assets stay with A; continuous filter, envelope and FX settings blend, and discrete choices switch at the midpoint. Patterns/gates/pump start off and the hybrid retains parent A's calibrated gain/trim with a 6 dB safety reduction. The parents remain unchanged. This is a starting point for sound design, not a guarantee every pair will blend musically.
 
 ## Main controls and appearance
 
