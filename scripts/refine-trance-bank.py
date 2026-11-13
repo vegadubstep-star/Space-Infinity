@@ -1,16 +1,16 @@
 """Deliberate 0.6 voicing revisions, applied before design hashing/calibration."""
 def refine(bank, env, space):
     acid=[
-        (31,150,.80,5.7,.23,15,.55,.96,24,9000),
-        (32,240,.83,4.9,.17,14,.65,.95,24,11000),
-        (33,550,.45,3.6,.11,2,.76,.90,21,6500),
-        (34,220,.88,5.1,.30,5,.50,.90,24,8000),
-        (31,180,.82,5.8,.13,16,.70,1.0,24,10000),
-        (35,700,.72,4.1,.09,2,.82,1.0,24,12000),
-        (32,100,.86,5.0,.36,0,.60,.96,27,5800),
-        (3,350,.68,4.4,.19,6,.55,.94,24,10000),
-        (31,300,.81,5.3,.15,16,.88,1.0,27,11000),
-        (32,120,.76,5.6,.42,3,.62,.94,24,7200)]
+        (31,180,.82,2.8,.22,15,.32,.82,12,11000),
+        (32,260,.86,2.4,.17,14,.38,.86,12,12000),
+        (33,420,.72,2.1,.12,2,.40,.78,12,10500),
+        (31,240,.90,3.0,.30,3,.38,.88,15,12500),
+        (31,180,.87,3.1,.14,16,.36,.60,12,12000),
+        (31,500,.76,2.2,.10,2,.40,.70,12,13000),
+        (32,120,.89,2.7,.36,0,.36,.84,12,10000),
+        (31,300,.78,2.5,.19,15,.30,.80,12,12000),
+        (31,240,.88,3.2,.16,16,.38,.58,12,12500),
+        (32,140,.83,2.9,.42,3,.34,.86,12,11500)]
     airy=choir=acid_index=lead=0
     for patch in bank:
         p=patch['settings'];category=patch['category'];name=patch['name']
@@ -19,13 +19,12 @@ def refine(bank, env, space):
         tags=[category,'Trance']
         if category=='Acid':
             wave,cut,res,amount,decay,mode,drive,mix,input_db,tone=acid[acid_index]
-            p.update(wave=wave,source=0,osc2Enabled=0,osc1Unison=1,osc1Width=0,osc1Rand=0,osc1PhaseReset=1,filterMode=5,cutoff=cut,res=res,filterEnvAmount=amount,filterDecay=decay,filterSustain=0,filterVelocity=2.1,ampVelocity=.48,filterInputDrive=.12 if acid_index%2==0 else .18,drive=.035,glideTime=.055+acid_index*.006,voiceMode=2,distEnabled=1,distType=mode,distDrive=drive,distMix=mix,distInput=input_db,distTone=tone,distHQ=1,distFilterPosition=2,distFrequency=4700 if acid_index==3 else 8500,distQ=.707,distFilterMorph=0,fxOutput8=-12,eq6Frequency=15000)
+            p.update(wave=wave,source=0,osc2Enabled=0,osc1Unison=1,osc1Width=0,osc1Rand=0,osc1PhaseReset=1,filterMode=6,cutoff=cut,res=res,filterEnvAmount=amount,filterDecay=decay,filterSustain=0,filterVelocity=.8,ampVelocity=.48,filterInputDrive=.08 if acid_index%2==0 else .14,drive=.005,glideTime=.055+acid_index*.006,voiceMode=2,distEnabled=1,distType=mode,distDrive=drive,distMix=mix,distInput=input_db,distTone=tone,distHQ=1,distFilterPosition=0,distFrequency=16000,distQ=.707,distFilterMorph=0,fxOutput8=-6,eq6Frequency=16000,wavetableScan=0,osc1Warp=0,osc1WarpAmount=0,subEnabled=0,subLevel=0,analogueCharacter=.025,analogueLabEnabled=0)
             p.update(env(.0003,.20,.72,.025));p.update(space(.05 if acid_index%3 else .09,.015,0))
-            if acid_index==2:p.update(filterMode=3,subLevel=.06,subEnabled=1,distFilterPosition=1,distFrequency=130,distFilterMorph=1)
-            if acid_index in (4,7):p.update(osc1Warp=4,osc1WarpAmount=.045 if acid_index==4 else .20)
-            if acid_index==8:p.update(fxOutput8=-15)
-            patch['play']='Play your own mono notes; overlap for slides, use velocity for strong accents. Input-driven HQ distortion is integral to the sound. Reduce INPUT or MIX for a cleaner variation; use OUTPUT to balance volume.'
-            tags+=['303','Squelch','Mono','Unsequenced', ['Tube','Diode','Clipped','Folded'][acid_index%4]];acid_index+=1
+            if acid_index==7:p.update(osc2Enabled=1,osc2Wave=1,osc2Octave=0,mix=.12,osc2Unison=1,osc2Width=0,osc2PhaseReset=1,osc2Rand=0,osc2WTPos=0)
+            if acid_index==8:p.update(fxOutput8=-9)
+            patch['play']='Automate MAIN CUTOFF for resonant acid sweeps. RESONANCE sets the squelch; FILTER ENV AMOUNT and DECAY shape each note. Overlap mono notes for slides and use velocity for accents. PRE DRIVE adds filter bite; FX INPUT/DRIVE add grit without flattening the resonant sweep.'
+            tags+=['303','Squelch','Mono','Unsequenced','Cutoff Sweep', {0:'Tube',2:'Clipped',3:'Diode',14:'Transistor',15:'Tube Stack',16:'Hard Drive'}[mode]];acid_index+=1
         elif category=='Airy Pads':
             p.update(source=0,sampleLoop=0,osc1Unison=7,osc2Unison=5,osc1Detune=.10+.009*airy,osc2Detune=.065+.005*airy,osc1Blend=.72,osc2Blend=.68,osc1Width=.94,osc2Width=1,osc2Octave=1,mix=.20,wave=[0,6,3,0,2,0,3,6,1,3][airy],osc2Wave=[6,3,0,1,3,0,2,0,6,2][airy],noiseLevel=.003 if airy%2==0 else .001,cutoff=5700+airy*340,res=.07,filterMode=4,filterEnvAmount=.45,filterAttack=.85,filterDecay=2.4,filterSustain=.8,filterRelease=.9,eq0Frequency=150,eq6Frequency=11500,drive=.01,filterInputDrive=.015,osc1WarpAmount=.015,osc2Enabled=1)
             p.update(env(.65+airy*.055,1.8,1,2.4+airy*.045));p.update(space(.12,.32,.18 if airy%2==0 else .10));p.update(reverbDamping=.27,reverbWetHighGain=-1.5,reverbWetHighFreq=10000,chorusRate=.08+airy*.015)

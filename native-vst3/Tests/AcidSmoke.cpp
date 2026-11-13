@@ -25,8 +25,41 @@ void render(SpaceInfinityProcessor& p,const juce::File& file){
  const int length=juce::roundToInt(64*step+48000*.6);
  for(int start=0;start<length;start+=256){juce::MidiBuffer midi;while(event<events.size()&&events[event].frame<start+256){midi.addEvent(events[event].message,events[event].frame-start);++event;}p.processBlock(audio,midi);need(writer->writeFromAudioSampleBuffer(audio,0,256),"acid audition write");peak=std::max(peak,audio.getMagnitude(0,256));}need(peak>.00001f&&peak<=1,"acid audition audible and bounded");
 }
+std::array<double,2> filterPeak(float cutoff,float resonance,double sr){
+ AcidResonantFilter filter;std::vector<float> data(size*2);juce::dsp::FFT fft(15);
+ const float g=std::tan(float(juce::MathConstants<double>::pi*cutoff/(sr*1.15)));
+ for(int i=0;i<size;++i)data[size_t(i)]=filter.process(i==0?.001f:0,g,resonance,.08f);
+ fft.performFrequencyOnlyForwardTransform(data.data());int peak=1;double maximum=0;
+ for(int bin=1;bin<size/2;++bin)if(data[size_t(bin)]>maximum){maximum=data[size_t(bin)];peak=bin;}
+ return {peak*sr/size,maximum};
+}
+std::array<double,3> patchSpectrum(SpaceInfinityProcessor& p,float cutoff){
+ set(p,"cutoff",cutoff);p.prepareToPlay(48000,256);juce::AudioBuffer<float> audio(2,256);std::vector<float> data(size*2);double total=0,high=0,weighted=0;float peak=0;
+ for(int block=0;block<256;++block){juce::MidiBuffer midi;if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,45,.85f),0);p.processBlock(audio,midi);peak=std::max(peak,audio.getMagnitude(0,256));if(block>=128)for(int i=0;i<256;++i)data[size_t((block-128)*256+i)]=audio.getSample(0,i)*(.5f-.5f*std::cos(juce::MathConstants<float>::twoPi*((block-128)*256+i)/(size-1)));}
+ juce::dsp::FFT fft(15);fft.performFrequencyOnlyForwardTransform(data.data());
+ for(int i=1;i<size/2;++i){const double energy=data[size_t(i)]*double(data[size_t(i)]),hz=i*48000.0/size;total+=energy;weighted+=energy*hz;if(hz>2000)high+=energy;}
+ need(total>1e-5&&peak<.98f,"acid preset audible with sweep headroom");return {weighted/total,high/total,peak};
+}
+void cutoffChecks(){
+ for(double sr:{44100.0,48000.0,96000.0})for(float cutoff:{180.0f,800.0f,3200.0f}){const auto flat=filterPeak(cutoff,0,sr),res=filterPeak(cutoff,.92f,sr);std::cout<<"Acid peak "<<sr<<" Hz: cutoff "<<cutoff<<", peak "<<res[0]<<", resonance gain "<<res[1]/flat[1]<<std::endl;need(res[0]>cutoff*.7&&res[0]<cutoff*1.4&&res[1]>flat[1]*1.8,"resonant peak follows cutoff across audio rates");}
+ for(double sr:{44100.0,48000.0,96000.0})for(float res:{0.0f,.6f,.95f})for(float drive:{0.0f,.5f,1.0f}){AcidResonantFilter filter;float previous=0;double tail=0;for(int i=0;i<int(sr*1.2);++i){const float t=float(i%(int(sr)/4))/(sr*.25f),fc=80*std::pow(200.0f,t);const float g=std::tan(float(juce::MathConstants<double>::pi*fc/(sr*1.15)));const float x=i<sr*.7?.6f*std::sin(float(i)*.08f):0;const float y=filter.process(x,g,res,drive);need(std::isfinite(y)&&std::abs(y)<12,"fast resonant sweeps stable at all drive amounts");previous=y;if(i>sr)tail+=y*y;}need(tail<.01,"acid feedback decays after input stops");}
+ auto p=std::make_unique<SpaceInfinityProcessor>();for(int index=1;index<p->presetNames().size();++index)if(p->presetCategory(index)=="Acid"){
+  p->loadPreset(index);need(p->state.getRawParameterValue("filterMode")->load()==6,"factory acids use the cutoff-focused response");const auto low=patchSpectrum(*p,160),high=patchSpectrum(*p,8000);std::cout<<p->presetNames()[index]<<" sweep centroid "<<low[0]<<" -> "<<high[0]<<", high-band "<<low[1]<<" -> "<<high[1]<<std::endl;need(high[1]>.001&&high[1]>low[1]*5,"actual driven acid preset opens clearly with cutoff");
+ }
+}
+float renderCutoffSweep(SpaceInfinityProcessor& p,const juce::File& file){
+ p.prepareToPlay(48000,256);p.takeOutputPeak();juce::WavAudioFormat format;auto stream=file.createOutputStream();need(stream!=nullptr,"cutoff audition stream");std::unique_ptr<juce::AudioFormatWriter> writer(format.createWriterFor(stream.get(),48000,2,24,{},0));need(writer!=nullptr,"cutoff audition writer");stream.release();juce::AudioBuffer<float> audio(2,256);
+ constexpr int notes[]{45,45,57,45,48,45,55,45,45,57,55,48,45,43,45,45};int next=0,off=-1;
+ for(int block=0;block<1500;++block){const int start=block*256;juce::MidiBuffer midi;const float t=float(start)/384000,travel=t<.5f?t*2:2-t*2;set(p,"cutoff",80*std::pow(200.0f,travel));
+  if(off>=start&&off<start+256){midi.addEvent(juce::MidiMessage::noteOff(1,notes[(next-1)%16]),off-start);off=-1;}
+  if(next*6000<start+256){const int at=next*6000;if(at>=start){midi.addEvent(juce::MidiMessage::noteOn(1,notes[next%16],next%4==0?1.0f:.72f),at-start);off=at+4500;}++next;}
+  p.processBlock(audio,midi);need(writer->writeFromAudioSampleBuffer(audio,0,256),"cutoff sweep write");
+ }
+ return p.takeOutputPeak();
+}
 }
 int runAcidSmoke(const juce::File& folder={},const juce::File& previousBank={}){try{
+ cutoffChecks();
  studio::Distortion::Settings s;s.type=0;s.drive=.25f;s.mix=1;auto old=probe(s,150,.01f);s.inputDb=24;s.drive=.65f;s.hq=true;auto driven=probe(s,150,.01f);
  const double before=old.harmonics/old.fundamental,after=driven.harmonics/driven.fundamental;std::cout<<"Low-level sine THD power: legacy "<<before<<", driven "<<after<<std::endl;need(after>.015&&after>before*32,"quiet input receives genuine harmonic distortion, independent of output loudness");
  s.type=2;s.drive=.85f;s.inputDb=18;s.hq=false;auto aliased=probe(s,4781,.4f);s.hq=true;auto hq=probe(s,4781,.4f);const double aliasBefore=aliased.alias/aliased.total,aliasAfter=hq.alias/hq.total;std::cout<<"Matched-power alias fraction: plain "<<aliasBefore<<", HQ "<<aliasAfter<<std::endl;need(aliasAfter<aliasBefore*.8,"HQ reduces folded high-frequency energy at equal signal power");
@@ -50,3 +83,13 @@ int exportOwnerChoirStabs(const juce::File& folder){try{
  }
  p.reset();temp.deleteRecursively();need(count==10,"ten uploaded choir stabs exported");std::cout<<"Exported ten portable choir presets with embedded samples and ten peak-normalised C4 one-shots\n";return 0;
 }catch(const std::exception& e){std::cerr<<"Choir export: "<<e.what()<<std::endl;return 176;}}
+
+int exportAcidCutoffSweeps(const juce::File& folder,const juce::File& previousBank){try{
+ folder.createDirectory();juce::Array<juce::var> rows;auto p=std::make_unique<SpaceInfinityProcessor>();const auto oldBank=previousBank.existsAsFile()?juce::JSON::parse(previousBank.loadFileAsString()):juce::var{};
+ for(int index=1;index<p->presetNames().size();++index)if(p->presetCategory(index)=="Acid"){
+  const auto name=p->presetNames()[index];p->loadPreset(index);const float peak=renderCutoffSweep(*p,folder.getChildFile(name+" - 062 Sweep.wav"));auto* row=new juce::DynamicObject;row->setProperty("name",name);row->setProperty("raw_peak",peak);row->setProperty("preset_trim",p->state.getRawParameterValue("presetTrim")->load());rows.add(juce::var(row));std::cout<<name<<" full cutoff sweep raw peak "<<peak<<std::endl;
+  if(oldBank.isObject())for(const auto& old:*oldBank["presets"].getArray())if(old["name"].toString()==name){p->loadPreset(index);for(const auto& value:old["settings"].getDynamicObject()->getProperties())set(*p,value.name.toString(),float(value.value));renderCutoffSweep(*p,folder.getChildFile(name+" - 061 Sweep.wav"));}
+ }
+ need(folder.getChildFile("sweep-profile.json").replaceWithText(juce::JSON::toString(rows)),"sweep profile export");
+ std::cout<<"Rendered ten automated cutoff comparisons\n";return 0;
+}catch(const std::exception& e){std::cerr<<e.what()<<std::endl;return 177;}}

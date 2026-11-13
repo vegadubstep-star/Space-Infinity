@@ -1,3 +1,13 @@
+# Active acid-cutoff fix — 0.6.2 pending Windows publication
+
+All18 native suites and Python importer passed. Dedicated seventh Acid Resonant filter follows cutoff, smooth positive-envelope headroom avoids upper-limit plateaus; original six modes and cutoff ID/units/host mapping retained. Ten acid patches revoiced with useful envelopes, resonance and less destructive distortion. Other150 designs/settings/trims exactly match0.6.1. Core impulse peaks follow180/800/3200Hz across44.1/48/96k; full-range drive/sweep stress and feedback decay passed. All actual acid patches open spectrally with distortion enabled. Complete accented-note80Hz–16kHz up/down sweeps rendered; maximum raw sweep peak recorded in docs/audit/ACID_SWEEP_062.json. Bank loudness -29.60..-27.78LUFS,1.82LU spread,max raw chord/automation peak0.7800004 (TRANCE_LOUDNESS_062.json).
+
+Final bank rebuilt; all four affected suites passed again (/tmp/build062-final-bank.log and /tmp/ctest062-bank.log) after restoring unrelated150 trims exactly. No further DSP changes pending. Need commit/push, Windows18checks/install/publication, download/check release0.6.2. Independent verifier prepared /workspace/work/workflow-update/verify-v062-download.py. GH_TOKEN working; no subagents authorized. Exclude audition/ and Python caches. Keep sources fixed during builds.
+
+Old bank /workspace/work/Bank-061-before-acid-sweep.json; final160 audition sets /workspace/work/levels-062-final-{solo,chord}; final20same-MIDI comparisons and JSON peak profile /workspace/work/acid-cutoff-062-final. Shared actual-synth demo: SPACE_INFINITY_0.6.2_Acid_Cutoff_Demo.wav (constant gain to audition level,40ms tail fade). Documentation ACID_CUTOFF_UPDATE.md and audit/ACID_CUTOFF_062_VALIDATION.md; RMS-matched spectrogram docs/images/Acid-Cutoff-Comparison-062.png. All packaging version0.6.2 and new release notes wired.1106 parameters,39 sources,60 zones,160sounds+Init unchanged counts. New filter is authored approximation, not a circuit-exact303 claim.
+
+## Previous verified release
+
 # Verified release — SPACE INFINITY 0.6.1
 
 Ready for the owner's FL Studio listening test. [Installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.6.1/SPACE_INFINITY_0.6.1_Windows_x64_Installer.zip) and [Choir Stabs ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.6.1/SPACE_INFINITY_0.6.1_Choir_Stabs.zip). Close FL Studio, Extract All, run Setup, then load a fresh instance and select the new factory sounds. The separate pack has ten embedded-sample presets and ten stereo WAV hits.

@@ -1,0 +1,52 @@
+[
+  {
+    "name": "Liquid Chronicle",
+    "raw_peak": 0.185355603694916,
+    "preset_trim": -9.829999923706055
+  },
+  {
+    "name": "Square Serum",
+    "raw_peak": 0.153776332736015,
+    "preset_trim": -12.470000267028809
+  },
+  {
+    "name": "Pulse Corrosion",
+    "raw_peak": 0.184861853718758,
+    "preset_trim": -8.700000762939453
+  },
+  {
+    "name": "Resonant Wire",
+    "raw_peak": 0.16251029074192,
+    "preset_trim": -11.319999694824219
+  },
+  {
+    "name": "Squelch Reactor",
+    "raw_peak": 0.142651453614235,
+    "preset_trim": -11.460000991821289
+  },
+  {
+    "name": "Biting Cathode",
+    "raw_peak": 0.18891353905201,
+    "preset_trim": -10.069999694824219
+  },
+  {
+    "name": "Deep Silver Acid",
+    "raw_peak": 0.156289353966713,
+    "preset_trim": -11.369999885559082
+  },
+  {
+    "name": "Glass Acid",
+    "raw_peak": 0.190871804952621,
+    "preset_trim": -9.189998626708984
+  },
+  {
+    "name": "Hardline 303",
+    "raw_peak": 0.184381425380707,
+    "preset_trim": -8.469999313354492
+  },
+  {
+    "name": "Velvet Slide",
+    "raw_peak": 0.178724989295006,
+    "preset_trim": -9.319999694824219
+  }
+]

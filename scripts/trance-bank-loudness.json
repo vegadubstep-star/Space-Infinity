@@ -1202,81 +1202,81 @@
   {
     "id": "TI151",
     "name": "Liquid Chronicle",
-    "design_hash": "38a6ea16c193f5cd",
-    "input_lufs": -19.87,
-    "presetTrim": -8.13,
-    "raw_peak": 0.758204698562622
+    "design_hash": "96efc6082d1ad146",
+    "input_lufs": -18.17,
+    "presetTrim": -9.83,
+    "raw_peak": 0.588396787643433
   },
   {
     "id": "TI152",
     "name": "Square Serum",
-    "design_hash": "975e43b93508ba94",
-    "input_lufs": -18.47,
-    "presetTrim": -9.53,
-    "raw_peak": 0.814008951187134
+    "design_hash": "bfbcc8d04364c1bc",
+    "input_lufs": -15.53,
+    "presetTrim": -12.47,
+    "raw_peak": 0.728316426277161
   },
   {
     "id": "TI153",
     "name": "Pulse Corrosion",
-    "design_hash": "33a136d1a5780af8",
-    "input_lufs": -20.69,
-    "presetTrim": -7.31,
-    "raw_peak": 0.467157930135727
+    "design_hash": "a98b1bc08b81a4a5",
+    "input_lufs": -19.3,
+    "presetTrim": -8.7,
+    "raw_peak": 0.503323674201965
   },
   {
     "id": "TI154",
     "name": "Resonant Wire",
-    "design_hash": "28d5a957949e1edf",
-    "input_lufs": -21.03,
-    "presetTrim": -6.97,
-    "raw_peak": 0.448197484016418
+    "design_hash": "847bde37d1309eb5",
+    "input_lufs": -16.68,
+    "presetTrim": -11.32,
+    "raw_peak": 0.650441646575928
   },
   {
     "id": "TI155",
     "name": "Squelch Reactor",
-    "design_hash": "474287eba6344ca0",
-    "input_lufs": -18.12,
-    "presetTrim": -9.88,
-    "raw_peak": 0.878945887088776
+    "design_hash": "4abd596225712e28",
+    "input_lufs": -16.54,
+    "presetTrim": -11.46,
+    "raw_peak": 0.594156801700592
   },
   {
     "id": "TI156",
     "name": "Biting Cathode",
-    "design_hash": "a2e9272c0502f28f",
-    "input_lufs": -17.9,
-    "presetTrim": -10.1,
-    "raw_peak": 0.857890248298645
+    "design_hash": "62a2776e06288cc6",
+    "input_lufs": -17.93,
+    "presetTrim": -10.07,
+    "raw_peak": 0.673825442790985
   },
   {
     "id": "TI157",
     "name": "Deep Silver Acid",
-    "design_hash": "39c3d702b4d80069",
-    "input_lufs": -18.77,
-    "presetTrim": -9.23,
-    "raw_peak": 0.816762208938599
+    "design_hash": "601ef2c9fd428913",
+    "input_lufs": -16.63,
+    "presetTrim": -11.37,
+    "raw_peak": 0.62447452545166
   },
   {
     "id": "TI158",
     "name": "Glass Acid",
-    "design_hash": "6e9f3f181ccbb084",
-    "input_lufs": -20.26,
-    "presetTrim": -7.74,
-    "raw_peak": 0.369803696870804
+    "design_hash": "3d0d0b9ffea493cf",
+    "input_lufs": -18.81,
+    "presetTrim": -9.19,
+    "raw_peak": 0.591069877147675
   },
   {
     "id": "TI159",
     "name": "Hardline 303",
-    "design_hash": "6a6b2a4e219621d1",
-    "input_lufs": -20.82,
-    "presetTrim": -7.18,
-    "raw_peak": 0.822833299636841
+    "design_hash": "6d43dc9282a0f0bc",
+    "input_lufs": -19.53,
+    "presetTrim": -8.47,
+    "raw_peak": 0.534805953502655
   },
   {
     "id": "TI160",
     "name": "Velvet Slide",
-    "design_hash": "b68fa1b0b909fa26",
-    "input_lufs": -19.61,
-    "presetTrim": -8.39,
-    "raw_peak": 0.767789006233215
+    "design_hash": "2dda661bbbaf8be8",
+    "input_lufs": -18.68,
+    "presetTrim": -9.32,
+    "raw_peak": 0.572247922420502
   }
 ]

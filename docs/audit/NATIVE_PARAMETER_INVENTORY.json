@@ -1,5 +1,5 @@
 {
-  "native_version": "0.6.1",
+  "native_version": "0.6.2",
   "manual_reference": "https://xferrecords.com/manual/serum-2/docs",
   "notes": "Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.",
   "parameter_count": 1106,
@@ -4707,7 +4707,7 @@
       "name": "Filter Mode",
       "type": "choice",
       "minimum": 0.0,
-      "maximum": 5.0,
+      "maximum": 6.0,
       "host_default": 0.0,
       "init_value": 0.0,
       "choices": [
@@ -4716,7 +4716,8 @@
         "High-pass",
         "Band-pass",
         "24 dB LP",
-        "Analogue ZDF"
+        "Analogue ZDF",
+        "Acid Resonant"
       ]
     },
     {

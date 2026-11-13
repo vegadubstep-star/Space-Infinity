@@ -11,7 +11,7 @@ Current development branch: **codex/windows-build**.
 - Frequency-selective sidechain/pumping and trance gate with 15 editable patterns.
 - Native oscillator/filter/envelope/modulation controls and the existing granular/wavetable/arp/sequencer engines.
 
-See [0.6.1 acid, bass and choir changes](docs/ACID_BASS_AND_CHOIR_UPDATE.md), [0.6.0 sound and workflow changes](docs/CREATIVE_WORKFLOW_UPDATE.md), [level and control changes](docs/CONTROL_AND_LEVEL_UPDATE.md), [studio features](docs/STUDIO_FEATURES.md), [factory bank status](docs/STUDIO_FACTORY_BANK.md), [testing instructions](docs/TESTING_STUDIO_BUILD.md), and [native interface screenshots](docs/HARDWARE_INTERFACE.md).
+See [0.6.2 acid cutoff fix](docs/ACID_CUTOFF_UPDATE.md), [0.6.1 acid, bass and choir changes](docs/ACID_BASS_AND_CHOIR_UPDATE.md), [0.6.0 sound and workflow changes](docs/CREATIVE_WORKFLOW_UPDATE.md), [level and control changes](docs/CONTROL_AND_LEVEL_UPDATE.md), [studio features](docs/STUDIO_FEATURES.md), [factory bank status](docs/STUDIO_FACTORY_BANK.md), [testing instructions](docs/TESTING_STUDIO_BUILD.md), and [native interface screenshots](docs/HARDWARE_INTERFACE.md).
 
 ## Windows build
 

@@ -168,6 +168,7 @@ for patch in BANK:
   if key not in PARAMS:raise ValueError('Unknown parameter '+key+' in '+patch['name'])
   low,high=PARAMS[key]['minimum'],PARAMS[key]['maximum']
   if key=='source':high=38
+  if key=='filterMode':high=6
   if value<low-1e-5 or value>high+1e-5:raise ValueError(f'{patch["name"]}: {key}={value} outside {low}..{high}')
 levels_file=ROOT/'scripts/trance-bank-levels.json'
 if levels_file.exists():

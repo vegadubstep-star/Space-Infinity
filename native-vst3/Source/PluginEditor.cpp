@@ -447,8 +447,8 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
             processor.state,octaveIds[i],control));
     }
     bindChoice(voiceMode,"voiceMode",{"Poly","Mono","Legato"});
-    bindChoice(filterMode,"filterMode",{"Classic LP","Resonant LP","High-pass","Band-pass","24 dB LP","Analogue ZDF"});
-    filterMode.setTooltip("Analogue ZDF is a four-pole low-pass with nonlinear, zero-delay resonance feedback.");
+    bindChoice(filterMode,"filterMode",{"Classic LP","Resonant LP","High-pass","Band-pass","24 dB LP","Analogue ZDF","Acid Resonant"});
+    filterMode.setTooltip("Analogue ZDF is a four-pole nonlinear low-pass. Acid Resonant keeps the moving squelch prominent for cutoff automation; adjust Resonance, Filter Env Amount and Pre Drive.");
     analogueCharacter.initialiseModulation(processor,"analogueCharacter");analogueCharacter.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     analogueCharacter.setTextBoxStyle(juce::Slider::TextBoxBelow,false,70,18);
     analogueCharacter.setDoubleClickReturnValue(true,0.0);
@@ -507,6 +507,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     const char* texts[]={"CUTOFF","RESONANCE","ATTACK","RELEASE","GLOBAL DETUNE","LAYER","DRIVE","CHORUS","DELAY","REVERB","LFO RATE","LFO DEPTH","OUTPUT","DECAY","SUSTAIN","FLANGER","PHASER"};
     for(int i=0;i<17;i++){
         auto& slider=knobs[i];slider.initialiseModulation(processor,ids[i]);slider.setName(texts[i]);slider.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);slider.setTextBoxStyle(juce::Slider::TextBoxBelow,false,70,19);
+        if(i==0)slider.setTooltip("Automate Filter Cutoff for acid sweeps. Acid Resonant keeps the moving resonance prominent; Filter Env Amount and Decay shape each note. Shift-drag for fine adjustment.");
         if(i==4)slider.setTooltip("Shared unison detune for both oscillators, scaled by each oscillator's SPREAD control. This does not control volume.");
         slider.setColour(juce::Slider::rotarySliderFillColourId,juce::Colour(0xffe84953));slider.setColour(juce::Slider::thumbColourId,juce::Colours::white);
         slider.setColour(juce::Slider::textBoxTextColourId,juce::Colour(0xffd9d1bb));slider.setColour(juce::Slider::textBoxOutlineColourId,juce::Colours::transparentBlack);

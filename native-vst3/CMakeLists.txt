@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(SpaceInfinity VERSION 0.6.1 LANGUAGES C CXX)
+project(SpaceInfinity VERSION 0.6.2 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 include(FetchContent)
 FetchContent_Declare(juce GIT_REPOSITORY https://github.com/juce-framework/JUCE.git GIT_TAG 8.0.7)

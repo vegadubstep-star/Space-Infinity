@@ -192,7 +192,7 @@ APVTS::ParameterLayout makeLayout(){
                 label+" Depth",juce::NormalisableRange<float>(-1.0f,1.0f),0.5f));
         }
     }
-    choice("filterMode","Filter Mode",{"Classic LP","Resonant LP","High-pass","Band-pass","24 dB LP","Analogue ZDF"},0);
+    choice("filterMode","Filter Mode",{"Classic LP","Resonant LP","High-pass","Band-pass","24 dB LP","Analogue ZDF","Acid Resonant"},0);
     choice("sampleLoop","Sample Loop",{"Off","On"},0);
     choice("sampleReverse","Sample Reverse",{"Off","On"},0);
     choice("delaySync","Delay Timing",{"Free","1/16","1/8","Dotted 1/8","1/4"},0);
@@ -879,7 +879,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
         const double bendRatio=std::exp2(masterOctave+pitchBend.getNextValue()/12.0);
         const float circuitCutoff=analogueCutoff.getNextValue();
         const float circuitResonance=analogueResonance.getNextValue();
-        const float fc=juce::jlimit(50.0f,float(sr*0.4),(filterMode==5?circuitCutoff:cutoff)*std::exp2(lfo*lfoDepth*2+movement*motionDepth*3));
+        const float fc=juce::jlimit(50.0f,float(sr*0.4),(filterMode>=5?circuitCutoff:cutoff)*std::exp2(lfo*lfoDepth*2+movement*motionDepth*3));
         for(auto& v:voices){if(v.retireRemaining>0){const float t=float(v.retireRemaining)/v.retireLength;const float fade=.5f-.5f*std::cos(juce::MathConstants<float>::pi*t);v.lastL=v.tailL*fade;v.lastR=v.tailR*fade;out+=(v.lastL+v.lastR)*.5f;side+=(v.lastL-v.lastR)*.5f;--v.retireRemaining;continue;}if(!v.active){
             if(upgraded){const auto advance=[](double& phase,double rate){phase+=rate;phase-=std::floor(phase);};
                 advance(v.phase,v.idleRateA);advance(v.phase2,v.idleRateB);
@@ -912,7 +912,15 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
             const float curveBase=upgraded?0:-.5f;
             const float filterEnv=(upgraded||filterHold>0||filterContour)?v.curvedFilter.next(v.released,sr,juce::jmin(1.0f,filterA*timing),filterD*timing,filterS,juce::jmin(1.0f,filterR*timing),filterHold*timing,filterCurves[0]+curveBase,filterCurves[1]+curveBase,filterCurves[2]+curveBase):
                 v.filterEnvelope.next(v.released,sr,filterA,filterD,filterS,filterR);
-            const float targetVoiceFc=juce::jlimit(50.0f,float(sr*.4),fc*std::exp2(movingModulation[1]*2+filterEnv*filterAmount+(v.velocity-.5f)*filterVelocity+(upgraded?v.calibration.cutoff*character*.09f:0)+v.calibration.cutoff*detail[2]*filterSpreadScale));
+            float voiceBaseFc=fc;
+            float cutoffOctaves=movingModulation[1]*2+filterEnv*filterAmount+(v.velocity-.5f)*filterVelocity+(upgraded?v.calibration.cutoff*character*.09f:0)+v.calibration.cutoff*detail[2]*filterSpreadScale;
+            if(filterMode==6){
+                const float ceiling=juce::jmin(18000.0f,float(sr*.4));voiceBaseFc=juce::jmin(fc,ceiling);
+                // Compress positive envelope excursion into the available octave
+                // headroom instead of pinning note attacks at a hard frequency cap.
+                if(cutoffOctaves>0){const float room=std::log2(ceiling/voiceBaseFc);cutoffOctaves=room>0?room*std::tanh(cutoffOctaves/room):0;}
+            }
+            const float targetVoiceFc=juce::jlimit(50.0f,float(sr*.4),voiceBaseFc*std::exp2(cutoffOctaves));
             if(v.smoothFc<=0)v.smoothFc=targetVoiceFc;else v.smoothFc+=(declick?cutoffSmoothing:1)*(targetVoiceFc-v.smoothFc);
             const float voiceFc=v.smoothFc;
             const float voiceG=std::tan(float(juce::MathConstants<double>::pi*voiceFc/sr));
@@ -1035,14 +1043,20 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                 if(stereoFilters){const float l=(std::tanh((raw+rawSide)*warmthDrive+warmthBias)-warmthCentre)*warmthScale,r=(std::tanh((raw-rawSide)*warmthDrive+warmthBias)-warmthCentre)*warmthScale;raw+=character*((l+r)*.5f-raw);rawSide+=character*((l-r)*.5f-rawSide);}
                 else{const float warmed=(std::tanh(raw*warmthDrive+warmthBias)-warmthCentre)*warmthScale;raw+=character*(warmed-raw);rawSide+=character*(std::tanh(rawSide*warmthDrive)*warmthScale-rawSide);}
             }
-            if(preFilterDrive>0){
+            if(preFilterDrive>0&&filterMode!=6){
                 const float gain=1+12*preFilterDrive,normalisation=1/std::tanh(gain);
                 const float l=std::tanh((raw+rawSide)*gain)*normalisation,r=std::tanh((raw-rawSide)*gain)*normalisation;
                 raw=.5f*(l+r);rawSide=.5f*(l-r);
             }
             float filtered;
             float filteredSide=0.0f;
-            if(filterMode==5){
+            if(filterMode==6){
+                // Pole spacing is calibrated so the resonance travels with CUTOFF.
+                const float g=std::tan(float(juce::MathConstants<double>::pi*voiceFc/(sr*1.15)));
+                const float left=v.acidFilter[0].process(raw+rawSide,g,voiceRes,preFilterDrive);
+                const float right=v.acidFilter[1].process(raw-rawSide,g,voiceRes,preFilterDrive);
+                filtered=.5f*(left+right);filteredSide=.5f*(left-right);
+            }else if(filterMode==5){
                 const float coefficient=voiceG/(1.0f+voiceG);
                 const float preDrive=upgraded?1+character*(.6f+drive*1.5f):1;
                 const float left=v.ladder[0].process((raw+rawSide)*preDrive,coefficient,juce::jlimit(0.0f,.95f,circuitResonance+.4f*movingModulation[10]),circuitDrive);
@@ -1058,7 +1072,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                 filtered=filterMode==4 ? stage(response[0],1.4142f,v.filterCascade)[0]
                                        : response[size_t(filterMode-1)];
             }
-            if(filterMode!=5){
+            if(filterMode<5){
                 if(!stereoFilters||filterMode==0){v.stereoSide+=voiceOnePole*(rawSide*(stereoFilters?1+voiceRes*.7f:1)-v.stereoSide);filteredSide=v.stereoSide;}
                 else{const auto response=analogueSvf(rawSide,voiceG,1.4142f-voiceRes*1.34f,v.filterSideState);filteredSide=filterMode==4?analogueSvf(response[0],voiceG,1.4142f,v.filterSideCascade)[0]:response[size_t(filterMode-1)];}
             }

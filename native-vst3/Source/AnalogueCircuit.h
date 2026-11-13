@@ -41,6 +41,39 @@ private:
     float previousInput=0.0f;
 };
 
+// Acid-voiced four-stage TPT loop: a faster first pole and a third/fourth
+// output tap expose the moving resonant peak. This is an authored response,
+// not a component-exact TB-303 circuit. Internal headroom keeps the resonance
+// from disappearing when a full-scale oscillator enters the nonlinear loop.
+class AcidResonantFilter {
+public:
+    float process(float input,float g,float resonance,float drive) noexcept {
+        const float first=2*g/(1+2*g),other=g/(1+g);
+        const std::array<float,4> c{first,other,other,other};
+        float a=1,history=0;
+        for(size_t i=0;i<4;++i){a*=c[i];history=c[i]*history+(1-c[i])*state[i];}
+        const float feedback=4.2f*std::pow(std::clamp(resonance/0.95f,0.0f,1.0f),1.25f);
+        constexpr float headroom=.18f;
+        const float source=input*headroom*(1+.5f*feedback);
+        const float inverseDrive=1/(1+1.5f*std::clamp(drive,0.0f,1.0f));
+        float lower=-inverseDrive,upper=inverseDrive,estimate=std::clamp(previousInput,lower,upper);
+        for(int i=0;i<8;++i){
+            const float t=std::tanh((source-feedback*(a*estimate+history))/inverseDrive);
+            const float error=estimate-inverseDrive*t;
+            if(std::abs(error)<1e-7f)break;
+            if(error>0)upper=estimate;else lower=estimate;
+            const float next=estimate-error/(1+feedback*a*(1-t*t));
+            estimate=next>lower&&next<upper?next:(lower+upper)*.5f;
+        }
+        previousInput=estimate;float output=estimate,third=0;
+        for(size_t i=0;i<4;++i){const float y=c[i]*output+(1-c[i])*state[i];state[i]=2*y-state[i];output=y;if(i==2)third=y;}
+        return (.65f*output+.35f*third)/headroom;
+    }
+    void reset() noexcept {state={};previousInput=0;}
+private:
+    std::array<float,4> state{};float previousInput=0;
+};
+
 // Deterministic per-voice drift avoids a shared random generator on the audio thread.
 class AnalogueDrift {
 public:

@@ -1,4 +1,4 @@
-# SPACE INFINITY 0.6.1 preset catalogue
+# SPACE INFINITY 0.6.2 preset catalogue
 
 160 authored musical presets plus Init. Track references indicate inspiration, not extracted original patches. Bass sounds follow customer MIDI.
 
@@ -221,13 +221,13 @@
 
 | Preset | Reference / role | Tags |
 |---|---|---|
-| Liquid Chronicle | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Tube |
-| Square Serum | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Diode |
-| Pulse Corrosion | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Clipped |
-| Resonant Wire | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Folded |
-| Squelch Reactor | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Tube |
-| Biting Cathode | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Diode |
-| Deep Silver Acid | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Clipped |
-| Glass Acid | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Folded |
-| Hardline 303 | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Tube |
-| Velvet Slide | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Diode |
+| Liquid Chronicle | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Cutoff Sweep, Tube Stack |
+| Square Serum | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Cutoff Sweep, Transistor |
+| Pulse Corrosion | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Cutoff Sweep, Clipped |
+| Resonant Wire | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Cutoff Sweep, Diode |
+| Squelch Reactor | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Cutoff Sweep, Hard Drive |
+| Biting Cathode | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Cutoff Sweep, Clipped |
+| Deep Silver Acid | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Cutoff Sweep, Tube |
+| Glass Acid | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Cutoff Sweep, Tube Stack |
+| Hardline 303 | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Cutoff Sweep, Hard Drive |
+| Velvet Slide | Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary | Acid, Trance, 303, Squelch, Mono, Unsequenced, Cutoff Sweep, Diode |

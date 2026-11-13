@@ -204,6 +204,7 @@ private:
         std::array<double,3> lfoPhase{},lfoAge{};
         std::array<float,3> lfoMemory{};
         std::array<AnalogueLadder,2> ladder;
+        std::array<AcidResonantFilter,2> acidFilter;
         uint32_t noiseState=1;
         AnalogueColour colour,voltageColour;float filterSideState[2]{},filterSideCascade[2]{};
         std::array<double,127> extraPhase1{}, extraPhase2{};
