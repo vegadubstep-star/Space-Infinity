@@ -39,7 +39,7 @@ class ExtendedPanel final : public juce::Component,private juce::Timer {
     EnvelopeCanvas envelope;EnvelopeView ampEnvelope;
     juce::Slider frame;
     juce::ComboBox frameSize;
-    juce::Label status;
+    juce::Label status;juce::Label* labState=nullptr;
     std::unique_ptr<juce::FileChooser> chooser;
     template<class T> T& own(int page){auto item=std::make_unique<T>();auto& ref=*item;pages[size_t(page)].addAndMakeVisible(ref);controls.push_back(std::move(item));return ref;}
     void label(int page,const juce::String& text,juce::Rectangle<int> area){auto& l=own<juce::Label>(page);l.setText(text,juce::dontSendNotification);l.setBounds(area);l.setColour(juce::Label::textColourId,juce::Colour(0xffd2d4d8));}
@@ -52,7 +52,7 @@ class ExtendedPanel final : public juce::Component,private juce::Timer {
     }
     void knob(int page,const char* id,const char* name,int x,int y,int width,const char* unit=""){
         auto& caption=own<juce::Label>(page);caption.setText(name,juce::dontSendNotification);caption.setFont(juce::Font(juce::FontOptions(11)));caption.setBounds(x,y,width,20);caption.setJustificationType(juce::Justification::centred);caption.setColour(juce::Label::textColourId,juce::Colour(0xffd2d4d8));
-        auto& s=own<ModSlider>(page);s.initialiseModulation(processor,id);s.setBounds(x+(width-80)/2,y+21,80,78);
+        auto& s=own<ModSlider>(page);s.initialiseModulation(processor,id);s.setBounds(x+(width-80)/2,y+21,80,page==7?68:78);
         s.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);s.setTextBoxStyle(juce::Slider::TextBoxBelow,false,76,18);
         sliders.push_back(std::make_unique<SliderBinding>(processor.state,id,s));const auto suffix=juce::String(unit);
         s.textFromValueFunction=[suffix](double value){return suffix=="%"?juce::String(value*100,0)+"%":juce::String(value,suffix=="s"?3:2)+(suffix.isEmpty()?juce::String{}:" "+suffix);};
@@ -81,14 +81,14 @@ class ExtendedPanel final : public juce::Component,private juce::Timer {
                     safe->showResult(safe->processor.importImpulse(c.getResult()),"Impulse loaded: "+c.getResult().getFileName());
             });
     }
-    void timerCallback() override {envelope.repaint();ampEnvelope.repaint();}
+    void timerCallback() override {envelope.repaint();ampEnvelope.repaint();if(labState){const bool digital=processor.state.getRawParameterValue("engineMode")->load()>.5f,on=processor.state.getRawParameterValue("analogueLabEnabled")->load()>.5f;labState->setText(digital?"BYPASSED: Digital mode - press ACTIVATE LAB to hear these controls.":!on?"LAB OFF - press ACTIVATE LAB to hear component variation and colour.":"LAB ACTIVE - Studio / Vintage expand the range; WARM and VINTAGE are audible starting points.",juce::dontSendNotification);}}
 public:
     explicit ExtendedPanel(SpaceInfinityProcessor& p,std::function<void()> showSequence={}):processor(p),table(p),envelope(p),ampEnvelope(p,true){
         setSize(730,465);addAndMakeVisible(tabs);
         const int visiblePages[]{0,1,3,7,8};const char* names[]{"EXPRESSION","GRANULAR","WAVETABLE","ANALOG LAB","PITCH"};
         for(int i=0;i<5;++i)tabs.addTab(names[i],juce::Colour(0xff252b31),&pages[size_t(visiblePages[i])],false);
         knob(0,"ampVelocity","VELOCITY TO VOLUME",30,55,300,"%");knob(0,"filterVelocity","VELOCITY TO FILTER",370,55,300,"oct");
-        label(0,"Amp/filter envelopes and contours are on MAIN. Portamento is beside the pitch wheel.\nConvolver controls and impulse import are in the FX rack.",{25,210,680,90});
+        label(0,"Amp/filter envelopes and contours are on MAIN. Portamento is beside the main-page voicing selector.\nConvolver controls and impulse import are in the FX rack.",{25,210,680,90});
         slider(1,"grainPosition","Position",15,40);slider(1,"grainSize","Grain size (ms)",365,40);
         slider(1,"grainDensity","Grains / second",15,100);slider(1,"grainSpray","Position spray",365,100);
         slider(1,"grainSpread","Stereo spread",15,160);
@@ -111,8 +111,13 @@ public:
         knob(8,"midiBendRange","MIDI WHEEL RANGE",245,35,215,"st");knob(8,"concertPitch","A4 TUNING",475,35,215,"Hz");knob(8,"pitchEnvAmount","PITCH ENVELOPE",15,155,215,"st");knob(8,"pitchEnvAttack","PITCH ATTACK",245,155,215,"s");knob(8,"pitchEnvDecay","PITCH DECAY",475,155,215,"s");knob(8,"pitchEnvVelocity","PITCH VELOCITY",15,275,215,"%");
         label(8,"The main-page wheel exposes Pitch Wheel to FL Studio automation (±24 semitones).\nMIDI Wheel Range sets the range of an incoming MIDI pitch wheel.\nUse Mono or Legato and PORTAMENTO for gliding notes.",{245,290,445,90});
         auto& lab=own<juce::ToggleButton>(7);lab.setButtonText("COMPONENT VARIATION / COLOUR");lab.setBounds(15,10,310,28);buttons.push_back(std::make_unique<ButtonBinding>(processor.state,"analogueLabEnabled",lab));auto& stereo=own<juce::ToggleButton>(7);stereo.setButtonText("MATCHED STEREO FILTERS");stereo.setBounds(330,10,225,28);buttons.push_back(std::make_unique<ButtonBinding>(processor.state,"stereoFilterUpgrade",stereo));auto& clean=own<juce::ToggleButton>(7);clean.setButtonText("CLEAN BASE VCO");clean.setTooltip("Independent saw/pulse edge correction; does not cover all wavetable or warp modes.");clean.setBounds(570,10,145,28);buttons.push_back(std::make_unique<ButtonBinding>(processor.state,"cleanVCO",clean));
-        const char* labIds[]{"analogueOscDrift","analogueThermal","analogueFilterSpread","analogueEnvSpread","analogueVoiceSpread","analoguePulseDrift","analogueVCADrive","analogueAsymmetry","analogueMemory","analogueCoupling","noisePan"};const char* labNames[]{"VCO WANDER","THERMAL DRIFT","FILTER TOLERANCE","ENVELOPE TOLERANCE","VOICE TOLERANCE","PULSE DRIFT","VCA DRIVE","ASYMMETRY","CIRCUIT MEMORY","AC COUPLING","NOISE PAN"};for(int i=0;i<11;++i)knob(7,labIds[i],labNames[i],15+(i%4)*174,46+(i/4)*110,168,i==11?"Hz":"%");
-        addAndMakeVisible(status);status.setBounds(15,433,700,27);status.setColour(juce::Label::textColourId,juce::Colour(0xffd8c8a7));startTimerHz(15);
+        labState=&own<juce::Label>(7);labState->setBounds(15,36,700,24);labState->setColour(juce::Label::textColourId,juce::Colour(0xff80e4dd));
+        choice(7,"analogueLabRange",{"Calibrated / subtle","Studio / audible","Vintage / wide"},15,65,205);
+        const auto labPreset=[this](int preset){const auto set=[this](const char* id,float value){auto* p=processor.state.getParameter(id);p->setValueNotifyingHost(p->convertTo0to1(value));};set("engineMode",0);set("analogueLabEnabled",1);if(preset<0)return;set("analogueLabRange",preset==2?2:1);const char* ids[]{"analogueOscDrift","analogueThermal","analogueFilterSpread","analogueEnvSpread","analogueVoiceSpread","analoguePulseDrift","analogueVCADrive","analogueAsymmetry","analogueMemory","analogueCoupling"};const float warm[]{.18f,.14f,.12f,.10f,.16f,.13f,.32f,.16f,.18f,.12f},vintage[]{.40f,.30f,.32f,.24f,.30f,.35f,.55f,.35f,.38f,.22f};for(int i=0;i<10;++i)set(ids[i],preset==0?0:preset==1?warm[i]:vintage[i]);};
+        action(7,"ACTIVATE LAB",{230,65,133,26},[labPreset]{labPreset(-1);});action(7,"NEUTRAL",{373,65,93,26},[labPreset]{labPreset(0);});action(7,"WARM",{476,65,100,26},[labPreset]{labPreset(1);});action(7,"VINTAGE",{586,65,125,26},[labPreset]{labPreset(2);});
+        const char* labIds[]{"analogueOscDrift","analogueThermal","analogueFilterSpread","analogueEnvSpread","analogueVoiceSpread","analoguePulseDrift","analogueVCADrive","analogueAsymmetry","analogueMemory","analogueCoupling","noisePan"};const char* labNames[]{"VCO WANDER","THERMAL DRIFT","FILTER TOLERANCE","ENVELOPE TOLERANCE","VOICE TOLERANCE","PULSE DRIFT","VCA DRIVE","ASYMMETRY","CIRCUIT MEMORY","AC COUPLING","NOISE PAN"};for(int i=0;i<11;++i)knob(7,labIds[i],labNames[i],15+(i%4)*174,100+(i/4)*94,168,"%");
+        label(7,"VCO / pulse controls affect Synth.\nVCA, memory and coupling also colour samples.",{540,304,170,69});
+        addAndMakeVisible(status);status.setBounds(15,433,700,27);status.setColour(juce::Label::textColourId,juce::Colour(0xffd8c8a7));startTimerHz(15);timerCallback();
     }
     void selectTab(int index){const int pages[]{0,1,3,7,8};for(int i=0;i<5;++i)if(pages[i]==index){tabs.setCurrentTabIndex(i);return;}tabs.setCurrentTabIndex(0);}
     void resized() override {tabs.setBounds(0,0,730,425);}

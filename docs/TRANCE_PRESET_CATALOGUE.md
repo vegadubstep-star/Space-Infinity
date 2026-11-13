@@ -1,56 +1,56 @@
-# SPACE INFINITY 0.6.0 preset catalogue
+# SPACE INFINITY 0.6.1 preset catalogue
 
-160 authored musical presets plus Init. Track references indicate inspiration, not extracted original patches. Bass/acid sounds follow customer MIDI.
+160 authored musical presets plus Init. Track references indicate inspiration, not extracted original patches. Bass sounds follow customer MIDI.
 
 ## Offbeat Bass Stabs (15)
 
 | Preset | Reference / role | Tags |
 |---|---|---|
-| Tunnel Knock | Cocooma - District of Power | Offbeat Bass Stabs, Trance, Bass, Unsequenced |
-| Reptile Rubber | Mauro Picotto - Lizard | Offbeat Bass Stabs, Trance, Bass, Unsequenced |
-| Gate Impact | Cosmic Gate - Exploration of Space | Offbeat Bass Stabs, Trance, Bass, Unsequenced |
-| Yellow Reactor | Cocooma - The Yellow Base | Offbeat Bass Stabs, Trance, Bass, Unsequenced |
-| Ocean Hammer | Cosmic Gate - Melt to the Ocean | Offbeat Bass Stabs, Trance, Bass, Unsequenced |
-| District Vowel | Cocooma - District of Power | Offbeat Bass Stabs, Trance, Bass, Unsequenced |
-| Razor Offbeat | Hennes & Cold - The Second Trip | Offbeat Bass Stabs, Trance, Bass, Unsequenced |
-| Steel Bounce | Scot Project - U | Offbeat Bass Stabs, Trance, Bass, Unsequenced |
-| Velvet Punch | Kai Tracid - Liquid Skies | Offbeat Bass Stabs, Trance, Bass, Unsequenced |
-| Octane Kickback | DJ Scot Project - O | Offbeat Bass Stabs, Trance, Bass, Unsequenced |
-| Power Fifth | Cocooma - Rage | Offbeat Bass Stabs, Trance, Bass, Unsequenced |
-| Foundry Bite | Gary D. - Kinetic Pressure | Offbeat Bass Stabs, Trance, Bass, Unsequenced |
-| Cathedral Thud | Jones & Stephenson - The First Rebirth | Offbeat Bass Stabs, Trance, Bass, Unsequenced |
-| Acid Anchor | Hardfloor - Acperience 1 | Offbeat Bass Stabs, Trance, Bass, Unsequenced |
-| Warm Concrete | Legend B - Lost in Love | Offbeat Bass Stabs, Trance, Bass, Unsequenced |
+| Tunnel Knock | Cocooma - District of Power | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
+| Reptile Rubber | Mauro Picotto - Lizard | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
+| Gate Impact | Cosmic Gate - Exploration of Space | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
+| Yellow Reactor | Cocooma - The Yellow Base | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
+| Ocean Hammer | Cosmic Gate - Melt to the Ocean | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
+| District Vowel | Cocooma - District of Power | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
+| Razor Offbeat | Hennes & Cold - The Second Trip | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
+| Steel Bounce | Scot Project - U | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
+| Velvet Punch | Kai Tracid - Liquid Skies | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
+| Octane Kickback | DJ Scot Project - O | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
+| Power Fifth | Cocooma - Rage | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
+| Foundry Bite | Gary D. - Kinetic Pressure | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
+| Cathedral Thud | Jones & Stephenson - The First Rebirth | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
+| Acid Anchor | Hardfloor - Acperience 1 | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
+| Warm Concrete | Legend B - Lost in Love | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
 
 ## Sub Bass Stabs (5)
 
 | Preset | Reference / role | Tags |
 |---|---|---|
-| Sine Foundation | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Trance, Bass, Unsequenced |
-| Triangle Pressure | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Trance, Bass, Unsequenced |
-| Filtered Pulse Sub | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Trance, Bass, Unsequenced |
-| Velvet FM Sub | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Trance, Bass, Unsequenced |
-| Octave Undertow | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Trance, Bass, Unsequenced |
+| Sine Foundation | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Bass, Unsequenced, Clean, Sub |
+| Triangle Pressure | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Bass, Unsequenced, Clean, Sub |
+| Filtered Pulse Sub | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Bass, Unsequenced, Clean, Sub |
+| Velvet FM Sub | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Bass, Unsequenced, Clean, Sub |
+| Octave Undertow | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Bass, Unsequenced, Clean, Sub |
 
 ## Rolling Bass (15)
 
 | Preset | Reference / role | Tags |
 |---|---|---|
-| Sixteenth Engine | Astrix - Deep Jungle Walk | Rolling Bass, Trance, Bass, Unsequenced |
-| Binary Runner | Paul van Dyk - For an Angel | Rolling Bass, Trance, Bass, Unsequenced |
-| FM Rail | Cosmic Gate - The Drums | Rolling Bass, Trance, Bass, Unsequenced |
-| Reed Motor | Mauro Picotto - Iguana | Rolling Bass, Trance, Bass, Unsequenced |
-| Rounded Momentum | System F - Out of the Blue | Rolling Bass, Trance, Bass, Unsequenced |
-| Vocal Runner | Mauro Picotto - Komodo | Rolling Bass, Trance, Bass, Unsequenced |
-| Needle Motion | Scot Project - F | Rolling Bass, Trance, Bass, Unsequenced |
-| Sync Conveyor | Cocooma - Energetic | Rolling Bass, Trance, Bass, Unsequenced |
-| Triangle Circuit | Kai Tracid - Your Own Reality | Rolling Bass, Trance, Bass, Unsequenced |
-| Octave Rotor | Cosmic Gate - Fire Wire | Rolling Bass, Trance, Bass, Unsequenced |
-| Fifth Locomotion | Cocooma - Virtual Experience | Rolling Bass, Trance, Bass, Unsequenced |
-| Metal Pursuit | Cocooma - Flying Saucer | Rolling Bass, Trance, Bass, Unsequenced |
-| Drawbar Roller | BBE - Seven Days and One Week | Rolling Bass, Trance, Bass, Unsequenced |
-| Acid Tread | Emmanuel Top - Acid Phase | Rolling Bass, Trance, Bass, Unsequenced |
-| Dark Flywheel | Push - Universal Nation | Rolling Bass, Trance, Bass, Unsequenced |
+| Sixteenth Engine | Astrix - Deep Jungle Walk | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
+| Binary Runner | Paul van Dyk - For an Angel | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
+| FM Rail | Cosmic Gate - The Drums | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
+| Reed Motor | Mauro Picotto - Iguana | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
+| Rounded Momentum | System F - Out of the Blue | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
+| Vocal Runner | Mauro Picotto - Komodo | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
+| Needle Motion | Scot Project - F | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
+| Sync Conveyor | Cocooma - Energetic | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
+| Triangle Circuit | Kai Tracid - Your Own Reality | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
+| Octave Rotor | Cosmic Gate - Fire Wire | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
+| Fifth Locomotion | Cocooma - Virtual Experience | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
+| Metal Pursuit | Cocooma - Flying Saucer | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
+| Drawbar Roller | BBE - Seven Days and One Week | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
+| Acid Tread | Emmanuel Top - Acid Phase | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
+| Dark Flywheel | Push - Universal Nation | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
 
 ## Uplifting Leads (10)
 
@@ -206,16 +206,16 @@
 
 | Preset | Reference / role | Tags |
 |---|---|---|
-| Cathedral Strike | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Trance, Choir, Rave, Stab, Ah |
-| Iron Tenor | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Trance, Choir, Rave, Stab, Ooh |
-| Basement Ah | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Trance, Choir, Rave, Stab, Ee |
-| Soprano Blade | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Trance, Choir, Rave, Stab, Ah |
-| Ooh Colossus | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Trance, Choir, Rave, Stab, Ooh |
-| Monastery Impact | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Trance, Choir, Rave, Stab, Ee |
-| Silver Vowel | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Trance, Choir, Rave, Stab, Ah |
-| Granitic Oh | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Trance, Choir, Rave, Stab, Ooh |
-| Rave Congregation | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Trance, Choir, Rave, Stab, Ee |
-| Vocal Circuit | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Trance, Choir, Rave, Stab, Ah |
+| Cathedral Strike | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Choir, User Recordings, Straight, Rave |
+| Iron Tenor | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Choir, User Recordings, Straight, Deep |
+| Basement Ah | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Choir, User Recordings, Straight, Deep |
+| Soprano Blade | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Choir, User Recordings, Straight, Bright |
+| Ooh Colossus | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Choir, User Recordings, Straight, Rave |
+| Monastery Impact | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Choir, User Recordings, Straight, Deep |
+| Silver Vowel | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Choir, User Recordings, Straight, Bright |
+| Granitic Oh | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Choir, User Recordings, Straight, Deep |
+| Rave Congregation | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Choir, User Recordings, Straight, Bright |
+| Vocal Circuit | Classic 90s techno / German hard-trance choir-stab role | Choir Stabs, Choir, User Recordings, Straight, Rave |
 
 ## Acid (10)
 

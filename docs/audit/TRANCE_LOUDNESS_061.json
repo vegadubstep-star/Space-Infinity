@@ -1,0 +1,1289 @@
+{
+  "presets": 160,
+  "minimum_lufs": -29.6,
+  "maximum_lufs": -27.86,
+  "spread_lu": 1.740000000000002,
+  "max_chord_raw_peak": 0.780000388622284,
+  "rows": [
+    {
+      "name": "Tunnel Knock",
+      "category": "Offbeat Bass Stabs",
+      "lufs": -28.01,
+      "solo_peak": 0.388621747493744,
+      "chord_raw_peak": 0.410150498151779,
+      "trim": 8.57
+    },
+    {
+      "name": "Reptile Rubber",
+      "category": "Offbeat Bass Stabs",
+      "lufs": -27.99,
+      "solo_peak": 0.290562659502029,
+      "chord_raw_peak": 0.29886057972908,
+      "trim": 3.26
+    },
+    {
+      "name": "Gate Impact",
+      "category": "Offbeat Bass Stabs",
+      "lufs": -28.01,
+      "solo_peak": 0.208606019616127,
+      "chord_raw_peak": 0.211716696619987,
+      "trim": 5.71
+    },
+    {
+      "name": "Yellow Reactor",
+      "category": "Offbeat Bass Stabs",
+      "lufs": -28.01,
+      "solo_peak": 0.247308939695358,
+      "chord_raw_peak": 0.252549260854721,
+      "trim": 5.71
+    },
+    {
+      "name": "Ocean Hammer",
+      "category": "Offbeat Bass Stabs",
+      "lufs": -28.02,
+      "solo_peak": 0.434886962175369,
+      "chord_raw_peak": 0.466040402650833,
+      "trim": 8.73
+    },
+    {
+      "name": "District Vowel",
+      "category": "Offbeat Bass Stabs",
+      "lufs": -28.0,
+      "solo_peak": 0.317302286624908,
+      "chord_raw_peak": 0.328646183013916,
+      "trim": 4.78
+    },
+    {
+      "name": "Razor Offbeat",
+      "category": "Offbeat Bass Stabs",
+      "lufs": -27.99,
+      "solo_peak": 0.355361133813858,
+      "chord_raw_peak": 0.371254295110703,
+      "trim": 2.3
+    },
+    {
+      "name": "Steel Bounce",
+      "category": "Offbeat Bass Stabs",
+      "lufs": -28.0,
+      "solo_peak": 0.417978525161743,
+      "chord_raw_peak": 0.445858299732208,
+      "trim": 9.91
+    },
+    {
+      "name": "Velvet Punch",
+      "category": "Offbeat Bass Stabs",
+      "lufs": -27.99,
+      "solo_peak": 0.186289250850677,
+      "chord_raw_peak": 0.188489854335785,
+      "trim": 6.95
+    },
+    {
+      "name": "Octane Kickback",
+      "category": "Offbeat Bass Stabs",
+      "lufs": -28.0,
+      "solo_peak": 0.294333577156067,
+      "chord_raw_peak": 0.303547948598862,
+      "trim": 4.14
+    },
+    {
+      "name": "Power Fifth",
+      "category": "Offbeat Bass Stabs",
+      "lufs": -28.01,
+      "solo_peak": 0.392162382602692,
+      "chord_raw_peak": 0.414284139871597,
+      "trim": 8.96
+    },
+    {
+      "name": "Foundry Bite",
+      "category": "Offbeat Bass Stabs",
+      "lufs": -28.03,
+      "solo_peak": 0.461851179599762,
+      "chord_raw_peak": 0.500128746032715,
+      "trim": 3.38
+    },
+    {
+      "name": "Cathedral Thud",
+      "category": "Offbeat Bass Stabs",
+      "lufs": -28.01,
+      "solo_peak": 0.208216443657875,
+      "chord_raw_peak": 0.211308836936951,
+      "trim": 6.64
+    },
+    {
+      "name": "Acid Anchor",
+      "category": "Offbeat Bass Stabs",
+      "lufs": -28.02,
+      "solo_peak": 0.335775434970856,
+      "chord_raw_peak": 0.34933015704155,
+      "trim": 5.06
+    },
+    {
+      "name": "Warm Concrete",
+      "category": "Offbeat Bass Stabs",
+      "lufs": -28.0,
+      "solo_peak": 0.235127344727516,
+      "chord_raw_peak": 0.239609450101852,
+      "trim": 4.99
+    },
+    {
+      "name": "Sine Foundation",
+      "category": "Sub Bass Stabs",
+      "lufs": -28.01,
+      "solo_peak": 0.154353812336922,
+      "chord_raw_peak": 0.155597403645515,
+      "trim": 7.14
+    },
+    {
+      "name": "Triangle Pressure",
+      "category": "Sub Bass Stabs",
+      "lufs": -28.01,
+      "solo_peak": 0.216250121593475,
+      "chord_raw_peak": 0.219735726714134,
+      "trim": 10.21
+    },
+    {
+      "name": "Filtered Pulse Sub",
+      "category": "Sub Bass Stabs",
+      "lufs": -28.01,
+      "solo_peak": 0.18067242205143,
+      "chord_raw_peak": 0.182679384946823,
+      "trim": 4.43
+    },
+    {
+      "name": "Velvet FM Sub",
+      "category": "Sub Bass Stabs",
+      "lufs": -28.0,
+      "solo_peak": 0.165623188018799,
+      "chord_raw_peak": 0.167163446545601,
+      "trim": 6.02
+    },
+    {
+      "name": "Octave Undertow",
+      "category": "Sub Bass Stabs",
+      "lufs": -27.99,
+      "solo_peak": 0.175190925598145,
+      "chord_raw_peak": 0.17701730132103,
+      "trim": 8.05
+    },
+    {
+      "name": "Sixteenth Engine",
+      "category": "Rolling Bass",
+      "lufs": -28.06,
+      "solo_peak": 0.583265244960785,
+      "chord_raw_peak": 0.666930615901947,
+      "trim": 15.02
+    },
+    {
+      "name": "Binary Runner",
+      "category": "Rolling Bass",
+      "lufs": -28.0,
+      "solo_peak": 0.478964388370514,
+      "chord_raw_peak": 0.521433115005493,
+      "trim": 9.71
+    },
+    {
+      "name": "FM Rail",
+      "category": "Rolling Bass",
+      "lufs": -27.98,
+      "solo_peak": 0.313082098960876,
+      "chord_raw_peak": 0.323963940143585,
+      "trim": 11.49
+    },
+    {
+      "name": "Reed Motor",
+      "category": "Rolling Bass",
+      "lufs": -28.01,
+      "solo_peak": 0.363405227661133,
+      "chord_raw_peak": 0.380805343389511,
+      "trim": 10.17
+    },
+    {
+      "name": "Rounded Momentum",
+      "category": "Rolling Bass",
+      "lufs": -28.02,
+      "solo_peak": 0.342610418796539,
+      "chord_raw_peak": 0.357052475214005,
+      "trim": 12.29
+    },
+    {
+      "name": "Vocal Runner",
+      "category": "Rolling Bass",
+      "lufs": -28.0,
+      "solo_peak": 0.489774167537689,
+      "chord_raw_peak": 0.535713672637939,
+      "trim": 10.07
+    },
+    {
+      "name": "Needle Motion",
+      "category": "Rolling Bass",
+      "lufs": -28.0,
+      "solo_peak": 0.346324115991592,
+      "chord_raw_peak": 0.361273646354675,
+      "trim": 13.76
+    },
+    {
+      "name": "Sync Conveyor",
+      "category": "Rolling Bass",
+      "lufs": -28.05,
+      "solo_peak": 0.554126024246216,
+      "chord_raw_peak": 0.625105977058411,
+      "trim": 14.54
+    },
+    {
+      "name": "Triangle Circuit",
+      "category": "Rolling Bass",
+      "lufs": -28.03,
+      "solo_peak": 0.278034716844559,
+      "chord_raw_peak": 0.285558611154556,
+      "trim": 11.98
+    },
+    {
+      "name": "Octave Rotor",
+      "category": "Rolling Bass",
+      "lufs": -28.03,
+      "solo_peak": 0.53352677822113,
+      "chord_raw_peak": 0.594751715660095,
+      "trim": 14.21
+    },
+    {
+      "name": "Fifth Locomotion",
+      "category": "Rolling Bass",
+      "lufs": -28.0,
+      "solo_peak": 0.371204525232315,
+      "chord_raw_peak": 0.38982093334198,
+      "trim": 11.33
+    },
+    {
+      "name": "Metal Pursuit",
+      "category": "Rolling Bass",
+      "lufs": -28.0,
+      "solo_peak": 0.467520594596863,
+      "chord_raw_peak": 0.506577730178833,
+      "trim": 6.76
+    },
+    {
+      "name": "Drawbar Roller",
+      "category": "Rolling Bass",
+      "lufs": -28.01,
+      "solo_peak": 0.321012586355209,
+      "chord_raw_peak": 0.332781583070755,
+      "trim": 12.03
+    },
+    {
+      "name": "Acid Tread",
+      "category": "Rolling Bass",
+      "lufs": -28.03,
+      "solo_peak": 0.479257315397263,
+      "chord_raw_peak": 0.521997272968292,
+      "trim": 10.59
+    },
+    {
+      "name": "Dark Flywheel",
+      "category": "Rolling Bass",
+      "lufs": -28.06,
+      "solo_peak": 0.592206358909607,
+      "chord_raw_peak": 0.680947422981262,
+      "trim": 16.34
+    },
+    {
+      "name": "Azure Ascension",
+      "category": "Uplifting Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.174500316381454,
+      "chord_raw_peak": 0.256406456232071,
+      "trim": 4.32
+    },
+    {
+      "name": "Gilded Flight",
+      "category": "Uplifting Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.178000777959824,
+      "chord_raw_peak": 0.320280581712723,
+      "trim": 4.03
+    },
+    {
+      "name": "Northern Horizon",
+      "category": "Uplifting Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.114554911851883,
+      "chord_raw_peak": 0.245168671011925,
+      "trim": 2.83
+    },
+    {
+      "name": "Universal Flame",
+      "category": "Uplifting Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.143964469432831,
+      "chord_raw_peak": 0.318692207336426,
+      "trim": 0.65
+    },
+    {
+      "name": "Blanche Skyline",
+      "category": "Uplifting Leads",
+      "lufs": -27.99,
+      "solo_peak": 0.158379346132278,
+      "chord_raw_peak": 0.252029091119766,
+      "trim": 3.82
+    },
+    {
+      "name": "Solar Promise",
+      "category": "Uplifting Leads",
+      "lufs": -27.99,
+      "solo_peak": 0.16521193087101,
+      "chord_raw_peak": 0.358807623386383,
+      "trim": 6.67
+    },
+    {
+      "name": "Frost Anthem",
+      "category": "Uplifting Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.175847589969635,
+      "chord_raw_peak": 0.334422051906586,
+      "trim": 5.71
+    },
+    {
+      "name": "Angel Alloy",
+      "category": "Uplifting Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.166378065943718,
+      "chord_raw_peak": 0.338660836219788,
+      "trim": 2.12
+    },
+    {
+      "name": "Silver Alone",
+      "category": "Uplifting Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.121352523565292,
+      "chord_raw_peak": 0.121542885899544,
+      "trim": -5.84
+    },
+    {
+      "name": "Desert Blade",
+      "category": "Uplifting Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.109193556010723,
+      "chord_raw_peak": 0.105109199881554,
+      "trim": -10.86
+    },
+    {
+      "name": "Reptile Signal",
+      "category": "Hard Trance Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.213025033473969,
+      "chord_raw_peak": 0.216442763805389,
+      "trim": -3.8
+    },
+    {
+      "name": "Iguana Chrome",
+      "category": "Hard Trance Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.157102510333061,
+      "chord_raw_peak": 0.158382937312126,
+      "trim": -2.96
+    },
+    {
+      "name": "Komodo Breath",
+      "category": "Hard Trance Leads",
+      "lufs": -28.01,
+      "solo_peak": 0.135756179690361,
+      "chord_raw_peak": 0.136625722050667,
+      "trim": -5.5
+    },
+    {
+      "name": "Proxima Horn",
+      "category": "Hard Trance Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.137025117874146,
+      "chord_raw_peak": 0.137946888804436,
+      "trim": -0.19
+    },
+    {
+      "name": "Baguette Voltage",
+      "category": "Hard Trance Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.147353261709213,
+      "chord_raw_peak": 0.147745341062546,
+      "trim": -2.8
+    },
+    {
+      "name": "Orbital Steel",
+      "category": "Hard Trance Leads",
+      "lufs": -28.01,
+      "solo_peak": 0.126307681202888,
+      "chord_raw_peak": 0.127013206481934,
+      "trim": -3.78
+    },
+    {
+      "name": "Ion Wire",
+      "category": "Hard Trance Leads",
+      "lufs": -27.99,
+      "solo_peak": 0.167002901434898,
+      "chord_raw_peak": 0.328838765621185,
+      "trim": 0.69
+    },
+    {
+      "name": "Ocean Descent",
+      "category": "Hard Trance Leads",
+      "lufs": -28.01,
+      "solo_peak": 0.135560348629951,
+      "chord_raw_peak": 0.136466264724731,
+      "trim": -2.21
+    },
+    {
+      "name": "Rainbow Pressure",
+      "category": "Hard Trance Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.155918210744858,
+      "chord_raw_peak": 0.157202050089836,
+      "trim": -0.98
+    },
+    {
+      "name": "Earthbound Razor",
+      "category": "Hard Trance Leads",
+      "lufs": -28.01,
+      "solo_peak": 0.167862802743912,
+      "chord_raw_peak": 0.168313935399055,
+      "trim": 0.83
+    },
+    {
+      "name": "Virtual Voltage",
+      "category": "90s German Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.188790798187256,
+      "chord_raw_peak": 0.18710945546627,
+      "trim": -0.31
+    },
+    {
+      "name": "Power District",
+      "category": "90s German Leads",
+      "lufs": -28.01,
+      "solo_peak": 0.162499949336052,
+      "chord_raw_peak": 0.16354475915432,
+      "trim": -5.47
+    },
+    {
+      "name": "Rage Vector",
+      "category": "90s German Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.15390282869339,
+      "chord_raw_peak": 0.15522013604641,
+      "trim": -5.62
+    },
+    {
+      "name": "Saucer Alloy",
+      "category": "90s German Leads",
+      "lufs": -28.01,
+      "solo_peak": 0.139555931091309,
+      "chord_raw_peak": 0.140472546219826,
+      "trim": -3.92
+    },
+    {
+      "name": "Escape Velocity",
+      "category": "90s German Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.137180268764496,
+      "chord_raw_peak": 0.13807113468647,
+      "trim": 1.04
+    },
+    {
+      "name": "Yellow Cathode",
+      "category": "90s German Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.158794656395912,
+      "chord_raw_peak": 0.16030053794384,
+      "trim": 1.52
+    },
+    {
+      "name": "Energetic Fifth",
+      "category": "90s German Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.172900348901749,
+      "chord_raw_peak": 0.174729451537132,
+      "trim": -1.01
+    },
+    {
+      "name": "Metronomic Edge",
+      "category": "90s German Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.178844839334488,
+      "chord_raw_peak": 0.181197598576546,
+      "trim": -2.61
+    },
+    {
+      "name": "Blue Wonder",
+      "category": "90s German Leads",
+      "lufs": -28.01,
+      "solo_peak": 0.156370148062706,
+      "chord_raw_peak": 0.157674267888069,
+      "trim": -0.07
+    },
+    {
+      "name": "Never Over",
+      "category": "90s German Leads",
+      "lufs": -28.0,
+      "solo_peak": 0.146508157253265,
+      "chord_raw_peak": 0.146751418709755,
+      "trim": -3.9
+    },
+    {
+      "name": "Glass Meridian",
+      "category": "Trance Plucks",
+      "lufs": -28.0,
+      "solo_peak": 0.219018176198006,
+      "chord_raw_peak": 0.520468235015869,
+      "trim": 10.73
+    },
+    {
+      "name": "Pearl Harbour",
+      "category": "Trance Plucks",
+      "lufs": -28.01,
+      "solo_peak": 0.325305491685867,
+      "chord_raw_peak": 0.662498354911804,
+      "trim": 13.35
+    },
+    {
+      "name": "Emerald Chime",
+      "category": "Trance Plucks",
+      "lufs": -28.0,
+      "solo_peak": 0.203869491815567,
+      "chord_raw_peak": 0.49564465880394,
+      "trim": 17.66
+    },
+    {
+      "name": "Silk Pizzicato",
+      "category": "Trance Plucks",
+      "lufs": -28.0,
+      "solo_peak": 0.259426534175873,
+      "chord_raw_peak": 0.374290019273758,
+      "trim": 18.21
+    },
+    {
+      "name": "Mallet Moon",
+      "category": "Trance Plucks",
+      "lufs": -27.99,
+      "solo_peak": 0.217582374811172,
+      "chord_raw_peak": 0.549985647201538,
+      "trim": 17.55
+    },
+    {
+      "name": "Balearic Nylon",
+      "category": "Trance Plucks",
+      "lufs": -28.0,
+      "solo_peak": 0.2824487388134,
+      "chord_raw_peak": 0.529548108577728,
+      "trim": 15.64
+    },
+    {
+      "name": "Neon Compass",
+      "category": "Trance Plucks",
+      "lufs": -28.63,
+      "solo_peak": 0.312528043985367,
+      "chord_raw_peak": 0.779999911785126,
+      "trim": 11.25261
+    },
+    {
+      "name": "Pearl Clavicle",
+      "category": "Trance Plucks",
+      "lufs": -28.01,
+      "solo_peak": 0.364268809556961,
+      "chord_raw_peak": 0.574862241744995,
+      "trim": 18.21
+    },
+    {
+      "name": "Vowel Snow",
+      "category": "Trance Plucks",
+      "lufs": -27.99,
+      "solo_peak": 0.269893497228622,
+      "chord_raw_peak": 0.526078879833221,
+      "trim": 13.63
+    },
+    {
+      "name": "Needle Arc",
+      "category": "Trance Plucks",
+      "lufs": -29.6,
+      "solo_peak": 0.353463500738144,
+      "chord_raw_peak": 0.780000388622284,
+      "trim": 20.15041
+    },
+    {
+      "name": "Twilight Meow",
+      "category": "Trance Plucks",
+      "lufs": -28.0,
+      "solo_peak": 0.44097512960434,
+      "chord_raw_peak": 0.468218624591827,
+      "trim": 13.8
+    },
+    {
+      "name": "Nineties Drawbar",
+      "category": "Trance Plucks",
+      "lufs": -28.06,
+      "solo_peak": 0.358630478382111,
+      "chord_raw_peak": 0.779999852180481,
+      "trim": 12.19733
+    },
+    {
+      "name": "Quartz Horizon",
+      "category": "Trance Plucks",
+      "lufs": -28.0,
+      "solo_peak": 0.301843613386154,
+      "chord_raw_peak": 0.625950634479523,
+      "trim": 9.46
+    },
+    {
+      "name": "Ribbon Pulse",
+      "category": "Trance Plucks",
+      "lufs": -28.66,
+      "solo_peak": 0.353092074394226,
+      "chord_raw_peak": 0.780000388622284,
+      "trim": 11.06478
+    },
+    {
+      "name": "Ice Drops",
+      "category": "Trance Plucks",
+      "lufs": -28.0,
+      "solo_peak": 0.268297135829926,
+      "chord_raw_peak": 0.596825301647186,
+      "trim": 9.46
+    },
+    {
+      "name": "Copper Strings",
+      "category": "Trance Plucks",
+      "lufs": -28.0,
+      "solo_peak": 0.189711898565292,
+      "chord_raw_peak": 0.244468525052071,
+      "trim": 20.51
+    },
+    {
+      "name": "Prism Fold",
+      "category": "Trance Plucks",
+      "lufs": -27.99,
+      "solo_peak": 0.261624902486801,
+      "chord_raw_peak": 0.641242563724518,
+      "trim": 10.25
+    },
+    {
+      "name": "Deep Thistle",
+      "category": "Trance Plucks",
+      "lufs": -27.98,
+      "solo_peak": 0.206955134868622,
+      "chord_raw_peak": 0.584437429904938,
+      "trim": 10.22
+    },
+    {
+      "name": "Cathedral Tear",
+      "category": "Trance Plucks",
+      "lufs": -28.0,
+      "solo_peak": 0.155679777264595,
+      "chord_raw_peak": 0.467443376779556,
+      "trim": 12.22
+    },
+    {
+      "name": "Crystal Relay",
+      "category": "Trance Plucks",
+      "lufs": -28.01,
+      "solo_peak": 0.349887907505035,
+      "chord_raw_peak": 0.701146125793457,
+      "trim": 13.76
+    },
+    {
+      "name": "Skywave Vista",
+      "category": "Airy Pads",
+      "lufs": -27.99,
+      "solo_peak": 0.118004836142063,
+      "chord_raw_peak": 0.243859112262726,
+      "trim": 7.95
+    },
+    {
+      "name": "Polar Choir",
+      "category": "Airy Pads",
+      "lufs": -28.08,
+      "solo_peak": 0.115929126739502,
+      "chord_raw_peak": 0.248594835400581,
+      "trim": 5.58
+    },
+    {
+      "name": "Granular Stardust",
+      "category": "Airy Pads",
+      "lufs": -28.0,
+      "solo_peak": 0.156214818358421,
+      "chord_raw_peak": 0.324719309806824,
+      "trim": 14.89
+    },
+    {
+      "name": "Aether Wide",
+      "category": "Airy Pads",
+      "lufs": -27.99,
+      "solo_peak": 0.122877523303032,
+      "chord_raw_peak": 0.231532424688339,
+      "trim": 6.61
+    },
+    {
+      "name": "Ooh Dawn",
+      "category": "Airy Pads",
+      "lufs": -28.0,
+      "solo_peak": 0.105650812387466,
+      "chord_raw_peak": 0.243116140365601,
+      "trim": 7.22
+    },
+    {
+      "name": "Spiral Strings",
+      "category": "Airy Pads",
+      "lufs": -28.0,
+      "solo_peak": 0.110397517681122,
+      "chord_raw_peak": 0.178038492798805,
+      "trim": 6.1
+    },
+    {
+      "name": "Crystalline Heaven",
+      "category": "Airy Pads",
+      "lufs": -28.0,
+      "solo_peak": 0.095053888857365,
+      "chord_raw_peak": 0.252083480358124,
+      "trim": 6.22
+    },
+    {
+      "name": "Fifth Heaven",
+      "category": "Airy Pads",
+      "lufs": -28.0,
+      "solo_peak": 0.108199559152126,
+      "chord_raw_peak": 0.204268023371696,
+      "trim": 6.98
+    },
+    {
+      "name": "Aurora Silk",
+      "category": "Airy Pads",
+      "lufs": -28.0,
+      "solo_peak": 0.112821586430073,
+      "chord_raw_peak": 0.234478309750557,
+      "trim": 5.29
+    },
+    {
+      "name": "Dream Vapor",
+      "category": "Airy Pads",
+      "lufs": -28.0,
+      "solo_peak": 0.100131519138813,
+      "chord_raw_peak": 0.22012959420681,
+      "trim": 8.24
+    },
+    {
+      "name": "Obsidian Choir",
+      "category": "Dark Pads",
+      "lufs": -28.0,
+      "solo_peak": 0.112935923039913,
+      "chord_raw_peak": 0.226916134357452,
+      "trim": 6.07
+    },
+    {
+      "name": "Midnight Formant",
+      "category": "Dark Pads",
+      "lufs": -28.01,
+      "solo_peak": 0.111269198358059,
+      "chord_raw_peak": 0.311026871204376,
+      "trim": 13.07
+    },
+    {
+      "name": "Ghost Chamber",
+      "category": "Dark Pads",
+      "lufs": -28.01,
+      "solo_peak": 0.121869280934334,
+      "chord_raw_peak": 0.379141688346863,
+      "trim": 5.82
+    },
+    {
+      "name": "Reverse Nebula",
+      "category": "Dark Pads",
+      "lufs": -27.99,
+      "solo_peak": 0.153406605124474,
+      "chord_raw_peak": 0.356884270906448,
+      "trim": 15.18
+    },
+    {
+      "name": "Shadow Bow",
+      "category": "Dark Pads",
+      "lufs": -28.0,
+      "solo_peak": 0.123935535550117,
+      "chord_raw_peak": 0.182436659932137,
+      "trim": 6.12
+    },
+    {
+      "name": "Iron Cathedral",
+      "category": "Dark Pads",
+      "lufs": -28.0,
+      "solo_peak": 0.09884562343359,
+      "chord_raw_peak": 0.371217727661133,
+      "trim": 2.55
+    },
+    {
+      "name": "Submerged Halo",
+      "category": "Dark Pads",
+      "lufs": -28.0,
+      "solo_peak": 0.112907081842422,
+      "chord_raw_peak": 0.204599127173424,
+      "trim": 4.94
+    },
+    {
+      "name": "Dusk Circuit",
+      "category": "Dark Pads",
+      "lufs": -28.0,
+      "solo_peak": 0.105103619396687,
+      "chord_raw_peak": 0.224927216768265,
+      "trim": 3.67
+    },
+    {
+      "name": "Eclipse Air",
+      "category": "Dark Pads",
+      "lufs": -27.99,
+      "solo_peak": 0.146053537726402,
+      "chord_raw_peak": 0.32037478685379,
+      "trim": 15.58
+    },
+    {
+      "name": "Nocturne Machine",
+      "category": "Dark Pads",
+      "lufs": -28.0,
+      "solo_peak": 0.109904043376446,
+      "chord_raw_peak": 0.230925589799881,
+      "trim": 5.38
+    },
+    {
+      "name": "Adagio Chamber",
+      "category": "Strings",
+      "lufs": -28.0,
+      "solo_peak": 0.10983020067215,
+      "chord_raw_peak": 0.232372254133224,
+      "trim": 7.01
+    },
+    {
+      "name": "Festival Arco",
+      "category": "Strings",
+      "lufs": -28.0,
+      "solo_peak": 0.111672095954418,
+      "chord_raw_peak": 0.243956461548805,
+      "trim": 7.09
+    },
+    {
+      "name": "Velvet Celli",
+      "category": "Strings",
+      "lufs": -28.01,
+      "solo_peak": 0.116868548095226,
+      "chord_raw_peak": 0.189825132489204,
+      "trim": 5.03
+    },
+    {
+      "name": "Cathedral Arco",
+      "category": "Strings",
+      "lufs": -27.91,
+      "solo_peak": 0.133138462901115,
+      "chord_raw_peak": 0.204669401049614,
+      "trim": 2.91
+    },
+    {
+      "name": "Staccato Voltage",
+      "category": "Strings",
+      "lufs": -27.99,
+      "solo_peak": 0.145920515060425,
+      "chord_raw_peak": 0.321820735931396,
+      "trim": 14.07
+    },
+    {
+      "name": "Pizzicato Signal",
+      "category": "Strings",
+      "lufs": -28.0,
+      "solo_peak": 0.164830192923546,
+      "chord_raw_peak": 0.370695739984512,
+      "trim": 12.74
+    },
+    {
+      "name": "Trembling Skyline",
+      "category": "Strings",
+      "lufs": -28.0,
+      "solo_peak": 0.123659066855907,
+      "chord_raw_peak": 0.272447288036346,
+      "trim": 8.27
+    },
+    {
+      "name": "JP String Anthem",
+      "category": "Strings",
+      "lufs": -28.0,
+      "solo_peak": 0.141973197460175,
+      "chord_raw_peak": 0.224313750863075,
+      "trim": 5.81
+    },
+    {
+      "name": "Solina Silver",
+      "category": "Strings",
+      "lufs": -28.0,
+      "solo_peak": 0.111624926328659,
+      "chord_raw_peak": 0.190780967473984,
+      "trim": 2.89
+    },
+    {
+      "name": "Noir Ensemble",
+      "category": "Strings",
+      "lufs": -28.0,
+      "solo_peak": 0.121356472373009,
+      "chord_raw_peak": 0.227843850851059,
+      "trim": 4.7
+    },
+    {
+      "name": "Ivory Dreamline",
+      "category": "Trance Pianos",
+      "lufs": -27.98,
+      "solo_peak": 0.162502557039261,
+      "chord_raw_peak": 0.31298491358757,
+      "trim": 7.65
+    },
+    {
+      "name": "Rave Hammer Piano",
+      "category": "Trance Pianos",
+      "lufs": -28.0,
+      "solo_peak": 0.130066081881523,
+      "chord_raw_peak": 0.207754820585251,
+      "trim": 4.65
+    },
+    {
+      "name": "Sunlit Grand",
+      "category": "Trance Pianos",
+      "lufs": -28.1,
+      "solo_peak": 0.157452136278152,
+      "chord_raw_peak": 0.313899427652359,
+      "trim": 6.5
+    },
+    {
+      "name": "Crystal Dream Keys",
+      "category": "Trance Pianos",
+      "lufs": -28.0,
+      "solo_peak": 0.150215446949005,
+      "chord_raw_peak": 0.202738061547279,
+      "trim": 4.75
+    },
+    {
+      "name": "Detroit Silver Keys",
+      "category": "Trance Pianos",
+      "lufs": -28.0,
+      "solo_peak": 0.128035947680473,
+      "chord_raw_peak": 0.204434022307396,
+      "trim": 4.81
+    },
+    {
+      "name": "Azure Ladder",
+      "category": "Arps and Sequences",
+      "lufs": -28.01,
+      "solo_peak": 0.246972650289536,
+      "chord_raw_peak": 0.249428510665894,
+      "trim": 8.63
+    },
+    {
+      "name": "Polar Cascade",
+      "category": "Arps and Sequences",
+      "lufs": -28.01,
+      "solo_peak": 0.195033878087997,
+      "chord_raw_peak": 0.197599619626999,
+      "trim": 9.56
+    },
+    {
+      "name": "Silk Pendulum",
+      "category": "Arps and Sequences",
+      "lufs": -28.01,
+      "solo_peak": 0.205826997756958,
+      "chord_raw_peak": 0.211450830101967,
+      "trim": 14.34
+    },
+    {
+      "name": "Glass Triplets",
+      "category": "Arps and Sequences",
+      "lufs": -28.0,
+      "solo_peak": 0.202055960893631,
+      "chord_raw_peak": 0.204767614603043,
+      "trim": 7.6
+    },
+    {
+      "name": "Ivory Orbit",
+      "category": "Arps and Sequences",
+      "lufs": -28.0,
+      "solo_peak": 0.219044670462608,
+      "chord_raw_peak": 0.222763895988464,
+      "trim": 13.43
+    },
+    {
+      "name": "Neon Steps",
+      "category": "Arps and Sequences",
+      "lufs": -28.01,
+      "solo_peak": 0.228166490793228,
+      "chord_raw_peak": 0.230636268854141,
+      "trim": 8.83
+    },
+    {
+      "name": "Marimba Constellation",
+      "category": "Arps and Sequences",
+      "lufs": -28.0,
+      "solo_peak": 0.141590878367424,
+      "chord_raw_peak": 0.142415627837181,
+      "trim": 10.16
+    },
+    {
+      "name": "Choir Spiral",
+      "category": "Arps and Sequences",
+      "lufs": -28.0,
+      "solo_peak": 0.121935658156872,
+      "chord_raw_peak": 0.122630387544632,
+      "trim": 7.9
+    },
+    {
+      "name": "Prism Random",
+      "category": "Arps and Sequences",
+      "lufs": -28.01,
+      "solo_peak": 0.180181711912155,
+      "chord_raw_peak": 0.182250589132309,
+      "trim": 7.98
+    },
+    {
+      "name": "Pizzicato Conductor",
+      "category": "Arps and Sequences",
+      "lufs": -28.0,
+      "solo_peak": 0.197672769427299,
+      "chord_raw_peak": 0.200777024030685,
+      "trim": 16.81
+    },
+    {
+      "name": "Tunnel Transmission",
+      "category": "Arps and Sequences",
+      "lufs": -28.0,
+      "solo_peak": 0.237706616520882,
+      "chord_raw_peak": 0.237375378608704,
+      "trim": 6.53
+    },
+    {
+      "name": "Reptile Circuit",
+      "category": "Arps and Sequences",
+      "lufs": -28.0,
+      "solo_peak": 0.206224009394646,
+      "chord_raw_peak": 0.209268495440483,
+      "trim": 8.44
+    },
+    {
+      "name": "Yellow Sequence",
+      "category": "Arps and Sequences",
+      "lufs": -28.0,
+      "solo_peak": 0.22493551671505,
+      "chord_raw_peak": 0.229012906551361,
+      "trim": 8.8
+    },
+    {
+      "name": "Lunar Pizzicato",
+      "category": "Arps and Sequences",
+      "lufs": -28.0,
+      "solo_peak": 0.177565082907677,
+      "chord_raw_peak": 0.179503306746483,
+      "trim": 16.22
+    },
+    {
+      "name": "Liquid Voltage",
+      "category": "Arps and Sequences",
+      "lufs": -28.01,
+      "solo_peak": 0.241583630442619,
+      "chord_raw_peak": 0.246531873941422,
+      "trim": 12.47
+    },
+    {
+      "name": "Foundry Pulse",
+      "category": "Arps and Sequences",
+      "lufs": -27.99,
+      "solo_peak": 0.22199946641922,
+      "chord_raw_peak": 0.22267110645771,
+      "trim": 7.51
+    },
+    {
+      "name": "Emerald Relay",
+      "category": "Arps and Sequences",
+      "lufs": -28.0,
+      "solo_peak": 0.219051152467728,
+      "chord_raw_peak": 0.222757652401924,
+      "trim": 7.34
+    },
+    {
+      "name": "Night Train",
+      "category": "Arps and Sequences",
+      "lufs": -28.01,
+      "solo_peak": 0.222450569272041,
+      "chord_raw_peak": 0.226266279816628,
+      "trim": 9.15
+    },
+    {
+      "name": "Velvet Clockwork",
+      "category": "Arps and Sequences",
+      "lufs": -28.0,
+      "solo_peak": 0.258307486772537,
+      "chord_raw_peak": 0.26431742310524,
+      "trim": 10.08
+    },
+    {
+      "name": "Starfall Dialogue",
+      "category": "Arps and Sequences",
+      "lufs": -27.99,
+      "solo_peak": 0.236534312367439,
+      "chord_raw_peak": 0.241210103034973,
+      "trim": 8.83
+    },
+    {
+      "name": "Cathedral Strike",
+      "category": "Choir Stabs",
+      "lufs": -28.06,
+      "solo_peak": 0.326958179473877,
+      "chord_raw_peak": 0.339025795459747,
+      "trim": 17.44
+    },
+    {
+      "name": "Iron Tenor",
+      "category": "Choir Stabs",
+      "lufs": -28.02,
+      "solo_peak": 0.224363937973976,
+      "chord_raw_peak": 0.228253588080406,
+      "trim": 20.89
+    },
+    {
+      "name": "Basement Ah",
+      "category": "Choir Stabs",
+      "lufs": -28.04,
+      "solo_peak": 0.235319554805756,
+      "chord_raw_peak": 0.239889889955521,
+      "trim": 18.13
+    },
+    {
+      "name": "Soprano Blade",
+      "category": "Choir Stabs",
+      "lufs": -28.03,
+      "solo_peak": 0.197277098894119,
+      "chord_raw_peak": 0.621409356594086,
+      "trim": 16.45
+    },
+    {
+      "name": "Ooh Colossus",
+      "category": "Choir Stabs",
+      "lufs": -28.03,
+      "solo_peak": 0.234612658619881,
+      "chord_raw_peak": 0.240039482712746,
+      "trim": 15.94
+    },
+    {
+      "name": "Monastery Impact",
+      "category": "Choir Stabs",
+      "lufs": -28.04,
+      "solo_peak": 0.354953110218048,
+      "chord_raw_peak": 0.371131747961044,
+      "trim": 19.11
+    },
+    {
+      "name": "Silver Vowel",
+      "category": "Choir Stabs",
+      "lufs": -28.02,
+      "solo_peak": 0.190402835607529,
+      "chord_raw_peak": 0.573898732662201,
+      "trim": 15.09
+    },
+    {
+      "name": "Granitic Oh",
+      "category": "Choir Stabs",
+      "lufs": -28.08,
+      "solo_peak": 0.340699881315231,
+      "chord_raw_peak": 0.354879170656204,
+      "trim": 18.01
+    },
+    {
+      "name": "Rave Congregation",
+      "category": "Choir Stabs",
+      "lufs": -28.02,
+      "solo_peak": 0.301010578870773,
+      "chord_raw_peak": 0.30989545583725,
+      "trim": 20.31
+    },
+    {
+      "name": "Vocal Circuit",
+      "category": "Choir Stabs",
+      "lufs": -28.09,
+      "solo_peak": 0.261607795953751,
+      "chord_raw_peak": 0.268184751272202,
+      "trim": 17.79
+    },
+    {
+      "name": "Liquid Chronicle",
+      "category": "Acid",
+      "lufs": -27.93,
+      "solo_peak": 0.290469259023666,
+      "chord_raw_peak": 0.297362685203552,
+      "trim": -8.13
+    },
+    {
+      "name": "Square Serum",
+      "category": "Acid",
+      "lufs": -27.87,
+      "solo_peak": 0.264928579330444,
+      "chord_raw_peak": 0.271724730730057,
+      "trim": -9.53
+    },
+    {
+      "name": "Pulse Corrosion",
+      "category": "Acid",
+      "lufs": -27.96,
+      "solo_peak": 0.198786392807961,
+      "chord_raw_peak": 0.20135560631752,
+      "trim": -7.31
+    },
+    {
+      "name": "Resonant Wire",
+      "category": "Acid",
+      "lufs": -28.0,
+      "solo_peak": 0.198275789618492,
+      "chord_raw_peak": 0.200895145535469,
+      "trim": -6.97
+    },
+    {
+      "name": "Squelch Reactor",
+      "category": "Acid",
+      "lufs": -27.87,
+      "solo_peak": 0.275421380996704,
+      "chord_raw_peak": 0.281813710927963,
+      "trim": -9.88
+    },
+    {
+      "name": "Biting Cathode",
+      "category": "Acid",
+      "lufs": -27.86,
+      "solo_peak": 0.262527734041214,
+      "chord_raw_peak": 0.26818323135376,
+      "trim": -10.1
+    },
+    {
+      "name": "Deep Silver Acid",
+      "category": "Acid",
+      "lufs": -27.9,
+      "solo_peak": 0.275724411010742,
+      "chord_raw_peak": 0.282225102186203,
+      "trim": -9.23
+    },
+    {
+      "name": "Glass Acid",
+      "category": "Acid",
+      "lufs": -27.94,
+      "solo_peak": 0.150542885065079,
+      "chord_raw_peak": 0.151694998145103,
+      "trim": -7.74
+    },
+    {
+      "name": "Hardline 303",
+      "category": "Acid",
+      "lufs": -27.93,
+      "solo_peak": 0.34644627571106,
+      "chord_raw_peak": 0.360007733106613,
+      "trim": -7.18
+    },
+    {
+      "name": "Velvet Slide",
+      "category": "Acid",
+      "lufs": -27.92,
+      "solo_peak": 0.28504866361618,
+      "chord_raw_peak": 0.292241513729095,
+      "trim": -8.39
+    }
+  ]
+}

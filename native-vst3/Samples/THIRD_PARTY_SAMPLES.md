@@ -40,3 +40,7 @@ Processing: onset trimming, DC removal, brief edge fades, stereo 44.1 kHz PCM16,
 ## Register-matched choir ensemble zones (0.6.0)
 
 Nine Ah/Ooh/Ee stereo zones at MIDI roots 48, 60 and 72 derive from the CC0 SpectMorph instrument recordings by Claudia, Mirko and Sven. Sources, pinned revision, processing and SHA-256 hashes are in `Trance/CHOIR_PROVENANCE.json` (packaged as `CHOIR_SAMPLE_PROVENANCE.json`). Original voices remain available for existing projects.
+
+## Project-owner choir recordings (0.6.1)
+
+Nine recordings were uploaded by the project owner for the choir-stab presets: Ambient Sweeps C3/C4 and ORBITAL CHOIR 1, 3, 5, 8, 9, 10 and 19. Their originals are retained in UserChoirOriginals; preparation, root-note metadata and source/output hashes are in Trance/USER_CHOIR_PROVENANCE.json. These owner-supplied recordings are separate from the CC0 third-party collection.

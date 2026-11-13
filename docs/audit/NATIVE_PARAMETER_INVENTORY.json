@@ -1,8 +1,8 @@
 {
-  "native_version": "0.6.0",
+  "native_version": "0.6.1",
   "manual_reference": "https://xferrecords.com/manual/serum-2/docs",
   "notes": "Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.",
-  "parameter_count": 1102,
+  "parameter_count": 1106,
   "parameters": [
     {
       "id": "cutoff",
@@ -2145,7 +2145,7 @@
       "name": "Sound Source",
       "type": "choice",
       "minimum": 0.0,
-      "maximum": 29.0,
+      "maximum": 38.0,
       "host_default": 0.0,
       "init_value": 0.0,
       "choices": [
@@ -2178,7 +2178,16 @@
         "Pizzicato Strings Multisample",
         "Ensemble Ah Multisample",
         "Ensemble Ooh Multisample",
-        "Ensemble Ee Multisample"
+        "Ensemble Ee Multisample",
+        "Ambient Choir C4",
+        "Ambient Choir C3",
+        "Orbital Choir 1",
+        "Orbital Choir 3",
+        "Orbital Choir 5",
+        "Orbital Choir 19",
+        "Orbital Choir 8",
+        "Orbital Choir 9",
+        "Orbital Choir 10"
       ]
     },
     {
@@ -4802,7 +4811,7 @@
       "name": "Distortion Type",
       "type": "choice",
       "minimum": 0.0,
-      "maximum": 13.0,
+      "maximum": 16.0,
       "host_default": 0.0,
       "init_value": 0.0,
       "choices": [
@@ -4819,7 +4828,10 @@
         "Rectify",
         "X-Shaper",
         "X-Shaper Asym",
-        "Sine Shaper"
+        "Sine Shaper",
+        "Transistor",
+        "Tube Stack",
+        "Hard Drive"
       ]
     },
     {
@@ -4880,6 +4892,33 @@
       "maximum": 1.0,
       "host_default": 0.0,
       "init_value": 0.0
+    },
+    {
+      "id": "distInput",
+      "name": "Distortion Input",
+      "type": "float",
+      "minimum": -24.0,
+      "maximum": 36.0,
+      "host_default": 0.0,
+      "init_value": 18.0
+    },
+    {
+      "id": "distTone",
+      "name": "Distortion Tone",
+      "type": "float",
+      "minimum": 500.0,
+      "maximum": 20000.0,
+      "host_default": 20000.0,
+      "init_value": 12000.0
+    },
+    {
+      "id": "distHQ",
+      "name": "Distortion HQ",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 1.0
     },
     {
       "id": "distShape0_0",
@@ -11062,6 +11101,20 @@
       "maximum": 1.0,
       "host_default": 0.0,
       "init_value": 0.0
+    },
+    {
+      "id": "analogueLabRange",
+      "name": "Analogue Lab Range",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "host_default": 0.0,
+      "init_value": 1.0,
+      "choices": [
+        "Calibrated",
+        "Studio",
+        "Vintage"
+      ]
     },
     {
       "id": "ampHold",

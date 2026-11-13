@@ -122,7 +122,7 @@ struct VoiceCalibration {
 // Independent, bounded VCA/colour model. A short feedback memory provides
 // rate-dependent colour; it is not a measured recreation of a specific circuit.
 struct AnalogueColourSettings {
-    float gain=1,bias=0,centre=0,normalisation=1,memory=0,memorySlew=1,dcCoefficient=0,wet=0;
+    float gain=1,bias=0,centre=0,normalisation=1,memory=0,memorySlew=1,dcCoefficient=0,wet=0,shapeWet=1;
     bool active=false,distort=false;
     static AnalogueColourSettings make(float drive,float asymmetry,float memory,float coupling,double sr) noexcept {
         AnalogueColourSettings s;s.active=drive>0||asymmetry>0||memory>0||coupling>0;if(!s.active)return s;
@@ -130,13 +130,18 @@ struct AnalogueColourSettings {
         s.distort=drive>0||asymmetry>0;s.memory=.15f*memory;s.memorySlew=float(1-std::exp(-1/(sr*(.0004+.002*memory))));
         s.dcCoefficient=float(std::exp(-6.283185307179586*(2+18*coupling)/sr));s.wet=std::max({drive,asymmetry,memory,coupling});return s;
     }
+    static AnalogueColourSettings voltage(float drive,float asymmetry,float memory,float coupling,double sr,float range) noexcept {
+        AnalogueColourSettings s;s.active=drive>0||asymmetry>0||memory>0||coupling>0;if(!s.active)return s;
+        const float vintage=std::max(0.0f,std::min(1.0f,range-1));s.gain=1+(3+5*vintage)*drive;s.bias=(.04f+.06f*vintage)*asymmetry;s.centre=std::tanh(s.bias*s.gain);s.normalisation=1/std::tanh(s.gain);
+        s.distort=drive>0||asymmetry>0;s.shapeWet=std::sqrt(std::max(drive,asymmetry));s.memory=(.08f+.10f*vintage)*memory;s.memorySlew=float(1-std::exp(-1/(sr*(.0006+.003*memory))));s.dcCoefficient=float(std::exp(-6.283185307179586*(2+(28+50*vintage)*coupling)/sr));s.wet=std::max({drive,asymmetry,memory,coupling});return s;
+    }
 };
 struct AnalogueColour {
     std::array<float,2> memory{},input{},output{};
     float process(float x,const AnalogueColourSettings& s,int channel) noexcept {
         if(!s.active)return x;const auto ch=size_t(channel);memory[ch]+=s.memorySlew*(x+s.memory*memory[ch]-memory[ch]);
         const float fed=(x+s.memory*memory[ch])*(1-s.memory);
-        const float shaped=s.distort?(std::tanh((fed+s.bias)*s.gain)-s.centre)*s.normalisation:fed;
+        float shaped=fed;if(s.distort){const float saturated=(std::tanh((fed+s.bias)*s.gain)-s.centre)*s.normalisation;shaped=s.shapeWet>=1?saturated:fed+s.shapeWet*(saturated-fed);}
         const float ac=shaped-input[ch]+s.dcCoefficient*output[ch];input[ch]=shaped;output[ch]=ac;
         return shaped+s.wet*(ac-shaped);
     }

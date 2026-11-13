@@ -11,6 +11,7 @@ bool hasParameter(juce::Component& c,const juce::String& id){if(c.getProperties(
 }
 int runUsabilitySmoke(){try{
     auto p=std::make_unique<SpaceInfinityProcessor>();auto editor=std::unique_ptr<juce::AudioProcessorEditor>(p->createEditor());editor->setSize(1000,790);
+    auto* porta=dynamic_cast<ModSlider*>(find(*editor,"Portamento time"));need(porta&&porta->isVisible()&&porta->getY()>150,"portamento is prominent on MAIN beside voicing");set(*p,"voiceMode",0);porta->onDragStart();need(p->state.getRawParameterValue("voiceMode")->load()==2,"dragging portamento enables legato from poly");
     auto* wheel=dynamic_cast<SpringPitchWheel*>(find(*editor,"Pitch Wheel"));need(wheel&&wheel->getMinimum()==-24&&wheel->getMaximum()==24,"wheel range is minus/plus 24");
     const auto mouse=[&](juce::Component* component){return juce::MouseEvent(juce::Desktop::getInstance().getMainMouseSource(),{12,12},juce::ModifierKeys(juce::ModifierKeys::leftButtonModifier),1,0,0,0,0,component,component,juce::Time::getCurrentTime(),{12,12},juce::Time::getCurrentTime(),1,true);};
     for(float pitch:{-24.0f,24.0f}){wheel->mouseDown(mouse(wheel));wheel->setValue(pitch,juce::sendNotificationSync);need(p->state.getRawParameterValue("pitchBend")->load()==pitch,"wheel reaches signed endpoints");wheel->mouseUp(mouse(wheel));need(p->state.getRawParameterValue("pitchBend")->load()==0,"mouse release centres host parameter");}

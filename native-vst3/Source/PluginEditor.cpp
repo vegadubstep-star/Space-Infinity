@@ -459,7 +459,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         processor.state,"analogueCharacter",analogueCharacter));
     showPercent(analogueCharacter);
     preDrive.initialiseModulation(processor,"filterInputDrive");preDrive.setName("Pre-filter drive");preDrive.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);preDrive.setTextBoxStyle(juce::Slider::TextBoxBelow,false,70,16);preDrive.setMouseDragSensitivity(350);preDrive.setDoubleClickReturnValue(true,0);preDrive.setTooltip("Drive into the filter before resonance; distinct from the output saturation DRIVE.");attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"filterInputDrive",preDrive));showPercent(preDrive);addAndMakeVisible(preDrive);preDriveLabel.setText("PRE DRIVE",juce::dontSendNotification);preDriveLabel.setJustificationType(juce::Justification::centred);addAndMakeVisible(preDriveLabel);
-    portamento.initialiseModulation(processor,"glideTime");portamento.setName("Portamento time");portamento.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);portamento.setTextBoxStyle(juce::Slider::TextBoxBelow,false,65,16);configureTimeKnob(portamento);portamento.setDoubleClickReturnValue(true,0);portamento.textFromValueFunction=[](double v){return juce::String(v*1000,1)+" ms";};portamento.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/1000;};portamento.setTooltip("Glide time in Mono or Legato. Overlap notes to glide; zero gives instant pitch. Shift-drag for fine control.");attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"glideTime",portamento));portamento.textFromValueFunction=[](double v){return juce::String(v*1000,1)+" ms";};portamento.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/1000;};portamento.updateText();addAndMakeVisible(portamento);portamentoLabel.setText("PORTAMENTO",juce::dontSendNotification);portamentoLabel.setJustificationType(juce::Justification::centred);portamentoLabel.setFont(juce::Font(juce::FontOptions(9)));addAndMakeVisible(portamentoLabel);
+    portamento.initialiseModulation(processor,"glideTime");portamento.setName("Portamento time");portamento.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);portamento.setTextBoxStyle(juce::Slider::TextBoxBelow,false,65,16);configureTimeKnob(portamento);portamento.setDoubleClickReturnValue(true,0);portamento.textFromValueFunction=[](double v){return juce::String(v*1000,1)+" ms";};portamento.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/1000;};portamento.setTooltip("Portamento / glide. Dragging in Poly switches to Legato; overlap notes for slides. Zero gives instant pitch. Shift-drag for fine control.");portamento.onDragStart=[this]{auto* mode=processor.state.getParameter("voiceMode");if(mode->convertFrom0to1(mode->getValue())<.5f)mode->setValueNotifyingHost(mode->convertTo0to1(2));};attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"glideTime",portamento));portamento.textFromValueFunction=[](double v){return juce::String(v*1000,1)+" ms";};portamento.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/1000;};portamento.updateText();addAndMakeVisible(portamento);portamentoLabel.setText("PORTAMENTO",juce::dontSendNotification);portamentoLabel.setJustificationType(juce::Justification::centred);portamentoLabel.setFont(juce::Font(juce::FontOptions(9)));addAndMakeVisible(portamentoLabel);
     analogueOn.addItemList({"ANALOGUE","DIGITAL"},1);analogueOn.setName("Overall engine mode");analogueOn.setTooltip("Analogue: use character and component variation. Digital: bypass drift, tolerance and analogue colour while retaining filter and envelope settings.");fxChoices.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"engineMode",analogueOn));addAndMakeVisible(analogueOn);addAndMakeVisible(analogueLabButton);analogueLabButton.onClick=[this]{auto panel=std::make_unique<ExtendedPanel>(processor);panel->selectTab(7);openPopup(std::move(panel),analogueLabButton.getBounds());};addAndMakeVisible(pitchSettings);pitchSettings.setTooltip("Pitch envelope, tuning and MIDI wheel range");pitchSettings.onClick=[this]{auto panel=std::make_unique<ExtendedPanel>(processor);panel->selectTab(8);openPopup(std::move(panel),pitchSettings.getBounds());};
 
     analogueLabel.setText("ANALOGUE CHARACTER",juce::dontSendNotification);
@@ -712,7 +712,7 @@ void SpaceInfinityEditor::updatePage(){
     if(liveDisplay)liveDisplay->setVisible(!fxPage&&sampled);
 
     knobs[12].setSliderStyle(fxPage?juce::Slider::LinearHorizontal:juce::Slider::LinearVertical);
-    octaveControls[0].setVisible(true);pitchWheel.setVisible(true);
+    octaveControls[0].setVisible(true);pitchWheel.setVisible(true);portamento.setVisible(!fxPage);portamentoLabel.setVisible(!fxPage);
     knobs[12].setVisible(true);
     labels[12].setVisible(true);
     knobs[10].setVisible(false);labels[10].setVisible(false);
@@ -1146,7 +1146,7 @@ void SpaceInfinityEditor::resized(){
     noiseType.setBounds(w-266,72,90,23);
     noiseLevel.setBounds(w-172,72,134,23);
     mainTab.setBounds(34,111,58,25);fxTab.setBounds(97,111,50,25);gateTab.setBounds(152,111,60,25);sequenceTab.setBounds(217,111,60,25);extendedButton.setBounds(282,111,78,25);
-    octaveControls[0].setBounds(w-320,116,52,22);pitchWheel.setBounds(326,23,45,75);pitchSettings.setBounds(327,9,48,17);portamento.setBounds(394,28,70,57);portamentoLabel.setBounds(394,10,70,16);
+    octaveControls[0].setBounds(w-320,116,52,22);pitchWheel.setBounds(326,23,45,75);pitchSettings.setBounds(327,9,48,17);
     if(gatePage)gatePage->setBounds(28,150,w-56,h-212);if(sequencerPage)sequencerPage->setBounds(28,150,w-56,h-212);
     for(int i=0;i<3;++i)pageLfoSources[size_t(i)].setBounds(210+i*60,h-53,57,28);
     if(studioRack)studioRack->setBounds(28,150,w-56,h-212);
@@ -1190,7 +1190,10 @@ void SpaceInfinityEditor::resized(){
     {auto row=juce::Rectangle<int>(filterControls.getX(),filterControls.getY()+2*gridHeight,filterControls.getWidth(),gridHeight);auto a=row.removeFromLeft(row.getWidth()/2).reduced(2,0);analogueLabel.setFont(juce::Font(juce::FontOptions(9)));analogueLabel.setBounds(a.removeFromTop(10));analogueCharacter.setBounds(a);auto b=row.reduced(2,0);preDriveLabel.setFont(juce::Font(juce::FontOptions(9)));preDriveLabel.setBounds(b.removeFromTop(10));preDrive.setBounds(b);}
     analogueOn.setBounds(layout.filter.getRight()-141,layout.filter.getY()+2,100,18);analogueLabButton.setBounds(layout.filter.getRight()-40,layout.filter.getY()+2,35,18);
     filterMode.setBounds(layout.filter.getX()+8,layout.filter.getBottom()-71,layout.filter.getWidth()-70,22);
-    voiceMode.setBounds(layout.filter.getX()+8,layout.filter.getBottom()-32,juce::jmax(95,layout.filter.getWidth()-70),23);
+    const int voiceWidth=juce::jmax(65,layout.filter.getWidth()-154);
+    voiceMode.setBounds(layout.filter.getX()+8,layout.filter.getBottom()-32,voiceWidth,23);
+    filterMode.setBounds(layout.filter.getX()+8,layout.filter.getBottom()-71,voiceWidth,22);
+    portamentoLabel.setBounds(layout.filter.getX()+voiceWidth+9,layout.filter.getBottom()-77,79,14);portamento.setBounds(layout.filter.getX()+voiceWidth+12,layout.filter.getBottom()-62,72,57);
     labels[12].setText("OUT",juce::dontSendNotification);
     labels[12].setBounds(layout.filter.getRight()-58,layout.filter.getY()+24,45,13);
     knobs[12].setBounds(layout.filter.getRight()-59,layout.filter.getY()+42,44,layout.filter.getHeight()-50);

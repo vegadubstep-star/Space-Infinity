@@ -46,14 +46,14 @@ int runTranceBankSmoke(int group,const juce::File& profile){
     if(profile!=juce::File{}){profile.getParentDirectory().createDirectory();check(profile.replaceWithText(juce::JSON::toString(rows)),"profile export");}
     if(group!=0){
         const auto set=[&](const juce::String& id,float v){auto* a=p->state.getParameter(id);a->setValueNotifyingHost(a->convertTo0to1(v));};
-        for(int source:{21,22,23,24,25,26,27,28,29}){
-            p->loadPreset(0);set("source",float(source));set("attack",0);set("release",.1f);set("ampSustain",1);set("ampVelocity",0);set("cutoff",16000);set("sampleLoop",source==23||source==24||source>=27?1:0);set("gain",.35f);
+        for(int source:{21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38}){
+            p->loadPreset(0);set("source",float(source));set("attack",0);set("release",.1f);set("ampSustain",1);set("ampVelocity",0);set("cutoff",16000);set("sampleLoop",source==23||source==24||(source>=27&&source<=29)?1:0);set("gain",.35f);
             for(int key:{48,60,72}){
                 p->prepareToPlay(48000,256);juce::AudioBuffer<float> b(2,256);double energy=0;
                 for(int block=0;block<188;++block){juce::MidiBuffer midi;if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,key,.82f),0);p->processBlock(b,midi);for(int ch=0;ch<2;++ch)for(int i=0;i<256;++i){const float sample=b.getSample(ch,i);check(std::isfinite(sample),"multisample pitch-zone finite");energy+=sample*sample;}}
-                check(energy>.1,"all nine multisampled instruments play across key zones");
+                check(energy>.1,"all factory instruments and uploaded choir one-shots play across key zones");
             }
-            if(source==23||source==24||source>=27){p->prepareToPlay(48000,256);juce::AudioBuffer<float> b(2,256);double early=0,late=0;float previous=0,jump=0;for(int block=0;block<1875;++block){juce::MidiBuffer midi;if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,69,.82f),0);p->processBlock(b,midi);for(int i=0;i<256;++i){const float sample=b.getSample(0,i);if(block>900)jump=std::max(jump,std::abs(sample-previous));previous=sample;if(block>200&&block<600)early+=sample*sample;if(block>1400)late+=sample*sample;}}check(late>early*.12&&jump<.2f,"string sustain loop remains audible and continuous");}
+            if(source==23||source==24||(source>=27&&source<=29)){p->prepareToPlay(48000,256);juce::AudioBuffer<float> b(2,256);double early=0,late=0;float previous=0,jump=0;for(int block=0;block<1875;++block){juce::MidiBuffer midi;if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,69,.82f),0);p->processBlock(b,midi);for(int i=0;i<256;++i){const float sample=b.getSample(0,i);if(block>900)jump=std::max(jump,std::abs(sample-previous));previous=sample;if(block>200&&block<600)early+=sample*sample;if(block>1400)late+=sample*sample;}}check(late>early*.12&&jump<.2f,"string sustain loop remains audible and continuous");}
         }
     }
     if(group==1){

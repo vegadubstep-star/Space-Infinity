@@ -97,6 +97,7 @@ public:
     double hostBpm() const {return displayedBpm.load();}
     void useGateCurveFromSteps();
     void loadGatePreset(int);
+    float distortionInputPeak()const{return distortion.drivenInputPeak();}
     float effectPeak(int stage) {return fxPeak[size_t(stage)].exchange(0); }
     bool effectClipping(int stage) {return fxClip[size_t(stage)].exchange(false);}
     juce::StringArray flexibleTargets() const;
@@ -204,7 +205,7 @@ private:
         std::array<float,3> lfoMemory{};
         std::array<AnalogueLadder,2> ladder;
         uint32_t noiseState=1;
-        AnalogueColour colour;float filterSideState[2]{},filterSideCascade[2]{};
+        AnalogueColour colour,voltageColour;float filterSideState[2]{},filterSideCascade[2]{};
         std::array<double,127> extraPhase1{}, extraPhase2{};
         float filterState[2]{}, filterCascade[2]{};
         unsigned sampleRevision = 0; bool active=false, released=false, decaying=false; int note=-1, channel=1; float velocity=0, env=0, cutoff=0; double phase=0, phase2=0; uint64_t age=0; };
@@ -236,7 +237,7 @@ private:
     float delayToneL=0,delayToneR=0;
     double delayBpm=120;
     float midiBend=0,previousOutputGain=.65f;
-    juce::SmoothedValue<float> pitchBend, analogueAmount, analogueCutoff, analogueResonance;
+    juce::SmoothedValue<float> pitchBend, analogueAmount, analogueCutoff, analogueResonance,analogueLabRange;
     juce::dsp::DelayLine<float,juce::dsp::DelayLineInterpolationTypes::Linear> delayL{192000},delayR{192000};
     struct HeldNote { uint64_t order=0; float velocity=0.0f; };
     std::array<HeldNote,16*128> heldNotes{};

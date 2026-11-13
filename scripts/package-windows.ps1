@@ -31,10 +31,10 @@ New-Item -ItemType Directory -Path $release -Force | Out-Null
 $definition = Join-Path $ProjectRoot "installer\SpaceInfinity.iss"
 & $InnoCompiler "/DVst3Bundle=$bundle" "/DReleaseDir=$release" $definition
 if ($LASTEXITCODE -ne 0) { throw "Inno Setup compilation failed." }
-$setup = Join-Path $release "SPACE_INFINITY_0.6.0_Windows_x64_Setup.exe"
+$setup = Join-Path $release "SPACE_INFINITY_0.6.1_Windows_x64_Setup.exe"
 if (-not (Test-Path -LiteralPath $setup -PathType Leaf)) { throw "Installer output is missing." }
 
-$archive = Join-Path $release "SPACE_INFINITY_0.6.0_Windows_x64_VST3.zip"
+$archive = Join-Path $release "SPACE_INFINITY_0.6.1_Windows_x64_VST3.zip"
 Compress-Archive -LiteralPath $bundle -DestinationPath $archive -Force
 Get-FileHash -Algorithm SHA256 -LiteralPath $setup,$archive
 
@@ -57,3 +57,12 @@ Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/audit/NATIVE_PARAMETER_INVE
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Samples/Trance/PROVENANCE.json") -Destination (Join-Path $release "TRANCE_SAMPLE_PROVENANCE.json") -Force
 
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Samples/Trance/CHOIR_PROVENANCE.json") -Destination (Join-Path $release "CHOIR_SAMPLE_PROVENANCE.json") -Force
+
+$choirFolder = Join-Path $release "ChoirStabs"
+$smoke = Join-Path $ProjectRoot "native-vst3/build/SpaceInfinitySmoke_artefacts/Release/SpaceInfinitySmoke.exe"
+& $smoke --export-choir-stabs $choirFolder
+if ($LASTEXITCODE -ne 0) { throw "Owner choir preset export failed." }
+& python (Join-Path $PSScriptRoot "package-choir-stabs.py") $choirFolder "0.6.1" (Join-Path $release "SPACE_INFINITY_0.6.1_Choir_Stabs.zip")
+if ($LASTEXITCODE -ne 0) { throw "Owner choir pack verification failed." }
+Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Samples/Trance/USER_CHOIR_PROVENANCE.json") -Destination (Join-Path $release "USER_CHOIR_PROVENANCE.json") -Force
+Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/ACID_BASS_AND_CHOIR_UPDATE.md") -Destination $release -Force

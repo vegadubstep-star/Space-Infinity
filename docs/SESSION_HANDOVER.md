@@ -1,3 +1,12 @@
+# Active update — SPACE INFINITY 0.6.1 (not published yet)
+
+Implemented stronger 17-mode distortion (Input/Tone/HQ), all 10 acids and 35 basses revoiced, 10 choir stabs using all nine owner uploads, portable embedded-sample preset/WAV exporter, MAIN portamento and meaningful Studio/Vintage Analogue Lab. 160 presets plus Init, 1106 parameters, 39 source choices, 60 sample zones. See ACID_BASS_AND_CHOIR_UPDATE.md. New user recordings are not CC0; originals and provenance retained.
+
+Final native 18/18 suites and Python importer passed. All160 auditions measured -29.60..-27.86 LUFS, spread1.74LU, max raw chord peak0.7800004 (docs/audit/TRANCE_LOUDNESS_061.json). Final profiles/WAVs: /workspace/work/levels-061-final-{solo,chord}. Portable choir pack verified (ten embedded-sample presets plus ten stereo WAVs), local ZIP /workspace/work/SPACE_INFINITY_0.6.1_Choir_Stabs.zip SHA256 6915815da0226416d6057ca463353d619535d6aee99435aa581cbc89449a084e. Native export uses JUCE MemoryBlock encoding, handled by pack validator. Windows CI/publication and downloaded-byte verification remain. Keep production fixed during Windows build. Do not commit audition/ or scripts/__pycache__/. No subagents authorized. GH_TOKEN working; connected GitHub tools are fallback. Independent verifier prepared: /workspace/work/workflow-update/verify-v061-download.py.
+
+
+## Previous verified release
+
 # Verified release — SPACE INFINITY 0.6.0
 
 Ready for the owner's FL Studio test. [Installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.6.0/SPACE_INFINITY_0.6.0_Windows_x64_Installer.zip). Close FL Studio, Extract All, run the Setup executable, then load a fresh plugin instance.

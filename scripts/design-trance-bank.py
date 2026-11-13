@@ -6,6 +6,7 @@ ROOT=Path(__file__).resolve().parents[1]
 INV=json.loads((ROOT/'docs/audit/NATIVE_PARAMETER_INVENTORY.json').read_text())
 PARAMS={r['id']:r for r in INV['parameters']}
 INIT={r['id']:r['init_value'] for r in INV['parameters'] if r['init_value']!=r['host_default']}
+INIT.update(distInput=18,distTone=12000,distHQ=1,analogueLabRange=1)
 BANK=[]
 BASE=dict(INIT,source=0,osc1Enabled=1,osc2Enabled=1,osc1Gain=0,osc2Gain=0,osc1Octave=0,osc2Octave=0,osc2Semitone=0,osc2Tune=0,mix=.25,osc1Unison=1,osc2Unison=1,osc1Detune=.08,osc2Detune=.06,osc1Blend=.75,osc2Blend=.75,osc1Width=.65,osc2Width=.7,osc1UnisonMode=1,osc2UnisonMode=1,osc1Rand=1,osc2Rand=1,osc1PhaseReset=0,osc2PhaseReset=0,manualUnison=1,modernUnison=1,independentWTPos=1,wavetableScan=.18,osc2WTPos=.27,wave=0,osc2Wave=2,osc1Warp=0,osc2Warp=0,osc1WarpAmount=0,osc2WarpAmount=0,subEnabled=1,subLevel=0,noiseLevel=0,analogueUpgrade=1,analogueCharacter=.055,analogueLabEnabled=1,analogueOscDrift=.035,analogueThermal=.02,analogueFilterSpread=.035,analogueEnvSpread=.02,analogueVoiceSpread=.025,analogueVCADrive=.025,analogueAsymmetry=.015,analogueMemory=.015,analogueCoupling=.01,cleanVCO=1,stereoFilterUpgrade=1,declickEnabled=1,vibratoEnabled=0,lfodepth=0,motionDepth=0,patternMode=0,gateEnabled=0,pumpEnabled=0,chorusEnabled=0,phaserEnabled=0,flangerEnabled=0,delayEnabled=0,reverbEnabled=0,compEnabled=0,convolverEnabled=0,eqEnabled=1,eqMode0=4,eq0Frequency=25,eq0Q=.7071,eqMode6=3,eq6Frequency=14500,eq6Q=.7071,filterMode=4,cutoff=6000,res=.12,filterInputDrive=.03,drive=.025,filterAttack=.001,filterDecay=.2,filterSustain=0,filterRelease=.1,filterEnvAmount=0,filterVelocity=.35,filterEnvTiming=0,ampVelocity=.5,ampAttackCurve=-.35,ampDecayCurve=.1,ampReleaseCurve=.05,filterAttackCurve=-.35,filterDecayCurve=.15,filterReleaseCurve=0,routeA=1,routeB=1,routeSub=0,routeNoise=1,gain=.38,voiceMode=0,glideTime=0,pitchBend=0,midiBendRange=2,sampleStart=0,sampleEnd=1,sampleLoop=0,sampleReverse=0)
 # Nonexistent spelling is removed before validation; native timing is already in seconds.
@@ -147,6 +148,7 @@ for name,wave,cut,res,decay,drive,slide in [
 
 import runpy
 runpy.run_path(str(ROOT/'scripts/refine-trance-bank.py'))['refine'](BANK,env,space)
+runpy.run_path(str(ROOT/'scripts/refine-performance-061.py'))['refine'](BANK,env,space)
 assert len(BANK)==160,len(BANK)
 assert len(set(p['name'] for p in BANK))==160
 # Give every patch useful neutral-at-zero performance assignments.
@@ -157,12 +159,15 @@ for patch in BANK:
  patch['macros']=[{'source':6,'target':'cutoff','depth':.16},{'source':6,'target':'drive','depth':.10},{'source':7,'target':'osc1Width','depth':.22},{'source':7,'target':'osc2Width','depth':.20},{'source':8,'target':'reverb','depth':.15},{'source':8,'target':'echoMix','depth':.13},{'source':0,'target':'cutoff','depth':.12},{'source':0,'target':'eq5Gain','depth':.05},{'source':1,'target':'filterEnvAmount','depth':.17},{'source':1,'target':'ampDecay','depth':-.015},{'source':1,'target':'filterInputDrive','depth':.08},{'source':2,'target':'analogueCharacter','depth':.15},{'source':2,'target':'analogueVCADrive','depth':.12},{'source':2,'target':'drive','depth':.06}]
  if not p['reverbEnabled']:patch['macros']=[m for m in patch['macros'] if m['target']!='reverb']
  if not p['delayEnabled']:patch['macros']=[m for m in patch['macros'] if m['target']!='echoMix']
- sample_revision='choir-tuned-v1' if p['source']>=27 or patch.get('grain_resource','').startswith('Factory_Choir_') else ''
- patch['design_hash']=hashlib.sha256((json.dumps(p,sort_keys=True)+sample_revision).encode()).hexdigest()[:16]
+ sample_revision='owner-choirs-061-v1' if p['source']>=30 else 'choir-tuned-v1' if p['source']>=27 or patch.get('grain_resource','').startswith('Factory_Choir_') else ''
+ hash_settings=p.copy()
+ for key,default in (('distInput',0),('distTone',20000),('distHQ',0),('analogueLabRange',0)):
+  if hash_settings.get(key)==default:hash_settings.pop(key,None)
+ patch['design_hash']=hashlib.sha256((json.dumps(hash_settings,sort_keys=True)+sample_revision).encode()).hexdigest()[:16]
  for key,value in p.items():
   if key not in PARAMS:raise ValueError('Unknown parameter '+key+' in '+patch['name'])
   low,high=PARAMS[key]['minimum'],PARAMS[key]['maximum']
-  if key=='source':high=29
+  if key=='source':high=38
   if value<low-1e-5 or value>high+1e-5:raise ValueError(f'{patch["name"]}: {key}={value} outside {low}..{high}')
 levels_file=ROOT/'scripts/trance-bank-levels.json'
 if levels_file.exists():
