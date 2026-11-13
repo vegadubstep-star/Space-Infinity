@@ -1,0 +1,13 @@
+# 0.6.0 native validation
+
+The release candidate passed all **17 native CTest suites** on Linux, including preset management, hardware bounds/DPI/logo rendering, analogue/digital behaviour, oscillator workflow, dual LFOs, rhythm/sequencer separation, FX, bass/lead/pad rendering and repeated-note level retention. The final metadata-import correction and wide downsample counter additionally passed the creative/preset suites. Windows repeats the full suite before installer publication.
+
+The independently rendered **160 six-second single-note reference auditions** measured **−29.60 to −27.91 LUFS** (1.69 LU spread). Separate chord auditions measured a maximum raw output peak of **0.7800004**. These are defined audition conditions, not a guarantee for every voicing, velocity, automation combination or host. Headroom-limited transients remain intact. Full per-preset results are in [TRANCE_LOUDNESS_060.json](TRANCE_LOUDNESS_060.json).
+
+Nine CC0 choir zones passed source/output hash and stereo/duration checks. Fundamental measurements across the steady portion of their final ensembles were within approximately eight cents of the intended roots. Original recordings are measured and tuned before layering; high-register support uses nearby female recordings. Source hashes, measured tuning corrections and processing are recorded in the choir provenance manifest. Native tests also render all nine multisampled instruments across low/middle/high keys and check continuous sustain loops.
+
+The creative suite exercises all 14 distortion modes at all three filter positions, finite resonant output, wet DC removal, dry-mix recovery, stage output mute, factory replacement backups, stable-key ZIP exports, hybrid saving and unchanged parents. Preset tests cover creator/tags/name persistence, metadata-only factory edits, export/reload and cross-instance conflict protection. Python archive tests cover valid audio/metadata imports, stable keys, metadata-only preservation and rejection of traversal/unexpected IDs/files. Sound-setting blueprints were independently checked for 160 distinct designs without counting names or tags.
+
+Native MAIN and FX images were visually reviewed, with the new distortion controls and pink/teal displays fitting the purple hardware interface. Automated bounds/snapshots cover 800/1000/1180/1500-pixel editors and multiple logo DPI scales.
+
+The shipping check additionally verifies the real downloaded installer/VST3 archives, checksums, x64 PE, plugin version, exact embedded bank, approved logo and all **51** multisample WAV zones. DAW listening remains the owner's next test.

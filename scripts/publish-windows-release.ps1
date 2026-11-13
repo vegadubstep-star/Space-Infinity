@@ -26,7 +26,7 @@ $checksums = foreach ($name in @($setupName, $archiveName)) {
 }
 $checksums | Set-Content -LiteralPath $checksumPath -Encoding utf8
 $files += 'SHA256SUMS.txt'
-foreach ($document in @('RHYTHM_AND_METAL_UPDATE.md', 'ANALOGUE_AND_PARITY_UPDATE.md', 'SERUM2_FEATURE_AUDIT.md', 'TRANCE_FACTORY_BANK.md', 'TRANCE_FACTORY_BANK_RESEARCH.md', 'TRANCE_PRESET_CATALOGUE.md', 'TRANCE_SAMPLE_PROVENANCE.json')) {
+foreach ($document in @('RHYTHM_AND_METAL_UPDATE.md', 'ANALOGUE_AND_PARITY_UPDATE.md', 'SERUM2_FEATURE_AUDIT.md', 'CREATIVE_WORKFLOW_UPDATE.md', 'CHOIR_SAMPLE_PROVENANCE.json', 'CONTROL_AND_LEVEL_UPDATE.md', 'TRANCE_FACTORY_BANK.md', 'TRANCE_FACTORY_BANK_RESEARCH.md', 'TRANCE_PRESET_CATALOGUE.md', 'TRANCE_SAMPLE_PROVENANCE.json')) {
     if (Test-Path -LiteralPath (Join-Path $releaseDir $document)) { $files += $document }
 }
 & python (Join-Path $PSScriptRoot 'package-installer-zip.py') $releaseDir $version
@@ -34,7 +34,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Installer ZIP packaging failed.' }
 $files += "SPACE_INFINITY_${version}_Windows_x64_Installer.zip"
 $files += "SPACE_INFINITY_${version}_Windows_x64_Installer.zip.sha256"
 $repo = $env:GITHUB_REPOSITORY
-$notesSource = Join-Path $root 'docs/TRANCE_FACTORY_BANK.md'
+$notesSource = Join-Path $root 'docs/CREATIVE_WORKFLOW_UPDATE.md'
 if (-not (Test-Path -LiteralPath $notesSource)) { $notesSource = Join-Path $root 'docs/RHYTHM_AND_METAL_UPDATE.md' }
 # Keep a new release private until its installer and archive have uploaded.
 $existing = & gh release view $tag --repo $repo --json targetCommitish,isDraft 2>$null

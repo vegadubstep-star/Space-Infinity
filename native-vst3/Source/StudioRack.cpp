@@ -21,7 +21,7 @@ public:
         if(id.contains("Depth")||id=="convolverMix"||id=="gateDepth"||id=="gateSwing")unit="%";
         if(id=="sidechainThreshold"||id.startsWith("fxOutput")||id.contains("Wet")&&id.endsWith("Gain"))unit="dB";
         if(id.contains("Wet")&&id.endsWith("Freq"))unit="Hz";
-        if(id=="flangerStereo")unit="deg";
+        if(id=="flangerStereo")unit="deg";if(id=="distFrequency"){auto range=slider.getNormalisableRange();range.setSkewForCentre(1200);slider.setNormalisableRange(range);}if(id=="distDrive"||id=="distMix"||id=="distFilterMorph")unit="%";if(id=="distFrequency")unit="Hz";
         if(id=="flangerRate"||id.contains("Wet")&&id.endsWith("Freq")){auto range=slider.getNormalisableRange();range.setSkewForCentre(id=="flangerRate"?.35:1000);slider.setNormalisableRange(range);}
         slider.setMouseDragSensitivity(350);
         slider.textFromValueFunction=[unit,id](double value){if(id.startsWith("fxOutput")&&value<=-24)return juce::String("MUTE");return juce::String(unit=="%"?value*100:value,unit=="Hz"||unit=="%"?0:unit=="s"?3:1)+(unit.isEmpty()?"":" "+unit);};
@@ -215,6 +215,23 @@ public:
     void tick(){const float live=p.effectPeak(index);const bool clipped=p.effectClipping(index);peak=std::max(live,peak*.84f);clip=clipped?40:std::max(0,clip-1);if(output.slider.getValue()<=-24&&live<.00001f){peak=0;clip=0;}module->resized();module->repaint();repaint();}
     void paint(juce::Graphics& g)override{HardwareTheme::module(g,getLocalBounds().toFloat());const int y=getHeight()-55;auto r=juce::Rectangle<int>(15,y,getWidth()-145,16);HardwareTheme::display(g,r.toFloat());const float db=juce::Decibels::gainToDecibels(peak,-60.0f);g.setColour(juce::Colour(clip?0xfff16484:0xffad82ff));g.fillRect(r.reduced(2).withWidth(int((r.getWidth()-4)*juce::jlimit(0.0f,1.0f,(db+60)/60))));g.setFont(10);g.drawText(clip?"CLIP / reduce output gain":"STAGE PEAK  "+(peak>.00001f?juce::String(db,1):juce::String("-inf"))+" dBFS",15,y+21,getWidth()-145,18,juce::Justification::centredLeft);}
 };
+class DistortionGraph final:public juce::Component {
+    SpaceInfinityProcessor& p;int point=-1,curve=0;juce::RangedAudioParameter* editing=nullptr;
+public:
+    explicit DistortionGraph(SpaceInfinityProcessor& processor):p(processor){setName("Distortion transfer curve");}
+    void paint(juce::Graphics& g)override{auto r=getLocalBounds().toFloat().reduced(5);HardwareTheme::display(g,r);g.setColour(juce::Colour(0xff444252));g.drawLine(r.getX(),r.getCentreY(),r.getRight(),r.getCentreY());studio::Distortion::Settings s;for(int i=0;i<9;++i){s.a[size_t(i)]=p.state.getRawParameterValue("distShape0_"+juce::String(i))->load();s.b[size_t(i)]=p.state.getRawParameterValue("distShape1_"+juce::String(i))->load();}juce::Path path;for(int i=0;i<=256;++i){const float x=float(i)/128-1,y=studio::Distortion::shape(x,int(p.state.getRawParameterValue("distType")->load()),p.state.getRawParameterValue("distDrive")->load(),s);const float px=r.getX()+i*r.getWidth()/256,py=r.getCentreY()-juce::jlimit(-1.0f,1.0f,y)*r.getHeight()*.43f;if(i==0)path.startNewSubPath(px,py);else path.lineTo(px,py);}g.setGradientFill(juce::ColourGradient(juce::Colour(0xffff63bf),r.getX(),0,juce::Colour(0xff55e4df),r.getRight(),0,false));g.strokePath(path,juce::PathStrokeType(2));}
+    void mouseDown(const juce::MouseEvent& e)override{const int type=int(p.state.getRawParameterValue("distType")->load());if(type==11||type==12){curve=e.mods.isShiftDown()?1:0;point=type==11?4+juce::jlimit(0,4,juce::roundToInt(std::abs(2*float(e.x)/getWidth()-1)*4)):juce::jlimit(0,8,juce::roundToInt(float(e.x)/getWidth()*8));editing=p.state.getParameter("distShape"+juce::String(curve)+"_"+juce::String(point));editing->beginChangeGesture();mouseDrag(e);}else{editing=p.state.getParameter("distDrive");editing->beginChangeGesture();initial=editing->getValue();}}
+    void mouseDrag(const juce::MouseEvent& e)override{if(!editing)return;const float value=point>=0?juce::jlimit(-1.0f,1.0f,1-2*float(e.y)/getHeight()):juce::jlimit(0.0f,1.0f,initial-float(e.getDistanceFromDragStartY())/150);editing->setValueNotifyingHost(editing->convertTo0to1(value));repaint();}
+    void mouseUp(const juce::MouseEvent&)override{if(editing)editing->endChangeGesture();editing=nullptr;point=-1;}
+    ~DistortionGraph()override{if(editing)editing->endChangeGesture();}
+private:float initial=0;
+};
+class DistortionModule final:public Module,private juce::Timer {
+    DistortionGraph graph;void timerCallback()override{if(isShowing())graph.repaint();}
+public:
+    explicit DistortionModule(SpaceInfinityProcessor& p):Module(p,"DISTORTION","distEnabled"),graph(p){choice("distType","Distortion character. X-Shapers support custom curves; Drive morphs between A and B.");choice("distFilterPosition","Off, pre-distortion or post-distortion filter.");for(const auto& c:std::array<std::pair<const char*,const char*>,5>{{{"distDrive","DRIVE"},{"distFrequency","FREQUENCY"},{"distQ","BANDWIDTH"},{"distFilterMorph","LP / BP / HP"},{"distMix","MIX"}}})knob(c.first,c.second);addAndMakeVisible(graph);graph.setName("Distortion transfer curve - drag Drive; in X-Shaper drag points, Shift edits B");startTimerHz(25);}
+    void resized()override{choices[0]->setBounds(10,35,180,25);choices[1]->setBounds(195,35,155,25);graph.setBounds(10,66,juce::jmax(145,getWidth()/3-12),100);row({graph.getRight()+8,68,getWidth()-graph.getRight()-16,95},0,5);}
+};
 class BasicModule final : public Module {
 public:
     BasicModule(SpaceInfinityProcessor& p,int row):Module(p,effectRows[size_t(row)],effectEnableIds[size_t(row)]){
@@ -227,7 +244,7 @@ public:
 struct StudioRack::Impl {
     explicit Impl(SpaceInfinityProcessor& p,std::function<void()> openGate){
         add(std::make_unique<CompressorModule>(p),215);add(std::make_unique<DelayModule>(p),238);add(std::make_unique<ConvolverModule>(p),226);add(std::make_unique<RhythmModule>(p,std::move(openGate)),129);
-        add(std::make_unique<BasicModule>(p,1),119);add(std::make_unique<FlangerModule>(p),122);add(std::make_unique<BasicModule>(p,3),119);add(std::make_unique<BasicModule>(p,5),119);
+        add(std::make_unique<BasicModule>(p,1),119);add(std::make_unique<FlangerModule>(p),122);add(std::make_unique<BasicModule>(p,3),119);add(std::make_unique<BasicModule>(p,5),119);add(std::make_unique<DistortionModule>(p),177);
         viewport.setViewedComponent(&content,false);viewport.setScrollBarsShown(true,false);viewport.setScrollBarThickness(10);
     }
     void add(std::unique_ptr<Module> m,int height){auto& processor=m->processor;auto slot=std::make_unique<EffectSlot>(processor,int(modules.size()),std::move(m),height);content.addAndMakeVisible(*slot);heights.push_back(slot->height());modules.push_back(std::move(slot));}
@@ -236,6 +253,6 @@ struct StudioRack::Impl {
 StudioRack::StudioRack(SpaceInfinityProcessor& p):impl(std::make_unique<Impl>(p,[this]{if(onOpenGate)onOpenGate();})){addAndMakeVisible(impl->viewport);setName("Studio FX rack");startTimerHz(20);}
 StudioRack::~StudioRack(){stopTimer();}
 void StudioRack::resized(){impl->viewport.setBounds(getLocalBounds());int y=0,focusOrder=1;const int width=juce::jmax(1,getWidth()-13);
-    for(const int stage:{3,0,4,5,6,1,7,2}){const auto i=size_t(stage);impl->modules[i]->setBounds(0,y,width,impl->heights[i]);impl->modules[i]->setExplicitFocusOrder(focusOrder++);y+=impl->heights[i]+8;}impl->content.setSize(width,y);}
+    for(const int stage:{8,3,0,4,5,6,1,7,2}){const auto i=size_t(stage);impl->modules[i]->setBounds(0,y,width,impl->heights[i]);impl->modules[i]->setExplicitFocusOrder(focusOrder++);y+=impl->heights[i]+8;}impl->content.setSize(width,y);}
 void StudioRack::timerCallback(){if(!isShowing())return;for(auto& m:impl->modules)m->tick();}
 juce::Component* StudioRack::module(int index)const{return index>=0&&index<int(impl->modules.size())?impl->modules[size_t(index)].get():nullptr;}

@@ -4,13 +4,14 @@ Native JUCE Windows x64 synthesizer for FL Studio, with the owner's INFINITY wor
 
 Current development branch: **codex/windows-build**.
 
-- Thirty-three new sounds plus Init: trance pads/leads, acid, house, organ and bounce bass. Previous factory presets removed; user-saved presets remain available.
+- 160 authored trance / 90s German hard-trance sounds plus Init, with revised acid, airy pads, choir ensembles and varied leads. Previous factory presets removed; user-saved presets remain available.
 - Live loaded-sample/processed-output waveforms, trim/reverse and sample import.
+- Dedicated 14-mode distortion, editable preset name/creator/tags, local factory replacements and hybrid creation.
 - Expanded single/multiband dynamics, stereo/Ping-pong/Tap delay, shaped convolution, seven-band EQ with filter/slope choices.
 - Frequency-selective sidechain/pumping and trance gate with 15 editable patterns.
 - Native oscillator/filter/envelope/modulation controls and the existing granular/wavetable/arp/sequencer engines.
 
-See [studio features](docs/STUDIO_FEATURES.md), [factory bank status](docs/STUDIO_FACTORY_BANK.md), [testing instructions](docs/TESTING_STUDIO_BUILD.md), and [native interface screenshots](docs/HARDWARE_INTERFACE.md).
+See [0.6.0 sound and workflow changes](docs/CREATIVE_WORKFLOW_UPDATE.md), [level and control changes](docs/CONTROL_AND_LEVEL_UPDATE.md), [studio features](docs/STUDIO_FEATURES.md), [factory bank status](docs/STUDIO_FACTORY_BANK.md), [testing instructions](docs/TESTING_STUDIO_BUILD.md), and [native interface screenshots](docs/HARDWARE_INTERFACE.md).
 
 ## Windows build
 

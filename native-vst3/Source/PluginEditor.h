@@ -67,7 +67,7 @@ private:
     ModSlider motionDepth, noiseLevel, analogueCharacter;
     juce::Label analogueLabel,preDriveLabel,portamentoLabel;
     ModSlider preDrive,portamento;
-    juce::ToggleButton analogueOn{"ANALOGUE"};
+    juce::ComboBox analogueOn;
     juce::TextButton analogueLabButton{"LAB"},pitchSettings{"PITCH"};
     juce::ComboBox noiseType;
     std::array<ModSlider,4> oscillatorSliders,unisonTone;
@@ -100,7 +100,8 @@ private:
     juce::ComboBox delaySync, delayMode, reverbSpace, sampleLoop, sampleReverse, filterMode, voiceMode;
     std::array<ModSlider,2> sampleTrim;
     std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>,2> trimAttachments;
-    ModSlider sampleRoot, compAmount, pitchWheel;
+    ModSlider sampleRoot, compAmount;
+    SpringPitchWheel pitchWheel;
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment>> fxChoices;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> compAttachment, pitchAttachment;
     juce::ToggleButton osc1{"OSC 1"}, osc2{"OSC 2"};

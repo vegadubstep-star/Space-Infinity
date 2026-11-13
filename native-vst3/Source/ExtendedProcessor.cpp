@@ -133,16 +133,16 @@ juce::Result SpaceInfinityProcessor::queueImpulse(const juce::MemoryBlock& bytes
 juce::Result SpaceInfinityProcessor::loadBankPreset(int index){
     const auto& entries=library->entries();if(index<0||index>=int(entries.size()))return juce::Result::fail("Select a preset.");
     const auto entry=entries[size_t(index)];
-    if(entry.factory>=0)loadPreset(entry.factory);
+    if(entry.factory>=0&&entry.file.isEmpty())loadPreset(entry.factory);
     else {juce::MemoryBlock bytes;const auto result=library->read(index,bytes);if(result.failed())return result;setStateInformation(bytes.getData(),int(bytes.getSize()));}
-    state.state.setProperty("presetKey",entry.key,nullptr);return juce::Result::ok();
+    state.state.setProperty("creator",entry.creator,nullptr);state.state.setProperty("tags",entry.tags,nullptr);state.state.setProperty("presetDisplayName",entry.name,nullptr);state.state.setProperty("presetKey",entry.key,nullptr);return juce::Result::ok();
 }
 juce::Result SpaceInfinityProcessor::saveNewPreset(const juce::String& name){
-    juce::MemoryBlock bytes;getStateInformation(bytes);juce::String key;
+    state.state.setProperty("presetDisplayName",name,nullptr);juce::MemoryBlock bytes;getStateInformation(bytes);juce::String key;
     const auto result=library->add(name,bytes,key);if(result.wasOk())state.state.setProperty("presetKey",key,nullptr);return result;
 }
 juce::Result SpaceInfinityProcessor::replaceBankPreset(int index){
-    juce::MemoryBlock bytes;getStateInformation(bytes);return library->replace(index,bytes);
+    juce::MemoryBlock bytes;getStateInformation(bytes);const auto result=library->replace(index,bytes);if(result.wasOk())state.state.setProperty("presetKey",library->entries()[size_t(index)].key,nullptr);return result;
 }
 
 juce::Result SpaceInfinityProcessor::exportPreset(const juce::File& file,bool overwrite){
@@ -153,4 +153,10 @@ juce::Result SpaceInfinityProcessor::exportPreset(const juce::File& file,bool ov
     if(!temporary.getFile().replaceWithData(bytes.getData(),bytes.getSize())||!temporary.overwriteTargetFileWithTemporary())
         return juce::Result::fail("Cannot save the preset in that folder. Check the folder permissions and free space.");
     lastPresetExportFolder=file.getParentDirectory();return juce::Result::ok();
+}
+
+juce::Result SpaceInfinityProcessor::hybridisePresets(int a,int b,float blend){
+    juce::MemoryBlock original,first,second;getStateInformation(original);auto r=loadBankPreset(a);if(r.failed())return r;getStateInformation(first);r=loadBankPreset(b);if(r.failed()){setStateInformation(original.getData(),int(original.getSize()));return r;}getStateInformation(second);auto xa=juce::AudioProcessor::getXmlFromBinary(first.getData(),int(first.getSize())),xb=juce::AudioProcessor::getXmlFromBinary(second.getData(),int(second.getSize()));setStateInformation(first.getData(),int(first.getSize()));blend=juce::jlimit(0.0f,1.0f,blend);
+    for(auto* parameter:getParameters())if(auto* p=dynamic_cast<juce::RangedAudioParameter*>(parameter)){const auto id=p->paramID;if(id=="source"||id.startsWith("sample")||id.startsWith("grain")||id.startsWith("ir")||id=="convolverEnabled"||id.startsWith("osc1")||id=="wave"||id=="wavetableScan"||id=="engineMode")continue;auto* left=xa->getChildByAttribute("id",id);auto* right=xb->getChildByAttribute("id",id);if(!left||!right)continue;const float x=float(left->getDoubleAttribute("value")),y=float(right->getDoubleAttribute("value"));float value=x+(y-x)*blend;if(dynamic_cast<juce::AudioParameterChoice*>(p)||dynamic_cast<juce::AudioParameterBool*>(p)||dynamic_cast<juce::AudioParameterInt*>(p))value=blend>.5f?y:x;if(id=="osc2Wave"&&int(value)==31)value=x;if((id.containsIgnoreCase("frequency")||id=="cutoff"||id.containsIgnoreCase("decay")||id.containsIgnoreCase("release")||id.containsIgnoreCase("attack"))&&x>0&&y>0)value=std::exp(std::log(x)*(1-blend)+std::log(y)*blend);p->setValueNotifyingHost(p->convertTo0to1(value));}
+    const auto set=[this](const char* id,float value){auto* p=state.getParameter(id);p->setValueNotifyingHost(p->convertTo0to1(value));};set("patternMode",0);set("gateEnabled",0);set("pumpEnabled",0);set("gain",.45f);set("presetTrim",-6);set("levelMatch",0);state.state.setProperty("presetKey","HYBRID",nullptr);state.state.setProperty("presetDisplayName","Hybrid - "+library->entries()[size_t(a)].name+" + "+library->entries()[size_t(b)].name,nullptr);state.state.setProperty("tags","Hybrid, "+library->entries()[size_t(a)].tags+", "+library->entries()[size_t(b)].tags,nullptr);resetVoicesRequested.store(true);return juce::Result::ok();
 }

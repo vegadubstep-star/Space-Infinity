@@ -460,7 +460,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     showPercent(analogueCharacter);
     preDrive.initialiseModulation(processor,"filterInputDrive");preDrive.setName("Pre-filter drive");preDrive.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);preDrive.setTextBoxStyle(juce::Slider::TextBoxBelow,false,70,16);preDrive.setMouseDragSensitivity(350);preDrive.setDoubleClickReturnValue(true,0);preDrive.setTooltip("Drive into the filter before resonance; distinct from the output saturation DRIVE.");attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"filterInputDrive",preDrive));showPercent(preDrive);addAndMakeVisible(preDrive);preDriveLabel.setText("PRE DRIVE",juce::dontSendNotification);preDriveLabel.setJustificationType(juce::Justification::centred);addAndMakeVisible(preDriveLabel);
     portamento.initialiseModulation(processor,"glideTime");portamento.setName("Portamento time");portamento.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);portamento.setTextBoxStyle(juce::Slider::TextBoxBelow,false,65,16);configureTimeKnob(portamento);portamento.setDoubleClickReturnValue(true,0);portamento.textFromValueFunction=[](double v){return juce::String(v*1000,1)+" ms";};portamento.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/1000;};portamento.setTooltip("Glide time in Mono or Legato. Overlap notes to glide; zero gives instant pitch. Shift-drag for fine control.");attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"glideTime",portamento));portamento.textFromValueFunction=[](double v){return juce::String(v*1000,1)+" ms";};portamento.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/1000;};portamento.updateText();addAndMakeVisible(portamento);portamentoLabel.setText("PORTAMENTO",juce::dontSendNotification);portamentoLabel.setJustificationType(juce::Justification::centred);portamentoLabel.setFont(juce::Font(juce::FontOptions(9)));addAndMakeVisible(portamentoLabel);
-    routeBindings.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(processor.state,"analogueUpgrade",analogueOn));addAndMakeVisible(analogueOn);addAndMakeVisible(analogueLabButton);analogueLabButton.onClick=[this]{auto panel=std::make_unique<ExtendedPanel>(processor);panel->selectTab(7);openPopup(std::move(panel),analogueLabButton.getBounds());};addAndMakeVisible(pitchSettings);pitchSettings.setTooltip("Pitch envelope, tuning and MIDI wheel range");pitchSettings.onClick=[this]{auto panel=std::make_unique<ExtendedPanel>(processor);panel->selectTab(8);openPopup(std::move(panel),pitchSettings.getBounds());};
+    analogueOn.addItemList({"ANALOGUE","DIGITAL"},1);analogueOn.setName("Overall engine mode");analogueOn.setTooltip("Analogue: use character and component variation. Digital: bypass drift, tolerance and analogue colour while retaining filter and envelope settings.");fxChoices.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"engineMode",analogueOn));addAndMakeVisible(analogueOn);addAndMakeVisible(analogueLabButton);analogueLabButton.onClick=[this]{auto panel=std::make_unique<ExtendedPanel>(processor);panel->selectTab(7);openPopup(std::move(panel),analogueLabButton.getBounds());};addAndMakeVisible(pitchSettings);pitchSettings.setTooltip("Pitch envelope, tuning and MIDI wheel range");pitchSettings.onClick=[this]{auto panel=std::make_unique<ExtendedPanel>(processor);panel->selectTab(8);openPopup(std::move(panel),pitchSettings.getBounds());};
 
     analogueLabel.setText("ANALOGUE CHARACTER",juce::dontSendNotification);
     analogueLabel.setJustificationType(juce::Justification::centred);
@@ -493,9 +493,9 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     compAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"compAmount",compAmount);
     pitchWheel.initialiseModulation(processor,"pitchBend");pitchWheel.setSliderStyle(juce::Slider::LinearVertical);
     pitchWheel.setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);
-    pitchWheel.setDoubleClickReturnValue(true,0.0);
+    pitchWheel.setDoubleClickReturnValue(true,0.0);pitchWheel.setScrollWheelEnabled(false);
     pitchWheel.setName("Pitch Wheel");
-    pitchWheel.setTooltip("Automatable Pitch Wheel ±24 semitones. In FL Studio: tweak this wheel, then Tools > Last tweaked > Create automation clip. Right-click for modulation assignments; double-click centres.");
+    pitchWheel.setTooltip("Automatable Pitch Wheel ±24 semitones. In FL Studio: tweak this wheel, then Tools > Last tweaked > Create automation clip. Release the wheel to spring back to zero. Range: -24 to +24 semitones. Right-click for modulation assignments.");
     addAndMakeVisible(pitchWheel);
     pitchAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"pitchBend",pitchWheel);
     pitchWheel.textFromValueFunction=[](double value){return juce::String(value,1)+" st";};
@@ -664,7 +664,7 @@ void SpaceInfinityEditor::refreshPresetMenu(){
     const auto& entries=processor.presetBank().entries();juce::String category;for(size_t i=0;i<entries.size();++i){if(entries[i].category!=category){category=entries[i].category;presets.addSectionHeading(category);}presets.addItem(entries[i].name,int(i+1));}
     presets.setTooltip(processor.state.state.getProperty("factoryReference").toString()+"\n"+processor.state.state.getProperty("factoryDescription").toString());
     displayedPresetKey=processor.selectedPresetKey();const int index=processor.presetBank().indexForKey(displayedPresetKey);
-    if(index>=0)presets.setSelectedItemIndex(index,juce::dontSendNotification);
+    if(index>=0)presets.setSelectedItemIndex(index,juce::dontSendNotification);else if(displayedPresetKey=="HYBRID")presets.setText(processor.state.state.getProperty("presetDisplayName").toString(),juce::dontSendNotification);
 }
 void SpaceInfinityEditor::timerCallback(){
     if(displayedPresetKey!=processor.selectedPresetKey())refreshPresetMenu();
@@ -995,6 +995,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         }
     }
 
+    {const juce::Rectangle<float> glass{54,80,float(juce::jmin(230,getWidth()-560)),3};g.setColour(juce::Colour(0xff140d20));g.fillRoundedRectangle(glass.expanded(1),2);if(logoLevel>0){HardwareTheme::signalGradient(g,glass,.25f);g.fillRoundedRectangle(glass.withWidth(glass.getWidth()*logoLevel).expanded(1),2);HardwareTheme::signalGradient(g,glass);g.fillRoundedRectangle(glass.withWidth(glass.getWidth()*logoLevel),1);}}
     g.setFont(10.0f);
     g.setColour(juce::Colour(0xffb7ab9b));
     g.drawText("PROGRAM MEMORY",getWidth()-330,24,200,15,juce::Justification::centredLeft);

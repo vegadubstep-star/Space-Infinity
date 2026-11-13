@@ -145,6 +145,8 @@ for name,wave,cut,res,decay,drive,slide in [
  ('Liquid Chronicle',31,260,.68,.19,.11,.065),('Square Serum',32,350,.73,.23,.08,.075),('Pulse Corrosion',33,470,.64,.14,.16,.055),('Resonant Wire',34,290,.78,.26,.09,.085),('Squelch Reactor',35,390,.70,.18,.19,.07),('Biting Cathode',36,590,.61,.11,.24,.05),('Deep Silver Acid',31,180,.82,.31,.07,.095),('Glass Acid',32,760,.57,.16,.13,.06),('Hardline 303',34,430,.76,.13,.27,.045),('Velvet Slide',33,240,.66,.28,.10,.10)]:
  p=dict(wave=wave,osc2Enabled=0,mix=0,osc1Unison=1,osc1Width=0,osc1PhaseReset=1,osc1Rand=0,voiceMode=2,glideTime=slide,filterMode=5,cutoff=cut,res=res,filterEnvAmount=4.2,filterDecay=decay,filterSustain=0,filterVelocity=1.45,ampVelocity=.42,filterInputDrive=drive,drive=drive,eq0Frequency=26,eq6Frequency=9800,gain=.32);p.update(env(.0003,.19,.70,.028));p.update(space(.07,.035,0));add(name,'Acid', 'Hardfloor - Acperience 1 / Emmanuel Top - Acid Phase acid vocabulary',p,play='Unsequenced mono-legato acid. Overlap notes for slides; velocity accents cutoff and level.',sources=['R_TB'])
 
+import runpy
+runpy.run_path(str(ROOT/'scripts/refine-trance-bank.py'))['refine'](BANK,env,space)
 assert len(BANK)==160,len(BANK)
 assert len(set(p['name'] for p in BANK))==160
 # Give every patch useful neutral-at-zero performance assignments.
@@ -152,14 +154,15 @@ for patch in BANK:
  p=patch['settings']
  # Oscillator B has a leading Follow choice; blueprints use waveform-family indices.
  p['osc2Wave']+=1
- patch['macros']=[{'source':6,'target':'cutoff','depth':.16},{'source':6,'target':'drive','depth':.10},{'source':7,'target':'osc1Width','depth':.22},{'source':7,'target':'osc2Width','depth':.20},{'source':8,'target':'reverb','depth':.15},{'source':8,'target':'echoMix','depth':.13},{'source':0,'target':'wavetableScan' if p['source']==0 else 'cutoff','depth':.25},{'source':1,'target':'filterEnvAmount','depth':.22},{'source':2,'target':'osc1Detune' if p['source']==0 else 'reverbDamping','depth':.13}]
+ patch['macros']=[{'source':6,'target':'cutoff','depth':.16},{'source':6,'target':'drive','depth':.10},{'source':7,'target':'osc1Width','depth':.22},{'source':7,'target':'osc2Width','depth':.20},{'source':8,'target':'reverb','depth':.15},{'source':8,'target':'echoMix','depth':.13},{'source':0,'target':'cutoff','depth':.12},{'source':0,'target':'eq5Gain','depth':.05},{'source':1,'target':'filterEnvAmount','depth':.17},{'source':1,'target':'ampDecay','depth':-.015},{'source':1,'target':'filterInputDrive','depth':.08},{'source':2,'target':'analogueCharacter','depth':.15},{'source':2,'target':'analogueVCADrive','depth':.12},{'source':2,'target':'drive','depth':.06}]
  if not p['reverbEnabled']:patch['macros']=[m for m in patch['macros'] if m['target']!='reverb']
  if not p['delayEnabled']:patch['macros']=[m for m in patch['macros'] if m['target']!='echoMix']
- patch['design_hash']=hashlib.sha256(json.dumps(p,sort_keys=True).encode()).hexdigest()[:16]
+ sample_revision='choir-tuned-v1' if p['source']>=27 or patch.get('grain_resource','').startswith('Factory_Choir_') else ''
+ patch['design_hash']=hashlib.sha256((json.dumps(p,sort_keys=True)+sample_revision).encode()).hexdigest()[:16]
  for key,value in p.items():
   if key not in PARAMS:raise ValueError('Unknown parameter '+key+' in '+patch['name'])
   low,high=PARAMS[key]['minimum'],PARAMS[key]['maximum']
-  if key=='source':high=26
+  if key=='source':high=29
   if value<low-1e-5 or value>high+1e-5:raise ValueError(f'{patch["name"]}: {key}={value} outside {low}..{high}')
 levels_file=ROOT/'scripts/trance-bank-levels.json'
 if levels_file.exists():
@@ -167,6 +170,18 @@ if levels_file.exists():
  for patch in BANK:
   level=levels.get(patch['id'])
   if level and level.get('design_hash')==patch['design_hash']:patch['settings'].update(level['settings'])
+loudness_file=ROOT/'scripts/trance-bank-loudness.json'
+if loudness_file.exists():
+ loudness={row['id']:row for row in json.loads(loudness_file.read_text())}
+ for patch in BANK:
+  row=loudness.get(patch['id'],{});patch['settings']['presetTrim']=row.get('presetTrim',0) if row.get('design_hash')==patch['design_hash'] else 0;patch['settings']['midiBendRange']=24
+overrides=ROOT/'native-vst3/Presets/Overrides/metadata.json'
+if overrides.exists():
+ for row in json.loads(overrides.read_text()):
+  key=row['factory_key'];index=int(key[1:])-1001
+  if 0<=index<len(BANK):
+   for field in ('name','creator','tags'):
+    if field in row:BANK[index][field]=row[field]
 result={'generation':1000,'title':'Trance / German Hard Trance 160','init_settings':INIT,'presets':BANK}
 path=ROOT/'native-vst3/Presets/TranceFactoryBank.json';path.parent.mkdir(exist_ok=True);path.write_text(json.dumps(result,indent=2)+'\n')
 print('Designed',len(BANK),'patches in',len(set(p['category'] for p in BANK)),'categories')

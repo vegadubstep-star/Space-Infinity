@@ -1,5 +1,6 @@
 #pragma once
 #include "MainWorkbench.h"
+#include "GateBlockEditor.h"
 namespace rhythmui {
 class Knob:public juce::Component {
 public:
@@ -13,30 +14,31 @@ public:
     void resized()override{auto r=getLocalBounds();label.setBounds(r.removeFromTop(16));slider.setBounds(r);}
 };
 class GatePage:public juce::Component,private juce::Timer {
-    SpaceInfinityProcessor& p;CurveEditor graph;
+    SpaceInfinityProcessor& p;CurveEditor graph;GateBlockEditor blocks;
     juce::ToggleButton enabled{"GATE"},pump{"SIDECHAIN"},snap{"SNAP"},draw{"DRAW"},retrigger{"NOTE RETRIGGER"},noteGate{"NOTE GATE"};
     juce::ComboBox mode,presets,shapes,cycle,stepRate,grid,split,sidechain,pumpRate;
     juce::TextButton copySteps{"USE STEP PATTERN"};
-    std::vector<std::unique_ptr<Knob>> timing,routing;
+    std::vector<std::unique_ptr<Knob>> timing,routing,basic;
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment>> choices;
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment>> buttons;
     juce::Rectangle<int> left,right;
     void choice(juce::ComboBox& box,const char* id){if(auto* a=dynamic_cast<juce::AudioParameterChoice*>(p.state.getParameter(id)))box.addItemList(a->choices,1);addAndMakeVisible(box);choices.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,id,box));}
     void toggle(juce::ToggleButton& b,const char* id){addAndMakeVisible(b);buttons.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(p.state,id,b));}
     void row(juce::Rectangle<int> r,std::vector<std::unique_ptr<Knob>>& knobs,int from,int n){for(int i=0;i<n;++i)knobs[size_t(from+i)]->setBounds(r.getX()+r.getWidth()*i/n,r.getY(),r.getWidth()/n,r.getHeight());}
-    void timerCallback()override{if(isShowing())graph.repaint();}
+    void timerCallback()override{if(isShowing()){graph.repaint();blocks.repaint();}}
 public:
-    explicit GatePage(SpaceInfinityProcessor& processor):p(processor),graph(p,true){
-        setName("Dedicated audio gate and sidechain page");addAndMakeVisible(graph);toggle(enabled,"gateEnabled");toggle(pump,"pumpEnabled");toggle(retrigger,"gateRetrigger");toggle(noteGate,"gateNoteGate");choice(mode,"gateMode");choice(cycle,"gateCurveRate");choice(stepRate,"gateRate");mode.onChange=[this]{resized();graph.repaint();};choice(split,"gateSplit");choice(sidechain,"sidechainSource");choice(pumpRate,"pumpRate");
-        presets.addItemList(juce::StringArray(studio::gateNames.data(),int(studio::gateNames.size())),1);presets.setTextWhenNothingSelected("15 gate presets");presets.onChange=[this]{p.loadGatePreset(presets.getSelectedId()-1);p.useGateCurveFromSteps();graph.repaint();};addAndMakeVisible(presets);
+    explicit GatePage(SpaceInfinityProcessor& processor):p(processor),graph(p,true),blocks(p){
+        setName("Dedicated audio gate and sidechain page");addAndMakeVisible(graph);addAndMakeVisible(blocks);blocks.edited=[this]{presets.setSelectedId(0,juce::dontSendNotification);p.state.state.setProperty("gatePresetName","Custom blocks",nullptr);};toggle(enabled,"gateEnabled");toggle(pump,"pumpEnabled");toggle(retrigger,"gateRetrigger");toggle(noteGate,"gateNoteGate");choice(mode,"gateMode");mode.changeItemText(1,"BLOCKS");mode.changeItemText(2,"CURVE");choice(cycle,"gateCurveRate");choice(stepRate,"gateRate");mode.onChange=[this]{resized();graph.repaint();};choice(split,"gateSplit");choice(sidechain,"sidechainSource");choice(pumpRate,"pumpRate");
+        presets.addItemList(juce::StringArray(studio::gateNames.data(),int(studio::gateNames.size())),1);presets.setTextWhenNothingSelected("15 gate presets");presets.onChange=[this]{p.loadGatePreset(presets.getSelectedId()-1);resized();graph.repaint();blocks.repaint();};addAndMakeVisible(presets);
         shapes.addItemList({"Sine","Triangle","Ramp up","Ramp down","Square","Sidechain pump","Random steps"},1);shapes.setTextWhenNothingSelected("Curve shapes...");shapes.onChange=[this]{if(shapes.getSelectedId()>0)graph.shape(shapes.getSelectedId()-1);};addAndMakeVisible(shapes);
         grid.addItemList({"4","8","16","32","64"},1);grid.setSelectedId(3);grid.onChange=[this]{graph.setSnap(1<<(grid.getSelectedId()+1));};addAndMakeVisible(grid);
         snap.onClick=[this]{graph.setSnapEnabled(snap.getToggleState());};draw.onClick=[this]{graph.setPaintMode(draw.getToggleState());};addAndMakeVisible(snap);addAndMakeVisible(draw);addAndMakeVisible(copySteps);copySteps.onClick=[this]{p.useGateCurveFromSteps();graph.repaint();};
         graph.edited=[this]{shapes.setSelectedId(0,juce::dontSendNotification);presets.setSelectedId(0,juce::dontSendNotification);presets.setTextWhenNothingSelected("Custom curve / 15 presets");p.state.state.setProperty("gatePresetName","Custom",nullptr);resized();};
         const char* tids[]{"gateDepth","gatePhase","gatePWM","gateSwing","gateSmooth"};const char* names[]{"GATE DEPTH","PHASE","PWM","SWING","SMOOTH"};for(int i=0;i<5;++i){auto k=std::make_unique<Knob>(p,tids[i],names[i],i==4?"ms":"%");addAndMakeVisible(*k);timing.push_back(std::move(k));}
+        const char* basicIds[]{"gateDepth","gateRelease","gateStepWidth","gateSwing","gateStepCount","gateDelay","gateFade"};const char* basicNames[]{"MIX","CONTOUR","WIDTH","SHUFFLE","LENGTH","DELAY","FADE IN"};const char* basicUnits[]{"%","ms","%","%","","s","s"};for(int i=0;i<7;++i){auto k=std::make_unique<Knob>(p,basicIds[i],basicNames[i],basicUnits[i]);addAndMakeVisible(*k);basic.push_back(std::move(k));}
         for(const auto* id:{"gateAttack","gateRelease"}){auto k=std::make_unique<Knob>(p,id,juce::String(id)=="gateAttack"?"ATTACK":"RELEASE","ms");addAndMakeVisible(*k);timing.push_back(std::move(k));}
         const char* rids[]{"gateLow","gateHigh","pumpAttack","pumpRelease","sidechainThreshold","sidechainRatio","pumpDepth","fxOutput3"};const char* rn[]{"SPLIT LOW","SPLIT HIGH","SC ATTACK","SC RELEASE","SC THRESH","SC RATIO","DUCK DEPTH","OUTPUT GAIN"};const char* units[]{"Hz","Hz","ms","ms","dB",":1","%","dB"};for(int i=0;i<8;++i){auto k=std::make_unique<Knob>(p,rids[i],rn[i],units[i]);addAndMakeVisible(*k);routing.push_back(std::move(k));}
-        mode.setTooltip("Legacy step pattern or freely editable curve.");cycle.setTooltip("BPM-synchronised full curve duration.");split.setTooltip("Process only the chosen frequency band; other frequencies pass through.");sidechain.setTooltip("Internal rhythmic pump or audio from the host's optional sidechain input.");retrigger.setTooltip("Restart the curve from its phase offset on MIDI note-on.");noteGate.setTooltip("Close the audio gate when no MIDI notes are held.");stepRate.setTooltip("Duration of each legacy step. Curve mode shows the full curve duration instead.");startTimerHz(30);
+        mode.setTooltip("Simple blocks or a freely editable curve.");cycle.setTooltip("BPM-synchronised full curve duration.");split.setTooltip("Process only the chosen frequency band; other frequencies pass through.");sidechain.setTooltip("Internal rhythmic pump or audio from the host's optional sidechain input.");retrigger.setTooltip("Restart the curve from its phase offset on MIDI note-on.");noteGate.setTooltip("Close the audio gate when no MIDI notes are held.");stepRate.setTooltip("BPM-synced speed of each block. CURVE mode shows the full curve duration instead.");startTimerHz(30);
     }
     ~GatePage()override{stopTimer();}
     void resized()override{
@@ -44,10 +46,10 @@ public:
         auto top=r.removeFromTop(30);enabled.setBounds(top.removeFromLeft(72));mode.setBounds(top.removeFromLeft(115).reduced(2));presets.setBounds(top.removeFromLeft(juce::jmin(190,top.getWidth()/2)).reduced(2));shapes.setBounds(top.reduced(2));
         auto help=r.removeFromBottom(20);juce::ignoreUnused(help);auto edit=r.removeFromBottom(28);snap.setBounds(edit.removeFromLeft(65));grid.setBounds(edit.removeFromLeft(55).reduced(1));draw.setBounds(edit.removeFromLeft(68));copySteps.setBounds(edit.removeFromRight(137).reduced(2));
         auto midi=r.removeFromBottom(29);cycle.setBounds(midi.removeFromLeft(juce::jmax(96,midi.getWidth()-275)).reduced(2));stepRate.setBounds(cycle.getBounds());cycle.setVisible(mode.getSelectedItemIndex()==1);stepRate.setVisible(mode.getSelectedItemIndex()==0);retrigger.setBounds(midi.removeFromLeft(150));noteGate.setBounds(midi);
-        row(r.removeFromBottom(90),timing,0,5);const bool curve=mode.getSelectedItemIndex()==1;for(int i:{1,2})timing[size_t(i)]->setVisible(curve);timing[4]->setEnabled(curve);timing[5]->setBounds(timing[1]->getBounds());timing[6]->setBounds(timing[2]->getBounds());timing[5]->setVisible(!curve);timing[6]->setVisible(!curve);graph.setBounds(r.reduced(2,6));
+        row(r.removeFromBottom(90),timing,0,5);const bool curve=mode.getSelectedItemIndex()==1;for(int i:{1,2})timing[size_t(i)]->setVisible(curve);timing[4]->setEnabled(curve);timing[5]->setBounds(timing[1]->getBounds());timing[6]->setBounds(timing[2]->getBounds());timing[5]->setVisible(!curve);timing[6]->setVisible(!curve);graph.setBounds(r.reduced(2,6));blocks.setBounds(graph.getBounds());graph.setVisible(curve);blocks.setVisible(!curve);for(auto& k:timing)if(!curve)k->setVisible(false);row(juce::Rectangle<int>(r.getX(),r.getBottom(),r.getWidth(),90),basic,0,7);for(auto& k:basic)k->setVisible(!curve);snap.setVisible(curve);draw.setVisible(curve);grid.setVisible(curve);copySteps.setVisible(!curve);
         auto side=right.reduced(5);side.removeFromTop(20);split.setBounds(side.removeFromTop(27));row(side.removeFromTop(78),routing,0,2);pump.setBounds(side.removeFromTop(27));sidechain.setBounds(side.removeFromTop(27));pumpRate.setBounds(side.removeFromTop(27));for(int i=2;i<8;i+=2)row(side.removeFromTop(78),routing,i,2);
     }
-    void paint(juce::Graphics& g)override{HardwareTheme::module(g,left.toFloat(),true);HardwareTheme::module(g,right.toFloat());g.setFont(juce::Font(juce::FontOptions(10,juce::Font::bold)));g.setColour(juce::Colour(0xffe9d9fb));g.drawText("AFFECTED FREQUENCIES",right.reduced(10,2).withHeight(18),juce::Justification::centredLeft);g.setFont(9);g.setColour(juce::Colour(0xffbdaccd));g.drawText("Double-click: point / drag: move / wheel: bend / Shift: draw / Alt: snap",left.reduced(10).withTrimmedTop(left.getHeight()-28).withHeight(18),juce::Justification::centredLeft);}
+    void paint(juce::Graphics& g)override{HardwareTheme::module(g,left.toFloat(),true);HardwareTheme::module(g,right.toFloat());g.setFont(juce::Font(juce::FontOptions(10,juce::Font::bold)));g.setColour(juce::Colour(0xffe9d9fb));g.drawText("AFFECTED FREQUENCIES",right.reduced(10,2).withHeight(18),juce::Justification::centredLeft);g.setFont(9);g.setColour(juce::Colour(0xffbdaccd));g.drawText(mode.getSelectedItemIndex()==0?"Click blocks on/off; drag height. Speed is synced to the host tempo.":"Double-click: point / drag: move / wheel: bend / Shift: draw / Alt: snap",left.reduced(10).withTrimmedTop(left.getHeight()-28).withHeight(18),juce::Justification::centredLeft);}
 };
 class SequencerPage:public juce::Component,private juce::Timer {
     SpaceInfinityProcessor& p;

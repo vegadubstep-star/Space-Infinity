@@ -7,6 +7,7 @@
 #include "FactorySampleZones.h"
 #include "StudioEffects.h"
 #include "RhythmFX.h"
+#include "DistortionFX.h"
 #include "StudioEQ.h"
 #include "WorkflowDSP.h"
 #include "ManualUnison.h"
@@ -72,6 +73,9 @@ public:
     static juce::StringArray sourceNames();
     static const juce::StringArray& presetNames();
     static juce::String presetCategory(int index);
+    static juce::String presetCreator(int index);
+    static juce::String presetTags(int index);
+    juce::Result hybridisePresets(int parentA,int parentB,float blend);
     const juce::MidiBuffer& generatedNotes() const noexcept {return patternMidi;}
     juce::Result importWavetable(const juce::File&,int frameSize);
     juce::Result exportWavetable(const juce::File&);
@@ -139,6 +143,8 @@ private:
     int maximumHostBlock=512;
     void renderBlock(juce::AudioBuffer<float>&,juce::MidiBuffer&);
     infinity::Wavetable wavetable;
+    bool levelMatchActive=false;double levelMatchEnergy=0,levelMatchReference=0,levelMatchGain=1;int levelMatchSamples=0;
+    studio::Distortion distortion;
     infinity::Pattern pattern;
     std::atomic<int> displayedPatternStep{-1};
     juce::MidiBuffer patternMidi;
@@ -244,7 +250,7 @@ private:
     std::array<std::atomic<float>*,144> flexibleDepth{};
     std::atomic<float> gateViewPhase{0};std::array<std::array<std::atomic<float>*,33>,3> gateCurveParameters{};
     studio::WetEQ delayWetEQ,reverbWetEQ;studio::SmoothFlanger smoothFlanger;juce::AudioBuffer<float> workflowDry;
-    std::array<juce::SmoothedValue<float>,8> fxGain;std::array<std::atomic<float>,8> fxPeak;std::array<std::atomic<bool>,8> fxClip;
+    std::array<juce::SmoothedValue<float>,9> fxGain;std::array<std::atomic<float>,9> fxPeak;std::array<std::atomic<bool>,9> fxClip;
     void initialiseWorkflow();void prepareWorkflow(double);void updateFlexibleRoutes();void restoreFlexibleRoutes();void clearFlexibleRoutes();void configureWetEQ();void finishEffect(int,juce::AudioBuffer<float>&,bool);
     float param(const char* id) const {return readParameter(state.getRawParameterValue(id));}
     float readParameter(const std::atomic<float>* raw) const {float value=raw->load();if(!flexibleAssigned.load(std::memory_order_relaxed))return value;for(const auto& v:flexibleValue){const int index=v.target.load(std::memory_order_relaxed);if(index>=0){const auto& t=flexibleTargetList[size_t(index)];if(t.raw==raw){const float offset=v.offset.load(std::memory_order_relaxed);if(offset!=0)value=t.parameter->convertFrom0to1(juce::jlimit(0.0f,1.0f,t.parameter->convertTo0to1(value)+offset));}}}return value;}

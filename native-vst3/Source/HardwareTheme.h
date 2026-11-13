@@ -25,6 +25,7 @@ public:
         setColour(juce::ListBox::backgroundColourId,juce::Colour(0xff1b1d1c));
     }
 
+    static void signalGradient(juce::Graphics& g,juce::Rectangle<float> area,float alpha=1){juce::ColourGradient light(juce::Colour(0xffff65ba).withMultipliedAlpha(alpha),area.getX(),area.getY(),juce::Colour(0xff48e7dc).withMultipliedAlpha(alpha),area.getRight(),area.getBottom(),false);light.addColour(.48,juce::Colour(0xffc0b9ff).withMultipliedAlpha(alpha));g.setGradientFill(light);}
     static void texture(juce::Graphics& g,juce::Rectangle<float> r,float alpha=.055f) {
         juce::Graphics::ScopedSaveState save(g);
         g.reduceClipRegion(r.toNearestInt());
@@ -46,9 +47,9 @@ public:
     }
 
     static void purpleMetal(juce::Graphics& g,juce::Rectangle<float> r,float radius=3){
-        juce::ColourGradient metal(juce::Colour(0xff280c4b),0,r.getY(),juce::Colour(0xff351253),0,r.getBottom(),false);
-        metal.addColour(.075,juce::Colour(0xffa34ce3));metal.addColour(.12,juce::Colour(0xffedd2ff));
-        metal.addColour(.18,juce::Colour(0xffa53df0));metal.addColour(.40,juce::Colour(0xff60278d));
+        juce::ColourGradient metal(juce::Colour(0xff35045e),0,r.getY(),juce::Colour(0xff440b75),0,r.getBottom(),false);
+        metal.addColour(.075,juce::Colour(0xffbc42ff));metal.addColour(.12,juce::Colour(0xffedd2ff));
+        metal.addColour(.18,juce::Colour(0xffbd37ff));metal.addColour(.40,juce::Colour(0xff70209f));
         metal.addColour(.79,juce::Colour(0xff36114e));metal.addColour(.94,juce::Colour(0xff8e3ac9));
         g.setGradientFill(metal);g.fillRoundedRectangle(r,radius);texture(g,r,.11f);
         juce::Graphics::ScopedSaveState save(g);juce::Path clip;clip.addRoundedRectangle(r,radius);g.reduceClipRegion(clip);
@@ -62,7 +63,7 @@ public:
         juce::ColourGradient edge(juce::Colour(0xff716677),r.getX(),r.getY(),juce::Colour(0xff08090e),r.getRight(),r.getBottom(),false);
         edge.addColour(.18,juce::Colour(0xff27222d));g.setGradientFill(edge);g.fillRoundedRectangle(r,4);
         auto face=r.reduced(1.2f);
-        juce::ColourGradient surface(juce::Colour(violet?0xff723aa0:0xff4f3068),0,face.getY(),juce::Colour(0xff15151c),0,face.getBottom(),false);
+        juce::ColourGradient surface(juce::Colour(violet?0xff8b39be:0xff64317d),0,face.getY(),juce::Colour(0xff15151c),0,face.getBottom(),false);
         surface.addColour(.10,juce::Colour(violet?0xff51216e:0xff372143));surface.addColour(.72,juce::Colour(0xff23182d));surface.addColour(.98,juce::Colour(0xff48305b));
         g.setGradientFill(surface);g.fillRoundedRectangle(face,3);texture(g,face,.10f);
         g.setColour(juce::Colour(violet?0xaac785ff:0x887e4cac));g.drawHorizontalLine(int(face.getY()+1),face.getX()+3,face.getRight()-3);
@@ -208,8 +209,8 @@ public:
         g.setGradientFill(juce::ColourGradient(juce::Colour(0xffa3a897),xx,cy-4,juce::Colour(0xff333c2c),xx,cy+4,false));
         g.fillRoundedRectangle(xx,cy-4,6,8,1);
         const bool compact=b.getWidth()<70;const auto lamp=juce::Rectangle<float>(3,3).withCentre({compact?20.0f:25.0f,cy});
-        if(b.getToggleState()){g.setColour(juce::Colour(0x339d70df));g.fillEllipse(lamp.expanded(2));}
-        g.setColour(juce::Colour(b.getToggleState()?0xffd9b9ff:0xff35253e));g.fillEllipse(lamp);
+        if(b.getToggleState()){for(int halo=4;halo>0;--halo){g.setColour(juce::Colour(0xffed78dc).withAlpha(.035f*float(5-halo)));g.fillEllipse(lamp.expanded(float(halo)));}}
+        g.setColour(juce::Colour(b.getToggleState()?0xff64f3df:0xff35253e));g.fillEllipse(lamp);if(b.getToggleState()){g.setColour(juce::Colour(0xffeffffb));g.fillEllipse(lamp.reduced(.8f).translated(-.25f,-.25f));}
         g.setColour(juce::Colour(hover?0xfff1e7cf:0xffd3cbb7));g.setFont(juce::Font(juce::FontOptions(compact?9.5f:11.0f)));
         const int textX=compact?23:31;g.drawText(b.getButtonText(),textX,0,b.getWidth()-textX,b.getHeight(),juce::Justification::centredLeft,true);
     }

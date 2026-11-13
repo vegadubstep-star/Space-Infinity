@@ -1,0 +1,285 @@
+{
+  "license": "CC0-1.0",
+  "license_url": "https://github.com/swesterfeld/spectmorph-instruments/blob/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/README.md",
+  "samples": [
+    {
+      "instrument": 6,
+      "resource": "Factory_Choir_ah_48_wav",
+      "root": 48,
+      "layer": 0,
+      "layers": 1,
+      "loop_start": 22050,
+      "frames": 158760,
+      "file": "native-vst3/Samples/Trance/Factory_Choir_ah_48.wav",
+      "output_sha256": "e0ef774d5ebb6a46d8e29dd34a5c543915fd3b4fa16bc7778de266867c50446a",
+      "origins": [
+        {
+          "path": "claudia-ah/claudia-ah-2b-52.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/claudia-ah/claudia-ah-2b-52.flac",
+          "git_blob": "a1b153d9a20a032ec3f9f614f2610e20dc31fdd9",
+          "source_sha256": "e8e60c570f57e452cef06a7f653eec806b21a128649c4c16bbdbc8e326c92c84",
+          "measured_fundamental_hz": 163.01492,
+          "tuning_correction_cents": 18.9994
+        },
+        {
+          "path": "mirko-ah/mirko-ah-48.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/mirko-ah/mirko-ah-48.flac",
+          "git_blob": "dbfb8759f9acba11dd3f66f9b1f9cc8129d7cb0b",
+          "source_sha256": "4b74bf8c618c5ef2d3897985bc68d623f4ef11bc589aa586015aea55219acb27",
+          "measured_fundamental_hz": 128.846561,
+          "tuning_correction_cents": 26.2194
+        }
+      ],
+      "revision": "08eba76eadfdc16ded3209f65d3890bf1a2b8c0c",
+      "processing": "Original CC0 singers; measured fundamental tuning before layering; register-matched clear-core stereo ensemble with quiet -2.5/+3.5-cent support, 70Hz low cut, steady-vowel onset, edge fades; no octave-wide single-singer playback"
+    },
+    {
+      "instrument": 6,
+      "resource": "Factory_Choir_ah_60_wav",
+      "root": 60,
+      "layer": 0,
+      "layers": 1,
+      "loop_start": 22050,
+      "frames": 158760,
+      "file": "native-vst3/Samples/Trance/Factory_Choir_ah_60.wav",
+      "output_sha256": "a6057960f1f996d74d272409089a3486a13b6b2687edd6a5b709f3aed9c9f1c3",
+      "origins": [
+        {
+          "path": "claudia-ah/claudia-ah-1-60.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/claudia-ah/claudia-ah-1-60.flac",
+          "git_blob": "3b587d5faa63fb008594d419aca48f3628176a5c",
+          "source_sha256": "53ff1eb27bb2497af928aeb778b6231f18ff09762cb32a33560bba8d9ce1059c",
+          "measured_fundamental_hz": 253.369984,
+          "tuning_correction_cents": 55.5095
+        },
+        {
+          "path": "mirko-ah/mirko-ah-60.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/mirko-ah/mirko-ah-60.flac",
+          "git_blob": "7fe0824d4618f73d5933f5ce417babaf23a8aabb",
+          "source_sha256": "8de0b00dc32f5bea1164dbe012b1863ce73befddce2a7587bda758164f01c0a6",
+          "measured_fundamental_hz": 257.57007,
+          "tuning_correction_cents": 27.0463
+        }
+      ],
+      "revision": "08eba76eadfdc16ded3209f65d3890bf1a2b8c0c",
+      "processing": "Original CC0 singers; measured fundamental tuning before layering; register-matched clear-core stereo ensemble with quiet -2.5/+3.5-cent support, 70Hz low cut, steady-vowel onset, edge fades; no octave-wide single-singer playback"
+    },
+    {
+      "instrument": 6,
+      "resource": "Factory_Choir_ah_72_wav",
+      "root": 72,
+      "layer": 0,
+      "layers": 1,
+      "loop_start": 22050,
+      "frames": 158760,
+      "file": "native-vst3/Samples/Trance/Factory_Choir_ah_72.wav",
+      "output_sha256": "ca4d55265eee378974c27f2615bbf5ced6d8ef12e8477588d83c05f37fcaab1e",
+      "origins": [
+        {
+          "path": "claudia-ah/claudia-ah-1-72.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/claudia-ah/claudia-ah-1-72.flac",
+          "git_blob": "075c80fc7458d2c875f0b1bce7a34a049c4b5688",
+          "source_sha256": "5e5214ab7606b9aeec0d4b7b444655648bc48bceb1dccb187f3e757900cdc48d",
+          "measured_fundamental_hz": 516.901153,
+          "tuning_correction_cents": 21.1381
+        },
+        {
+          "path": "claudia-ah/claudia-ah-1-69.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/claudia-ah/claudia-ah-1-69.flac",
+          "git_blob": "1bf272af2abf44bf833572986565c459e03ae2c2",
+          "source_sha256": "016ddf80929e1dab5cc7794e9da0542741ff89fc149ad92ebfde840cf784366b",
+          "measured_fundamental_hz": 435.193162,
+          "tuning_correction_cents": 19.0172
+        }
+      ],
+      "revision": "08eba76eadfdc16ded3209f65d3890bf1a2b8c0c",
+      "processing": "Original CC0 singers; measured fundamental tuning before layering; register-matched clear-core stereo ensemble with quiet -2.5/+3.5-cent support, 70Hz low cut, steady-vowel onset, edge fades; no octave-wide single-singer playback"
+    },
+    {
+      "instrument": 7,
+      "resource": "Factory_Choir_oh_48_wav",
+      "root": 48,
+      "layer": 0,
+      "layers": 1,
+      "loop_start": 22050,
+      "frames": 158760,
+      "file": "native-vst3/Samples/Trance/Factory_Choir_oh_48.wav",
+      "output_sha256": "a1ac499656cdafe2508c8a059ed129d2ff36a8f7e5559c0ea374b0e5b13dd923",
+      "origins": [
+        {
+          "path": "claudia-oh/claudia-oh-2-52.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/claudia-oh/claudia-oh-2-52.flac",
+          "git_blob": "176f85006ce1954f8f8875900e2b2e577bfc009f",
+          "source_sha256": "eb0e2b6c4dea42f3b153b4ae58473ea6bad4a3712ebb55f03ace89f56dcdd93c",
+          "measured_fundamental_hz": 163.440164,
+          "tuning_correction_cents": 14.4892
+        },
+        {
+          "path": "mirko-oh/mirko-oh-48.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/mirko-oh/mirko-oh-48.flac",
+          "git_blob": "1cce12370d08de76ea4e977aac41acf3e5f4dad8",
+          "source_sha256": "bcf20d731b691dab082aece78efafe478bd2cf66d8d1e9a9894b1b9a4404bec2",
+          "measured_fundamental_hz": 131.10349,
+          "tuning_correction_cents": -3.8431
+        }
+      ],
+      "revision": "08eba76eadfdc16ded3209f65d3890bf1a2b8c0c",
+      "processing": "Original CC0 singers; measured fundamental tuning before layering; register-matched clear-core stereo ensemble with quiet -2.5/+3.5-cent support, 70Hz low cut, steady-vowel onset, edge fades; no octave-wide single-singer playback"
+    },
+    {
+      "instrument": 7,
+      "resource": "Factory_Choir_oh_60_wav",
+      "root": 60,
+      "layer": 0,
+      "layers": 1,
+      "loop_start": 22050,
+      "frames": 158760,
+      "file": "native-vst3/Samples/Trance/Factory_Choir_oh_60.wav",
+      "output_sha256": "bae76997fce7ca839b500e76e5911fef14e2b4ead1df109c9550a6a6219ff641",
+      "origins": [
+        {
+          "path": "claudia-oh/claudia-oh-1-60.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/claudia-oh/claudia-oh-1-60.flac",
+          "git_blob": "a6fd3a45435d16cb5641694845ef1230dbe2ae7c",
+          "source_sha256": "c8685ad331cf448d311fba30361d1fba1ceed14d0ac59d341a8c91ffad7b75c5",
+          "measured_fundamental_hz": 261.422963,
+          "tuning_correction_cents": 1.3412
+        },
+        {
+          "path": "mirko-oh/mirko-oh-60.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/mirko-oh/mirko-oh-60.flac",
+          "git_blob": "7875052a267d35440c33cd66e6100ebf14f01667",
+          "source_sha256": "098bfdeeee980af27fc55c330265d5651daabec867c7bab0c359dcbe5911042f",
+          "measured_fundamental_hz": 257.218825,
+          "tuning_correction_cents": 29.4088
+        }
+      ],
+      "revision": "08eba76eadfdc16ded3209f65d3890bf1a2b8c0c",
+      "processing": "Original CC0 singers; measured fundamental tuning before layering; register-matched clear-core stereo ensemble with quiet -2.5/+3.5-cent support, 70Hz low cut, steady-vowel onset, edge fades; no octave-wide single-singer playback"
+    },
+    {
+      "instrument": 7,
+      "resource": "Factory_Choir_oh_72_wav",
+      "root": 72,
+      "layer": 0,
+      "layers": 1,
+      "loop_start": 22050,
+      "frames": 158760,
+      "file": "native-vst3/Samples/Trance/Factory_Choir_oh_72.wav",
+      "output_sha256": "061d3607f76b6f89fcb216214eb0ed8a26cd1a28db14f1bd74e9832c4e733757",
+      "origins": [
+        {
+          "path": "claudia-oh/claudia-oh-1-72.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/claudia-oh/claudia-oh-1-72.flac",
+          "git_blob": "36b0de99c6ee0cd0b07ed1afb49f9e13ece68d1d",
+          "source_sha256": "eec325abd523909eddd28cdf723c21ee44324205eebe180dba3c12abe2761f68",
+          "measured_fundamental_hz": 520.644759,
+          "tuning_correction_cents": 8.645
+        },
+        {
+          "path": "claudia-oh/claudia-oh-1-69.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/claudia-oh/claudia-oh-1-69.flac",
+          "git_blob": "4437025ebe3e5f9e9325d672ab2e7b8b5779d433",
+          "source_sha256": "57a1878791667f753022289b3bc2b68260c1cc5a0edc7a4749e783082b1d0a24",
+          "measured_fundamental_hz": 438.214906,
+          "tuning_correction_cents": 7.038
+        }
+      ],
+      "revision": "08eba76eadfdc16ded3209f65d3890bf1a2b8c0c",
+      "processing": "Original CC0 singers; measured fundamental tuning before layering; register-matched clear-core stereo ensemble with quiet -2.5/+3.5-cent support, 70Hz low cut, steady-vowel onset, edge fades; no octave-wide single-singer playback"
+    },
+    {
+      "instrument": 8,
+      "resource": "Factory_Choir_ih_48_wav",
+      "root": 48,
+      "layer": 0,
+      "layers": 1,
+      "loop_start": 22050,
+      "frames": 158760,
+      "file": "native-vst3/Samples/Trance/Factory_Choir_ih_48.wav",
+      "output_sha256": "034a24759a87eead2218e8803e67cdd9f314440a109eaee0482724444b68c3d1",
+      "origins": [
+        {
+          "path": "claudia-ih/claudia-ih-2b-52.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/claudia-ih/claudia-ih-2b-52.flac",
+          "git_blob": "888bba0e5d01e7aba93719c64961b00852e2bd5e",
+          "source_sha256": "a6ba59fd926e1ca957a8e3fe2e5c18b08eb49363a6f50cb792a67bd6b1546e46",
+          "measured_fundamental_hz": 165.206329,
+          "tuning_correction_cents": -4.1185
+        },
+        {
+          "path": "sven-ih/Sven-i-48.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/sven-ih/Sven-i-48.flac",
+          "git_blob": "5d06fb6dd4e89420474f1829704435b9350d9968",
+          "source_sha256": "cbdf3eb956f3b54da38a517743e6341c12caa4a634c7faacaa7113ff9ca88324",
+          "measured_fundamental_hz": 130.137519,
+          "tuning_correction_cents": 8.9599
+        }
+      ],
+      "revision": "08eba76eadfdc16ded3209f65d3890bf1a2b8c0c",
+      "processing": "Original CC0 singers; measured fundamental tuning before layering; register-matched clear-core stereo ensemble with quiet -2.5/+3.5-cent support, 70Hz low cut, steady-vowel onset, edge fades; no octave-wide single-singer playback"
+    },
+    {
+      "instrument": 8,
+      "resource": "Factory_Choir_ih_60_wav",
+      "root": 60,
+      "layer": 0,
+      "layers": 1,
+      "loop_start": 22050,
+      "frames": 158760,
+      "file": "native-vst3/Samples/Trance/Factory_Choir_ih_60.wav",
+      "output_sha256": "9fe91774d700d92bb5a50e04fe1d5a299df2c7ffb88bd4a94b6329d16493414c",
+      "origins": [
+        {
+          "path": "claudia-ih/claudia-ih-2-60.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/claudia-ih/claudia-ih-2-60.flac",
+          "git_blob": "3cbf4ec715e2fda309e5bcfe4ba14b10601ab17c",
+          "source_sha256": "c1260b016e416e0f1061cea10023ac2fbc54944dd3f77045456838864eb113d0",
+          "measured_fundamental_hz": 252.435847,
+          "tuning_correction_cents": 61.9041
+        },
+        {
+          "path": "sven-ih/Sven-i-59.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/sven-ih/Sven-i-59.flac",
+          "git_blob": "9528395134bfab7cce345c9fb82b73ea9aad7f6a",
+          "source_sha256": "c2a2b8378265552d83f36a0a662c1f65cdc5f130dc05a9bb2b025668bfc3a3a7",
+          "measured_fundamental_hz": 247.506638,
+          "tuning_correction_cents": -3.9564
+        }
+      ],
+      "revision": "08eba76eadfdc16ded3209f65d3890bf1a2b8c0c",
+      "processing": "Original CC0 singers; measured fundamental tuning before layering; register-matched clear-core stereo ensemble with quiet -2.5/+3.5-cent support, 70Hz low cut, steady-vowel onset, edge fades; no octave-wide single-singer playback"
+    },
+    {
+      "instrument": 8,
+      "resource": "Factory_Choir_ih_72_wav",
+      "root": 72,
+      "layer": 0,
+      "layers": 1,
+      "loop_start": 22050,
+      "frames": 158760,
+      "file": "native-vst3/Samples/Trance/Factory_Choir_ih_72.wav",
+      "output_sha256": "8d22d18d63291cb5a457391115a2a8c30c90bc3e49513cad89bec7ffd019a0c4",
+      "origins": [
+        {
+          "path": "claudia-ih/claudia-ih-1-72.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/claudia-ih/claudia-ih-1-72.flac",
+          "git_blob": "d740675bf5c0f3601cba335d3cd5ad28f0407083",
+          "source_sha256": "5ad3a4c23f4bb6b7e624ba077a95a82d2783710f4c887a191e3f61be853f42b1",
+          "measured_fundamental_hz": 511.59805,
+          "tuning_correction_cents": 38.9913
+        },
+        {
+          "path": "claudia-ih/claudia-ih-1-69.flac",
+          "url": "https://raw.githubusercontent.com/swesterfeld/spectmorph-instruments/08eba76eadfdc16ded3209f65d3890bf1a2b8c0c/claudia-ih/claudia-ih-1-69.flac",
+          "git_blob": "2c5d6108374f0560c0a91eb364d08dd78e44dd86",
+          "source_sha256": "88c50837736ab5948c18e0f847406957659bbd5a9b1df98f6b5b9bd20a72a304",
+          "measured_fundamental_hz": 451.327143,
+          "tuning_correction_cents": -44.004
+        }
+      ],
+      "revision": "08eba76eadfdc16ded3209f65d3890bf1a2b8c0c",
+      "processing": "Original CC0 singers; measured fundamental tuning before layering; register-matched clear-core stereo ensemble with quiet -2.5/+3.5-cent support, 70Hz low cut, steady-vowel onset, edge fades; no octave-wide single-singer playback"
+    }
+  ]
+}

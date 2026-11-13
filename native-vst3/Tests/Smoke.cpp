@@ -9,6 +9,8 @@
  #include <windows.h>
 #endif
 
+int runCreativeSmoke();
+int runUsabilitySmoke();
 int runAnalogueTailProbe();
 int runAnalogueExpansionSmoke();
 int runOscillatorWorkflowSmoke();
@@ -23,7 +25,7 @@ int runLeadSmoke();
 
 
 int writeParameterInventory(const juce::File& file){
-    auto p=std::make_unique<SpaceInfinityProcessor>();auto* root=new juce::DynamicObject;juce::var result(root);root->setProperty("native_version","0.5.0");root->setProperty("manual_reference","https://xferrecords.com/manual/serum-2/docs");root->setProperty("notes","Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.");juce::Array<juce::var> rows;
+    auto p=std::make_unique<SpaceInfinityProcessor>();auto* root=new juce::DynamicObject;juce::var result(root);root->setProperty("native_version","0.6.0");root->setProperty("manual_reference","https://xferrecords.com/manual/serum-2/docs");root->setProperty("notes","Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.");juce::Array<juce::var> rows;
     for(auto* parameter:p->getParameters())if(auto* a=dynamic_cast<juce::RangedAudioParameter*>(parameter)){auto* row=new juce::DynamicObject;row->setProperty("id",a->paramID);row->setProperty("name",a->getName(120));row->setProperty("type",dynamic_cast<juce::AudioParameterBool*>(a)?"boolean":dynamic_cast<juce::AudioParameterChoice*>(a)?"choice":dynamic_cast<juce::AudioParameterInt*>(a)?"integer":"float");row->setProperty("minimum",a->convertFrom0to1(0));row->setProperty("maximum",a->convertFrom0to1(1));row->setProperty("host_default",a->convertFrom0to1(a->getDefaultValue()));row->setProperty("init_value",p->state.getRawParameterValue(a->paramID)->load());if(auto* choice=dynamic_cast<juce::AudioParameterChoice*>(a)){juce::Array<juce::var> names;for(const auto& name:choice->choices)names.add(name);row->setProperty("choices",names);}rows.add(juce::var(row));}root->setProperty("parameter_count",rows.size());root->setProperty("parameters",rows);if(file.getParentDirectory().createDirectory().failed()||!file.replaceWithText(juce::JSON::toString(result)))return 125;std::cout<<"Exported "<<rows.size()<<" native parameters to "<<file.getFullPathName()<<'\n';return 0;
 }
 
@@ -74,6 +76,7 @@ int renderHardwarePreview()
             file.deleteFile();auto stream=file.createOutputStream();
             if(!stream||!juce::PNGImageFormat{}.writeImageToStream(image,*stream))return 104;
         }
+        if(juce::String(page)=="GATE"){synth->loadGatePreset(2);editor->setSize(1000,790);const auto file=folder.getChildFile("Hardware-GATE-BLOCKS-1000.png");file.deleteFile();auto stream=file.createOutputStream();if(!stream||!juce::PNGImageFormat{}.writeImageToStream(editor->createComponentSnapshot(editor->getLocalBounds()),*stream))return 109;}
     }
     for(float scale:{1.0f,1.25f,1.5f,2.0f,3.0f,4.0f}){const auto image=editor->createComponentSnapshot({48,18,260,68},true,scale);const auto file=folder.getChildFile("Logo-DPI-"+juce::String(int(scale*100))+".png");file.deleteFile();auto stream=file.createOutputStream();if(!stream||!juce::PNGImageFormat{}.writeImageToStream(image,*stream))return 105;}
    #if JUCE_WINDOWS
@@ -86,6 +89,9 @@ int renderHardwarePreview()
 int main(int argc,char* argv[])
 {
     juce::ScopedJuceInitialiser_GUI gui;
+    if(argc>1&&juce::String(argv[1])=="--creative-tests")return runCreativeSmoke();
+    if(argc>1&&juce::String(argv[1])=="--usability-tests")return runUsabilitySmoke();
+    if(argc>2&&juce::String(argv[1])=="--trance-bank-solo-profile")return runTranceBankSmoke(3,juce::File(argv[2]));
     if(argc>2&&juce::String(argv[1])=="--trance-bank-profile")return runTranceBankSmoke(2,juce::File(argv[2]));
     if(argc>2&&juce::String(argv[1])=="--parameter-inventory")return writeParameterInventory(juce::File(argv[2]));
     if(argc>1&&juce::String(argv[1])=="--analogue-tail-probe")return runAnalogueTailProbe();

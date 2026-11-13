@@ -1,8 +1,8 @@
 #pragma once
 #include <array>
 struct FactorySampleZone {int instrument;const char* resource;int root,layer,layers,loopStart;};
-inline constexpr std::array<const char*,6> factoryInstrumentNames{{"Studio Grand Multisample","Upright Multisample","Violin Section Multisample","Cello Section Multisample","Spiccato Strings Multisample","Pizzicato Strings Multisample"}};
-inline constexpr std::array<FactorySampleZone,42> factorySampleZones{{
+inline constexpr std::array<const char*,9> factoryInstrumentNames{{"Studio Grand Multisample","Upright Multisample","Violin Section Multisample","Cello Section Multisample","Spiccato Strings Multisample","Pizzicato Strings Multisample","Ensemble Ah Multisample","Ensemble Ooh Multisample","Ensemble Ee Multisample"}};
+inline constexpr std::array<FactorySampleZone,51> factorySampleZones{{
     {0,"Factory_Grand_36_0_wav",24,0,3,0},
     {0,"Factory_Grand_36_1_wav",24,1,3,0},
     {0,"Factory_Grand_36_2_wav",24,2,3,0},
@@ -45,4 +45,13 @@ inline constexpr std::array<FactorySampleZone,42> factorySampleZones{{
     {0,"Factory_Grand_96_0_wav",84,0,3,0},
     {0,"Factory_Grand_96_1_wav",84,1,3,0},
     {0,"Factory_Grand_96_2_wav",84,2,3,0},
+    {6,"Factory_Choir_ah_48_wav",48,0,1,22050},
+    {6,"Factory_Choir_ah_60_wav",60,0,1,22050},
+    {6,"Factory_Choir_ah_72_wav",72,0,1,22050},
+    {7,"Factory_Choir_oh_48_wav",48,0,1,22050},
+    {7,"Factory_Choir_oh_60_wav",60,0,1,22050},
+    {7,"Factory_Choir_oh_72_wav",72,0,1,22050},
+    {8,"Factory_Choir_ih_48_wav",48,0,1,22050},
+    {8,"Factory_Choir_ih_60_wav",60,0,1,22050},
+    {8,"Factory_Choir_ih_72_wav",72,0,1,22050},
 }};

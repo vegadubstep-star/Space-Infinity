@@ -1,8 +1,8 @@
 {
-  "native_version": "0.5.0",
+  "native_version": "0.6.0",
   "manual_reference": "https://xferrecords.com/manual/serum-2/docs",
   "notes": "Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.",
-  "parameter_count": 1068,
+  "parameter_count": 1102,
   "parameters": [
     {
       "id": "cutoff",
@@ -265,6 +265,42 @@
       "maximum": 0.5,
       "host_default": 0.0,
       "init_value": 0.0
+    },
+    {
+      "id": "gateStepWidth",
+      "name": "Gate Width",
+      "type": "float",
+      "minimum": 0.050000000745058,
+      "maximum": 1.0,
+      "host_default": 1.0,
+      "init_value": 1.0
+    },
+    {
+      "id": "gateDelay",
+      "name": "Gate Delay",
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 4.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "gateFade",
+      "name": "Gate Fade In",
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 8.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "gateStepCount",
+      "name": "Gate Length",
+      "type": "integer",
+      "minimum": 1.0,
+      "maximum": 16.0,
+      "host_default": 16.0,
+      "init_value": 16.0
     },
     {
       "id": "glideTime",
@@ -2026,6 +2062,37 @@
       "init_value": 0.649999976158142
     },
     {
+      "id": "presetTrim",
+      "name": "Preset Loudness Trim",
+      "type": "float",
+      "minimum": -24.0,
+      "maximum": 24.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "levelMatch",
+      "name": "Filter Level Match",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "engineMode",
+      "name": "Overall Engine Mode",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "Analogue",
+        "Digital"
+      ]
+    },
+    {
       "id": "wave",
       "name": "Oscillator",
       "type": "choice",
@@ -2078,7 +2145,7 @@
       "name": "Sound Source",
       "type": "choice",
       "minimum": 0.0,
-      "maximum": 26.0,
+      "maximum": 29.0,
       "host_default": 0.0,
       "init_value": 0.0,
       "choices": [
@@ -2108,7 +2175,10 @@
         "Violin Section Multisample",
         "Cello Section Multisample",
         "Spiccato Strings Multisample",
-        "Pizzicato Strings Multisample"
+        "Pizzicato Strings Multisample",
+        "Ensemble Ah Multisample",
+        "Ensemble Ooh Multisample",
+        "Ensemble Ee Multisample"
       ]
     },
     {
@@ -4719,6 +4789,261 @@
       "init_value": 0.0
     },
     {
+      "id": "distEnabled",
+      "name": "Distortion Enabled",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "distType",
+      "name": "Distortion Type",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 13.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "Tube",
+        "Soft Clip",
+        "Hard Clip",
+        "Diode 1",
+        "Diode 2",
+        "Linear Fold",
+        "Sine Fold",
+        "Zero Square",
+        "Downsample",
+        "Asymmetric",
+        "Rectify",
+        "X-Shaper",
+        "X-Shaper Asym",
+        "Sine Shaper"
+      ]
+    },
+    {
+      "id": "distFilterPosition",
+      "name": "Distortion Filter",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "Off",
+        "Pre",
+        "Post"
+      ]
+    },
+    {
+      "id": "distDrive",
+      "name": "Distortion Drive",
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.200000002980232,
+      "init_value": 0.200000002980232
+    },
+    {
+      "id": "distMix",
+      "name": "Distortion Mix",
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 1.0,
+      "init_value": 1.0
+    },
+    {
+      "id": "distFrequency",
+      "name": "Distortion Filter Frequency",
+      "type": "float",
+      "minimum": 20.0,
+      "maximum": 20000.0,
+      "host_default": 6000.0,
+      "init_value": 6000.0
+    },
+    {
+      "id": "distQ",
+      "name": "Distortion Bandwidth",
+      "type": "float",
+      "minimum": 0.200000002980232,
+      "maximum": 10.0,
+      "host_default": 0.707099974155426,
+      "init_value": 0.707099974155426
+    },
+    {
+      "id": "distFilterMorph",
+      "name": "Distortion LP BP HP",
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "distShape0_0",
+      "name": "Distortion shape 1 point 0",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": -1.0,
+      "init_value": -1.0
+    },
+    {
+      "id": "distShape0_1",
+      "name": "Distortion shape 1 point 1",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": -0.75,
+      "init_value": -0.75
+    },
+    {
+      "id": "distShape0_2",
+      "name": "Distortion shape 1 point 2",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": -0.5,
+      "init_value": -0.5
+    },
+    {
+      "id": "distShape0_3",
+      "name": "Distortion shape 1 point 3",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": -0.25,
+      "init_value": -0.25
+    },
+    {
+      "id": "distShape0_4",
+      "name": "Distortion shape 1 point 4",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "distShape0_5",
+      "name": "Distortion shape 1 point 5",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "distShape0_6",
+      "name": "Distortion shape 1 point 6",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.5,
+      "init_value": 0.5
+    },
+    {
+      "id": "distShape0_7",
+      "name": "Distortion shape 1 point 7",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.75,
+      "init_value": 0.75
+    },
+    {
+      "id": "distShape0_8",
+      "name": "Distortion shape 1 point 8",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 1.0,
+      "init_value": 1.0
+    },
+    {
+      "id": "distShape1_0",
+      "name": "Distortion shape 2 point 0",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": -1.0,
+      "init_value": -1.0
+    },
+    {
+      "id": "distShape1_1",
+      "name": "Distortion shape 2 point 1",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": -0.938923597335815,
+      "init_value": -0.938923597335815
+    },
+    {
+      "id": "distShape1_2",
+      "name": "Distortion shape 2 point 2",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": -0.790012836456299,
+      "init_value": -0.790012836456299
+    },
+    {
+      "id": "distShape1_3",
+      "name": "Distortion shape 2 point 3",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": -0.479360938072205,
+      "init_value": -0.479360938072205
+    },
+    {
+      "id": "distShape1_4",
+      "name": "Distortion shape 2 point 4",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "distShape1_5",
+      "name": "Distortion shape 2 point 5",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.479360938072205,
+      "init_value": 0.479360938072205
+    },
+    {
+      "id": "distShape1_6",
+      "name": "Distortion shape 2 point 6",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.790012836456299,
+      "init_value": 0.790012836456299
+    },
+    {
+      "id": "distShape1_7",
+      "name": "Distortion shape 2 point 7",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.938923597335815,
+      "init_value": 0.938923597335815
+    },
+    {
+      "id": "distShape1_8",
+      "name": "Distortion shape 2 point 8",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 1.0,
+      "init_value": 1.0
+    },
+    {
       "id": "pitchBend",
       "name": "Pitch Wheel",
       "type": "float",
@@ -4955,6 +5280,15 @@
     {
       "id": "fxOutput7",
       "name": "FX 8 Output",
+      "type": "float",
+      "minimum": -24.0,
+      "maximum": 12.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "fxOutput8",
+      "name": "FX 9 Output",
       "type": "float",
       "minimum": -24.0,
       "maximum": 12.0,

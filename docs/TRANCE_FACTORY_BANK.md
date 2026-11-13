@@ -1,4 +1,4 @@
-# SPACE INFINITY 0.5.0 — Trance factory bank
+# SPACE INFINITY 0.6.0 — Trance factory bank
 
 Replaces the previous factory sounds with **160 newly designed presets plus Init**. Your own saved presets and project parameter states are retained. Factory bank generation changes to F1000 so retired factory entries disappear without deleting personal .sipreset files.
 
@@ -20,7 +20,7 @@ Replaces the previous factory sounds with **160 newly designed presets plus Init
 | Acid | 10 |
 | **Total new sounds** | **160** |
 
-The synth adds six built-in multisample instruments using 42 pitch/velocity zones: grand, upright, violin section, cello section, spiccato and pizzicato strings. Recordings are CC0 and included inside the plugin; no external sample folder is required. Sustain strings have crossfaded loops; grand/upright recordings have multiple velocity layers. Sample root and layer selection happen per note. Previous source IDs remain in their existing order; six new choices are appended.
+The synth includes nine built-in multisample instruments using 51 pitch/velocity zones: three register-matched choir vowels plus grand, upright, violin section, cello section, spiccato and pizzicato strings. Recordings are CC0 and included inside the plugin; no external sample folder is required. Sustain strings have crossfaded loops; grand/upright recordings have multiple velocity layers. Sample root and layer selection happen per note. Previous source IDs remain in their existing order; the nine multisampled choices are appended.
 
 Fast lead and bass attacks retain the synth's declick protection. All 35 basses and ten acid presets are unsequenced, with gate and pump disabled. Arps/sequences respond to held notes and the host tempo. Ion Wire intentionally includes a bypassable trance gate. Pads use small timbre changes; only the explicitly named tremolo string modulates level. Performance macros start at zero and provide filter/drive, width and space changes, plus three additional assignments.
 

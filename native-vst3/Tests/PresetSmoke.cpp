@@ -54,9 +54,19 @@ int runPresetSmoke(){
     if(bank.entries().size()!=size_t(factoryCount+1)||bank.indexForKey(key)!=factoryCount)return 71;
     if(bank.move(factoryCount,-1).failed()||bank.indexForKey(key)!=factoryCount-1)return 72;
     if(bank.rename(factoryCount-1,"Personal Lead").failed())return 73;
+    if(bank.updateDetails(bank.indexForKey(key),"Personal Lead","Test Creator","Trance, Bright, trance").failed())return 123;
+    if(bank.reload().failed())return 124;
+    const auto& details=bank.entries()[size_t(bank.indexForKey(key))];
+    if(details.creator!="Test Creator"||details.tags!="Trance, Bright")return 125;
     auto other=std::make_unique<SpaceInfinityProcessor>(folder);
     const int loaded=other->presetBank().indexForKey(key);
     if(loaded!=factoryCount-1||other->loadBankPreset(loaded).failed()||std::abs(other->state.getRawParameterValue("cutoff")->load()-1234)>.01)return 74;
+    if(other->state.state.getProperty("creator").toString()!="Test Creator"||other->state.state.getProperty("tags").toString()!="Trance, Bright")return 126;
+    const auto taggedExport=exportedFolder.getChildFile("Tagged.sipreset");
+    if(other->exportPreset(taggedExport).failed())return 127;
+    juce::MemoryBlock taggedBytes;if(!taggedExport.loadFileAsData(taggedBytes))return 128;
+    auto taggedXml=juce::AudioProcessor::getXmlFromBinary(taggedBytes.getData(),int(taggedBytes.getSize()));
+    if(!taggedXml||taggedXml->getStringAttribute("creator")!="Test Creator"||taggedXml->getStringAttribute("tags")!="Trance, Bright")return 129;
     if(other->presetBank().sortByName().failed())return 75;
     if(bank.sortByName().wasOk())return 76; // A stale instance must not overwrite another instance's edits.
     if(bank.reload().failed()||bank.indexForKey(key)<0)return 77;
@@ -67,6 +77,12 @@ int runPresetSmoke(){
     if(bank.remove(bank.indexForKey(key)).failed()||bank.entries().size()!=size_t(factoryCount))return 81;
     if(folder.getChildFile("Deleted").findChildFiles(juce::File::findFiles,false,"*.sipreset").isEmpty())return 82;
     if(synth->replaceBankPreset(0).wasOk())return 83;
+    const auto factoryIndex=bank.indexForKey("F1001");
+    if(bank.updateDetails(factoryIndex,"Tagged Factory","Factory Author","Acid, Custom").failed()||bank.reload().failed())return 130;
+    if(synth->loadBankPreset(bank.indexForKey("F1001")).failed()||synth->state.state.getProperty("tags").toString()!="Acid, Custom")return 131;
+    const auto metadataZip=folder.getChildFile("Factory Details.zip");if(bank.exportEdits(metadataZip).failed())return 132;
+    juce::ZipFile editArchive(metadataZip);std::unique_ptr<juce::InputStream> editManifest(editArchive.createStreamForEntry(editArchive.getIndexOfFileName("FactoryEdits.json")));
+    if(!editManifest)return 133;auto editRows=juce::JSON::parse(editManifest->readEntireStreamAsString())["presets"];if(!editRows.isArray()||editRows.size()!=1||!bool(editRows[0]["metadata_only"])||editRows[0]["tags"].toString()!="Acid, Custom")return 134;
     PresetPanel panel(*synth,[]{});panel.setSize(710,465);
     const auto audition=juce::File::getCurrentWorkingDirectory().getChildFile("audition");audition.createDirectory();
     const auto screenshotFile=audition.getChildFile("Preset-Manager.png");screenshotFile.deleteFile();auto stream=screenshotFile.createOutputStream();if(stream)juce::PNGImageFormat{}.writeImageToStream(panel.createComponentSnapshot(panel.getLocalBounds()),*stream);

@@ -36,3 +36,7 @@ Processing and original/output SHA-256 hashes are recorded in SAMPLE_PROVENANCE.
 - Pinned source commits, paths, Git blob hashes, source/output SHA-256 and effective MIDI roots are in **TRANCE_SAMPLE_PROVENANCE.json** in the installer ZIP (repository: `Samples/Trance/PROVENANCE.json`).
 
 Processing: onset trimming, DC removal, brief edge fades, stereo 44.1 kHz PCM16, up to seven seconds for pianos and 4.5 seconds for sustained strings. Velocity-layer gains retain dynamic contrast. Sustain loops and per-note nearest-key/layer selection run inside the synth. Libraries use different octave conventions; the effective MIDI roots in the manifest take precedence over filenames.
+
+## Register-matched choir ensemble zones (0.6.0)
+
+Nine Ah/Ooh/Ee stereo zones at MIDI roots 48, 60 and 72 derive from the CC0 SpectMorph instrument recordings by Claudia, Mirko and Sven. Sources, pinned revision, processing and SHA-256 hashes are in `Trance/CHOIR_PROVENANCE.json` (packaged as `CHOIR_SAMPLE_PROVENANCE.json`). Original voices remain available for existing projects.

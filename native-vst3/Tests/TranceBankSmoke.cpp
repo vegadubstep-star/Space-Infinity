@@ -16,6 +16,7 @@ int runTranceBankSmoke(int group,const juce::File& profile){
         const auto category=p->presetCategory(index),name=p->presetNames()[index];++counts[category];
         const bool bass=category.contains("Bass"),pad=category.contains("Pads"),pattern=category=="Arps and Sequences";
         if((group==0&&!bass&&category!="Acid"&&!pattern)||(group==1&&(bass||category=="Acid"||pattern)))continue;
+        const auto selectedNames=juce::SystemStats::getEnvironmentVariable("SPACE_INFINITY_PROFILE_NAMES",{});if(profile!=juce::File{}&&selectedNames.isNotEmpty()&&!juce::StringArray::fromTokens(selectedNames,",","").contains(name))continue;
         p->loadPreset(index);
         check(p->state.state.getProperty("factoryReference").toString().isNotEmpty(),name+": documented reference");
         if(bass)check(value(*p,"patternMode")==0&&value(*p,"gateEnabled")==0&&value(*p,"pumpEnabled")==0,name+": bass must follow customer MIDI");
@@ -24,10 +25,10 @@ int runTranceBankSmoke(int group,const juce::File& profile){
         p->prepareToPlay(48000,256);p->takeOutputPeak();juce::AudioBuffer<float> audio(2,256);double energy=0,mono=0;float peak=0,maxStep=0,previous=0;int notes=0;double first=0,last=0;
         std::unique_ptr<juce::AudioFormatWriter> preview;
         if(profile!=juce::File{}){const auto folder=profile.getParentDirectory().getChildFile("Previews");folder.createDirectory();const auto file=folder.getChildFile(name+".wav");file.deleteFile();auto stream=file.createOutputStream();juce::WavAudioFormat format;preview.reset(format.createWriterFor(stream.get(),48000,2,24,{},0));check(preview!=nullptr,"preview writer");stream.release();}
-        const int length=group==2?1125:pad?1125:375;
+        const int length=group>=2?1125:pad?1125:375;
         for(int block=0;block<length;++block){juce::MidiBuffer midi;
             const int note=bass||category=="Acid"?40:category=="Strings"?69:60;
-            const bool chord=!bass&&category!="Acid"&&value(*p,"voiceMode")==0;
+            const bool chord=(group!=3||pattern)&&!bass&&category!="Acid"&&value(*p,"voiceMode")==0;
             const int cycle=pad?length:188,position=block%cycle;
             if(position==0){midi.addEvent(juce::MidiMessage::noteOn(1,note,.82f),0);if(chord)for(int offset:{7,12})midi.addEvent(juce::MidiMessage::noteOn(1,note+offset,.75f),0);}
             if(position==(pad?length-96:120)){midi.addEvent(juce::MidiMessage::allNotesOff(1),0);}
@@ -38,21 +39,21 @@ int runTranceBankSmoke(int group,const juce::File& profile){
         if(bass)check(notes==0&&mono>energy*.65,name+": no generated bass notes and mono compatibility");
         if(pattern)check(notes>2,name+": pattern produces notes");
         const float rawPeak=p->takeOutputPeak();if(group<2)check(rawPeak<.95f&&peak>.08f,name+": calibrated level/headroom");
-        auto* row=new juce::DynamicObject;row->setProperty("index",index);row->setProperty("name",name);row->setProperty("category",category);row->setProperty("gain",value(*p,"gain"));row->setProperty("peak",peak);row->setProperty("raw_peak",rawPeak);row->setProperty("rms",std::sqrt(energy/(length*256)));row->setProperty("mono_ratio",mono/std::max(energy,1e-12));row->setProperty("maximum_step",maxStep);row->setProperty("generated_notes",notes);row->setProperty("late_early_energy",last/std::max(first,1e-12));rows.add(juce::var(row));
+        auto* row=new juce::DynamicObject;row->setProperty("index",index);row->setProperty("name",name);row->setProperty("category",category);row->setProperty("gain",value(*p,"gain"));row->setProperty("preset_trim",value(*p,"presetTrim"));row->setProperty("peak",peak);row->setProperty("raw_peak",rawPeak);row->setProperty("rms",std::sqrt(energy/(length*256)));row->setProperty("mono_ratio",mono/std::max(energy,1e-12));row->setProperty("maximum_step",maxStep);row->setProperty("generated_notes",notes);row->setProperty("late_early_energy",last/std::max(first,1e-12));rows.add(juce::var(row));
         std::cout<<index<<" "<<name<<": peak "<<peak<<", RMS "<<std::sqrt(energy/(length*256))<<", generated "<<notes<<std::endl;
     }
     check(counts==expected,"exact requested category counts");
     if(profile!=juce::File{}){profile.getParentDirectory().createDirectory();check(profile.replaceWithText(juce::JSON::toString(rows)),"profile export");}
     if(group!=0){
         const auto set=[&](const juce::String& id,float v){auto* a=p->state.getParameter(id);a->setValueNotifyingHost(a->convertTo0to1(v));};
-        for(int source:{21,22,23,24,25,26}){
-            p->loadPreset(0);set("source",float(source));set("attack",0);set("release",.1f);set("ampSustain",1);set("ampVelocity",0);set("cutoff",16000);set("sampleLoop",source==23||source==24?1:0);set("gain",.35f);
+        for(int source:{21,22,23,24,25,26,27,28,29}){
+            p->loadPreset(0);set("source",float(source));set("attack",0);set("release",.1f);set("ampSustain",1);set("ampVelocity",0);set("cutoff",16000);set("sampleLoop",source==23||source==24||source>=27?1:0);set("gain",.35f);
             for(int key:{48,60,72}){
                 p->prepareToPlay(48000,256);juce::AudioBuffer<float> b(2,256);double energy=0;
                 for(int block=0;block<188;++block){juce::MidiBuffer midi;if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,key,.82f),0);p->processBlock(b,midi);for(int ch=0;ch<2;++ch)for(int i=0;i<256;++i){const float sample=b.getSample(ch,i);check(std::isfinite(sample),"multisample pitch-zone finite");energy+=sample*sample;}}
-                check(energy>.1,"all six new instruments play across key zones");
+                check(energy>.1,"all nine multisampled instruments play across key zones");
             }
-            if(source==23||source==24){p->prepareToPlay(48000,256);juce::AudioBuffer<float> b(2,256);double early=0,late=0;float previous=0,jump=0;for(int block=0;block<1875;++block){juce::MidiBuffer midi;if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,69,.82f),0);p->processBlock(b,midi);for(int i=0;i<256;++i){const float sample=b.getSample(0,i);if(block>900)jump=std::max(jump,std::abs(sample-previous));previous=sample;if(block>200&&block<600)early+=sample*sample;if(block>1400)late+=sample*sample;}}check(late>early*.12&&jump<.2f,"string sustain loop remains audible and continuous");}
+            if(source==23||source==24||source>=27){p->prepareToPlay(48000,256);juce::AudioBuffer<float> b(2,256);double early=0,late=0;float previous=0,jump=0;for(int block=0;block<1875;++block){juce::MidiBuffer midi;if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,69,.82f),0);p->processBlock(b,midi);for(int i=0;i<256;++i){const float sample=b.getSample(0,i);if(block>900)jump=std::max(jump,std::abs(sample-previous));previous=sample;if(block>200&&block<600)early+=sample*sample;if(block>1400)late+=sample*sample;}}check(late>early*.12&&jump<.2f,"string sustain loop remains audible and continuous");}
         }
     }
     if(group==1){

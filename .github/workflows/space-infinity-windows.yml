@@ -32,6 +32,8 @@ jobs:
         run: .\scripts\package-windows.ps1
       - name: Verify factory bank, state and editor
         run: ctest --test-dir native-vst3/build -C Release --output-on-failure
+      - name: Verify preset-edit ZIP importer
+        run: python scripts/tests/test_factory_edits.py
       - name: Verify installer and VST3 archive
         run: .\scripts\verify-windows-release.ps1
       - name: Publish verified Windows release

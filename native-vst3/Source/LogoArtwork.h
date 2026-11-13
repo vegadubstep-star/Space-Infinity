@@ -22,6 +22,6 @@ struct LogoArtwork {
         const auto draw=[&](juce::Image& target,juce::FillType fill){juce::Graphics g(target);g.setImageResamplingQuality(juce::Graphics::highResamplingQuality);g.setFillType(fill);g.drawImageWithin(mask,0,0,w,h,juce::RectanglePlacement::xLeft|juce::RectanglePlacement::yMid,true);};
         draw(shadow,juce::FillType(juce::Colour(0xbb08050c)));
         juce::ColourGradient foil(juce::Colour(0xffaea3c5),0,0,juce::Colour(0xff50405f),0,h,false);foil.addColour(.30,juce::Colour(0xffb6a5d0));foil.addColour(.53,juce::Colour(0xff655076));foil.addColour(.57,juce::Colour(0xffd4c5ea));foil.addColour(.72,juce::Colour(0xff8b72a8));draw(metal,juce::FillType(foil));
-        juce::ColourGradient glow(juce::Colour(0xffbf7aff),0,0,juce::Colour(0xfff4ddff),w,0,false);glow.addColour(.74,juce::Colour(0xffedb7ff));draw(light,juce::FillType(glow));
+        juce::ColourGradient glow(juce::Colour(0xffff65bd),0,0,juce::Colour(0xff49ebdb),w,0,false);glow.addColour(.74,juce::Colour(0xffa8c4ff));draw(light,juce::FillType(glow));
     }
 };

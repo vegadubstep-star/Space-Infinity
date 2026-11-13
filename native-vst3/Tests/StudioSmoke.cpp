@@ -32,7 +32,7 @@ int runStudioSmoke(){
     auto bassEnergy=[](float frequency){studio::Rhythm fx;fx.prepare(48000);studio::Rhythm::Settings s;s.gate=true;s.depth=1;s.split=1;s.low=180;s.high=2600;s.steps.fill(0);fx.configure(s,120);double e=0;
         for(int i=0;i<48000;++i){const float v=.2f*std::sin(juce::MathConstants<float>::twoPi*frequency*i/48000);auto out=fx.process(v,v,0);if(i>24000)e+=out[0]*out[0];}return e;};
     require(bassEnergy(50)<10,"bass-only gate attenuates low band");require(bassEnergy(5000)>350,"bass-only gate preserves highs");
-    for(size_t i=0;i<studio::gatePatterns.size();++i)for(size_t j=0;j<i;++j)require(studio::gatePatterns[i]!=studio::gatePatterns[j],"15 unique gate patterns");
+    for(size_t i=0;i<studio::gatePatterns.size();++i)for(size_t j=0;j<i;++j)require(studio::gatePatterns[i]!=studio::gatePatterns[j]||studio::gatePresetRates[i]!=studio::gatePresetRates[j],"15 unique gate patterns and timings");
     studio::Rhythm sc;sc.prepare(48000);studio::Rhythm::Settings settings;settings.pump=true;settings.sidechain=1;settings.pumpDepth=1;settings.threshold=-30;sc.configure(settings,120);float duck=1;
     for(int i=0;i<12000;++i)duck=sc.process(.5f,.5f,1)[0];require(duck<.1f,"external sidechain detection");
     auto externalEnergy=[](float trigger){

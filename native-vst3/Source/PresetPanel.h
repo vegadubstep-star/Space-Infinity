@@ -1,79 +1,22 @@
 #pragma once
 #include "PluginProcessor.h"
-class PresetPanel final : public juce::Component,private juce::ListBoxModel {
-    SpaceInfinityProcessor& processor;
-    std::function<void()> changed;
-    juce::ListBox list{"Preset bank",this};juce::TextEditor name;
-    juce::Label message;
-    std::array<juce::TextButton,11> actions;
-    std::unique_ptr<juce::FileChooser> chooser;
-    int selected=-1;
-    int getNumRows() override {return int(processor.presetBank().entries().size());}
-    void paintListBoxItem(int row,juce::Graphics& g,int width,int height,bool isSelected) override {
-        const auto& bank=processor.presetBank().entries();if(row<0||row>=int(bank.size()))return;
-        if(isSelected)g.fillAll(juce::Colour(0xff5f4034));
-        g.setColour(juce::Colour(0xffeeeeea));g.drawText(juce::String(row+1)+". "+bank[size_t(row)].name,8,0,width-175,height,juce::Justification::centredLeft);
-        g.setColour(juce::Colour(0xffaaa99f));g.drawText(bank[size_t(row)].category,width-160,0,150,height,juce::Justification::centredRight);
-    }
-    void selectedRowsChanged(int row) override {selected=row;const auto& bank=processor.presetBank().entries();if(row>=0&&row<int(bank.size()))name.setText(bank[size_t(row)].name,false);}
-    void listBoxItemDoubleClicked(int row,const juce::MouseEvent&) override {show(processor.loadBankPreset(row),"Loaded preset.");}
-    void show(const juce::Result& result,const juce::String& success){
-        message.setText(result.wasOk()?success:result.getErrorMessage(),juce::dontSendNotification);
-        if(result.wasOk()){list.updateContent();list.repaint();if(changed)changed();}
-    }
-    void refresh(){const auto key=processor.selectedPresetKey();show(processor.presetBank().reload(),"Preset bank refreshed.");selected=processor.presetBank().indexForKey(key);list.selectRow(selected);}
-    void add(){const auto result=processor.saveNewPreset(name.getText());show(result,"Saved new preset, including samples and edited wavetables.");if(result.wasOk())list.selectRow(processor.presetBank().indexForKey(processor.selectedPresetKey()));}
-    void remove(){const auto result=processor.presetBank().remove(selected);show(result,"Removed. User files are backed up in the Deleted folder; factory sounds can be restored.");if(result.wasOk())list.selectRow(juce::jmin(selected,getNumRows()-1));}
-    void move(int direction){if(selected<0)return;const auto result=processor.presetBank().move(selected,direction);show(result,"Preset order saved.");if(result.wasOk())list.selectRow(selected+direction);}
-    void saveAs(){
-        auto filename=juce::File::createLegalFileName(name.getText().trim());
-        if(filename.isEmpty()||filename=="."||filename=="..")filename="Untitled";
-        chooser=std::make_unique<juce::FileChooser>("Save Space Infinity preset as",processor.presetExportFolder().getChildFile(filename.endsWithIgnoreCase(".sipreset")?filename:filename+".sipreset"),"*.sipreset");
-        const juce::Component::SafePointer<PresetPanel> safe(this);
-        chooser->launchAsync(juce::FileBrowserComponent::saveMode|juce::FileBrowserComponent::canSelectFiles|juce::FileBrowserComponent::warnAboutOverwriting,[safe](const juce::FileChooser& c){
-            if(safe==nullptr||c.getResult()==juce::File{})return;
-            const auto selected=c.getResult(),file=selected.withFileExtension(".sipreset");
-            const auto write=[safe,file]{if(safe!=nullptr)safe->show(safe->processor.exportPreset(file,true),"Saved: "+file.getFullPathName()+". Use Import to add it to the browser.");};
-            // If appending the extension changes the target, confirm that exact file.
-            if(file!=selected&&file.existsAsFile()){
-                juce::AlertWindow::showOkCancelBox(juce::MessageBoxIconType::QuestionIcon,"Replace preset?","Replace "+file.getFullPathName()+"?","Replace","Cancel",safe.getComponent(),juce::ModalCallbackFunction::create([write](int result){if(result!=0)write();}));
-            }else write();
-        });
-    }
-    void importPreset(){
-        chooser=std::make_unique<juce::FileChooser>("Import Space Infinity preset",juce::File{},"*.sipreset");
-        const juce::Component::SafePointer<PresetPanel> safe(this);
-        chooser->launchAsync(juce::FileBrowserComponent::openMode|juce::FileBrowserComponent::canSelectFiles,[safe](const juce::FileChooser& c){
-            if(safe==nullptr||c.getResult()==juce::File{})return;
-            juce::MemoryBlock bytes;const auto file=c.getResult();
-            if(file.getSize()>64*1024*1024||!file.loadFileAsData(bytes)){safe->show(juce::Result::fail("Cannot read preset file."),{});return;}
-            auto xml=juce::AudioProcessor::getXmlFromBinary(bytes.getData(),int(bytes.getSize()));
-            if(!xml||!xml->hasTagName("PARAMETERS")){safe->show(juce::Result::fail("This is not a Space Infinity preset."),{});return;}
-            juce::String key;safe->show(safe->processor.presetBank().add(file.getFileNameWithoutExtension(),bytes,key),"Imported preset.");safe->list.selectRow(safe->processor.presetBank().indexForKey(key));
-        });
-    }
+class PresetPanel final:public juce::Component,private juce::ListBoxModel {
+    SpaceInfinityProcessor& p;std::function<void()> changed;juce::ListBox list{"Preset bank",this};juce::TextEditor name,creator,tags,search;juce::ComboBox tagFilter;juce::Slider blend;juce::Label message,blendLabel;std::array<juce::Label,3> labels;std::array<juce::TextButton,15> actions;std::unique_ptr<juce::FileChooser> chooser;std::vector<int> visible;int selected=-1;juce::String parentA,parentB;
+    static bool hasTag(const juce::String& tags,const juce::String& filter){auto t=juce::StringArray::fromTokens(tags,",","");t.trim();return t.contains(filter,true);}
+    int getNumRows()override{return int(visible.size());}
+    void rebuild(){const auto key=p.selectedPresetKey();visible.clear();const auto filter=tagFilter.getSelectedId()>1?tagFilter.getText():juce::String{},query=search.getText().trim();const auto& bank=p.presetBank().entries();for(size_t i=0;i<bank.size();++i){const auto& e=bank[i];const auto hay=e.name+" "+e.category+" "+e.creator+" "+e.tags;if((filter.isEmpty()||hasTag(e.tags+","+e.category,filter))&&(query.isEmpty()||hay.containsIgnoreCase(query)))visible.push_back(int(i));}list.updateContent();list.repaint();const int index=p.presetBank().indexForKey(key);for(size_t i=0;i<visible.size();++i)if(visible[i]==index){list.selectRow(int(i));break;}}
+    void filters(){const auto current=tagFilter.getText();juce::StringArray values;for(const auto& e:p.presetBank().entries()){auto t=juce::StringArray::fromTokens(e.tags+","+e.category,",","");t.trim();t.removeEmptyStrings();values.addArray(t);}values.removeDuplicates(true);values.sort(true);tagFilter.clear(juce::dontSendNotification);tagFilter.addItem("All tags",1);for(int i=0;i<values.size();++i)tagFilter.addItem(values[i],i+2);const int previous=values.indexOf(current);tagFilter.setSelectedId(previous>=0?previous+2:1,juce::dontSendNotification);}
+    void metadata(){p.state.state.setProperty("presetDisplayName",name.getText().trim().substring(0,64),nullptr);p.state.state.setProperty("creator",creator.getText().trim().substring(0,64),nullptr);p.state.state.setProperty("tags",tags.getText().trim().substring(0,512),nullptr);}
+    void show(const juce::Result& result,const juce::String& success){message.setText(result.wasOk()?success:result.getErrorMessage(),juce::dontSendNotification);if(result.wasOk()){filters();rebuild();if(changed)changed();}}
+    void selectedRowsChanged(int row)override{selected=row>=0&&row<int(visible.size())?visible[size_t(row)]:-1;if(selected<0)return;const auto& e=p.presetBank().entries()[size_t(selected)];name.setText(e.name,false);creator.setText(e.creator,false);tags.setText(e.tags,false);}
+    void listBoxItemDoubleClicked(int row,const juce::MouseEvent&)override{if(row<0||row>=int(visible.size()))return;show(p.loadBankPreset(visible[size_t(row)]),"Loaded. Edit your sound, then Replace to update this slot.");}
+    void paintListBoxItem(int row,juce::Graphics& g,int width,int height,bool chosen)override{if(row<0||row>=int(visible.size()))return;const auto& e=p.presetBank().entries()[size_t(visible[size_t(row)])];if(chosen)g.fillAll(juce::Colour(0xff53276c));g.setFont(12);g.setColour(juce::Colour(0xfff0e9f7));g.drawText(e.name+(e.factory>=0&&e.file.isNotEmpty()?"  * EDITED":""),8,1,width-200,18,juce::Justification::centredLeft);g.setFont(10);g.setColour(juce::Colour(0xff91d9d6));g.drawText(e.creator+"  |  "+e.tags,8,19,width-20,height-19,juce::Justification::centredLeft);g.setColour(juce::Colour(0xffc1a8ce));g.drawText(e.category,width-190,1,180,18,juce::Justification::centredRight);}
+    void saveAs(bool edits){metadata();auto filename=juce::File::createLegalFileName(name.getText().trim());if(filename.isEmpty())filename="Untitled";chooser=std::make_unique<juce::FileChooser>(edits?"Export factory replacements ZIP":"Save preset as",p.presetExportFolder().getChildFile(edits?"SPACE_INFINITY_Factory_Edits.zip":filename+".sipreset"),edits?"*.zip":"*.sipreset");juce::Component::SafePointer<PresetPanel> safe(this);chooser->launchAsync(juce::FileBrowserComponent::saveMode|juce::FileBrowserComponent::canSelectFiles|juce::FileBrowserComponent::warnAboutOverwriting,[safe,edits](const juce::FileChooser& c){if(!safe||c.getResult()==juce::File{})return;auto file=c.getResult().withFileExtension(edits?"zip":"sipreset");const auto result=edits?safe->p.presetBank().exportEdits(file):safe->p.exportPreset(file,true);safe->message.setText(result.failed()?result.getErrorMessage():juce::String(edits?"Exported all factory replacements with creator/tags. Upload this ZIP for the finished bank.":"Saved portable preset."),juce::dontSendNotification);});}
+    void importPreset(){chooser=std::make_unique<juce::FileChooser>("Import preset",juce::File{},"*.sipreset");juce::Component::SafePointer<PresetPanel> safe(this);chooser->launchAsync(juce::FileBrowserComponent::openMode|juce::FileBrowserComponent::canSelectFiles,[safe](const juce::FileChooser& c){if(!safe||c.getResult()==juce::File{})return;const auto file=c.getResult();juce::MemoryBlock bytes;if(file.getSize()>64*1024*1024||!file.loadFileAsData(bytes)){safe->show(juce::Result::fail("Cannot read preset."),{});return;}auto xml=juce::AudioProcessor::getXmlFromBinary(bytes.getData(),int(bytes.getSize()));if(!xml||!xml->hasTagName("PARAMETERS")){safe->show(juce::Result::fail("Not a Space Infinity preset."),{});return;}juce::String key;safe->show(safe->p.presetBank().add(file.getFileNameWithoutExtension(),bytes,key),"Imported preset, including creator and tags.");});}
 public:
-    PresetPanel(SpaceInfinityProcessor& p,std::function<void()> callback):processor(p),changed(std::move(callback)){
-        setSize(710,465);addAndMakeVisible(list);list.setRowHeight(25);list.setColour(juce::ListBox::backgroundColourId,juce::Colour(0xff161a1d));
-        name.setTextToShowWhenEmpty("Enter a preset name",juce::Colours::grey);name.setInputRestrictions(64);addAndMakeVisible(name);addAndMakeVisible(message);
-        const char* labels[]{"SAVE NEW","SAVE AS...","REPLACE","RENAME","DELETE","MOVE UP","MOVE DOWN","A–Z","RESTORE FACTORY","REFRESH","IMPORT"};
-        for(size_t i=0;i<actions.size();++i){actions[i].setButtonText(labels[i]);addAndMakeVisible(actions[i]);}
-        actions[0].onClick=[this]{add();};actions[1].onClick=[this]{saveAs();};
-        actions[1].setTooltip("Save the current sound, including samples and wavetables, to a folder and filename you choose.");
-        actions[2].onClick=[this]{show(processor.replaceBankPreset(selected),"Replaced selected user preset with the current sound.");};
-        actions[3].onClick=[this]{show(processor.presetBank().rename(selected,name.getText()),"Preset renamed.");};
-        actions[4].onClick=[this]{remove();};actions[5].onClick=[this]{move(-1);};actions[6].onClick=[this]{move(1);};
-        actions[7].onClick=[this]{show(processor.presetBank().sortByName(),"Presets sorted A-Z.");list.selectRow(processor.presetBank().indexForKey(processor.selectedPresetKey()));};
-        actions[8].onClick=[this]{show(processor.presetBank().restoreFactory(),"Factory bank restored. User presets retained.");};
-        actions[9].onClick=[this]{refresh();};actions[10].onClick=[this]{importPreset();};
-        message.setColour(juce::Label::textColourId,juce::Colour(0xffd2c7b2));
-        message.setText("Save New adds to your bank. Save As saves to any folder. Import adds a saved file to the browser.",juce::dontSendNotification);
-        list.selectRow(processor.presetBank().indexForKey(processor.selectedPresetKey()));
-    }
-    void paint(juce::Graphics& g) override {g.fillAll(juce::Colour(0xff252b31));}
-    void resized() override {
-        list.setBounds(12,12,686,270);name.setBounds(12,294,686,27);
-        for(int i=0;i<11;++i){const bool primary=i<5;const int column=primary?i:i-5,cell=primary?138:115;actions[size_t(i)].setBounds(12+column*cell,primary?332:368,cell-8,29);}
-        message.setBounds(12,408,686,48);
-    }
+    PresetPanel(SpaceInfinityProcessor& processor,std::function<void()> callback):p(processor),changed(std::move(callback)){setSize(740,600);addAndMakeVisible(list);list.setRowHeight(38);list.setColour(juce::ListBox::backgroundColourId,juce::Colour(0xff11131a));for(auto* e:{&name,&creator,&tags,&search})addAndMakeVisible(*e);name.setInputRestrictions(64);creator.setInputRestrictions(64);tags.setInputRestrictions(512);search.setTextToShowWhenEmpty("Search names, creators or tags",juce::Colours::grey);creator.setTextToShowWhenEmpty("Preset creator's name",juce::Colours::grey);tags.setTextToShowWhenEmpty("Your tags, separated by commas",juce::Colours::grey);const char* captions[]{"NAME","CREATOR","TAGS"};for(int i=0;i<3;++i){labels[size_t(i)].setText(captions[i],juce::dontSendNotification);addAndMakeVisible(labels[size_t(i)]);}addAndMakeVisible(tagFilter);tagFilter.setName("Preset tags");tagFilter.onChange=[this]{rebuild();};search.onTextChange=[this]{rebuild();};filters();
+        const char* names[]{"SAVE NEW","SAVE AS...","REPLACE","SAVE DETAILS","DELETE","MOVE UP","MOVE DOWN","A-Z","RESTORE FACTORY","REFRESH","IMPORT","PARENT A","PARENT B","HYBRIDISE","EXPORT EDITS ZIP"};for(int i=0;i<15;++i){actions[size_t(i)].setButtonText(names[i]);addAndMakeVisible(actions[size_t(i)]);}
+        actions[0].onClick=[this]{metadata();show(p.saveNewPreset(name.getText()),"Saved new sound with creator and tags.");};actions[1].onClick=[this]{saveAs(false);};actions[2].setTooltip("Replace the selected factory or user slot with your current sound. Previous edits are backed up; Init remains the reset sound.");actions[2].onClick=[this]{metadata();show(p.replaceBankPreset(selected),"Saved replacement. Factory edits are local until you export them for the release bank.");};actions[3].onClick=[this]{auto r=p.presetBank().updateDetails(selected,name.getText(),creator.getText(),tags.getText());if(r.wasOk()&&selected==p.presetBank().indexForKey(p.selectedPresetKey())){metadata();p.state.state.setProperty("presetDisplayName",name.getText().trim(),nullptr);}show(r,"Saved name, creator and tags. Sound settings preserved.");};actions[4].onClick=[this]{show(p.presetBank().remove(selected),"Removed. Saved versions remain in backup folders.");};for(int i=5;i<7;++i)actions[size_t(i)].onClick=[this,i]{show(p.presetBank().move(selected,i==5?-1:1),"Moved preset.");};actions[7].onClick=[this]{show(p.presetBank().sortByName(),"Sorted.");};actions[8].onClick=[this]{show(p.presetBank().restoreFactory(),"Restored shipped factory bank. User presets and previous files retained.");};actions[9].onClick=[this]{show(p.presetBank().reload(),"Refreshed bank.");};actions[10].onClick=[this]{importPreset();};for(int i=11;i<13;++i)actions[size_t(i)].onClick=[this,i]{if(selected<0)return;const auto& e=p.presetBank().entries()[size_t(selected)];(i==11?parentA:parentB)=e.key;message.setText(juce::String(i==11?"Parent A: ":"Parent B: ")+e.name,juce::dontSendNotification);};actions[13].onClick=[this]{const auto author=creator.getText();auto result=p.hybridisePresets(p.presetBank().indexForKey(parentA),p.presetBank().indexForKey(parentB),float(blend.getValue()));if(result.wasOk()){name.setText(p.state.state.getProperty("presetDisplayName").toString(),false);creator.setText(author,false);tags.setText(p.state.state.getProperty("tags").toString(),false);metadata();}show(result,"Hybrid ready to preview. Parent A retains sample/wavetable assets; filter/envelope/FX are blended. Save New to keep it.");};actions[14].onClick=[this]{saveAs(true);};blend.setRange(0,1,.01);blend.setValue(.5);blend.setSliderStyle(juce::Slider::LinearHorizontal);blend.setTextBoxStyle(juce::Slider::TextBoxRight,false,55,22);blend.textFromValueFunction=[](double v){return juce::String(v*100,0)+"% B";};blend.updateText();blendLabel.setText("HYBRID A / B",juce::dontSendNotification);addAndMakeVisible(blend);addAndMakeVisible(blendLabel);addAndMakeVisible(message);message.setFont(11);message.setText("Double-click to load. Replace saves the current sound into the selected slot. Add your own creator and tags.",juce::dontSendNotification);rebuild();}
+    void paint(juce::Graphics& g)override{g.fillAll(juce::Colour(0xff211a2c));}
+    void resized()override{const int width=getWidth()-24,listHeight=juce::jmax(95,getHeight()-340);tagFilter.setBounds(12,10,165,26);search.setBounds(185,10,width-173,26);list.setBounds(12,43,width,listHeight);int y=50+listHeight;std::array<juce::TextEditor*,3> editors{&name,&creator,&tags};for(int i=0;i<3;++i){labels[size_t(i)].setBounds(12,y,75,24);editors[size_t(i)]->setBounds(90,y,width-78,24);y+=28;}blendLabel.setBounds(12,y,120,25);blend.setBounds(130,y,width-118,25);y+=30;for(int i=0;i<15;++i)actions[size_t(i)].setBounds(12+(i%5)*width/5,y+(i/5)*31,width/5-5,27);message.setBounds(12,y+96,width,58);}
 };
