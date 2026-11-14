@@ -1,4 +1,4 @@
-# SPACE INFINITY 0.6.2 preset catalogue
+# SPACE INFINITY 0.6.3 preset catalogue
 
 160 authored musical presets plus Init. Track references indicate inspiration, not extracted original patches. Bass sounds follow customer MIDI.
 
@@ -6,51 +6,51 @@
 
 | Preset | Reference / role | Tags |
 |---|---|---|
-| Tunnel Knock | Cocooma - District of Power | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
-| Reptile Rubber | Mauro Picotto - Lizard | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
-| Gate Impact | Cosmic Gate - Exploration of Space | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
-| Yellow Reactor | Cocooma - The Yellow Base | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
-| Ocean Hammer | Cosmic Gate - Melt to the Ocean | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
-| District Vowel | Cocooma - District of Power | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
-| Razor Offbeat | Hennes & Cold - The Second Trip | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
-| Steel Bounce | Scot Project - U | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
-| Velvet Punch | Kai Tracid - Liquid Skies | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
-| Octane Kickback | DJ Scot Project - O | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
-| Power Fifth | Cocooma - Rage | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
-| Foundry Bite | Gary D. - Kinetic Pressure | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
-| Cathedral Thud | Jones & Stephenson - The First Rebirth | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
-| Acid Anchor | Hardfloor - Acperience 1 | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
-| Warm Concrete | Legend B - Lost in Love | Offbeat Bass Stabs, Bass, Unsequenced, Offbeat, Punchy |
+| Tunnel Knock | Cocooma - District of Power | Offbeat Bass Stabs, Bass, Unsequenced, Mono, Saw / octave punch |
+| Reptile Rubber | Mauro Picotto - Lizard | Offbeat Bass Stabs, Bass, Unsequenced, Mono, Rubber pulse |
+| Gate Impact | Cosmic Gate - Exploration of Space | Offbeat Bass Stabs, Bass, Unsequenced, Mono, FM knock |
+| Yellow Reactor | Cocooma - The Yellow Base | Offbeat Bass Stabs, Bass, Unsequenced, Mono, Detuned saw body |
+| Ocean Hammer | Cosmic Gate - Melt to the Ocean | Offbeat Bass Stabs, Bass, Unsequenced, Mono, Octave weight |
+| District Vowel | Cocooma - District of Power | Offbeat Bass Stabs, Bass, Unsequenced, Mono, Vocal pulse |
+| Razor Offbeat | Hennes & Cold - The Second Trip | Offbeat Bass Stabs, Bass, Unsequenced, Mono, Driven razor |
+| Steel Bounce | Scot Project - U | Offbeat Bass Stabs, Bass, Unsequenced, Mono, Metallic bounce |
+| Velvet Punch | Kai Tracid - Liquid Skies | Offbeat Bass Stabs, Bass, Unsequenced, Mono, Rounded triangle |
+| Octane Kickback | DJ Scot Project - O | Offbeat Bass Stabs, Bass, Unsequenced, Mono, Octave snap |
+| Power Fifth | Cocooma - Rage | Offbeat Bass Stabs, Bass, Unsequenced, Mono, Fifth body |
+| Foundry Bite | Gary D. - Kinetic Pressure | Offbeat Bass Stabs, Bass, Unsequenced, Mono, FM steel |
+| Cathedral Thud | Jones & Stephenson - The First Rebirth | Offbeat Bass Stabs, Bass, Unsequenced, Mono, Drawbar weight |
+| Acid Anchor | Hardfloor - Acperience 1 | Offbeat Bass Stabs, Bass, Unsequenced, Mono, Resonant acid body |
+| Warm Concrete | Legend B - Lost in Love | Offbeat Bass Stabs, Bass, Unsequenced, Mono, Warm low-pass |
 
 ## Sub Bass Stabs (5)
 
 | Preset | Reference / role | Tags |
 |---|---|---|
-| Sine Foundation | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Bass, Unsequenced, Clean, Sub |
-| Triangle Pressure | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Bass, Unsequenced, Clean, Sub |
-| Filtered Pulse Sub | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Bass, Unsequenced, Clean, Sub |
-| Velvet FM Sub | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Bass, Unsequenced, Clean, Sub |
-| Octave Undertow | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Bass, Unsequenced, Clean, Sub |
+| Sine Foundation | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Bass, Unsequenced, Mono, Pure foundation |
+| Triangle Pressure | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Bass, Unsequenced, Mono, Triangle warmth |
+| Filtered Pulse Sub | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Bass, Unsequenced, Mono, Filtered pulse weight |
+| Velvet FM Sub | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Bass, Unsequenced, Mono, FM harmonic sub |
+| Octave Undertow | Classic trance sine/triangle sub foundations | Sub Bass Stabs, Bass, Unsequenced, Mono, Octave sine body |
 
 ## Rolling Bass (15)
 
 | Preset | Reference / role | Tags |
 |---|---|---|
-| Sixteenth Engine | Astrix - Deep Jungle Walk | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
-| Binary Runner | Paul van Dyk - For an Angel | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
-| FM Rail | Cosmic Gate - The Drums | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
-| Reed Motor | Mauro Picotto - Iguana | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
-| Rounded Momentum | System F - Out of the Blue | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
-| Vocal Runner | Mauro Picotto - Komodo | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
-| Needle Motion | Scot Project - F | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
-| Sync Conveyor | Cocooma - Energetic | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
-| Triangle Circuit | Kai Tracid - Your Own Reality | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
-| Octave Rotor | Cosmic Gate - Fire Wire | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
-| Fifth Locomotion | Cocooma - Virtual Experience | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
-| Metal Pursuit | Cocooma - Flying Saucer | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
-| Drawbar Roller | BBE - Seven Days and One Week | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
-| Acid Tread | Emmanuel Top - Acid Phase | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
-| Dark Flywheel | Push - Universal Nation | Rolling Bass, Bass, Unsequenced, Tight, Rolling |
+| Sixteenth Engine | Astrix - Deep Jungle Walk | Rolling Bass, Bass, Unsequenced, Mono, Saw / octave punch |
+| Binary Runner | Paul van Dyk - For an Angel | Rolling Bass, Bass, Unsequenced, Mono, Rubber pulse |
+| FM Rail | Cosmic Gate - The Drums | Rolling Bass, Bass, Unsequenced, Mono, FM knock |
+| Reed Motor | Mauro Picotto - Iguana | Rolling Bass, Bass, Unsequenced, Mono, Detuned saw body |
+| Rounded Momentum | System F - Out of the Blue | Rolling Bass, Bass, Unsequenced, Mono, Octave weight |
+| Vocal Runner | Mauro Picotto - Komodo | Rolling Bass, Bass, Unsequenced, Mono, Vocal pulse |
+| Needle Motion | Scot Project - F | Rolling Bass, Bass, Unsequenced, Mono, Driven razor |
+| Sync Conveyor | Cocooma - Energetic | Rolling Bass, Bass, Unsequenced, Mono, Metallic bounce |
+| Triangle Circuit | Kai Tracid - Your Own Reality | Rolling Bass, Bass, Unsequenced, Mono, Rounded triangle |
+| Octave Rotor | Cosmic Gate - Fire Wire | Rolling Bass, Bass, Unsequenced, Mono, Octave snap |
+| Fifth Locomotion | Cocooma - Virtual Experience | Rolling Bass, Bass, Unsequenced, Mono, Fifth body |
+| Metal Pursuit | Cocooma - Flying Saucer | Rolling Bass, Bass, Unsequenced, Mono, FM steel |
+| Drawbar Roller | BBE - Seven Days and One Week | Rolling Bass, Bass, Unsequenced, Mono, Drawbar weight |
+| Acid Tread | Emmanuel Top - Acid Phase | Rolling Bass, Bass, Unsequenced, Mono, Resonant acid body |
+| Dark Flywheel | Push - Universal Nation | Rolling Bass, Bass, Unsequenced, Mono, Warm low-pass |
 
 ## Uplifting Leads (10)
 

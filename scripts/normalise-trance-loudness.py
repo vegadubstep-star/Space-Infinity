@@ -3,7 +3,7 @@
 import argparse,concurrent.futures,json,math,subprocess
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]
-parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('profile',type=Path);parser.add_argument('auditions',type=Path);parser.add_argument('--target-lufs',type=float,default=-28);parser.add_argument('--headroom-profile',type=Path);args=parser.parse_args()
+parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('profile',type=Path);parser.add_argument('auditions',type=Path);parser.add_argument('--target-lufs',type=float,default=-28);parser.add_argument('--headroom-profile',type=Path);parser.add_argument('--category',action='append',help='Only recalibrate these categories; preserve all other existing rows.');args=parser.parse_args()
 bank=json.loads((root/'native-vst3/Presets/TranceFactoryBank.json').read_text());profile={r['name']:r for r in json.loads(args.profile.read_text())}
 headroom={r['name']:r for r in json.loads(args.headroom_profile.read_text())} if args.headroom_profile else profile
 def measure(p):
@@ -12,5 +12,9 @@ def measure(p):
  if not math.isfinite(loudness):raise ValueError('Silent or invalid audition: '+p['name'])
  trim=profile[p["name"]].get("preset_trim",0)+min(args.target_lufs-loudness,20*math.log10(.78/max(peak,1e-8)))
  return dict(id=p['id'],name=p['name'],design_hash=p['design_hash'],input_lufs=loudness,presetTrim=round(max(-24,min(24,trim)),5),raw_peak=peak)
-with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:rows=list(pool.map(measure,bank['presets']))
-(root/'scripts/trance-bank-loudness.json').write_text(json.dumps(rows,indent=2)+'\n');print('Measured',len(rows),'presets. Regenerate bank with design-trance-bank.py, rebuild and verify rendered loudness/headroom.')
+selected=[p for p in bank['presets'] if not args.category or p['category'] in args.category]
+with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:measured=list(pool.map(measure,selected))
+if args.category:
+ existing={r['id']:r for r in json.loads((root/'scripts/trance-bank-loudness.json').read_text())};existing.update({r['id']:r for r in measured});rows=[existing[p['id']] for p in bank['presets']]
+else:rows=measured
+(root/'scripts/trance-bank-loudness.json').write_text(json.dumps(rows,indent=2)+'\n');print('Measured',len(measured),'presets. Regenerate bank with design-trance-bank.py, rebuild and verify rendered loudness/headroom.')

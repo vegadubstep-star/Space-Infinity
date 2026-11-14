@@ -1,0 +1,9 @@
+# Bass voicing validation — 0.6.3
+
+All35 basses revised;125 other preset settings, trims and macro assignments match0.6.2 exactly. Native19/19 suites and Python importer passed. The added bass suite checks actual output for mono compatibility, body after the attack, release to silence, twelve retriggers and raw headroom at four full-velocity registers (MIDI36/43/48/55). MIDI pass-through checks accept the incoming notes at nonzero offsets and reject extra noteOns; the engine's internal patternMidi buffer also carries incoming MIDI.
+
+Final maximum raw register/groove peak: 0.6155660. Individual results are in BASS_HEADROOM_063.json. Bass held-note auditions measure -28.11..-27.96 LUFS. The complete160 bank remains within1.82LU, with maximum raw chord peak0.7800004 (TRANCE_LOUDNESS_063.json). The five sub fundamentals were measured near41.2Hz at MIDI40, matching their intentional octave-down register (BASS_SUB_ROOTS_063.json).
+
+Final35 bass auditions and160 merged solo/chord reports: /workspace/work/levels-063-final-{bass,solo,chord}. Unchanged125 auditions are reused from the verified0.6.2 bank. Same-MIDI old/new bassline WAVs, four-register profiles and the eight-patch preview are in /workspace/work/bass-063-final. Offbeat demos use quarter-spaced notes on the eighth-note offbeats; rolling demos use16ths. Presets themselves remain unsequenced. Preview clips use constant audition gain and40ms end fades; no added effects or compression.
+
+Timbres were authored around distinct source, octave, FM/PWM, filter, envelope and saturation roles. Engineering checks establish correct playback and levels, not subjective perfection or exact artist-patch reproduction. Owner listening in FL Studio is the next evaluation. Windows publication additionally requires the full19 suites, install/uninstall checks and downloaded-release byte verification.

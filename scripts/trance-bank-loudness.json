@@ -2,282 +2,282 @@
   {
     "id": "TI001",
     "name": "Tunnel Knock",
-    "design_hash": "312ec80f3fdc5db7",
-    "input_lufs": -29.0,
-    "presetTrim": 8.57,
-    "raw_peak": 0.365547001361847
+    "design_hash": "b748044acaf0dfb4",
+    "input_lufs": -37.39,
+    "presetTrim": 9.39,
+    "raw_peak": 0.138940081000328
   },
   {
     "id": "TI002",
     "name": "Reptile Rubber",
-    "design_hash": "6c6ee00d11da0eef",
-    "input_lufs": -27.62,
-    "presetTrim": 3.26,
-    "raw_peak": 0.312225580215454
+    "design_hash": "f2e4a8c5f5e78934",
+    "input_lufs": -34.24,
+    "presetTrim": 6.24,
+    "raw_peak": 0.140039250254631
   },
   {
     "id": "TI003",
     "name": "Gate Impact",
-    "design_hash": "e56aaf2abb59b8c2",
-    "input_lufs": -28.07,
-    "presetTrim": 5.71,
-    "raw_peak": 0.210017338395119
+    "design_hash": "07a8a12f6eed5ff0",
+    "input_lufs": -30.0,
+    "presetTrim": 2.0,
+    "raw_peak": 0.183063089847565
   },
   {
     "id": "TI004",
     "name": "Yellow Reactor",
-    "design_hash": "916bec770b889e63",
-    "input_lufs": -28.23,
-    "presetTrim": 5.71,
-    "raw_peak": 0.245949596166611
+    "design_hash": "a2c47cfe59b7f59d",
+    "input_lufs": -36.85,
+    "presetTrim": 8.85,
+    "raw_peak": 0.22221565246582
   },
   {
     "id": "TI005",
     "name": "Ocean Hammer",
-    "design_hash": "9ed47b4ad4d78fae",
-    "input_lufs": -29.01,
-    "presetTrim": 8.73,
-    "raw_peak": 0.414880901575089
+    "design_hash": "931ff79a1df9af50",
+    "input_lufs": -33.87,
+    "presetTrim": 5.87,
+    "raw_peak": 0.199015125632286
   },
   {
     "id": "TI006",
     "name": "District Vowel",
-    "design_hash": "1547b74f28f8a6a8",
-    "input_lufs": -28.11,
-    "presetTrim": 4.78,
-    "raw_peak": 0.324510365724564
+    "design_hash": "c3c73a9ed20fabe2",
+    "input_lufs": -29.46,
+    "presetTrim": 1.46,
+    "raw_peak": 0.306543797254562
   },
   {
     "id": "TI007",
     "name": "Razor Offbeat",
-    "design_hash": "a81517340177011c",
-    "input_lufs": -29.08,
-    "presetTrim": 2.3,
-    "raw_peak": 0.327847301959991
+    "design_hash": "db37d2196c201206",
+    "input_lufs": -22.19,
+    "presetTrim": -5.81,
+    "raw_peak": 0.408257573843002
   },
   {
     "id": "TI008",
     "name": "Steel Bounce",
-    "design_hash": "50b9bdebad4c4fc1",
-    "input_lufs": -29.09,
-    "presetTrim": 9.91,
-    "raw_peak": 0.39327546954155
+    "design_hash": "f1dc862400d58b05",
+    "input_lufs": -32.82,
+    "presetTrim": 4.82,
+    "raw_peak": 0.252889841794968
   },
   {
     "id": "TI009",
     "name": "Velvet Punch",
-    "design_hash": "c97eb621ecf82548",
-    "input_lufs": -28.88,
-    "presetTrim": 6.95,
-    "raw_peak": 0.170328736305237
+    "design_hash": "42c156321279e86c",
+    "input_lufs": -29.97,
+    "presetTrim": 1.97,
+    "raw_peak": 0.117128245532513
   },
   {
     "id": "TI010",
     "name": "Octane Kickback",
-    "design_hash": "ebdca5ca038e8e47",
-    "input_lufs": -27.97,
-    "presetTrim": 4.14,
-    "raw_peak": 0.304598242044449
+    "design_hash": "a4fd466a3c86fcc0",
+    "input_lufs": -29.69,
+    "presetTrim": 1.69,
+    "raw_peak": 0.205228254199028
   },
   {
     "id": "TI011",
     "name": "Power Fifth",
-    "design_hash": "0eff58165af64914",
-    "input_lufs": -29.04,
-    "presetTrim": 8.96,
-    "raw_peak": 0.367534816265106
+    "design_hash": "9e46e60208b4445e",
+    "input_lufs": -34.97,
+    "presetTrim": 6.97,
+    "raw_peak": 0.267608731985092
   },
   {
     "id": "TI012",
     "name": "Foundry Bite",
-    "design_hash": "849a0d0e0cb9a6d9",
-    "input_lufs": -29.18,
-    "presetTrim": 3.38,
-    "raw_peak": 0.436598062515259
+    "design_hash": "201f4d0587b8a0e6",
+    "input_lufs": -29.27,
+    "presetTrim": 1.27,
+    "raw_peak": 0.279800295829773
   },
   {
     "id": "TI013",
     "name": "Cathedral Thud",
-    "design_hash": "00cded0617df7c19",
-    "input_lufs": -28.6,
-    "presetTrim": 6.64,
-    "raw_peak": 0.197204902768135
+    "design_hash": "b3bc34768d4dcb43",
+    "input_lufs": -33.53,
+    "presetTrim": 5.53,
+    "raw_peak": 0.138841658830643
   },
   {
     "id": "TI014",
     "name": "Acid Anchor",
-    "design_hash": "be91c1fa9b79033b",
-    "input_lufs": -29.29,
-    "presetTrim": 5.06,
-    "raw_peak": 0.301117599010468
+    "design_hash": "a34b91a81625e5b9",
+    "input_lufs": -29.08,
+    "presetTrim": 1.08,
+    "raw_peak": 0.290029466152191
   },
   {
     "id": "TI015",
     "name": "Warm Concrete",
-    "design_hash": "8b8da96464537dc3",
-    "input_lufs": -28.31,
-    "presetTrim": 4.99,
-    "raw_peak": 0.231208637356758
+    "design_hash": "707dba2b1f37b657",
+    "input_lufs": -35.99,
+    "presetTrim": 7.99,
+    "raw_peak": 0.074132718145847
   },
   {
     "id": "TI016",
     "name": "Sine Foundation",
-    "design_hash": "53603bb1c2fb20a4",
-    "input_lufs": -28.01,
-    "presetTrim": 7.14,
-    "raw_peak": 0.155418395996094
+    "design_hash": "65a86e6d6569be97",
+    "input_lufs": -31.95,
+    "presetTrim": 3.95,
+    "raw_peak": 0.102155707776546
   },
   {
     "id": "TI017",
     "name": "Triangle Pressure",
-    "design_hash": "e1dc2868c9a55eff",
-    "input_lufs": -28.01,
-    "presetTrim": 10.21,
-    "raw_peak": 0.219482958316803
+    "design_hash": "7d5b91c59df77975",
+    "input_lufs": -36.94,
+    "presetTrim": 8.94,
+    "raw_peak": 0.075373560190201
   },
   {
     "id": "TI018",
     "name": "Filtered Pulse Sub",
-    "design_hash": "a20b945ae29039d8",
-    "input_lufs": -28.02,
-    "presetTrim": 4.43,
-    "raw_peak": 0.18225921690464
+    "design_hash": "a636721fc713c578",
+    "input_lufs": -30.43,
+    "presetTrim": 2.43,
+    "raw_peak": 0.174151733517647
   },
   {
     "id": "TI019",
     "name": "Velvet FM Sub",
-    "design_hash": "4043d3ea71341711",
-    "input_lufs": -28.01,
-    "presetTrim": 6.02,
-    "raw_peak": 0.166971057653427
+    "design_hash": "4d0e6283a3cf6015",
+    "input_lufs": -31.69,
+    "presetTrim": 3.69,
+    "raw_peak": 0.148901030421257
   },
   {
     "id": "TI020",
     "name": "Octave Undertow",
-    "design_hash": "1c6fece6f7a076fe",
-    "input_lufs": -28.02,
-    "presetTrim": 8.05,
-    "raw_peak": 0.176610171794891
+    "design_hash": "8618312a098d991a",
+    "input_lufs": -33.42,
+    "presetTrim": 5.42,
+    "raw_peak": 0.098479889333248
   },
   {
     "id": "TI021",
     "name": "Sixteenth Engine",
-    "design_hash": "9ee0c54f4a0037bf",
-    "input_lufs": -29.16,
-    "presetTrim": 15.02,
-    "raw_peak": 0.583553433418274
+    "design_hash": "18ad3c91ede0bea2",
+    "input_lufs": -35.76,
+    "presetTrim": 7.76,
+    "raw_peak": 0.157450780272484
   },
   {
     "id": "TI022",
     "name": "Binary Runner",
-    "design_hash": "4f8181bab4a7b79e",
-    "input_lufs": -28.0,
-    "presetTrim": 9.71,
-    "raw_peak": 0.521433115005493
+    "design_hash": "2155bbe35b386dd6",
+    "input_lufs": -33.71,
+    "presetTrim": 5.71,
+    "raw_peak": 0.130356967449188
   },
   {
     "id": "TI023",
     "name": "FM Rail",
-    "design_hash": "70de56934d97b969",
-    "input_lufs": -28.17,
-    "presetTrim": 11.49,
-    "raw_peak": 0.317685037851334
+    "design_hash": "349978997a0a3def",
+    "input_lufs": -26.6,
+    "presetTrim": -1.4,
+    "raw_peak": 0.186396181583405
   },
   {
     "id": "TI024",
     "name": "Reed Motor",
-    "design_hash": "89f2bfddea4df848",
-    "input_lufs": -28.27,
-    "presetTrim": 10.17,
-    "raw_peak": 0.369150280952454
+    "design_hash": "8e6004a3c09d072e",
+    "input_lufs": -39.77,
+    "presetTrim": 11.77,
+    "raw_peak": 0.089448250830173
   },
   {
     "id": "TI025",
     "name": "Rounded Momentum",
-    "design_hash": "ea368024b6bd69b4",
-    "input_lufs": -28.66,
-    "presetTrim": 12.29,
-    "raw_peak": 0.330926924943924
+    "design_hash": "172e7ee4f1f59290",
+    "input_lufs": -32.47,
+    "presetTrim": 4.47,
+    "raw_peak": 0.159508585929871
   },
   {
     "id": "TI026",
     "name": "Vocal Runner",
-    "design_hash": "1d2dbe9d02eed326",
+    "design_hash": "50aeb920c1bdae17",
     "input_lufs": -27.99,
-    "presetTrim": 10.07,
-    "raw_peak": 0.536330938339233
+    "presetTrim": -0.01,
+    "raw_peak": 0.284284442663193
   },
   {
     "id": "TI027",
     "name": "Needle Motion",
-    "design_hash": "cd42c37461729868",
-    "input_lufs": -28.6,
-    "presetTrim": 13.76,
-    "raw_peak": 0.337160050868988
+    "design_hash": "899242814ac7b0af",
+    "input_lufs": -23.44,
+    "presetTrim": -4.56,
+    "raw_peak": 0.29150864481926
   },
   {
     "id": "TI028",
     "name": "Sync Conveyor",
-    "design_hash": "1e678cb000d03403",
-    "input_lufs": -29.26,
-    "presetTrim": 14.54,
-    "raw_peak": 0.540696501731873
+    "design_hash": "3c5d057d7290916c",
+    "input_lufs": -33.69,
+    "presetTrim": 5.69,
+    "raw_peak": 0.185727745294571
   },
   {
     "id": "TI029",
     "name": "Triangle Circuit",
-    "design_hash": "fa1eb62902962a54",
-    "input_lufs": -28.9,
-    "presetTrim": 11.98,
-    "raw_peak": 0.257451474666595
+    "design_hash": "251cc4507fb32c41",
+    "input_lufs": -30.01,
+    "presetTrim": 2.01,
+    "raw_peak": 0.106431297957897
   },
   {
     "id": "TI030",
     "name": "Octave Rotor",
-    "design_hash": "264ed5a6e63c0bb8",
-    "input_lufs": -29.27,
-    "presetTrim": 14.21,
-    "raw_peak": 0.513849258422852
+    "design_hash": "0a7c9cfcd10db2fd",
+    "input_lufs": -28.49,
+    "presetTrim": 0.49,
+    "raw_peak": 0.206654295325279
   },
   {
     "id": "TI031",
     "name": "Fifth Locomotion",
-    "design_hash": "cb1fb346ae3d9e1f",
-    "input_lufs": -28.2,
-    "presetTrim": 11.33,
-    "raw_peak": 0.380947470664978
+    "design_hash": "d0766a1dc5bf9ee0",
+    "input_lufs": -32.69,
+    "presetTrim": 4.69,
+    "raw_peak": 0.277393072843552
   },
   {
     "id": "TI032",
     "name": "Metal Pursuit",
-    "design_hash": "c64f32ba7ffbc3b2",
-    "input_lufs": -28.1,
-    "presetTrim": 6.76,
-    "raw_peak": 0.500779092311859
+    "design_hash": "a0646d0c560575bf",
+    "input_lufs": -33.47,
+    "presetTrim": 5.47,
+    "raw_peak": 0.23268723487854
   },
   {
     "id": "TI033",
     "name": "Drawbar Roller",
-    "design_hash": "eb5cc8a3f6bca180",
-    "input_lufs": -28.71,
-    "presetTrim": 12.03,
-    "raw_peak": 0.306661546230316
+    "design_hash": "58c664be041a92b8",
+    "input_lufs": -32.04,
+    "presetTrim": 4.04,
+    "raw_peak": 0.130702301859856
   },
   {
     "id": "TI034",
     "name": "Acid Tread",
-    "design_hash": "40bd9a6723022a16",
-    "input_lufs": -29.41,
-    "presetTrim": 10.59,
-    "raw_peak": 0.443780541419983
+    "design_hash": "a66ca3c98cbd2ad1",
+    "input_lufs": -31.64,
+    "presetTrim": 3.64,
+    "raw_peak": 0.244035169482231
   },
   {
     "id": "TI035",
     "name": "Dark Flywheel",
-    "design_hash": "13a99940eb56893c",
-    "input_lufs": -29.34,
-    "presetTrim": 16.34,
-    "raw_peak": 0.583597660064697
+    "design_hash": "816e47dfb0becb2e",
+    "input_lufs": -34.69,
+    "presetTrim": 6.69,
+    "raw_peak": 0.067935861647129
   },
   {
     "id": "TI036",

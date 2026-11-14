@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Sine Foundation",
+    "measured_fundamental_hz": 41.3818359375,
+    "expected_hz": 41.20344461410875
+  },
+  {
+    "name": "Triangle Pressure",
+    "measured_fundamental_hz": 41.3818359375,
+    "expected_hz": 41.20344461410875
+  },
+  {
+    "name": "Filtered Pulse Sub",
+    "measured_fundamental_hz": 41.3818359375,
+    "expected_hz": 41.20344461410875
+  },
+  {
+    "name": "Velvet FM Sub",
+    "measured_fundamental_hz": 41.3818359375,
+    "expected_hz": 41.20344461410875
+  },
+  {
+    "name": "Octave Undertow",
+    "measured_fundamental_hz": 41.3818359375,
+    "expected_hz": 41.20344461410875
+  }
+]

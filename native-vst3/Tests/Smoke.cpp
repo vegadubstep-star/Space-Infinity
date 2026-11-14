@@ -9,6 +9,9 @@
  #include <windows.h>
 #endif
 
+int runBassSmoke();
+int exportBassRangeProfile(const juce::File&);
+int exportBassAuditions(const juce::File&,const juce::File&);
 int exportOwnerChoirStabs(const juce::File& folder);
 int exportAcidCutoffSweeps(const juce::File&,const juce::File&);
 int runAcidSmoke(const juce::File& folder={},const juce::File& previousBank={});
@@ -28,7 +31,7 @@ int runLeadSmoke();
 
 
 int writeParameterInventory(const juce::File& file){
-    auto p=std::make_unique<SpaceInfinityProcessor>();auto* root=new juce::DynamicObject;juce::var result(root);root->setProperty("native_version","0.6.2");root->setProperty("manual_reference","https://xferrecords.com/manual/serum-2/docs");root->setProperty("notes","Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.");juce::Array<juce::var> rows;
+    auto p=std::make_unique<SpaceInfinityProcessor>();auto* root=new juce::DynamicObject;juce::var result(root);root->setProperty("native_version","0.6.3");root->setProperty("manual_reference","https://xferrecords.com/manual/serum-2/docs");root->setProperty("notes","Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.");juce::Array<juce::var> rows;
     for(auto* parameter:p->getParameters())if(auto* a=dynamic_cast<juce::RangedAudioParameter*>(parameter)){auto* row=new juce::DynamicObject;row->setProperty("id",a->paramID);row->setProperty("name",a->getName(120));row->setProperty("type",dynamic_cast<juce::AudioParameterBool*>(a)?"boolean":dynamic_cast<juce::AudioParameterChoice*>(a)?"choice":dynamic_cast<juce::AudioParameterInt*>(a)?"integer":"float");row->setProperty("minimum",a->convertFrom0to1(0));row->setProperty("maximum",a->convertFrom0to1(1));row->setProperty("host_default",a->convertFrom0to1(a->getDefaultValue()));row->setProperty("init_value",p->state.getRawParameterValue(a->paramID)->load());if(auto* choice=dynamic_cast<juce::AudioParameterChoice*>(a)){juce::Array<juce::var> names;for(const auto& name:choice->choices)names.add(name);row->setProperty("choices",names);}rows.add(juce::var(row));}root->setProperty("parameter_count",rows.size());root->setProperty("parameters",rows);if(file.getParentDirectory().createDirectory().failed()||!file.replaceWithText(juce::JSON::toString(result)))return 125;std::cout<<"Exported "<<rows.size()<<" native parameters to "<<file.getFullPathName()<<'\n';return 0;
 }
 
@@ -92,6 +95,9 @@ int renderHardwarePreview()
 int main(int argc,char* argv[])
 {
     juce::ScopedJuceInitialiser_GUI gui;
+    if(argc>2&&juce::String(argv[1])=="--bass-range-profile")return exportBassRangeProfile(juce::File(argv[2]));
+    if(argc>1&&juce::String(argv[1])=="--bass-tests")return runBassSmoke();
+    if(argc>3&&juce::String(argv[1])=="--bass-audition")return exportBassAuditions(juce::File(argv[2]),juce::File(argv[3]));
     if(argc>2&&juce::String(argv[1])=="--export-choir-stabs")return exportOwnerChoirStabs(juce::File(argv[2]));
     if(argc>3&&juce::String(argv[1])=="--acid-cutoff-audition")return exportAcidCutoffSweeps(juce::File(argv[2]),juce::File(argv[3]));
     if(argc>1&&juce::String(argv[1])=="--acid-tests")return runAcidSmoke();

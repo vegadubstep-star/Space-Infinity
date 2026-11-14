@@ -149,6 +149,7 @@ for name,wave,cut,res,decay,drive,slide in [
 import runpy
 runpy.run_path(str(ROOT/'scripts/refine-trance-bank.py'))['refine'](BANK,env,space)
 runpy.run_path(str(ROOT/'scripts/refine-performance-061.py'))['refine'](BANK,env,space)
+runpy.run_path(str(ROOT/'scripts/refine-bass-063.py'))['refine'](BANK,env,space)
 assert len(BANK)==160,len(BANK)
 assert len(set(p['name'] for p in BANK))==160
 # Give every patch useful neutral-at-zero performance assignments.
@@ -157,6 +158,10 @@ for patch in BANK:
  # Oscillator B has a leading Follow choice; blueprints use waveform-family indices.
  p['osc2Wave']+=1
  patch['macros']=[{'source':6,'target':'cutoff','depth':.16},{'source':6,'target':'drive','depth':.10},{'source':7,'target':'osc1Width','depth':.22},{'source':7,'target':'osc2Width','depth':.20},{'source':8,'target':'reverb','depth':.15},{'source':8,'target':'echoMix','depth':.13},{'source':0,'target':'cutoff','depth':.12},{'source':0,'target':'eq5Gain','depth':.05},{'source':1,'target':'filterEnvAmount','depth':.17},{'source':1,'target':'ampDecay','depth':-.015},{'source':1,'target':'filterInputDrive','depth':.08},{'source':2,'target':'analogueCharacter','depth':.15},{'source':2,'target':'analogueVCADrive','depth':.12},{'source':2,'target':'drive','depth':.06}]
+ if patch['category'] in ('Offbeat Bass Stabs','Sub Bass Stabs','Rolling Bass'):
+  patch['macros']=[{'source':6,'target':'cutoff','depth':.20},{'source':6,'target':'filterEnvAmount','depth':.08},{'source':7,'target':'osc2Width','depth':.12},{'source':0,'target':'cutoff','depth':.24},{'source':0,'target':'filterEnvAmount','depth':.10},{'source':1,'target':'filterDecay','depth':-.035},{'source':1,'target':'ampDecay','depth':-.012},{'source':1,'target':'filterEnvAmount','depth':.08},{'source':2,'target':'filterInputDrive','depth':.16}]
+  if patch['category']=='Sub Bass Stabs':patch['macros']=[m for m in patch['macros'] if m['source']!=0]+[{'source':0,'target':'filterInputDrive','depth':.12}]
+  if p['distEnabled']:patch['macros']+=[{'source':2,'target':'distDrive','depth':.12},{'source':2,'target':'distMix','depth':.12}]
  if not p['reverbEnabled']:patch['macros']=[m for m in patch['macros'] if m['target']!='reverb']
  if not p['delayEnabled']:patch['macros']=[m for m in patch['macros'] if m['target']!='echoMix']
  sample_revision='owner-choirs-061-v1' if p['source']>=30 else 'choir-tuned-v1' if p['source']>=27 or patch.get('grain_resource','').startswith('Factory_Choir_') else ''

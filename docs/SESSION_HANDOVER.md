@@ -1,3 +1,13 @@
+# Active bass update — 0.6.3 pending Windows publication
+
+All35basses rebuilt in scripts/refine-bass-063.py (15offbeat,5sub,15rolling);125other settings/trims/macros exactly match0.6.2. No synth DSP changes. Clean full-wave oscillator foundations, octave/FM/PWM roles, firmer amp body, shorter filter contours, selective HQ high-passed wet saturation, mono phase-stable low end. Tone/Punch/Character mappings tailored. Pure/triangle/pulse/FM/octave subs. Version0.6.3;1106params,39sources,60zones,7filters,160sounds+Init unchanged. Added19th BassVoicing suite; all19 native suites and Python importer passed. Register/groove raw peak max0.615566, fullbank loudness -29.60..-27.78LUFS/1.82LU, maximum raw chord peak0.7800004. Sub roots measured41.2Hz atMIDI40. See docs/audit/BASS_VOICING_063_VALIDATION.md and BASS_VOICING_UPDATE.md.
+
+Old bank /workspace/work/Bank-062-before-bass.json. Final35held-note WAVs /workspace/work/levels-063-final-bass; complete160mergedreports /workspace/work/levels-063-final-{solo,chord}. Same-MIDI old/new groovedemos and range/groove profiles /workspace/work/bass-063-final. Shared preview SPACE_INFINITY_0.6.3_Bass_Preview.wav and PREVIEW_NAMES.txt there. Rendering helper --bass-audition folder oldBank; register helper --bass-range-profile JSON. MIDI test matches incoming noteOns because internal patternMidi also contains pass-through notes. No engine change was needed for that helper fix. Calibration --category option now preserves unselected rows; all125other presets kept exactly.
+
+Next: commit/push source, Windows19checks/install/publication, download/verify0.6.3release. Keep production fixed during builds, no subagents authorized. GH_TOKEN currently works. Exclude audition/ and Python caches. Musical quality remains owner's listening evaluation, no exact-artist patch claims.
+
+## Previous verified release
+
 # Verified release — SPACE INFINITY 0.6.2
 
 Ready for the owner's FL Studio listening test. [Installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.6.2/SPACE_INFINITY_0.6.2_Windows_x64_Installer.zip). Close FL Studio, Extract All, run Setup, then load a revised factory Acid preset. MAIN CUTOFF is the automation target; the filter should read Acid Resonant. Existing saved projects keep their old patch settings until a revised factory sound is loaded.

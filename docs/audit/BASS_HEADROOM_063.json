@@ -1,0 +1,356 @@
+{
+  "registers": [
+    {
+      "name": "Tunnel Knock",
+      "raw_peak": 0.409569412469864,
+      "preset_trim": 9.389999389648438
+    },
+    {
+      "name": "Reptile Rubber",
+      "raw_peak": 0.269130408763885,
+      "preset_trim": 6.239999771118164
+    },
+    {
+      "name": "Gate Impact",
+      "raw_peak": 0.230462789535522,
+      "preset_trim": 2.0
+    },
+    {
+      "name": "Yellow Reactor",
+      "raw_peak": 0.61556601524353,
+      "preset_trim": 8.849998474121094
+    },
+    {
+      "name": "Ocean Hammer",
+      "raw_peak": 0.391188442707062,
+      "preset_trim": 5.869998931884766
+    },
+    {
+      "name": "District Vowel",
+      "raw_peak": 0.342558532953262,
+      "preset_trim": 1.459999084472656
+    },
+    {
+      "name": "Razor Offbeat",
+      "raw_peak": 0.20913864672184,
+      "preset_trim": -5.809999465942383
+    },
+    {
+      "name": "Steel Bounce",
+      "raw_peak": 0.440485239028931,
+      "preset_trim": 4.819999694824219
+    },
+    {
+      "name": "Velvet Punch",
+      "raw_peak": 0.14694732427597,
+      "preset_trim": 1.970001220703125
+    },
+    {
+      "name": "Octane Kickback",
+      "raw_peak": 0.249308556318283,
+      "preset_trim": 1.690000534057617
+    },
+    {
+      "name": "Power Fifth",
+      "raw_peak": 0.597035467624664,
+      "preset_trim": 6.969997406005859
+    },
+    {
+      "name": "Foundry Bite",
+      "raw_peak": 0.323853194713593,
+      "preset_trim": 1.270000457763672
+    },
+    {
+      "name": "Cathedral Thud",
+      "raw_peak": 0.262433797121048,
+      "preset_trim": 5.529998779296875
+    },
+    {
+      "name": "Acid Anchor",
+      "raw_peak": 0.328429400920868,
+      "preset_trim": 1.079998016357422
+    },
+    {
+      "name": "Warm Concrete",
+      "raw_peak": 0.185998648405075,
+      "preset_trim": 7.989997863769531
+    },
+    {
+      "name": "Sine Foundation",
+      "raw_peak": 0.160976573824883,
+      "preset_trim": 3.950000762939453
+    },
+    {
+      "name": "Triangle Pressure",
+      "raw_peak": 0.210969164967537,
+      "preset_trim": 8.939998626708984
+    },
+    {
+      "name": "Filtered Pulse Sub",
+      "raw_peak": 0.2279332280159,
+      "preset_trim": 2.430000305175781
+    },
+    {
+      "name": "Velvet FM Sub",
+      "raw_peak": 0.227718263864517,
+      "preset_trim": 3.69000244140625
+    },
+    {
+      "name": "Octave Undertow",
+      "raw_peak": 0.18380081653595,
+      "preset_trim": 5.419998168945312
+    },
+    {
+      "name": "Sixteenth Engine",
+      "raw_peak": 0.384720146656036,
+      "preset_trim": 7.760002136230469
+    },
+    {
+      "name": "Binary Runner",
+      "raw_peak": 0.235891431570053,
+      "preset_trim": 5.709999084472656
+    },
+    {
+      "name": "FM Rail",
+      "raw_peak": 0.158648893237114,
+      "preset_trim": -1.399999618530273
+    },
+    {
+      "name": "Reed Motor",
+      "raw_peak": 0.346794247627258,
+      "preset_trim": 11.770000457763672
+    },
+    {
+      "name": "Rounded Momentum",
+      "raw_peak": 0.266860336065292,
+      "preset_trim": 4.469999313354492
+    },
+    {
+      "name": "Vocal Runner",
+      "raw_peak": 0.27556237578392,
+      "preset_trim": -0.010000228881836
+    },
+    {
+      "name": "Needle Motion",
+      "raw_peak": 0.172445341944695,
+      "preset_trim": -4.559999465942383
+    },
+    {
+      "name": "Sync Conveyor",
+      "raw_peak": 0.357582867145538,
+      "preset_trim": 5.689998626708984
+    },
+    {
+      "name": "Triangle Circuit",
+      "raw_peak": 0.1337820738554,
+      "preset_trim": 2.010000228881836
+    },
+    {
+      "name": "Octave Rotor",
+      "raw_peak": 0.211393639445305,
+      "preset_trim": 0.489997863769531
+    },
+    {
+      "name": "Fifth Locomotion",
+      "raw_peak": 0.475987643003464,
+      "preset_trim": 4.690000534057617
+    },
+    {
+      "name": "Metal Pursuit",
+      "raw_peak": 0.436789751052856,
+      "preset_trim": 5.469997406005859
+    },
+    {
+      "name": "Drawbar Roller",
+      "raw_peak": 0.208105370402336,
+      "preset_trim": 4.040000915527344
+    },
+    {
+      "name": "Acid Tread",
+      "raw_peak": 0.371067047119141,
+      "preset_trim": 3.639999389648438
+    },
+    {
+      "name": "Dark Flywheel",
+      "raw_peak": 0.146757125854492,
+      "preset_trim": 6.69000244140625
+    }
+  ],
+  "grooves": [
+    {
+      "name": "Tunnel Knock",
+      "raw_peak": 0.390720278024673,
+      "preset_trim": 9.389999389648438
+    },
+    {
+      "name": "Reptile Rubber",
+      "raw_peak": 0.2872174680233,
+      "preset_trim": 6.239999771118164
+    },
+    {
+      "name": "Gate Impact",
+      "raw_peak": 0.225120395421982,
+      "preset_trim": 2.0
+    },
+    {
+      "name": "Yellow Reactor",
+      "raw_peak": 0.46724545955658,
+      "preset_trim": 8.849998474121094
+    },
+    {
+      "name": "Ocean Hammer",
+      "raw_peak": 0.38220226764679,
+      "preset_trim": 5.869998931884766
+    },
+    {
+      "name": "District Vowel",
+      "raw_peak": 0.362652063369751,
+      "preset_trim": 1.459999084472656
+    },
+    {
+      "name": "Razor Offbeat",
+      "raw_peak": 0.171085506677628,
+      "preset_trim": -5.809999465942383
+    },
+    {
+      "name": "Steel Bounce",
+      "raw_peak": 0.354842931032181,
+      "preset_trim": 4.819999694824219
+    },
+    {
+      "name": "Velvet Punch",
+      "raw_peak": 0.135376483201981,
+      "preset_trim": 1.970001220703125
+    },
+    {
+      "name": "Octane Kickback",
+      "raw_peak": 0.237530305981636,
+      "preset_trim": 1.690000534057617
+    },
+    {
+      "name": "Power Fifth",
+      "raw_peak": 0.476998537778854,
+      "preset_trim": 6.969997406005859
+    },
+    {
+      "name": "Foundry Bite",
+      "raw_peak": 0.266637325286865,
+      "preset_trim": 1.270000457763672
+    },
+    {
+      "name": "Cathedral Thud",
+      "raw_peak": 0.243250593543053,
+      "preset_trim": 5.529998779296875
+    },
+    {
+      "name": "Acid Anchor",
+      "raw_peak": 0.225392147898674,
+      "preset_trim": 1.079998016357422
+    },
+    {
+      "name": "Warm Concrete",
+      "raw_peak": 0.155791446566582,
+      "preset_trim": 7.989997863769531
+    },
+    {
+      "name": "Sine Foundation",
+      "raw_peak": 0.151221424341202,
+      "preset_trim": 3.950000762939453
+    },
+    {
+      "name": "Triangle Pressure",
+      "raw_peak": 0.191741764545441,
+      "preset_trim": 8.939998626708984
+    },
+    {
+      "name": "Filtered Pulse Sub",
+      "raw_peak": 0.238794252276421,
+      "preset_trim": 2.430000305175781
+    },
+    {
+      "name": "Velvet FM Sub",
+      "raw_peak": 0.21738363802433,
+      "preset_trim": 3.69000244140625
+    },
+    {
+      "name": "Octave Undertow",
+      "raw_peak": 0.16975311934948,
+      "preset_trim": 5.419998168945312
+    },
+    {
+      "name": "Sixteenth Engine",
+      "raw_peak": 0.369731456041336,
+      "preset_trim": 7.760002136230469
+    },
+    {
+      "name": "Binary Runner",
+      "raw_peak": 0.251555740833282,
+      "preset_trim": 5.709999084472656
+    },
+    {
+      "name": "FM Rail",
+      "raw_peak": 0.154150456190109,
+      "preset_trim": -1.399999618530273
+    },
+    {
+      "name": "Reed Motor",
+      "raw_peak": 0.325520098209381,
+      "preset_trim": 11.770000457763672
+    },
+    {
+      "name": "Rounded Momentum",
+      "raw_peak": 0.253844618797302,
+      "preset_trim": 4.469999313354492
+    },
+    {
+      "name": "Vocal Runner",
+      "raw_peak": 0.283957332372665,
+      "preset_trim": -0.010000228881836
+    },
+    {
+      "name": "Needle Motion",
+      "raw_peak": 0.128814071416855,
+      "preset_trim": -4.559999465942383
+    },
+    {
+      "name": "Sync Conveyor",
+      "raw_peak": 0.339909166097641,
+      "preset_trim": 5.689998626708984
+    },
+    {
+      "name": "Triangle Circuit",
+      "raw_peak": 0.13414341211319,
+      "preset_trim": 2.010000228881836
+    },
+    {
+      "name": "Octave Rotor",
+      "raw_peak": 0.21864740550518,
+      "preset_trim": 0.489997863769531
+    },
+    {
+      "name": "Fifth Locomotion",
+      "raw_peak": 0.457462430000305,
+      "preset_trim": 4.690000534057617
+    },
+    {
+      "name": "Metal Pursuit",
+      "raw_peak": 0.384703546762466,
+      "preset_trim": 5.469997406005859
+    },
+    {
+      "name": "Drawbar Roller",
+      "raw_peak": 0.193378299474716,
+      "preset_trim": 4.040000915527344
+    },
+    {
+      "name": "Acid Tread",
+      "raw_peak": 0.311038047075272,
+      "preset_trim": 3.639999389648438
+    },
+    {
+      "name": "Dark Flywheel",
+      "raw_peak": 0.129007667303085,
+      "preset_trim": 6.69000244140625
+    }
+  ]
+}
