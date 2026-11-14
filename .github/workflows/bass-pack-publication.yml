@@ -1,0 +1,30 @@
+name: Publish 0.6.3 portable bass presets
+on:
+  push:
+    branches: [codex/bass-pack-publication-063]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify portable preset pack
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,zipfile
+          from pathlib import Path
+          f=Path('release-packs/SPACE_INFINITY_0.6.3_Bass_Presets.zip')
+          assert hashlib.sha256(f.read_bytes()).hexdigest()==f.with_name(f.name+'.sha256').read_text().split()[0]
+          with zipfile.ZipFile(f) as z:
+              assert z.testzip() is None
+              assert sum(n.endswith('.sipreset') for n in z.namelist())==35
+              manifest=json.loads(z.read(next(n for n in z.namelist() if n.endswith('/CONTENTS.json'))))
+              assert len(manifest)==35
+              for row in manifest:
+                  assert hashlib.sha256(z.read('SPACE_INFINITY_0.6.3_Bass_Presets/'+row['file'])).hexdigest()==row['sha256']
+          PY
+      - name: Publish preset ZIP and checksum
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload v0.6.3 release-packs/SPACE_INFINITY_0.6.3_Bass_Presets.zip release-packs/SPACE_INFINITY_0.6.3_Bass_Presets.zip.sha256 --repo "$GITHUB_REPOSITORY" --clobber
