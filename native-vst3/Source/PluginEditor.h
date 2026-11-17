@@ -35,6 +35,7 @@ private:
     int clipHold=0;
     HardwareTheme hardwareLook;
     juce::Image hardwareFace;
+    float hardwareFaceScale=0;
     bool cachedFxPage=false;
     SpaceInfinityProcessor& processor;
     std::unique_ptr<StudioRack> studioRack;
@@ -69,7 +70,7 @@ private:
     ModSlider preDrive,portamento;
     juce::ComboBox analogueOn;
     juce::TextButton analogueLabButton{"LAB"},pitchSettings{"PITCH"};
-    juce::ComboBox noiseType;
+    juce::ComboBox noiseType,noiseMode;
     std::array<ModSlider,4> oscillatorSliders,unisonTone;
     std::array<ModSlider,3> octaveControls;
     std::array<ModSlider,2> unisonSliders;

@@ -22,6 +22,7 @@ int runAnalogueTailProbe();
 int runAnalogueExpansionSmoke();
 int runOscillatorWorkflowSmoke();
 int runDualLfoSmoke();
+int runNoiseModeSmoke();
 int runRhythmWorkflowSmoke();
 int runWorkflowSmoke();
 int runExtendedSmoke();
@@ -113,6 +114,7 @@ int main(int argc,char* argv[])
     if(argc>1&&juce::String(argv[1])=="--analogue-tail-probe")return runAnalogueTailProbe();
     if(argc>1&&juce::String(argv[1])=="--analogue-expansion-tests")return runAnalogueExpansionSmoke();
     if(argc>1&&juce::String(argv[1])=="--oscillator-workflow-tests")return runOscillatorWorkflowSmoke();
+    if(argc>1&&juce::String(argv[1])=="--noise-mode-tests")return runNoiseModeSmoke();
     if(argc>1&&juce::String(argv[1])=="--dual-lfo-tests")return runDualLfoSmoke();
     if(argc>1&&juce::String(argv[1])=="--rhythm-workflow-tests")return runRhythmWorkflowSmoke();
     if(argc>1&&juce::String(argv[1])=="--workflow-tests")return runWorkflowSmoke();

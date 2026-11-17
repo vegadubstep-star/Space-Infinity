@@ -1,4 +1,5 @@
 #pragma once
+#include "TimingReadout.h"
 #include "WorkflowControls.h"
 #include "EnvelopeControls.h"
 #include "HardwareTheme.h"
@@ -101,13 +102,21 @@ public:
 };
 class LfoPane:public juce::Component,private juce::Timer {
     SpaceInfinityProcessor& p;std::function<void(std::unique_ptr<juce::Component>,juce::Rectangle<int>)> open;
-    int selected=0;ModSourceButton source;juce::ComboBox selector,shape,sync,rate,mode,grid;juce::ToggleButton enabled{"ON"},snap{"Snap"},draw{"Draw"};ModSlider speed;juce::TextButton routes{"ROUTES"},expand{"ADVANCED"};CurveEditor graph;
+    int selected=0;ModSourceButton source;juce::ComboBox selector,shape,sync,rate,mode,grid;juce::ToggleButton enabled{"ON"},snap{"Snap"},draw{"Draw"};ModSlider speed;juce::Label timing;juce::TextButton routes{"ROUTES"},expand{"ADVANCED"};CurveEditor graph;
     std::array<ModSlider,4> advanced;std::array<juce::Label,4> advancedLabels;juce::ComboBox direction;std::array<juce::ToggleButton,4> advancedButtons;
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>> advancedBindings;std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment>> advancedButtonBindings;std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> directionBind;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> syncBind,rateBind,modeBind;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> speedBind;
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> enabledBind;
-    void timerCallback()override{if(isShowing())graph.repaint();}
+    void updateTiming(){
+        const auto get=[this](const char* field){return p.state.getRawParameterValue(p.lfoParameterId(selected,field))->load();};const bool synced=get("Sync")>.5f;const int division=int(get("Bars"));const double bpm=p.hostBpm();
+        const double seconds=timingui::cycleSeconds(synced,get("Speed"),division,bpm,get("Triplet")>.5f,get("Dotted")>.5f,int(get("Direction")));
+        const juce::StringArray names{"1 bar","2 bars","4 bars","8 bars","1/2 bar","1/4 bar","1/8 bar","1/16 bar"};
+        auto text=synced?names[juce::jlimit(0,7,division)]:juce::String(get("Speed"),2)+" Hz";
+        if(synced&&get("Triplet")>.5f)text+=" T";if(synced&&get("Dotted")>.5f)text+=" D";if(get("Direction")==2)text+=" PP";
+        text+="  ·  "+timingui::duration(seconds);timing.setText(text,juce::dontSendNotification);timing.setName("LFO "+juce::String(selected+1)+" cycle time");timing.setTooltip("Base "+juce::String(get("Mode")==2?"pass":"cycle")+": "+timingui::duration(seconds)+" at "+juce::String(bpm,2)+" BPM. Bars contain four quarter notes. Triplet, dotted and ping-pong direction are included. Rate modulation can vary the instantaneous duration.");
+    }
+    void timerCallback()override{if(isShowing()){updateTiming();graph.repaint();}}
 public:
     LfoPane(SpaceInfinityProcessor& processor,int initial,decltype(open) opener):p(processor),open(std::move(opener)),graph(p,false){
         const char* titles[]{"PHASE","DELAY","RISE","SMOOTH"};for(int i=0;i<4;++i){auto& knob=advanced[size_t(i)];knob.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);knob.setTextBoxStyle(juce::Slider::TextBoxBelow,false,72,18);knob.setMouseDragSensitivity(300);advancedLabels[size_t(i)].setText(titles[i],juce::dontSendNotification);advancedLabels[size_t(i)].setJustificationType(juce::Justification::centred);addAndMakeVisible(knob);addAndMakeVisible(advancedLabels[size_t(i)]);}
@@ -116,9 +125,11 @@ public:
         source.onClick=[this]{juce::PopupMenu menu;for(int n=0;n<3;++n)menu.addItem(n+1,"LFO "+juce::String(n+1));const juce::Component::SafePointer<LfoPane> safe(this);menu.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(&source),[safe](int id){if(safe&&id>0)safe->select(id-1);});};
         source.setTooltip("Drag this LFO onto a synth or FX control. Edit its signed amount at the destination.");
         shape.addItemList({"Sine","Triangle","Ramp up","Ramp down","Square","Sidechain","Random steps"},1);shape.setTextWhenNothingSelected("Shape");shape.onChange=[this]{if(shape.getSelectedId())graph.shape(shape.getSelectedId()-1);};
-        sync.addItemList({"Hz","BPM"},1);sync.onChange=[this]{resized();};rate.addItemList({"1 bar","2 bars","4 bars","8 bars","1/2 bar","1/4 bar","1/8 bar","1/16 bar"},1);mode.addItemList({"Free","Retrigger","Envelope"},1);
+        sync.addItemList({"Hz","BPM"},1);sync.onChange=[this]{resized();updateTiming();};rate.addItemList({"1 bar","2 bars","4 bars","8 bars","1/2 bar","1/4 bar","1/8 bar","1/16 bar"},1);mode.addItemList({"Free","Retrigger","Envelope"},1);
         grid.addItemList({"4","8","16","32"},1);grid.setSelectedId(3);grid.onChange=[this]{graph.setSnap(grid.getText().getIntValue());};snap.onClick=[this]{graph.setSnapEnabled(snap.getToggleState());};draw.onClick=[this]{graph.setPaintMode(draw.getToggleState());};
-        speed.setSliderStyle(juce::Slider::LinearHorizontal);speed.setTextBoxStyle(juce::Slider::TextBoxRight,false,44,20);
+        speed.setSliderStyle(juce::Slider::LinearHorizontal);speed.setTextBoxStyle(juce::Slider::TextBoxRight,false,67,20);speed.setMouseDragSensitivity(350);speed.setPopupDisplayEnabled(true,true,this);
+        speed.textFromValueFunction=[](double v){return juce::String(v,3)+" Hz";};speed.valueFromTextFunction=timingui::frequencyFromText;speed.setTooltip("Free-running rate. Type Hz or a cycle duration such as 500 ms or 2 s. Shift-drag for fine adjustment.");
+        timing.setFont(juce::Font(juce::FontOptions(10)));timing.setColour(juce::Label::textColourId,juce::Colour(0xff97f4e3));timing.setJustificationType(juce::Justification::centred);addAndMakeVisible(timing);
         for(juce::Component* c:std::array<juce::Component*,15>{&source,&selector,&shape,&sync,&rate,&mode,&grid,&enabled,&snap,&draw,&speed,&routes,&expand,&graph,&hint})addAndMakeVisible(c);
         hint.setText("Drag points to move / drag between points to bend",juce::dontSendNotification);hint.setFont(juce::Font(juce::FontOptions(9)));hint.setJustificationType(juce::Justification::centredLeft);
         graph.edited=[this]{shape.setSelectedId(0,juce::dontSendNotification);shape.setTextWhenNothingSelected("Custom");};routes.onClick=[this]{open(std::make_unique<RoutePanel>(p,selected+3,true),getBounds());};
@@ -127,13 +138,14 @@ public:
     ~LfoPane()override{stopTimer();}
     juce::Label hint;
     void select(int i){selected=juce::jlimit(0,2,i);setName("LFO "+juce::String(selected+1)+" editor");selector.setSelectedId(selected+1,juce::dontSendNotification);source.setButtonText("LFO "+juce::String(selected+1)+" +");source.description="INFINITY:LFO:"+juce::String(selected);source.setTooltip("Drag onto a knob or anywhere on SUB to modulate bass level. Ctrl-drag the graph also assigns this LFO. Adjust amount on the destination.");graph.selectLfo(selected);
-        advancedBindings.clear();advancedButtonBindings.clear();directionBind.reset();const char* fields[]{"Phase","Delay","Rise","Smooth"};const char* toggles[]{"Mono","Triplet","Dotted","Host"};for(int n=0;n<4;++n){auto& knob=advanced[size_t(n)];const auto id=p.lfoParameterId(selected,fields[n]);knob.initialiseModulation(p,id);knob.setName("LFO "+juce::String(selected+1)+" "+fields[n]);advancedBindings.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(p.state,id,knob));advancedButtonBindings.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(p.state,p.lfoParameterId(selected,toggles[n]),advancedButtons[size_t(n)]));knob.textFromValueFunction=[n](double v){return n==0?juce::String(v*360,1)+" deg":n==3?juce::String(v,1)+" ms":juce::String(v,3)+" s";};knob.valueFromTextFunction=[n](const juce::String& text){return text.getDoubleValue()/(n==0?360:1);};knob.updateText();}directionBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(selected,"Direction"),direction);
+        advancedBindings.clear();advancedButtonBindings.clear();directionBind.reset();const char* fields[]{"Phase","Delay","Rise","Smooth"};const char* toggles[]{"Mono","Triplet","Dotted","Host"};for(int n=0;n<4;++n){auto& knob=advanced[size_t(n)];const auto id=p.lfoParameterId(selected,fields[n]);knob.initialiseModulation(p,id);knob.setName("LFO "+juce::String(selected+1)+" "+fields[n]);advancedBindings.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(p.state,id,knob));advancedButtonBindings.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(p.state,p.lfoParameterId(selected,toggles[n]),advancedButtons[size_t(n)]));knob.textFromValueFunction=[n](double v){return n==0?juce::String(v*360,1)+" deg":n==3?juce::String(v,1)+" ms":timingui::duration(v);};knob.valueFromTextFunction=[n](const juce::String& text){return n==0?text.getDoubleValue()/360:n==3?text.getDoubleValue()*(text.containsIgnoreCase("ms")?1:text.trim().endsWithIgnoreCase("s")?1000:1):timingui::secondsFromText(text);};knob.updateText();}directionBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(selected,"Direction"),direction);
         syncBind.reset();rateBind.reset();modeBind.reset();speedBind.reset();enabledBind.reset();
-        syncBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(selected,"Sync"),sync);rateBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(selected,"Bars"),rate);modeBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(selected,"Mode"),mode);speedBind=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(p.state,p.lfoParameterId(selected,"Speed"),speed);enabledBind=std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(p.state,p.lfoParameterId(selected,"Enabled"),enabled);speed.initialiseModulation(p,p.lfoParameterId(selected,"Speed"));resized();repaint();
+        syncBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(selected,"Sync"),sync);rateBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(selected,"Bars"),rate);modeBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(selected,"Mode"),mode);speedBind=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(p.state,p.lfoParameterId(selected,"Speed"),speed);enabledBind=std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(p.state,p.lfoParameterId(selected,"Enabled"),enabled);speed.initialiseModulation(p,p.lfoParameterId(selected,"Speed"));speed.setName("LFO "+juce::String(selected+1)+" rate");speed.textFromValueFunction=[](double v){return juce::String(v,3)+" Hz";};speed.valueFromTextFunction=timingui::frequencyFromText;speed.updateText();resized();updateTiming();repaint();
     }
     void resized()override{auto r=getLocalBounds().reduced(5);auto top=r.removeFromTop(23);enabled.setBounds(top.removeFromRight(49));const bool compact=getWidth()<220;selector.setVisible(!compact);source.setBounds(compact?top:top.removeFromLeft(76));if(!compact)selector.setBounds(top);
         top=r.removeFromTop(24);shape.setBounds(top.removeFromLeft(top.getWidth()/2).reduced(1));mode.setBounds(top.reduced(1));
         auto foot=r.removeFromBottom(23);sync.setBounds(foot.removeFromLeft(57));rate.setBounds(foot);speed.setBounds(foot);rate.setVisible(sync.getSelectedId()==2);speed.setVisible(sync.getSelectedId()==1);
+        timing.setBounds(r.removeFromBottom(19).reduced(1,0));
         const bool full=getHeight()>320;grid.setVisible(full);snap.setVisible(full);draw.setVisible(full);
         auto tools=r.removeFromBottom(23);if(full){const int w=tools.getWidth()/5;grid.setBounds(tools.removeFromLeft(w));snap.setBounds(tools.removeFromLeft(w));draw.setBounds(tools.removeFromLeft(w));routes.setBounds(tools.removeFromLeft(w));expand.setBounds(tools);}else{routes.setBounds(tools.removeFromLeft(tools.getWidth()/2).reduced(1));expand.setBounds(tools.reduced(1));}
         direction.setVisible(full);for(auto& button:advancedButtons)button.setVisible(full);for(int i=0;i<4;++i){advanced[size_t(i)].setVisible(full);advancedLabels[size_t(i)].setVisible(full);}
@@ -141,7 +153,7 @@ public:
         hint.setVisible(getWidth()>260);if(getWidth()>260)hint.setBounds(r.removeFromBottom(15));graph.setBounds(r);
 
     }
-    void paint(juce::Graphics& g)override{HardwareTheme::module(g,getLocalBounds().toFloat(),true);}
+    void paint(juce::Graphics& g)override{HardwareTheme::module(g,getLocalBounds().toFloat(),true);if(!timing.getBounds().isEmpty()){g.setColour(juce::Colour(0xff100919));g.fillRoundedRectangle(timing.getBounds().toFloat(),2);}}
 };
 class MainWorkbench:public juce::Component,private juce::Timer {
     SpaceInfinityProcessor& p;std::function<void(std::unique_ptr<juce::Component>,juce::Rectangle<int>)> open;

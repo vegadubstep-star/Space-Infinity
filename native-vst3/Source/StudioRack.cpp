@@ -2,6 +2,7 @@
 #include "StudioParameters.h"
 #include "EffectControls.h"
 #include "WorkflowControls.h"
+#include "TimingReadout.h"
 #include <complex>
 namespace {
 using SliderBinding=juce::AudioProcessorValueTreeState::SliderAttachment;
@@ -24,10 +25,14 @@ public:
         if(id=="flangerStereo")unit="deg";if(id=="distFrequency"||id=="distTone"){auto range=slider.getNormalisableRange();range.setSkewForCentre(id=="distTone"?5000:1200);slider.setNormalisableRange(range);}if(id=="distDrive"||id=="distMix"||id=="distFilterMorph")unit="%";if(id=="distFrequency"||id=="distTone")unit="Hz";if(id=="distInput")unit="dB";
         if(id=="flangerRate"||id.contains("Wet")&&id.endsWith("Freq")){auto range=slider.getNormalisableRange();range.setSkewForCentre(id=="flangerRate"?.35:1000);slider.setNormalisableRange(range);}
         slider.setMouseDragSensitivity(350);
-        slider.textFromValueFunction=[unit,id](double value){if(id.startsWith("fxOutput")&&value<=-24)return juce::String("MUTE");return juce::String(unit=="%"?value*100:value,unit=="Hz"||unit=="%"?0:unit=="s"?3:1)+(unit.isEmpty()?"":" "+unit);};
-        slider.valueFromTextFunction=[unit,id](const juce::String& s){if(id.startsWith("fxOutput")&&(s.containsIgnoreCase("mute")||s.containsIgnoreCase("inf")))return -24.0;return s.getDoubleValue()/(unit=="%"?100:1);};
+        slider.textFromValueFunction=[unit,id](double value){if(id.startsWith("fxOutput")&&value<=-24)return juce::String("MUTE");return juce::String(unit=="%"?value*100:value,unit=="Hz"?(value<1?3:value<10?2:value<100?1:0):unit=="%"?0:unit=="s"?3:1)+(unit.isEmpty()?"":" "+unit);};
+        slider.valueFromTextFunction=[unit,id](const juce::String& s){if(id.startsWith("fxOutput")&&(s.containsIgnoreCase("mute")||s.containsIgnoreCase("inf")))return -24.0;if(id=="chorusRate"||id=="flangerRate"||id=="phaserRate")return timingui::frequencyFromText(s);
+            if(unit=="Hz")return s.getDoubleValue()*(s.containsIgnoreCase("khz")?1000:1);
+            if(unit=="s")return timingui::secondsFromText(s);
+            if(unit=="ms"&& !s.containsIgnoreCase("ms") && (s.trim().endsWithIgnoreCase("s")||s.containsIgnoreCase("sec")))return s.getDoubleValue()*1000;
+            return s.getDoubleValue()/(unit=="%"?100:1);};
         auto* parameter=p.state.getParameter(id);slider.setDoubleClickReturnValue(true,parameter->convertFrom0to1(parameter->getDefaultValue()));
-        slider.setTooltip(text+(id.startsWith("fxOutput")?" — full stage output; fully left = MUTE":"")+" — drag to adjust; Shift for fine adjustment; double-click resets.");
+        slider.setTooltip(text+((id=="chorusRate"||id=="flangerRate"||id=="phaserRate")?" — enter Hz or cycle time, e.g. 2 s":"")+(id.startsWith("fxOutput")?" — full stage output; fully left = MUTE":"")+" — drag to adjust; Shift for fine adjustment; double-click resets.");
         slider.updateText();
         addAndMakeVisible(label);addAndMakeVisible(slider);
     }

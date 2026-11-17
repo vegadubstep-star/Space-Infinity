@@ -393,11 +393,13 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     bindLfoControls();
     bindChoice(waveform2,"osc2Wave",SpaceInfinityProcessor::oscillatorWaves(true));
     bindChoice(noiseType,"noiseType",{"White","Dark","Bright"});
+    bindChoice(noiseMode,"noiseMode",{"Random","Free","Retrigger"});noiseMode.setName("Noise playback mode");noiseMode.setTooltip("Random: fresh noise for each note. Free: one continuous stream, including between notes. Retrigger: repeat the same noise sequence on each note. The amp envelope still shapes each note.");
     noiseLevel.initialiseModulation(processor,"noiseLevel");noiseLevel.setSliderStyle(juce::Slider::LinearHorizontal);
     noiseLevel.setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);
-    noiseLevel.setTooltip("Noise level (zero turns noise off)");
+    noiseLevel.setTooltip("Noise level. Zero turns noise off; Shift-drag for fine adjustment.");noiseLevel.textFromValueFunction=[](double v){return juce::String(v*100,1)+" %";};noiseLevel.setPopupDisplayEnabled(true,true,this);
     addAndMakeVisible(noiseLevel);
     attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"noiseLevel",noiseLevel));
+    noiseLevel.textFromValueFunction=[](double v){return juce::String(v*100,1)+" %";};noiseLevel.updateText();
     const char* oscIds[]={"osc1Tune","osc1Width","osc2Tune","osc2Width"};
     for(size_t i=0;i<oscillatorSliders.size();++i){
         auto& slider=oscillatorSliders[i];
@@ -585,7 +587,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     eqButton.setButtonText("OPEN 7-BAND EQ");
     for(auto* child:getChildren())
         if(child->isVisible()&&child!=&title&&child!=&subtitle&&child!=&presets
-           &&child!=&previousPreset&&child!=&nextPreset&&child!=&bankButton&&child!=&noiseType&&child!=&noiseLevel)mainControls.push_back(child);
+           &&child!=&previousPreset&&child!=&nextPreset&&child!=&bankButton&&child!=&noiseType&&child!=&noiseMode&&child!=&noiseLevel)mainControls.push_back(child);
     addAndMakeVisible(mainTab);
     addAndMakeVisible(fxTab);
     mainTab.setTooltip("Oscillators, envelopes, Motion, macros and sampler");
@@ -971,9 +973,10 @@ void SpaceInfinityEditor::drawMotionAt(juce::Point<int> cursor){
     lastMotionValue=value;
 }
 void SpaceInfinityEditor::paint(juce::Graphics& g){
-    if(hardwareFace.getWidth()!=getWidth()||hardwareFace.getHeight()!=getHeight()||cachedFxPage!=fxPage){
-        hardwareFace=juce::Image(juce::Image::RGB,getWidth(),getHeight(),false);
-        juce::Graphics surface(hardwareFace);
+    const float faceScale=juce::jlimit(1.0f,3.0f,g.getInternalContext().getPhysicalPixelScaleFactor());
+    if(hardwareFace.getWidth()!=juce::roundToInt(getWidth()*faceScale)||hardwareFace.getHeight()!=juce::roundToInt(getHeight()*faceScale)||cachedFxPage!=fxPage||hardwareFaceScale!=faceScale){
+        hardwareFaceScale=faceScale;hardwareFace=juce::Image(juce::Image::RGB,juce::roundToInt(getWidth()*faceScale),juce::roundToInt(getHeight()*faceScale),false);
+        juce::Graphics surface(hardwareFace);surface.addTransform(juce::AffineTransform::scale(faceScale));
         HardwareTheme::chassis(surface,getLocalBounds());
         if(!fxPage){
             const auto layout=mainLayout(getWidth(),getHeight());
@@ -983,7 +986,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
         }
         cachedFxPage=fxPage;
     }
-    g.drawImageAt(hardwareFace,0,0);
+    g.drawImage(hardwareFace,getLocalBounds().toFloat());
     if(infinityLogo.isValid()){
         g.setImageResamplingQuality(juce::Graphics::highResamplingQuality);
         const int logoWidth=juce::jmin(250,getWidth()-540);const int placement=juce::RectanglePlacement::xLeft|juce::RectanglePlacement::yMid;
@@ -1144,8 +1147,9 @@ void SpaceInfinityEditor::resized(){
     previousPreset.setBounds(w-100,42,29,25);
     nextPreset.setBounds(w-67,42,29,25);
     bankButton.setBounds(w-330,72,60,23);
-    noiseType.setBounds(w-266,72,90,23);
-    noiseLevel.setBounds(w-172,72,134,23);
+    noiseType.setBounds(w-266,72,70,23);
+    noiseMode.setBounds(w-192,72,84,23);
+    noiseLevel.setBounds(w-104,72,66,23);
     mainTab.setBounds(34,111,58,25);fxTab.setBounds(97,111,50,25);gateTab.setBounds(152,111,60,25);sequenceTab.setBounds(217,111,60,25);extendedButton.setBounds(282,111,78,25);
     octaveControls[0].setBounds(w-320,116,52,22);pitchWheel.setBounds(326,23,45,75);pitchSettings.setBounds(327,9,48,17);
     if(gatePage)gatePage->setBounds(28,150,w-56,h-212);if(sequencerPage)sequencerPage->setBounds(28,150,w-56,h-212);

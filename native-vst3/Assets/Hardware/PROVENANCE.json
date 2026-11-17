@@ -1,0 +1,14 @@
+{
+  "BrushedGrain.png": {
+    "sha256": "d5c35b36209b759070a23fff484fe11cf35a3a25900a729ec8e646f4c3335e43",
+    "source": "Original procedural material artwork; fixed upper-left lighting"
+  },
+  "KnobSilver.png": {
+    "sha256": "ee84be0245c641513413552ed0247a830197a452c2f05b5c426f4911860a1cb0",
+    "source": "Original procedural material artwork; fixed upper-left lighting"
+  },
+  "KnobViolet.png": {
+    "sha256": "ece0c0830084a2701d4f980456e59b622529fdff181f7a718eb93c49416ef345",
+    "source": "Original procedural material artwork; fixed upper-left lighting"
+  }
+}

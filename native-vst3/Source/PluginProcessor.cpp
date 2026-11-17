@@ -236,6 +236,8 @@ APVTS::ParameterLayout makeLayout(){
     f("ampHold","Amp envelope hold",0,8,0);f("filterHold","Filter envelope hold",0,8,0);
     for(const char* prefix:{"amp","filter"})for(const char* phase:{"Attack","Decay","Release"})f((juce::String(prefix)+phase+"Curve").toRawUTF8(),(juce::String(prefix)+" "+phase+" contour").toRawUTF8(),-1,1,0);
     f("osc1Pan","Oscillator A pan",-1,1,0);f("osc2Pan","Oscillator B pan",-1,1,0);f("subPan","Sub pan",-1,1,0);f("noisePan","Noise pan",-1,1,0);f("concertPitch","Concert pitch A4",400,480,440);
+    // Append new parameters so existing host parameter indices stay stable.
+    p.add(std::make_unique<juce::AudioParameterChoice>(juce::ParameterID{"noiseMode",1},"Noise Playback Mode",juce::StringArray{"Random per note","Free","Retrigger"},0));
     return p;
 }
 float osc(double x,int wave){ x-=std::floor(x); switch(wave){case 1:return x<0.48?1.0f:-1.0f;case 2:return std::sin(float(juce::MathConstants<double>::twoPi*x));case 3:return float(4*std::abs(x-0.5)-1);default:return float(2*x-1);} }
@@ -541,7 +543,7 @@ void SpaceInfinityProcessor::prepareToPlay(double sampleRate,int maxSamples){
     studioCompWet.reset(sr,.025);studioCompWet.setCurrentAndTargetValue(param("compMix"));
     bandMix.reset(sr,0.025);bandMix.setCurrentAndTargetValue(param("compAmount")>0.001f?1.0f:0.0f);
     delayToneL=delayToneR=0;
-    delayBpm=120;
+    delayBpm=120;freeNoiseState=0x57a3c9e1u;freeNoiseMemory=0;
     midiBend=0;pitchBend.reset(sr,.006);pitchBend.setCurrentAndTargetValue(param("pitchBend"));
     for(size_t i=0;i<voices.size();++i){auto& v=voices[i];v={};v.calibration=VoiceCalibration::forVoice(int(i));
         v.drift.reset(0x83af71u+uint32_t(i)*7193u);
@@ -584,6 +586,7 @@ void SpaceInfinityProcessor::noteOn(int note,float velocity,int source,int root,
         for(auto& position:found->extraPhase2)position=phase();
     }
     if(source==0&&param("manualUnison")>.5f){for(int osc=0;osc<2;++osc){const auto prefix="osc"+juce::String(osc+1);if(param((prefix+"PhaseReset").toRawUTF8())>.5f)continue;const double start=param((prefix+"Phase").toRawUTF8()),randomness=param((prefix+"Rand").toRawUTF8());auto phase=[&]{const double x=start+randomness*(.5+.5*found->drift.random());return x-std::floor(x);};(osc==0?found->phase:found->phase2)=phase();auto& extras=osc==0?found->extraPhase1:found->extraPhase2;for(auto& x:extras)x=phase();}}
+    if(int(param("noiseMode"))==2){found->noiseState=0x1d872b41u;found->noiseMemory=0;}
     found->source=source;found->sampleZone=zone;
     if(source != 0){
         if(userSample(source))found->sampleRevision=sampleRevision;
@@ -758,7 +761,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     prepareStack(unisonRates1,unison1,detuneA,0);
     prepareStack(unisonRates2,unison2,detuneB,1);
     const float noiseLevel=juce::jlimit(0.0f,1.0f,param("noiseLevel")+0.5f*modulation[11]);
-    const int noiseType=int(param("noiseType"));
+    const int noiseType=int(param("noiseType")),noiseMode=int(param("noiseMode"));
     const double subRatio=std::exp2(param("subOctave"));static constexpr int subShapes[]{2,3,0,1,4,6};const int subShape=subShapes[juce::jlimit(0,5,int(param("subWave")))];
     const float cutoffSmoothing=float(1-std::exp(-1/(sr*.0015)));
     const float width1=juce::jlimit(0.0f,1.0f,param("osc1Width")+0.5f*modulation[12]);
@@ -813,6 +816,11 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     const double masterOctave=param("masterOctave");
     auto msg=patternMidi.begin();
     for(int s=0;s<b.getNumSamples();++s){
+        // A separate generator runs even between notes. It never consumes a
+        // voice's RNG or changes the legacy random-per-note signal.
+        freeNoiseState^=freeNoiseState<<13;freeNoiseState^=freeNoiseState>>17;freeNoiseState^=freeNoiseState<<5;
+        const float freeWhite=float(freeNoiseState>>8)*(2.0f/16777215.0f)-1.0f;freeNoiseMemory+=.10f*(freeWhite-freeNoiseMemory);
+        const float freeNoise=noiseType==1?freeNoiseMemory*2.5f:noiseType==2?freeWhite-freeNoiseMemory:freeWhite;
         while(msg!=patternMidi.end()&&(*msg).samplePosition<=s){
             const auto m=(*msg).getMessage();
             ++msg;
@@ -1036,7 +1044,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                 rng^=rng<<13;rng^=rng>>17;rng^=rng<<5;
                 const float white=float(rng>>8)*(2.0f/16777215.0f)-1.0f;
                 v.noiseMemory+=0.10f*(white-v.noiseMemory);
-                const float noise=noiseType==1?v.noiseMemory*2.5f:noiseType==2?white-v.noiseMemory:white;
+                const float noise=noiseMode==1?freeNoise:noiseType==1?v.noiseMemory*2.5f:noiseType==2?white-v.noiseMemory:white;
                 float mid=noise*voiceNoise*.5f,sidePart=0;panSignal(mid,sidePart,pan[3]);raw+=mid*live[8];rawSide+=sidePart*live[8];bypass+=mid*(1-live[8]);bypassSide+=sidePart*(1-live[8]);
             }
             if(character>0.0f){
@@ -1371,7 +1379,7 @@ void SpaceInfinityProcessor::loadPreset(int index){
     const auto set=[this](const juce::String& id,float value){if(auto* p=state.getParameter(id))p->setValueNotifyingHost(p->convertTo0to1(value));};
     const auto apply=[&](const juce::var& settings){if(const auto* obj=settings.getDynamicObject())for(const auto& property:obj->getProperties())set(property.name.toString(),float(property.value));};
     apply(tranceFactoryBank()["init_settings"]);
-    if(index==0)set("distHot",1);
+    if(index==0){set("distHot",1);set("noiseMode",1);}
     Sample imported;juce::MemoryBlock bytes;
     if(index>0){
         const auto& patch=tranceFactoryBank()["presets"][index-1];apply(patch["settings"]);for(int m=0;m<3;++m)state.state.setProperty("macroLabel"+juce::String(m),juce::StringArray{"TONE","PUNCH","CHARACTER"}[m],nullptr);

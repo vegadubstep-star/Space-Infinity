@@ -1,8 +1,8 @@
 {
-  "native_version": "0.7.0",
+  "native_version": "0.7.1",
   "manual_reference": "https://xferrecords.com/manual/serum-2/docs",
   "notes": "Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.",
-  "parameter_count": 1107,
+  "parameter_count": 1108,
   "parameters": [
     {
       "id": "cutoff",
@@ -11245,6 +11245,20 @@
       "maximum": 480.0,
       "host_default": 440.0,
       "init_value": 440.0
+    },
+    {
+      "id": "noiseMode",
+      "name": "Noise Playback Mode",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "host_default": 0.0,
+      "init_value": 1.0,
+      "choices": [
+        "Random per note",
+        "Free",
+        "Retrigger"
+      ]
     }
   ]
 }

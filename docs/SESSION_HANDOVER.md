@@ -1,3 +1,17 @@
+# Current work — 0.7.1 hardware/timing/noise preview, 17 November 2026
+
+**Owner now requested aesthetic upgrades, clearer timing and repeatable versus free-running noise. Download delivery remains held.** This is the active scope; the earlier SOUND-only direction below is historical. No subagents were authorised or used.
+
+Implemented original brushed-metal silver/violet knob assets, fixed studio lighting, recessed sockets, raised switches, finer striking-purple panels and HiDPI chassis caching. Actual native Main/FX screenshots are saved as docs/images/Hardware-{MAIN,FX}-071.png after final rendering. Approved logo fitting/output response is retained.
+
+Both visible LFOs have tempo-aware cycle duration labels; Hz fields accept durations. Advanced Delay/Rise/Smooth and FX time/frequency parsers convert explicit units. Sub-Hz FX rates retain decimals. Noise has Random/Free/Retrigger: separate continuous generator, fixed seed and colour memory on Retrigger. Init uses Free; omitted legacy field defaults to Random. The new noiseMode parameter is appended, preserving all 1107 prior definitions and indices; native inventory is 1108 parameters/version0.7.1. Existing160 bank and Heritage200 ZIP are unchanged (compatibility evidence in audit/HARDWARE_TIMING_NOISE_071_COMPATIBILITY.json).
+
+Native focused noise/LFO tests and 800/1000/1180/1500 UI bounds passed during implementation. Additional tests check successive bursts, host-tempo readout and actual attached FX/LFO parsers. Final full native suite and Windows preview verification are being completed; replace this status with their actual results before handoff. CMake, installer and package filenames are0.7.1. The Windows workflow now supports publish_release=false and verifies an installer ZIP even when publication is held. Push source with [skip ci], then dispatch this preview mode to avoid auto publication. Do not overwrite the verified0.7.0 assets or describe them as containing this update.
+
+Source/theme details: docs/HARDWARE_TIMING_NOISE_UPDATE.md, scripts/artwork/render-hardware.py, native-vst3/Assets/Hardware/PROVENANCE.json. Native logs in /tmp/hardware-*.log. Build in native-vst3/build-linux with /workspace/work/build-tools/cmake/data/bin/cmake; DISPLAY=:99, XDG_CACHE_HOME=/workspace/work/runtime-cache. Preserve the existing untracked audition/ and script __pycache__/ directories. Four of our own old temporary RenderHeritage helper executables were removed to free disk; source utilities and measured/rendered sound assets remain.
+
+---
+
 # Current handover — 0.7.0, 17 November 2026
 
 **Owner direction: focus on SOUND. Do not send download links yet.** The owner explicitly said “dont send me download yet”, then requested stronger distortion and selected sound over usability changes. Keep installer/audio links held until requested. Simple/Advanced views, collapsible FX, favourites and a simpler MAIN page were discussed as suggestions only; no such redesign was started. Latest questions covered FX features, competitive positioning and the analogue engine. Do not claim superiority over Serum/Diva/Nexus without a fair listening comparison, or exact hardware circuit emulation.

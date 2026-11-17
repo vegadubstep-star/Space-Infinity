@@ -167,6 +167,7 @@ private:
     std::array<std::atomic<float>*,7> eqTypes{},eqSlopes{};
     std::array<std::atomic<float>*,16> gateParameters{};
     std::atomic<float> outputPeak{0.0f};
+    uint32_t freeNoiseState=0x57a3c9e1u;float freeNoiseMemory=0;
     struct Sample {
         juce::AudioBuffer<float> audio;
         double sampleRate = 0;
