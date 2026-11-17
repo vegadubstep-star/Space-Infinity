@@ -1,0 +1,66 @@
+name: Verify and publish 0.7.0 package references and sound previews
+on:
+  push:
+    branches: [codex/release070-publication]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Windows-verified release payloads
+        run: gh release download v0.7.0 --repo "$GITHUB_REPOSITORY" --dir release
+      - name: Correct reference metadata and add native sound previews
+        run: |
+          mkdir -p release/audit
+          cp docs/audit/NATIVE_PARAMETER_INVENTORY.json release/audit/
+          cp release-packs/070/* release/
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          r=Path('release');j=json.loads((r/'audit/NATIVE_PARAMETER_INVENTORY.json').read_text())
+          assert j['native_version']=='0.7.0' and j['parameter_count']==1107
+          for line in (r/'SHA256SUMS.txt').read_text(encoding='utf-8-sig').splitlines():
+              sha,name=line.split(None,1);assert hashlib.sha256((r/name.strip()).read_bytes()).hexdigest()==sha.lower()
+          assert (r/'SPACE_INFINITY_Heritage_200.zip').read_bytes()==Path('native-vst3/Presets/Heritage200/SPACE_INFINITY_Heritage_200.zip').read_bytes()
+          PY
+      - name: Repackage the verified installer with the corrected reference
+        run: python scripts/package-installer-zip.py release 0.7.0
+      - name: Publish corrected package and native sound previews
+        run: |
+          gh release upload v0.7.0 --repo "$GITHUB_REPOSITORY" --clobber \
+            release/SPACE_INFINITY_0.7.0_Windows_x64_Installer.zip \
+            release/SPACE_INFINITY_0.7.0_Windows_x64_Installer.zip.sha256 \
+            release/SPACE_INFINITY_Heritage_200_Auditions.zip \
+            release/SPACE_INFINITY_Heritage_200_Auditions.zip.sha256 \
+            release/SPACE_INFINITY_0.7.0_Sound_Comparisons.zip \
+            release/SPACE_INFINITY_0.7.0_Sound_Comparisons.zip.sha256
+      - name: Verify every published asset and repair documentation link
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,subprocess
+          from pathlib import Path
+          repo=os.environ['GITHUB_REPOSITORY'];root=Path('release')
+          r=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/releases/tags/v0.7.0']))
+          assert len(r['assets'])==34
+          verified=[]
+          for a in r['assets']:
+              p=root/a['name'];sha=hashlib.sha256(p.read_bytes()).hexdigest()
+              assert a['digest']=='sha256:'+sha and a['size']==p.stat().st_size,a['name']
+              verified.append(dict(name=a['name'],sha256=sha,size=a['size']))
+          notes=r['body'].replace('(DISTORTION_DRIVE_UPDATE.md)',f'(https://github.com/{repo}/blob/3fdf00f81f3697ad4ca34f18e9d76470756bbef6/docs/DISTORTION_DRIVE_UPDATE.md)')
+          suffix='The installer ZIP includes the corrected 0.7.0 parameter reference. Windows-verified binaries were reused. Native individual auditions and level-matched sound comparisons are supplied separately.'
+          if suffix not in notes:notes+='\n\n'+suffix+'\n'
+          (root/'RELEASE_NOTES.md').write_text(notes)
+          subprocess.run(['gh','release','edit','v0.7.0','--repo',repo,'--notes-file',str(root/'RELEASE_NOTES.md')],check=True)
+          (root/'UTILITY_VERIFIED.json').write_text(json.dumps(dict(source_commit=os.environ['GITHUB_SHA'],windows_binary_source='86122cd3752f41201bc08ba055c9ae86b14355b6',assets=verified),indent=2)+'\n')
+          print('Verified all 34 published asset digests and sizes; original Windows binaries unchanged.')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Release-070-Publication-Proof
+          path: release/UTILITY_VERIFIED.json
+          retention-days: 7
