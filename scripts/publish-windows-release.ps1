@@ -55,6 +55,7 @@ $notes = (Get-Content -LiteralPath $notesSource -Raw).Replace('(images/', "(http
 $docsUrl = "https://github.com/$repo/blob/$($env:GITHUB_SHA)/docs/"
 $notes = $notes.Replace('(SERUM2_FEATURE_AUDIT.md)', "(${docsUrl}SERUM2_FEATURE_AUDIT.md)").Replace('(audit/NATIVE_PARAMETER_INVENTORY.json)', "(${docsUrl}audit/NATIVE_PARAMETER_INVENTORY.json)")
 $notes = $notes.Replace('(TRANCE_FACTORY_BANK_RESEARCH.md)', "(${docsUrl}TRANCE_FACTORY_BANK_RESEARCH.md)")
+$notes = $notes.Replace('(DISTORTION_DRIVE_UPDATE.md)', "(${docsUrl}DISTORTION_DRIVE_UPDATE.md)")
 $notes | Set-Content -LiteralPath $notesFile -Encoding utf8
 $paths = @($files | ForEach-Object { Join-Path $releaseDir $_ })
 $uploaded = $false
