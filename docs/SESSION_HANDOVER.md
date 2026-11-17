@@ -1,3 +1,42 @@
+# Current handover — 0.7.0, 17 November 2026
+
+**Owner direction: focus on SOUND. Do not send download links yet.** The owner explicitly said “dont send me download yet”, then requested stronger distortion and selected sound over usability changes. Keep installer/audio links held until requested. Simple/Advanced views, collapsible FX, favourites and a simpler MAIN page were discussed as suggestions only; no such redesign was started. Latest questions covered FX features, competitive positioning and the analogue engine. Do not claim superiority over Serum/Diva/Nexus without a fair listening comparison, or exact hardware circuit emulation.
+
+## Completed and verified
+
+Added **Heritage 200** as a separate bank: 80 Korg M1, 60 Roland JP-8000/JP-8080 and 60 Nord Lead 2 influences. The owner explicitly confirmed JP-8000/8080 and ADD rather than replace. Existing 160 factory presets remain. Research includes original Korg/Roland/Nord manuals/specifications; original wavetable synthesis and existing documented CC0 multisamples are used, with no manufacturer ROM copies. See HERITAGE_200_UPDATE.md, research/HERITAGE_200_RESEARCH.md, Presets/Heritage200/Recipes.json and the catalogue. The ZIP is included beside Setup.exe; import the intact bank ZIP through BANK > IMPORT and select its Heritage 200 tag. Full prevalidation, late-conflict rollback, stable IDs, edited reimport preservation and all 200 native recalls pass.
+
+Distortion now has **HOT RANGE** (up to 24 dB additional pre-drive, 60 dB total Drive sweep), 20 characters including Tape/Fuzz/Bit Crush, and WARM/ACID/FUZZ buttons. Input, tone, wet mix, pre/post filter, HQ and output gain/meters remain. Fresh Init enables HOT; host default is off for omitted-field legacy recall. Existing 17 mode indices and their standard DSP response are preserved. Frozen 0.6.3 fixture comparisons have zero sample difference. At a quiet -40 dBFS peak sine, Drive55%/Input+12dB, THD is 2.50% standard vs15.90% HOT; HQ cuts the HOT alias-power fraction from0.09910 to0.004853. No adaptive gain follower was introduced. All20 characters are checked at44.1/48/96kHz with sustained-level and dry-mix checks. Native screenshots fit800/1000pixel widths. See DISTORTION_DRIVE_UPDATE.md.
+
+All200 voices were exported/recalled, rendered for single/retrigger and four-note maximum-velocity chord tests, and balanced toward -20LUFS subject to measured headroom. Thirty voices were revised after a spectral/contour review (58 close pairs reduced to12 source/role variants). H128 Resonant Landing, H160 Acid Ember and H163 Drive Tundra use HOT and were remeasured. The other197 retain standard drive. Actual native single-note auditions have highest four-times-oversampled true peak **-2.51dBTP**, median **-20.07LUFS**; some transient/chord-limited voices are quieter. Native chord sample peaks stay below0.89 (largest about0.801); internal pre-safety peak budget0.94. These checks cover the fixed test configurations, not every possible edited macro/effect setting. Do not claim every preset is peak-normalised to0dB. Detailed results: audit/HERITAGE_200_*.json. Musical listening approval remains the owner's test.
+
+## Source, Windows and publication
+
+Main branch: `codex/windows-build`. Windows production source **86122cd3752f41201bc08ba055c9ae86b14355b6**. [Windows workflow44105099806](https://github.com/vegadubstep-star/Space-Infinity/actions/runs/44105099806), job134115181350, passed all20 suites plus installer install/uninstall and byte identity between installed/archived VST3. Version0.7.0;360 presets plus Init after bank import,1107 parameters,39 sources,60 multisample zones,7 filter types. Existing analogue controls and Space/Energy/Width remain.
+
+Independent readback caught a hardcoded0.6.3 label in the parameter reference export. **3fdf00f81f3697ad4ca34f18e9d76470756bbef6** derives it from JucePlugin_VersionString and corrects the reference JSON. Native re-export matches all1107 definitions; only reference version changes. No production DSP/binary change was needed. The verified Setup/VST3 were reused and the outer installer ZIP repackaged with the corrected0.7.0 reference. Documentation links were repaired too.
+
+Direct client uploads to uploads.github.com returned401 while API reads and Git push continued working. No user reauthentication was requested. Utility branch `codex/release070-publication`, commit **b4d4b7f2658ac6ee74e127a9f1d1f095e7dcda0d**, [workflow44111810292](https://github.com/vegadubstep-star/Space-Infinity/actions/runs/44111810292), job134139136119, used a fresh Actions token to publish the corrected ZIP and audio previews without rebuilding Windows. All34 published asset SHA-256/size values match local bytes. The corrected installer ZIP was downloaded again and independently inspected: x64 PE/version, exact original160 bank, approved logo, all60 WAV zones, current docs/1107-parameter reference,200 bank hashes and both preview ZIP CRCs. Evidence: `/workspace/work/release-verification/v0.7.0/` including DOWNLOAD_VERIFIED.json, PUBLISHED_ASSET_DIGESTS.json, WINDOWS_WORKFLOW.log and PUBLICATION_WORKFLOW.log. Summary copies are in docs/audit/RELEASE_070_*.json.
+
+Verified hashes:
+- Installer ZIP: `6dfe33919332b3fdac9cc7b8c8efb81e9c1a7e49d9d0302e8a1cf6f2faa53017`
+- Setup: `725229abcabc5e1200ffc4168546ebc2b6d033e416c718781e165054aa710980`
+- VST3 ZIP: `f4298866d7637a738c74a54d4ccc4c88d95867b53cfb0e6017ce6cd3ad55f171`
+- Heritage200 bank: `6a8254f826a10c278dd4de8095cf65b06f0ae0b1d87cc1a8c9300319a4549247`
+- Native200-audition ZIP: `f4a1d4f393ebdbdbd952ca9a5f1e7c4f49155b2ac563b512f7d9f301a178ba28`
+
+Release tag is v0.7.0 and contains the installer, bank, individual native auditions and sound comparisons. **Do not send its download links until the owner asks.** Actual FL Studio listening on the other PC is still the owner's test; do not describe native/Windows smoke checks as FL-host certification.
+
+## Local tools / sound focus
+
+`/workspace/work/heritage200/` holds recipes, final native exports, calibration, verified measurements and200 actual native audition WAVs/MP3s. Source authoring utilities are scripts/heritage/. Native previews are direct renders, not gain-scaled raw WAVs: the nonlinear safety stage runs before2x decimation, so scaling an already decimated raw file is not equivalent. Initial600MB unscaled raw WAVs were removed after calibration to conserve space; measurements remain.
+
+`/workspace/work/sound-focus/` holds an additional actual native comparison generator and renders: same140BPM MIDI/cutoff line through DRY/STANDARD/HOT, and Organ Avenue / Seven Engine / FM Sledge / Acid Ember bass examples. Acid Comparison.mp3 and Bass Characters.mp3 use fixed gain matched to -22LUFS for comparison only, with no extra compression/EQ/saturation. ComparisonLevels.json records the gain. They are packaged in SPACE_INFINITY_0.7.0_Sound_Comparisons.zip and published; links/audio delivery are held. Analogue features were explained as software modelling (driven ZDF/acid filters, drift/thermal variation, voice/filter/envelope variation, VCA saturation/asymmetry/memory/coupling, NEUTRAL/WARM/VINTAGE), not circuit-exact hardware emulation. One FX-list correction was made: convolver has TONE shaping, not a dedicated pitch-tune knob. Delay modes are Legacy, Normal, Ping-pong, Tap -> Delay; do not claim RePitch.
+
+No subagents were used/authorised. Existing untracked audition/ and script __pycache__/ folders were preserved and excluded. Native build: native-vst3/build-linux; CMake/ctest at /workspace/work/build-tools/cmake/data/bin; DISPLAY=:99 and XDG_CACHE_HOME=/workspace/work/runtime-cache. All20 full native suites passed in219s; after the reference-only exporter fix, a fresh native parameter export was compared exactly. Avoid unnecessary reruns until code changes or a new concern warrants them.
+
+---
+
 # Verified release — SPACE INFINITY 0.6.3
 
 Ready for the owner's FL Studio listening test. [Installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.6.3/SPACE_INFINITY_0.6.3_Windows_x64_Installer.zip). Close FL Studio, Extract All, run Setup, then select revised factory bass presets. [Presets-only ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.6.3/SPACE_INFINITY_0.6.3_Bass_Presets.zip) also works with0.6.2: extract, BANK > IMPORT, choose individual.sipreset files.

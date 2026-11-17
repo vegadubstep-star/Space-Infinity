@@ -1,0 +1,18 @@
+{
+  "heritage_presets": 200,
+  "distortion_characters": 20,
+  "installer_zip_sha256": "6dfe33919332b3fdac9cc7b8c8efb81e9c1a7e49d9d0302e8a1cf6f2faa53017",
+  "installer_sha256": "725229abcabc5e1200ffc4168546ebc2b6d033e416c718781e165054aa710980",
+  "vst3_zip_sha256": "f4298866d7637a738c74a54d4ccc4c88d95867b53cfb0e6017ce6cd3ad55f171",
+  "vst3_module": "SPACE INFINITY.vst3/Contents/x86_64-win/SPACE INFINITY.vst3",
+  "factory_presets": 160,
+  "multisample_zones_verified": 60,
+  "native_parameters": 1107,
+  "release_assets_digest_verified": 34,
+  "windows_binary_source": "86122cd3752f41201bc08ba055c9ae86b14355b6",
+  "reference_correction_source": "3fdf00f81f3697ad4ca34f18e9d76470756bbef6",
+  "publication_commit": "b4d4b7f2658ac6ee74e127a9f1d1f095e7dcda0d",
+  "bank_sha256": "6a8254f826a10c278dd4de8095cf65b06f0ae0b1d87cc1a8c9300319a4549247",
+  "native_auditions": 200,
+  "download_links_held_at_owner_request": true
+}

@@ -1,0 +1,172 @@
+[
+  {
+    "name": "ACID_BASS_AND_CHOIR_UPDATE.md",
+    "sha256": "6d094f3145ebcddf5c0d45a14afccac3c551ab1fdfc98a09cd04790702d3a8bf",
+    "size": 3678
+  },
+  {
+    "name": "ACID_CUTOFF_UPDATE.md",
+    "sha256": "4d0518297154bdc78534cd1fae03eaa6455961a54e4091f7b42fcee4c2a0a4d0",
+    "size": 2441
+  },
+  {
+    "name": "ANALOGUE_AND_PARITY_UPDATE.md",
+    "sha256": "60d22fe7bde0a964a842b5eb4aafac3e1d0fbf1fa1b7df5fed9541b9e898a446",
+    "size": 7467
+  },
+  {
+    "name": "BASS_VOICING_UPDATE.md",
+    "sha256": "5dd39057bbffa0387908ec698860bcf3736d979a3cd953fb251db51f7490e61c",
+    "size": 2563
+  },
+  {
+    "name": "CC0-1.0.txt",
+    "sha256": "437ca31a127c9f1b191ff9a42bb563e5f7e414ae819006dca4635d9fb34aeb94",
+    "size": 7171
+  },
+  {
+    "name": "CHOIR_SAMPLE_PROVENANCE.json",
+    "sha256": "9096af43c46bd6364abd0a1fe82081ebc9d459a35e98b02d2e2a6931947a7775",
+    "size": 15392
+  },
+  {
+    "name": "CONTROL_AND_LEVEL_UPDATE.md",
+    "sha256": "349e6fb65b8361f67deaa3edf5d01a5283e578e153c63401af52b25aad20d044",
+    "size": 3720
+  },
+  {
+    "name": "CREATIVE_WORKFLOW_UPDATE.md",
+    "sha256": "0fdb78224e7c8531cb849c2c629379e55fb9250a438a18921cc5f42830f228da",
+    "size": 5426
+  },
+  {
+    "name": "DISTORTION_DRIVE_UPDATE.md",
+    "sha256": "082cd319d291204969364da68be44fe97f4318088e88da3cad696379f220e153",
+    "size": 3105
+  },
+  {
+    "name": "HERITAGE_200_UPDATE.md",
+    "sha256": "51cbc2c4a19704b04e0970c59cdb7fcd429d6feba16e4ed36914d5ef0164532f",
+    "size": 3201
+  },
+  {
+    "name": "READ_ME_FIRST.md",
+    "sha256": "a4c8cd04ac8d95c3a50e3d0303965ba8cc748598c9ca5fb7a72972efd3d0ef8b",
+    "size": 9217
+  },
+  {
+    "name": "RHYTHM_AND_METAL_UPDATE.md",
+    "sha256": "5fc632094e65b98436daf85151eb4a598f7413ee4bcd28bcb7c10ab0e78a14d8",
+    "size": 7400
+  },
+  {
+    "name": "SAMPLE_PROVENANCE.json",
+    "sha256": "1bd03aa6a53def9c2f5bb6d3265a719f99850ab9304667479c7e26a981306b18",
+    "size": 8434
+  },
+  {
+    "name": "SERUM2_FEATURE_AUDIT.md",
+    "sha256": "12da5960afd00e529133a2afdc60eef81b8b60d60119c0c737ee900578ff5fcf",
+    "size": 15362
+  },
+  {
+    "name": "SHA256SUMS.txt",
+    "sha256": "cbd65d5642a7f0f13e395573ac0901ac97e198d8ed5f390110f58528e4761249",
+    "size": 219
+  },
+  {
+    "name": "SPACE_INFINITY_0.7.0_Choir_Stabs.zip",
+    "sha256": "9cf6745ed18435af3a6b604b2469c90c5b4fa4290a58105bd0874b24eeaaec78",
+    "size": 4963146
+  },
+  {
+    "name": "SPACE_INFINITY_0.7.0_Choir_Stabs.zip.sha256",
+    "sha256": "ef6678a799d8f3872b1f7b60a42acbdaca724539e2bbaa5eac2dbf9ebafacc4e",
+    "size": 104
+  },
+  {
+    "name": "SPACE_INFINITY_0.7.0_Sound_Comparisons.zip",
+    "sha256": "17ec12fb802347d493f06a96ecbbdd5a5f02f28d0939a0346704f9c4f627761d",
+    "size": 519550
+  },
+  {
+    "name": "SPACE_INFINITY_0.7.0_Sound_Comparisons.zip.sha256",
+    "sha256": "281d3f68657c413a87a4ee10a236812fabe9e6ecc6d4216ebc617fa31c9d215e",
+    "size": 109
+  },
+  {
+    "name": "SPACE_INFINITY_0.7.0_Windows_x64_Installer.zip",
+    "sha256": "6dfe33919332b3fdac9cc7b8c8efb81e9c1a7e49d9d0302e8a1cf6f2faa53017",
+    "size": 45246579
+  },
+  {
+    "name": "SPACE_INFINITY_0.7.0_Windows_x64_Installer.zip.sha256",
+    "sha256": "33f31566bcd43b4c9fa348755e2e2242f1a7042d096c378f9dbd1c2d8018f1c7",
+    "size": 113
+  },
+  {
+    "name": "SPACE_INFINITY_0.7.0_Windows_x64_Setup.exe",
+    "sha256": "725229abcabc5e1200ffc4168546ebc2b6d033e416c718781e165054aa710980",
+    "size": 42576592
+  },
+  {
+    "name": "SPACE_INFINITY_0.7.0_Windows_x64_VST3.zip",
+    "sha256": "f4298866d7637a738c74a54d4ccc4c88d95867b53cfb0e6017ce6cd3ad55f171",
+    "size": 48614743
+  },
+  {
+    "name": "SPACE_INFINITY_Heritage_200.zip",
+    "sha256": "6a8254f826a10c278dd4de8095cf65b06f0ae0b1d87cc1a8c9300319a4549247",
+    "size": 3471661
+  },
+  {
+    "name": "SPACE_INFINITY_Heritage_200.zip.sha256",
+    "sha256": "5faa087f92c924f829ff0550b043a5d99fa723c242a274c50b2cfa45e27ecdda",
+    "size": 99
+  },
+  {
+    "name": "SPACE_INFINITY_Heritage_200_Auditions.zip",
+    "sha256": "f4a1d4f393ebdbdbd952ca9a5f1e7c4f49155b2ac563b512f7d9f301a178ba28",
+    "size": 12001498
+  },
+  {
+    "name": "SPACE_INFINITY_Heritage_200_Auditions.zip.sha256",
+    "sha256": "39afb679b8d981e168482b0e1d58e6ca8cf6b47438b302adf799579d7fb62e06",
+    "size": 108
+  },
+  {
+    "name": "TEN_CONTROL_UPDATES.md",
+    "sha256": "e1dc47fe81174bf285eceaa1a54d08d9f0b5d0c7a802f096deef70f6b3daccae",
+    "size": 3284
+  },
+  {
+    "name": "THIRD_PARTY_SAMPLES.md",
+    "sha256": "9e6df85c53486a2052810f6b8711b5d8fc695ec9e772dbc3036b9e7eaf4c7ae4",
+    "size": 5121
+  },
+  {
+    "name": "TRANCE_FACTORY_BANK.md",
+    "sha256": "e81f0a1652854f906a2a468149e2aa39f8af072bc499a3afe7c5624a2b1e5cb8",
+    "size": 2908
+  },
+  {
+    "name": "TRANCE_FACTORY_BANK_RESEARCH.md",
+    "sha256": "bfec7325d497301324cca8125ddfe282bad0792647366874b2ed6d60ee0f03c5",
+    "size": 7227
+  },
+  {
+    "name": "TRANCE_PRESET_CATALOGUE.md",
+    "sha256": "f3b7e0810aebd1a5c2db5067ef1d8d4cb6f071cf16f9ede1c7a6028110fca7ea",
+    "size": 17368
+  },
+  {
+    "name": "TRANCE_SAMPLE_PROVENANCE.json",
+    "sha256": "1791363b944f1dfb778a8c8d68ab4000bdb470bd596cb4ee424368757b6f28f2",
+    "size": 45784
+  },
+  {
+    "name": "USER_CHOIR_PROVENANCE.json",
+    "sha256": "c2b5b2738f234eb68aa8144f1413aa75ef6e9f19aa84b32acea3d3c2067b92ec",
+    "size": 8399
+  }
+]
