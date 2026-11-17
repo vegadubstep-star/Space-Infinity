@@ -26,6 +26,6 @@ New Init patches use Free. Existing factory sounds and saved presets that omit t
 
 ## Validation
 
-Native audio tests cover White/Dark/Bright repeatability, Free advancing during silence, saved recall and omitted-field compatibility. Timing checks cover BPM, Hz, dotted/triplet/ping-pong durations, actual attached slider parsers and visible readouts at all four supported window sizes. Existing audio and UI regression suites are also run for this update. Native screenshots above are generated from the compiled editor, not concept artwork. FL Studio listening remains the owner's separate test.
+Native audio tests cover White/Dark/Bright repeatability, Free advancing during silence, saved recall and omitted-field compatibility. Timing checks cover BPM, Hz, dotted/triplet/ping-pong durations, actual attached slider parsers and visible readouts at all four supported window sizes. All21 native suites passed on Linux (229.84s) and Windows (274.16s), along with the Python preset importer, Windows install/uninstall and installer ZIP verification. Native screenshots above are generated from the compiled editor, not concept artwork. FL Studio listening remains the owner's separate test.
 
 The original 160 factory presets and the separate Heritage 200 bank are retained. No preset-volume, distortion or analogue-filter redesign is part of this update. Artwork is original procedural material rendering; generation source and hashes are in `scripts/artwork/render-hardware.py` and `native-vst3/Assets/Hardware/PROVENANCE.json`.

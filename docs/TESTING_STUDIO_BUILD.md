@@ -1,6 +1,6 @@
 # Testing SPACE INFINITY 0.7.1
 
-The 0.7.1 materials/timing/noise update is being verified; download delivery is held at the owner's request. When its verified installer is provided, Extract All, close FL Studio, run Setup, then reopen FL Studio and load a fresh SPACE INFINITY instance. The plugin identity and user preset storage are preserved.
+The 0.7.1 materials/timing/noise update has passed native and Windows verification; download delivery remains held at the owner's request. When its verified installer is provided, Extract All, close FL Studio, run Setup, then reopen FL Studio and load a fresh SPACE INFINITY instance. The plugin identity and user preset storage are preserved.
 
 [New materials, timing and noise-mode checks](HARDWARE_TIMING_NOISE_UPDATE.md): inspect the purple finish at normal and high display scaling; check both LFO cycle labels against the project tempo; enter `500 ms` in Hz mode; compare Free and Retrigger noise with the oscillators/sub muted. Existing projects without the new field should recall Random.
 
