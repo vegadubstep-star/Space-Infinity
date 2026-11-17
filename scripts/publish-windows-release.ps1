@@ -26,6 +26,10 @@ $checksums = foreach ($name in @($setupName, $archiveName)) {
 }
 $checksums | Set-Content -LiteralPath $checksumPath -Encoding utf8
 $files += 'SHA256SUMS.txt'
+$files += 'SPACE_INFINITY_Heritage_200.zip'
+$files += 'SPACE_INFINITY_Heritage_200.zip.sha256'
+$files += 'HERITAGE_200_UPDATE.md'
+$files += 'DISTORTION_DRIVE_UPDATE.md'
 $files += "SPACE_INFINITY_${version}_Choir_Stabs.zip"
 $files += "SPACE_INFINITY_${version}_Choir_Stabs.zip.sha256"
 foreach ($document in @('RHYTHM_AND_METAL_UPDATE.md', 'ANALOGUE_AND_PARITY_UPDATE.md', 'SERUM2_FEATURE_AUDIT.md', 'ACID_BASS_AND_CHOIR_UPDATE.md', 'ACID_CUTOFF_UPDATE.md', 'BASS_VOICING_UPDATE.md', 'USER_CHOIR_PROVENANCE.json', 'CREATIVE_WORKFLOW_UPDATE.md', 'CHOIR_SAMPLE_PROVENANCE.json', 'CONTROL_AND_LEVEL_UPDATE.md', 'TRANCE_FACTORY_BANK.md', 'TRANCE_FACTORY_BANK_RESEARCH.md', 'TRANCE_PRESET_CATALOGUE.md', 'TRANCE_SAMPLE_PROVENANCE.json')) {
@@ -36,7 +40,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Installer ZIP packaging failed.' }
 $files += "SPACE_INFINITY_${version}_Windows_x64_Installer.zip"
 $files += "SPACE_INFINITY_${version}_Windows_x64_Installer.zip.sha256"
 $repo = $env:GITHUB_REPOSITORY
-$notesSource = Join-Path $root 'docs/BASS_VOICING_UPDATE.md'
+$notesSource = Join-Path $root 'docs/HERITAGE_200_UPDATE.md'
 if (-not (Test-Path -LiteralPath $notesSource)) { $notesSource = Join-Path $root 'docs/RHYTHM_AND_METAL_UPDATE.md' }
 # Keep a new release private until its installer and archive have uploaded.
 $existing = & gh release view $tag --repo $repo --json targetCommitish,isDraft 2>$null

@@ -200,7 +200,7 @@ APVTS::ParameterLayout makeLayout(){
     choice("reverbSpace","Reverb Space",{"Room","Plate","Hall"},1);
     f("compAmount","Multiband Amount",0,1,0);
     flag("distEnabled","Distortion Enabled",false);choice("distType","Distortion Type",studio::Distortion::names(),0);choice("distFilterPosition","Distortion Filter",{"Off","Pre","Post"},0);f("distDrive","Distortion Drive",0,1,.2f);f("distMix","Distortion Mix",0,1,1);f("distFrequency","Distortion Filter Frequency",20,20000,6000);f("distQ","Distortion Bandwidth",.2f,10,.7071f);f("distFilterMorph","Distortion LP BP HP",0,1,0);
-    f("distInput","Distortion Input",-24,36,0);f("distTone","Distortion Tone",500,20000,20000);flag("distHQ","Distortion HQ",false);
+    f("distInput","Distortion Input",-24,36,0);f("distTone","Distortion Tone",500,20000,20000);flag("distHQ","Distortion HQ",false);flag("distHot","Distortion Hot Drive Range",false);
     for(int curve=0;curve<2;++curve)for(int i=0;i<9;++i)f(("distShape"+juce::String(curve)+"_"+juce::String(i)).toRawUTF8(),("Distortion shape "+juce::String(curve+1)+" point "+juce::String(i)).toRawUTF8(),-1,1,curve==0?float(i)/4-1:std::tanh((float(i)/4-1)*2)/std::tanh(2.0f));
     f("pitchBend","Pitch Wheel",-24,24,0);
     for(const char* prefix:{"delayWet","reverbWet"})for(int band=0;band<3;++band){const auto id=juce::String(prefix)+(band==0?"Low":band==1?"Mid":"High");f((id+"Freq").toRawUTF8(),(id+" Frequency").toRawUTF8(),20,20000,band==0?200:band==1?1500:6000);f((id+"Gain").toRawUTF8(),(id+" Gain").toRawUTF8(),-18,18,0);f((id+"Q").toRawUTF8(),(id+" Q").toRawUTF8(),.2f,4,band==1?1:.7071f);}
@@ -1109,7 +1109,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     if(std::abs(oldTempo-delayBpm)>.001&&param("irSync")>0)impulseRequest.fetch_add(1,std::memory_order_relaxed);
     const bool distort=param("distEnabled")>.5f;
     distortion.beginBlock();
-    if(distort){studio::Distortion::Settings settings;settings.type=int(param("distType"));settings.inputDb=param("distInput");settings.tone=param("distTone");settings.hq=param("distHQ")>.5f;settings.drive=param("distDrive");settings.mix=param("distMix");settings.filterPosition=int(param("distFilterPosition"));settings.frequency=param("distFrequency");settings.q=param("distQ");settings.filterMorph=param("distFilterMorph");for(int i=0;i<9;++i){settings.a[size_t(i)]=param(("distShape0_"+juce::String(i)).toRawUTF8());settings.b[size_t(i)]=param(("distShape1_"+juce::String(i)).toRawUTF8());}distortion.configure(settings);for(int i=0;i<b.getNumSamples();++i){const auto value=distortion.process(left[i],right[i]);left[i]=value[0];right[i]=value[1];}}
+    if(distort){studio::Distortion::Settings settings;settings.type=int(param("distType"));settings.inputDb=param("distInput");settings.tone=param("distTone");settings.hq=param("distHQ")>.5f;settings.hot=param("distHot")>.5f;settings.drive=param("distDrive");settings.mix=param("distMix");settings.filterPosition=int(param("distFilterPosition"));settings.frequency=param("distFrequency");settings.q=param("distQ");settings.filterMorph=param("distFilterMorph");for(int i=0;i<9;++i){settings.a[size_t(i)]=param(("distShape0_"+juce::String(i)).toRawUTF8());settings.b[size_t(i)]=param(("distShape1_"+juce::String(i)).toRawUTF8());}distortion.configure(settings);for(int i=0;i<b.getNumSamples();++i){const auto value=distortion.process(left[i],right[i]);left[i]=value[0];right[i]=value[1];}}
     distortion.endBlock();finishEffect(8,b,distort);
     studio::Rhythm::Settings rhythmSettings;
     rhythmSettings.gate=param("gateEnabled")>.5f;rhythmSettings.pump=param("pumpEnabled")>.5f;
@@ -1371,6 +1371,7 @@ void SpaceInfinityProcessor::loadPreset(int index){
     const auto set=[this](const juce::String& id,float value){if(auto* p=state.getParameter(id))p->setValueNotifyingHost(p->convertTo0to1(value));};
     const auto apply=[&](const juce::var& settings){if(const auto* obj=settings.getDynamicObject())for(const auto& property:obj->getProperties())set(property.name.toString(),float(property.value));};
     apply(tranceFactoryBank()["init_settings"]);
+    if(index==0)set("distHot",1);
     Sample imported;juce::MemoryBlock bytes;
     if(index>0){
         const auto& patch=tranceFactoryBank()["presets"][index-1];apply(patch["settings"]);for(int m=0;m<3;++m)state.state.setProperty("macroLabel"+juce::String(m),juce::StringArray{"TONE","PUNCH","CHARACTER"}[m],nullptr);

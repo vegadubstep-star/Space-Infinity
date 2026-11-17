@@ -2,7 +2,7 @@
   "native_version": "0.6.3",
   "manual_reference": "https://xferrecords.com/manual/serum-2/docs",
   "notes": "Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.",
-  "parameter_count": 1106,
+  "parameter_count": 1107,
   "parameters": [
     {
       "id": "cutoff",
@@ -4812,7 +4812,7 @@
       "name": "Distortion Type",
       "type": "choice",
       "minimum": 0.0,
-      "maximum": 16.0,
+      "maximum": 19.0,
       "host_default": 0.0,
       "init_value": 0.0,
       "choices": [
@@ -4832,7 +4832,10 @@
         "Sine Shaper",
         "Transistor",
         "Tube Stack",
-        "Hard Drive"
+        "Hard Drive",
+        "Tape",
+        "Fuzz",
+        "Bit Crush"
       ]
     },
     {
@@ -4915,6 +4918,15 @@
     {
       "id": "distHQ",
       "name": "Distortion HQ",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 1.0
+    },
+    {
+      "id": "distHot",
+      "name": "Distortion Hot Drive Range",
       "type": "boolean",
       "minimum": 0.0,
       "maximum": 1.0,

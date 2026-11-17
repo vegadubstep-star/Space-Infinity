@@ -9,6 +9,7 @@
  #include <windows.h>
 #endif
 
+int runBankZipSmoke(const juce::File&);
 int runBassSmoke();
 int exportBassRangeProfile(const juce::File&);
 int exportBassAuditions(const juce::File&,const juce::File&);
@@ -94,6 +95,8 @@ int renderHardwarePreview()
 
 int main(int argc,char* argv[])
 {
+    if(argc>2&&juce::String(argv[1])=="--bank-zip-tests"){juce::ScopedJuceInitialiser_GUI init;return runBankZipSmoke(juce::File(argv[2]));}
+
     juce::ScopedJuceInitialiser_GUI gui;
     if(argc>2&&juce::String(argv[1])=="--bass-range-profile")return exportBassRangeProfile(juce::File(argv[2]));
     if(argc>1&&juce::String(argv[1])=="--bass-tests")return runBassSmoke();

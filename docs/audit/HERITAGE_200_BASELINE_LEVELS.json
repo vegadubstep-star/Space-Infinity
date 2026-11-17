@@ -1,0 +1,2605 @@
+{
+  "status": "Completed before HOT-range revision; standard response is retained for unchanged presets",
+  "presets": [
+    {
+      "id": "H001",
+      "name": "Atrium Grand",
+      "category": "Piano",
+      "file": "Presets/M1/Piano/H001 Atrium Grand.sipreset",
+      "chord": {
+        "peak": 0.724017798900604,
+        "pre_safety_peak": 0.915960788726807,
+        "rms": 0.08156128316833,
+        "max_sample_step": 0.174234420061111,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H002",
+      "name": "Ivory House",
+      "category": "Piano",
+      "file": "Presets/M1/Piano/H002 Ivory House.sipreset",
+      "chord": {
+        "peak": 0.734722018241882,
+        "pre_safety_peak": 0.939997017383575,
+        "rms": 0.068873329932871,
+        "max_sample_step": 0.171750694513321,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H003",
+      "name": "Velvet Eight",
+      "category": "Piano",
+      "file": "Presets/M1/Piano/H003 Velvet Eight.sipreset",
+      "chord": {
+        "peak": 0.662939131259918,
+        "pre_safety_peak": 0.798663854598999,
+        "rms": 0.076341446213783,
+        "max_sample_step": 0.105402559041977,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H004",
+      "name": "Crystal Hammer",
+      "category": "Piano",
+      "file": "Presets/M1/Piano/H004 Crystal Hammer.sipreset",
+      "chord": {
+        "peak": 0.673334062099457,
+        "pre_safety_peak": 0.815381586551666,
+        "rms": 0.090181468034438,
+        "max_sample_step": 0.150015294551849,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H005",
+      "name": "Midnight Studio",
+      "category": "Piano",
+      "file": "Presets/M1/Piano/H005 Midnight Studio.sipreset",
+      "chord": {
+        "peak": 0.734601020812988,
+        "pre_safety_peak": 0.939994692802429,
+        "rms": 0.077146035010293,
+        "max_sample_step": 0.141112670302391,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H006",
+      "name": "Sunrise Keys",
+      "category": "Piano",
+      "file": "Presets/M1/Piano/H006 Sunrise Keys.sipreset",
+      "chord": {
+        "peak": 0.734786033630371,
+        "pre_safety_peak": 0.940000653266907,
+        "rms": 0.078094866794664,
+        "max_sample_step": 0.169942244887352,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H007",
+      "name": "Amber Upright",
+      "category": "Piano",
+      "file": "Presets/M1/Piano/H007 Amber Upright.sipreset",
+      "chord": {
+        "peak": 0.736122488975525,
+        "pre_safety_peak": 0.940001308917999,
+        "rms": 0.055889990460574,
+        "max_sample_step": 0.191458821296692,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H008",
+      "name": "Dream Corridor",
+      "category": "Piano",
+      "file": "Presets/M1/Piano/H008 Dream Corridor.sipreset",
+      "chord": {
+        "peak": 0.734287202358246,
+        "pre_safety_peak": 0.939999282360077,
+        "rms": 0.082619691909681,
+        "max_sample_step": 0.153912097215652,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H009",
+      "name": "Paper Piano",
+      "category": "Piano",
+      "file": "Presets/M1/Piano/H009 Paper Piano.sipreset",
+      "chord": {
+        "peak": 0.734807074069977,
+        "pre_safety_peak": 0.940004885196686,
+        "rms": 0.072418970930148,
+        "max_sample_step": 0.14937087893486,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H010",
+      "name": "Starlit Ivory",
+      "category": "Piano",
+      "file": "Presets/M1/Piano/H010 Starlit Ivory.sipreset",
+      "chord": {
+        "peak": 0.639011800289154,
+        "pre_safety_peak": 0.75646585226059,
+        "rms": 0.094757221809557,
+        "max_sample_step": 0.155192822217941,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H011",
+      "name": "Tine Nocturne",
+      "category": "Electric Keys",
+      "file": "Presets/M1/Electric Keys/H011 Tine Nocturne.sipreset",
+      "chord": {
+        "peak": 0.650593340396881,
+        "pre_safety_peak": 0.774948239326477,
+        "rms": 0.093252685298145,
+        "max_sample_step": 0.134046494960785,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H012",
+      "name": "Reed Lantern",
+      "category": "Electric Keys",
+      "file": "Presets/M1/Electric Keys/H012 Reed Lantern.sipreset",
+      "chord": {
+        "peak": 0.647642552852631,
+        "pre_safety_peak": 0.772501587867737,
+        "rms": 0.087092448700967,
+        "max_sample_step": 0.155850023031235,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H013",
+      "name": "Silver Dyno",
+      "category": "Electric Keys",
+      "file": "Presets/M1/Electric Keys/H013 Silver Dyno.sipreset",
+      "chord": {
+        "peak": 0.647235572338104,
+        "pre_safety_peak": 0.771146297454834,
+        "rms": 0.111861631694546,
+        "max_sample_step": 0.213691145181656,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H014",
+      "name": "Glass Suitcase",
+      "category": "Electric Keys",
+      "file": "Presets/M1/Electric Keys/H014 Glass Suitcase.sipreset",
+      "chord": {
+        "peak": 0.653726816177368,
+        "pre_safety_peak": 0.774099886417389,
+        "rms": 0.090397322756178,
+        "max_sample_step": 0.155516803264618,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H015",
+      "name": "Soft Circuit",
+      "category": "Electric Keys",
+      "file": "Presets/M1/Electric Keys/H015 Soft Circuit.sipreset",
+      "chord": {
+        "peak": 0.641541481018066,
+        "pre_safety_peak": 0.760708153247833,
+        "rms": 0.113878280087008,
+        "max_sample_step": 0.099193654954433,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H016",
+      "name": "Clav Mosaic",
+      "category": "Electric Keys",
+      "file": "Presets/M1/Electric Keys/H016 Clav Mosaic.sipreset",
+      "chord": {
+        "peak": 0.724052548408508,
+        "pre_safety_peak": 0.919416606426239,
+        "rms": 0.087731457562488,
+        "max_sample_step": 0.18504174053669,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H017",
+      "name": "Electric Velvet",
+      "category": "Electric Keys",
+      "file": "Presets/M1/Electric Keys/H017 Electric Velvet.sipreset",
+      "chord": {
+        "peak": 0.612918555736542,
+        "pre_safety_peak": 0.715165376663208,
+        "rms": 0.09425811220708,
+        "max_sample_step": 0.097864732146263,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H018",
+      "name": "Neon Tines",
+      "category": "Electric Keys",
+      "file": "Presets/M1/Electric Keys/H018 Neon Tines.sipreset",
+      "chord": {
+        "peak": 0.734917104244232,
+        "pre_safety_peak": 0.939997792243958,
+        "rms": 0.109988967422793,
+        "max_sample_step": 0.245255410671234,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H019",
+      "name": "Cathedral Keys",
+      "category": "Organ",
+      "file": "Presets/M1/Organ/H019 Cathedral Keys.sipreset",
+      "chord": {
+        "peak": 0.608255088329315,
+        "pre_safety_peak": 0.706168532371521,
+        "rms": 0.124712001383211,
+        "max_sample_step": 0.112315654754639,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H020",
+      "name": "Garage Drawbars",
+      "category": "Organ",
+      "file": "Presets/M1/Organ/H020 Garage Drawbars.sipreset",
+      "chord": {
+        "peak": 0.30479633808136,
+        "pre_safety_peak": 0.315468639135361,
+        "rms": 0.056293134109028,
+        "max_sample_step": 0.05807938054204,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H021",
+      "name": "Sunday Circuit",
+      "category": "Organ",
+      "file": "Presets/M1/Organ/H021 Sunday Circuit.sipreset",
+      "chord": {
+        "peak": 0.605781495571136,
+        "pre_safety_peak": 0.702302753925323,
+        "rms": 0.123814176649651,
+        "max_sample_step": 0.095779985189438,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H022",
+      "name": "Bright Pipes",
+      "category": "Organ",
+      "file": "Presets/M1/Organ/H022 Bright Pipes.sipreset",
+      "chord": {
+        "peak": 0.735666692256927,
+        "pre_safety_peak": 0.939999103546143,
+        "rms": 0.121927371126655,
+        "max_sample_step": 0.196382656693459,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H023",
+      "name": "Chapel Bass",
+      "category": "Organ",
+      "file": "Presets/M1/Organ/H023 Chapel Bass.sipreset",
+      "chord": {
+        "peak": 0.368090271949768,
+        "pre_safety_peak": 0.38619527220726,
+        "rms": 0.054800833209467,
+        "max_sample_step": 0.041451510041952,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H024",
+      "name": "Gospel Relay",
+      "category": "Organ",
+      "file": "Presets/M1/Organ/H024 Gospel Relay.sipreset",
+      "chord": {
+        "peak": 0.671927690505981,
+        "pre_safety_peak": 0.814037203788757,
+        "rms": 0.124554441616449,
+        "max_sample_step": 0.144030258059502,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H025",
+      "name": "Percussive Wheel",
+      "category": "Organ",
+      "file": "Presets/M1/Organ/H025 Percussive Wheel.sipreset",
+      "chord": {
+        "peak": 0.734945476055145,
+        "pre_safety_peak": 0.940002262592316,
+        "rms": 0.101044678272965,
+        "max_sample_step": 0.148259490728378,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H026",
+      "name": "Velvet Chapel",
+      "category": "Organ",
+      "file": "Presets/M1/Organ/H026 Velvet Chapel.sipreset",
+      "chord": {
+        "peak": 0.60228443145752,
+        "pre_safety_peak": 0.696641981601715,
+        "rms": 0.124869409153294,
+        "max_sample_step": 0.099050492048264,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H027",
+      "name": "Digital Nave",
+      "category": "Organ",
+      "file": "Presets/M1/Organ/H027 Digital Nave.sipreset",
+      "chord": {
+        "peak": 0.734320640563965,
+        "pre_safety_peak": 0.940002977848053,
+        "rms": 0.118812972703698,
+        "max_sample_step": 0.2182677090168,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H028",
+      "name": "Rave Congregation Keys",
+      "category": "Organ",
+      "file": "Presets/M1/Organ/H028 Rave Congregation Keys.sipreset",
+      "chord": {
+        "peak": 0.393404513597488,
+        "pre_safety_peak": 0.415508419275284,
+        "rms": 0.055959898599176,
+        "max_sample_step": 0.075636759400368,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H029",
+      "name": "Bamboo Steps",
+      "category": "Mallets",
+      "file": "Presets/M1/Mallets/H029 Bamboo Steps.sipreset",
+      "chord": {
+        "peak": 0.735184133052826,
+        "pre_safety_peak": 0.940005004405975,
+        "rms": 0.080507371575812,
+        "max_sample_step": 0.067704014480114,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H030",
+      "name": "Pan Lantern",
+      "category": "Mallets",
+      "file": "Presets/M1/Mallets/H030 Pan Lantern.sipreset",
+      "chord": {
+        "peak": 0.734311282634735,
+        "pre_safety_peak": 0.93999832868576,
+        "rms": 0.112119067724825,
+        "max_sample_step": 0.131085515022278,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H031",
+      "name": "Glass Rain",
+      "category": "Mallets",
+      "file": "Presets/M1/Mallets/H031 Glass Rain.sipreset",
+      "chord": {
+        "peak": 0.734386563301086,
+        "pre_safety_peak": 0.940004348754883,
+        "rms": 0.118357769030734,
+        "max_sample_step": 0.098459638655186,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H032",
+      "name": "Silverwood",
+      "category": "Mallets",
+      "file": "Presets/M1/Mallets/H032 Silverwood.sipreset",
+      "chord": {
+        "peak": 0.584186851978302,
+        "pre_safety_peak": 0.668808817863464,
+        "rms": 0.117291259744125,
+        "max_sample_step": 0.043632127344608,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H033",
+      "name": "Copper Kalimba",
+      "category": "Mallets",
+      "file": "Presets/M1/Mallets/H033 Copper Kalimba.sipreset",
+      "chord": {
+        "peak": 0.734327495098114,
+        "pre_safety_peak": 0.940000355243683,
+        "rms": 0.074303828297325,
+        "max_sample_step": 0.259657561779022,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H034",
+      "name": "Wind Chimes",
+      "category": "Mallets",
+      "file": "Presets/M1/Mallets/H034 Wind Chimes.sipreset",
+      "chord": {
+        "peak": 0.740818917751312,
+        "pre_safety_peak": 0.939999401569366,
+        "rms": 0.082256916187239,
+        "max_sample_step": 0.219280242919922,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H035",
+      "name": "Ceramic Pluck",
+      "category": "Mallets",
+      "file": "Presets/M1/Mallets/H035 Ceramic Pluck.sipreset",
+      "chord": {
+        "peak": 0.735131084918976,
+        "pre_safety_peak": 0.940000176429749,
+        "rms": 0.072877390015158,
+        "max_sample_step": 0.071856081485748,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H036",
+      "name": "Music Box Harbor",
+      "category": "Mallets",
+      "file": "Presets/M1/Mallets/H036 Music Box Harbor.sipreset",
+      "chord": {
+        "peak": 0.735181033611298,
+        "pre_safety_peak": 0.93999969959259,
+        "rms": 0.109555349065929,
+        "max_sample_step": 0.097150705754757,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H037",
+      "name": "Wire Garden",
+      "category": "Mallets",
+      "file": "Presets/M1/Mallets/H037 Wire Garden.sipreset",
+      "chord": {
+        "peak": 0.735038757324219,
+        "pre_safety_peak": 0.940001606941223,
+        "rms": 0.090015972408268,
+        "max_sample_step": 0.110484510660172,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H038",
+      "name": "Violet Vibes",
+      "category": "Mallets",
+      "file": "Presets/M1/Mallets/H038 Violet Vibes.sipreset",
+      "chord": {
+        "peak": 0.617751479148865,
+        "pre_safety_peak": 0.721439480781555,
+        "rms": 0.119229789878415,
+        "max_sample_step": 0.131031811237335,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H039",
+      "name": "Organ Avenue",
+      "category": "Bass",
+      "file": "Presets/M1/Bass/H039 Organ Avenue.sipreset",
+      "chord": {
+        "peak": 0.497860133647919,
+        "pre_safety_peak": 0.546480476856232,
+        "rms": 0.072345212635557,
+        "max_sample_step": 0.042953941971064,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H040",
+      "name": "Digital Pick",
+      "category": "Bass",
+      "file": "Presets/M1/Bass/H040 Digital Pick.sipreset",
+      "chord": {
+        "peak": 0.352679938077927,
+        "pre_safety_peak": 0.368433594703674,
+        "rms": 0.067814588094563,
+        "max_sample_step": 0.184295773506165,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H041",
+      "name": "Warm Finger",
+      "category": "Bass",
+      "file": "Presets/M1/Bass/H041 Warm Finger.sipreset",
+      "chord": {
+        "peak": 0.364015072584152,
+        "pre_safety_peak": 0.381505191326141,
+        "rms": 0.072639409201465,
+        "max_sample_step": 0.059893533587456,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H042",
+      "name": "Fretless Lantern",
+      "category": "Bass",
+      "file": "Presets/M1/Bass/H042 Fretless Lantern.sipreset",
+      "chord": {
+        "peak": 0.277207344770432,
+        "pre_safety_peak": 0.284656375646591,
+        "rms": 0.071118335224821,
+        "max_sample_step": 0.004344690591097,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H043",
+      "name": "House Foundation",
+      "category": "Bass",
+      "file": "Presets/M1/Bass/H043 House Foundation.sipreset",
+      "chord": {
+        "peak": 0.675147175788879,
+        "pre_safety_peak": 0.820138394832611,
+        "rms": 0.067550998663672,
+        "max_sample_step": 0.046547889709473,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H044",
+      "name": "Rubber Station",
+      "category": "Bass",
+      "file": "Presets/M1/Bass/H044 Rubber Station.sipreset",
+      "chord": {
+        "peak": 0.424935728311539,
+        "pre_safety_peak": 0.453661412000656,
+        "rms": 0.064703180652699,
+        "max_sample_step": 0.119038097560406,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H045",
+      "name": "Night Platform",
+      "category": "Bass",
+      "file": "Presets/M1/Bass/H045 Night Platform.sipreset",
+      "chord": {
+        "peak": 0.45137631893158,
+        "pre_safety_peak": 0.486367285251617,
+        "rms": 0.068110964892101,
+        "max_sample_step": 0.083669081330299,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H046",
+      "name": "Soft Thumb",
+      "category": "Bass",
+      "file": "Presets/M1/Bass/H046 Soft Thumb.sipreset",
+      "chord": {
+        "peak": 0.275704264640808,
+        "pre_safety_peak": 0.283026129007339,
+        "rms": 0.063448487063177,
+        "max_sample_step": 0.055319149047136,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H047",
+      "name": "Cosmic Lobby",
+      "category": "Pads",
+      "file": "Presets/M1/Pads/H047 Cosmic Lobby.sipreset",
+      "chord": {
+        "peak": 0.506644189357758,
+        "pre_safety_peak": 0.557492196559906,
+        "rms": 0.12859623661439,
+        "max_sample_step": 0.151988744735718,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H048",
+      "name": "Lore Horizon",
+      "category": "Pads",
+      "file": "Presets/M1/Pads/H048 Lore Horizon.sipreset",
+      "chord": {
+        "peak": 0.614739716053009,
+        "pre_safety_peak": 0.71442586183548,
+        "rms": 0.128510863121586,
+        "max_sample_step": 0.215272024273872,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H049",
+      "name": "Dream Atlas",
+      "category": "Pads",
+      "file": "Presets/M1/Pads/H049 Dream Atlas.sipreset",
+      "chord": {
+        "peak": 0.678316056728363,
+        "pre_safety_peak": 0.826316297054291,
+        "rms": 0.138228932944121,
+        "max_sample_step": 0.099397718906403,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H050",
+      "name": "Magic Terrace",
+      "category": "Pads",
+      "file": "Presets/M1/Pads/H050 Magic Terrace.sipreset",
+      "chord": {
+        "peak": 0.733457744121552,
+        "pre_safety_peak": 0.897954165935516,
+        "rms": 0.11770229269586,
+        "max_sample_step": 0.322430163621902,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H051",
+      "name": "Amber Atmosphere",
+      "category": "Pads",
+      "file": "Presets/M1/Pads/H051 Amber Atmosphere.sipreset",
+      "chord": {
+        "peak": 0.735894441604614,
+        "pre_safety_peak": 0.940003097057343,
+        "rms": 0.089218263733598,
+        "max_sample_step": 0.253528386354446,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H052",
+      "name": "Polar Atrium",
+      "category": "Pads",
+      "file": "Presets/M1/Pads/H052 Polar Atrium.sipreset",
+      "chord": {
+        "peak": 0.634502470493317,
+        "pre_safety_peak": 0.747704684734344,
+        "rms": 0.120024124001485,
+        "max_sample_step": 0.174571096897125,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H053",
+      "name": "Wind Pavilion",
+      "category": "Pads",
+      "file": "Presets/M1/Pads/H053 Wind Pavilion.sipreset",
+      "chord": {
+        "peak": 0.57020103931427,
+        "pre_safety_peak": 0.647519409656525,
+        "rms": 0.139342201431896,
+        "max_sample_step": 0.115741781890392,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H054",
+      "name": "Glass Canopy",
+      "category": "Pads",
+      "file": "Presets/M1/Pads/H054 Glass Canopy.sipreset",
+      "chord": {
+        "peak": 0.638762414455414,
+        "pre_safety_peak": 0.757100939750671,
+        "rms": 0.138298589998969,
+        "max_sample_step": 0.208753228187561,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H055",
+      "name": "Night Exhibition",
+      "category": "Pads",
+      "file": "Presets/M1/Pads/H055 Night Exhibition.sipreset",
+      "chord": {
+        "peak": 0.653365552425385,
+        "pre_safety_peak": 0.781133234500885,
+        "rms": 0.119412663928081,
+        "max_sample_step": 0.150922328233719,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H056",
+      "name": "Crystal Weather",
+      "category": "Pads",
+      "file": "Presets/M1/Pads/H056 Crystal Weather.sipreset",
+      "chord": {
+        "peak": 0.543776333332062,
+        "pre_safety_peak": 0.608448207378387,
+        "rms": 0.130206062276107,
+        "max_sample_step": 0.148905456066132,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H057",
+      "name": "Symphonic Avenue",
+      "category": "Strings",
+      "file": "Presets/M1/Strings/H057 Symphonic Avenue.sipreset",
+      "chord": {
+        "peak": 0.532915413379669,
+        "pre_safety_peak": 0.595342934131622,
+        "rms": 0.10487768551333,
+        "max_sample_step": 0.129846692085266,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H058",
+      "name": "Cello Gallery",
+      "category": "Strings",
+      "file": "Presets/M1/Strings/H058 Cello Gallery.sipreset",
+      "chord": {
+        "peak": 0.598154842853546,
+        "pre_safety_peak": 0.691960871219635,
+        "rms": 0.118962835727572,
+        "max_sample_step": 0.131365537643433,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H059",
+      "name": "Pizzicato Steps",
+      "category": "Strings",
+      "file": "Presets/M1/Strings/H059 Pizzicato Steps.sipreset",
+      "chord": {
+        "peak": 0.718209445476532,
+        "pre_safety_peak": 0.904373705387115,
+        "rms": 0.03977633012278,
+        "max_sample_step": 0.091227918863297,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H060",
+      "name": "Chamber Cinema",
+      "category": "Strings",
+      "file": "Presets/M1/Strings/H060 Chamber Cinema.sipreset",
+      "chord": {
+        "peak": 0.692834675312042,
+        "pre_safety_peak": 0.85531622171402,
+        "rms": 0.124904859667969,
+        "max_sample_step": 0.180760189890862,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H061",
+      "name": "Bowed Lantern",
+      "category": "Strings",
+      "file": "Presets/M1/Strings/H061 Bowed Lantern.sipreset",
+      "chord": {
+        "peak": 0.733377873897552,
+        "pre_safety_peak": 0.940000772476196,
+        "rms": 0.087347418513626,
+        "max_sample_step": 0.268340885639191,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H062",
+      "name": "Velvet Orchestra",
+      "category": "Strings",
+      "file": "Presets/M1/Strings/H062 Velvet Orchestra.sipreset",
+      "chord": {
+        "peak": 0.585612714290619,
+        "pre_safety_peak": 0.67455118894577,
+        "rms": 0.11828709334749,
+        "max_sample_step": 0.119165867567062,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H063",
+      "name": "Digital Quartet",
+      "category": "Strings",
+      "file": "Presets/M1/Strings/H063 Digital Quartet.sipreset",
+      "chord": {
+        "peak": 0.732955157756805,
+        "pre_safety_peak": 0.940000534057617,
+        "rms": 0.043968531222751,
+        "max_sample_step": 0.250981003046036,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H064",
+      "name": "Staccato Hall",
+      "category": "Strings",
+      "file": "Presets/M1/Strings/H064 Staccato Hall.sipreset",
+      "chord": {
+        "peak": 0.735294103622437,
+        "pre_safety_peak": 0.94000107049942,
+        "rms": 0.035932594192452,
+        "max_sample_step": 0.094545602798462,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H065",
+      "name": "Ooh Observatory",
+      "category": "Voices",
+      "file": "Presets/M1/Voices/H065 Ooh Observatory.sipreset",
+      "chord": {
+        "peak": 0.676950037479401,
+        "pre_safety_peak": 0.823487460613251,
+        "rms": 0.138317735359414,
+        "max_sample_step": 0.099288783967495,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H066",
+      "name": "Ah Glasshouse",
+      "category": "Voices",
+      "file": "Presets/M1/Voices/H066 Ah Glasshouse.sipreset",
+      "chord": {
+        "peak": 0.631537854671478,
+        "pre_safety_peak": 0.743189930915833,
+        "rms": 0.119955956393819,
+        "max_sample_step": 0.176302939653397,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H067",
+      "name": "Vocal Crystal",
+      "category": "Voices",
+      "file": "Presets/M1/Voices/H067 Vocal Crystal.sipreset",
+      "chord": {
+        "peak": 0.605370283126831,
+        "pre_safety_peak": 0.702851414680481,
+        "rms": 0.121539760549687,
+        "max_sample_step": 0.218958824872971,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H068",
+      "name": "Choir Lantern",
+      "category": "Voices",
+      "file": "Presets/M1/Voices/H068 Choir Lantern.sipreset",
+      "chord": {
+        "peak": 0.627395033836365,
+        "pre_safety_peak": 0.736410617828369,
+        "rms": 0.105234661673491,
+        "max_sample_step": 0.20039826631546,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H069",
+      "name": "Air Chapel",
+      "category": "Voices",
+      "file": "Presets/M1/Voices/H069 Air Chapel.sipreset",
+      "chord": {
+        "peak": 0.623004138469696,
+        "pre_safety_peak": 0.729809403419495,
+        "rms": 0.11678613360225,
+        "max_sample_step": 0.145627856254578,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H070",
+      "name": "Digital Syllable",
+      "category": "Voices",
+      "file": "Presets/M1/Voices/H070 Digital Syllable.sipreset",
+      "chord": {
+        "peak": 0.731428921222687,
+        "pre_safety_peak": 0.940004229545593,
+        "rms": 0.026206524814193,
+        "max_sample_step": 0.285805344581604,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H071",
+      "name": "Soft Congregation",
+      "category": "Voices",
+      "file": "Presets/M1/Voices/H071 Soft Congregation.sipreset",
+      "chord": {
+        "peak": 0.477676004171371,
+        "pre_safety_peak": 0.522293925285339,
+        "rms": 0.09128600231446,
+        "max_sample_step": 0.144120186567307,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H072",
+      "name": "Voicewave Terrace",
+      "category": "Voices",
+      "file": "Presets/M1/Voices/H072 Voicewave Terrace.sipreset",
+      "chord": {
+        "peak": 0.597862958908081,
+        "pre_safety_peak": 0.687961161136627,
+        "rms": 0.129721777619745,
+        "max_sample_step": 0.213540583848953,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H073",
+      "name": "Orbit Chamber",
+      "category": "Textures",
+      "file": "Presets/M1/Textures/H073 Orbit Chamber.sipreset",
+      "chord": {
+        "peak": 0.57657253742218,
+        "pre_safety_peak": 0.657674193382263,
+        "rms": 0.139058511245124,
+        "max_sample_step": 0.103293105959892,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H074",
+      "name": "Pole Reflection",
+      "category": "Textures",
+      "file": "Presets/M1/Textures/H074 Pole Reflection.sipreset",
+      "chord": {
+        "peak": 0.587006866931915,
+        "pre_safety_peak": 0.676170289516449,
+        "rms": 0.060674737961029,
+        "max_sample_step": 0.296731799840927,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H075",
+      "name": "Wire Twilight",
+      "category": "Textures",
+      "file": "Presets/M1/Textures/H075 Wire Twilight.sipreset",
+      "chord": {
+        "peak": 0.735050320625305,
+        "pre_safety_peak": 0.94000118970871,
+        "rms": 0.054758237601116,
+        "max_sample_step": 0.313945472240448,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H076",
+      "name": "Bottled Light",
+      "category": "Textures",
+      "file": "Presets/M1/Textures/H076 Bottled Light.sipreset",
+      "chord": {
+        "peak": 0.472827166318893,
+        "pre_safety_peak": 0.513651013374329,
+        "rms": 0.037789827797033,
+        "max_sample_step": 0.053849779069424,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H077",
+      "name": "Metal Rainfall",
+      "category": "Textures",
+      "file": "Presets/M1/Textures/H077 Metal Rainfall.sipreset",
+      "chord": {
+        "peak": 0.735326826572418,
+        "pre_safety_peak": 0.939999401569366,
+        "rms": 0.066906600024025,
+        "max_sample_step": 0.116890743374825,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H078",
+      "name": "Spectrum Pavilion",
+      "category": "Textures",
+      "file": "Presets/M1/Textures/H078 Spectrum Pavilion.sipreset",
+      "chord": {
+        "peak": 0.585798740386963,
+        "pre_safety_peak": 0.669813930988312,
+        "rms": 0.114048882101083,
+        "max_sample_step": 0.204504802823067,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H079",
+      "name": "Bowed Planet",
+      "category": "Textures",
+      "file": "Presets/M1/Textures/H079 Bowed Planet.sipreset",
+      "chord": {
+        "peak": 0.734277665615082,
+        "pre_safety_peak": 0.939996600151062,
+        "rms": 0.088637095120423,
+        "max_sample_step": 0.271820813417435,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H080",
+      "name": "Tropical Circuit",
+      "category": "Textures",
+      "file": "Presets/M1/Textures/H080 Tropical Circuit.sipreset",
+      "chord": {
+        "peak": 0.735050618648529,
+        "pre_safety_peak": 0.94000256061554,
+        "rms": 0.048401519111304,
+        "max_sample_step": 0.062709629535675,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H081",
+      "name": "Skyline Seven",
+      "category": "Leads",
+      "file": "Presets/JP/Leads/H081 Skyline Seven.sipreset",
+      "chord": {
+        "peak": 0.530494928359985,
+        "pre_safety_peak": 0.591070294380188,
+        "rms": 0.100742731356267,
+        "max_sample_step": 0.200990051031113,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H082",
+      "name": "Anthem Beacon",
+      "category": "Leads",
+      "file": "Presets/JP/Leads/H082 Anthem Beacon.sipreset",
+      "chord": {
+        "peak": 0.69263881444931,
+        "pre_safety_peak": 0.852122187614441,
+        "rms": 0.090231345943927,
+        "max_sample_step": 0.296095609664917,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H083",
+      "name": "Pulse Runway",
+      "category": "Leads",
+      "file": "Presets/JP/Leads/H083 Pulse Runway.sipreset",
+      "chord": {
+        "peak": 0.681787252426147,
+        "pre_safety_peak": 0.821242809295654,
+        "rms": 0.119568906012511,
+        "max_sample_step": 0.345298916101456,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H084",
+      "name": "Feedback Crown",
+      "category": "Leads",
+      "file": "Presets/JP/Leads/H084 Feedback Crown.sipreset",
+      "chord": {
+        "peak": 0.30885848402977,
+        "pre_safety_peak": 0.319249838590622,
+        "rms": 0.050831059621514,
+        "max_sample_step": 0.116844080388546,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H085",
+      "name": "Triangle Voltage",
+      "category": "Leads",
+      "file": "Presets/JP/Leads/H085 Triangle Voltage.sipreset",
+      "chord": {
+        "peak": 0.23639352619648,
+        "pre_safety_peak": 0.240996643900871,
+        "rms": 0.059108227345161,
+        "max_sample_step": 0.016730409115553,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H086",
+      "name": "Fifth Horizon",
+      "category": "Leads",
+      "file": "Presets/JP/Leads/H086 Fifth Horizon.sipreset",
+      "chord": {
+        "peak": 0.641740381717682,
+        "pre_safety_peak": 0.760233938694,
+        "rms": 0.100094040749723,
+        "max_sample_step": 0.228521227836609,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H087",
+      "name": "Velvet Mono",
+      "category": "Leads",
+      "file": "Presets/JP/Leads/H087 Velvet Mono.sipreset",
+      "chord": {
+        "peak": 0.318879574537277,
+        "pre_safety_peak": 0.313725739717484,
+        "rms": 0.048526240770549,
+        "max_sample_step": 0.220763266086578,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H088",
+      "name": "Silver Ribbon",
+      "category": "Leads",
+      "file": "Presets/JP/Leads/H088 Silver Ribbon.sipreset",
+      "chord": {
+        "peak": 0.646745085716248,
+        "pre_safety_peak": 0.75583279132843,
+        "rms": 0.118291728463433,
+        "max_sample_step": 0.327447414398193,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H089",
+      "name": "Glass Supersaw",
+      "category": "Leads",
+      "file": "Presets/JP/Leads/H089 Glass Supersaw.sipreset",
+      "chord": {
+        "peak": 0.724214255809784,
+        "pre_safety_peak": 0.934492945671082,
+        "rms": 0.11047568324867,
+        "max_sample_step": 0.294354200363159,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H090",
+      "name": "Copper Feedback",
+      "category": "Leads",
+      "file": "Presets/JP/Leads/H090 Copper Feedback.sipreset",
+      "chord": {
+        "peak": 0.196222916245461,
+        "pre_safety_peak": 0.193297952413559,
+        "rms": 0.04728870166418,
+        "max_sample_step": 0.116643331944942,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H091",
+      "name": "Narrow Laser",
+      "category": "Leads",
+      "file": "Presets/JP/Leads/H091 Narrow Laser.sipreset",
+      "chord": {
+        "peak": 0.312354445457458,
+        "pre_safety_peak": 0.305343925952911,
+        "rms": 0.049432256415212,
+        "max_sample_step": 0.163539811968803,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H092",
+      "name": "Octave Summit",
+      "category": "Leads",
+      "file": "Presets/JP/Leads/H092 Octave Summit.sipreset",
+      "chord": {
+        "peak": 0.615117311477661,
+        "pre_safety_peak": 0.716949820518494,
+        "rms": 0.101739193027692,
+        "max_sample_step": 0.219872161746025,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H093",
+      "name": "Warm Airfoil",
+      "category": "Leads",
+      "file": "Presets/JP/Leads/H093 Warm Airfoil.sipreset",
+      "chord": {
+        "peak": 0.298201322555542,
+        "pre_safety_peak": 0.291281938552856,
+        "rms": 0.048618438917147,
+        "max_sample_step": 0.225474253296852,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H094",
+      "name": "Resonant Launch",
+      "category": "Leads",
+      "file": "Presets/JP/Leads/H094 Resonant Launch.sipreset",
+      "chord": {
+        "peak": 0.350522309541702,
+        "pre_safety_peak": 0.34716808795929,
+        "rms": 0.049764860147164,
+        "max_sample_step": 0.235755369067192,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H095",
+      "name": "Prism Ensemble",
+      "category": "Leads",
+      "file": "Presets/JP/Leads/H095 Prism Ensemble.sipreset",
+      "chord": {
+        "peak": 0.543366611003876,
+        "pre_safety_peak": 0.606236755847931,
+        "rms": 0.089105078873474,
+        "max_sample_step": 0.265228092670441,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H096",
+      "name": "Dawn Driver",
+      "category": "Leads",
+      "file": "Presets/JP/Leads/H096 Dawn Driver.sipreset",
+      "chord": {
+        "peak": 0.232655271887779,
+        "pre_safety_peak": 0.236855283379555,
+        "rms": 0.056427010966182,
+        "max_sample_step": 0.075468942523003,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H097",
+      "name": "Cloud Armada",
+      "category": "Pads",
+      "file": "Presets/JP/Pads/H097 Cloud Armada.sipreset",
+      "chord": {
+        "peak": 0.531940996646881,
+        "pre_safety_peak": 0.591867804527283,
+        "rms": 0.117991930395981,
+        "max_sample_step": 0.227137863636017,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H098",
+      "name": "Amber Supersky",
+      "category": "Pads",
+      "file": "Presets/JP/Pads/H098 Amber Supersky.sipreset",
+      "chord": {
+        "peak": 0.523503959178925,
+        "pre_safety_peak": 0.580756962299347,
+        "rms": 0.118406551347999,
+        "max_sample_step": 0.154861584305763,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H099",
+      "name": "Triangle Aurora",
+      "category": "Pads",
+      "file": "Presets/JP/Pads/H099 Triangle Aurora.sipreset",
+      "chord": {
+        "peak": 0.499288260936737,
+        "pre_safety_peak": 0.548356592655182,
+        "rms": 0.129540252879555,
+        "max_sample_step": 0.042449168860912,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H100",
+      "name": "Feedback Nebula",
+      "category": "Pads",
+      "file": "Presets/JP/Pads/H100 Feedback Nebula.sipreset",
+      "chord": {
+        "peak": 0.510512053966522,
+        "pre_safety_peak": 0.562874853610992,
+        "rms": 0.138673067078379,
+        "max_sample_step": 0.144948378205299,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H101",
+      "name": "Pulse Constellation",
+      "category": "Pads",
+      "file": "Presets/JP/Pads/H101 Pulse Constellation.sipreset",
+      "chord": {
+        "peak": 0.534375667572021,
+        "pre_safety_peak": 0.595813751220703,
+        "rms": 0.122584530657552,
+        "max_sample_step": 0.205144494771957,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H102",
+      "name": "Silver Canopy",
+      "category": "Pads",
+      "file": "Presets/JP/Pads/H102 Silver Canopy.sipreset",
+      "chord": {
+        "peak": 0.521528899669647,
+        "pre_safety_peak": 0.584948182106018,
+        "rms": 0.108202585779299,
+        "max_sample_step": 0.265466421842575,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H103",
+      "name": "Quiet Horizon",
+      "category": "Pads",
+      "file": "Presets/JP/Pads/H103 Quiet Horizon.sipreset",
+      "chord": {
+        "peak": 0.513944566249847,
+        "pre_safety_peak": 0.568005084991455,
+        "rms": 0.117830119115872,
+        "max_sample_step": 0.051882144063711,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H104",
+      "name": "Fifth Atmosphere",
+      "category": "Pads",
+      "file": "Presets/JP/Pads/H104 Fifth Atmosphere.sipreset",
+      "chord": {
+        "peak": 0.469708740711212,
+        "pre_safety_peak": 0.503490626811981,
+        "rms": 0.103798437132157,
+        "max_sample_step": 0.276627123355865,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H105",
+      "name": "Velvet Polysky",
+      "category": "Pads",
+      "file": "Presets/JP/Pads/H105 Velvet Polysky.sipreset",
+      "chord": {
+        "peak": 0.479844778776169,
+        "pre_safety_peak": 0.522213757038116,
+        "rms": 0.124124385735861,
+        "max_sample_step": 0.204643353819847,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H106",
+      "name": "Northern Assembly",
+      "category": "Pads",
+      "file": "Presets/JP/Pads/H106 Northern Assembly.sipreset",
+      "chord": {
+        "peak": 0.646339476108551,
+        "pre_safety_peak": 0.769217550754547,
+        "rms": 0.135019711403956,
+        "max_sample_step": 0.065816447138786,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H107",
+      "name": "Dusk Feedback",
+      "category": "Pads",
+      "file": "Presets/JP/Pads/H107 Dusk Feedback.sipreset",
+      "chord": {
+        "peak": 0.436460942029953,
+        "pre_safety_peak": 0.469029575586319,
+        "rms": 0.118977382199489,
+        "max_sample_step": 0.176922917366028,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H108",
+      "name": "Airwave Terrace",
+      "category": "Pads",
+      "file": "Presets/JP/Pads/H108 Airwave Terrace.sipreset",
+      "chord": {
+        "peak": 0.553045630455017,
+        "pre_safety_peak": 0.617772102355957,
+        "rms": 0.119370963611153,
+        "max_sample_step": 0.159213557839394,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H109",
+      "name": "Crystal Flight",
+      "category": "Plucks",
+      "file": "Presets/JP/Plucks/H109 Crystal Flight.sipreset",
+      "chord": {
+        "peak": 0.733214497566223,
+        "pre_safety_peak": 0.939996540546417,
+        "rms": 0.043971704146458,
+        "max_sample_step": 0.381544649600983,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H110",
+      "name": "Pulse Raindrop",
+      "category": "Plucks",
+      "file": "Presets/JP/Plucks/H110 Pulse Raindrop.sipreset",
+      "chord": {
+        "peak": 0.735249817371368,
+        "pre_safety_peak": 0.940003931522369,
+        "rms": 0.048605609726665,
+        "max_sample_step": 0.205534279346466,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H111",
+      "name": "Anthem Fragment",
+      "category": "Plucks",
+      "file": "Presets/JP/Plucks/H111 Anthem Fragment.sipreset",
+      "chord": {
+        "peak": 0.735275685787201,
+        "pre_safety_peak": 0.94000506401062,
+        "rms": 0.0555382287771,
+        "max_sample_step": 0.189339905977249,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H112",
+      "name": "Glass Shortwave",
+      "category": "Plucks",
+      "file": "Presets/JP/Plucks/H112 Glass Shortwave.sipreset",
+      "chord": {
+        "peak": 0.734201014041901,
+        "pre_safety_peak": 0.939995408058167,
+        "rms": 0.078230051887856,
+        "max_sample_step": 0.287703216075897,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H113",
+      "name": "Seven Sparks",
+      "category": "Plucks",
+      "file": "Presets/JP/Plucks/H113 Seven Sparks.sipreset",
+      "chord": {
+        "peak": 0.735209167003632,
+        "pre_safety_peak": 0.940002202987671,
+        "rms": 0.035323711043072,
+        "max_sample_step": 0.076565228402615,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H114",
+      "name": "Copper String",
+      "category": "Plucks",
+      "file": "Presets/JP/Plucks/H114 Copper String.sipreset",
+      "chord": {
+        "peak": 0.742152452468872,
+        "pre_safety_peak": 0.939995586872101,
+        "rms": 0.069867846974164,
+        "max_sample_step": 0.322429239749908,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H115",
+      "name": "Feedback Droplet",
+      "category": "Plucks",
+      "file": "Presets/JP/Plucks/H115 Feedback Droplet.sipreset",
+      "chord": {
+        "peak": 0.432536900043488,
+        "pre_safety_peak": 0.462998807430267,
+        "rms": 0.040949887162958,
+        "max_sample_step": 0.041412755846977,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H116",
+      "name": "Digital Plectrum",
+      "category": "Plucks",
+      "file": "Presets/JP/Plucks/H116 Digital Plectrum.sipreset",
+      "chord": {
+        "peak": 0.738544404506683,
+        "pre_safety_peak": 0.940001785755157,
+        "rms": 0.058767508325055,
+        "max_sample_step": 0.388602256774902,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H117",
+      "name": "Neon Harp",
+      "category": "Plucks",
+      "file": "Presets/JP/Plucks/H117 Neon Harp.sipreset",
+      "chord": {
+        "peak": 0.801087260246277,
+        "pre_safety_peak": 0.939997017383575,
+        "rms": 0.042531214500636,
+        "max_sample_step": 0.55418872833252,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H118",
+      "name": "Velvet Sequence Key",
+      "category": "Plucks",
+      "file": "Presets/JP/Plucks/H118 Velvet Sequence Key.sipreset",
+      "chord": {
+        "peak": 0.73525607585907,
+        "pre_safety_peak": 0.939999341964722,
+        "rms": 0.064678623041538,
+        "max_sample_step": 0.140942126512527,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H119",
+      "name": "Fifth Flicker",
+      "category": "Plucks",
+      "file": "Presets/JP/Plucks/H119 Fifth Flicker.sipreset",
+      "chord": {
+        "peak": 0.763141691684723,
+        "pre_safety_peak": 0.940005540847778,
+        "rms": 0.052619793852913,
+        "max_sample_step": 0.463142693042755,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H120",
+      "name": "Silver Icicle",
+      "category": "Plucks",
+      "file": "Presets/JP/Plucks/H120 Silver Icicle.sipreset",
+      "chord": {
+        "peak": 0.734124600887299,
+        "pre_safety_peak": 0.940001308917999,
+        "rms": 0.06176303884575,
+        "max_sample_step": 0.297730684280396,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H121",
+      "name": "Seven Engine",
+      "category": "Bass",
+      "file": "Presets/JP/Bass/H121 Seven Engine.sipreset",
+      "chord": {
+        "peak": 0.610423445701599,
+        "pre_safety_peak": 0.709900796413422,
+        "rms": 0.06272890790743,
+        "max_sample_step": 0.166312396526337,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H122",
+      "name": "Pulse Thrust",
+      "category": "Bass",
+      "file": "Presets/JP/Bass/H122 Pulse Thrust.sipreset",
+      "chord": {
+        "peak": 0.46120274066925,
+        "pre_safety_peak": 0.498834520578384,
+        "rms": 0.056887138100168,
+        "max_sample_step": 0.0530666410923,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H123",
+      "name": "Feedback Torque",
+      "category": "Bass",
+      "file": "Presets/JP/Bass/H123 Feedback Torque.sipreset",
+      "chord": {
+        "peak": 0.435178190469742,
+        "pre_safety_peak": 0.466257721185684,
+        "rms": 0.068754405545097,
+        "max_sample_step": 0.067528940737247,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H124",
+      "name": "Rubber Airfoil",
+      "category": "Bass",
+      "file": "Presets/JP/Bass/H124 Rubber Airfoil.sipreset",
+      "chord": {
+        "peak": 0.512242555618286,
+        "pre_safety_peak": 0.565119564533234,
+        "rms": 0.063398230566719,
+        "max_sample_step": 0.110993176698685,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H125",
+      "name": "Triangle Anchor",
+      "category": "Bass",
+      "file": "Presets/JP/Bass/H125 Triangle Anchor.sipreset",
+      "chord": {
+        "peak": 0.40738770365715,
+        "pre_safety_peak": 0.43255689740181,
+        "rms": 0.072867004236985,
+        "max_sample_step": 0.047755762934685,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H126",
+      "name": "Octave Motor",
+      "category": "Bass",
+      "file": "Presets/JP/Bass/H126 Octave Motor.sipreset",
+      "chord": {
+        "peak": 0.580681920051575,
+        "pre_safety_peak": 0.658771693706512,
+        "rms": 0.060773036526797,
+        "max_sample_step": 0.266781985759735,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H127",
+      "name": "Sub Terminal",
+      "category": "Bass",
+      "file": "Presets/JP/Bass/H127 Sub Terminal.sipreset",
+      "chord": {
+        "peak": 0.685671806335449,
+        "pre_safety_peak": 0.83973902463913,
+        "rms": 0.131913044937688,
+        "max_sample_step": 0.011497914791107,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H128",
+      "name": "Resonant Landing",
+      "category": "Bass",
+      "file": "Presets/JP/Bass/H128 Resonant Landing.sipreset",
+      "chord": {
+        "peak": 0.580984890460968,
+        "pre_safety_peak": 0.66415935754776,
+        "rms": 0.089075979660714,
+        "max_sample_step": 0.082870416343212,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H129",
+      "name": "Warm Throttle",
+      "category": "Bass",
+      "file": "Presets/JP/Bass/H129 Warm Throttle.sipreset",
+      "chord": {
+        "peak": 0.295053035020828,
+        "pre_safety_peak": 0.304090946912766,
+        "rms": 0.065284285174135,
+        "max_sample_step": 0.017401114106178,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H130",
+      "name": "Metal Wing",
+      "category": "Bass",
+      "file": "Presets/JP/Bass/H130 Metal Wing.sipreset",
+      "chord": {
+        "peak": 0.383670687675476,
+        "pre_safety_peak": 0.404095053672791,
+        "rms": 0.070323039726763,
+        "max_sample_step": 0.080286934971809,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H131",
+      "name": "Skyline Ladder",
+      "category": "Arps",
+      "file": "Presets/JP/Arps/H131 Skyline Ladder.sipreset",
+      "chord": {
+        "peak": 0.411330372095108,
+        "pre_safety_peak": 0.42022380232811,
+        "rms": 0.048282202277429,
+        "max_sample_step": 0.275953531265259,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H132",
+      "name": "Pulse Navigation",
+      "category": "Arps",
+      "file": "Presets/JP/Arps/H132 Pulse Navigation.sipreset",
+      "chord": {
+        "peak": 0.342501908540726,
+        "pre_safety_peak": 0.356207579374313,
+        "rms": 0.050259530257463,
+        "max_sample_step": 0.107046328485012,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H133",
+      "name": "Feedback Orbit",
+      "category": "Arps",
+      "file": "Presets/JP/Arps/H133 Feedback Orbit.sipreset",
+      "chord": {
+        "peak": 0.329207897186279,
+        "pre_safety_peak": 0.341976046562195,
+        "rms": 0.050630530980278,
+        "max_sample_step": 0.215816795825958,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H134",
+      "name": "Seven Satellites",
+      "category": "Arps",
+      "file": "Presets/JP/Arps/H134 Seven Satellites.sipreset",
+      "chord": {
+        "peak": 0.37094783782959,
+        "pre_safety_peak": 0.371287614107132,
+        "rms": 0.054665541450219,
+        "max_sample_step": 0.230207920074463,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H135",
+      "name": "Triangle Compass",
+      "category": "Arps",
+      "file": "Presets/JP/Arps/H135 Triangle Compass.sipreset",
+      "chord": {
+        "peak": 0.228626742959023,
+        "pre_safety_peak": 0.231853842735291,
+        "rms": 0.043624872680446,
+        "max_sample_step": 0.141583889722824,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H136",
+      "name": "Fifth Departure",
+      "category": "Arps",
+      "file": "Presets/JP/Arps/H136 Fifth Departure.sipreset",
+      "chord": {
+        "peak": 0.386371999979019,
+        "pre_safety_peak": 0.406224936246872,
+        "rms": 0.047711867611312,
+        "max_sample_step": 0.214246362447739,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H137",
+      "name": "Velvet Motion",
+      "category": "Arps",
+      "file": "Presets/JP/Arps/H137 Velvet Motion.sipreset",
+      "chord": {
+        "peak": 0.367624968290329,
+        "pre_safety_peak": 0.387034326791763,
+        "rms": 0.048601433965501,
+        "max_sample_step": 0.177742585539818,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H138",
+      "name": "Crystal Runway",
+      "category": "Arps",
+      "file": "Presets/JP/Arps/H138 Crystal Runway.sipreset",
+      "chord": {
+        "peak": 0.297657161951065,
+        "pre_safety_peak": 0.30695852637291,
+        "rms": 0.060012913538006,
+        "max_sample_step": 0.02912070043385,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H139",
+      "name": "Neon Traverse",
+      "category": "Arps",
+      "file": "Presets/JP/Arps/H139 Neon Traverse.sipreset",
+      "chord": {
+        "peak": 0.438340574502945,
+        "pre_safety_peak": 0.46716383099556,
+        "rms": 0.045352649994256,
+        "max_sample_step": 0.302428245544434,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H140",
+      "name": "Dawn Circuit",
+      "category": "Arps",
+      "file": "Presets/JP/Arps/H140 Dawn Circuit.sipreset",
+      "chord": {
+        "peak": 0.352622091770172,
+        "pre_safety_peak": 0.367584615945816,
+        "rms": 0.052432179928117,
+        "max_sample_step": 0.155626967549324,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H141",
+      "name": "Scarlet Saw",
+      "category": "Leads",
+      "file": "Presets/Nord/Leads/H141 Scarlet Saw.sipreset",
+      "chord": {
+        "peak": 0.316777169704437,
+        "pre_safety_peak": 0.288064777851105,
+        "rms": 0.052393744982419,
+        "max_sample_step": 0.21705125272274,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H142",
+      "name": "Pulse Ice",
+      "category": "Leads",
+      "file": "Presets/Nord/Leads/H142 Pulse Ice.sipreset",
+      "chord": {
+        "peak": 0.744115173816681,
+        "pre_safety_peak": 0.939995229244232,
+        "rms": 0.107745530003847,
+        "max_sample_step": 0.390188544988632,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H143",
+      "name": "Metal Fjord",
+      "category": "Leads",
+      "file": "Presets/Nord/Leads/H143 Metal Fjord.sipreset",
+      "chord": {
+        "peak": 0.71898353099823,
+        "pre_safety_peak": 0.906128406524658,
+        "rms": 0.120433895601158,
+        "max_sample_step": 0.266638159751892,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H144",
+      "name": "Sync Needle",
+      "category": "Leads",
+      "file": "Presets/Nord/Leads/H144 Sync Needle.sipreset",
+      "chord": {
+        "peak": 0.229904428124428,
+        "pre_safety_peak": 0.230449646711349,
+        "rms": 0.042121554899147,
+        "max_sample_step": 0.138264685869217,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H145",
+      "name": "Ring Halo",
+      "category": "Leads",
+      "file": "Presets/Nord/Leads/H145 Ring Halo.sipreset",
+      "chord": {
+        "peak": 0.652371466159821,
+        "pre_safety_peak": 0.78207266330719,
+        "rms": 0.097171999051325,
+        "max_sample_step": 0.251619637012482,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H146",
+      "name": "Velvet Brass",
+      "category": "Leads",
+      "file": "Presets/Nord/Leads/H146 Velvet Brass.sipreset",
+      "chord": {
+        "peak": 0.627326369285583,
+        "pre_safety_peak": 0.716285765171051,
+        "rms": 0.117029840690738,
+        "max_sample_step": 0.272362589836121,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H147",
+      "name": "Nordic Fifth",
+      "category": "Leads",
+      "file": "Presets/Nord/Leads/H147 Nordic Fifth.sipreset",
+      "chord": {
+        "peak": 0.329298764467239,
+        "pre_safety_peak": 0.303322911262512,
+        "rms": 0.051282761784218,
+        "max_sample_step": 0.234911054372787,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H148",
+      "name": "Hollow Signal",
+      "category": "Leads",
+      "file": "Presets/Nord/Leads/H148 Hollow Signal.sipreset",
+      "chord": {
+        "peak": 0.5863077044487,
+        "pre_safety_peak": 0.672107815742493,
+        "rms": 0.124943335581067,
+        "max_sample_step": 0.064121901988983,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H149",
+      "name": "Bright Compass",
+      "category": "Leads",
+      "file": "Presets/Nord/Leads/H149 Bright Compass.sipreset",
+      "chord": {
+        "peak": 0.367319524288177,
+        "pre_safety_peak": 0.341409862041473,
+        "rms": 0.053767082608078,
+        "max_sample_step": 0.271633327007294,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H150",
+      "name": "Vocal Relay",
+      "category": "Leads",
+      "file": "Presets/Nord/Leads/H150 Vocal Relay.sipreset",
+      "chord": {
+        "peak": 0.299415200948715,
+        "pre_safety_peak": 0.308442741632462,
+        "rms": 0.048392595662337,
+        "max_sample_step": 0.10017978399992,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H151",
+      "name": "Steel Ribbon",
+      "category": "Leads",
+      "file": "Presets/Nord/Leads/H151 Steel Ribbon.sipreset",
+      "chord": {
+        "peak": 0.727207779884338,
+        "pre_safety_peak": 0.923143327236176,
+        "rms": 0.125135106027116,
+        "max_sample_step": 0.254206538200378,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H152",
+      "name": "Resonant Ember",
+      "category": "Leads",
+      "file": "Presets/Nord/Leads/H152 Resonant Ember.sipreset",
+      "chord": {
+        "peak": 0.319848984479904,
+        "pre_safety_peak": 0.330770879983902,
+        "rms": 0.047676995200206,
+        "max_sample_step": 0.147247657179832,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H153",
+      "name": "Red Attack",
+      "category": "Bass",
+      "file": "Presets/Nord/Bass/H153 Red Attack.sipreset",
+      "chord": {
+        "peak": 0.597291588783264,
+        "pre_safety_peak": 0.689045369625092,
+        "rms": 0.072294110421928,
+        "max_sample_step": 0.104290336370468,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H154",
+      "name": "Rubber Glacier",
+      "category": "Bass",
+      "file": "Presets/Nord/Bass/H154 Rubber Glacier.sipreset",
+      "chord": {
+        "peak": 0.471291869878769,
+        "pre_safety_peak": 0.511385142803192,
+        "rms": 0.062755948294374,
+        "max_sample_step": 0.083213962614536,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H155",
+      "name": "FM Sledge",
+      "category": "Bass",
+      "file": "Presets/Nord/Bass/H155 FM Sledge.sipreset",
+      "chord": {
+        "peak": 0.445321410894394,
+        "pre_safety_peak": 0.479447931051254,
+        "rms": 0.069815445778052,
+        "max_sample_step": 0.099874153733253,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H156",
+      "name": "Pulse Quarry",
+      "category": "Bass",
+      "file": "Presets/Nord/Bass/H156 Pulse Quarry.sipreset",
+      "chord": {
+        "peak": 0.412483125925064,
+        "pre_safety_peak": 0.43850377202034,
+        "rms": 0.063760806199807,
+        "max_sample_step": 0.056373842060566,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H157",
+      "name": "Sync Excavator",
+      "category": "Bass",
+      "file": "Presets/Nord/Bass/H157 Sync Excavator.sipreset",
+      "chord": {
+        "peak": 0.441541194915771,
+        "pre_safety_peak": 0.474140673875809,
+        "rms": 0.048606967039452,
+        "max_sample_step": 0.154829144477844,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H158",
+      "name": "Ring Undertow",
+      "category": "Bass",
+      "file": "Presets/Nord/Bass/H158 Ring Undertow.sipreset",
+      "chord": {
+        "peak": 0.369023114442825,
+        "pre_safety_peak": 0.38735294342041,
+        "rms": 0.057269503315898,
+        "max_sample_step": 0.075746864080429,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H159",
+      "name": "Sub Fjord",
+      "category": "Bass",
+      "file": "Presets/Nord/Bass/H159 Sub Fjord.sipreset",
+      "chord": {
+        "peak": 0.260710328817368,
+        "pre_safety_peak": 0.266871482133865,
+        "rms": 0.071838832284253,
+        "max_sample_step": 0.067307412624359,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H160",
+      "name": "Acid Ember",
+      "category": "Bass",
+      "file": "Presets/Nord/Bass/H160 Acid Ember.sipreset",
+      "chord": {
+        "peak": 0.354328453540802,
+        "pre_safety_peak": 0.370277166366577,
+        "rms": 0.082852108582515,
+        "max_sample_step": 0.091519445180893,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H161",
+      "name": "Fifth Boulder",
+      "category": "Bass",
+      "file": "Presets/Nord/Bass/H161 Fifth Boulder.sipreset",
+      "chord": {
+        "peak": 0.580340802669525,
+        "pre_safety_peak": 0.662131369113922,
+        "rms": 0.063903563018264,
+        "max_sample_step": 0.259770095348358,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H162",
+      "name": "Wooden Circuit",
+      "category": "Bass",
+      "file": "Presets/Nord/Bass/H162 Wooden Circuit.sipreset",
+      "chord": {
+        "peak": 0.533903062343597,
+        "pre_safety_peak": 0.595625936985016,
+        "rms": 0.070856926170036,
+        "max_sample_step": 0.037117466330528,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H163",
+      "name": "Drive Tundra",
+      "category": "Bass",
+      "file": "Presets/Nord/Bass/H163 Drive Tundra.sipreset",
+      "chord": {
+        "peak": 0.33384844660759,
+        "pre_safety_peak": 0.346974939107895,
+        "rms": 0.068040559921353,
+        "max_sample_step": 0.093963980674744,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H164",
+      "name": "Deep Aurora",
+      "category": "Bass",
+      "file": "Presets/Nord/Bass/H164 Deep Aurora.sipreset",
+      "chord": {
+        "peak": 0.181450054049492,
+        "pre_safety_peak": 0.183480992913246,
+        "rms": 0.027742236161963,
+        "max_sample_step": 0.008959341794252,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H165",
+      "name": "FM Compass",
+      "category": "Keys",
+      "file": "Presets/Nord/Keys/H165 FM Compass.sipreset",
+      "chord": {
+        "peak": 0.707320392131805,
+        "pre_safety_peak": 0.881704747676849,
+        "rms": 0.107797104485998,
+        "max_sample_step": 0.146421134471893,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H166",
+      "name": "Ring Clav",
+      "category": "Keys",
+      "file": "Presets/Nord/Keys/H166 Ring Clav.sipreset",
+      "chord": {
+        "peak": 0.734508037567139,
+        "pre_safety_peak": 0.939996123313904,
+        "rms": 0.092242489464986,
+        "max_sample_step": 0.212445005774498,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H167",
+      "name": "Pulse Brass Key",
+      "category": "Keys",
+      "file": "Presets/Nord/Keys/H167 Pulse Brass Key.sipreset",
+      "chord": {
+        "peak": 0.671161830425262,
+        "pre_safety_peak": 0.812285125255585,
+        "rms": 0.116003400523974,
+        "max_sample_step": 0.292003273963928,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H168",
+      "name": "Steel Petal",
+      "category": "Keys",
+      "file": "Presets/Nord/Keys/H168 Steel Petal.sipreset",
+      "chord": {
+        "peak": 0.660348296165466,
+        "pre_safety_peak": 0.7893887758255,
+        "rms": 0.086318566733038,
+        "max_sample_step": 0.434042006731033,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H169",
+      "name": "Hollow Mallet",
+      "category": "Keys",
+      "file": "Presets/Nord/Keys/H169 Hollow Mallet.sipreset",
+      "chord": {
+        "peak": 0.674531579017639,
+        "pre_safety_peak": 0.81906920671463,
+        "rms": 0.116402417270597,
+        "max_sample_step": 0.098983995616436,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H170",
+      "name": "Sync Harp",
+      "category": "Keys",
+      "file": "Presets/Nord/Keys/H170 Sync Harp.sipreset",
+      "chord": {
+        "peak": 0.231926560401917,
+        "pre_safety_peak": 0.236512407660484,
+        "rms": 0.043122901559712,
+        "max_sample_step": 0.111489288508892,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H171",
+      "name": "Violet Organ",
+      "category": "Keys",
+      "file": "Presets/Nord/Keys/H171 Violet Organ.sipreset",
+      "chord": {
+        "peak": 0.675344526767731,
+        "pre_safety_peak": 0.820269227027893,
+        "rms": 0.122829111150081,
+        "max_sample_step": 0.152704671025276,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H172",
+      "name": "Digital Nord Bell",
+      "category": "Keys",
+      "file": "Presets/Nord/Keys/H172 Digital Nord Bell.sipreset",
+      "chord": {
+        "peak": 0.70725679397583,
+        "pre_safety_peak": 0.879555642604828,
+        "rms": 0.105317730242478,
+        "max_sample_step": 0.190332740545273,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H173",
+      "name": "Wooden Tine",
+      "category": "Keys",
+      "file": "Presets/Nord/Keys/H173 Wooden Tine.sipreset",
+      "chord": {
+        "peak": 0.639857590198517,
+        "pre_safety_peak": 0.760751068592072,
+        "rms": 0.111361731820562,
+        "max_sample_step": 0.19481486082077,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H174",
+      "name": "Glass Hammer",
+      "category": "Keys",
+      "file": "Presets/Nord/Keys/H174 Glass Hammer.sipreset",
+      "chord": {
+        "peak": 0.588977098464966,
+        "pre_safety_peak": 0.682209372520447,
+        "rms": 0.081836105160283,
+        "max_sample_step": 0.284077346324921,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H175",
+      "name": "Resonance Fjord",
+      "category": "Pads",
+      "file": "Presets/Nord/Pads/H175 Resonance Fjord.sipreset",
+      "chord": {
+        "peak": 0.473976999521255,
+        "pre_safety_peak": 0.515850782394409,
+        "rms": 0.126472626342184,
+        "max_sample_step": 0.170389443635941,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H176",
+      "name": "Pulse Snowfield",
+      "category": "Pads",
+      "file": "Presets/Nord/Pads/H176 Pulse Snowfield.sipreset",
+      "chord": {
+        "peak": 0.496611505746841,
+        "pre_safety_peak": 0.54463118314743,
+        "rms": 0.125489952107754,
+        "max_sample_step": 0.216555833816528,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H177",
+      "name": "FM Twilight",
+      "category": "Pads",
+      "file": "Presets/Nord/Pads/H177 FM Twilight.sipreset",
+      "chord": {
+        "peak": 0.451715707778931,
+        "pre_safety_peak": 0.487058997154236,
+        "rms": 0.128371482642687,
+        "max_sample_step": 0.077195778489113,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H178",
+      "name": "Sync Aurora",
+      "category": "Pads",
+      "file": "Presets/Nord/Pads/H178 Sync Aurora.sipreset",
+      "chord": {
+        "peak": 0.387509495019913,
+        "pre_safety_peak": 0.409829765558243,
+        "rms": 0.084916652207252,
+        "max_sample_step": 0.260212630033493,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H179",
+      "name": "Ring Mist",
+      "category": "Pads",
+      "file": "Presets/Nord/Pads/H179 Ring Mist.sipreset",
+      "chord": {
+        "peak": 0.426164448261261,
+        "pre_safety_peak": 0.456117421388626,
+        "rms": 0.100385082155961,
+        "max_sample_step": 0.147373288869858,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H180",
+      "name": "Fifth Glacier",
+      "category": "Pads",
+      "file": "Presets/Nord/Pads/H180 Fifth Glacier.sipreset",
+      "chord": {
+        "peak": 0.462514013051987,
+        "pre_safety_peak": 0.499651402235031,
+        "rms": 0.123760128473606,
+        "max_sample_step": 0.218718022108078,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H181",
+      "name": "Scarlet Strings",
+      "category": "Pads",
+      "file": "Presets/Nord/Pads/H181 Scarlet Strings.sipreset",
+      "chord": {
+        "peak": 0.578630864620209,
+        "pre_safety_peak": 0.657411754131317,
+        "rms": 0.127300137748752,
+        "max_sample_step": 0.214710831642151,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H182",
+      "name": "Hollow Horizon",
+      "category": "Pads",
+      "file": "Presets/Nord/Pads/H182 Hollow Horizon.sipreset",
+      "chord": {
+        "peak": 0.496981620788574,
+        "pre_safety_peak": 0.546050846576691,
+        "rms": 0.137218144484712,
+        "max_sample_step": 0.079021707177162,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H183",
+      "name": "Velvet Ice",
+      "category": "Pads",
+      "file": "Presets/Nord/Pads/H183 Velvet Ice.sipreset",
+      "chord": {
+        "peak": 0.4818274974823,
+        "pre_safety_peak": 0.5254185795784,
+        "rms": 0.136558097219257,
+        "max_sample_step": 0.068817645311356,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H184",
+      "name": "Metal Atmosphere",
+      "category": "Pads",
+      "file": "Presets/Nord/Pads/H184 Metal Atmosphere.sipreset",
+      "chord": {
+        "peak": 0.442630261182785,
+        "pre_safety_peak": 0.468582898378372,
+        "rms": 0.087197787817974,
+        "max_sample_step": 0.329173982143402,
+        "frames": 288000
+      }
+    },
+    {
+      "id": "H185",
+      "name": "Scarlet Staircase",
+      "category": "Motion",
+      "file": "Presets/Nord/Motion/H185 Scarlet Staircase.sipreset",
+      "chord": {
+        "peak": 0.413040429353714,
+        "pre_safety_peak": 0.43700447678566,
+        "rms": 0.048071402919275,
+        "max_sample_step": 0.272849172353745,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H186",
+      "name": "FM Clockwork",
+      "category": "Motion",
+      "file": "Presets/Nord/Motion/H186 FM Clockwork.sipreset",
+      "chord": {
+        "peak": 0.262745141983032,
+        "pre_safety_peak": 0.26916167140007,
+        "rms": 0.046750220004677,
+        "max_sample_step": 0.121572904288769,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H187",
+      "name": "Sync Transit",
+      "category": "Motion",
+      "file": "Presets/Nord/Motion/H187 Sync Transit.sipreset",
+      "chord": {
+        "peak": 0.272380143404007,
+        "pre_safety_peak": 0.278866857290268,
+        "rms": 0.035726624558782,
+        "max_sample_step": 0.203969672322273,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H188",
+      "name": "Pulse Steps",
+      "category": "Motion",
+      "file": "Presets/Nord/Motion/H188 Pulse Steps.sipreset",
+      "chord": {
+        "peak": 0.353394687175751,
+        "pre_safety_peak": 0.36912128329277,
+        "rms": 0.055593062591933,
+        "max_sample_step": 0.106252655386925,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H189",
+      "name": "Ring Current",
+      "category": "Motion",
+      "file": "Presets/Nord/Motion/H189 Ring Current.sipreset",
+      "chord": {
+        "peak": 0.294429779052734,
+        "pre_safety_peak": 0.306271314620972,
+        "rms": 0.03544339764052,
+        "max_sample_step": 0.200614780187607,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H190",
+      "name": "Fifth Engine",
+      "category": "Motion",
+      "file": "Presets/Nord/Motion/H190 Fifth Engine.sipreset",
+      "chord": {
+        "peak": 0.423024654388428,
+        "pre_safety_peak": 0.436346054077148,
+        "rms": 0.048433941830238,
+        "max_sample_step": 0.320759624242783,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H191",
+      "name": "Resonance Route",
+      "category": "Motion",
+      "file": "Presets/Nord/Motion/H191 Resonance Route.sipreset",
+      "chord": {
+        "peak": 0.420404016971588,
+        "pre_safety_peak": 0.449305057525635,
+        "rms": 0.047495456890497,
+        "max_sample_step": 0.158139660954475,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H192",
+      "name": "Hollow Arpeggio",
+      "category": "Motion",
+      "file": "Presets/Nord/Motion/H192 Hollow Arpeggio.sipreset",
+      "chord": {
+        "peak": 0.268676847219467,
+        "pre_safety_peak": 0.274825096130371,
+        "rms": 0.053087406205889,
+        "max_sample_step": 0.083194546401501,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H193",
+      "name": "Low Voltage Drum",
+      "category": "Percussion",
+      "file": "Presets/Nord/Percussion/H193 Low Voltage Drum.sipreset",
+      "chord": {
+        "peak": 0.510503351688385,
+        "pre_safety_peak": 0.563476860523224,
+        "rms": 0.053373690103755,
+        "max_sample_step": 0.030318876728415,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H194",
+      "name": "Copper Tom",
+      "category": "Percussion",
+      "file": "Presets/Nord/Percussion/H194 Copper Tom.sipreset",
+      "chord": {
+        "peak": 0.534712672233582,
+        "pre_safety_peak": 0.596745669841766,
+        "rms": 0.068113630398849,
+        "max_sample_step": 0.018426088616252,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H195",
+      "name": "FM Woodblock",
+      "category": "Percussion",
+      "file": "Presets/Nord/Percussion/H195 FM Woodblock.sipreset",
+      "chord": {
+        "peak": 0.416940033435822,
+        "pre_safety_peak": 0.440882295370102,
+        "rms": 0.020431706554,
+        "max_sample_step": 0.296436280012131,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H196",
+      "name": "Ring Metal Hit",
+      "category": "Percussion",
+      "file": "Presets/Nord/Percussion/H196 Ring Metal Hit.sipreset",
+      "chord": {
+        "peak": 0.416732907295227,
+        "pre_safety_peak": 0.435235887765884,
+        "rms": 0.020926322661435,
+        "max_sample_step": 0.472030192613602,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H197",
+      "name": "Pulse Rim",
+      "category": "Percussion",
+      "file": "Presets/Nord/Percussion/H197 Pulse Rim.sipreset",
+      "chord": {
+        "peak": 0.738644361495972,
+        "pre_safety_peak": 0.940003335475922,
+        "rms": 0.030823160845725,
+        "max_sample_step": 0.255514562129974,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H198",
+      "name": "Noise Hat",
+      "category": "Percussion",
+      "file": "Presets/Nord/Percussion/H198 Noise Hat.sipreset",
+      "chord": {
+        "peak": 0.651348531246185,
+        "pre_safety_peak": 0.847724914550781,
+        "rms": 0.019895251088035,
+        "max_sample_step": 1.025925993919373,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H199",
+      "name": "Sync Zap",
+      "category": "Percussion",
+      "file": "Presets/Nord/Percussion/H199 Sync Zap.sipreset",
+      "chord": {
+        "peak": 0.465410679578781,
+        "pre_safety_peak": 0.511460304260254,
+        "rms": 0.031032334455096,
+        "max_sample_step": 0.37447065114975,
+        "frames": 192000
+      }
+    },
+    {
+      "id": "H200",
+      "name": "Glass Clonk",
+      "category": "Percussion",
+      "file": "Presets/Nord/Percussion/H200 Glass Clonk.sipreset",
+      "chord": {
+        "peak": 0.324050784111023,
+        "pre_safety_peak": 0.331459313631058,
+        "rms": 0.029412158144107,
+        "max_sample_step": 0.26301896572113,
+        "frames": 192000
+      }
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 #include "../Source/PluginProcessor.h"
 #include "../Source/DistortionFX.h"
+#include "fixtures/DistortionLegacy063.h"
 #include <BinaryData.h>
 #include <iostream>
 #include <stdexcept>
@@ -60,10 +61,29 @@ float renderCutoffSweep(SpaceInfinityProcessor& p,const juce::File& file){
 }
 int runAcidSmoke(const juce::File& folder={},const juce::File& previousBank={}){try{
  cutoffChecks();
+ double legacyError=0;
+ for(int type=0;type<17;++type)for(int position=0;position<3;++position){
+  studio_legacy::Distortion before;studio::Distortion after;before.prepare(48000);after.prepare(48000);studio_legacy::Distortion::Settings left;studio::Distortion::Settings right;
+  left.type=right.type=type;left.filterPosition=right.filterPosition=position;left.drive=right.drive=.55f;left.inputDb=right.inputDb=12;left.hq=right.hq=true;left.tone=right.tone=8700;left.frequency=right.frequency=3500;left.q=right.q=2;left.filterMorph=right.filterMorph=.38f;left.mix=right.mix=.8f;before.configure(left);after.configure(right);
+  for(int n=0;n<6000;++n){if(n==3000){left.drive=right.drive=.8f;left.inputDb=right.inputDb=24;before.configure(left);after.configure(right);}const float in=.03f*std::sin(n*.031f)+.012f*std::sin(n*.013f);const auto a=before.process(in,-in*.7f),b=after.process(in,-in*.7f);for(int ch=0;ch<2;++ch)legacyError=std::max(legacyError,double(std::abs(a[size_t(ch)]-b[size_t(ch)])));}
+ }
+ std::cout<<"Standard-range compatibility against 0.6.3: maximum sample difference "<<legacyError<<std::endl;need(legacyError<1e-6,"existing distortion sounds retain their standard-range response");
+ studio::Distortion::Settings standard;standard.drive=.55f;standard.inputDb=12;standard.hq=true;
+ const auto gentle=probe(standard,150,.01f);standard.hot=true;const auto hot=probe(standard,150,.01f);
+ const double gentleRatio=gentle.harmonics/gentle.fundamental,hotRatio=hot.harmonics/hot.fundamental;
+ std::cout<<"Quiet-note THD power at same Drive/Input: standard "<<gentleRatio<<", HOT "<<hotRatio<<std::endl;
+ need(hotRatio>.01&&hotRatio>gentleRatio*8,"HOT adds actual harmonic distortion on quiet notes, not just output gain");
+ for(double rate:{44100.0,48000.0,96000.0})for(int type=0;type<studio::Distortion::names().size();++type){
+  studio::Distortion effect;effect.prepare(rate);auto settings=standard;settings.type=type;settings.inputDb=18;settings.drive=.68f;settings.tone=11000;effect.configure(settings);double early=0,late=0;
+  for(int n=0;n<int(rate*2);++n){const float input=.012f*std::sin(float(juce::MathConstants<double>::twoPi*190*n/rate));const auto out=effect.process(input,-input);for(float v:out)need(std::isfinite(v)&&std::abs(v)<25,"all HOT characters stay finite at supported sample rates");if(n>rate*.5&&n<rate)early+=out[0]*out[0];if(n>rate*1.5)late+=out[0]*out[0];}
+  need(early>.001&&late>early*.85&&late<early*1.15,"HOT sustains its character without a slow gain fade");
+  settings.mix=0;effect.configure(settings);for(int n=0;n<20000;++n)effect.process(.2f,-.1f);const auto dry=effect.process(.2f,-.1f);need(std::abs(dry[0]-.2f)<1e-5&&std::abs(dry[1]+.1f)<1e-5,"HOT zero mix returns dry signal");
+ }
  studio::Distortion::Settings s;s.type=0;s.drive=.25f;s.mix=1;auto old=probe(s,150,.01f);s.inputDb=24;s.drive=.65f;s.hq=true;auto driven=probe(s,150,.01f);
  const double before=old.harmonics/old.fundamental,after=driven.harmonics/driven.fundamental;std::cout<<"Low-level sine THD power: legacy "<<before<<", driven "<<after<<std::endl;need(after>.015&&after>before*32,"quiet input receives genuine harmonic distortion, independent of output loudness");
  s.type=2;s.drive=.85f;s.inputDb=18;s.hq=false;auto aliased=probe(s,4781,.4f);s.hq=true;auto hq=probe(s,4781,.4f);const double aliasBefore=aliased.alias/aliased.total,aliasAfter=hq.alias/hq.total;std::cout<<"Matched-power alias fraction: plain "<<aliasBefore<<", HQ "<<aliasAfter<<std::endl;need(aliasAfter<aliasBefore*.8,"HQ reduces folded high-frequency energy at equal signal power");
- for(int type=0;type<17;++type)for(int pos=0;pos<3;++pos){studio::Distortion effect;effect.prepare(96000);s.type=type;s.filterPosition=pos;s.frequency=4000;s.q=4;s.filterMorph=.5;s.inputDb=36;s.drive=1;s.mix=1;s.hq=true;s.tone=8500;effect.configure(s);double energy=0;for(int i=0;i<24000;++i){const float x=.02f*std::sin(float(i)*.041f);const auto out=effect.process(x,-x*.7f);for(float v:out){need(std::isfinite(v)&&std::abs(v)<25,"driven HQ mode/filter output finite");energy+=v*v;}}need(energy>.00001,"driven modes remain audible");}
+ s.hot=true;s.hq=false;const auto hotAliased=probe(s,4781,.4f);s.hq=true;const auto hotHq=probe(s,4781,.4f);const double hotAliasBefore=hotAliased.alias/hotAliased.total,hotAliasAfter=hotHq.alias/hotHq.total;std::cout<<"HOT alias fraction: plain "<<hotAliasBefore<<", HQ "<<hotAliasAfter<<std::endl;need(hotAliasAfter<hotAliasBefore*.8,"HQ also reduces folded energy in the expanded range");
+ for(int type=0;type<studio::Distortion::names().size();++type)for(int pos=0;pos<3;++pos){studio::Distortion effect;effect.prepare(96000);s.type=type;s.filterPosition=pos;s.frequency=4000;s.q=4;s.filterMorph=.5;s.inputDb=36;s.drive=1;s.mix=1;s.hq=true;s.tone=8500;effect.configure(s);double energy=0;for(int i=0;i<24000;++i){const float x=.02f*std::sin(float(i)*.041f);const auto out=effect.process(x,-x*.7f);for(float v:out){need(std::isfinite(v)&&std::abs(v)<25,"driven HQ mode/filter output finite");energy+=v*v;}}need(energy>.00001,"driven modes remain audible");}
  if(folder!=juce::File{}){
   folder.createDirectory();auto p=std::make_unique<SpaceInfinityProcessor>();const auto oldBank=previousBank.existsAsFile()?juce::JSON::parse(previousBank.loadFileAsString()):juce::var{};
   for(int index=1;index<p->presetNames().size();++index)if(p->presetCategory(index)=="Acid"){

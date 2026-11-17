@@ -6,23 +6,23 @@ namespace studio {
 class Distortion {
 public:
     // Existing indices are retained for saved 0.6.0 projects.
-    static juce::StringArray names(){return {"Tube","Soft Clip","Hard Clip","Diode 1","Diode 2","Linear Fold","Sine Fold","Zero Square","Downsample","Asymmetric","Rectify","X-Shaper","X-Shaper Asym","Sine Shaper","Transistor","Tube Stack","Hard Drive"};}
+    static juce::StringArray names(){return {"Tube","Soft Clip","Hard Clip","Diode 1","Diode 2","Linear Fold","Sine Fold","Zero Square","Downsample","Asymmetric","Rectify","X-Shaper","X-Shaper Asym","Sine Shaper","Transistor","Tube Stack","Hard Drive","Tape","Fuzz","Bit Crush"};}
     struct Settings {
         int type=0,filterPosition=0;
         float drive=.2f,mix=1,frequency=6000,q=.7071f,filterMorph=0,inputDb=0,tone=20000;
-        bool hq=false;
+        bool hq=false,hot=false;
         std::array<float,9> a{-1,-.75f,-.5f,-.25f,0,.25f,.5f,.75f,1},b{-1,-1,-.9f,-.6f,0,.6f,.9f,1,1};
     };
     void prepare(double rate){
-        sr=rate;memory={};toneMemory={};lastIn={};lastOut={};wavePrevious={};held={};counter=0;mix=0;drive=.2f;inputGain=1;toneBlend=0;hqBlend=0;configured=false;
+        sr=rate;memory={};toneMemory={};lastIn={};lastOut={};wavePrevious={};held={};counter=0;mix=0;drive=.2f;inputGain=1;toneBlend=0;hqBlend=0;hotBlend=0;configured=false;
         dc=float(std::exp(-2*juce::MathConstants<double>::pi*12/sr));slew=float(1-std::exp(-1/(sr*.008)));slow=float(1-std::exp(-1/(sr*.02)));meter.store(0);blockPeak=0;
     }
     void configure(const Settings& next){
-        s=next;s.type=juce::jlimit(0,16,s.type);s.q=juce::jlimit(.2f,10.0f,s.q);
+        s=next;s.type=juce::jlimit(0,19,s.type);s.q=juce::jlimit(.2f,10.0f,s.q);
         targetInput=juce::Decibels::decibelsToGain(juce::jlimit(-24.0f,36.0f,s.inputDb));
         targetG=std::tan(juce::MathConstants<float>::pi*juce::jlimit(20.0f,float(sr*.43),s.frequency)/float(sr));targetK=1/s.q;
         targetTone=std::tan(juce::MathConstants<float>::pi*juce::jlimit(500.0f,float(sr*.4),s.tone)/float(sr));
-        if(!configured){g1=targetG;k=targetK;toneG=targetTone;morph=s.filterMorph;toneBlend=s.tone<19999?1.0f:0.0f;hqBlend=s.hq?1.0f:0.0f;if(s.hq||s.inputDb!=0||s.tone<19999){drive=s.drive;mix=s.mix;inputGain=targetInput;}configured=true;}
+        if(!configured){g1=targetG;k=targetK;toneG=targetTone;morph=s.filterMorph;toneBlend=s.tone<19999?1.0f:0.0f;hqBlend=s.hq?1.0f:0.0f;hotBlend=s.hot?1.0f:0.0f;if(s.hq||s.hot||s.inputDb!=0||s.tone<19999){drive=s.drive;mix=s.mix;inputGain=targetInput;}configured=true;}
         if(!s.hq){g1=targetG;k=targetK;morph=s.filterMorph;}
     }
     static float shape(float x,int type,float amount,const Settings& settings){
@@ -44,23 +44,31 @@ public:
             case 13:return std::sin(v*(1+amount*3));
             case 14:return std::tanh(v+.22f*v*v/(1+std::abs(v)));
             case 15:return std::tanh(1.7f*(std::tanh(v*.7f+.18f)-std::tanh(.18f)));
-            default:return juce::jlimit(-.72f,.72f,v+.20f*std::sin(2*v))/.72f;
+            case 16:return juce::jlimit(-.72f,.72f,v+.20f*std::sin(2*v))/.72f;
+            // Authored characters, not component-exact hardware emulations.
+            case 17:return .92f*v/std::sqrt(1+v*v)+.08f*std::tanh(v*.5f);
+            case 18:{const float t=std::tanh(v);return .7f*std::tanh(3*v)+.3f*std::copysign(std::sqrt(std::abs(t)),t);}
+            case 19:{const float steps=std::exp2(juce::jlimit(2.0f,15.0f,15-13*amount));return std::round(juce::jlimit(-1.0f,1.0f,x)*steps)/steps;}
+            default:return x;
         }
     }
     void beginBlock(){blockPeak=0;}
     void endBlock(){meter.store(blockPeak,std::memory_order_relaxed);}
     float drivenInputPeak()const{return meter.load(std::memory_order_relaxed);}
     std::array<float,2> process(float left,float right){
-        drive+=slew*(s.drive-drive);mix+=slew*(s.mix-mix);inputGain+=slow*(targetInput-inputGain);toneG+=slow*(targetTone-toneG);toneBlend+=slow*((s.tone<19999?1.0f:0.0f)-toneBlend);hqBlend+=slew*((s.hq?1.0f:0.0f)-hqBlend);
+        drive+=slew*(s.drive-drive);mix+=slew*(s.mix-mix);inputGain+=slow*(targetInput-inputGain);toneG+=slow*(targetTone-toneG);toneBlend+=slow*((s.tone<19999?1.0f:0.0f)-toneBlend);hqBlend+=slew*((s.hq?1.0f:0.0f)-hqBlend);hotBlend+=slow*((s.hot?1.0f:0.0f)-hotBlend);
+        // HOT expands the continuous Drive sweep from 36 to 60 dB, without
+        // an adaptive gain follower that could fade sustained or fresh notes.
+        const float push=std::exp2(hotBlend*drive*4);
         if(s.hq){g1+=slow*(targetG-g1);k+=slow*(targetK-k);morph+=slow*(s.filterMorph-morph);}
         a1=1/(1+g1*(g1+k));
         const int period=juce::jmax(1,int(1+drive*drive*95));const bool sample=counter++%period==0;
         std::array<float,2> out{left,right};
         for(int ch=0;ch<2;++ch){
-            const float dry=out[size_t(ch)];float wet=dry*inputGain;if(s.filterPosition==1)wet=filter(wet,ch);
-            blockPeak=std::max(blockPeak,std::abs(wet)*(s.type==11||s.type==12||s.type==8?1:std::exp2(drive*6)));
-            if(s.type==8){if(sample)held[size_t(ch)]=wet;wet=held[size_t(ch)];}
-            else {const float input=wet;wet=shape(input,s.type,drive,s);if(hqBlend>.000001f)wet+=hqBlend*(integratedShape(input,wavePrevious[size_t(ch)])-wet);wavePrevious[size_t(ch)]=input;}
+            const float dry=out[size_t(ch)];float wet=dry*inputGain*push;if(s.filterPosition==1)wet=filter(wet,ch);
+            blockPeak=std::max(blockPeak,std::abs(wet)*(s.type==11||s.type==12||s.type==8||s.type==19?1:std::exp2(drive*6)));
+            if(s.type==8){if(sample)held[size_t(ch)]=wet;wet=held[size_t(ch)];if(hotBlend>0)wet+=hotBlend*(juce::jlimit(-1.0f,1.0f,wet)-wet);}
+            else {const float input=wet;wet=shape(input,s.type,drive,s);if(s.type!=19&&hqBlend>.000001f)wet+=hqBlend*(integratedShape(input,wavePrevious[size_t(ch)])-wet);wavePrevious[size_t(ch)]=input;}
             if(s.filterPosition==2)wet=filter(wet,ch);
             float clean=wet-lastIn[size_t(ch)]+dc*lastOut[size_t(ch)];lastIn[size_t(ch)]=wet;lastOut[size_t(ch)]=clean;
             const float softened=lowpass(clean,toneG,1.41421356f,toneMemory[size_t(ch)]);clean+=toneBlend*(softened-clean);
@@ -105,6 +113,6 @@ private:
     static float lowpass(float x,float g,float damping,std::array<float,2>& m){const float a=1/(1+g*(g+damping)),v1=a*m[0]+g*a*(x-m[1]),v2=m[1]+g*v1;m[0]=2*v1-m[0];m[1]=2*v2-m[1];return v2;}
     float filter(float x,int ch){auto& m=memory[size_t(ch)];const float v3=x-m[1],v1=a1*m[0]+g1*a1*v3,v2=m[1]+g1*v1;m[0]=2*v1-m[0];m[1]=2*v2-m[1];const float lp=v2,bp=k*v1,hp=x-bp-lp,t=juce::jlimit(0.0f,2.0f,morph*2);return t<1?lp+(bp-lp)*t:bp+(hp-bp)*(t-1);}
     Settings s;double sr=48000;std::array<std::array<float,2>,2> memory{},toneMemory{};std::array<float,2> lastIn{},lastOut{},wavePrevious{},held{};std::uint64_t counter=0;
-    float drive=.2f,mix=0,inputGain=1,toneBlend=0,hqBlend=0,targetInput=1,dc=.999f,slew=.002f,slow=.001f,g1=0,k=1.4142f,a1=1,targetG=0,targetK=1.4142f,toneG=0,targetTone=0,morph=0,blockPeak=0;bool configured=false;std::atomic<float> meter{0};
+    float drive=.2f,mix=0,inputGain=1,toneBlend=0,hqBlend=0,hotBlend=0,targetInput=1,dc=.999f,slew=.002f,slow=.001f,g1=0,k=1.4142f,a1=1,targetG=0,targetK=1.4142f,toneG=0,targetTone=0,morph=0,blockPeak=0;bool configured=false;std::atomic<float> meter{0};
 };
 }

@@ -1,0 +1,86 @@
+{
+  "NorthernSync": {
+    "file": "native-vst3/Presets/Heritage200/Wavetables/NorthernSync.wav",
+    "frames": 17,
+    "frame_size": 512,
+    "sha256": "f6c42a53065e21c12a360d5f4798280986dd6c264526ddf3a9b0a99c74b44079",
+    "source": "Original mathematical synthesis;32-harmonic limit"
+  },
+  "NorthernRing": {
+    "file": "native-vst3/Presets/Heritage200/Wavetables/NorthernRing.wav",
+    "frames": 17,
+    "frame_size": 512,
+    "sha256": "0d5de3bd97643985f748fb181ec75a5de750ce389f0435d0a3761ab220ca4efa",
+    "source": "Original mathematical synthesis;32-harmonic limit"
+  },
+  "NorthernVowel": {
+    "file": "native-vst3/Presets/Heritage200/Wavetables/NorthernVowel.wav",
+    "frames": 17,
+    "frame_size": 512,
+    "sha256": "c86bb4abc0c7fe79be261d0f01d8f4d3c0d66dd90c77338562ba4de322cee225",
+    "source": "Original mathematical synthesis;32-harmonic limit"
+  },
+  "NorthernFM": {
+    "file": "native-vst3/Presets/Heritage200/Wavetables/NorthernFM.wav",
+    "frames": 17,
+    "frame_size": 512,
+    "sha256": "90ecafe97c60ea6a9d21c1eaec384942e3a8df20b24a21281b403fed4e6714fc",
+    "source": "Original mathematical synthesis;32-harmonic limit"
+  },
+  "NorthernHollow": {
+    "file": "native-vst3/Presets/Heritage200/Wavetables/NorthernHollow.wav",
+    "frames": 17,
+    "frame_size": 512,
+    "sha256": "ff47ec90cd3e87b3b1b09f570b42b7e14117cacef0f5cb041bd09c8a4c47f849",
+    "source": "Original mathematical synthesis;32-harmonic limit"
+  },
+  "EnsembleFeedback": {
+    "file": "native-vst3/Presets/Heritage200/Wavetables/EnsembleFeedback.wav",
+    "frames": 17,
+    "frame_size": 512,
+    "sha256": "62d14e5cfbc6af04ba3426846cce47e39236f935e15fd9556b571163cb3e2db8",
+    "source": "Original mathematical synthesis;32-harmonic limit"
+  },
+  "EnsembleTriangle": {
+    "file": "native-vst3/Presets/Heritage200/Wavetables/EnsembleTriangle.wav",
+    "frames": 17,
+    "frame_size": 512,
+    "sha256": "220a2c9ec9c6e15078d931674db1cf6e954ecb2c0696cdf5ed3ec568579f68f8",
+    "source": "Original mathematical synthesis;32-harmonic limit"
+  },
+  "DigitalDrawbar": {
+    "file": "native-vst3/Presets/Heritage200/Wavetables/DigitalDrawbar.wav",
+    "frames": 17,
+    "frame_size": 512,
+    "sha256": "650c49386d6a536ba931b6f62b57f218e225db3e3a2dd8c1b991e41bfdec166e",
+    "source": "Original mathematical synthesis;32-harmonic limit"
+  },
+  "DigitalGlass": {
+    "file": "native-vst3/Presets/Heritage200/Wavetables/DigitalGlass.wav",
+    "frames": 17,
+    "frame_size": 512,
+    "sha256": "d9e2e87d74db7b45db79ab7b207239dac7d97d63ad74e32224f7ded636677781",
+    "source": "Original mathematical synthesis;32-harmonic limit"
+  },
+  "DigitalWire": {
+    "file": "native-vst3/Presets/Heritage200/Wavetables/DigitalWire.wav",
+    "frames": 17,
+    "frame_size": 512,
+    "sha256": "239058631ac97eb1809cab4636558572fa69999be8a04001b5347a8ac70afa69",
+    "source": "Original mathematical synthesis;32-harmonic limit"
+  },
+  "DigitalVoice": {
+    "file": "native-vst3/Presets/Heritage200/Wavetables/DigitalVoice.wav",
+    "frames": 17,
+    "frame_size": 512,
+    "sha256": "c86bb4abc0c7fe79be261d0f01d8f4d3c0d66dd90c77338562ba4de322cee225",
+    "source": "Original mathematical synthesis;32-harmonic limit"
+  },
+  "DigitalAir": {
+    "file": "native-vst3/Presets/Heritage200/Wavetables/DigitalAir.wav",
+    "frames": 17,
+    "frame_size": 512,
+    "sha256": "2c001ba5ee33b7d8fb541c1b8b7c900f6ed893434edd51ca7500466208bad5cd",
+    "source": "Original mathematical synthesis;32-harmonic limit"
+  }
+}

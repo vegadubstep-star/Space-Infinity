@@ -59,6 +59,42 @@ public:
             newKey="U"+file.upToLastOccurrenceOf(".",false,false);auto xml=juce::AudioProcessor::getXmlFromBinary(bytes.getData(),int(bytes.getSize()));bank.push_back({newKey,cleaned,"User",file,-1,xml?xml->getStringAttribute("creator"):juce::String{},xml?xml->getStringAttribute("tags"):juce::String{}});return juce::Result::ok();});
         if(result.failed())directory.getChildFile(file).deleteFile();return result;
     }
+    // Validate the complete archive before writing. Stable collection IDs make a
+    // second import harmless and retain local edits rather than replacing them.
+    juce::Result importBank(const juce::File& file,int& imported){
+        imported=0;
+        if(!file.existsAsFile()||file.getSize()>256*1024*1024)return juce::Result::fail("Cannot read bank ZIP (maximum 256 MB).");
+        juce::ZipFile zip(file);
+        const int manifestIndex=zip.getIndexOfFileName("Bank.json");
+        if(manifestIndex<0||zip.getNumEntries()>1024)return juce::Result::fail("This ZIP has no Space Infinity Bank.json.");
+        const auto* manifestEntry=zip.getEntry(manifestIndex);
+        if(!manifestEntry||manifestEntry->uncompressedSize>1024*1024)return juce::Result::fail("Invalid bank manifest.");
+        std::unique_ptr<juce::InputStream> input(zip.createStreamForEntry(manifestIndex));
+        if(!input)return juce::Result::fail("Cannot read bank manifest.");
+        const auto metadata=juce::JSON::parse(input->readEntireStreamAsString());
+        const auto id=metadata["id"].toString();const auto rows=metadata["presets"];
+        if(metadata["format"].toString()!="SPACE_INFINITY_BANK_V1"||id.isEmpty()||id.length()>64||!id.containsOnly("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-")||!rows.isArray()||rows.size()<1||rows.size()>512)return juce::Result::fail("Invalid Space Infinity bank format.");
+        struct Pending {Entry entry;juce::MemoryBlock bytes;};std::vector<Pending> pending;juce::StringArray seen;juce::int64 total=0;
+        for(const auto& row:*rows.getArray()){
+            const auto path=row["file"].toString(),patchId=row["id"].toString();
+            if(patchId.isEmpty()||patchId.length()>32||!patchId.containsOnly("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-")||seen.contains(patchId)||!path.endsWith(".sipreset")||path.startsWith("/")||path.contains("..")||path.contains("\\")||path.contains(":"))return juce::Result::fail("Invalid or duplicate preset path/ID.");
+            seen.add(patchId);const int index=zip.getIndexOfFileName(path);const auto* z=index>=0?zip.getEntry(index):nullptr;
+            if(index<0||!z||z->uncompressedSize<1||z->uncompressedSize>64*1024*1024||(total+=z->uncompressedSize)>512*1024*1024)return juce::Result::fail("Missing preset or bank exceeds the size limit.");
+            std::unique_ptr<juce::InputStream> stream(zip.createStreamForEntry(index));Pending p;
+            if(!stream||stream->readIntoMemoryBlock(p.bytes,z->uncompressedSize)!=z->uncompressedSize)return juce::Result::fail("Incomplete preset in ZIP.");
+            auto xml=juce::AudioProcessor::getXmlFromBinary(p.bytes.getData(),int(p.bytes.getSize()));
+            if(!xml||!xml->hasTagName("PARAMETERS")||xml->getChildByAttribute("id","cutoff")==nullptr)return juce::Result::fail("Invalid preset in bank ZIP.");
+            const auto filename="user_"+id+"_"+patchId+".sipreset";
+            if(!safeFilename(filename))return juce::Result::fail("Bank ID and preset ID are too long.");
+            p.entry={"U"+filename.upToLastOccurrenceOf(".",false,false),cleanName(xml->getStringAttribute("presetDisplayName")),cleanName(row["category"].toString()).substring(0,40),filename,-1,cleanName(xml->getStringAttribute("creator")),xml->getStringAttribute("tags").substring(0,512)};
+            if(p.entry.name.isEmpty())return juce::Result::fail("Bank contains an unnamed preset.");
+            if(p.entry.category.isEmpty())p.entry.category="User";
+            pending.push_back(std::move(p));
+        }
+        juce::Array<juce::File> created;
+        const auto result=mutate([&]{for(auto& p:pending){if(indexForKey(p.entry.key)>=0)continue;const auto target=directory.getChildFile(p.entry.file);if(target.existsAsFile())return juce::Result::fail("A bank file already exists outside the index. Refresh or restore it before importing.");const auto written=writeBytes(target,p.bytes);if(written.failed())return written;created.add(target);bank.push_back(p.entry);++imported;}return juce::Result::ok();});
+        if(result.failed()){for(const auto& target:created)target.deleteFile();imported=0;}return result;
+    }
     juce::Result replace(int index,const juce::MemoryBlock& bytes){
         if(!valid(index))return juce::Result::fail("Select a preset to replace.");if(bank[size_t(index)].factory==0)return juce::Result::fail("Init remains the reset sound. Use Save New.");
         auto xml=juce::AudioProcessor::getXmlFromBinary(bytes.getData(),int(bytes.getSize()));if(!xml||!xml->hasTagName("PARAMETERS"))return juce::Result::fail("Invalid preset data.");

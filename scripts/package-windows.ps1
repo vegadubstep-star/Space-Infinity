@@ -31,10 +31,10 @@ New-Item -ItemType Directory -Path $release -Force | Out-Null
 $definition = Join-Path $ProjectRoot "installer\SpaceInfinity.iss"
 & $InnoCompiler "/DVst3Bundle=$bundle" "/DReleaseDir=$release" $definition
 if ($LASTEXITCODE -ne 0) { throw "Inno Setup compilation failed." }
-$setup = Join-Path $release "SPACE_INFINITY_0.6.3_Windows_x64_Setup.exe"
+$setup = Join-Path $release "SPACE_INFINITY_0.7.0_Windows_x64_Setup.exe"
 if (-not (Test-Path -LiteralPath $setup -PathType Leaf)) { throw "Installer output is missing." }
 
-$archive = Join-Path $release "SPACE_INFINITY_0.6.3_Windows_x64_VST3.zip"
+$archive = Join-Path $release "SPACE_INFINITY_0.7.0_Windows_x64_VST3.zip"
 Compress-Archive -LiteralPath $bundle -DestinationPath $archive -Force
 Get-FileHash -Algorithm SHA256 -LiteralPath $setup,$archive
 
@@ -62,7 +62,7 @@ $choirFolder = Join-Path $release "ChoirStabs"
 $smoke = Join-Path $ProjectRoot "native-vst3/build/SpaceInfinitySmoke_artefacts/Release/SpaceInfinitySmoke.exe"
 & $smoke --export-choir-stabs $choirFolder
 if ($LASTEXITCODE -ne 0) { throw "Owner choir preset export failed." }
-& python (Join-Path $PSScriptRoot "package-choir-stabs.py") $choirFolder "0.6.3" (Join-Path $release "SPACE_INFINITY_0.6.3_Choir_Stabs.zip")
+& python (Join-Path $PSScriptRoot "package-choir-stabs.py") $choirFolder "0.7.0" (Join-Path $release "SPACE_INFINITY_0.7.0_Choir_Stabs.zip")
 if ($LASTEXITCODE -ne 0) { throw "Owner choir pack verification failed." }
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Samples/Trance/USER_CHOIR_PROVENANCE.json") -Destination (Join-Path $release "USER_CHOIR_PROVENANCE.json") -Force
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/ACID_BASS_AND_CHOIR_UPDATE.md") -Destination $release -Force
@@ -70,3 +70,9 @@ Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/ACID_BASS_AND_CHOIR_UPDATE.
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/ACID_CUTOFF_UPDATE.md") -Destination $release -Force
 
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/BASS_VOICING_UPDATE.md") -Destination $release -Force
+
+Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Presets/Heritage200/SPACE_INFINITY_Heritage_200.zip") -Destination $release -Force
+Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Presets/Heritage200/SPACE_INFINITY_Heritage_200.zip.sha256") -Destination $release -Force
+Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/HERITAGE_200_UPDATE.md") -Destination $release -Force
+
+Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/DISTORTION_DRIVE_UPDATE.md") -Destination $release -Force

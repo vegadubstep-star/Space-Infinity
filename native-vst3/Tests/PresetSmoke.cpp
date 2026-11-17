@@ -1,6 +1,26 @@
 #include "../Source/PluginProcessor.h"
 #include "../Source/PresetPanel.h"
 #include <iostream>
+int runBankZipSmoke(const juce::File& archive){
+    const auto folder=juce::File::getSpecialLocation(juce::File::tempDirectory).getNonexistentChildFile("InfinityHeritageTest",{},false);folder.createDirectory();
+    auto synth=std::make_unique<SpaceInfinityProcessor>(folder);auto& library=synth->presetBank();const auto count=library.entries().size();
+    const auto original=library.entries();int imported=0;
+    // A later write conflict must roll back earlier writes and preserve the
+    // orphan that caused the conflict, as well as all factory entries.
+    const auto orphan=folder.getChildFile("user_heritage200_H100.sipreset");orphan.replaceWithText("retain existing orphan");
+    if(library.importBank(archive,imported).wasOk()||imported!=0||library.entries().size()!=count||orphan.loadFileAsString()!="retain existing orphan"||folder.findChildFiles(juce::File::findFiles,false,"*.sipreset").size()!=1)return 210;
+    orphan.deleteFile();auto result=library.importBank(archive,imported);
+    if(result.failed()){std::cerr<<result.getErrorMessage()<<std::endl;return 201;}
+    if(imported!=200||library.entries().size()!=count+200)return 202;
+    for(size_t i=0;i<count;++i)if(original[i].key!=library.entries()[i].key||original[i].name!=library.entries()[i].name||original[i].file!=library.entries()[i].file)return 203;
+    for(size_t i=count;i<library.entries().size();++i){if(synth->loadBankPreset(int(i)).failed())return 204;const auto& e=library.entries()[i];if(!e.tags.contains("Heritage 200")||e.creator!="Orbital Audio"||synth->state.state.getProperty("presetDisplayName").toString()!=e.name)return 205;}
+    const auto key=library.entries()[count].key;if(library.updateDetails(int(count),"My edited Heritage piano","Owner","Personal").failed())return 206;
+    if(library.importBank(archive,imported).failed()||imported!=0||library.entries().size()!=count+200||library.entries()[count].name!="My edited Heritage piano")return 207;
+    if(library.reload().failed()||library.indexForKey(key)!=int(count)||library.entries()[count].tags!="Personal")return 208;
+    // A truncated/invalid ZIP must leave both index and saved files untouched.
+    const auto invalid=folder.getChildFile("Invalid.zip");invalid.replaceWithText("not a ZIP");if(library.importBank(invalid,imported).wasOk()||imported!=0||library.entries().size()!=count+200)return 209;
+    synth.reset();folder.deleteRecursively();std::cout<<"200-preset bank import, native recall, existing bank preservation, edited reimport and invalid archive rejection passed\n";return 0;
+}
 int runPresetSmoke(){
     const auto folder=juce::File::getSpecialLocation(juce::File::tempDirectory).getNonexistentChildFile("SpaceInfinityBankTest",{},false);
     folder.createDirectory();
