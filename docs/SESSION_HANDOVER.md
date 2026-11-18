@@ -1,3 +1,11 @@
+# Latest follow-up — numbers on the graphs, 18 November 2026
+
+Owner pointed out that the screenshots still lacked numbers on the LFO/envelope graphs. Their correction is valid:0.7.1 only showed a cycle-duration footer. Added permanent LFO/gate time ticks and percentage scales, hover/drag position badge, envelope A/H/D/S/R numeric rows and level scales. Sustain is held rather than labelled as a fixed duration. Geometry is shared by rendering and editing. GraphReadout.h contains presentation helpers; DSP/parameters/presets are unchanged.
+
+See GRAPH_NUMBERS_UPDATE.md and docs/images/Graph-Numbers-{MAIN,Detail}.png for actual compiled native previews. Existing LFO/gate/envelope interaction tests were adjusted to the visible plotting surface and extended to check numeric values; the three relevant native suites passed (AnalogueExpansion, DualLFO and RhythmWorkflow;9.56s), as did Main/FX/Gate/Seq bounds/render checks at800/1000/1180/1500. A final DualLFO run and UI render passed after replacing the broken Unicode footer separator with an ASCII bar. The final close-up refreshes both pane labels to match the host tempo before capture. This is a source/native-preview follow-up; **the saved verified Windows installer below (binary sourcef8db6e7) predates these labels**. Do not claim that held installer includes the new graph numbers. Download hold remains in force. Use [skip ci] for the source push; rebuild/package the latest source before supplying the next Windows installer. Existing untracked audition/ and script caches are preserved. No subagents were authorised or used.
+
+---
+
 # Current handover — verified 0.7.1 preview, 17 November 2026
 
 **Owner now requested aesthetic upgrades, clearer timing and repeatable versus free-running noise. Download delivery remains held.** This is the active scope; the earlier SOUND-only direction below is historical. No subagents were authorised or used.

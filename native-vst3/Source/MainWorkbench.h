@@ -1,5 +1,6 @@
 #pragma once
 #include "TimingReadout.h"
+#include "GraphReadout.h"
 #include "WorkflowControls.h"
 #include "EnvelopeControls.h"
 #include "HardwareTheme.h"
@@ -14,11 +15,14 @@ public:
             amount->textFromValueFunction=[](double v){return juce::String(v*100,0)+"%";};amount->valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/100;};amount->updateText();content.addAndMakeVisible(*box);content.addAndMakeVisible(*amount);controls.push_back(std::move(box));controls.push_back(std::move(amount));}
     }
 };
-class CurveEditor:public juce::Component {
+class CurveEditor:public juce::Component,public juce::SettableTooltipClient {
     SpaceInfinityProcessor& p;
     bool gate,paintMode=false,snapEnabled=false,painting=false;
     int lfo=0,drag=-1,segment=-1,snap=16;
     float startBend=0;
+    bool showPosition=false;juce::Point<float> cursor;
+    double spanSeconds()const{if(gate){const int rate=int(get("gateMode"))==0?int(get("gateRate"))+4:int(get("gateCurveRate"));return 60.0/p.hostBpm()*std::exp2(juce::jlimit(0,10,rate)-4);}const auto value=[this](const char* field){return get(p.lfoParameterId(lfo,field));};return timingui::cycleSeconds(value("Sync")>.5f,value("Speed"),int(value("Bars")),p.hostBpm(),value("Triplet")>.5f,value("Dotted")>.5f,0);}
+    void track(juce::Point<float> pos){cursor=pos;showPosition=true;setTooltip("Curve position: "+positionText()+". Time is the base forward pass; ping-pong returns across the same graph.");repaint();}
     juce::StringArray gestures;
     float get(const juce::String& id)const{return p.state.getRawParameterValue(id)->load();}
     void write(const juce::String& id,float v){auto* a=p.state.getParameter(id);a->setValueNotifyingHost(a->convertTo0to1(v));}
@@ -28,7 +32,7 @@ class CurveEditor:public juce::Component {
     int count()const{return gate?juce::jlimit(2,33,int(get(field("Count")))):p.lfoCurve(lfo).count;}
     juce::String yId(int i)const{return pointId("Y",i);}
     float xAt(int i)const{return gate?get(pointId("X",i)):p.lfoCurve(lfo).x[size_t(i)];}
-    juce::Rectangle<float> graph()const{return getLocalBounds().toFloat().reduced(9,9);}
+    juce::Rectangle<float> graph()const{return graphui::plot(getLocalBounds());}
     juce::Point<float> point(int i)const{auto r=graph();return {r.getX()+xAt(i)*r.getWidth(),r.getBottom()-(gate?get(yId(i)):p.lfoCurve(lfo).y[size_t(i)])*r.getHeight()};}
     int nearest(juce::Point<float> pos)const{int best=-1;float distance=10;for(int i=0;i<count();++i){const float d=pos.getDistanceFrom(point(i));if(d<distance){distance=d;best=i;}}return best;}
     studio::EditableCurve curve()const{if(!gate)return p.lfoCurve(lfo);studio::EditableCurve c;c.count=count();for(int i=0;i<c.count;++i){c.x[size_t(i)]=xAt(i);c.y[size_t(i)]=get(yId(i));c.bend[size_t(i)]=get(pointId("Bend",i));}return c;}
@@ -37,6 +41,10 @@ class CurveEditor:public juce::Component {
     void ensureCurve(){if(gate){if(get("gateMode")<.5f)p.useGateCurveFromSteps();}else p.enableLfoCurve(lfo);}
     void changed(){if(edited)edited();repaint();}
 public:
+    juce::Rectangle<float> plotBounds()const{return graph();}
+    juce::String positionText()const{const auto r=graph();const float x=juce::jlimit(0.0f,1.0f,(cursor.x-r.getX())/juce::jmax(1.0f,r.getWidth()));const float y=1-juce::jlimit(0.0f,1.0f,(cursor.y-r.getY())/juce::jmax(1.0f,r.getHeight()));if(segment>=0)return "Curve "+graphui::number(get(pointId("Bend",segment))*100)+"%";return graphui::time(spanSeconds()*x)+" / "+graphui::number(y*100)+"%";}
+    void mouseMove(const juce::MouseEvent& e)override{track(e.position);}
+    void mouseExit(const juce::MouseEvent&)override{showPosition=false;repaint();}
     std::function<void()> edited;
     CurveEditor(SpaceInfinityProcessor& processor,bool isGate):p(processor),gate(isGate){setName(gate?"Audio gate curve":"LFO 1 curve");setMouseCursor(juce::MouseCursor::CrosshairCursor);}
     ~CurveEditor()override{finish();}
@@ -45,7 +53,7 @@ public:
     void setSnapEnabled(bool enabled){snapEnabled=enabled;}
     void setPaintMode(bool enabled){paintMode=enabled;}
     void paint(juce::Graphics& g)override{
-        const auto r=graph();HardwareTheme::display(g,r);
+        const auto r=graph();g.fillAll(juce::Colour(0xff110c1b));HardwareTheme::display(g,r);
         g.setColour(juce::Colour(0xff2c2543));for(int i=1;i<snap;++i)g.drawVerticalLine(juce::roundToInt(r.getX()+r.getWidth()*i/snap),r.getY(),r.getBottom());
         for(int i=1;i<4;++i)g.drawHorizontalLine(juce::roundToInt(r.getY()+r.getHeight()*i/4),r.getX(),r.getRight());
         const bool legacy=gate&&get("gateMode")<.5f;
@@ -57,12 +65,13 @@ public:
         if(!legacy)for(int i=0;i<count();++i){const auto pt=point(i);g.setColour(juce::Colour(i==drag?0xffffffff:0xffd6d1eb));g.fillEllipse(pt.x-3,pt.y-3,6,6);}
         if(!legacy)for(int i=0;i<c.count-1;++i){const float x=(c.x[size_t(i)]+c.x[size_t(i+1)])*.5f;const auto pt=juce::Point<float>(r.getX()+x*r.getWidth(),r.getBottom()-c.value(x)*r.getHeight());g.setColour(juce::Colour(0xff9c7cda));g.drawEllipse(pt.x-3,pt.y-3,6,6,1);}
         const float phase=gate?p.gatePhaseView():p.lfoDisplayPhase(lfo);g.setColour(juce::Colour(0x99f0dfaa));g.drawVerticalLine(juce::roundToInt(r.getX()+phase*r.getWidth()),r.getY(),r.getBottom());
+        graphui::levels(g,r);graphui::times(g,r,spanSeconds());if(showPosition)graphui::badge(g,r,positionText());
         if(legacy){g.setFont(10);g.setColour(juce::Colour(0xffded5ee));g.drawText("STEP PATTERN / edit to convert to a curve",r.toNearestInt().reduced(8).withHeight(18),juce::Justification::centredLeft);}
     }
     void mouseDown(const juce::MouseEvent& e)override{
         if(!gate&&e.mods.isCtrlDown()){finish();return;}
         if(!gate&&e.mods.isPopupMenu()){juce::PopupMenu menu;menu.addItem(1,"Set envelope loopback here");menu.addItem(2,"Clear envelope loopback");const float x=juce::jlimit(0.0f,.999f,(e.position.x-graph().getX())/graph().getWidth());const juce::Component::SafePointer<CurveEditor> safe(this);menu.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(this),[safe,x](int choice){if(safe&&choice>0)safe->set(safe->p.lfoParameterId(safe->lfo,"Loopback"),choice==1?x:-1);});return;}
-        finish();ensureCurve();painting=paintMode||e.mods.isShiftDown();
+        finish();if(!graph().expanded(4).contains(e.position))return;ensureCurve();painting=paintMode||e.mods.isShiftDown();
         if(painting){const auto c=curve();set(field("Count"),17);for(int i=0;i<17;++i){set(pointId("X",i),float(i)/16);set(yId(i),c.value(float(i)/16));set(pointId("Bend",i),0);}}
         if(painting){drag=juce::jlimit(0,16,juce::roundToInt((e.position.x-graph().getX())/graph().getWidth()*16));for(int i=0;i<17;++i)begin(yId(i));}
         else{drag=nearest(e.position);if(drag>=0){begin(yId(drag));if(drag>0&&drag<count()-1)begin(pointId("X",drag));}
@@ -71,16 +80,16 @@ public:
     }
     void mouseDrag(const juce::MouseEvent& e)override{
         if(!gate&&e.mods.isCtrlDown()){if(e.getDistanceFromDragStart()>5)if(auto* container=juce::DragAndDropContainer::findParentDragContainerFor(this))if(!container->isDragAndDropActive())container->startDragging("INFINITY:LFO:"+juce::String(lfo),this);return;}
-        const auto r=graph();float x=juce::jlimit(0.0f,1.0f,(e.position.x-r.getX())/r.getWidth()),y=1-juce::jlimit(0.0f,1.0f,(e.position.y-r.getY())/r.getHeight());
+        track(e.position);const auto r=graph();float x=juce::jlimit(0.0f,1.0f,(e.position.x-r.getX())/r.getWidth()),y=1-juce::jlimit(0.0f,1.0f,(e.position.y-r.getY())/r.getHeight());
         if(snapEnabled||e.mods.isAltDown()){x=std::round(x*snap)/snap;y=std::round(y*snap)/snap;}
         if(segment>=0){write(pointId("Bend",segment),juce::jlimit(-1.0f,1.0f,startBend-float(e.getDistanceFromDragStartY())/r.getHeight()*2));}
         else if(drag>=0&&painting){const int next=juce::jlimit(0,16,juce::roundToInt(x*16)),first=drag;const float old=get(yId(first));for(int i=std::min(first,next);i<=std::max(first,next);++i){const float t=first==next?1:float(i-first)/float(next-first);write(yId(i),old+(y-old)*t);}drag=next;}
         else if(drag>=0){if(drag>0&&drag<count()-1)write(pointId("X",drag),juce::jlimit(xAt(drag-1)+.000001f,xAt(drag+1)-.000001f,x));write(yId(drag),y);}
-        changed();
+        if(drag>=0&&!painting)cursor=point(drag);setTooltip(positionText());changed();
     }
     void mouseUp(const juce::MouseEvent&)override{finish();}
     void mouseDoubleClick(const juce::MouseEvent& e)override{
-        finish();ensureCurve();
+        finish();if(!graph().expanded(4).contains(e.position))return;ensureCurve();
         const int old=count(),hit=nearest(e.position);
         if(hit>0&&hit<old-1){for(int i=hit;i<old-1;++i){set(pointId("X",i),xAt(i+1));set(yId(i),get(yId(i+1)));set(pointId("Bend",i),get(pointId("Bend",i+1)));}set(field("Count"),float(old-1));}
         else if(hit<0&&old<33){const auto r=graph();float x=juce::jlimit(.00001f,.99999f,(e.position.x-r.getX())/r.getWidth());if(snapEnabled||e.mods.isAltDown())x=juce::jlimit(.00001f,.99999f,std::round(x*snap)/snap);int at=1;while(at<old-1&&xAt(at)<x)++at;for(int i=old;i>at;--i){set(pointId("X",i),xAt(i-1));set(yId(i),get(yId(i-1)));set(pointId("Bend",i),get(pointId("Bend",i-1)));}set(pointId("X",at),x);set(yId(at),1-juce::jlimit(0.0f,1.0f,(e.position.y-r.getY())/r.getHeight()));set(pointId("Bend",at),0);set(field("Count"),float(old+1));}
@@ -114,7 +123,7 @@ class LfoPane:public juce::Component,private juce::Timer {
         const juce::StringArray names{"1 bar","2 bars","4 bars","8 bars","1/2 bar","1/4 bar","1/8 bar","1/16 bar"};
         auto text=synced?names[juce::jlimit(0,7,division)]:juce::String(get("Speed"),2)+" Hz";
         if(synced&&get("Triplet")>.5f)text+=" T";if(synced&&get("Dotted")>.5f)text+=" D";if(get("Direction")==2)text+=" PP";
-        text+="  ·  "+timingui::duration(seconds);timing.setText(text,juce::dontSendNotification);timing.setName("LFO "+juce::String(selected+1)+" cycle time");timing.setTooltip("Base "+juce::String(get("Mode")==2?"pass":"cycle")+": "+timingui::duration(seconds)+" at "+juce::String(bpm,2)+" BPM. Bars contain four quarter notes. Triplet, dotted and ping-pong direction are included. Rate modulation can vary the instantaneous duration.");
+        text+="  |  "+timingui::duration(seconds);timing.setText(text,juce::dontSendNotification);timing.setName("LFO "+juce::String(selected+1)+" cycle time");timing.setTooltip("Base "+juce::String(get("Mode")==2?"pass":"cycle")+": "+timingui::duration(seconds)+" at "+juce::String(bpm,2)+" BPM. Bars contain four quarter notes. Triplet, dotted and ping-pong direction are included. Rate modulation can vary the instantaneous duration.");
     }
     void timerCallback()override{if(isShowing()){updateTiming();graph.repaint();}}
 public:
@@ -180,8 +189,8 @@ public:
     void resized()override{auto area=getLocalBounds();const int mw=juce::jlimit(132,180,getWidth()/6),ew=juce::jlimit(300,460,getWidth()*39/100);macroArea=area.removeFromLeft(mw);area.removeFromLeft(8);envArea=area.removeFromLeft(ew);area.removeFromLeft(8);lfoArea=area;
         for(int i=0;i<6;++i){const int col=i<3?0:1,row=i%3;auto cell=juce::Rectangle<int>(macroArea.getX()+col*mw/2,24+row*(getHeight()-24)/3,mw/2,(getHeight()-24)/3);macroLabels[size_t(i)].setBounds(cell.removeFromTop(17).reduced(2,0));macro[size_t(i)].setBounds(cell.reduced(3,0));}
         const int eh=getHeight()/2;longEnv.setBounds(envArea.getRight()-165,2,77,20);declick.setBounds(envArea.getRight()-88,2,88,20);
-        const int graphHeight=juce::jlimit(32,65,eh-85);for(int row=0;row<2;++row)envelopeGraphs[size_t(row)].setBounds(envArea.getX()+6,row*eh+24,ew-12,graphHeight);
-        for(int i=0;i<11;++i){const int row=i<5?0:1,index=i<5?i:i-5,n=row==0?5:6;auto cell=juce::Rectangle<int>(envArea.getX()+index*ew/n,row*eh+26+graphHeight,ew/n,eh-28-graphHeight);envLabels[size_t(i)].setBounds(cell.removeFromTop(12));env[size_t(i)].setBounds(cell);}
+        const int graphHeight=juce::jlimit(40,65,eh-85);for(int row=0;row<2;++row)envelopeGraphs[size_t(row)].setBounds(envArea.getX()+6,row*eh+22,ew-12,graphHeight);
+        for(int i=0;i<11;++i){const int row=i<5?0:1,index=i<5?i:i-5,n=row==0?5:6;auto cell=juce::Rectangle<int>(envArea.getX()+index*ew/n,row*eh+24+graphHeight,ew/n,eh-26-graphHeight);envLabels[size_t(i)].setBounds(cell.removeFromTop(12));env[size_t(i)].setBounds(cell);}
         auto r=lfoArea.reduced(2);const bool stacked=r.getWidth()<420&&r.getHeight()>450;
         auto first=stacked?r.removeFromTop(r.getHeight()/2):r.removeFromLeft(r.getWidth()/2);lfos[0]->setBounds(first.reduced(2));lfos[1]->setBounds(r.reduced(2));levelMatch.setBounds(envArea.getRight()-104,eh+1,102,20);contours.setBounds(envArea.getRight()-174,eh+1,65,20);}
 
