@@ -15,6 +15,35 @@ public:
             amount->textFromValueFunction=[](double v){return juce::String(v*100,0)+"%";};amount->valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/100;};amount->updateText();content.addAndMakeVisible(*box);content.addAndMakeVisible(*amount);controls.push_back(std::move(box));controls.push_back(std::move(amount));}
     }
 };
+namespace curveui {
+inline studio::EditableCurve shape(int index){
+    studio::EditableCurve curve;
+    curve.count=index==0?5:index==1?3:index==4?4:index==6?17:2;
+    for(int i=0;i<curve.count;++i){
+        float x=float(i)/(curve.count-1),y=0,bend=0;
+        if(index==0){y=.5f-.5f*std::cos(x*juce::MathConstants<float>::twoPi);bend=i%2==0?.25f:-.25f;}
+        else if(index==1)y=1-std::abs(x*2-1);
+        else if(index==2)y=x;
+        else if(index==3)y=1-x;
+        else if(index==4){x=i==0?0:i==1?.4999f:i==2?.5f:1;y=i<2?1:0;}
+        else if(index==5){y=x;bend=-1.0f/3;}
+        else y=float(((i*37+11)%17))/16;
+        curve.x[size_t(i)]=x;curve.y[size_t(i)]=y;curve.bend[size_t(i)]=bend;
+    }
+    return curve;
+}
+inline int shapeIndex(const studio::EditableCurve& curve){
+    for(int index=0;index<7;++index){
+        const auto candidate=shape(index);if(curve.count!=candidate.count)continue;
+        bool matches=true;
+        for(int i=0;i<curve.count;++i){const auto n=size_t(i);
+            if(std::abs(curve.x[n]-candidate.x[n])>.00001f||std::abs(curve.y[n]-candidate.y[n])>.00001f
+                ||(i<curve.count-1&&std::abs(curve.bend[n]-candidate.bend[n])>.00001f)){matches=false;break;}}
+        if(matches)return index;
+    }
+    return -1;
+}
+}
 class CurveEditor:public juce::Component,public juce::SettableTooltipClient {
     SpaceInfinityProcessor& p;
     bool gate,paintMode=false,snapEnabled=false,painting=false;
@@ -97,16 +126,10 @@ public:
     }
     void mouseWheelMove(const juce::MouseEvent& e,const juce::MouseWheelDetails& wheel)override{ensureCurve();const float x=(e.position.x-graph().getX())/graph().getWidth();int at=0;while(at<count()-2&&xAt(at+1)<x)++at;const auto id=pointId("Bend",at);set(id,juce::jlimit(-1.0f,1.0f,get(id)+wheel.deltaY*.5f));changed();}
     void shape(int index){finish();ensureCurve();if(gate)set("gateMode",1);
-        const int n=index==0?5:index==1?3:index==4?4:index==6?17:2;set(field("Count"),float(n));
-        for(int i=0;i<n;++i){float x=float(i)/(n-1),y=0,bend=0;
-            if(index==0){y=.5f-.5f*std::cos(x*juce::MathConstants<float>::twoPi);bend=i%2==0?.25f:-.25f;}
-            else if(index==1)y=1-std::abs(x*2-1);
-            else if(index==2)y=x;else if(index==3)y=1-x;
-            else if(index==4){x=i==0?0:i==1?.4999f:i==2?.5f:1;y=i<2?1:0;}
-            else if(index==5){y=x;bend=-1.0f/3;}
-            else y=float(((i*37+11)%17))/16;
-            set(pointId("X",i),x);set(pointId("Bend",i),bend);set(yId(i),y);
-        }changed();}
+        const auto preset=curveui::shape(index);set(field("Count"),float(preset.count));
+        for(int i=0;i<preset.count;++i){const auto n=size_t(i);set(pointId("X",i),preset.x[n]);set(pointId("Bend",i),preset.bend[n]);set(yId(i),preset.y[n]);}
+        changed();}
+
 
 };
 class LfoPane:public juce::Component,private juce::Timer {
@@ -125,7 +148,12 @@ class LfoPane:public juce::Component,private juce::Timer {
         if(synced&&get("Triplet")>.5f)text+=" T";if(synced&&get("Dotted")>.5f)text+=" D";if(get("Direction")==2)text+=" PP";
         text+="  |  "+timingui::duration(seconds);timing.setText(text,juce::dontSendNotification);timing.setName("LFO "+juce::String(selected+1)+" cycle time");timing.setTooltip("Base "+juce::String(get("Mode")==2?"pass":"cycle")+": "+timingui::duration(seconds)+" at "+juce::String(bpm,2)+" BPM. Bars contain four quarter notes. Triplet, dotted and ping-pong direction are included. Rate modulation can vary the instantaneous duration.");
     }
-    void timerCallback()override{if(isShowing()){updateTiming();graph.repaint();}}
+    void updateShape(){
+        shape.setName("LFO "+juce::String(selected+1)+" shape");
+        shape.setTextWhenNothingSelected("Custom");
+        shape.setSelectedId(curveui::shapeIndex(p.lfoCurve(selected))+1,juce::dontSendNotification);
+    }
+    void timerCallback()override{if(isShowing()){updateTiming();updateShape();graph.repaint();}}
 public:
     LfoPane(SpaceInfinityProcessor& processor,int initial,decltype(open) opener):p(processor),open(std::move(opener)),graph(p,false){
         const char* titles[]{"PHASE","DELAY","RISE","SMOOTH"};for(int i=0;i<4;++i){auto& knob=advanced[size_t(i)];knob.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);knob.setTextBoxStyle(juce::Slider::TextBoxBelow,false,72,18);knob.setMouseDragSensitivity(300);advancedLabels[size_t(i)].setText(titles[i],juce::dontSendNotification);advancedLabels[size_t(i)].setJustificationType(juce::Justification::centred);addAndMakeVisible(knob);addAndMakeVisible(advancedLabels[size_t(i)]);}
@@ -133,7 +161,7 @@ public:
         selector.addItemList({"LFO 1","LFO 2","LFO 3"},1);selector.onChange=[this]{select(selector.getSelectedId()-1);};
         source.onClick=[this]{juce::PopupMenu menu;for(int n=0;n<3;++n)menu.addItem(n+1,"LFO "+juce::String(n+1));const juce::Component::SafePointer<LfoPane> safe(this);menu.showMenuAsync(juce::PopupMenu::Options().withTargetComponent(&source),[safe](int id){if(safe&&id>0)safe->select(id-1);});};
         source.setTooltip("Drag this LFO onto a synth or FX control. Edit its signed amount at the destination.");
-        shape.addItemList({"Sine","Triangle","Ramp up","Ramp down","Square","Sidechain","Random steps"},1);shape.setTextWhenNothingSelected("Shape");shape.onChange=[this]{if(shape.getSelectedId())graph.shape(shape.getSelectedId()-1);};
+        shape.addItemList({"Sine","Triangle","Ramp up","Ramp down","Square","Sidechain","Random steps"},1);shape.setTextWhenNothingSelected("Custom");shape.onChange=[this]{if(shape.getSelectedId())graph.shape(shape.getSelectedId()-1);};
         sync.addItemList({"Hz","BPM"},1);sync.onChange=[this]{resized();updateTiming();};rate.addItemList({"1 bar","2 bars","4 bars","8 bars","1/2 bar","1/4 bar","1/8 bar","1/16 bar"},1);mode.addItemList({"Free","Retrigger","Envelope"},1);
         grid.addItemList({"4","8","16","32"},1);grid.setSelectedId(3);grid.onChange=[this]{graph.setSnap(grid.getText().getIntValue());};snap.onClick=[this]{graph.setSnapEnabled(snap.getToggleState());};draw.onClick=[this]{graph.setPaintMode(draw.getToggleState());};
         speed.setSliderStyle(juce::Slider::LinearHorizontal);speed.setTextBoxStyle(juce::Slider::TextBoxRight,false,67,20);speed.setMouseDragSensitivity(350);speed.setPopupDisplayEnabled(true,true,this);
@@ -141,7 +169,7 @@ public:
         timing.setFont(juce::Font(juce::FontOptions(10)));timing.setColour(juce::Label::textColourId,juce::Colour(0xff97f4e3));timing.setJustificationType(juce::Justification::centred);addAndMakeVisible(timing);
         for(juce::Component* c:std::array<juce::Component*,15>{&source,&selector,&shape,&sync,&rate,&mode,&grid,&enabled,&snap,&draw,&speed,&routes,&expand,&graph,&hint})addAndMakeVisible(c);
         hint.setText("Drag points to move / drag between points to bend",juce::dontSendNotification);hint.setFont(juce::Font(juce::FontOptions(9)));hint.setJustificationType(juce::Justification::centredLeft);
-        graph.edited=[this]{shape.setSelectedId(0,juce::dontSendNotification);shape.setTextWhenNothingSelected("Custom");};routes.onClick=[this]{open(std::make_unique<RoutePanel>(p,selected+3,true),getBounds());};
+        graph.edited=[this]{updateShape();};routes.onClick=[this]{open(std::make_unique<RoutePanel>(p,selected+3,true),getBounds());};
         expand.onClick=[this]{auto pane=std::make_unique<LfoPane>(p,selected,open);pane->setSize(760,410);pane->expand.setVisible(false);open(std::move(pane),getBounds());};select(initial);startTimerHz(20);
     }
     ~LfoPane()override{stopTimer();}
@@ -149,7 +177,7 @@ public:
     void select(int i){selected=juce::jlimit(0,2,i);setName("LFO "+juce::String(selected+1)+" editor");selector.setSelectedId(selected+1,juce::dontSendNotification);source.setButtonText("LFO "+juce::String(selected+1)+" +");source.description="INFINITY:LFO:"+juce::String(selected);source.setTooltip("Drag onto a knob or anywhere on SUB to modulate bass level. Ctrl-drag the graph also assigns this LFO. Adjust amount on the destination.");graph.selectLfo(selected);
         advancedBindings.clear();advancedButtonBindings.clear();directionBind.reset();const char* fields[]{"Phase","Delay","Rise","Smooth"};const char* toggles[]{"Mono","Triplet","Dotted","Host"};for(int n=0;n<4;++n){auto& knob=advanced[size_t(n)];const auto id=p.lfoParameterId(selected,fields[n]);knob.initialiseModulation(p,id);knob.setName("LFO "+juce::String(selected+1)+" "+fields[n]);advancedBindings.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(p.state,id,knob));advancedButtonBindings.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(p.state,p.lfoParameterId(selected,toggles[n]),advancedButtons[size_t(n)]));knob.textFromValueFunction=[n](double v){return n==0?juce::String(v*360,1)+" deg":n==3?juce::String(v,1)+" ms":timingui::duration(v);};knob.valueFromTextFunction=[n](const juce::String& text){return n==0?text.getDoubleValue()/360:n==3?text.getDoubleValue()*(text.containsIgnoreCase("ms")?1:text.trim().endsWithIgnoreCase("s")?1000:1):timingui::secondsFromText(text);};knob.updateText();}directionBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(selected,"Direction"),direction);
         syncBind.reset();rateBind.reset();modeBind.reset();speedBind.reset();enabledBind.reset();
-        syncBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(selected,"Sync"),sync);rateBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(selected,"Bars"),rate);modeBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(selected,"Mode"),mode);speedBind=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(p.state,p.lfoParameterId(selected,"Speed"),speed);enabledBind=std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(p.state,p.lfoParameterId(selected,"Enabled"),enabled);speed.initialiseModulation(p,p.lfoParameterId(selected,"Speed"));speed.setName("LFO "+juce::String(selected+1)+" rate");speed.textFromValueFunction=[](double v){return juce::String(v,3)+" Hz";};speed.valueFromTextFunction=timingui::frequencyFromText;speed.updateText();resized();updateTiming();repaint();
+        syncBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(selected,"Sync"),sync);rateBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(selected,"Bars"),rate);modeBind=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,p.lfoParameterId(selected,"Mode"),mode);speedBind=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(p.state,p.lfoParameterId(selected,"Speed"),speed);enabledBind=std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(p.state,p.lfoParameterId(selected,"Enabled"),enabled);speed.initialiseModulation(p,p.lfoParameterId(selected,"Speed"));speed.setName("LFO "+juce::String(selected+1)+" rate");speed.textFromValueFunction=[](double v){return juce::String(v,3)+" Hz";};speed.valueFromTextFunction=timingui::frequencyFromText;speed.updateText();resized();updateTiming();updateShape();repaint();
     }
     void resized()override{auto r=getLocalBounds().reduced(5);auto top=r.removeFromTop(23);enabled.setBounds(top.removeFromRight(49));const bool compact=getWidth()<220;selector.setVisible(!compact);source.setBounds(compact?top:top.removeFromLeft(76));if(!compact)selector.setBounds(top);
         top=r.removeFromTop(24);shape.setBounds(top.removeFromLeft(top.getWidth()/2).reduced(1));mode.setBounds(top.reduced(1));

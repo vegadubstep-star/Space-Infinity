@@ -1,11 +1,24 @@
 #pragma once
 #include <JuceHeader.h>
+#include <juce_cryptography/juce_cryptography.h>
 #include <functional>
 #include <algorithm>
 #include <vector>
 // Message-thread file operations. Stable keys decouple saved projects from bank order.
 class PresetLibrary {
 public:
+    static juce::String browseCategory(const juce::String& category){
+        const auto c=category.toLowerCase();
+        if(c.contains("bass"))return "Bass";
+        if(c.contains("lead"))return "Lead";
+        if(c.contains("pluck"))return "Pluck";
+        if(c.contains("pad"))return "Pads";
+        if(c.contains("string"))return "Strings";
+        if(c.contains("piano")||c.contains("keys"))return "Piano & Keys";
+        if(c.contains("arp")||c.contains("sequence")||c=="motion")return "Arps & Sequences";
+        if(c.contains("choir")||c=="voices")return "Choir & Voices";
+        return category;
+    }
     struct Entry {juce::String key,name,category,file;int factory=-1;juce::String creator,tags;bool detailsEdited=false;};
     PresetLibrary(juce::StringArray names,juce::StringArray categories,const juce::File& requested={},int retiredFactoryId=-1,int firstFactoryId=0,juce::StringArray creators={},juce::StringArray tags={})
         :factoryNames(std::move(names)),factoryCategories(std::move(categories)),retiredFactory(retiredFactoryId),firstFactory(firstFactoryId),factoryCreators(std::move(creators)),factoryTags(std::move(tags)),
@@ -73,8 +86,14 @@ public:
         if(!input)return juce::Result::fail("Cannot read bank manifest.");
         const auto metadata=juce::JSON::parse(input->readEntireStreamAsString());
         const auto id=metadata["id"].toString();const auto rows=metadata["presets"];
-        if(metadata["format"].toString()!="SPACE_INFINITY_BANK_V1"||id.isEmpty()||id.length()>64||!id.containsOnly("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-")||!rows.isArray()||rows.size()<1||rows.size()>512)return juce::Result::fail("Invalid Space Infinity bank format.");
-        struct Pending {Entry entry;juce::MemoryBlock bytes;};std::vector<Pending> pending;juce::StringArray seen;juce::int64 total=0;
+        if((metadata["format"].toString()!="SPACE_INFINITY_BANK_V1"&&metadata["format"].toString()!="SPACE_INFINITY_BANK_V2")||id.isEmpty()||id.length()>64||!id.containsOnly("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-")||!rows.isArray()||rows.size()<1||rows.size()>512)return juce::Result::fail("Invalid Space Infinity bank format.");
+        if(metadata["format"].toString()=="SPACE_INFINITY_BANK_V2"){
+            const auto minimum=metadata["minimum_version"].toString();const auto wanted=juce::StringArray::fromTokens(minimum,".","");const auto current=juce::StringArray::fromTokens(JucePlugin_VersionString,".","");
+            if(wanted.size()!=3||current.size()!=3)return juce::Result::fail("Invalid bank minimum version.");
+            for(int i=0;i<3;++i)if(!wanted[i].containsOnly("0123456789")||wanted[i].isEmpty()||wanted[i].length()>6)return juce::Result::fail("Invalid bank minimum version.");
+            for(int i=0;i<3;++i){if(wanted[i].getIntValue()>current[i].getIntValue())return juce::Result::fail("This bank needs SPACE INFINITY "+minimum+" or later. Update the plug-in first.");if(wanted[i].getIntValue()<current[i].getIntValue())break;}
+        }
+        struct Pending {Entry entry;juce::MemoryBlock bytes;juce::String previousHash;};std::vector<Pending> pending;juce::StringArray seen;juce::int64 total=0;
         for(const auto& row:*rows.getArray()){
             const auto path=row["file"].toString(),patchId=row["id"].toString();
             if(patchId.isEmpty()||patchId.length()>32||!patchId.containsOnly("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-")||seen.contains(patchId)||!path.endsWith(".sipreset")||path.startsWith("/")||path.contains("..")||path.contains("\\")||path.contains(":"))return juce::Result::fail("Invalid or duplicate preset path/ID.");
@@ -89,11 +108,23 @@ public:
             p.entry={"U"+filename.upToLastOccurrenceOf(".",false,false),cleanName(xml->getStringAttribute("presetDisplayName")),cleanName(row["category"].toString()).substring(0,40),filename,-1,cleanName(xml->getStringAttribute("creator")),xml->getStringAttribute("tags").substring(0,512)};
             if(p.entry.name.isEmpty())return juce::Result::fail("Bank contains an unnamed preset.");
             if(p.entry.category.isEmpty())p.entry.category="User";
-            pending.push_back(std::move(p));
+            p.previousHash=row["previous_sha256"].toString();pending.push_back(std::move(p));
         }
         juce::Array<juce::File> created;
-        const auto result=mutate([&]{for(auto& p:pending){if(indexForKey(p.entry.key)>=0)continue;const auto target=directory.getChildFile(p.entry.file);if(target.existsAsFile())return juce::Result::fail("A bank file already exists outside the index. Refresh or restore it before importing.");const auto written=writeBytes(target,p.bytes);if(written.failed())return written;created.add(target);bank.push_back(p.entry);++imported;}return juce::Result::ok();});
-        if(result.failed()){for(const auto& target:created)target.deleteFile();imported=0;}return result;
+        struct Replaced {juce::File file;juce::MemoryBlock bytes;};std::vector<Replaced> replaced;
+        const auto result=mutate([&]{for(auto& p:pending){
+            const int existing=indexForKey(p.entry.key);
+            if(existing>=0){
+                const auto& old=bank[size_t(existing)];const auto target=directory.getChildFile(old.file);
+                if(old.detailsEdited||p.previousHash.length()!=64||!target.existsAsFile()||juce::SHA256(target).toHexString()!=p.previousHash)continue;
+                Replaced backup{target,{}};if(!target.loadFileAsData(backup.bytes))return juce::Result::fail("Cannot back up the previous bank sound.");
+                const auto backups=directory.getChildFile("Backups");if(backups.createDirectory().failed()||!target.copyFileTo(backups.getNonexistentChildFile(target.getFileNameWithoutExtension(),".sipreset")))return juce::Result::fail("Cannot retain the previous bank version.");
+                replaced.push_back(std::move(backup));const auto written=writeBytes(target,p.bytes);if(written.failed())return written;
+                bank[size_t(existing)]=p.entry;++imported;continue;
+            }
+            const auto target=directory.getChildFile(p.entry.file);if(target.existsAsFile())return juce::Result::fail("A bank file already exists outside the index. Refresh or restore it before importing.");const auto written=writeBytes(target,p.bytes);if(written.failed())return written;created.add(target);bank.push_back(p.entry);++imported;
+        }return juce::Result::ok();});
+        if(result.failed()){for(const auto& target:created)target.deleteFile();bool restored=true;for(const auto& old:replaced)restored=writeBytes(old.file,old.bytes).wasOk()&&restored;imported=0;if(!restored)return juce::Result::fail("Bank update failed; restore the previous sounds from Backups.");}return result;
     }
     juce::Result replace(int index,const juce::MemoryBlock& bytes){
         if(!valid(index))return juce::Result::fail("Select a preset to replace.");if(bank[size_t(index)].factory==0)return juce::Result::fail("Init remains the reset sound. Use Save New.");

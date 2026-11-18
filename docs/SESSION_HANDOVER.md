@@ -1,3 +1,15 @@
+# ACTIVE — 0.8.0 track-ready bank and release requested
+
+**Owner explicitly lifted the download hold:** after completing the current sound/preset work, send a verified update/installer to test. Do not ask permission again. Historical hold paragraphs below no longer apply. Current detailed task/state is in [ACTIVE_TRACK_READY_WORK.md](ACTIVE_TRACK_READY_WORK.md), which must be read before continuing.
+
+Active scope:15newOSCwaveforms(notLFO), both160factory+200Heritagepresets reviewed for sound/near-duplicates/perceivedlevel/maxsafepeak, simpleBass/Lead/Pluck/Padsbrowserroles, usefulOPEN/LEADmacros(reducedwetFXasfilteropens), steadyCocoomachoirs+hybrids, Makina influences(Skudero/Sistema3)withoriginalpreset/foldernames. Extraappropriatelylicensed/user-suppliedsamplesauthorised. Thenfinalnative+Windowsinstallerverificationanddelivery.
+
+Native source is now0.8.0;1208params with clean-outputSafetychoice appended;52waveformfamilies and45sources(6newsteadychoir/hybrids). Old saved sounds default to legacy master transfer. Newcleanmodeboundsnativeoutputafteroversampling-downsampling, keeping low-level outputlinear. Safety/MIPs/importupgrade focused tests passed; banklevelsstillpending. Existing0.7.1binary is obsolete and MUST NOT be offered as this update.
+
+Currentlong-running job: audio review session34934, log/tmp/track-ready-clean-review.log, output/workspace/work/track-ready080/review/Review.json. Native renderer /tmp/RenderTrackReady rebuilt against finalcleanstage+filteredchoirassets. Script review-track-ready.py checkpoints pervoice, deletesitsownWAVs and hashesrendererbinary+design. Newrunrerendersall360; previous91legacyrowsareinLegacySafetyBaseline.json. Needfinishreview, inspect/refinecrossbanksimilarity, calibrate(usingnewcalibrate-track-ready.py withstalereviewguard), rerender/verifyfinal, export/packageupdatedHeritagewithsafeunedited-upgradehashes, final24nativechecks, WindowsCIanddeliverinstallerZIP. Fullinstructionsandlogsintheactiveworkfile. Noagentsauthorised. Preserveowneruntrackedaudition/ andcaches.
+
+---
+
 # Latest layout follow-up — MELT beside Portamento, larger wheel
 
 Owner requested OSC MELT beside Portamento and a larger pitch wheel. MELT now shares the filter's lower utility row with Portamento, with a typed percentage readout; the freed footer space extends the keyboard. Pitch wheel has a 36 × 46-pixel visible ribbed drum and a 56 × 52-pixel drag area, with its existing spring return and independent up/down stops. The filter utility row adapts at smaller widths. No DSP or parameter definitions changed. HardwareUI (five sizes plus sampler), PitchTravel and ChorusMelt passed: 3/3 in 12.35 seconds; see audit/MELT_PORTAMENTO_WHEEL_072_TESTS.txt. Main/Sampler preview images have been refreshed. Windows verification is pending; download/publication hold remains in force.

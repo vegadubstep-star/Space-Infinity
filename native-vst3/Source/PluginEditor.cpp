@@ -662,6 +662,7 @@ void SpaceInfinityEditor::openPopup(std::unique_ptr<juce::Component> content,juc
     popupContent=std::move(content);
     popup=std::make_unique<juce::CallOutBox>(*popupContent,target,this);
     popup->enterModalState(true,nullptr,false);
+    refreshModulationIndicators();
 }
 void SpaceInfinityEditor::openPresetManager(){
     processor.presetBank().reload();refreshPresetMenu();
@@ -670,10 +671,12 @@ void SpaceInfinityEditor::openPresetManager(){
 }
 void SpaceInfinityEditor::refreshPresetMenu(){
     presets.clear(juce::dontSendNotification);
-    const auto& entries=processor.presetBank().entries();juce::String category;for(size_t i=0;i<entries.size();++i){if(entries[i].category!=category){category=entries[i].category;presets.addSectionHeading(category);}presets.addItem(entries[i].name,int(i+1));}
+    const auto& entries=processor.presetBank().entries();std::vector<size_t> order;for(size_t i=0;i<entries.size();++i)order.push_back(i);
+    std::stable_sort(order.begin(),order.end(),[&](size_t a,size_t b){const auto ca=PresetLibrary::browseCategory(entries[a].category),cb=PresetLibrary::browseCategory(entries[b].category);if(ca=="Init"||cb=="Init")return ca=="Init"&&cb!="Init";return ca<cb;});
+    juce::String category;for(auto i:order){const auto role=PresetLibrary::browseCategory(entries[i].category);if(role!=category){category=role;presets.addSectionHeading(category);}presets.addItem(entries[i].name,int(i+1));}
     presets.setTooltip(processor.state.state.getProperty("factoryReference").toString()+"\n"+processor.state.state.getProperty("factoryDescription").toString());
     displayedPresetKey=processor.selectedPresetKey();const int index=processor.presetBank().indexForKey(displayedPresetKey);
-    if(index>=0)presets.setSelectedItemIndex(index,juce::dontSendNotification);else if(displayedPresetKey=="HYBRID")presets.setText(processor.state.state.getProperty("presetDisplayName").toString(),juce::dontSendNotification);
+    if(index>=0)presets.setSelectedId(index+1,juce::dontSendNotification);else if(displayedPresetKey=="HYBRID")presets.setText(processor.state.state.getProperty("presetDisplayName").toString(),juce::dontSendNotification);
 }
 void SpaceInfinityEditor::updatePitchLimits(){pitchWheel.setTravel(pitchLimits[1].getValue(),pitchLimits[0].getValue());}
 void SpaceInfinityEditor::timerCallback(){
@@ -803,7 +806,7 @@ void SpaceInfinityEditor::refreshModulationIndicators(){
         if(!badge)continue;
         const auto area=targetBounds(int(target));
         const auto route=routeForTarget(int(target),false);
-        const bool visible=route.first!=nullptr&&!area.isEmpty();
+        const bool visible=!fxPage&&!(popup&&popup->isVisible())&&!isCurrentlyBlockedByAnotherModalComponent()&&route.first!=nullptr&&!area.isEmpty();
         badge->setVisible(visible);
         if(visible){
             badge->setBounds(area.getX()+1,area.getY()+1,17,17);

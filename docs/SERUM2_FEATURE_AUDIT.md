@@ -74,3 +74,21 @@ Native checks cover envelope Hold/contour endpoints at 44.1/48/96 kHz; exact zer
 The catalogue above is a manual/source audit, not a listening comparison against a licensed Serum 2 instance. Hardware-specific transfer curves, component tolerances and thermal behaviour have not been measured from a particular synthesizer. Circuit memory is an independent bounded colour model, not a scientifically fitted magnetic-hysteresis model. Full parity would require the missing architecture and editors above, followed by reference renders and host/MPE/performance validation. Those gaps remain visible rather than being relabelled as matches.
 
 The supplied release targets Windows x64 VST3 and Standalone. No macOS/AU/AAX release is supplied. The next parity work is architectural: universal per-voice modulation/MPE, additional independent oscillators/filters/buses, more envelope/LFO sources and engines, and fuller editors/FX/clip workflows.
+
+## 0.8.0 oscillator and output additions
+
+Fifteen original harmonic families extend the oscillator list to 52. The additions
+use seventeen frames and frequency-aware FFT-filtered mip levels; legacy wave
+lookup remains unchanged. This improves the additions at higher pitches without
+claiming that every warp/import is alias-free or that Xfer factory assets are
+included. Six steady choir/hybrid sources bring the source menu to 45.
+
+The appended Output safety parameter offers Legacy soft clip and Clean headroom.
+Missing fields in old projects select Legacy. Fresh Init and reviewed presets use
+Clean: linear below .95, with a smooth safety knee bounded at .99 after native-rate
+downsampling. This is a sample-level bound; the separate offline audit measures
+four-times oversampled true peak and calibrates against a −0.3 dBTP ceiling.
+
+The inventory now records 1,208 parameters. Existing indices, parameter IDs and
+host identity are retained. Bank format V2 rejects plug-ins older than its declared
+minimum version, avoiding silently clamped new wave/source selections.

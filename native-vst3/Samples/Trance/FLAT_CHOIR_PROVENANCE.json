@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Flat_Ah",
+    "file": "Factory_Flat_Ah.wav",
+    "source": "Factory_Choir_ah_60.wav",
+    "source_sha256": "a6057960f1f996d74d272409089a3486a13b6b2687edd6a5b709f3aed9c9f1c3",
+    "sha256": "1ef91b67b487765e511303d042c584e712b1ff5eec6220fd303416b4eb18540c",
+    "source_id": 39,
+    "root": 60,
+    "loop_start": 22050,
+    "processing": "Steady body selection, crossfaded loop, restrained slow envelope levelling, 75 Hz low-cut and 5.5 kHz antialias roll-off for upper-register playback; original additive synth layer for hybrid variants. No LFO or added vibrato.",
+    "license": "Derived from the documented CC0 factory ensemble recordings; original additive synth programming."
+  },
+  {
+    "name": "Flat_Ooh",
+    "file": "Factory_Flat_Ooh.wav",
+    "source": "Factory_Choir_oh_60.wav",
+    "source_sha256": "bae76997fce7ca839b500e76e5911fef14e2b4ead1df109c9550a6a6219ff641",
+    "sha256": "29fe7424a95509bab3d5bd41b6f193e403027e908811350b4ba03b8e248d08e9",
+    "source_id": 40,
+    "root": 60,
+    "loop_start": 22050,
+    "processing": "Steady body selection, crossfaded loop, restrained slow envelope levelling, 75 Hz low-cut and 5.5 kHz antialias roll-off for upper-register playback; original additive synth layer for hybrid variants. No LFO or added vibrato.",
+    "license": "Derived from the documented CC0 factory ensemble recordings; original additive synth programming."
+  },
+  {
+    "name": "Flat_Ee",
+    "file": "Factory_Flat_Ee.wav",
+    "source": "Factory_Choir_ih_60.wav",
+    "source_sha256": "9fe91774d700d92bb5a50e04fe1d5a299df2c7ffb88bd4a94b6329d16493414c",
+    "sha256": "4a26335557bda145f31baa9c80da9812cec2c401f21b980a30897c335f284cbb",
+    "source_id": 41,
+    "root": 60,
+    "loop_start": 22050,
+    "processing": "Steady body selection, crossfaded loop, restrained slow envelope levelling, 75 Hz low-cut and 5.5 kHz antialias roll-off for upper-register playback; original additive synth layer for hybrid variants. No LFO or added vibrato.",
+    "license": "Derived from the documented CC0 factory ensemble recordings; original additive synth programming."
+  },
+  {
+    "name": "Hybrid_Rave",
+    "file": "Factory_Hybrid_Rave.wav",
+    "source": "Factory_Choir_ah_60.wav",
+    "source_sha256": "a6057960f1f996d74d272409089a3486a13b6b2687edd6a5b709f3aed9c9f1c3",
+    "sha256": "00068d5c104afa668ec49aecb3a4fc54fcad321b40257cd4867d0d86dd7fe9a3",
+    "source_id": 42,
+    "root": 60,
+    "loop_start": 22050,
+    "processing": "Steady body selection, crossfaded loop, restrained slow envelope levelling, 75 Hz low-cut and 5.5 kHz antialias roll-off for upper-register playback; original additive synth layer for hybrid variants. No LFO or added vibrato.",
+    "license": "Derived from the documented CC0 factory ensemble recordings; original additive synth programming."
+  },
+  {
+    "name": "Hybrid_Dark",
+    "file": "Factory_Hybrid_Dark.wav",
+    "source": "Factory_Choir_oh_60.wav",
+    "source_sha256": "bae76997fce7ca839b500e76e5911fef14e2b4ead1df109c9550a6a6219ff641",
+    "sha256": "98841cfc06d89f8878103bc7698ec2c8fe3285c48899d0651e91b46cbd0ffa56",
+    "source_id": 43,
+    "root": 60,
+    "loop_start": 22050,
+    "processing": "Steady body selection, crossfaded loop, restrained slow envelope levelling, 75 Hz low-cut and 5.5 kHz antialias roll-off for upper-register playback; original additive synth layer for hybrid variants. No LFO or added vibrato.",
+    "license": "Derived from the documented CC0 factory ensemble recordings; original additive synth programming."
+  },
+  {
+    "name": "Hybrid_Glass",
+    "file": "Factory_Hybrid_Glass.wav",
+    "source": "Factory_Choir_ih_60.wav",
+    "source_sha256": "9fe91774d700d92bb5a50e04fe1d5a299df2c7ffb88bd4a94b6329d16493414c",
+    "sha256": "ed0998411b23aed3737ad7c08bb8d9dd892e236d53c1eca7955c7eb8512e4873",
+    "source_id": 44,
+    "root": 60,
+    "loop_start": 22050,
+    "processing": "Steady body selection, crossfaded loop, restrained slow envelope levelling, 75 Hz low-cut and 5.5 kHz antialias roll-off for upper-register playback; original additive synth layer for hybrid variants. No LFO or added vibrato.",
+    "license": "Derived from the documented CC0 factory ensemble recordings; original additive synth programming."
+  }
+]

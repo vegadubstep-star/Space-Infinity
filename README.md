@@ -4,9 +4,10 @@ Native JUCE Windows x64 synthesizer for FL Studio, with the owner's INFINITY wor
 
 Current development branch: **codex/windows-build**.
 
+- [0.8.0 sound-bank and waveform update](docs/TRACK_READY_080_UPDATE.md): 52 oscillator families, six steady choir/hybrid sources, revised factory160 and separate Heritage200, and peak calibration.
 - 160 authored trance / 90s German hard-trance sounds plus Init, with revised acid, airy pads, choir ensembles and varied leads. Previous factory presets removed; user-saved presets remain available.
 - Live loaded-sample/processed-output waveforms, trim/reverse and sample import.
-- Dedicated 14-mode distortion, editable preset name/creator/tags, local factory replacements and hybrid creation.
+- Dedicated 20-mode distortion, editable preset name/creator/tags, local factory replacements and hybrid creation.
 - Expanded single/multiband dynamics, stereo/Ping-pong/Tap delay, shaped convolution, seven-band EQ with filter/slope choices.
 - Frequency-selective sidechain/pumping and trance gate with 15 editable patterns.
 - Native oscillator/filter/envelope/modulation controls and the existing granular/wavetable/arp/sequencer engines.
@@ -24,7 +25,7 @@ ctest --test-dir native-vst3/build -C Release --output-on-failure
 
 For an installer/archive, install Inno Setup 6 and run `scripts/package-windows.ps1`. GitHub Actions also builds, tests and packages the Windows x64 outputs on branch pushes. Use the result for the exact commit you checked out; a running workflow is not a successful Windows validation. FL Studio routing, compatibility and listening tests remain separate host checks.
 
-The [test guide](docs/TESTING_STUDIO_BUILD.md) explains where to download the installer and how to exercise the new features. Existing user presets and project parameters are retained. The previous factory bank is retired; Restore Factory now restores the thirty-four new bank entries. See [Skywave Pad](docs/AIRWAVE_PAD.md) for voicing, LFO bypass and long-envelope controls, and [new trance leads](docs/TRANCE_LEADS.md) for the eight leads.
+The [test guide](docs/TESTING_STUDIO_BUILD.md) explains where to download the installer and how to exercise the new features. Existing user presets and project parameters are retained. The previous factory bank is retired; Restore Factory restores the 160 current factory entries. See [Skywave Pad](docs/AIRWAVE_PAD.md) for voicing, LFO bypass and long-envelope controls, and [new trance leads](docs/TRANCE_LEADS.md) for the eight leads.
 
 See [groove bank additions](docs/GROOVE_BANK.md) for the new rhythmic, bass and house patches.
 

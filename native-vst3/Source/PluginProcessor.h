@@ -54,7 +54,7 @@ public:
     static juce::String eqId(int band,const char* field);
     static constexpr std::array<float,7> eqFrequencies{60,120,250,500,1000,3000,8000};
     static juce::StringArray oscillatorWaves(bool follow=false);
-    static float oscillatorFrameSample(double phase,int wave,float position);
+    static float oscillatorFrameSample(double phase,int wave,float position,double phaseIncrement=0);
     static float oscillatorSample(double phase,int wave);
     static float warpedSample(double phase,int wave,int mode,float amount,float modulator);
     float takeOutputPeak() noexcept { return outputPeak.exchange(0.0f); }

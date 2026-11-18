@@ -1,8 +1,8 @@
 {
-  "native_version": "0.7.2",
+  "native_version": "0.8.0",
   "manual_reference": "https://xferrecords.com/manual/serum-2/docs",
   "notes": "Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.",
-  "parameter_count": 1207,
+  "parameter_count": 1208,
   "parameters": [
     {
       "id": "cutoff",
@@ -1918,7 +1918,7 @@
       "name": "Oscillator 2 Waveform",
       "type": "choice",
       "minimum": 0.0,
-      "maximum": 37.0,
+      "maximum": 52.0,
       "host_default": 0.0,
       "init_value": 0.0,
       "choices": [
@@ -1959,7 +1959,22 @@
         "Acid Pulse",
         "Acid Resonant Saw",
         "Acid Squelch",
-        "Acid Bite"
+        "Acid Bite",
+        "Parabolic",
+        "Skew Triangle",
+        "Trapezoid",
+        "Four-Step",
+        "Eight-Step",
+        "Odd Saw",
+        "Even Harmonics",
+        "Triple Saw",
+        "Seventh Stack",
+        "Reese Core",
+        "Super Pulse",
+        "String Resonator",
+        "Clavinet Reed",
+        "FM Edge",
+        "Comb Sweep"
       ]
     },
     {
@@ -2097,7 +2112,7 @@
       "name": "Oscillator",
       "type": "choice",
       "minimum": 0.0,
-      "maximum": 36.0,
+      "maximum": 51.0,
       "host_default": 0.0,
       "init_value": 0.0,
       "choices": [
@@ -2137,7 +2152,22 @@
         "Acid Pulse",
         "Acid Resonant Saw",
         "Acid Squelch",
-        "Acid Bite"
+        "Acid Bite",
+        "Parabolic",
+        "Skew Triangle",
+        "Trapezoid",
+        "Four-Step",
+        "Eight-Step",
+        "Odd Saw",
+        "Even Harmonics",
+        "Triple Saw",
+        "Seventh Stack",
+        "Reese Core",
+        "Super Pulse",
+        "String Resonator",
+        "Clavinet Reed",
+        "FM Edge",
+        "Comb Sweep"
       ]
     },
     {
@@ -2145,7 +2175,7 @@
       "name": "Sound Source",
       "type": "choice",
       "minimum": 0.0,
-      "maximum": 38.0,
+      "maximum": 44.0,
       "host_default": 0.0,
       "init_value": 0.0,
       "choices": [
@@ -2187,7 +2217,13 @@
         "Orbital Choir 19",
         "Orbital Choir 8",
         "Orbital Choir 9",
-        "Orbital Choir 10"
+        "Orbital Choir 10",
+        "Flat Ah Choir",
+        "Flat Ooh Choir",
+        "Flat Ee Choir",
+        "Rave Choir + Saw",
+        "Dark Choir + Pulse",
+        "Glass Choir + Synth"
       ]
     },
     {
@@ -12220,6 +12256,19 @@
       "maximum": 24.0,
       "host_default": 24.0,
       "init_value": 24.0
+    },
+    {
+      "id": "outputSafety",
+      "name": "Output safety",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 1.0,
+      "choices": [
+        "Legacy soft clip",
+        "Clean headroom"
+      ]
     }
   ]
 }

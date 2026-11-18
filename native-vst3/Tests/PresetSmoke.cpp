@@ -17,6 +17,25 @@ int runBankZipSmoke(const juce::File& archive){
     const auto key=library.entries()[count].key;if(library.updateDetails(int(count),"My edited Heritage piano","Owner","Personal").failed())return 206;
     if(library.importBank(archive,imported).failed()||imported!=0||library.entries().size()!=count+200||library.entries()[count].name!="My edited Heritage piano")return 207;
     if(library.reload().failed()||library.indexForKey(key)!=int(count)||library.entries()[count].tags!="Personal")return 208;
+    // Upgrade only byte-identical shipped sounds; keep metadata/sound edits.
+    juce::ZipFile shipping(archive);std::unique_ptr<juce::InputStream> manifestStream(shipping.createStreamForEntry(shipping.getIndexOfFileName("Bank.json")));const auto shippingManifest=juce::JSON::parse(manifestStream->readEntireStreamAsString());
+    const auto makeUpdate=[&](const juce::File& destination,const std::vector<int>& indexes,bool conflict,juce::String minimum="0.8.0"){
+        juce::ZipFile::Builder builder;juce::Array<juce::var> rows;
+        for(int i:indexes){const auto old=shippingManifest["presets"][i];std::unique_ptr<juce::InputStream> stream(shipping.createStreamForEntry(shipping.getIndexOfFileName(old["file"].toString())));juce::MemoryBlock originalBytes;stream->readIntoMemoryBlock(originalBytes);auto xml=juce::AudioProcessor::getXmlFromBinary(originalBytes.getData(),int(originalBytes.getSize()));xml->getChildByAttribute("id","cutoff")->setAttribute("value",3000+i);juce::MemoryBlock revised;juce::AudioProcessor::copyXmlToBinary(*xml,revised);
+            auto* row=new juce::DynamicObject;row->setProperty("id",old["id"]);row->setProperty("file",old["file"]);row->setProperty("category",old["category"]);row->setProperty("previous_sha256",juce::SHA256(originalBytes).toHexString());rows.add(juce::var(row));builder.addEntry(new juce::MemoryInputStream(revised,true),9,old["file"].toString(),juce::Time::getCurrentTime());
+            if(conflict){auto* extra=new juce::DynamicObject;extra->setProperty("id","NewConflict");extra->setProperty("file","Conflict.sipreset");extra->setProperty("category","Lead");rows.add(juce::var(extra));builder.addEntry(new juce::MemoryInputStream(revised,true),9,"Conflict.sipreset",juce::Time::getCurrentTime());}
+        }
+        auto* manifest=new juce::DynamicObject;manifest->setProperty("format","SPACE_INFINITY_BANK_V2");manifest->setProperty("minimum_version",minimum);manifest->setProperty("id","heritage200");manifest->setProperty("presets",rows);const auto text=juce::JSON::toString(juce::var(manifest));builder.addEntry(new juce::MemoryInputStream(text.toRawUTF8(),size_t(text.getNumBytesAsUTF8()),true),9,"Bank.json",juce::Time::getCurrentTime());auto output=destination.createOutputStream();return output&&builder.writeToStream(*output,nullptr);
+    };
+    juce::MemoryBlock editedBytes;library.read(int(count+3),editedBytes);auto editedXml=juce::AudioProcessor::getXmlFromBinary(editedBytes.getData(),int(editedBytes.getSize()));editedXml->getChildByAttribute("id","cutoff")->setAttribute("value",1733);juce::AudioProcessor::copyXmlToBinary(*editedXml,editedBytes);if(library.replace(int(count+3),editedBytes).failed())return 211;
+    const auto update=folder.getChildFile("Upgrade.zip");if(!makeUpdate(update,{0,2,3},false)||library.importBank(update,imported).failed()||imported!=1)return 212;
+    if(library.entries()[count].name!="My edited Heritage piano"||synth->loadBankPreset(int(count+2)).failed()||synth->state.getRawParameterValue("cutoff")->load()!=3002)return 213;
+    if(synth->loadBankPreset(int(count+3)).failed()||synth->state.getRawParameterValue("cutoff")->load()!=1733||library.importBank(update,imported).failed()||imported!=0)return 214;
+    const auto replaceFile=folder.getChildFile(library.entries()[count+4].file);const auto beforeHash=juce::SHA256(replaceFile).toHexString();const auto conflictFile=folder.getChildFile("user_heritage200_NewConflict.sipreset");conflictFile.replaceWithText("retain update orphan");const auto conflicting=folder.getChildFile("UpgradeConflict.zip");if(!makeUpdate(conflicting,{4},true)||library.importBank(conflicting,imported).wasOk()||imported!=0||juce::SHA256(replaceFile).toHexString()!=beforeHash||conflictFile.loadFileAsString()!="retain update orphan")return 215;
+    const auto future=folder.getChildFile("Unsupported.zip");
+    for(const auto* version:{"99.0.0","0.1.bad","0.8.","0.8.00000000000000000009"}){
+        future.deleteFile();if(!makeUpdate(future,{5},false,version)||library.importBank(future,imported).wasOk()||imported!=0||library.entries().size()!=count+200)return 216;
+    }
     // A truncated/invalid ZIP must leave both index and saved files untouched.
     const auto invalid=folder.getChildFile("Invalid.zip");invalid.replaceWithText("not a ZIP");if(library.importBank(invalid,imported).wasOk()||imported!=0||library.entries().size()!=count+200)return 209;
     synth.reset();folder.deleteRecursively();std::cout<<"200-preset bank import, native recall, existing bank preservation, edited reimport and invalid archive rejection passed\n";return 0;

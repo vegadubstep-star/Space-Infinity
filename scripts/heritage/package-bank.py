@@ -2,7 +2,7 @@
 import argparse,hashlib,json,zipfile,struct
 import xml.etree.ElementTree as ET
 from pathlib import Path
-p=argparse.ArgumentParser();p.add_argument('renders',type=Path);p.add_argument('design',type=Path);p.add_argument('output',type=Path);a=p.parse_args();root=Path(__file__).resolve().parents[2];design=json.loads(a.design.read_text());rows=[]
+p=argparse.ArgumentParser();p.add_argument('renders',type=Path);p.add_argument('design',type=Path);p.add_argument('output',type=Path);a=p.parse_args();root=Path(__file__).resolve().parents[2];design=json.loads(a.design.read_text());rows=[];previous=json.loads((root/'scripts/heritage/previous-heritage-hashes.json').read_text())
 assert len(design['presets'])==200
 for row in design['presets']:
  path=Path('Presets')/row['family']/row['category']/(row['id']+' '+row['name']+'.sipreset');data=(a.renders/path).read_bytes()
@@ -12,26 +12,28 @@ for row in design['presets']:
  if row['wavetable']:assert int(xml.attrib['tableFrames'])==17 and len(xml.attrib['tableData'])>10000
  values={x.attrib.get('id'):float(x.attrib['value']) for x in xml if 'value' in x.attrib}
  for key,value in row['settings'].items():assert abs(values[key]-value)<max(1e-4,abs(value)*1e-5),(row['name'],key,value,values[key])
- rows.append(dict(id=row['id'],file=path.as_posix(),name=row['name'],category=row['category'],family=row['family'],sha256=hashlib.sha256(data).hexdigest()))
-manifest=dict(format='SPACE_INFINITY_BANK_V1',id='heritage200',name='Heritage 200',minimum_version='0.7.0',creator='Orbital Audio',presets=rows)
+ rows.append(dict(id=row['id'],file=path.as_posix(),name=row['name'],category=row['category'],family=row['family'],sha256=hashlib.sha256(data).hexdigest(),previous_sha256=previous.get(row['id'],'')))
+manifest=dict(format='SPACE_INFINITY_BANK_V2',id='heritage200',name='Heritage 200',minimum_version='0.8.0',creator='Orbital Audio',presets=rows)
 readme='''HERITAGE 200 — SPACE INFINITY
 
 200 original presets: 80 workstation/M1 influences, 60 JP-8000/8080 influences,
 60 Nord Lead 2 influences. These are interpretations, not manufacturer patches
 or component-exact emulations. Existing 160 factory presets remain available.
 
-INSTALL: update SPACE INFINITY to 0.7.0 or later. In its preset manager choose
+INSTALL: update SPACE INFINITY to 0.8.0 or later. In its preset manager choose
 IMPORT, select this ZIP without extracting it, then choose the Heritage 200 tag.
 You can also browse M1 Influence, JP Influence, Nord Influence or role tags.
-A second ZIP import preserves your locally edited sounds and does not duplicate
-the collection. To perfect a sound, use REPLACE or SAVE AS. Creator/tags are editable.
+A second ZIP import updates byte-identical older shipped sounds while preserving
+your locally edited sounds, and does not duplicate the collection. To perfect a sound, use REPLACE or SAVE AS. Creator/tags are editable.
 
 Basses follow your MIDI; only the Arps/Motion roles generate notes. TONE opens
 the filter; CONTOUR changes filter articulation; SPECTRUM moves the custom table
 where used. Every recipe retains the synth's analogue/digital switch and filters.
 
-LEVELS: balanced using maximum-velocity native single-note/retrigger and four-note
-chord renders. Gain increases stop at the measured pre-safety headroom budget.
+LEVELS: peak-normalized using maximum-velocity native single-note/retrigger and
+four-note chord renders, with pluck OPEN endpoints included. Gain uses measured
+clean headroom up to a -0.3 dB true-peak ceiling; perceived LUFS is also measured.
+Matching peaks does not make all articulations equally loud to the ear.
 The synth retains its final safety stage. Changing macros/effects, playing denser
 chords or layering instances can change level; watch the meter while editing.
 
@@ -51,6 +53,8 @@ with zipfile.ZipFile(a.output,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as z:
  for r in rows:z.write(a.renders/r['file'],r['file'])
  z.write(root/'docs/research/HERITAGE_200_RESEARCH.md','RESEARCH.md')
  z.write(root/'native-vst3/Presets/Heritage200/Wavetables/PROVENANCE.json','WAVETABLE_PROVENANCE.json')
+ z.write(root/'docs/research/TRACK_READY_080_RESEARCH.md','TRACK_READY_RESEARCH.md')
+ z.write(root/'native-vst3/Samples/Trance/FLAT_CHOIR_PROVENANCE.json','FLAT_CHOIR_PROVENANCE.json')
  z.write(root/'native-vst3/Samples/Trance/PROVENANCE.json','CC0_MULTISAMPLE_PROVENANCE.json')
  z.write(root/'native-vst3/Samples/SAMPLE_PROVENANCE.json','SAMPLE_PROVENANCE.json')
 with zipfile.ZipFile(a.output) as z:assert z.testzip() is None

@@ -16,6 +16,11 @@ double energy(SpaceInfinityProcessor& p){p.prepareToPlay(48000,128);juce::AudioB
 }
 int runModulationWorkflowSmoke(){try{
  auto p=std::make_unique<SpaceInfinityProcessor>();p->loadPreset(0);auto editor=std::unique_ptr<juce::AudioProcessorEditor>(p->createEditor());editor->setSize(1000,790);
+ const auto page=[&](const juce::String& title){for(auto* c:editor->getChildren())if(auto* button=dynamic_cast<juce::TextButton*>(c))if(button->getButtonText()==title){button->onClick();return;}throw std::runtime_error("page button missing");};
+ auto* filterBadge=named(*editor,"Modulation depth "+p->macroTargets()[1]);need(filterBadge&&filterBadge->isVisible(),"main filter assignment badge present");
+ for(const auto* title:{"FX","GATE","SEQ"}){page(title);need(!filterBadge->isVisible(),"filter badge hides on other pages");}
+ page("MAIN");need(filterBadge->isVisible(),"filter badge returns on MAIN");page("ENGINES");need(!filterBadge->isVisible(),"filter badge hides immediately behind engine menu");
+ auto* engineMenu=juce::Component::getCurrentlyModalComponent();need(engineMenu!=nullptr,"engine menu opened");engineMenu->exitModalState(0);engineMenu->setVisible(false);page("MAIN");need(filterBadge->isVisible(),"filter badge restores after closing the menu");
  auto* source=dynamic_cast<ModSourceButton*>(named(*editor,"Amp envelope modulation source"));auto* cutoff=slider(*editor,"cutoff");need(source&&cutoff,"draggable amp source and destination");const float base=get(*p,"cutoff");
  const juce::DragAndDropTarget::SourceDetails amp("INFINITY:ENV:0",source,{}),lfo0("INFINITY:LFO:0",source,{}),lfo1("INFINITY:LFO:1",source,{});
  need(cutoff->isInterestedInDragSource(amp),"knob accepts envelope drag");cutoff->itemDropped(amp);const auto ampDepth=p->modulationDepthFor("INFINITY:ENV:0","cutoff");need(ampDepth.isNotEmpty(),"amp drag creates route");cutoff->itemDropped(lfo0);cutoff->itemDropped(lfo1);need(juce::Component::getCurrentlyModalComponent()==nullptr,"drop assigns without forcing popup");const auto first=p->modulationDepthFor("INFINITY:LFO:0","cutoff"),second=p->modulationDepthFor("INFINITY:LFO:1","cutoff");set(*p,first,.12f);set(*p,second,.23f);set(*p,ampDepth,.2f);ringDrag(*cutoff,16);need(std::abs(get(*p,second)-.33f)<.0001&&get(*p,"cutoff")==base&&std::abs(get(*p,first)-.12f)<.0001,"ring edits selected LFO amount only");

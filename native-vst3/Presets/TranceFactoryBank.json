@@ -21,7 +21,8 @@
     "cleanVCO": 1.0,
     "analogueLabEnabled": 1.0,
     "stereoFilterUpgrade": 1.0,
-    "analogueLabRange": 1
+    "analogueLabRange": 1,
+    "outputSafety": 1
   },
   "presets": [
     {
@@ -214,7 +215,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Saw / octave punch. Play your own offbeat notes; a fast attack and independent filter contour leave weight behind the transient. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -271,7 +273,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "b748044acaf0dfb4"
+      "design_hash": "b748044acaf0dfb4",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI002",
@@ -463,7 +466,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Rubber pulse. Play your own offbeat notes; a fast attack and independent filter contour leave weight behind the transient. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -520,7 +524,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "f2e4a8c5f5e78934"
+      "design_hash": "f2e4a8c5f5e78934",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI003",
@@ -712,7 +717,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "FM knock. Play your own offbeat notes; a fast attack and independent filter contour leave weight behind the transient. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -769,7 +775,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "07a8a12f6eed5ff0"
+      "design_hash": "07a8a12f6eed5ff0",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI004",
@@ -962,7 +969,8 @@
         "eq2Gain": 0,
         "eq4Gain": 0,
         "eq5Gain": 0,
-        "distType": 14
+        "distType": 14,
+        "outputSafety": 1
       },
       "play": "Detuned saw body. Play your own offbeat notes; a fast attack and independent filter contour leave weight behind the transient. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -1029,7 +1037,8 @@
           "depth": 0.12
         }
       ],
-      "design_hash": "a2c47cfe59b7f59d"
+      "design_hash": "a2c47cfe59b7f59d",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI005",
@@ -1221,7 +1230,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Octave weight. Play your own offbeat notes; a fast attack and independent filter contour leave weight behind the transient. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -1278,7 +1288,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "931ff79a1df9af50"
+      "design_hash": "931ff79a1df9af50",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI006",
@@ -1470,7 +1481,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Vocal pulse. Play your own offbeat notes; a fast attack and independent filter contour leave weight behind the transient. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -1527,7 +1539,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "c3c73a9ed20fabe2"
+      "design_hash": "c3c73a9ed20fabe2",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI007",
@@ -1720,7 +1733,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Driven razor. Play your own offbeat notes; a fast attack and independent filter contour leave weight behind the transient. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -1787,7 +1801,8 @@
           "depth": 0.12
         }
       ],
-      "design_hash": "db37d2196c201206"
+      "design_hash": "db37d2196c201206",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI008",
@@ -1980,7 +1995,8 @@
         "eq2Gain": 0,
         "eq4Gain": 0,
         "eq5Gain": 0,
-        "distType": 3
+        "distType": 3,
+        "outputSafety": 1
       },
       "play": "Metallic bounce. Play your own offbeat notes; a fast attack and independent filter contour leave weight behind the transient. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -2047,7 +2063,8 @@
           "depth": 0.12
         }
       ],
-      "design_hash": "f1dc862400d58b05"
+      "design_hash": "f1dc862400d58b05",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI009",
@@ -2239,7 +2256,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Rounded triangle. Play your own offbeat notes; a fast attack and independent filter contour leave weight behind the transient. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -2296,7 +2314,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "42c156321279e86c"
+      "design_hash": "42c156321279e86c",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI010",
@@ -2488,7 +2507,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Octave snap. Play your own offbeat notes; a fast attack and independent filter contour leave weight behind the transient. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -2545,7 +2565,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "a4fd466a3c86fcc0"
+      "design_hash": "a4fd466a3c86fcc0",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI011",
@@ -2738,7 +2759,8 @@
         "eq2Gain": 0,
         "eq4Gain": 0,
         "eq5Gain": 0,
-        "distType": 0
+        "distType": 0,
+        "outputSafety": 1
       },
       "play": "Fifth body. Play your own offbeat notes; a fast attack and independent filter contour leave weight behind the transient. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -2805,7 +2827,8 @@
           "depth": 0.12
         }
       ],
-      "design_hash": "9e46e60208b4445e"
+      "design_hash": "9e46e60208b4445e",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI012",
@@ -2998,7 +3021,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "FM steel. Play your own offbeat notes; a fast attack and independent filter contour leave weight behind the transient. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -3065,7 +3089,8 @@
           "depth": 0.12
         }
       ],
-      "design_hash": "201f4d0587b8a0e6"
+      "design_hash": "201f4d0587b8a0e6",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI013",
@@ -3257,7 +3282,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Drawbar weight. Play your own offbeat notes; a fast attack and independent filter contour leave weight behind the transient. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -3314,7 +3340,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "b3bc34768d4dcb43"
+      "design_hash": "b3bc34768d4dcb43",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI014",
@@ -3507,7 +3534,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Resonant acid body. Play your own offbeat notes; a fast attack and independent filter contour leave weight behind the transient. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -3574,7 +3602,8 @@
           "depth": 0.12
         }
       ],
-      "design_hash": "a34b91a81625e5b9"
+      "design_hash": "a34b91a81625e5b9",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI015",
@@ -3766,7 +3795,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Warm low-pass. Play your own offbeat notes; a fast attack and independent filter contour leave weight behind the transient. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -3823,7 +3853,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "707dba2b1f37b657"
+      "design_hash": "707dba2b1f37b657",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI016",
@@ -4015,7 +4046,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Pure foundation. Play your own short low notes (MIDI36\u201355); stable mono sub, no pitch kick. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -4065,7 +4097,8 @@
           "depth": 0.12
         }
       ],
-      "design_hash": "65a86e6d6569be97"
+      "design_hash": "65a86e6d6569be97",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI017",
@@ -4257,7 +4290,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Triangle warmth. Play your own short low notes (MIDI36\u201355); stable mono sub, no pitch kick. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -4307,7 +4341,8 @@
           "depth": 0.12
         }
       ],
-      "design_hash": "7d5b91c59df77975"
+      "design_hash": "7d5b91c59df77975",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI018",
@@ -4499,7 +4534,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Filtered pulse weight. Play your own short low notes (MIDI36\u201355); stable mono sub, no pitch kick. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -4549,7 +4585,8 @@
           "depth": 0.12
         }
       ],
-      "design_hash": "a636721fc713c578"
+      "design_hash": "a636721fc713c578",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI019",
@@ -4586,7 +4623,7 @@
         "osc2Octave": 0,
         "osc2Semitone": 0,
         "osc2Tune": 0,
-        "mix": 0.015,
+        "mix": 0.025,
         "osc1Unison": 1,
         "osc2Unison": 1,
         "osc1Detune": 0.02,
@@ -4605,10 +4642,10 @@
         "osc2Wave": 3,
         "osc1Warp": 1,
         "osc2Warp": 0,
-        "osc1WarpAmount": 0.1,
+        "osc1WarpAmount": 0.16,
         "osc2WarpAmount": 0,
         "subEnabled": 1,
-        "subLevel": 0.12,
+        "subLevel": 0.16,
         "noiseLevel": 0,
         "analogueCharacter": 0,
         "analogueOscDrift": 0,
@@ -4637,15 +4674,15 @@
         "eq6Frequency": 1800,
         "eq6Q": 0.707,
         "filterMode": 1,
-        "cutoff": 700,
+        "cutoff": 1100,
         "res": 0.02,
         "filterInputDrive": 0,
         "drive": 0,
         "filterAttack": 0.001,
-        "filterDecay": 0.12,
+        "filterDecay": 0.095,
         "filterSustain": 0,
         "filterRelease": 0.025,
-        "filterEnvAmount": 0.6,
+        "filterEnvAmount": 1.05,
         "filterVelocity": 0.2,
         "ampVelocity": 0.24,
         "ampAttackCurve": -0.35,
@@ -4677,9 +4714,9 @@
         "freeMacro2": 0,
         "designerLfo3Enabled": 0,
         "attack": 0.0025,
-        "ampDecay": 0.22,
-        "ampSustain": 0.62,
-        "release": 0.032,
+        "ampDecay": 0.13,
+        "ampSustain": 0.34,
+        "release": 0.035,
         "ampLong": 0,
         "distEnabled": 0,
         "distMix": 0,
@@ -4741,7 +4778,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "FM harmonic sub. Play your own short low notes (MIDI36\u201355); stable mono sub, no pitch kick. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -4791,7 +4829,8 @@
           "depth": 0.12
         }
       ],
-      "design_hash": "4d0e6283a3cf6015"
+      "design_hash": "4d0e6283a3cf6015",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI020",
@@ -4983,7 +5022,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Octave sine body. Play your own short low notes (MIDI36\u201355); stable mono sub, no pitch kick. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -5033,7 +5073,8 @@
           "depth": 0.12
         }
       ],
-      "design_hash": "8618312a098d991a"
+      "design_hash": "8618312a098d991a",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI021",
@@ -5225,7 +5266,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Saw / octave punch. Play your own 16th-note bass patterns; sustained body follows your note lengths, with a shorter filter contour and clean mono weight. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -5282,7 +5324,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "18ad3c91ede0bea2"
+      "design_hash": "18ad3c91ede0bea2",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI022",
@@ -5474,7 +5517,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Rubber pulse. Play your own 16th-note bass patterns; sustained body follows your note lengths, with a shorter filter contour and clean mono weight. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -5531,7 +5575,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "2155bbe35b386dd6"
+      "design_hash": "2155bbe35b386dd6",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI023",
@@ -5723,7 +5768,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "FM knock. Play your own 16th-note bass patterns; sustained body follows your note lengths, with a shorter filter contour and clean mono weight. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -5780,7 +5826,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "349978997a0a3def"
+      "design_hash": "349978997a0a3def",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI024",
@@ -5972,7 +6019,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Detuned saw body. Play your own 16th-note bass patterns; sustained body follows your note lengths, with a shorter filter contour and clean mono weight. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -6029,7 +6077,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "8e6004a3c09d072e"
+      "design_hash": "8e6004a3c09d072e",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI025",
@@ -6221,7 +6270,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Octave weight. Play your own 16th-note bass patterns; sustained body follows your note lengths, with a shorter filter contour and clean mono weight. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -6278,7 +6328,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "172e7ee4f1f59290"
+      "design_hash": "172e7ee4f1f59290",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI026",
@@ -6470,7 +6521,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Vocal pulse. Play your own 16th-note bass patterns; sustained body follows your note lengths, with a shorter filter contour and clean mono weight. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -6527,7 +6579,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "50aeb920c1bdae17"
+      "design_hash": "50aeb920c1bdae17",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI027",
@@ -6720,7 +6773,8 @@
         "eq2Gain": 0,
         "eq4Gain": 0,
         "eq5Gain": 0,
-        "distType": 16
+        "distType": 16,
+        "outputSafety": 1
       },
       "play": "Driven razor. Play your own 16th-note bass patterns; sustained body follows your note lengths, with a shorter filter contour and clean mono weight. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -6787,7 +6841,8 @@
           "depth": 0.12
         }
       ],
-      "design_hash": "899242814ac7b0af"
+      "design_hash": "899242814ac7b0af",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI028",
@@ -6979,7 +7034,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Metallic bounce. Play your own 16th-note bass patterns; sustained body follows your note lengths, with a shorter filter contour and clean mono weight. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -7036,7 +7092,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "3c5d057d7290916c"
+      "design_hash": "3c5d057d7290916c",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI029",
@@ -7228,7 +7285,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Rounded triangle. Play your own 16th-note bass patterns; sustained body follows your note lengths, with a shorter filter contour and clean mono weight. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -7285,7 +7343,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "251cc4507fb32c41"
+      "design_hash": "251cc4507fb32c41",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI030",
@@ -7477,7 +7536,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Octave snap. Play your own 16th-note bass patterns; sustained body follows your note lengths, with a shorter filter contour and clean mono weight. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -7534,7 +7594,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "0a7c9cfcd10db2fd"
+      "design_hash": "0a7c9cfcd10db2fd",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI031",
@@ -7727,7 +7788,8 @@
         "eq2Gain": 0,
         "eq4Gain": 0,
         "eq5Gain": 0,
-        "distType": 0
+        "distType": 0,
+        "outputSafety": 1
       },
       "play": "Fifth body. Play your own 16th-note bass patterns; sustained body follows your note lengths, with a shorter filter contour and clean mono weight. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -7794,7 +7856,8 @@
           "depth": 0.12
         }
       ],
-      "design_hash": "d0766a1dc5bf9ee0"
+      "design_hash": "d0766a1dc5bf9ee0",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI032",
@@ -7987,7 +8050,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "FM steel. Play your own 16th-note bass patterns; sustained body follows your note lengths, with a shorter filter contour and clean mono weight. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -8054,7 +8118,8 @@
           "depth": 0.12
         }
       ],
-      "design_hash": "a0646d0c560575bf"
+      "design_hash": "a0646d0c560575bf",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI033",
@@ -8246,7 +8311,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Drawbar weight. Play your own 16th-note bass patterns; sustained body follows your note lengths, with a shorter filter contour and clean mono weight. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -8303,7 +8369,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "58c664be041a92b8"
+      "design_hash": "58c664be041a92b8",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI034",
@@ -8496,7 +8563,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Resonant acid body. Play your own 16th-note bass patterns; sustained body follows your note lengths, with a shorter filter contour and clean mono weight. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -8563,7 +8631,8 @@
           "depth": 0.12
         }
       ],
-      "design_hash": "a66ca3c98cbd2ad1"
+      "design_hash": "a66ca3c98cbd2ad1",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI035",
@@ -8755,7 +8824,8 @@
         "eq1Gain": 0,
         "eq2Gain": 0,
         "eq4Gain": 0,
-        "eq5Gain": 0
+        "eq5Gain": 0,
+        "outputSafety": 1
       },
       "play": "Warm low-pass. Play your own 16th-note bass patterns; sustained body follows your note lengths, with a shorter filter contour and clean mono weight. TONE opens the body, PUNCH shapes articulation, CHARACTER adds harmonics.",
       "sources": [
@@ -8812,7 +8882,8 @@
           "depth": 0.16
         }
       ],
-      "design_hash": "816e47dfb0becb2e"
+      "design_hash": "816e47dfb0becb2e",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI036",
@@ -8972,7 +9043,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 4.32
+        "presetTrim": 4.32,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Play melodies or open chords; near-zero attack. Pitch wheel adds expression.",
       "sources": [
@@ -9055,7 +9128,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "bdff151940d7c0da"
+      "design_hash": "bdff151940d7c0da",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI037",
@@ -9215,7 +9289,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 4.03
+        "presetTrim": 4.03,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Play melodies or open chords; near-zero attack. Pitch wheel adds expression.",
       "sources": [
@@ -9298,7 +9374,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "a035edc3716d774d"
+      "design_hash": "a035edc3716d774d",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI038",
@@ -9458,7 +9535,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 2.83
+        "presetTrim": 2.83,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Play melodies or open chords; near-zero attack. Pitch wheel adds expression.",
       "sources": [
@@ -9541,7 +9620,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "5c99a0388b1adf3b"
+      "design_hash": "5c99a0388b1adf3b",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI039",
@@ -9701,7 +9781,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 0.65
+        "presetTrim": 0.65,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Play melodies or open chords; near-zero attack. Pitch wheel adds expression.",
       "sources": [
@@ -9784,7 +9866,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "34fdbded3441e2ba"
+      "design_hash": "34fdbded3441e2ba",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI040",
@@ -9944,7 +10027,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 3.82
+        "presetTrim": 3.82,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Play melodies or open chords; near-zero attack. Pitch wheel adds expression.",
       "sources": [
@@ -10027,7 +10112,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "49b587e85eaf8781"
+      "design_hash": "49b587e85eaf8781",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI041",
@@ -10079,7 +10165,7 @@
         "osc2PhaseReset": 0,
         "wavetableScan": 0.18,
         "osc2WTPos": 0.27,
-        "wave": 4,
+        "wave": 47,
         "osc2Wave": 3,
         "osc1Warp": 3,
         "osc2Warp": 0,
@@ -10187,7 +10273,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 6.67
+        "presetTrim": 6.67,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Play melodies or open chords; near-zero attack. Pitch wheel adds expression.",
       "sources": [
@@ -10270,7 +10358,9 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "04929be2a03338ea"
+      "design_hash": "04929be2a03338ea",
+      "wavetable": null,
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI042",
@@ -10430,7 +10520,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 5.71
+        "presetTrim": 5.71,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Play melodies or open chords; near-zero attack. Pitch wheel adds expression.",
       "sources": [
@@ -10513,7 +10605,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "05894be5e6d74bfd"
+      "design_hash": "05894be5e6d74bfd",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI043",
@@ -10673,7 +10766,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 2.12
+        "presetTrim": 2.12,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Play melodies or open chords; near-zero attack. Pitch wheel adds expression.",
       "sources": [
@@ -10756,7 +10851,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "73d67fbc7f290c96"
+      "design_hash": "73d67fbc7f290c96",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI044",
@@ -10916,7 +11012,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": -5.84
+        "presetTrim": -5.84,
+        "oscMelt": 0,
+        "outputSafety": 1
       },
       "play": "Play melodies or open chords; near-zero attack. Pitch wheel adds expression.",
       "sources": [
@@ -10999,7 +11097,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "d1571b76d1981f09"
+      "design_hash": "d1571b76d1981f09",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI045",
@@ -11162,7 +11261,9 @@
         "presetTrim": -10.86,
         "distType": 2,
         "distDrive": 0.24,
-        "fxOutput8": -3
+        "fxOutput8": -3,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Play melodies or open chords; near-zero attack. Pitch wheel adds expression.",
       "sources": [
@@ -11245,7 +11346,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "792d22ef01fc4b7c"
+      "design_hash": "792d22ef01fc4b7c",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI046",
@@ -11372,7 +11474,7 @@
         "macro2": 0,
         "freeMacro2": 0,
         "designerLfo3Enabled": 0,
-        "attack": 0.012,
+        "attack": 0.003,
         "ampDecay": 0.19,
         "ampSustain": 0.35,
         "release": 0.1,
@@ -11411,7 +11513,9 @@
         "presetTrim": -3.8,
         "distType": 0,
         "distDrive": 0.19,
-        "fxOutput8": -2
+        "fxOutput8": -2,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Direct lead performance; Ion Wire includes a bypassable rhythmic gate.",
       "sources": [
@@ -11493,7 +11597,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "5a92295ee728390c"
+      "design_hash": "5a92295ee728390c",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI047",
@@ -11653,7 +11758,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": -2.96
+        "presetTrim": -2.96,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Direct lead performance; Ion Wire includes a bypassable rhythmic gate.",
       "sources": [
@@ -11735,7 +11842,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "61ff09150a6496dd"
+      "design_hash": "61ff09150a6496dd",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI048",
@@ -11895,7 +12003,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": -5.5
+        "presetTrim": -5.5,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Direct lead performance; Ion Wire includes a bypassable rhythmic gate.",
       "sources": [
@@ -11977,7 +12087,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "08ed2f513eb54f0b"
+      "design_hash": "08ed2f513eb54f0b",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI049",
@@ -12137,7 +12248,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": -0.19
+        "presetTrim": -0.19,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Direct lead performance; Ion Wire includes a bypassable rhythmic gate.",
       "sources": [
@@ -12219,7 +12332,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "4986ac548100ab5a"
+      "design_hash": "4986ac548100ab5a",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI050",
@@ -12379,7 +12493,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": -2.8
+        "presetTrim": -2.8,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Direct lead performance; Ion Wire includes a bypassable rhythmic gate.",
       "sources": [
@@ -12461,7 +12577,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "6afc6e2e6a5a9065"
+      "design_hash": "6afc6e2e6a5a9065",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI051",
@@ -12511,9 +12628,9 @@
         "osc2Rand": 1,
         "osc1PhaseReset": 0,
         "osc2PhaseReset": 0,
-        "wavetableScan": 0.18,
+        "wavetableScan": 0.4,
         "osc2WTPos": 0.27,
-        "wave": 3,
+        "wave": 50,
         "osc2Wave": 3,
         "osc1Warp": 4,
         "osc2Warp": 0,
@@ -12624,7 +12741,9 @@
         "presetTrim": -3.78,
         "distType": 3,
         "distDrive": 0.18,
-        "fxOutput8": -2
+        "fxOutput8": -2,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Direct lead performance; Ion Wire includes a bypassable rhythmic gate.",
       "sources": [
@@ -12706,7 +12825,9 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "f835ab11a93aee37"
+      "design_hash": "f835ab11a93aee37",
+      "wavetable": null,
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI052",
@@ -12870,7 +12991,9 @@
         "gateRelease": 5,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 0.69
+        "presetTrim": 0.69,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Direct lead performance; Ion Wire includes a bypassable rhythmic gate.",
       "sources": [
@@ -12952,7 +13075,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "ad05673904c3e27b"
+      "design_hash": "ad05673904c3e27b",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI053",
@@ -13004,7 +13128,7 @@
         "osc2PhaseReset": 0,
         "wavetableScan": 0.18,
         "osc2WTPos": 0.27,
-        "wave": 6,
+        "wave": 43,
         "osc2Wave": 3,
         "osc1Warp": 0,
         "osc2Warp": 0,
@@ -13112,7 +13236,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": -2.21
+        "presetTrim": -2.21,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Direct lead performance; Ion Wire includes a bypassable rhythmic gate.",
       "sources": [
@@ -13194,7 +13320,9 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "e54197d56a3a3fea"
+      "design_hash": "e54197d56a3a3fea",
+      "wavetable": null,
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI054",
@@ -13354,7 +13482,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": -0.98
+        "presetTrim": -0.98,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Direct lead performance; Ion Wire includes a bypassable rhythmic gate.",
       "sources": [
@@ -13436,7 +13566,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "58085e83c89add87"
+      "design_hash": "58085e83c89add87",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI055",
@@ -13596,7 +13727,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 0.83
+        "presetTrim": 0.83,
+        "oscMelt": 0,
+        "outputSafety": 1
       },
       "play": "Direct lead performance; Ion Wire includes a bypassable rhythmic gate.",
       "sources": [
@@ -13678,7 +13811,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "24c5325803bf182a"
+      "design_hash": "24c5325803bf182a",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI056",
@@ -13838,7 +13972,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": -0.31
+        "presetTrim": -0.31,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Fast-attack 90s hard-trance lead; play your own melody.",
       "sources": [
@@ -13919,7 +14055,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "f452a7863d397d3b"
+      "design_hash": "f452a7863d397d3b",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI057",
@@ -13947,16 +14084,16 @@
         "analogueLabEnabled": 1,
         "stereoFilterUpgrade": 1,
         "analogueLabRange": 0,
-        "source": 0,
+        "source": 39,
         "osc1Enabled": 1,
-        "osc2Enabled": 1,
+        "osc2Enabled": 0,
         "osc1Gain": 0,
         "osc2Gain": 0,
         "osc1Octave": 0,
         "osc2Octave": 0,
         "osc2Semitone": 0,
         "osc2Tune": 0,
-        "mix": 0.16,
+        "mix": 0,
         "osc1Unison": 1,
         "osc2Unison": 1,
         "osc1Detune": 0.07990000000000001,
@@ -13969,9 +14106,9 @@
         "osc2Rand": 1,
         "osc1PhaseReset": 0,
         "osc2PhaseReset": 0,
-        "wavetableScan": 0.18,
+        "wavetableScan": 0.25,
         "osc2WTPos": 0.27,
-        "wave": 1,
+        "wave": 39,
         "osc2Wave": 3,
         "osc1Warp": 3,
         "osc2Warp": 0,
@@ -14007,7 +14144,7 @@
         "eq6Frequency": 14500,
         "eq6Q": 0.7071,
         "filterMode": 4,
-        "cutoff": 3200,
+        "cutoff": 7600,
         "res": 0.38,
         "filterInputDrive": 0.1,
         "drive": 0.12,
@@ -14015,7 +14152,7 @@
         "filterDecay": 0.28,
         "filterSustain": 0.35,
         "filterRelease": 0.1,
-        "filterEnvAmount": 1.1,
+        "filterEnvAmount": 0.5,
         "filterVelocity": 0.35,
         "ampVelocity": 0.5,
         "ampAttackCurve": -0.35,
@@ -14035,7 +14172,7 @@
         "midiBendRange": 24,
         "sampleStart": 0,
         "sampleEnd": 1,
-        "sampleLoop": 0,
+        "sampleLoop": 1,
         "sampleReverse": 0,
         "macro0": 0,
         "freeMacro0": 0,
@@ -14055,11 +14192,11 @@
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0.14,
+        "echoMix": 0.055,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.16,
+        "reverb": 0.12,
         "reverbSize": 0.78,
         "reverbDamping": 0.42,
         "reverbWidth": 1,
@@ -14082,7 +14219,9 @@
         "presetTrim": -5.47,
         "distType": 0,
         "distDrive": 0.19,
-        "fxOutput8": -2
+        "fxOutput8": -2,
+        "oscMelt": 0,
+        "outputSafety": 1
       },
       "play": "Fast-attack 90s hard-trance lead; play your own melody.",
       "sources": [
@@ -14163,7 +14302,9 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "9096c27a300f47db"
+      "design_hash": "9096c27a300f47db",
+      "wavetable": null,
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI058",
@@ -14191,16 +14332,16 @@
         "analogueLabEnabled": 1,
         "stereoFilterUpgrade": 1,
         "analogueLabRange": 0,
-        "source": 0,
+        "source": 42,
         "osc1Enabled": 1,
-        "osc2Enabled": 1,
+        "osc2Enabled": 0,
         "osc1Gain": 0,
         "osc2Gain": 0,
         "osc1Octave": 0,
         "osc2Octave": 0,
         "osc2Semitone": 0,
         "osc2Tune": 0,
-        "mix": 0.24,
+        "mix": 0,
         "osc1Unison": 5,
         "osc2Unison": 1,
         "osc1Detune": 0.0918,
@@ -14251,7 +14392,7 @@
         "eq6Frequency": 14500,
         "eq6Q": 0.7071,
         "filterMode": 4,
-        "cutoff": 9800,
+        "cutoff": 7600,
         "res": 0.21,
         "filterInputDrive": 0.1,
         "drive": 0.28,
@@ -14259,7 +14400,7 @@
         "filterDecay": 0.19,
         "filterSustain": 0.35,
         "filterRelease": 0.1,
-        "filterEnvAmount": 1.1,
+        "filterEnvAmount": 0.5,
         "filterVelocity": 0.35,
         "ampVelocity": 0.5,
         "ampAttackCurve": -0.35,
@@ -14279,7 +14420,7 @@
         "midiBendRange": 24,
         "sampleStart": 0,
         "sampleEnd": 1,
-        "sampleLoop": 0,
+        "sampleLoop": 1,
         "sampleReverse": 0,
         "macro0": 0,
         "freeMacro0": 0,
@@ -14299,11 +14440,11 @@
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0.05,
+        "echoMix": 0.055,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.07,
+        "reverb": 0.12,
         "reverbSize": 0.78,
         "reverbDamping": 0.42,
         "reverbWidth": 1,
@@ -14323,7 +14464,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": -5.62
+        "presetTrim": -5.62,
+        "oscMelt": 0,
+        "outputSafety": 1
       },
       "play": "Fast-attack 90s hard-trance lead; play your own melody.",
       "sources": [
@@ -14404,7 +14547,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "cd7ee05239971130"
+      "design_hash": "cd7ee05239971130",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI059",
@@ -14432,16 +14576,16 @@
         "analogueLabEnabled": 1,
         "stereoFilterUpgrade": 1,
         "analogueLabRange": 0,
-        "source": 0,
+        "source": 43,
         "osc1Enabled": 1,
-        "osc2Enabled": 1,
+        "osc2Enabled": 0,
         "osc1Gain": 0,
         "osc2Gain": 0,
         "osc1Octave": 0,
         "osc2Octave": 1,
         "osc2Semitone": 0,
         "osc2Tune": 0,
-        "mix": 0.08,
+        "mix": 0,
         "osc1Unison": 2,
         "osc2Unison": 3,
         "osc1Detune": 0.10370000000000003,
@@ -14492,7 +14636,7 @@
         "eq6Frequency": 14500,
         "eq6Q": 0.7071,
         "filterMode": 4,
-        "cutoff": 5700,
+        "cutoff": 7600,
         "res": 0.25,
         "filterInputDrive": 0.1,
         "drive": 0.19,
@@ -14500,7 +14644,7 @@
         "filterDecay": 0.37,
         "filterSustain": 0.35,
         "filterRelease": 0.1,
-        "filterEnvAmount": 1.1,
+        "filterEnvAmount": 0.5,
         "filterVelocity": 0.35,
         "ampVelocity": 0.5,
         "ampAttackCurve": -0.35,
@@ -14520,7 +14664,7 @@
         "midiBendRange": 24,
         "sampleStart": 0,
         "sampleEnd": 1,
-        "sampleLoop": 0,
+        "sampleLoop": 1,
         "sampleReverse": 0,
         "macro0": 0,
         "freeMacro0": 0,
@@ -14540,11 +14684,11 @@
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0.17,
+        "echoMix": 0.055,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.13,
+        "reverb": 0.12,
         "reverbSize": 0.78,
         "reverbDamping": 0.42,
         "reverbWidth": 1,
@@ -14567,7 +14711,9 @@
         "presetTrim": -3.92,
         "distType": 3,
         "distDrive": 0.18,
-        "fxOutput8": -2
+        "fxOutput8": -2,
+        "oscMelt": 0,
+        "outputSafety": 1
       },
       "play": "Fast-attack 90s hard-trance lead; play your own melody.",
       "sources": [
@@ -14648,7 +14794,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "bfd665c23a8e4ee8"
+      "design_hash": "bfd665c23a8e4ee8",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI060",
@@ -14808,7 +14955,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 1.04
+        "presetTrim": 1.04,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Fast-attack 90s hard-trance lead; play your own melody.",
       "sources": [
@@ -14889,7 +15038,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "725e0f2d4834d11a"
+      "design_hash": "725e0f2d4834d11a",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI061",
@@ -14917,16 +15067,16 @@
         "analogueLabEnabled": 1,
         "stereoFilterUpgrade": 1,
         "analogueLabRange": 0,
-        "source": 0,
+        "source": 41,
         "osc1Enabled": 1,
-        "osc2Enabled": 1,
+        "osc2Enabled": 0,
         "osc1Gain": 0,
         "osc2Gain": 0,
         "osc1Octave": 0,
         "osc2Octave": 0,
         "osc2Semitone": 0,
         "osc2Tune": 0,
-        "mix": 0.35,
+        "mix": 0,
         "osc1Unison": 3,
         "osc2Unison": 3,
         "osc1Detune": 0.07990000000000001,
@@ -14976,8 +15126,8 @@
         "eqMode6": 3,
         "eq6Frequency": 14500,
         "eq6Q": 0.7071,
-        "filterMode": 3,
-        "cutoff": 980,
+        "filterMode": 4,
+        "cutoff": 7600,
         "res": 0.34,
         "filterInputDrive": 0.1,
         "drive": 0.17,
@@ -14985,7 +15135,7 @@
         "filterDecay": 0.13,
         "filterSustain": 0.35,
         "filterRelease": 0.1,
-        "filterEnvAmount": 0.55,
+        "filterEnvAmount": 0.5,
         "filterVelocity": 0.35,
         "ampVelocity": 0.5,
         "ampAttackCurve": -0.35,
@@ -15005,7 +15155,7 @@
         "midiBendRange": 24,
         "sampleStart": 0,
         "sampleEnd": 1,
-        "sampleLoop": 0,
+        "sampleLoop": 1,
         "sampleReverse": 0,
         "macro0": 0,
         "freeMacro0": 0,
@@ -15025,11 +15175,11 @@
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0.09,
+        "echoMix": 0.055,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.1,
+        "reverb": 0.12,
         "reverbSize": 0.78,
         "reverbDamping": 0.42,
         "reverbWidth": 1,
@@ -15051,7 +15201,9 @@
         "eq4Gain": 1.5,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 1.52
+        "presetTrim": 1.52,
+        "oscMelt": 0,
+        "outputSafety": 1
       },
       "play": "Fast-attack 90s hard-trance lead; play your own melody.",
       "sources": [
@@ -15132,7 +15284,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "10ef9336bef3f156"
+      "design_hash": "10ef9336bef3f156",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI062",
@@ -15182,9 +15335,9 @@
         "osc2Rand": 1,
         "osc1PhaseReset": 0,
         "osc2PhaseReset": 0,
-        "wavetableScan": 0.18,
+        "wavetableScan": 0.12,
         "osc2WTPos": 0.27,
-        "wave": 6,
+        "wave": 45,
         "osc2Wave": 1,
         "osc1Warp": 0,
         "osc2Warp": 0,
@@ -15292,7 +15445,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": -1.01
+        "presetTrim": -1.01,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Fast-attack 90s hard-trance lead; play your own melody.",
       "sources": [
@@ -15373,7 +15528,9 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "bee0d941adf89158"
+      "design_hash": "bee0d941adf89158",
+      "wavetable": null,
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI063",
@@ -15536,7 +15693,9 @@
         "pitchEnvDecay": 0.025,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": -2.61
+        "presetTrim": -2.61,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Fast-attack 90s hard-trance lead; play your own melody.",
       "sources": [
@@ -15617,7 +15776,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "cb9bd006024dca7f"
+      "design_hash": "cb9bd006024dca7f",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI064",
@@ -15667,9 +15827,9 @@
         "osc2Rand": 1,
         "osc1PhaseReset": 0,
         "osc2PhaseReset": 0,
-        "wavetableScan": 0.18,
+        "wavetableScan": 0.12,
         "osc2WTPos": 0.27,
-        "wave": 6,
+        "wave": 42,
         "osc2Wave": 3,
         "osc1Warp": 0,
         "osc2Warp": 0,
@@ -15777,7 +15937,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": -0.07
+        "presetTrim": -0.07,
+        "oscMelt": 0.035,
+        "outputSafety": 1
       },
       "play": "Fast-attack 90s hard-trance lead; play your own melody.",
       "sources": [
@@ -15858,7 +16020,9 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "cb0eadf8a3fabc64"
+      "design_hash": "cb0eadf8a3fabc64",
+      "wavetable": null,
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI065",
@@ -15886,16 +16050,16 @@
         "analogueLabEnabled": 1,
         "stereoFilterUpgrade": 1,
         "analogueLabRange": 0,
-        "source": 0,
+        "source": 44,
         "osc1Enabled": 1,
-        "osc2Enabled": 1,
+        "osc2Enabled": 0,
         "osc1Gain": 0,
         "osc2Gain": 0,
         "osc1Octave": 0,
         "osc2Octave": 1,
         "osc2Semitone": 0,
         "osc2Tune": 0,
-        "mix": 0.3,
+        "mix": 0,
         "osc1Unison": 7,
         "osc2Unison": 5,
         "osc1Detune": 0.07990000000000001,
@@ -15946,7 +16110,7 @@
         "eq6Frequency": 14500,
         "eq6Q": 0.7071,
         "filterMode": 4,
-        "cutoff": 10400,
+        "cutoff": 7600,
         "res": 0.12,
         "filterInputDrive": 0.1,
         "drive": 0.24,
@@ -15954,7 +16118,7 @@
         "filterDecay": 0.22,
         "filterSustain": 0.35,
         "filterRelease": 0.1,
-        "filterEnvAmount": 1.1,
+        "filterEnvAmount": 0.5,
         "filterVelocity": 0.35,
         "ampVelocity": 0.5,
         "ampAttackCurve": -0.35,
@@ -15974,7 +16138,7 @@
         "midiBendRange": 24,
         "sampleStart": 0,
         "sampleEnd": 1,
-        "sampleLoop": 0,
+        "sampleLoop": 1,
         "sampleReverse": 0,
         "macro0": 0,
         "freeMacro0": 0,
@@ -15994,11 +16158,11 @@
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0.11,
+        "echoMix": 0.055,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.18,
+        "reverb": 0.12,
         "reverbSize": 0.78,
         "reverbDamping": 0.42,
         "reverbWidth": 1,
@@ -16018,7 +16182,9 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": -3.9
+        "presetTrim": -3.9,
+        "oscMelt": 0,
+        "outputSafety": 1
       },
       "play": "Fast-attack 90s hard-trance lead; play your own melody.",
       "sources": [
@@ -16099,7 +16265,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "a7b8bd009297cd39"
+      "design_hash": "a7b8bd009297cd39",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI066",
@@ -16149,9 +16316,9 @@
         "osc2Rand": 1,
         "osc1PhaseReset": 0,
         "osc2PhaseReset": 0,
-        "wavetableScan": 0.18,
+        "wavetableScan": 0.08,
         "osc2WTPos": 0.27,
-        "wave": 3,
+        "wave": 37,
         "osc2Wave": 3,
         "osc1Warp": 4,
         "osc2Warp": 0,
@@ -16249,19 +16416,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 10.73
+        "presetTrim": 10.73,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -16301,16 +16469,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -16339,9 +16497,72 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.23145833333333332
+        },
+        {
+          "source": 0,
+          "target": "ampSustain",
+          "depth": 0.78
+        },
+        {
+          "source": 0,
+          "target": "ampDecay",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "oscMelt",
+          "depth": 0.12
         }
       ],
-      "design_hash": "16d521417f39a8f0"
+      "design_hash": "16d521417f39a8f0",
+      "wavetable": null,
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 11.11
     },
     {
       "id": "TI067",
@@ -16391,9 +16612,9 @@
         "osc2Rand": 1,
         "osc1PhaseReset": 0,
         "osc2PhaseReset": 0,
-        "wavetableScan": 0.18,
+        "wavetableScan": 0.22,
         "osc2WTPos": 0.27,
-        "wave": 6,
+        "wave": 38,
         "osc2Wave": 3,
         "osc1Warp": 0,
         "osc2Warp": 0,
@@ -16491,19 +16712,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 13.35
+        "presetTrim": 13.35,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -16543,16 +16765,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -16581,9 +16793,72 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.27395833333333336
+        },
+        {
+          "source": 0,
+          "target": "ampSustain",
+          "depth": 0.78
+        },
+        {
+          "source": 0,
+          "target": "ampDecay",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "oscMelt",
+          "depth": 0.12
         }
       ],
-      "design_hash": "ab88243c06889163"
+      "design_hash": "ab88243c06889163",
+      "wavetable": null,
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 13.15
     },
     {
       "id": "TI068",
@@ -16733,19 +17008,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 17.66
+        "presetTrim": 17.66,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -16785,16 +17061,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -16823,9 +17089,56 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.05291666666666667
         }
       ],
-      "design_hash": "dc9b47338dd52c00"
+      "design_hash": "dc9b47338dd52c00",
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 2.54
     },
     {
       "id": "TI069",
@@ -16975,19 +17288,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 18.21
+        "presetTrim": 18.21,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -17027,16 +17341,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -17065,9 +17369,56 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.08666666666666667
         }
       ],
-      "design_hash": "da746f4db5c96952"
+      "design_hash": "da746f4db5c96952",
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 4.16
     },
     {
       "id": "TI070",
@@ -17217,19 +17568,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 17.55
+        "presetTrim": 17.55,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -17269,16 +17621,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -17307,9 +17649,56 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.05291666666666667
         }
       ],
-      "design_hash": "e373b360f0542ef1"
+      "design_hash": "e373b360f0542ef1",
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 2.54
     },
     {
       "id": "TI071",
@@ -17459,19 +17848,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 15.64
+        "presetTrim": 15.64,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -17511,16 +17901,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -17549,9 +17929,56 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.058958333333333335
         }
       ],
-      "design_hash": "e3b0d9ffb2cf410f"
+      "design_hash": "e3b0d9ffb2cf410f",
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 2.83
     },
     {
       "id": "TI072",
@@ -17603,7 +18030,7 @@
         "osc2PhaseReset": 0,
         "wavetableScan": 0.18,
         "osc2WTPos": 0.27,
-        "wave": 22,
+        "wave": 44,
         "osc2Wave": 1,
         "osc1Warp": 2,
         "osc2Warp": 0,
@@ -17701,19 +18128,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 11.25261
+        "presetTrim": 11.25261,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -17753,16 +18181,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -17791,9 +18209,72 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.28729166666666667
+        },
+        {
+          "source": 0,
+          "target": "ampSustain",
+          "depth": 0.78
+        },
+        {
+          "source": 0,
+          "target": "ampDecay",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "oscMelt",
+          "depth": 0.12
         }
       ],
-      "design_hash": "3a221d51e342c7bb"
+      "design_hash": "3a221d51e342c7bb",
+      "wavetable": null,
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 13.79
     },
     {
       "id": "TI073",
@@ -17943,19 +18424,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 18.21
+        "presetTrim": 18.21,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -17995,16 +18477,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -18033,9 +18505,56 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.07645833333333334
         }
       ],
-      "design_hash": "ed5421de475e6b0b"
+      "design_hash": "ed5421de475e6b0b",
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 3.67
     },
     {
       "id": "TI074",
@@ -18122,7 +18641,7 @@
         "eqMode6": 3,
         "eq6Frequency": 14500,
         "eq6Q": 0.7071,
-        "filterMode": 3,
+        "filterMode": 4,
         "cutoff": 800,
         "res": 0.32,
         "filterInputDrive": 0.03,
@@ -18185,19 +18704,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 13.63
+        "presetTrim": 13.63,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -18237,16 +18757,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -18275,9 +18785,71 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.25
+        },
+        {
+          "source": 0,
+          "target": "ampSustain",
+          "depth": 0.78
+        },
+        {
+          "source": 0,
+          "target": "ampDecay",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "oscMelt",
+          "depth": 0.12
         }
       ],
-      "design_hash": "6c4b7e31701904fb"
+      "design_hash": "6c4b7e31701904fb",
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 12
     },
     {
       "id": "TI075",
@@ -18364,7 +18936,7 @@
         "eqMode6": 3,
         "eq6Frequency": 14500,
         "eq6Q": 0.7071,
-        "filterMode": 3,
+        "filterMode": 4,
         "cutoff": 900,
         "res": 0.4,
         "filterInputDrive": 0.03,
@@ -18427,19 +18999,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 20.15041
+        "presetTrim": 20.15041,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -18479,16 +19052,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -18517,9 +19080,71 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.25
+        },
+        {
+          "source": 0,
+          "target": "ampSustain",
+          "depth": 0.78
+        },
+        {
+          "source": 0,
+          "target": "ampDecay",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "oscMelt",
+          "depth": 0.12
         }
       ],
-      "design_hash": "19644efffd77c566"
+      "design_hash": "19644efffd77c566",
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 12
     },
     {
       "id": "TI076",
@@ -18669,11 +19294,11 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
@@ -18682,9 +19307,10 @@
         "pitchEnvDecay": 0.09,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 13.8
+        "presetTrim": 13.8,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -18724,16 +19350,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -18762,9 +19378,71 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.27999999999999997
+        },
+        {
+          "source": 0,
+          "target": "ampSustain",
+          "depth": 0.78
+        },
+        {
+          "source": 0,
+          "target": "ampDecay",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "oscMelt",
+          "depth": 0.12
         }
       ],
-      "design_hash": "450af82c783992cd"
+      "design_hash": "450af82c783992cd",
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 13.44
     },
     {
       "id": "TI077",
@@ -18914,19 +19592,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 12.19733
+        "presetTrim": 12.19733,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -18966,16 +19645,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -19004,9 +19673,71 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.2775
+        },
+        {
+          "source": 0,
+          "target": "ampSustain",
+          "depth": 0.78
+        },
+        {
+          "source": 0,
+          "target": "ampDecay",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "oscMelt",
+          "depth": 0.12
         }
       ],
-      "design_hash": "0c814c941267e0e4"
+      "design_hash": "0c814c941267e0e4",
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 13.32
     },
     {
       "id": "TI078",
@@ -19056,9 +19787,9 @@
         "osc2Rand": 1,
         "osc1PhaseReset": 0,
         "osc2PhaseReset": 0,
-        "wavetableScan": 0.18,
+        "wavetableScan": 0.3,
         "osc2WTPos": 0.27,
-        "wave": 13,
+        "wave": 49,
         "osc2Wave": 4,
         "osc1Warp": 0,
         "osc2Warp": 0,
@@ -19156,19 +19887,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 9.46
+        "presetTrim": 9.46,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -19208,16 +19940,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -19246,9 +19968,72 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.25604166666666667
+        },
+        {
+          "source": 0,
+          "target": "ampSustain",
+          "depth": 0.78
+        },
+        {
+          "source": 0,
+          "target": "ampDecay",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "oscMelt",
+          "depth": 0.12
         }
       ],
-      "design_hash": "887468026dffcd53"
+      "design_hash": "887468026dffcd53",
+      "wavetable": null,
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 12.29
     },
     {
       "id": "TI079",
@@ -19398,19 +20183,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 11.06478
+        "presetTrim": 11.06478,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -19450,16 +20236,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -19488,9 +20264,71 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.29041666666666666
+        },
+        {
+          "source": 0,
+          "target": "ampSustain",
+          "depth": 0.78
+        },
+        {
+          "source": 0,
+          "target": "ampDecay",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "oscMelt",
+          "depth": 0.12
         }
       ],
-      "design_hash": "d844a7cd55524ece"
+      "design_hash": "d844a7cd55524ece",
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 13.94
     },
     {
       "id": "TI080",
@@ -19640,19 +20478,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 9.46
+        "presetTrim": 9.46,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -19692,16 +20531,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -19730,9 +20559,71 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.2227083333333333
+        },
+        {
+          "source": 0,
+          "target": "ampSustain",
+          "depth": 0.78
+        },
+        {
+          "source": 0,
+          "target": "ampDecay",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "oscMelt",
+          "depth": 0.12
         }
       ],
-      "design_hash": "3e8c5f55db543831"
+      "design_hash": "3e8c5f55db543831",
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 10.69
     },
     {
       "id": "TI081",
@@ -19882,19 +20773,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 20.51
+        "presetTrim": 20.51,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -19934,16 +20826,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -19972,9 +20854,56 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.057499999999999996
         }
       ],
-      "design_hash": "9e5b8ba473f8e89c"
+      "design_hash": "9e5b8ba473f8e89c",
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 2.76
     },
     {
       "id": "TI082",
@@ -20124,19 +21053,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 10.25
+        "presetTrim": 10.25,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -20176,16 +21106,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -20214,9 +21134,71 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.24833333333333332
+        },
+        {
+          "source": 0,
+          "target": "ampSustain",
+          "depth": 0.78
+        },
+        {
+          "source": 0,
+          "target": "ampDecay",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "oscMelt",
+          "depth": 0.12
         }
       ],
-      "design_hash": "9e1b4a9f359d79a0"
+      "design_hash": "9e1b4a9f359d79a0",
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 11.92
     },
     {
       "id": "TI083",
@@ -20266,9 +21248,9 @@
         "osc2Rand": 1,
         "osc1PhaseReset": 0,
         "osc2PhaseReset": 0,
-        "wavetableScan": 0.18,
+        "wavetableScan": 0.16,
         "osc2WTPos": 0.27,
-        "wave": 3,
+        "wave": 48,
         "osc2Wave": 3,
         "osc1Warp": 1,
         "osc2Warp": 0,
@@ -20366,19 +21348,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 10.22
+        "presetTrim": 10.22,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -20418,16 +21401,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -20456,9 +21429,72 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.255625
+        },
+        {
+          "source": 0,
+          "target": "ampSustain",
+          "depth": 0.78
+        },
+        {
+          "source": 0,
+          "target": "ampDecay",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "oscMelt",
+          "depth": 0.12
         }
       ],
-      "design_hash": "602246ccee8e9b15"
+      "design_hash": "602246ccee8e9b15",
+      "wavetable": null,
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 12.27
     },
     {
       "id": "TI084",
@@ -20598,7 +21634,7 @@
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.12,
+        "reverb": 0.15,
         "reverbSize": 0.78,
         "reverbDamping": 0.42,
         "reverbWidth": 1,
@@ -20608,11 +21644,11 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
@@ -20621,9 +21657,10 @@
         "irDecay": 2.5,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 12.22
+        "presetTrim": 12.22,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -20663,16 +21700,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -20701,9 +21728,56 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.105
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.049166666666666664
         }
       ],
-      "design_hash": "92c3c488682bd9be"
+      "design_hash": "92c3c488682bd9be",
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 2.36
     },
     {
       "id": "TI085",
@@ -20753,9 +21827,9 @@
         "osc2Rand": 1,
         "osc1PhaseReset": 0,
         "osc2PhaseReset": 0,
-        "wavetableScan": 0.18,
+        "wavetableScan": 0.35,
         "osc2WTPos": 0.27,
-        "wave": 6,
+        "wave": 51,
         "osc2Wave": 1,
         "osc1Warp": 0,
         "osc2Warp": 0,
@@ -20853,19 +21927,20 @@
         "chorusDepth": 0.3,
         "chorusDelay": 11,
         "chorusFeedback": 0.04,
-        "delayWetLowFreq": 220,
-        "delayWetLowGain": -9,
+        "delayWetLowFreq": 240,
+        "delayWetLowGain": -10,
         "delayWetHighFreq": 6500,
         "delayWetHighGain": -3,
-        "reverbWetLowFreq": 240,
+        "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
         "reverbWetHighFreq": 7200,
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 13.76
+        "presetTrim": 13.76,
+        "outputSafety": 1
       },
-      "play": "Short MIDI notes or held chords; each patch has its own decay and echo character.",
+      "play": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
       "sources": [
         "R_ATB",
         "R_JP",
@@ -20905,16 +21980,6 @@
           "depth": 0.13
         },
         {
-          "source": 0,
-          "target": "cutoff",
-          "depth": 0.12
-        },
-        {
-          "source": 0,
-          "target": "eq5Gain",
-          "depth": 0.05
-        },
-        {
           "source": 1,
           "target": "filterEnvAmount",
           "depth": 0.17
@@ -20943,9 +22008,72 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "cutoff",
+          "depth": 0.43
+        },
+        {
+          "source": 0,
+          "target": "echoMix",
+          "depth": -0.15600000000000003
+        },
+        {
+          "source": 0,
+          "target": "reverb",
+          "depth": -0.13999999999999999
+        },
+        {
+          "source": 0,
+          "target": "reverbSize",
+          "depth": 0.08
+        },
+        {
+          "source": 0,
+          "target": "filterInputDrive",
+          "depth": 0.025
+        },
+        {
+          "source": 0,
+          "target": "osc1Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "osc2Width",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.2758333333333333
+        },
+        {
+          "source": 0,
+          "target": "ampSustain",
+          "depth": 0.78
+        },
+        {
+          "source": 0,
+          "target": "ampDecay",
+          "depth": 0.1
+        },
+        {
+          "source": 0,
+          "target": "oscMelt",
+          "depth": 0.12
         }
       ],
-      "design_hash": "4a03e80168078c58"
+      "design_hash": "4a03e80168078c58",
+      "wavetable": null,
+      "macro_labels": [
+        "OPEN / LEAD",
+        "CONTOUR",
+        "CHARACTER"
+      ],
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 13.24
     },
     {
       "id": "TI086",
@@ -21105,7 +22233,12 @@
         "reverbWetHighGain": -1.5,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 7.95
+        "presetTrim": 7.95,
+        "chorusEngine": 1,
+        "dimensionMode": 2,
+        "dimensionTone": 0.62,
+        "dimensionWidth": 1.12,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -21192,7 +22325,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "119212f09e2428f4"
+      "design_hash": "119212f09e2428f4",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI087",
@@ -21352,7 +22486,8 @@
         "reverbWetHighGain": -1.5,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 5.58
+        "presetTrim": 5.58,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -21439,7 +22574,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "0843e45efe50fbed"
+      "design_hash": "0843e45efe50fbed",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI088",
@@ -21604,7 +22740,8 @@
         "grainSpread": 0.95,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 14.89
+        "presetTrim": 14.89,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -21692,7 +22829,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "2c75107e5e0c4665"
+      "design_hash": "2c75107e5e0c4665",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI089",
@@ -21837,7 +22975,7 @@
         "reverbDamping": 0.27,
         "reverbWidth": 1,
         "reverbSpace": 1,
-        "chorus": 0.1,
+        "chorus": 0.12,
         "chorusRate": 0.125,
         "chorusDepth": 0.3,
         "chorusDelay": 11,
@@ -21852,7 +22990,12 @@
         "reverbWetHighGain": -1.5,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 6.61
+        "presetTrim": 6.61,
+        "chorusEngine": 1,
+        "dimensionMode": 2,
+        "dimensionTone": 0.62,
+        "dimensionWidth": 1.12,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -21939,7 +23082,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "9750e072e027e085"
+      "design_hash": "9750e072e027e085",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI090",
@@ -22099,7 +23243,8 @@
         "reverbWetHighGain": -1.5,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 7.22
+        "presetTrim": 7.22,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -22186,7 +23331,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "c1bbd0dfc7d77b32"
+      "design_hash": "c1bbd0dfc7d77b32",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI091",
@@ -22346,7 +23492,8 @@
         "reverbWetHighGain": -1.5,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 6.1
+        "presetTrim": 6.1,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -22433,7 +23580,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "add4148dc90475f5"
+      "design_hash": "add4148dc90475f5",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI092",
@@ -22593,7 +23741,12 @@
         "reverbWetHighGain": -1.5,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 6.22
+        "presetTrim": 6.22,
+        "chorusEngine": 1,
+        "dimensionMode": 2,
+        "dimensionTone": 0.62,
+        "dimensionWidth": 1.12,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -22680,7 +23833,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "4ccdf98c3b3b7547"
+      "design_hash": "4ccdf98c3b3b7547",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI093",
@@ -22825,7 +23979,7 @@
         "reverbDamping": 0.27,
         "reverbWidth": 1,
         "reverbSpace": 1,
-        "chorus": 0.1,
+        "chorus": 0.12,
         "chorusRate": 0.185,
         "chorusDepth": 0.3,
         "chorusDelay": 11,
@@ -22840,7 +23994,12 @@
         "reverbWetHighGain": -1.5,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 6.98
+        "presetTrim": 6.98,
+        "chorusEngine": 1,
+        "dimensionMode": 2,
+        "dimensionTone": 0.62,
+        "dimensionWidth": 1.12,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -22927,7 +24086,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "a21016f1a745aada"
+      "design_hash": "a21016f1a745aada",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI094",
@@ -23087,7 +24247,12 @@
         "reverbWetHighGain": -1.5,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 5.29
+        "presetTrim": 5.29,
+        "chorusEngine": 1,
+        "dimensionMode": 2,
+        "dimensionTone": 0.62,
+        "dimensionWidth": 1.12,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -23174,7 +24339,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "6efeb6b3a9f4a5b0"
+      "design_hash": "6efeb6b3a9f4a5b0",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI095",
@@ -23319,7 +24485,7 @@
         "reverbDamping": 0.27,
         "reverbWidth": 1,
         "reverbSpace": 1,
-        "chorus": 0.1,
+        "chorus": 0.12,
         "chorusRate": 0.21500000000000002,
         "chorusDepth": 0.3,
         "chorusDelay": 11,
@@ -23339,7 +24505,12 @@
         "grainSpread": 0.9,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 8.24
+        "presetTrim": 8.24,
+        "chorusEngine": 1,
+        "dimensionMode": 2,
+        "dimensionTone": 0.62,
+        "dimensionWidth": 1.12,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -23426,7 +24597,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "0804e3c163d1335d"
+      "design_hash": "0804e3c163d1335d",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI096",
@@ -23587,7 +24759,8 @@
         "distEnabled": 0,
         "distMix": 0,
         "presetTrim": 6.07,
-        "masterOctave": -1
+        "masterOctave": -1,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -23675,7 +24848,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "664ea1ac71f91213"
+      "design_hash": "664ea1ac71f91213",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI097",
@@ -23835,7 +25009,12 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 13.07
+        "presetTrim": 13.07,
+        "chorusEngine": 1,
+        "dimensionMode": 2,
+        "dimensionTone": 0.62,
+        "dimensionWidth": 1.12,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -23923,7 +25102,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "9e32386bbfe22b2d"
+      "design_hash": "9e32386bbfe22b2d",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI098",
@@ -24086,7 +25266,8 @@
         "irDecay": 3.0,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 5.82
+        "presetTrim": 5.82,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -24174,7 +25355,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "787ee8bf46f23384"
+      "design_hash": "787ee8bf46f23384",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI099",
@@ -24339,7 +25521,8 @@
         "grainSpread": 0.9,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 15.18
+        "presetTrim": 15.18,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -24427,7 +25610,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "807d2e9d9325318f"
+      "design_hash": "807d2e9d9325318f",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI100",
@@ -24587,7 +25771,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 6.12
+        "presetTrim": 6.12,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -24675,7 +25860,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "fc856c04da049d52"
+      "design_hash": "fc856c04da049d52",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI101",
@@ -24838,7 +26024,12 @@
         "irDecay": 3.0,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 2.55
+        "presetTrim": 2.55,
+        "chorusEngine": 1,
+        "dimensionMode": 2,
+        "dimensionTone": 0.62,
+        "dimensionWidth": 1.12,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -24926,7 +26117,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "7cacdfa96733cd48"
+      "design_hash": "7cacdfa96733cd48",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI102",
@@ -25086,7 +26278,12 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 4.94
+        "presetTrim": 4.94,
+        "chorusEngine": 1,
+        "dimensionMode": 2,
+        "dimensionTone": 0.62,
+        "dimensionWidth": 1.12,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -25174,7 +26371,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "f7a831be81cc577e"
+      "design_hash": "f7a831be81cc577e",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI103",
@@ -25334,7 +26532,12 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 3.67
+        "presetTrim": 3.67,
+        "chorusEngine": 1,
+        "dimensionMode": 2,
+        "dimensionTone": 0.62,
+        "dimensionWidth": 1.12,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -25422,7 +26625,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "8ef5789941b06bbf"
+      "design_hash": "8ef5789941b06bbf",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI104",
@@ -25587,7 +26791,8 @@
         "grainSpread": 0.9,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 15.58
+        "presetTrim": 15.58,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -25675,7 +26880,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "769f055ae4e4db20"
+      "design_hash": "769f055ae4e4db20",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI105",
@@ -25835,7 +27041,12 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 5.38
+        "presetTrim": 5.38,
+        "chorusEngine": 1,
+        "dimensionMode": 2,
+        "dimensionTone": 0.62,
+        "dimensionWidth": 1.12,
+        "outputSafety": 1
       },
       "lfo": {
         "target": "cutoff",
@@ -25923,7 +27134,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "400ed9c1798bb48c"
+      "design_hash": "400ed9c1798bb48c",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI106",
@@ -26083,7 +27295,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 7.01
+        "presetTrim": 7.01,
+        "outputSafety": 1
       },
       "play": "Real recorded sections or named analogue ensemble designs; MIDI 48-84.",
       "sources": [
@@ -26164,7 +27377,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "181c61e56727a280"
+      "design_hash": "181c61e56727a280",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI107",
@@ -26252,7 +27466,7 @@
         "eq6Frequency": 14500,
         "eq6Q": 0.7071,
         "filterMode": 4,
-        "cutoff": 7900,
+        "cutoff": 8800,
         "res": 0.06,
         "filterInputDrive": 0.03,
         "drive": 0.025,
@@ -26291,10 +27505,10 @@
         "macro2": 0,
         "freeMacro2": 0,
         "designerLfo3Enabled": 0,
-        "attack": 0.045,
-        "ampDecay": 0.8,
-        "ampSustain": 1,
-        "release": 0.65,
+        "attack": 0.035,
+        "ampDecay": 0.55,
+        "ampSustain": 0.68,
+        "release": 0.22,
         "ampLong": 0,
         "echoMode": 2,
         "echoSyncL": 4,
@@ -26304,7 +27518,7 @@
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.22,
+        "reverb": 0.14,
         "reverbSize": 0.78,
         "reverbDamping": 0.42,
         "reverbWidth": 1,
@@ -26324,7 +27538,10 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 7.09
+        "presetTrim": 7.09,
+        "outputSafety": 1,
+        "eq3Frequency": 400,
+        "eq3Gain": -2.5
       },
       "play": "Real recorded sections or named analogue ensemble designs; MIDI 48-84.",
       "sources": [
@@ -26405,7 +27622,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "89b5310b26cc4f6c"
+      "design_hash": "89b5310b26cc4f6c",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI108",
@@ -26565,7 +27783,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 5.03
+        "presetTrim": 5.03,
+        "outputSafety": 1
       },
       "play": "Real recorded sections or named analogue ensemble designs; MIDI 48-84.",
       "sources": [
@@ -26646,7 +27865,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "8836f2e0fac44bc8"
+      "design_hash": "8836f2e0fac44bc8",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI109",
@@ -26809,7 +28029,8 @@
         "irDecay": 3.5,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 2.91
+        "presetTrim": 2.91,
+        "outputSafety": 1
       },
       "play": "Real recorded sections or named analogue ensemble designs; MIDI 48-84.",
       "sources": [
@@ -26890,7 +28111,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "5fa75834f26a6851"
+      "design_hash": "5fa75834f26a6851",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI110",
@@ -27050,7 +28272,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 14.07
+        "presetTrim": 14.07,
+        "outputSafety": 1
       },
       "play": "Real recorded sections or named analogue ensemble designs; MIDI 48-84.",
       "sources": [
@@ -27131,7 +28354,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "bc8c22e096fbc187"
+      "design_hash": "bc8c22e096fbc187",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI111",
@@ -27291,7 +28515,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 12.74
+        "presetTrim": 12.74,
+        "outputSafety": 1
       },
       "play": "Real recorded sections or named analogue ensemble designs; MIDI 48-84.",
       "sources": [
@@ -27372,7 +28597,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "3d611b27e3ff315a"
+      "design_hash": "3d611b27e3ff315a",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI112",
@@ -27400,7 +28626,7 @@
         "analogueLabEnabled": 1,
         "stereoFilterUpgrade": 1,
         "analogueLabRange": 0,
-        "source": 23,
+        "source": 24,
         "osc1Enabled": 1,
         "osc2Enabled": 0,
         "osc1Gain": 0,
@@ -27460,15 +28686,15 @@
         "eq6Frequency": 14500,
         "eq6Q": 0.7071,
         "filterMode": 4,
-        "cutoff": 5300,
+        "cutoff": 5200,
         "res": 0.06,
         "filterInputDrive": 0.03,
         "drive": 0.025,
-        "filterAttack": 0.3,
+        "filterAttack": 1.2,
         "filterDecay": 1,
         "filterSustain": 0.8,
         "filterRelease": 0.1,
-        "filterEnvAmount": 0.25,
+        "filterEnvAmount": 1,
         "filterVelocity": 0.35,
         "ampVelocity": 0.6,
         "ampAttackCurve": -0.35,
@@ -27499,10 +28725,10 @@
         "macro2": 0,
         "freeMacro2": 0,
         "designerLfo3Enabled": 0,
-        "attack": 0.08,
-        "ampDecay": 0.8,
-        "ampSustain": 1,
-        "release": 0.7,
+        "attack": 0.85,
+        "ampDecay": 1.1,
+        "ampSustain": 0.88,
+        "release": 0.9,
         "ampLong": 0,
         "echoMode": 2,
         "echoSyncL": 4,
@@ -27532,7 +28758,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 8.27
+        "presetTrim": 8.27,
+        "outputSafety": 1
       },
       "play": "Real recorded sections or named analogue ensemble designs; MIDI 48-84.",
       "sources": [
@@ -27618,7 +28845,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "a8039723a2eece3f"
+      "design_hash": "a8039723a2eece3f",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI113",
@@ -27778,7 +29006,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 5.81
+        "presetTrim": 5.81,
+        "outputSafety": 1
       },
       "play": "Real recorded sections or named analogue ensemble designs; MIDI 48-84.",
       "sources": [
@@ -27859,7 +29088,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "50a71bad30c26f0d"
+      "design_hash": "50a71bad30c26f0d",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI114",
@@ -28019,7 +29249,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 2.89
+        "presetTrim": 2.89,
+        "outputSafety": 1
       },
       "play": "Real recorded sections or named analogue ensemble designs; MIDI 48-84.",
       "sources": [
@@ -28105,7 +29336,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "9b7dc37cfec4c12b"
+      "design_hash": "9b7dc37cfec4c12b",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI115",
@@ -28265,7 +29497,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 4.7
+        "presetTrim": 4.7,
+        "outputSafety": 1
       },
       "play": "Real recorded sections or named analogue ensemble designs; MIDI 48-84.",
       "sources": [
@@ -28346,7 +29579,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "0492722cca0dfc9e"
+      "design_hash": "0492722cca0dfc9e",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI116",
@@ -28510,7 +29744,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 7.65
+        "presetTrim": 7.65,
+        "outputSafety": 1
       },
       "play": "Velocity-sensitive sampled piano/explicit FM dream-key; play your own chords and melodies.",
       "sources": [
@@ -28591,7 +29826,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "f96cfa73c2f0354d"
+      "design_hash": "f96cfa73c2f0354d",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI117",
@@ -28755,7 +29991,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 4.65
+        "presetTrim": 4.65,
+        "outputSafety": 1
       },
       "play": "Velocity-sensitive sampled piano/explicit FM dream-key; play your own chords and melodies.",
       "sources": [
@@ -28836,7 +30073,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "fbb56e3dd6a1e379"
+      "design_hash": "fbb56e3dd6a1e379",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI118",
@@ -28964,12 +30202,12 @@
         "freeMacro2": 0,
         "designerLfo3Enabled": 0,
         "attack": 0.0005,
-        "ampDecay": 8,
-        "ampSustain": 1,
+        "ampDecay": 1.1,
+        "ampSustain": 0,
         "release": 0.24,
         "ampLong": 0,
-        "eq3Frequency": 310,
-        "eq3Gain": -2.2,
+        "eq3Frequency": 850,
+        "eq3Gain": -4,
         "eq4Frequency": 2900,
         "eq4Gain": 0.5,
         "echoMode": 2,
@@ -29000,7 +30238,10 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 6.5
+        "presetTrim": 6.5,
+        "outputSafety": 1,
+        "eq2Frequency": 5500,
+        "eq2Gain": 3
       },
       "play": "Velocity-sensitive sampled piano/explicit FM dream-key; play your own chords and melodies.",
       "sources": [
@@ -29081,7 +30322,9 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "d319c5cba126455d"
+      "design_hash": "d319c5cba126455d",
+      "review_revision": "track-ready-080",
+      "wavetable": null
     },
     {
       "id": "TI119",
@@ -29245,7 +30488,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 4.75
+        "presetTrim": 4.75,
+        "outputSafety": 1
       },
       "play": "Velocity-sensitive sampled piano/explicit FM dream-key; play your own chords and melodies.",
       "sources": [
@@ -29326,7 +30570,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "3f4ed33f0b9dc0f4"
+      "design_hash": "3f4ed33f0b9dc0f4",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI120",
@@ -29414,15 +30659,15 @@
         "eq6Frequency": 14500,
         "eq6Q": 0.7071,
         "filterMode": 4,
-        "cutoff": 9600,
+        "cutoff": 4700,
         "res": 0.035,
         "filterInputDrive": 0.03,
         "drive": 0.01,
         "filterAttack": 0.001,
-        "filterDecay": 0.2,
+        "filterDecay": 0.11,
         "filterSustain": 0,
         "filterRelease": 0.1,
-        "filterEnvAmount": 0,
+        "filterEnvAmount": 0.8,
         "filterVelocity": 0.35,
         "ampVelocity": 0.65,
         "ampAttackCurve": -0.35,
@@ -29454,9 +30699,9 @@
         "freeMacro2": 0,
         "designerLfo3Enabled": 0,
         "attack": 0.0005,
-        "ampDecay": 8,
-        "ampSustain": 1,
-        "release": 0.23,
+        "ampDecay": 0.38,
+        "ampSustain": 0,
+        "release": 0.095,
         "ampLong": 0,
         "eq3Frequency": 310,
         "eq3Gain": -2.2,
@@ -29466,11 +30711,11 @@
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0.1,
+        "echoMix": 0.025,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.18,
+        "reverb": 0.07,
         "reverbSize": 0.78,
         "reverbDamping": 0.42,
         "reverbWidth": 1,
@@ -29490,7 +30735,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 4.81
+        "presetTrim": 4.81,
+        "outputSafety": 1
       },
       "play": "Velocity-sensitive sampled piano/explicit FM dream-key; play your own chords and melodies.",
       "sources": [
@@ -29571,7 +30817,9 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "20386f86aba0c867"
+      "design_hash": "20386f86aba0c867",
+      "review_revision": "track-ready-080",
+      "wavetable": null
     },
     {
       "id": "TI121",
@@ -29735,7 +30983,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 8.63
+        "presetTrim": 8.63,
+        "outputSafety": 1
       },
       "play": "Hold a chord. Host-tempo arpeggiator; no quoted song melody.",
       "sources": [
@@ -29816,7 +31065,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "32290625853599a8"
+      "design_hash": "32290625853599a8",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI122",
@@ -29980,7 +31230,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 9.56
+        "presetTrim": 9.56,
+        "outputSafety": 1
       },
       "play": "Hold a chord. Host-tempo arpeggiator; no quoted song melody.",
       "sources": [
@@ -30061,7 +31312,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "00edf26bb3ee757e"
+      "design_hash": "00edf26bb3ee757e",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI123",
@@ -30225,7 +31477,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 14.34
+        "presetTrim": 14.34,
+        "outputSafety": 1
       },
       "play": "Hold a chord. Host-tempo arpeggiator; no quoted song melody.",
       "sources": [
@@ -30306,7 +31559,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "f36b9c211d0beb68"
+      "design_hash": "f36b9c211d0beb68",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI124",
@@ -30470,7 +31724,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 7.6
+        "presetTrim": 7.6,
+        "outputSafety": 1
       },
       "play": "Hold a chord. Host-tempo arpeggiator; no quoted song melody.",
       "sources": [
@@ -30551,7 +31806,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "909cd2020d52ae88"
+      "design_hash": "909cd2020d52ae88",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI125",
@@ -30715,7 +31971,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 13.43
+        "presetTrim": 13.43,
+        "outputSafety": 1
       },
       "play": "Hold a chord. Host-tempo arpeggiator; no quoted song melody.",
       "sources": [
@@ -30796,7 +32053,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "803a44d9eeb93eb7"
+      "design_hash": "803a44d9eeb93eb7",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI126",
@@ -30960,7 +32218,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 8.83
+        "presetTrim": 8.83,
+        "outputSafety": 1
       },
       "play": "Hold a chord. Host-tempo arpeggiator; no quoted song melody.",
       "sources": [
@@ -31041,7 +32300,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "f9a2b153b95620e3"
+      "design_hash": "f9a2b153b95620e3",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI127",
@@ -31205,7 +32465,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 10.16
+        "presetTrim": 10.16,
+        "outputSafety": 1
       },
       "play": "Hold a chord. Host-tempo arpeggiator; no quoted song melody.",
       "sources": [
@@ -31286,7 +32547,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "f8e14cfd18561f8b"
+      "design_hash": "f8e14cfd18561f8b",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI128",
@@ -31450,7 +32712,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 7.9
+        "presetTrim": 7.9,
+        "outputSafety": 1
       },
       "play": "Hold a chord. Host-tempo arpeggiator; no quoted song melody.",
       "sources": [
@@ -31531,7 +32794,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "0267cc240b6d17da"
+      "design_hash": "0267cc240b6d17da",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI129",
@@ -31695,7 +32959,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 7.98
+        "presetTrim": 7.98,
+        "outputSafety": 1
       },
       "play": "Hold a chord. Host-tempo arpeggiator; no quoted song melody.",
       "sources": [
@@ -31776,7 +33041,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "cb3b611ecb5edd05"
+      "design_hash": "cb3b611ecb5edd05",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI130",
@@ -31940,7 +33206,8 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 16.81
+        "presetTrim": 16.81,
+        "outputSafety": 1
       },
       "play": "Hold a chord. Host-tempo arpeggiator; no quoted song melody.",
       "sources": [
@@ -32021,7 +33288,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "1a727c142b235e0a"
+      "design_hash": "1a727c142b235e0a",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI131",
@@ -32232,7 +33500,8 @@
         "stepOn15": 1,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 6.53
+        "presetTrim": 6.53,
+        "outputSafety": 1
       },
       "play": "Hold a root note. Original root-relative 16-step pattern; transpose with MIDI.",
       "sources": [
@@ -32313,7 +33582,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "691025c0c598af93"
+      "design_hash": "691025c0c598af93",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI132",
@@ -32524,7 +33794,8 @@
         "stepOn15": 1,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 8.44
+        "presetTrim": 8.44,
+        "outputSafety": 1
       },
       "play": "Hold a root note. Original root-relative 16-step pattern; transpose with MIDI.",
       "sources": [
@@ -32605,7 +33876,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "5ad4e9a520c433e4"
+      "design_hash": "5ad4e9a520c433e4",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI133",
@@ -32816,7 +34088,8 @@
         "stepOn15": 1,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 8.8
+        "presetTrim": 8.8,
+        "outputSafety": 1
       },
       "play": "Hold a root note. Original root-relative 16-step pattern; transpose with MIDI.",
       "sources": [
@@ -32897,7 +34170,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "dbb82b67496b6bcd"
+      "design_hash": "dbb82b67496b6bcd",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI134",
@@ -33108,7 +34382,8 @@
         "stepOn15": 1,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 16.22
+        "presetTrim": 16.22,
+        "outputSafety": 1
       },
       "play": "Hold a root note. Original root-relative 16-step pattern; transpose with MIDI.",
       "sources": [
@@ -33189,7 +34464,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "cf10ed66c79dee6f"
+      "design_hash": "cf10ed66c79dee6f",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI135",
@@ -33400,7 +34676,8 @@
         "stepOn15": 1,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 12.47
+        "presetTrim": 12.47,
+        "outputSafety": 1
       },
       "play": "Hold a root note. Original root-relative 16-step pattern; transpose with MIDI.",
       "sources": [
@@ -33481,7 +34758,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "a04062c26cf60346"
+      "design_hash": "a04062c26cf60346",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI136",
@@ -33692,7 +34970,8 @@
         "stepOn15": 1,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 7.51
+        "presetTrim": 7.51,
+        "outputSafety": 1
       },
       "play": "Hold a root note. Original root-relative 16-step pattern; transpose with MIDI.",
       "sources": [
@@ -33773,7 +35052,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "5832bf2b06b055ff"
+      "design_hash": "5832bf2b06b055ff",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI137",
@@ -33984,7 +35264,8 @@
         "stepOn15": 1,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 7.34
+        "presetTrim": 7.34,
+        "outputSafety": 1
       },
       "play": "Hold a root note. Original root-relative 16-step pattern; transpose with MIDI.",
       "sources": [
@@ -34065,7 +35346,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "535c4bd5148c58ac"
+      "design_hash": "535c4bd5148c58ac",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI138",
@@ -34276,7 +35558,8 @@
         "stepOn15": 1,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 9.15
+        "presetTrim": 9.15,
+        "outputSafety": 1
       },
       "play": "Hold a root note. Original root-relative 16-step pattern; transpose with MIDI.",
       "sources": [
@@ -34357,7 +35640,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "62d197677bdea7dd"
+      "design_hash": "62d197677bdea7dd",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI139",
@@ -34568,7 +35852,8 @@
         "stepOn15": 1,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 10.08
+        "presetTrim": 10.08,
+        "outputSafety": 1
       },
       "play": "Hold a root note. Original root-relative 16-step pattern; transpose with MIDI.",
       "sources": [
@@ -34649,7 +35934,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "69f03fada433eabd"
+      "design_hash": "69f03fada433eabd",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI140",
@@ -34860,7 +36146,8 @@
         "stepOn15": 1,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 8.83
+        "presetTrim": 8.83,
+        "outputSafety": 1
       },
       "play": "Hold a root note. Original root-relative 16-step pattern; transpose with MIDI.",
       "sources": [
@@ -34941,7 +36228,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "c68a9a13220178fe"
+      "design_hash": "c68a9a13220178fe",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI141",
@@ -34969,7 +36257,7 @@
         "analogueLabEnabled": 0,
         "stereoFilterUpgrade": 1,
         "analogueLabRange": 0,
-        "source": 32,
+        "source": 39,
         "osc1Enabled": 1,
         "osc2Enabled": 0,
         "osc1Gain": 0,
@@ -35029,7 +36317,7 @@
         "eq6Frequency": 14500,
         "eq6Q": 0.7071,
         "filterMode": 4,
-        "cutoff": 12000,
+        "cutoff": 7600,
         "res": 0.04,
         "filterInputDrive": 0,
         "drive": 0,
@@ -35037,7 +36325,7 @@
         "filterDecay": 0.192,
         "filterSustain": 0.1,
         "filterRelease": 0.1,
-        "filterEnvAmount": 0,
+        "filterEnvAmount": 0.5,
         "filterVelocity": 0.15,
         "ampVelocity": 0.45,
         "ampAttackCurve": -0.35,
@@ -35057,7 +36345,7 @@
         "midiBendRange": 24,
         "sampleStart": 0,
         "sampleEnd": 1,
-        "sampleLoop": 0,
+        "sampleLoop": 1,
         "sampleReverse": 0,
         "macro0": 0,
         "freeMacro0": 0,
@@ -35081,11 +36369,11 @@
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0,
+        "echoMix": 0.055,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.14,
+        "reverb": 0.12,
         "reverbSize": 0.46,
         "reverbDamping": 0.48,
         "reverbWidth": 1,
@@ -35111,7 +36399,9 @@
         "presetTrim": 17.44,
         "masterOctave": 0,
         "sampleRoot": 60,
-        "pitchEnvAmount": 0
+        "pitchEnvAmount": 0,
+        "oscMelt": 0,
+        "outputSafety": 1
       },
       "play": "Owner-supplied choir one-shot. Tight, straight vocal stab; no added detuning, vibrato, chorus or motion. Play single hits or short chords.",
       "sources": [
@@ -35187,7 +36477,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "e03f7265bbaca6f6"
+      "design_hash": "e03f7265bbaca6f6",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI142",
@@ -35354,7 +36645,8 @@
         "presetTrim": 20.89,
         "masterOctave": -1,
         "sampleRoot": 60,
-        "pitchEnvAmount": 0
+        "pitchEnvAmount": 0,
+        "outputSafety": 1
       },
       "play": "Owner-supplied choir one-shot. Tight, straight vocal stab; no added detuning, vibrato, chorus or motion. Play single hits or short chords.",
       "sources": [
@@ -35430,7 +36722,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "3b4a1405d4bbf730"
+      "design_hash": "3b4a1405d4bbf730",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI143",
@@ -35597,7 +36890,8 @@
         "presetTrim": 18.13,
         "masterOctave": -1,
         "sampleRoot": 60,
-        "pitchEnvAmount": 0
+        "pitchEnvAmount": 0,
+        "outputSafety": 1
       },
       "play": "Owner-supplied choir one-shot. Tight, straight vocal stab; no added detuning, vibrato, chorus or motion. Play single hits or short chords.",
       "sources": [
@@ -35673,7 +36967,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "be80219bd9cdebae"
+      "design_hash": "be80219bd9cdebae",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI144",
@@ -35701,7 +36996,7 @@
         "analogueLabEnabled": 0,
         "stereoFilterUpgrade": 1,
         "analogueLabRange": 0,
-        "source": 30,
+        "source": 41,
         "osc1Enabled": 1,
         "osc2Enabled": 0,
         "osc1Gain": 0,
@@ -35761,7 +37056,7 @@
         "eq6Frequency": 14500,
         "eq6Q": 0.7071,
         "filterMode": 4,
-        "cutoff": 15000,
+        "cutoff": 7600,
         "res": 0.04,
         "filterInputDrive": 0,
         "drive": 0,
@@ -35769,7 +37064,7 @@
         "filterDecay": 0.12,
         "filterSustain": 0.1,
         "filterRelease": 0.1,
-        "filterEnvAmount": 0,
+        "filterEnvAmount": 0.5,
         "filterVelocity": 0.15,
         "ampVelocity": 0.45,
         "ampAttackCurve": -0.35,
@@ -35789,7 +37084,7 @@
         "midiBendRange": 24,
         "sampleStart": 0,
         "sampleEnd": 1,
-        "sampleLoop": 0,
+        "sampleLoop": 1,
         "sampleReverse": 0,
         "macro0": 0,
         "freeMacro0": 0,
@@ -35813,7 +37108,7 @@
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0,
+        "echoMix": 0.055,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
@@ -35840,7 +37135,9 @@
         "presetTrim": 16.45,
         "masterOctave": 0,
         "sampleRoot": 72,
-        "pitchEnvAmount": 0
+        "pitchEnvAmount": 0,
+        "oscMelt": 0,
+        "outputSafety": 1
       },
       "play": "Owner-supplied choir one-shot. Tight, straight vocal stab; no added detuning, vibrato, chorus or motion. Play single hits or short chords.",
       "sources": [
@@ -35916,7 +37213,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "a384d1b3cdb4a11d"
+      "design_hash": "a384d1b3cdb4a11d",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI145",
@@ -35944,7 +37242,7 @@
         "analogueLabEnabled": 0,
         "stereoFilterUpgrade": 1,
         "analogueLabRange": 0,
-        "source": 35,
+        "source": 40,
         "osc1Enabled": 1,
         "osc2Enabled": 0,
         "osc1Gain": 0,
@@ -36004,7 +37302,7 @@
         "eq6Frequency": 14500,
         "eq6Q": 0.7071,
         "filterMode": 4,
-        "cutoff": 11000,
+        "cutoff": 7600,
         "res": 0.04,
         "filterInputDrive": 0,
         "drive": 0,
@@ -36012,7 +37310,7 @@
         "filterDecay": 0.252,
         "filterSustain": 0.1,
         "filterRelease": 0.1,
-        "filterEnvAmount": 0,
+        "filterEnvAmount": 0.5,
         "filterVelocity": 0.15,
         "ampVelocity": 0.45,
         "ampAttackCurve": -0.35,
@@ -36032,7 +37330,7 @@
         "midiBendRange": 24,
         "sampleStart": 0,
         "sampleEnd": 1,
-        "sampleLoop": 0,
+        "sampleLoop": 1,
         "sampleReverse": 0,
         "macro0": 0,
         "freeMacro0": 0,
@@ -36056,11 +37354,11 @@
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0,
+        "echoMix": 0.055,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.14,
+        "reverb": 0.12,
         "reverbSize": 0.46,
         "reverbDamping": 0.48,
         "reverbWidth": 1,
@@ -36086,7 +37384,9 @@
         "presetTrim": 15.94,
         "masterOctave": 0,
         "sampleRoot": 60,
-        "pitchEnvAmount": 0
+        "pitchEnvAmount": 0,
+        "oscMelt": 0,
+        "outputSafety": 1
       },
       "play": "Owner-supplied choir one-shot. Tight, straight vocal stab; no added detuning, vibrato, chorus or motion. Play single hits or short chords.",
       "sources": [
@@ -36162,7 +37462,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "9ac01a73858fc775"
+      "design_hash": "9ac01a73858fc775",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI146",
@@ -36190,7 +37491,7 @@
         "analogueLabEnabled": 0,
         "stereoFilterUpgrade": 1,
         "analogueLabRange": 0,
-        "source": 37,
+        "source": 43,
         "osc1Enabled": 1,
         "osc2Enabled": 0,
         "osc1Gain": 0,
@@ -36250,7 +37551,7 @@
         "eq6Frequency": 14500,
         "eq6Q": 0.7071,
         "filterMode": 4,
-        "cutoff": 8500,
+        "cutoff": 7600,
         "res": 0.04,
         "filterInputDrive": 0,
         "drive": 0,
@@ -36258,7 +37559,7 @@
         "filterDecay": 0.15,
         "filterSustain": 0.1,
         "filterRelease": 0.1,
-        "filterEnvAmount": 0,
+        "filterEnvAmount": 0.5,
         "filterVelocity": 0.15,
         "ampVelocity": 0.45,
         "ampAttackCurve": -0.35,
@@ -36278,7 +37579,7 @@
         "midiBendRange": 24,
         "sampleStart": 0,
         "sampleEnd": 1,
-        "sampleLoop": 0,
+        "sampleLoop": 1,
         "sampleReverse": 0,
         "macro0": 0,
         "freeMacro0": 0,
@@ -36302,11 +37603,11 @@
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0,
+        "echoMix": 0.055,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.1,
+        "reverb": 0.12,
         "reverbSize": 0.46,
         "reverbDamping": 0.48,
         "reverbWidth": 1,
@@ -36329,7 +37630,9 @@
         "presetTrim": 19.11,
         "masterOctave": -1,
         "sampleRoot": 60,
-        "pitchEnvAmount": 0
+        "pitchEnvAmount": 0,
+        "oscMelt": 0,
+        "outputSafety": 1
       },
       "play": "Owner-supplied choir one-shot. Tight, straight vocal stab; no added detuning, vibrato, chorus or motion. Play single hits or short chords.",
       "sources": [
@@ -36405,7 +37708,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "24d3cb5b71ebc8d1"
+      "design_hash": "24d3cb5b71ebc8d1",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI147",
@@ -36572,7 +37876,8 @@
         "presetTrim": 15.09,
         "masterOctave": 0,
         "sampleRoot": 60,
-        "pitchEnvAmount": 0
+        "pitchEnvAmount": 0,
+        "outputSafety": 1
       },
       "play": "Owner-supplied choir one-shot. Tight, straight vocal stab; no added detuning, vibrato, chorus or motion. Play single hits or short chords.",
       "sources": [
@@ -36648,7 +37953,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "b207fe26175e4985"
+      "design_hash": "b207fe26175e4985",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI148",
@@ -36815,7 +38121,8 @@
         "presetTrim": 18.01,
         "masterOctave": -1,
         "sampleRoot": 60,
-        "pitchEnvAmount": 0
+        "pitchEnvAmount": 0,
+        "outputSafety": 1
       },
       "play": "Owner-supplied choir one-shot. Tight, straight vocal stab; no added detuning, vibrato, chorus or motion. Play single hits or short chords.",
       "sources": [
@@ -36891,7 +38198,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "b88db3b95ee00507"
+      "design_hash": "b88db3b95ee00507",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI149",
@@ -36919,7 +38227,7 @@
         "analogueLabEnabled": 0,
         "stereoFilterUpgrade": 1,
         "analogueLabRange": 0,
-        "source": 38,
+        "source": 42,
         "osc1Enabled": 1,
         "osc2Enabled": 0,
         "osc1Gain": 0,
@@ -36979,7 +38287,7 @@
         "eq6Frequency": 14500,
         "eq6Q": 0.7071,
         "filterMode": 4,
-        "cutoff": 12000,
+        "cutoff": 7600,
         "res": 0.04,
         "filterInputDrive": 0,
         "drive": 0,
@@ -36987,7 +38295,7 @@
         "filterDecay": 0.096,
         "filterSustain": 0.1,
         "filterRelease": 0.1,
-        "filterEnvAmount": 0,
+        "filterEnvAmount": 0.5,
         "filterVelocity": 0.15,
         "ampVelocity": 0.45,
         "ampAttackCurve": -0.35,
@@ -37007,7 +38315,7 @@
         "midiBendRange": 24,
         "sampleStart": 0,
         "sampleEnd": 1,
-        "sampleLoop": 0,
+        "sampleLoop": 1,
         "sampleReverse": 0,
         "macro0": 0,
         "freeMacro0": 0,
@@ -37031,11 +38339,11 @@
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0,
+        "echoMix": 0.055,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.1,
+        "reverb": 0.12,
         "reverbSize": 0.46,
         "reverbDamping": 0.48,
         "reverbWidth": 1,
@@ -37061,7 +38369,9 @@
         "distDrive": 0.18,
         "fxOutput8": -2,
         "sampleRoot": 60,
-        "pitchEnvAmount": 0
+        "pitchEnvAmount": 0,
+        "oscMelt": 0,
+        "outputSafety": 1
       },
       "play": "Owner-supplied choir one-shot. Tight, straight vocal stab; no added detuning, vibrato, chorus or motion. Play single hits or short chords.",
       "sources": [
@@ -37137,7 +38447,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "4cb9ca259c36e549"
+      "design_hash": "4cb9ca259c36e549",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI150",
@@ -37165,7 +38476,7 @@
         "analogueLabEnabled": 0,
         "stereoFilterUpgrade": 1,
         "analogueLabRange": 0,
-        "source": 33,
+        "source": 44,
         "osc1Enabled": 1,
         "osc2Enabled": 0,
         "osc1Gain": 0,
@@ -37225,7 +38536,7 @@
         "eq6Frequency": 14500,
         "eq6Q": 0.7071,
         "filterMode": 4,
-        "cutoff": 14000,
+        "cutoff": 7600,
         "res": 0.04,
         "filterInputDrive": 0,
         "drive": 0,
@@ -37233,7 +38544,7 @@
         "filterDecay": 0.132,
         "filterSustain": 0.1,
         "filterRelease": 0.1,
-        "filterEnvAmount": 0,
+        "filterEnvAmount": 0.5,
         "filterVelocity": 0.15,
         "ampVelocity": 0.45,
         "ampAttackCurve": -0.35,
@@ -37253,7 +38564,7 @@
         "midiBendRange": 24,
         "sampleStart": 0,
         "sampleEnd": 1,
-        "sampleLoop": 0,
+        "sampleLoop": 1,
         "sampleReverse": 0,
         "macro0": 0,
         "freeMacro0": 0,
@@ -37277,11 +38588,11 @@
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0,
+        "echoMix": 0.055,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.04,
+        "reverb": 0.12,
         "reverbSize": 0.46,
         "reverbDamping": 0.48,
         "reverbWidth": 1,
@@ -37304,7 +38615,9 @@
         "presetTrim": 17.79,
         "masterOctave": 0,
         "sampleRoot": 60,
-        "pitchEnvAmount": 0
+        "pitchEnvAmount": 0,
+        "oscMelt": 0,
+        "outputSafety": 1
       },
       "play": "Owner-supplied choir one-shot. Tight, straight vocal stab; no added detuning, vibrato, chorus or motion. Play single hits or short chords.",
       "sources": [
@@ -37380,7 +38693,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "f48885cd6d1e40fc"
+      "design_hash": "f48885cd6d1e40fc",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI151",
@@ -37547,7 +38861,8 @@
         "distFrequency": 16000,
         "distQ": 0.707,
         "distFilterMorph": 0,
-        "fxOutput8": -6
+        "fxOutput8": -6,
+        "outputSafety": 1
       },
       "play": "Automate MAIN CUTOFF for resonant acid sweeps. RESONANCE sets the squelch; FILTER ENV AMOUNT and DECAY shape each note. Overlap mono notes for slides and use velocity for accents. PRE DRIVE adds filter bite; FX INPUT/DRIVE add grit without flattening the resonant sweep.",
       "sources": [
@@ -37627,7 +38942,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "96efc6082d1ad146"
+      "design_hash": "96efc6082d1ad146",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI152",
@@ -37794,7 +39110,8 @@
         "distFrequency": 16000,
         "distQ": 0.707,
         "distFilterMorph": 0,
-        "fxOutput8": -6
+        "fxOutput8": -6,
+        "outputSafety": 1
       },
       "play": "Automate MAIN CUTOFF for resonant acid sweeps. RESONANCE sets the squelch; FILTER ENV AMOUNT and DECAY shape each note. Overlap mono notes for slides and use velocity for accents. PRE DRIVE adds filter bite; FX INPUT/DRIVE add grit without flattening the resonant sweep.",
       "sources": [
@@ -37874,7 +39191,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "bfbcc8d04364c1bc"
+      "design_hash": "bfbcc8d04364c1bc",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI153",
@@ -38041,7 +39359,8 @@
         "distFrequency": 16000,
         "distQ": 0.707,
         "distFilterMorph": 0,
-        "fxOutput8": -6
+        "fxOutput8": -6,
+        "outputSafety": 1
       },
       "play": "Automate MAIN CUTOFF for resonant acid sweeps. RESONANCE sets the squelch; FILTER ENV AMOUNT and DECAY shape each note. Overlap mono notes for slides and use velocity for accents. PRE DRIVE adds filter bite; FX INPUT/DRIVE add grit without flattening the resonant sweep.",
       "sources": [
@@ -38121,7 +39440,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "a98b1bc08b81a4a5"
+      "design_hash": "a98b1bc08b81a4a5",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI154",
@@ -38288,7 +39608,8 @@
         "distFrequency": 16000,
         "distQ": 0.707,
         "distFilterMorph": 0,
-        "fxOutput8": -6
+        "fxOutput8": -6,
+        "outputSafety": 1
       },
       "play": "Automate MAIN CUTOFF for resonant acid sweeps. RESONANCE sets the squelch; FILTER ENV AMOUNT and DECAY shape each note. Overlap mono notes for slides and use velocity for accents. PRE DRIVE adds filter bite; FX INPUT/DRIVE add grit without flattening the resonant sweep.",
       "sources": [
@@ -38368,7 +39689,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "847bde37d1309eb5"
+      "design_hash": "847bde37d1309eb5",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI155",
@@ -38535,7 +39857,8 @@
         "distFrequency": 16000,
         "distQ": 0.707,
         "distFilterMorph": 0,
-        "fxOutput8": -6
+        "fxOutput8": -6,
+        "outputSafety": 1
       },
       "play": "Automate MAIN CUTOFF for resonant acid sweeps. RESONANCE sets the squelch; FILTER ENV AMOUNT and DECAY shape each note. Overlap mono notes for slides and use velocity for accents. PRE DRIVE adds filter bite; FX INPUT/DRIVE add grit without flattening the resonant sweep.",
       "sources": [
@@ -38615,7 +39938,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "4abd596225712e28"
+      "design_hash": "4abd596225712e28",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI156",
@@ -38782,7 +40106,8 @@
         "distFrequency": 16000,
         "distQ": 0.707,
         "distFilterMorph": 0,
-        "fxOutput8": -6
+        "fxOutput8": -6,
+        "outputSafety": 1
       },
       "play": "Automate MAIN CUTOFF for resonant acid sweeps. RESONANCE sets the squelch; FILTER ENV AMOUNT and DECAY shape each note. Overlap mono notes for slides and use velocity for accents. PRE DRIVE adds filter bite; FX INPUT/DRIVE add grit without flattening the resonant sweep.",
       "sources": [
@@ -38862,7 +40187,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "62a2776e06288cc6"
+      "design_hash": "62a2776e06288cc6",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI157",
@@ -39029,7 +40355,8 @@
         "distFrequency": 16000,
         "distQ": 0.707,
         "distFilterMorph": 0,
-        "fxOutput8": -6
+        "fxOutput8": -6,
+        "outputSafety": 1
       },
       "play": "Automate MAIN CUTOFF for resonant acid sweeps. RESONANCE sets the squelch; FILTER ENV AMOUNT and DECAY shape each note. Overlap mono notes for slides and use velocity for accents. PRE DRIVE adds filter bite; FX INPUT/DRIVE add grit without flattening the resonant sweep.",
       "sources": [
@@ -39109,7 +40436,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "601ef2c9fd428913"
+      "design_hash": "601ef2c9fd428913",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI158",
@@ -39276,7 +40604,8 @@
         "distFrequency": 16000,
         "distQ": 0.707,
         "distFilterMorph": 0,
-        "fxOutput8": -6
+        "fxOutput8": -6,
+        "outputSafety": 1
       },
       "play": "Automate MAIN CUTOFF for resonant acid sweeps. RESONANCE sets the squelch; FILTER ENV AMOUNT and DECAY shape each note. Overlap mono notes for slides and use velocity for accents. PRE DRIVE adds filter bite; FX INPUT/DRIVE add grit without flattening the resonant sweep.",
       "sources": [
@@ -39356,7 +40685,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "3d0d0b9ffea493cf"
+      "design_hash": "3d0d0b9ffea493cf",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI159",
@@ -39523,7 +40853,8 @@
         "distFrequency": 16000,
         "distQ": 0.707,
         "distFilterMorph": 0,
-        "fxOutput8": -9
+        "fxOutput8": -9,
+        "outputSafety": 1
       },
       "play": "Automate MAIN CUTOFF for resonant acid sweeps. RESONANCE sets the squelch; FILTER ENV AMOUNT and DECAY shape each note. Overlap mono notes for slides and use velocity for accents. PRE DRIVE adds filter bite; FX INPUT/DRIVE add grit without flattening the resonant sweep.",
       "sources": [
@@ -39603,7 +40934,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "6d43dc9282a0f0bc"
+      "design_hash": "6d43dc9282a0f0bc",
+      "review_revision": "track-ready-080"
     },
     {
       "id": "TI160",
@@ -39770,7 +41102,8 @@
         "distFrequency": 16000,
         "distQ": 0.707,
         "distFilterMorph": 0,
-        "fxOutput8": -6
+        "fxOutput8": -6,
+        "outputSafety": 1
       },
       "play": "Automate MAIN CUTOFF for resonant acid sweeps. RESONANCE sets the squelch; FILTER ENV AMOUNT and DECAY shape each note. Overlap mono notes for slides and use velocity for accents. PRE DRIVE adds filter bite; FX INPUT/DRIVE add grit without flattening the resonant sweep.",
       "sources": [
@@ -39850,7 +41183,8 @@
           "depth": 0.06
         }
       ],
-      "design_hash": "2dda661bbbaf8be8"
+      "design_hash": "2dda661bbbaf8be8",
+      "review_revision": "track-ready-080"
     }
   ]
 }

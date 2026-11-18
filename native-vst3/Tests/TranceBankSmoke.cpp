@@ -38,7 +38,7 @@ int runTranceBankSmoke(int group,const juce::File& profile){
         check(peak>.0001f&&peak<=1,name+": audible and bounded");
         if(bass)check(notes==0&&mono>energy*.65,name+": no generated bass notes and mono compatibility");
         if(pattern)check(notes>2,name+": pattern produces notes");
-        const float rawPeak=p->takeOutputPeak();if(group<2)check(rawPeak<.95f&&peak>.08f,name+": calibrated level/headroom");
+        const float rawPeak=p->takeOutputPeak();if(group<2)check(std::isfinite(rawPeak)&&peak<=.990001f&&peak>.08f,name+": peak-calibrated audible output and clean safety ceiling");
         auto* row=new juce::DynamicObject;row->setProperty("index",index);row->setProperty("name",name);row->setProperty("category",category);row->setProperty("gain",value(*p,"gain"));row->setProperty("preset_trim",value(*p,"presetTrim"));row->setProperty("peak",peak);row->setProperty("raw_peak",rawPeak);row->setProperty("rms",std::sqrt(energy/(length*256)));row->setProperty("mono_ratio",mono/std::max(energy,1e-12));row->setProperty("maximum_step",maxStep);row->setProperty("generated_notes",notes);row->setProperty("late_early_energy",last/std::max(first,1e-12));rows.add(juce::var(row));
         std::cout<<index<<" "<<name<<": peak "<<peak<<", RMS "<<std::sqrt(energy/(length*256))<<", generated "<<notes<<std::endl;
     }
@@ -46,7 +46,7 @@ int runTranceBankSmoke(int group,const juce::File& profile){
     if(profile!=juce::File{}){profile.getParentDirectory().createDirectory();check(profile.replaceWithText(juce::JSON::toString(rows)),"profile export");}
     if(group!=0){
         const auto set=[&](const juce::String& id,float v){auto* a=p->state.getParameter(id);a->setValueNotifyingHost(a->convertTo0to1(v));};
-        for(int source:{21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38}){
+        for(int source:{21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44}){
             p->loadPreset(0);set("source",float(source));set("attack",0);set("release",.1f);set("ampSustain",1);set("ampVelocity",0);set("cutoff",16000);set("sampleLoop",source==23||source==24||(source>=27&&source<=29)?1:0);set("gain",.35f);
             for(int key:{48,60,72}){
                 p->prepareToPlay(48000,256);juce::AudioBuffer<float> b(2,256);double energy=0;

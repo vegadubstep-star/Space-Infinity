@@ -89,6 +89,7 @@ public:
         for(int i=0;i<5;++i)tabs.addTab(names[i],juce::Colour(0xff252b31),&pages[size_t(visiblePages[i])],false);
         knob(0,"ampVelocity","VELOCITY TO VOLUME",30,55,300,"%");knob(0,"filterVelocity","VELOCITY TO FILTER",370,55,300,"oct");
         label(0,"Amp/filter envelopes and contours are on MAIN. Portamento is beside the main-page voicing selector.\nConvolver controls and impulse import are in the FX rack.",{25,210,680,90});
+        label(0,"OUTPUT SAFETY",{25,320,145,26});choice(0,"outputSafety",{"Soft saturation","Clean headroom"},175,320,255);
         slider(1,"grainPosition","Position",15,40);slider(1,"grainSize","Grain size (ms)",365,40);
         slider(1,"grainDensity","Grains / second",15,100);slider(1,"grainSpray","Position spray",365,100);
         slider(1,"grainSpread","Stereo spread",15,160);

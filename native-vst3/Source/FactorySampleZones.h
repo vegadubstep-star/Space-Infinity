@@ -1,8 +1,8 @@
 #pragma once
 #include <array>
 struct FactorySampleZone {int instrument;const char* resource;int root,layer,layers,loopStart;};
-inline constexpr std::array<const char*,18> factoryInstrumentNames{{"Studio Grand Multisample","Upright Multisample","Violin Section Multisample","Cello Section Multisample","Spiccato Strings Multisample","Pizzicato Strings Multisample","Ensemble Ah Multisample","Ensemble Ooh Multisample","Ensemble Ee Multisample","Ambient Choir C4","Ambient Choir C3","Orbital Choir 1","Orbital Choir 3","Orbital Choir 5","Orbital Choir 19","Orbital Choir 8","Orbital Choir 9","Orbital Choir 10"}};
-inline constexpr std::array<FactorySampleZone,60> factorySampleZones{{
+inline constexpr std::array<const char*,24> factoryInstrumentNames{{"Studio Grand Multisample","Upright Multisample","Violin Section Multisample","Cello Section Multisample","Spiccato Strings Multisample","Pizzicato Strings Multisample","Ensemble Ah Multisample","Ensemble Ooh Multisample","Ensemble Ee Multisample","Ambient Choir C4","Ambient Choir C3","Orbital Choir 1","Orbital Choir 3","Orbital Choir 5","Orbital Choir 19","Orbital Choir 8","Orbital Choir 9","Orbital Choir 10","Flat Ah Choir","Flat Ooh Choir","Flat Ee Choir","Rave Choir + Saw","Dark Choir + Pulse","Glass Choir + Synth"}};
+inline constexpr std::array<FactorySampleZone,66> factorySampleZones{{
     {0,"Factory_Grand_36_0_wav",24,0,3,0},
     {0,"Factory_Grand_36_1_wav",24,1,3,0},
     {0,"Factory_Grand_36_2_wav",24,2,3,0},
@@ -63,4 +63,10 @@ inline constexpr std::array<FactorySampleZone,60> factorySampleZones{{
     {15,"Factory_User_Choir_Orbital_8_wav",60,0,1,0},
     {16,"Factory_User_Choir_Orbital_9_wav",60,0,1,0},
     {17,"Factory_User_Choir_Orbital_10_wav",60,0,1,0},
+    {18,"Factory_Flat_Ah_wav",60,0,1,22050},
+    {19,"Factory_Flat_Ooh_wav",60,0,1,22050},
+    {20,"Factory_Flat_Ee_wav",60,0,1,22050},
+    {21,"Factory_Hybrid_Rave_wav",60,0,1,22050},
+    {22,"Factory_Hybrid_Dark_wav",60,0,1,22050},
+    {23,"Factory_Hybrid_Glass_wav",60,0,1,22050},
 }};
