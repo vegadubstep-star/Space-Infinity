@@ -239,6 +239,21 @@ public:
     explicit DistortionModule(SpaceInfinityProcessor& p):Module(p,"DISTORTION","distEnabled"),graph(p){choice("distType","Distortion character. X-Shapers support custom curves; Drive morphs between A and B.");choice("distFilterPosition","Off, pre-distortion or post-distortion filter.");for(const auto& c:std::array<std::pair<const char*,const char*>,7>{{{"distInput","INPUT"},{"distDrive","DRIVE"},{"distTone","TONE"},{"distMix","MIX"},{"distFrequency","FILTER FREQ"},{"distQ","RESONANCE"},{"distFilterMorph","LP / BP / HP"}}})knob(c.first,c.second);toggle("distHQ","HQ").button.setTooltip("Smooths analogue waveshaping. Digital crushers retain their stepped texture.");toggle("distHot","HOT RANGE").button.setTooltip("Expands Drive to 60 dB for aggressive saturation on quiet filtered sounds. Trim the finished level with OUTPUT GAIN.");for(int i=0;i<3;++i){characters[size_t(i)].setButtonText(juce::StringArray{"WARM","ACID","FUZZ"}[i]);characters[size_t(i)].setTooltip("Starting character with drive, tone, wet mix and output trim. Adjust OUTPUT GAIN for your sound.");characters[size_t(i)].onClick=[this,i]{character(i);};addAndMakeVisible(characters[size_t(i)]);}knobs[0]->slider.setTooltip("Gain BEFORE distortion. Turn this up until the transfer display reports SATURATING; trim the finished volume with OUTPUT GAIN.");knobs[2]->slider.setTooltip("Post-distortion high-frequency roll-off. Lower this to remove fizz without losing drive.");addAndMakeVisible(graph);graph.setName("Distortion transfer curve - drag Drive; in X-Shaper drag points, Shift edits B");startTimerHz(25);}
     void resized()override{const int w=juce::jlimit(90,180,(getWidth()-205)/2);choices[0]->setBounds(10,35,w,25);choices[1]->setBounds(15+w,35,w,25);switches[1]->setBounds(getWidth()-172,35,100,25);switches[0]->setBounds(getWidth()-70,35,65,25);graph.setBounds(10,66,juce::jmax(145,getWidth()/3-12),105);row({graph.getRight()+8,68,getWidth()-graph.getRight()-16,95},0,4);row({10,177,getWidth()-135,70},4,3);for(int i=0;i<3;++i)characters[size_t(i)].setBounds(getWidth()-115,177+i*24,105,22);}
 };
+class ChorusModule final:public Module,private juce::Timer {
+    std::array<juce::TextButton,4> modes;
+    void timerCallback()override{if(isShowing())sync();}
+    void sync(){const bool modern=processor.state.getRawParameterValue("chorusEngine")->load()>.5f;for(int i=0;i<4;++i)modes[size_t(i)].setToggleState(modern&&int(processor.state.getRawParameterValue("dimensionMode")->load())==i,juce::dontSendNotification);for(int i=0;i<int(knobs.size());++i)knobs[size_t(i)]->setVisible(i==2||(modern?i<2:i>=3));}
+public:
+    explicit ChorusModule(SpaceInfinityProcessor& p):Module(p,"CHORUS","chorusEnabled"){
+        choice("chorusEngine","Classic recalls the original chorus settings. Dimension offers four simple stereo voicings.").box.onChange=[this]{sync();resized();};
+        knob("dimensionWidth","WIDTH");knob("dimensionTone","TONE");knob("chorus","DRY / WET");knob("chorusRate","RATE");knob("chorusDepth","DEPTH");knob("chorusDelay","DELAY");knob("chorusFeedback","FEEDBACK");
+        for(int i:{0,1}){knobs[size_t(i)]->slider.textFromValueFunction=[](double value){return juce::String(value*100,0)+"%";};knobs[size_t(i)]->slider.valueFromTextFunction=[](const juce::String& text){return text.getDoubleValue()/100;};knobs[size_t(i)]->slider.updateText();}
+        const char* names[]{"I  GENTLE","II  WIDE","III  LUSH","IV  ENSEMBLE"};for(int i=0;i<4;++i){modes[size_t(i)].setButtonText(names[i]);modes[size_t(i)].setTooltip("Choose this Dimension voicing, then adjust Width, Tone and Dry/Wet. Output Gain sets the full stage level.");modes[size_t(i)].onClick=[this,i]{for(auto entry:{std::pair<const char*,float>{"chorusEngine",1},{"dimensionMode",float(i)}}){auto* value=processor.state.getParameter(entry.first);value->beginChangeGesture();value->setValueNotifyingHost(value->convertTo0to1(entry.second));value->endChangeGesture();}sync();resized();};addAndMakeVisible(modes[size_t(i)]);}
+        sync();startTimerHz(15);
+    }
+    ~ChorusModule()override{stopTimer();}
+    void resized()override{choices[0]->setBounds(getWidth()-156,3,148,23);auto buttons=juce::Rectangle<int>(8,36,getWidth()-16,25);for(int i=0;i<4;++i)modes[size_t(i)].setBounds(buttons.removeFromLeft(buttons.getWidth()/(4-i)).reduced(2,0));const bool modern=processor.state.getRawParameterValue("chorusEngine")->load()>.5f;if(modern)row({8,67,getWidth()-16,78},0,3);else{const int order[]{3,4,5,6,2},width=(getWidth()-16)/5;for(int i=0;i<5;++i)knobs[size_t(order[i])]->setBounds(8+i*width,67,width,78);}}
+};
 class BasicModule final : public Module {
 public:
     BasicModule(SpaceInfinityProcessor& p,int row):Module(p,effectRows[size_t(row)],effectEnableIds[size_t(row)]){
@@ -251,7 +266,7 @@ public:
 struct StudioRack::Impl {
     explicit Impl(SpaceInfinityProcessor& p,std::function<void()> openGate){
         add(std::make_unique<CompressorModule>(p),215);add(std::make_unique<DelayModule>(p),238);add(std::make_unique<ConvolverModule>(p),226);add(std::make_unique<RhythmModule>(p,std::move(openGate)),129);
-        add(std::make_unique<BasicModule>(p,1),119);add(std::make_unique<FlangerModule>(p),122);add(std::make_unique<BasicModule>(p,3),119);add(std::make_unique<BasicModule>(p,5),119);add(std::make_unique<DistortionModule>(p),252);
+        add(std::make_unique<ChorusModule>(p),151);add(std::make_unique<FlangerModule>(p),122);add(std::make_unique<BasicModule>(p,3),119);add(std::make_unique<BasicModule>(p,5),119);add(std::make_unique<DistortionModule>(p),252);
         viewport.setViewedComponent(&content,false);viewport.setScrollBarsShown(true,false);viewport.setScrollBarThickness(10);
     }
     void add(std::unique_ptr<Module> m,int height){auto& processor=m->processor;auto slot=std::make_unique<EffectSlot>(processor,int(modules.size()),std::move(m),height);content.addAndMakeVisible(*slot);heights.push_back(slot->height());modules.push_back(std::move(slot));}

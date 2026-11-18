@@ -1,4 +1,6 @@
 #pragma once
+#include "DimensionChorus.h"
+#include "OscillatorMelt.h"
 #include <JuceHeader.h>
 #include "AnalogueCircuit.h"
 #include "ExtendedEngine.h"
@@ -14,6 +16,7 @@
 class ImpulseWorker;
 class SpaceInfinityProcessor : public juce::AudioProcessor {
 public:
+    juce::MidiKeyboardState keyboardState;
     explicit SpaceInfinityProcessor(const juce::File& presetDirectory={});
     ~SpaceInfinityProcessor() override;
     bool isBusesLayoutSupported(const BusesLayout& layout) const override {
@@ -103,9 +106,10 @@ public:
     juce::StringArray flexibleTargets() const;
     void assignFlexibleMacro(int macro,int slot,int target);
     void assignFlexibleSource(int source,int slot,int target);
-    static int flexibleRouteIndex(int source,int slot){return source<3?(slot<3?source*3+slot:105+source*13+slot-3):source<6?9+(source-3)*16+slot:57+(source-6)*16+slot;}
-    static juce::String flexibleDepthId(int source,int slot){return juce::String(source<3?"freeMacroDepth":source<6?"lfoFlexDepth":"performanceFlexDepth")+juce::String(source<3?source:source<6?source-3:source-6)+"_"+juce::String(slot);}
-    static juce::String flexibleTargetId(int source,int slot){return juce::String(source<3?"freeMacroTarget":source<6?"lfoFlexTarget":"performanceFlexTarget")+juce::String(source<3?source:source<6?source-3:source-6)+"_"+juce::String(slot);}
+    static int flexibleRouteIndex(int source,int slot){return source==9?144+slot:source<3?(slot<3?source*3+slot:105+source*13+slot-3):source<6?9+(source-3)*16+slot:57+(source-6)*16+slot;}
+    static juce::String flexibleDepthId(int source,int slot){if(source==9)return "ampFlexDepth_"+juce::String(slot);return juce::String(source<3?"freeMacroDepth":source<6?"lfoFlexDepth":"performanceFlexDepth")+juce::String(source<3?source:source<6?source-3:source-6)+"_"+juce::String(slot);}
+    static juce::String flexibleTargetId(int source,int slot){if(source==9)return "ampFlexTarget_"+juce::String(slot);return juce::String(source<3?"freeMacroTarget":source<6?"lfoFlexTarget":"performanceFlexTarget")+juce::String(source<3?source:source<6?source-3:source-6)+"_"+juce::String(slot);}
+    static juce::String modulationPolarityId(int source,int slot,bool legacy=false){if(legacy)return source>=4&&source<8?"modPolarity"+juce::String(source)+"_"+juce::String(slot):juce::String{};return source==9?"ampFlexPolarity_"+juce::String(slot):source>=3&&source<6?"lfoFlexPolarity"+juce::String(source-3)+"_"+juce::String(slot):juce::String{};}
     int flexibleSourceTarget(int source,int slot)const{return flexibleRoute[size_t(flexibleRouteIndex(source,slot))].load();}
     int flexibleTargetIndex(const juce::String& id)const {for(size_t i=0;i<flexibleTargetList.size();++i)if(flexibleTargetList[i].id==id)return int(i);return -1;}
     bool dropModulation(const juce::String&,const juce::String&);
@@ -219,6 +223,7 @@ private:
     void retireVoice(Voice&);
     std::array<std::atomic<float>*,4> macroValues{};
     std::array<std::array<std::atomic<float>*,3>,8> macroRoutes{}, macroDepths{};
+    std::array<std::array<std::atomic<float>*,3>,4> dynamicPolarities{};
     std::array<std::array<std::atomic<float>*,17>,3> designerPoints{};
     std::array<std::array<std::atomic<float>*,4>,3> designerControls{};
     std::array<std::atomic<float>*,3> designerEnabled{};
@@ -230,6 +235,7 @@ private:
     std::array<std::atomic<float>,3> displayedLfoPhase{};
     double sr=44100, lfoPhase=0, hostChunkSeconds=0; uint64_t clock=0;
     juce::dsp::Chorus<float> chorus, flanger;
+    studio::DimensionChorus dimensionChorus;juce::SmoothedValue<float> oscillatorMeltAmount;
     juce::dsp::Phaser<float> phaser;
     bool flangerActive=false, phaserActive=false;
     juce::Reverb reverb;
@@ -238,7 +244,7 @@ private:
     juce::SmoothedValue<float> delaySamples, delayWet, bandMix;
     float delayToneL=0,delayToneR=0;
     double delayBpm=120;
-    float midiBend=0,previousOutputGain=.65f;
+    float midiBendPosition=0,previousOutputGain=.65f;
     juce::SmoothedValue<float> pitchBend, analogueAmount, analogueCutoff, analogueResonance,analogueLabRange;
     juce::dsp::DelayLine<float,juce::dsp::DelayLineInterpolationTypes::Linear> delayL{192000},delayR{192000};
     struct HeldNote { uint64_t order=0; float velocity=0.0f; };
@@ -248,9 +254,9 @@ private:
     void selectMonoNote(int source,int root,bool retrigger);
     void noteOn(int,float,int,int,int); void noteOff(int,int);
     struct FlexibleTarget {juce::String id,name;juce::RangedAudioParameter* parameter=nullptr;std::atomic<float>* raw=nullptr;};
-    std::vector<FlexibleTarget> flexibleTargetList;std::array<std::atomic<int>,144> flexibleRoute;std::atomic<bool> flexibleAssigned{false};
-    struct FlexibleValue {std::atomic<int> target{-1};std::atomic<float> offset{0};};std::array<FlexibleValue,144> flexibleValue{};
-    std::array<std::atomic<float>*,144> flexibleDepth{};
+    std::vector<FlexibleTarget> flexibleTargetList;std::array<std::atomic<int>,160> flexibleRoute;std::atomic<bool> flexibleAssigned{false};
+    struct FlexibleValue {std::atomic<int> target{-1};std::atomic<float> offset{0};};std::array<FlexibleValue,160> flexibleValue{};
+    std::array<std::atomic<float>*,160> flexibleDepth{}, flexiblePolarity{};
     std::atomic<float> gateViewPhase{0};std::array<std::array<std::atomic<float>*,33>,3> gateCurveParameters{};
     studio::WetEQ delayWetEQ,reverbWetEQ;studio::SmoothFlanger smoothFlanger;juce::AudioBuffer<float> workflowDry;
     std::array<juce::SmoothedValue<float>,9> fxGain;std::array<std::atomic<float>,9> fxPeak;std::array<std::atomic<bool>,9> fxClip;

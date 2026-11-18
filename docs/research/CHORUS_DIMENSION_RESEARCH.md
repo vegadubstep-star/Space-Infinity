@@ -1,0 +1,11 @@
+# Chorus research — 18 November 2026
+
+The requested [Musician’s HQ comparison](https://musicianshq.com/best-chorus-vst-plugin/) was read in full. It covers TriceraChorus, HMX, MChorusMB, Orchid, Ensemble, Analog Chorus, BLEASS, Dimension-D, CH3604, Chor’X and EARevolve. Its practical contrast is between broad multi-effect/control sets and immediate musical voicings. The Dimension-D approach is the closest fit to the owner's request for a simple chorus and to this synth's pads, strings and trance leads.
+
+The manufacturer's [Chorus DIMENSION-D overview](https://www.arturia.com/products/software-effects/chorus-dimension-d/overview) confirms four-button rate/depth voicings, stereo enhancement, bucket-brigade warmth, compression/expansion/filtering and wet/dry crossmix. It also describes advanced width, LFO shape and colour controls. The overview was available; the guessed manual URL was404, so it is not used as evidence.
+
+SPACE INFINITY uses an original algorithm inspired by those broad design principles: four fixed speed/depth voicings; opposed slow delay modulation with a second gentle motion component; high-pass filtering to reduce low-end stereo movement; a softly saturated wet path; adjustable wet low-pass tone; and a stereo crossmix that retains the dry bass foundation. Main controls are Width, Tone and Dry/Wet, plus the existing stage Output Gain/meter. It contains no copied plugin code, artwork or impulse responses. It is not presented as a circuit-exact emulation.
+
+The original JUCE chorus engine remains selectable as Classic. Old patches retain that engine through the host default; fresh Init selects Dimension. All four buttons select the new engine directly. Existing Rate/Depth/Delay/Feedback controls are shown only for Classic; their values remain saved. This avoids crowding the new view with controls that do not affect its fixed voicings.
+
+The [official Serum2 manual](https://xferrecords.com/manual/serum-2/docs) was also downloaded and read for the modulation workflow. Pages195–196 describe source-to-control dragging, a modulation range halo, a small upper-left halo/arrow for depth, Option/Alt-dragging the main control, signed negative depths and Shift-Option/Alt-click polarity switching. The current assignment work follows those interaction patterns using SPACE INFINITY’s routing engine.

@@ -8,7 +8,7 @@
 [Setup]
 AppId=OrbitalAudio.SpaceInfinity.VST3
 AppName=SPACE INFINITY
-AppVersion=0.7.1
+AppVersion=0.7.2
 AppPublisher=Orbital Audio
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
@@ -18,7 +18,7 @@ DisableDirPage=yes
 DisableProgramGroupPage=yes
 UninstallFilesDir={commonappdata}\Orbital Audio\SPACE INFINITY\Uninstall
 OutputDir={#ReleaseDir}
-OutputBaseFilename=SPACE_INFINITY_0.7.1_Windows_x64_Setup
+OutputBaseFilename=SPACE_INFINITY_0.7.2_Windows_x64_Setup
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern

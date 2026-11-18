@@ -48,7 +48,9 @@ private:
     void showPage(int page);
     std::unique_ptr<MainWorkbench> workbench;
     std::unique_ptr<SubPanel> subPanel;
+    std::unique_ptr<juce::MidiKeyboardComponent> keyboard;std::array<juce::Label,3> samplerLabels;
     MasterReadout masterReadout;
+    ModSlider melt;juce::Label meltLabel;
     std::array<ModSlider,2> oscillatorGains,wtPositions,oscillatorPans;
     std::array<juce::Label,2> gainLabels;
     std::array<juce::ToggleButton,4> filterRoutes;
@@ -102,7 +104,8 @@ private:
     std::array<ModSlider,2> sampleTrim;
     std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>,2> trimAttachments;
     ModSlider sampleRoot, compAmount;
-    SpringPitchWheel pitchWheel;
+    SpringPitchWheel pitchWheel;std::array<ModSlider,2> pitchLimits;juce::Label sourceHeader;
+    void updatePitchLimits();
     std::vector<std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment>> fxChoices;
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> compAttachment, pitchAttachment;
     juce::ToggleButton osc1{"OSC 1"}, osc2{"OSC 2"};

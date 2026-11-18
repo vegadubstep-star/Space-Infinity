@@ -66,6 +66,13 @@ public:
         g.setColour(juce::Colour(0x36000000));g.drawRoundedRectangle(face.reduced(.5f),3,.7f);
         g.setColour(juce::Colour(0x30000000));g.drawHorizontalLine(int(face.getBottom()-1),face.getX()+3,face.getRight()-3);
     }
+    static void logoRecess(juce::Graphics& g,juce::Rectangle<float> r){
+        juce::Graphics::ScopedSaveState state(g);g.setColour(juce::Colour(0x90000000));g.fillRoundedRectangle(r.expanded(1).translated(0,1),4);
+        juce::ColourGradient edge(juce::Colour(0xff09060e),r.getX(),r.getY(),juce::Colour(0xffa08ba9),r.getRight(),r.getBottom(),false);edge.addColour(.48,juce::Colour(0xff302039));g.setGradientFill(edge);g.fillRoundedRectangle(r,4);
+        const auto face=r.reduced(1.5f);g.setGradientFill(juce::ColourGradient(juce::Colour(0xff110d1a),face.getX(),face.getY(),juce::Colour(0xff302736),face.getX(),face.getBottom(),false));g.fillRoundedRectangle(face,3);texture(g,face,.13f);
+        g.setColour(juce::Colour(0xa9000000));g.drawRoundedRectangle(face.reduced(.5f),3,1.2f);g.setColour(juce::Colour(0x7041324d));g.drawHorizontalLine(int(face.getBottom()-1),face.getX()+4,face.getRight()-4);
+        for(float x:{r.getX()+5,r.getRight()-5})for(float y:{r.getY()+5,r.getBottom()-5})screw(g,x,y,2.1f);
+    }
     static void display(juce::Graphics& g,juce::Rectangle<float> r){
         auto bezel=r.expanded(3);
         g.setColour(juce::Colour(0x99000000));g.fillRoundedRectangle(bezel.translated(0,2),4);
@@ -107,16 +114,16 @@ public:
         face=face.reduced(2);
         g.setColour(juce::Colour(0xff111219));g.fillRoundedRectangle(face,3);
         texture(g,face);
-        auto header=juce::Rectangle<float>(25,8,r.getWidth()-50,97);
+        auto header=juce::Rectangle<float>(25,8,r.getWidth()-50,72);
         purpleMetal(g,header);
         g.setColour(juce::Colour(0xffa2765d));g.drawHorizontalLine(9,28,r.getWidth()-28);
-        g.setColour(juce::Colour(0xff100e0b));g.drawHorizontalLine(105,25,r.getWidth()-25);
-        g.setColour(juce::Colour(0xff766c56));g.drawHorizontalLine(106,25,r.getWidth()-25);
+        g.setColour(juce::Colour(0xff100e0b));g.drawHorizontalLine(80,25,r.getWidth()-25);
+        g.setColour(juce::Colour(0xff766c56));g.drawHorizontalLine(81,25,r.getWidth()-25);
         for(const float x:{32.0f,r.getWidth()-33})for(const float y:{18.0f,r.getHeight()-18})screw(g,x,y);
         // Folded steel rail behind the mode switches.
-        g.setGradientFill(juce::ColourGradient(juce::Colour(0xff42304c),0,108,juce::Colour(0xff211a2b),0,143,false));
-        g.fillRect(25,108,area.getWidth()-50,35);texture(g,{25,108,r.getWidth()-50,35});
-        g.setColour(juce::Colour(0xff090c09));g.drawHorizontalLine(143,25,r.getWidth()-25);
+        g.setGradientFill(juce::ColourGradient(juce::Colour(0xff42304c),0,84,juce::Colour(0xff211a2b),0,114,false));
+        g.fillRect(25,84,area.getWidth()-50,30);texture(g,{25,84,r.getWidth()-50,30});
+        g.setColour(juce::Colour(0xff090c09));g.drawHorizontalLine(114,25,r.getWidth()-25);
     }
 
     void drawRotarySlider(juce::Graphics& g,int x,int y,int width,int height,float pos,float start,float end,juce::Slider& slider) override {
@@ -132,7 +139,7 @@ public:
         g.setImageResamplingQuality(juce::Graphics::highResamplingQuality);g.setOpacity(alpha);const float extent=r*.82f*2*1.30f;g.drawImage(knob(violet),juce::Rectangle<float>(extent,extent).withCentre(c));
         juce::Path track;track.addCentredArc(c.x,c.y,r*.94f,r*.94f,0,start,end,true);g.setColour(juce::Colour(0xff160b21));g.strokePath(track,juce::PathStrokeType(2.1f));
         if(pos>.001f){juce::Path arc;arc.addCentredArc(c.x,c.y,r*.94f,r*.94f,0,start,angle,true);g.setColour(juce::Colour(0x2453e9dc));g.strokePath(arc,juce::PathStrokeType(4));signalGradient(g,socket,.9f);g.strokePath(arc,juce::PathStrokeType(1.15f));}
-        const auto& props=slider.getProperties();if(props.contains("modDepth")){const float last=start+juce::jlimit(0.0f,1.0f,pos+float(double(props["modDepth"]))*.5f)*(end-start);juce::Path arc;arc.addCentredArc(c.x,c.y,r*1.13f,r*1.13f,0,std::min(angle,last),std::max(angle,last),true);g.setColour(juce::Colour(juce::uint32(juce::int64(props["modColour"]))));g.strokePath(arc,juce::PathStrokeType(2));}
+        const auto& props=slider.getProperties();if(props.contains("modDepth")){const float last=start+juce::jlimit(0.0f,1.0f,props.contains("modEnd")?float(double(props["modEnd"])):pos+float(double(props["modDepth"]))*.5f)*(end-start);juce::Path arc;arc.addCentredArc(c.x,c.y,r*1.13f,r*1.13f,0,std::min(start+(props.contains("modStart")?float(double(props["modStart"])):pos)*(end-start),last),std::max(start+(props.contains("modStart")?float(double(props["modStart"])):pos)*(end-start),last),true);g.setColour(juce::Colour(juce::uint32(juce::int64(props["modColour"]))));g.strokePath(arc,juce::PathStrokeType(2));const auto handle=radial(-juce::MathConstants<float>::pi*.25f,r*1.13f);g.setColour(juce::Colour(0xff100a19));g.fillEllipse(handle.x-3.5f,handle.y-3.5f,7,7);g.setColour(juce::Colour(juce::uint32(juce::int64(props["modColour"]))));g.drawEllipse(handle.x-2.8f,handle.y-2.8f,5.6f,5.6f,1.1f);}
         // A recessed index with a lit insert; the metal's studio lighting stays fixed.
         const auto p1=radial(angle,r*.26f),p2=radial(angle,r*.58f);const float line=juce::jmax(1.6f,r*.075f);g.setColour(juce::Colour(0x90000000));g.drawLine({p1.translated(.7f,1),p2.translated(.7f,1)},line+1);g.setColour(juce::Colour(violet?0xff100717:0xff252531));g.drawLine({p1,p2},line);g.setColour(juce::Colour(violet?0xffbcfff3:0xff12101a));g.drawLine({p1.translated(-.25f,-.35f),p2.translated(-.25f,-.35f)},juce::jmax(.75f,line*.48f));
     }

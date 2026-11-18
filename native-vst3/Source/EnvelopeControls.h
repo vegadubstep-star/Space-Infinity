@@ -24,6 +24,10 @@ public:
     ~EnvelopeView()override{finish();}
     void paint(juce::Graphics& g)override {
         const auto r=graph();g.setColour(juce::Colour(0xff10111c));g.fillRoundedRectangle(getLocalBounds().toFloat(),4);g.setColour(juce::Colour(0xff30233e));for(int i=1;i<8;++i)g.drawVerticalLine(int(r.getX()+r.getWidth()*i/8),r.getY(),r.getBottom());
+        const auto hold=juce::Rectangle<float>(point(1).x,r.getY(),juce::jmax(0.0f,point(2).x-point(1).x),r.getHeight());
+        const auto decay=juce::Rectangle<float>(point(2).x,r.getY(),juce::jmax(0.0f,point(3).x-point(2).x),r.getHeight());
+        g.setColour(juce::Colour(0x223ce8d5));g.fillRect(hold);g.setColour(juce::Colour(0x22e575ca));g.fillRect(decay);
+        g.setColour(juce::Colour(0xff52b8ac));g.drawVerticalLine(juce::roundToInt(point(2).x),r.getY(),r.getBottom());g.setColour(juce::Colour(0xffa069a5));g.drawVerticalLine(juce::roundToInt(point(3).x),r.getY(),r.getBottom());
         const auto v=values();const float base=get("analogueUpgrade")>.5f?0:-.5f;juce::Path path;path.startNewSubPath(point(0));
         for(int n=0;n<5;++n){const auto a=point(n),b=point(n+1);for(int i=1;i<=40;++i){const float x=float(i)/40;const int c=n==0?0:n==2?1:n==4?2:-1;const float t=c>=0?AnalogueEnvelope::charge(x,get(curveId(c))+base):x;path.lineTo(a.x+(b.x-a.x)*x,a.y+(b.y-a.y)*t);}}
         HardwareTheme::signalGradient(g,r);g.strokePath(path,juce::PathStrokeType(1.8f));for(int n:{1,2,3,5}){const auto pt=point(n);g.fillEllipse(pt.x-3,pt.y-3,6,6);}graphui::levels(g,r);

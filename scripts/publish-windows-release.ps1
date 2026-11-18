@@ -31,6 +31,7 @@ $files += 'SPACE_INFINITY_Heritage_200.zip.sha256'
 $files += 'HERITAGE_200_UPDATE.md'
 $files += 'DISTORTION_DRIVE_UPDATE.md'
 $files += 'HARDWARE_TIMING_NOISE_UPDATE.md'
+$files += 'MODULATION_CHORUS_MELT_UPDATE.md'
 $files += "SPACE_INFINITY_${version}_Choir_Stabs.zip"
 $files += "SPACE_INFINITY_${version}_Choir_Stabs.zip.sha256"
 foreach ($document in @('RHYTHM_AND_METAL_UPDATE.md', 'ANALOGUE_AND_PARITY_UPDATE.md', 'SERUM2_FEATURE_AUDIT.md', 'ACID_BASS_AND_CHOIR_UPDATE.md', 'ACID_CUTOFF_UPDATE.md', 'BASS_VOICING_UPDATE.md', 'USER_CHOIR_PROVENANCE.json', 'CREATIVE_WORKFLOW_UPDATE.md', 'CHOIR_SAMPLE_PROVENANCE.json', 'CONTROL_AND_LEVEL_UPDATE.md', 'TRANCE_FACTORY_BANK.md', 'TRANCE_FACTORY_BANK_RESEARCH.md', 'TRANCE_PRESET_CATALOGUE.md', 'TRANCE_SAMPLE_PROVENANCE.json')) {
@@ -41,7 +42,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Installer ZIP packaging failed.' }
 $files += "SPACE_INFINITY_${version}_Windows_x64_Installer.zip"
 $files += "SPACE_INFINITY_${version}_Windows_x64_Installer.zip.sha256"
 $repo = $env:GITHUB_REPOSITORY
-$notesSource = Join-Path $root 'docs/HARDWARE_TIMING_NOISE_UPDATE.md'
+$notesSource = Join-Path $root 'docs/MODULATION_CHORUS_MELT_UPDATE.md'
 if (-not (Test-Path -LiteralPath $notesSource)) { $notesSource = Join-Path $root 'docs/RHYTHM_AND_METAL_UPDATE.md' }
 # Keep a new release private until its installer and archive have uploaded.
 $existing = & gh release view $tag --repo $repo --json targetCommitish,isDraft 2>$null
@@ -56,6 +57,7 @@ $notes = (Get-Content -LiteralPath $notesSource -Raw).Replace('(images/', "(http
 $docsUrl = "https://github.com/$repo/blob/$($env:GITHUB_SHA)/docs/"
 $notes = $notes.Replace('(SERUM2_FEATURE_AUDIT.md)', "(${docsUrl}SERUM2_FEATURE_AUDIT.md)").Replace('(audit/NATIVE_PARAMETER_INVENTORY.json)', "(${docsUrl}audit/NATIVE_PARAMETER_INVENTORY.json)")
 $notes = $notes.Replace('(TRANCE_FACTORY_BANK_RESEARCH.md)', "(${docsUrl}TRANCE_FACTORY_BANK_RESEARCH.md)")
+$notes = $notes.Replace('(research/CHORUS_DIMENSION_RESEARCH.md)', "(${docsUrl}research/CHORUS_DIMENSION_RESEARCH.md)")
 $notes = $notes.Replace('(DISTORTION_DRIVE_UPDATE.md)', "(${docsUrl}DISTORTION_DRIVE_UPDATE.md)")
 $notes | Set-Content -LiteralPath $notesFile -Encoding utf8
 $paths = @($files | ForEach-Object { Join-Path $releaseDir $_ })

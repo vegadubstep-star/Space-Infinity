@@ -1,3 +1,15 @@
+# Current development preview — 0.7.2
+
+Delivery remains held at the owner's request. The compact main layout, playable keyboard, bottom-left pitch wheel with independent stops, revised modulation editing, Dimension-inspired chorus and OSC MELT are source/native-preview changes. The saved verified 0.7.1 Windows installer predates them; it must not be described as the current build. See [current changes](MODULATION_CHORUS_MELT_UPDATE.md). Windows/FL Studio verification is still required before supplying 0.7.2.
+
+Check the main page at 800, 1000, 1180 and 1500 pixels. Both envelopes and LFOs, macros, sub, pitch controls and keyboard must remain visible and usable. Sampler mode replaces the sub's lower-left panel with import/trim/root/loop/reverse controls. Play/release the on-screen keys and check for stuck notes. Try unequal pitch stops (+7/−24), confirm zero remains in the middle and release returns it to zero. Check both host automation and MIDI bend.
+
+Drag AMP ENV or an LFO onto a knob and edit its halo/ring. Alt-drag edits amount; Shift makes it finer. Shift+Alt-click toggles polarity. Right-click provides numeric amount, invert and remove. Select a source before editing a destination with several assignments. Hold/Decay changes must update the coloured plot regions even at full Sustain. In FX compare Dimension's four voicings and Width/Tone/Mix with Classic. Check MELT at zero, then with two oscillators and with one disabled.
+
+All 24 native suites are required for the current source. The older verification details below describe the preceding version.
+
+---
+
 # Testing SPACE INFINITY 0.7.1
 
 The 0.7.1 materials/timing/noise update has passed native and Windows verification; download delivery remains held at the owner's request. When its verified installer is provided, Extract All, close FL Studio, run Setup, then reopen FL Studio and load a fresh SPACE INFINITY instance. The plugin identity and user preset storage are preserved.

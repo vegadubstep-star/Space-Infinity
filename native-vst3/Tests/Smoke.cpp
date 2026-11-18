@@ -23,6 +23,9 @@ int runAnalogueExpansionSmoke();
 int runOscillatorWorkflowSmoke();
 int runDualLfoSmoke();
 int runNoiseModeSmoke();
+int runModulationWorkflowSmoke();
+int runChorusMeltSmoke();
+int runPitchTravelSmoke();
 int runRhythmWorkflowSmoke();
 int runWorkflowSmoke();
 int runExtendedSmoke();
@@ -49,7 +52,7 @@ int verifyNativeLogo(juce::AudioProcessorEditor& editor,const juce::File& folder
         if(!actual.isValid()){std::cout<<"Native logo capture unavailable: "<<engines[engine]<<"\n";continue;}
         const auto image=actual.rescaled(editor.getWidth(),editor.getHeight(),juce::Graphics::highResamplingQuality);
         const auto reference=editor.createComponentSnapshot(editor.getLocalBounds());juce::Image::BitmapData expectedPixels(reference,juce::Image::BitmapData::readOnly),actualPixels(image,juce::Image::BitmapData::readOnly);int count=0,matching=0;
-        for(int y=45;y<76;++y)for(int x=52;x<302;++x){const auto expected=expectedPixels.getPixelColour(x,y),background=expectedPixels.getPixelColour(310,y);if(int(expected.getGreen())-int(background.getGreen())>35){++count;const auto pixel=actualPixels.getPixelColour(x,y);if(std::abs(int(pixel.getRed())-int(expected.getRed()))<35&&std::abs(int(pixel.getGreen())-int(expected.getGreen()))<35&&std::abs(int(pixel.getBlue())-int(expected.getBlue()))<35)++matching;}}
+        for(int y=32;y<63;++y)for(int x=38;x<262;++x){const auto expected=expectedPixels.getPixelColour(x,y),background=expectedPixels.getPixelColour(266,y);if(int(expected.getGreen())-int(background.getGreen())>35){++count;const auto pixel=actualPixels.getPixelColour(x,y);if(std::abs(int(pixel.getRed())-int(expected.getRed()))<35&&std::abs(int(pixel.getGreen())-int(expected.getGreen()))<35&&std::abs(int(pixel.getBlue())-int(expected.getBlue()))<35)++matching;}}
         std::cout<<"Native logo "<<engines[engine]<<" scale "<<scale<<": "<<matching<<"/"<<count<<" lower-stroke pixels match\n";
         auto file=folder.getChildFile("Logo-Native-"+juce::String(engine)+"-"+juce::String(int(scale*100))+".png");file.deleteFile();auto stream=file.createOutputStream();if(!stream||!juce::PNGImageFormat{}.writeImageToStream(actual,*stream))return 106;
         if(count<150||matching<count*.9)return 107;++captures;
@@ -75,7 +78,7 @@ int renderHardwarePreview()
         const auto parameter=[&](const juce::String& id,float value){auto* a=synth->state.getParameter(id);a->setValueNotifyingHost(a->convertTo0to1(value));};
         if(juce::String(page)=="GATE"){parameter("gateEnabled",1);parameter("gateMode",1);parameter("gateCurveRate",4);parameter("gateCurveCount",3);for(int i=0;i<3;++i){parameter("gateCurveX"+juce::String(i),float(i)/2);parameter("gateCurveY"+juce::String(i),i==0?.08f:i==1?.8f:1);parameter("gateCurveBend"+juce::String(i),i==0?.6f:-.45f);}}
         if(juce::String(page)=="SEQ"){parameter("patternMode",2);for(int i=0;i<16;++i){parameter("stepPitch"+juce::String(i),i%4==0?0:i%4==1?7:i%4==2?12:3);parameter("stepVelocity"+juce::String(i),i%4==0?1:.6f);}}
-        for(const auto size:{juce::Point<int>(800,760),juce::Point<int>(1000,790),juce::Point<int>(1180,820),juce::Point<int>(1500,950)}){
+        for(const auto size:{juce::Point<int>(800,760),juce::Point<int>(1000,790),juce::Point<int>(1180,820),juce::Point<int>(1280,760),juce::Point<int>(1500,950)}){
             editor->setSize(size.x,size.y);
             for(auto* child:editor->getChildren())
                 if(child->isVisible()&&!editor->getLocalBounds().contains(child->getBounds()))return 103;
@@ -86,11 +89,19 @@ int renderHardwarePreview()
         }
         if(juce::String(page)=="GATE"){synth->loadGatePreset(2);editor->setSize(1000,790);const auto file=folder.getChildFile("Hardware-GATE-BLOCKS-1000.png");file.deleteFile();auto stream=file.createOutputStream();if(!stream||!juce::PNGImageFormat{}.writeImageToStream(editor->createComponentSnapshot(editor->getLocalBounds()),*stream))return 109;}
     }
-    for(float scale:{1.0f,1.25f,1.5f,2.0f,3.0f,4.0f}){const auto image=editor->createComponentSnapshot({48,18,260,68},true,scale);const auto file=folder.getChildFile("Logo-DPI-"+juce::String(int(scale*100))+".png");file.deleteFile();auto stream=file.createOutputStream();if(!stream||!juce::PNGImageFormat{}.writeImageToStream(image,*stream))return 105;}
+    auto* sampleSource=synth->state.getParameter("source");sampleSource->setValueNotifyingHost(sampleSource->convertTo0to1(1));
+    for(auto* child:editor->getChildren())if(auto* tab=dynamic_cast<juce::TextButton*>(child))if(tab->getButtonText()=="MAIN")tab->onClick();
+    for(const auto size:{juce::Point<int>(800,760),juce::Point<int>(1280,760)}){
+        editor->setSize(size.x,size.y);
+        for(auto* child:editor->getChildren())if(child->isVisible()&&!editor->getLocalBounds().contains(child->getBounds()))return 110;
+        const auto file=folder.getChildFile("Hardware-SAMPLER-"+juce::String(size.x)+".png");file.deleteFile();auto stream=file.createOutputStream();
+        if(!stream||!juce::PNGImageFormat{}.writeImageToStream(editor->createComponentSnapshot(editor->getLocalBounds()),*stream))return 111;
+    }
+    for(float scale:{1.0f,1.25f,1.5f,2.0f,3.0f,4.0f}){const auto image=editor->createComponentSnapshot({30,8,240,60},true,scale);const auto file=folder.getChildFile("Logo-DPI-"+juce::String(int(scale*100))+".png");file.deleteFile();auto stream=file.createOutputStream();if(!stream||!juce::PNGImageFormat{}.writeImageToStream(image,*stream))return 105;}
    #if JUCE_WINDOWS
     if(const int result=verifyNativeLogo(*editor,folder))return result;
    #endif
-    std::cout<<"Native hardware editor: Main/FX/Gate/Seq screenshots and bounds passed at 800, 1000, 1180 and 1500 pixels\n";
+    std::cout<<"Native hardware editor: Main/FX/Gate/Seq screenshots and bounds passed at 800, 1000, 1180, 1280 (wide default) and 1500 pixels\n";
     return 0;
 }
 
@@ -114,6 +125,9 @@ int main(int argc,char* argv[])
     if(argc>1&&juce::String(argv[1])=="--analogue-tail-probe")return runAnalogueTailProbe();
     if(argc>1&&juce::String(argv[1])=="--analogue-expansion-tests")return runAnalogueExpansionSmoke();
     if(argc>1&&juce::String(argv[1])=="--oscillator-workflow-tests")return runOscillatorWorkflowSmoke();
+    if(argc>1&&juce::String(argv[1])=="--pitch-travel-tests")return runPitchTravelSmoke();
+    if(argc>1&&juce::String(argv[1])=="--chorus-melt-tests")return runChorusMeltSmoke();
+    if(argc>1&&juce::String(argv[1])=="--modulation-workflow-tests")return runModulationWorkflowSmoke();
     if(argc>1&&juce::String(argv[1])=="--noise-mode-tests")return runNoiseModeSmoke();
     if(argc>1&&juce::String(argv[1])=="--dual-lfo-tests")return runDualLfoSmoke();
     if(argc>1&&juce::String(argv[1])=="--rhythm-workflow-tests")return runRhythmWorkflowSmoke();

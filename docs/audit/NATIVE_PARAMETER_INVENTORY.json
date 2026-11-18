@@ -1,8 +1,8 @@
 {
-  "native_version": "0.7.1",
+  "native_version": "0.7.2",
   "manual_reference": "https://xferrecords.com/manual/serum-2/docs",
   "notes": "Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.",
-  "parameter_count": 1108,
+  "parameter_count": 1207,
   "parameters": [
     {
       "id": "cutoff",
@@ -11259,6 +11259,967 @@
         "Free",
         "Retrigger"
       ]
+    },
+    {
+      "id": "ampFlexDepth_0",
+      "name": "Amp envelope assignment amount",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "ampFlexDepth_1",
+      "name": "Amp envelope assignment amount",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "ampFlexDepth_2",
+      "name": "Amp envelope assignment amount",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "ampFlexDepth_3",
+      "name": "Amp envelope assignment amount",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "ampFlexDepth_4",
+      "name": "Amp envelope assignment amount",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "ampFlexDepth_5",
+      "name": "Amp envelope assignment amount",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "ampFlexDepth_6",
+      "name": "Amp envelope assignment amount",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "ampFlexDepth_7",
+      "name": "Amp envelope assignment amount",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "ampFlexDepth_8",
+      "name": "Amp envelope assignment amount",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "ampFlexDepth_9",
+      "name": "Amp envelope assignment amount",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "ampFlexDepth_10",
+      "name": "Amp envelope assignment amount",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "ampFlexDepth_11",
+      "name": "Amp envelope assignment amount",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "ampFlexDepth_12",
+      "name": "Amp envelope assignment amount",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "ampFlexDepth_13",
+      "name": "Amp envelope assignment amount",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "ampFlexDepth_14",
+      "name": "Amp envelope assignment amount",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "ampFlexDepth_15",
+      "name": "Amp envelope assignment amount",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.25,
+      "init_value": 0.25
+    },
+    {
+      "id": "lfoFlexPolarity0_0",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity0_1",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity0_2",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity0_3",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity0_4",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity0_5",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity0_6",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity0_7",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity0_8",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity0_9",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity0_10",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity0_11",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity0_12",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity0_13",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity0_14",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity0_15",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity1_0",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity1_1",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity1_2",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity1_3",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity1_4",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity1_5",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity1_6",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity1_7",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity1_8",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity1_9",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity1_10",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity1_11",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity1_12",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity1_13",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity1_14",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity1_15",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity2_0",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity2_1",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity2_2",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity2_3",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity2_4",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity2_5",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity2_6",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity2_7",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity2_8",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity2_9",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity2_10",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity2_11",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity2_12",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity2_13",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity2_14",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "lfoFlexPolarity2_15",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "ampFlexPolarity_0",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "ampFlexPolarity_1",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "ampFlexPolarity_2",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "ampFlexPolarity_3",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "ampFlexPolarity_4",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "ampFlexPolarity_5",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "ampFlexPolarity_6",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "ampFlexPolarity_7",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "ampFlexPolarity_8",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "ampFlexPolarity_9",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "ampFlexPolarity_10",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "ampFlexPolarity_11",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "ampFlexPolarity_12",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "ampFlexPolarity_13",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "ampFlexPolarity_14",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "ampFlexPolarity_15",
+      "name": "Modulation bidirectional",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "modPolarity4_0",
+      "name": "Modulation polarity",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "Legacy",
+        "Unidirectional",
+        "Bidirectional"
+      ]
+    },
+    {
+      "id": "modPolarity4_1",
+      "name": "Modulation polarity",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "Legacy",
+        "Unidirectional",
+        "Bidirectional"
+      ]
+    },
+    {
+      "id": "modPolarity4_2",
+      "name": "Modulation polarity",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "Legacy",
+        "Unidirectional",
+        "Bidirectional"
+      ]
+    },
+    {
+      "id": "modPolarity5_0",
+      "name": "Modulation polarity",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "Legacy",
+        "Unidirectional",
+        "Bidirectional"
+      ]
+    },
+    {
+      "id": "modPolarity5_1",
+      "name": "Modulation polarity",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "Legacy",
+        "Unidirectional",
+        "Bidirectional"
+      ]
+    },
+    {
+      "id": "modPolarity5_2",
+      "name": "Modulation polarity",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "Legacy",
+        "Unidirectional",
+        "Bidirectional"
+      ]
+    },
+    {
+      "id": "modPolarity6_0",
+      "name": "Modulation polarity",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "Legacy",
+        "Unidirectional",
+        "Bidirectional"
+      ]
+    },
+    {
+      "id": "modPolarity6_1",
+      "name": "Modulation polarity",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "Legacy",
+        "Unidirectional",
+        "Bidirectional"
+      ]
+    },
+    {
+      "id": "modPolarity6_2",
+      "name": "Modulation polarity",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "Legacy",
+        "Unidirectional",
+        "Bidirectional"
+      ]
+    },
+    {
+      "id": "modPolarity7_0",
+      "name": "Modulation polarity",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "Legacy",
+        "Unidirectional",
+        "Bidirectional"
+      ]
+    },
+    {
+      "id": "modPolarity7_1",
+      "name": "Modulation polarity",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "Legacy",
+        "Unidirectional",
+        "Bidirectional"
+      ]
+    },
+    {
+      "id": "modPolarity7_2",
+      "name": "Modulation polarity",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "Legacy",
+        "Unidirectional",
+        "Bidirectional"
+      ]
+    },
+    {
+      "id": "chorusEngine",
+      "name": "Chorus engine",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 1.0,
+      "choices": [
+        "Classic",
+        "Dimension"
+      ]
+    },
+    {
+      "id": "dimensionMode",
+      "name": "Dimension voicing",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 3.0,
+      "host_default": 1.0,
+      "init_value": 1.0,
+      "choices": [
+        "I - Gentle",
+        "II - Wide",
+        "III - Lush",
+        "IV - Ensemble"
+      ]
+    },
+    {
+      "id": "dimensionWidth",
+      "name": "Dimension width",
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.5,
+      "host_default": 1.0,
+      "init_value": 1.0
+    },
+    {
+      "id": "dimensionTone",
+      "name": "Dimension tone",
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.600000023841858,
+      "init_value": 0.600000023841858
+    },
+    {
+      "id": "oscMelt",
+      "name": "Oscillator Melt",
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "pitchUpLimit",
+      "name": "Pitch wheel up limit",
+      "type": "integer",
+      "minimum": 0.0,
+      "maximum": 24.0,
+      "host_default": 24.0,
+      "init_value": 24.0
+    },
+    {
+      "id": "pitchDownLimit",
+      "name": "Pitch wheel down limit",
+      "type": "integer",
+      "minimum": 0.0,
+      "maximum": 24.0,
+      "host_default": 24.0,
+      "init_value": 24.0
     }
   ]
 }
