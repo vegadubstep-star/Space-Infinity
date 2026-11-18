@@ -1,3 +1,25 @@
+# Latest Windows follow-up — first run failed UI fixtures only
+
+Windowsrun44391138236 built/packagedsuccessfully, then22/24tests passed. All audio,
+bank, effects and modulation passed. HardwareUIfailed at desktop200% (nativewindow
+keptphysical800x760 => undersizedlogical400x380, corruptingfixturelayout); keyboard
+hitpointwascomputedbeforepeerattachmentandcouldbeoccludedbytaskbar. Nothingpublished.
+Actualartifact14468234085 screenshots inspected in/workspace/work/release-verification.
+
+Fixes: Windowslogo test reapplies800x760 LOGICALsize at eachscale, keeps90%match,
+assertslogicalsize, boundedmessagepump, RAII desktoprestore. Keyboardcomputeskeyafter
+nativepeerattachmentandmovestargetkeyintodisplayuserArea; realnativehit/MIDI/audio
+assertions retained. ProductionlogoWidthclampednonnegativeforundersizedhosts.
+NO AUDIO DSP OR BANK SETTINGS CHANGED. NativeHardwareUI+PitchTravel2/2PASS10.84s,
+docs/audit/TRACK_READY_080_DPI_FIXTURE_TESTS.txt. Fullnative24and360audioaudit remain
+valid, previouslypassed. Needcommit/pushtheseUI-onlychanges[skipci], thennewWindows
+workflowpublish_release=true. Cachefromfirstrunsaved. FollownewexactSHA/runID, then
+independentlyverifyinstallerZIPanddeliver. /tmp/verify-space-infinity-release.py is
+prepared, but updateexpectedsourcecommitfrom9c8ab...tonewSHA beforeusing it.
+Firstfailedrunmustnotbererunwithoutpatchedsource; no0.8releaseexistedyet.
+
+---
+
 # Active release — SPACE INFINITY 0.8.0 (18 November 2026)
 
 The owner explicitly asks to send the update/installer when finished. Earlier
@@ -30,6 +52,14 @@ Preserve the owner's untracked audition/ and script caches.
 -LFOactualShape/Custom names and yellowbadgepopup/pagevisibility fixed+tested.
 -Release notes docs/TRACK_READY_080_UPDATE.md wired to Windows publisher/package,
   including updatedbank, flat-choirprovenance and compact actual-audio/native audits.
+
+## Windows run now active — do not start a duplicate
+
+Final source saved/pushed commit9c8ab994be1c8a8dccd830d7e5e57fe09007ed69.
+Windows workflow44391138236 is IN PROGRESS, job135108796255, publish_release=true.
+URLhttps://github.com/vegadubstep-star/Space-Infinity/actions/runs/44391138236 .
+Setup/cache/Inno succeeded; currently Build and package. No0.8release existed before
+this run. Follow its exact result, then independently verify release downloads.
 
 ## Remaining — proceed autonomously to delivery
 

@@ -10,7 +10,8 @@ register/cutoff/IRreferences. ALL24LinuxnativechecksPASS228.18s.1208params,52wav
 and screenshots ready for final[skip ci]commit/push. NoWindows0.8build yet and no
 installer sent. Next dispatch Windows workflow publish_release=true (authorised,
 checks gate publication), independently verify uploaded ZIP+installer+bank hashes,
-then deliver link. No agents authorised; preserve owner untracked audition/caches.
+then deliver link. ACTIVEWindowsrun44391138236 onsource9c8ab994; do notduplicate.
+No agents authorised; preserve owner untracked audition/caches.
 
 ---
 

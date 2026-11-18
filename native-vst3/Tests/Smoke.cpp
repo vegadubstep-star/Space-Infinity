@@ -44,20 +44,25 @@ int writeParameterInventory(const juce::File& file){
 int verifyNativeLogo(juce::AudioProcessorEditor& editor,const juce::File& folder){
     editor.setSize(800,760);editor.setOpaque(true);editor.addToDesktop(0);editor.setVisible(true);
     auto& desktop=juce::Desktop::getInstance();const float previousScale=desktop.getGlobalScaleFactor();
+    struct RestoreDesktop {juce::AudioProcessorEditor& editor;juce::Desktop& desktop;float scale;~RestoreDesktop(){desktop.setGlobalScaleFactor(scale);editor.removeFromDesktop();}} restore{editor,desktop,previousScale};
     const auto engines=editor.getPeer()->getAvailableRenderingEngines();int captures=0;
     for(int engine=0;engine<engines.size();++engine)for(float scale:{1.0f,1.25f,1.5f,2.0f}){
-        desktop.setGlobalScaleFactor(scale);auto* peer=editor.getPeer();peer->setCurrentRenderingEngine(engine);editor.repaint();
-        for(int tick=0;tick<30;++tick){MSG message;while(PeekMessageW(&message,nullptr,0,0,PM_REMOVE)){TranslateMessage(&message);DispatchMessageW(&message);}peer->performAnyPendingRepaintsNow();juce::Thread::sleep(15);}
+        desktop.setGlobalScaleFactor(scale);
+        // Global scaling preserves physical window bounds. Reapply logical size
+        // so this remains an 800x760 editor, rather than a clipped 400x380 editor.
+        editor.setSize(800,760);editor.setTopLeftPosition(desktop.getDisplays().getPrimaryDisplay()->userArea.getTopLeft());
+        auto* peer=editor.getPeer();peer->setCurrentRenderingEngine(engine);editor.toFront(false);editor.repaint();
+        for(int tick=0;tick<30;++tick){MSG message;const auto deadline=juce::Time::getMillisecondCounterHiRes()+5;while(juce::Time::getMillisecondCounterHiRes()<deadline&&PeekMessageW(&message,nullptr,0,0,PM_REMOVE)){TranslateMessage(&message);DispatchMessageW(&message);}peer->performAnyPendingRepaintsNow();juce::Thread::sleep(15);}
         const auto actual=juce::createSnapshotOfNativeWindow(peer->getNativeHandle());
         if(!actual.isValid()){std::cout<<"Native logo capture unavailable: "<<engines[engine]<<"\n";continue;}
         const auto image=actual.rescaled(editor.getWidth(),editor.getHeight(),juce::Graphics::highResamplingQuality);
         const auto reference=editor.createComponentSnapshot(editor.getLocalBounds());juce::Image::BitmapData expectedPixels(reference,juce::Image::BitmapData::readOnly),actualPixels(image,juce::Image::BitmapData::readOnly);int count=0,matching=0;
         for(int y=32;y<63;++y)for(int x=38;x<262;++x){const auto expected=expectedPixels.getPixelColour(x,y),background=expectedPixels.getPixelColour(266,y);if(int(expected.getGreen())-int(background.getGreen())>35){++count;const auto pixel=actualPixels.getPixelColour(x,y);if(std::abs(int(pixel.getRed())-int(expected.getRed()))<35&&std::abs(int(pixel.getGreen())-int(expected.getGreen()))<35&&std::abs(int(pixel.getBlue())-int(expected.getBlue()))<35)++matching;}}
-        std::cout<<"Native logo "<<engines[engine]<<" scale "<<scale<<": "<<matching<<"/"<<count<<" lower-stroke pixels match\n";
+        std::cout<<"Native logo "<<engines[engine]<<" scale "<<scale<<" logical "<<editor.getWidth()<<"x"<<editor.getHeight()<<" native "<<actual.getWidth()<<"x"<<actual.getHeight()<<": "<<matching<<"/"<<count<<" lower-stroke pixels match\n";
         auto file=folder.getChildFile("Logo-Native-"+juce::String(engine)+"-"+juce::String(int(scale*100))+".png");file.deleteFile();auto stream=file.createOutputStream();if(!stream||!juce::PNGImageFormat{}.writeImageToStream(actual,*stream))return 106;
-        if(count<150||matching<count*.9)return 107;++captures;
+        if(editor.getWidth()!=800||editor.getHeight()!=760||count<150||matching<count*.9)return 107;++captures;
     }
-    desktop.setGlobalScaleFactor(previousScale);editor.removeFromDesktop();return captures>0?0:108;
+    return captures>0?0:108;
 }
 #endif
 

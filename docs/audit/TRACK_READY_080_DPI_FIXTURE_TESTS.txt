@@ -1,0 +1,9 @@
+Test project /workspace/work/native-design/native-vst3/build-linux
+    Start  8: SpaceInfinityHardwareUI
+1/2 Test  #8: SpaceInfinityHardwareUI ..........   Passed    9.15 sec
+    Start 13: SpaceInfinityPitchTravel
+2/2 Test #13: SpaceInfinityPitchTravel .........   Passed    1.68 sec
+
+100% tests passed out of 2
+
+Total Test time (real) =  10.84 sec

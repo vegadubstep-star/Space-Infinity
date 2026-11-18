@@ -1000,7 +1000,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
     g.drawImage(hardwareFace,getLocalBounds().toFloat());
     if(infinityLogo.isValid()){
         g.setImageResamplingQuality(juce::Graphics::highResamplingQuality);
-        const int logoWidth=juce::jmin(224,getWidth()-540);const int placement=juce::RectanglePlacement::xLeft|juce::RectanglePlacement::yMid;
+        const int logoWidth=juce::jlimit(0,224,getWidth()-540);const int placement=juce::RectanglePlacement::xLeft|juce::RectanglePlacement::yMid;
         HardwareTheme::logoRecess(g,{30,8,float(logoWidth+16),56});
         g.setOpacity(1);g.drawImageWithin(logoShadow,39,14,logoWidth,52,placement,false);
         g.drawImageWithin(infinityLogo,38,12,logoWidth,52,placement,false);
