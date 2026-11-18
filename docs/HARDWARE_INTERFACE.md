@@ -1,5 +1,11 @@
 # Hardware interface redesign
 
+The current 0.8.0 editor defaults to 1280 × 760, with dual visible LFOs,
+amp/filter graphs, a recessed logo badge and the pitch wheel beside the sub.
+The screenshots below are native captures. The dated research and early
+validation record farther down are historical; current release details are in
+[the 0.8.0 update](TRACK_READY_080_UPDATE.md).
+
 ![Native Main page](images/hardware-main.png)
 
 ![Native FX page](images/hardware-fx.png)

@@ -1,6 +1,6 @@
 # Heritage 200 — research and design record
 
-Owner confirmed JP-8000/JP-8080 and an additional separate 200-preset bank. Existing 160 factory sounds must remain unchanged. Focus: character, not additional loudness. Working allocation: 80 workstation/M1-influenced,60 JP-influenced,60 Nord Lead 2-influenced.
+Owner confirmed JP-8000/JP-8080 and an additional separate 200-preset bank. The original Heritage release kept the existing 160 factory sounds unchanged; the later 0.8.0 owner request explicitly revises both banks. Focus: character, not additional loudness. Working allocation: 80 workstation/M1-influenced,60 JP-influenced,60 Nord Lead 2-influenced.
 
 ## Primary references checked
 

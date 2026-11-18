@@ -86,3 +86,7 @@ Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/research/CHORUS_DIMENSION_R
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Samples/Trance/FLAT_CHOIR_PROVENANCE.json") -Destination $release -Force
 
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/TRACK_READY_080_UPDATE.md") -Destination $release -Force
+
+foreach ($audit in @("TRACK_READY_080_AUDIO_LEVELS.json", "TRACK_READY_080_NATIVE_TESTS.txt", "TRACK_READY_080_SIMILARITY.json")) {
+    Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/audit/$audit") -Destination (Join-Path $release "audit") -Force
+}

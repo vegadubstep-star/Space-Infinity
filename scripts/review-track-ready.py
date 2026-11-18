@@ -21,12 +21,13 @@ env=dict(os.environ,DISPLAY=':99',XDG_CACHE_HOME='/workspace/work/runtime-cache'
 def inspect(index,row):
  key=row['_bank']+'-'+row['id'];fingerprint=hashlib.sha256((json.dumps(row,sort_keys=True)+renderer_sha).encode()).hexdigest()
  cached=report.get(key,{}) if report.get(key,{}).get('design_sha256')==fingerprint else {}
- if 'max_chord' in cached.get('variants',{}):return None
+ ir=bool(row['settings'].get('convolverEnabled',0))
+ if ('max_ir2_chord' if ir else 'max_chord') in cached.get('variants',{}):return None
  job=a.output/key;job.mkdir(exist_ok=True);design=job/'One.json';design.write_text(json.dumps({'presets':[row]}));variants=dict(cached.get('variants',{}))
- for variant in ['base']+(['open'] if 'pluck' in row['category'].lower() else [])+['max']:
+ for variant in ['base']+(['open'] if 'pluck' in row['category'].lower() else [])+['max']+(['max_ir1','max_ir2'] if ir else []):
   if variant+'_chord' in variants:continue
   voice=dict(row);voice['settings']=dict(row['settings'])
-  if variant=='max':voice['settings'].update(freeMacro0=1,freeMacro1=1,freeMacro2=1)
+  if variant.startswith('max'):voice['settings'].update(freeMacro0=1,freeMacro1=1,freeMacro2=1)
   design.write_text(json.dumps({'presets':[voice]}))
   folder=job/variant
   cmd=[str(a.renderer.resolve()),str(root),str(design.resolve()),str(folder.resolve())]+(['--open'] if variant=='open' else [])
@@ -41,11 +42,14 @@ def inspect(index,row):
  result['level_correction_db']=correction;result['headroom_limited']=correction<(-24-variants['base_single']['lufs'])-.05
  shutil.rmtree(job)
  return index,key,row['name'],result
+failures=[]
 with concurrent.futures.ThreadPoolExecutor(max_workers=max(1,min(3,a.workers))) as pool:
  futures=[pool.submit(inspect,index,row) for index,row in enumerate(rows[:a.limit] if a.limit else rows)]
  for future in concurrent.futures.as_completed(futures):
-  value=future.result()
+  try:value=future.result()
+  except Exception as error:failures.append(str(error));print('FAILED',str(error),flush=True);continue
   if value is None:continue
   index,key,name,result=value;report[key]=result;temporary=report_path.with_suffix('.tmp');temporary.write_text(json.dumps(report,indent=2)+'\n');temporary.replace(report_path)
-  complete=sum(r.get('renderer_sha256')==renderer_sha for r in report.values());v=result['variants'];print(complete,len(rows),key,name,'LUFS',round(v['base_single']['lufs'],2),'trim',round(result['level_correction_db'],2),flush=True)
-print('COMPLETE',len(report),flush=True)
+  complete=sum('max_chord' in r.get('variants',{}) and r.get('renderer_sha256')==renderer_sha for r in report.values());v=result['variants'];print(complete,len(rows),key,name,'LUFS',round(v['base_single']['lufs'],2),'trim',round(result['level_correction_db'],2),flush=True)
+print('COMPLETE',len(report),'failures',len(failures),flush=True)
+if failures:raise SystemExit(1)

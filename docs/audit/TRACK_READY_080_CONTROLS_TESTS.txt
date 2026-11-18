@@ -1,0 +1,13 @@
+Test project /workspace/work/native-design/native-vst3/build-linux
+    Start  1: SpaceInfinityHeritageBank
+1/4 Test  #1: SpaceInfinityHeritageBank .........   Passed    7.51 sec
+    Start 12: SpaceInfinityOscillatorWorkflow
+2/4 Test #12: SpaceInfinityOscillatorWorkflow ...   Passed    1.20 sec
+    Start 14: SpaceInfinityChorusMelt
+3/4 Test #14: SpaceInfinityChorusMelt ...........   Passed    3.07 sec
+    Start 15: SpaceInfinityModulationWorkflow
+4/4 Test #15: SpaceInfinityModulationWorkflow ...   Passed    2.43 sec
+
+100% tests passed out of 4
+
+Total Test time (real) =  14.22 sec

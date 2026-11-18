@@ -34,12 +34,12 @@ std::array<double,2> filterPeak(float cutoff,float resonance,double sr){
  for(int bin=1;bin<size/2;++bin)if(data[size_t(bin)]>maximum){maximum=data[size_t(bin)];peak=bin;}
  return {peak*sr/size,maximum};
 }
-std::array<double,3> patchSpectrum(SpaceInfinityProcessor& p,float cutoff){
+std::array<double,3> patchSpectrum(SpaceInfinityProcessor& p,float cutoff,bool requireHeadroom=true){
  set(p,"cutoff",cutoff);p.prepareToPlay(48000,256);juce::AudioBuffer<float> audio(2,256);std::vector<float> data(size*2);double total=0,high=0,weighted=0;float peak=0;
  for(int block=0;block<256;++block){juce::MidiBuffer midi;if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,45,.85f),0);p.processBlock(audio,midi);peak=std::max(peak,audio.getMagnitude(0,256));if(block>=128)for(int i=0;i<256;++i)data[size_t((block-128)*256+i)]=audio.getSample(0,i)*(.5f-.5f*std::cos(juce::MathConstants<float>::twoPi*((block-128)*256+i)/(size-1)));}
  juce::dsp::FFT fft(15);fft.performFrequencyOnlyForwardTransform(data.data());
  for(int i=1;i<size/2;++i){const double energy=data[size_t(i)]*double(data[size_t(i)]),hz=i*48000.0/size;total+=energy;weighted+=energy*hz;if(hz>2000)high+=energy;}
- need(total>1e-5&&peak<.98f,"acid preset audible with sweep headroom");return {weighted/total,high/total,peak};
+ need(total>1e-5&&(!requireHeadroom||peak<.98f),"acid preset audible with sweep headroom");return {weighted/total,high/total,peak};
 }
 void cutoffChecks(){
  for(double sr:{44100.0,48000.0,96000.0})for(float cutoff:{180.0f,800.0f,3200.0f}){const auto flat=filterPeak(cutoff,0,sr),res=filterPeak(cutoff,.92f,sr);std::cout<<"Acid peak "<<sr<<" Hz: cutoff "<<cutoff<<", peak "<<res[0]<<", resonance gain "<<res[1]/flat[1]<<std::endl;need(res[0]>cutoff*.7&&res[0]<cutoff*1.4&&res[1]>flat[1]*1.8,"resonant peak follows cutoff across audio rates");}
@@ -107,7 +107,7 @@ int exportOwnerChoirStabs(const juce::File& folder){try{
 int exportAcidCutoffSweeps(const juce::File& folder,const juce::File& previousBank){try{
  folder.createDirectory();juce::Array<juce::var> rows;auto p=std::make_unique<SpaceInfinityProcessor>();const auto oldBank=previousBank.existsAsFile()?juce::JSON::parse(previousBank.loadFileAsString()):juce::var{};
  for(int index=1;index<p->presetNames().size();++index)if(p->presetCategory(index)=="Acid"){
-  const auto name=p->presetNames()[index];p->loadPreset(index);const float peak=renderCutoffSweep(*p,folder.getChildFile(name+" - 062 Sweep.wav"));auto* row=new juce::DynamicObject;row->setProperty("name",name);row->setProperty("raw_peak",peak);row->setProperty("preset_trim",p->state.getRawParameterValue("presetTrim")->load());rows.add(juce::var(row));std::cout<<name<<" full cutoff sweep raw peak "<<peak<<std::endl;
+  const auto name=p->presetNames()[index];p->loadPreset(index);float peak=renderCutoffSweep(*p,folder.getChildFile(name+" - 062 Sweep.wav"));for(float cutoff:{160.0f,8000.0f}){patchSpectrum(*p,cutoff,false);peak=std::max(peak,p->takeOutputPeak());}auto* row=new juce::DynamicObject;row->setProperty("name",name);row->setProperty("raw_peak",peak);row->setProperty("preset_trim",p->state.getRawParameterValue("presetTrim")->load());rows.add(juce::var(row));std::cout<<name<<" full cutoff sweep raw peak "<<peak<<std::endl;
   if(oldBank.isObject())for(const auto& old:*oldBank["presets"].getArray())if(old["name"].toString()==name){p->loadPreset(index);for(const auto& value:old["settings"].getDynamicObject()->getProperties())set(*p,value.name.toString(),float(value.value));renderCutoffSweep(*p,folder.getChildFile(name+" - 061 Sweep.wav"));}
  }
  need(folder.getChildFile("sweep-profile.json").replaceWithText(juce::JSON::toString(rows)),"sweep profile export");

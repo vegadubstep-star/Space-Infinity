@@ -1,12 +1,16 @@
-# ACTIVE — 0.8.0 track-ready bank and release requested
+# Active — 0.8.0 audio/native checks complete; Windows delivery next
 
-**Owner explicitly lifted the download hold:** after completing the current sound/preset work, send a verified update/installer to test. Do not ask permission again. Historical hold paragraphs below no longer apply. Current detailed task/state is in [ACTIVE_TRACK_READY_WORK.md](ACTIVE_TRACK_READY_WORK.md), which must be read before continuing.
+Owner explicitly asks for the update when done; old download holds are superseded.
+Read [ACTIVE_TRACK_READY_WORK.md](ACTIVE_TRACK_READY_WORK.md) for current exact state.
 
-Active scope:15newOSCwaveforms(notLFO), both160factory+200Heritagepresets reviewed for sound/near-duplicates/perceivedlevel/maxsafepeak, simpleBass/Lead/Pluck/Padsbrowserroles, usefulOPEN/LEADmacros(reducedwetFXasfilteropens), steadyCocoomachoirs+hybrids, Makina influences(Skudero/Sistema3)withoriginalpreset/foldernames. Extraappropriatelylicensed/user-suppliedsamplesauthorised. Thenfinalnative+Windowsinstallerverificationanddelivery.
-
-Native source is now0.8.0;1208params with clean-outputSafetychoice appended;52waveformfamilies and45sources(6newsteadychoir/hybrids). Old saved sounds default to legacy master transfer. Newcleanmodeboundsnativeoutputafteroversampling-downsampling, keeping low-level outputlinear. Safety/MIPs/importupgrade focused tests passed; banklevelsstillpending. Existing0.7.1binary is obsolete and MUST NOT be offered as this update.
-
-Currentlong-running job: audio review session34934, log/tmp/track-ready-clean-review.log, output/workspace/work/track-ready080/review/Review.json. Native renderer /tmp/RenderTrackReady rebuilt against finalcleanstage+filteredchoirassets. Script review-track-ready.py checkpoints pervoice, deletesitsownWAVs and hashesrendererbinary+design. Newrunrerendersall360; previous91legacyrowsareinLegacySafetyBaseline.json. Needfinishreview, inspect/refinecrossbanksimilarity, calibrate(usingnewcalibrate-track-ready.py withstalereviewguard), rerender/verifyfinal, export/packageupdatedHeritagewithsafeunedited-upgradehashes, final24nativechecks, WindowsCIanddeliverinstallerZIP. Fullinstructionsandlogsintheactiveworkfile. Noagentsauthorised. Preserveowneruntrackedaudition/ andcaches.
+All360presets actualaudited:0issues,4xtruepeakmaximum−0.295dBFS (−0.3target),
+all32OPENtransitionswithin0.06LU, no final near-match candidates.46additional native
+register/cutoff/IRreferences. ALL24LinuxnativechecksPASS228.18s.1208params,52waves,
+45sources,6newsteadychoir/hybrids. UpdatedV2HeritageZIP43985d0d...; source/audits/notes
+and screenshots ready for final[skip ci]commit/push. NoWindows0.8build yet and no
+installer sent. Next dispatch Windows workflow publish_release=true (authorised,
+checks gate publication), independently verify uploaded ZIP+installer+bank hashes,
+then deliver link. No agents authorised; preserve owner untracked audition/caches.
 
 ---
 

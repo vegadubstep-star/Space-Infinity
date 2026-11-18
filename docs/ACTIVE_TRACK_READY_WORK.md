@@ -1,61 +1,86 @@
-# Active owner request — 18 November 2026
+# Active release — SPACE INFINITY 0.8.0 (18 November 2026)
 
-Owner clarified extra shapes means OSCILLATOR sound waveforms, not LFOs. Add 15. Research trance/hard-trance design extensively; review BOTH existing factory160 and separate Heritage200 banks, simplify visible categories Bass/Lead/Pluck/Pads/etc, remove audible near-duplicates, consistent perceived output/headroom, and professional performance macros. Pluck-to-lead macro should open cutoff/sustain while reducing delay/reverb, increasing energy/width suitably. Owner now explicitly requests finished update to test: prior download hold is superseded. Complete Windows verification then deliver installer ZIP.
+The owner explicitly asks to send the update/installer when finished. Earlier
+holds are superseded. Do not ask for approval again. No subagents authorised.
+Preserve the owner's untracked audition/ and script caches.
 
-Prior current changes (uncommitted) fix generic LFO Shape text to identify actual shape and Custom after edits; hide yellow legacy filter badge on FX/GATE/SEQ and over modal menus. Native HardwareUI/ModulationWorkflow/DualLFO passed 3/3 in12.84s (/tmp/shape-name-badge-tests.log), including actual engine popup badge regression.
+## Finished and verified
 
-15 new oscillator names/17-frame harmonic families have now been appended in PluginProcessor.cpp (indices37–51, old0–36 retained). Not yet built/verified. Check waveform choice bounds elsewhere and tests before claiming complete.
+- Version0.8.0,1208parameters,52oscillatorfamilies (+15original band-limited/morphable
+  additions),45sources (+6steady CC0 choir/synth hybrids). Legacy state transfer retained.
+- Both factory160 + separate Heritage200 revised, simpler browser roles, original
+  preset names, Makina palette, steady German-trance choirs and distinct voicings.
+-32OPEN/LEADmacros lowerwetFX asfilter/sustain opens, with individual outputcompensation.
+-Actual native audio reviewed across all360: base/repeated notes, chords, OPEN,
+  all3assignablemacros raised; repeated convolution trials. Final audit0issues,
+  highest4xtruepeak−0.295dBFS against−0.3target with0.01measurementtolerance,
+  maximumOPEN/base difference0.06LU. No final spectral+envelope near-match candidates.
+-46additional measured raw-headroom references cover4bassregisters, acid fullcutoff
+  sweep+held160/8000Hz, and observedIR-startup maximum. Bass/acid stricter tests kept.
+-ALL24 Linux native CTests PASS228.18s: /tmp/track-ready080-release-native-tests.log,
+  copied docs/audit/TRACK_READY_080_NATIVE_TESTS.txt. Includes actualV2Heritage200
+  import, update/edited-fileprotection/rollback, audio, UI, legacy/mode recall.
+-Python factory-edits test passes. Six derivative/source asset SHA256 checks pass.
+-Updated HeritageZIP nativeexported/recalled all1208params/routes, packagedV2 requiring
+  version0.8.0. LatestSHA25643985d0daa8f43abd36aff0747b824931c62314c3cc1b73962ba69218b3035c0.
+  A final StaccatoHall spiccato voicing was exported separately into fullcollection
+  before repackaging; nativebankimporttestpassed afterward.
+-Real1280×760 Main/FX native screenshots copied docs/images/hardware-main/fx.png.
+  TemporaryUIprobe confirmed filterDecay knob=.350s,raw=.35,graph=D350ms (no UI bug).
+-LFOactualShape/Custom names and yellowbadgepopup/pagevisibility fixed+tested.
+-Release notes docs/TRACK_READY_080_UPDATE.md wired to Windows publisher/package,
+  including updatedbank, flat-choirprovenance and compact actual-audio/native audits.
 
-Research: official Serum2 PDF /tmp/serum2-manual.pdf and text. Live retrieved Cableguys VolumeShaper and Ableton Max Essentials HTML/text in/tmp. Fresh sound-design retrievals pending tool session54542. Existing docs/research/HERITAGE_200_RESEARCH.md has original M1/JP8000/Nord2 manual research. Source requests originally mean practical equivalent waveforms; do not redistribute proprietary Serum factory tables.
+## Remaining — proceed autonomously to delivery
 
-Preset tools: scripts/design-trance-bank.py authors160; refine-trance-bank.py, refine-performance-061.py, refine-bass-063.py; bank JSON native-vst3/Presets/TranceFactoryBank.json. Critical generator design_hash gates saved trim application, so preserve/recalibrate trims when redesigning. Old detailed category counts asserted in TranceBankSmoke.cpp: simplify BROWSER categories without erasing subtype metadata (or update intentional grouping checks).
+1.Save/push finalsource changes with[skip ci] (prior pushed905f71c is earlier draft).
+2.Dispatch .github/workflows/space-infinity-windows.yml oncodex/windows-build.
+  All native/audio checks are finished, so publish_release=true is authorised;
+  workflow itself publishes only after Windows24checks, installerinstall/uninstall,
+  VST3binaryequality and ZIPchecksumverification. GitHubconnector lacks dispatch;
+  authenticatedghCLI/git available. Do not rerun expensive native/audioaudits unless
+  new changes/failures justify it.
+3.Monitor exactworkflow/sourceSHA. Use connected GitHub fetch_workflow_run_jobs tool
+  for supported read operations (repo_full_name/run_id), CLI for dispatch/run discovery.
+4.After successful publication independently download0.8InstallerZIP and checksum,
+  verify archive CRC, embeddedSetup hash againstINSTALLER_SHA256 and releaseSHA256SUMS,
+  includedHeritageZIP hash matches source43985..., and main VST3/installer checks.
+5.Send verified installerZIP release link plus brief closeFL/extract/setup/import-bank
+  instructions. No final download has been sent yet, and no0.8Windowsbuild run yet.
 
-Heritage designs: native-vst3/Presets/Heritage200/Designs.json (200). scripts/heritage/RenderBank.cpp exports/recalls and renders isolated audio; build-renderer.py links native library; calibrate-bank.py does FFmpeg LUFS, true peak, spectral/envelope pair similarity. Old /tmp/RenderHeritage binary removed for space. It emits many WAVs, so disk only ~460MB available requires streaming or one-preset-at-a-time renders and deletion of our own temporary renders. Never delete existing owner audition/ or script caches. Existing native Tests profile exporters can measure factory160. Need assess duplicate similarities by source/articulation/mono/spectra and listen representative renders; do not assert subjective perfection or universal equal loudness under arbitrary MIDI.
+## Reproduction and files
 
-Current source branch codex/windows-build latest pushed3009d0c. Pending UI fixes + waveform addition not saved yet. Build native-vst3/build-linux, CMake /workspace/work/build-tools/cmake/data/bin/cmake, DISPLAY=:99 XDG_CACHE_HOME=/workspace/work/runtime-cache. No subagents authorised. Do not spawn them. Windows workflow auto publishes ordinary push; use[skip ci] during development, final manual publish_release false then verify before release. Existing0.7.2 code has1207params, now waveform choice appended entries require inventory update and compatibility note.
+The shipped JSON recipes are current authoring truth. Historical seed generators
+would overwrite later work; see docs/research/TRACK_READY_080_REPRODUCTION.md.
+Research actualreadsources recorded docs/research/TRACK_READY_080_RESEARCH.md.
 
-Latest steering: owner permits additional samples if useful; specifically requests flat steady choirs for Cocooma-inspired voices plus choir/synth hybrid leads, and asks thorough research on Makina leads referencing Skudero/Sistema 3. Added scripts/prepare-flat-choirs.py: 6 original stable-loop derived CC0 Ah/Ooh/Ee and 3 choir+additive synth composites (new builtin source IDs39–44), FactorySampleZones names24/zones66, files under Samples/Trance with FLAT_CHOIR_PROVENANCE.json. Native not yet rebuilt with these samples. Polish script now applies five Cocooma choir/hybrid sources. Need evaluate audio/tails/loops before release. Makina search Google returned empty JS shell, Bing RSS research pending tool session (see latest active tools); no actual Makina sources read yet. Do not claim them researched until fetched.
+scripts/review-track-ready.py uses2native childprocesses (CPUquota2), atomic
+checkpoints and deletes only generatedWAVs/jobfolders. Reuses validvariants; checks
+binarySHA+canonicalrowSHA. Adds max_ir1/2 for convolution. Handles individualerrors
+without losing later completed jobs. Nativehelper /tmp/RenderTrackReady fixedSHA
+matches final0.8DSP/samples; only V2importheader/tests changed afterward, no audioDSP.
+MainnativeSmoke rebuilt against latest factoryJSON; generatedresource bytes checked.
 
-Current work additions: new browsable simplified PresetLibrary::browseCategory, sorted menu with stable item IDs and setSelectedId (underlying subtype metadata preserved), PresetPanel simple category display/filter. scripts/polish-track-ready.py modifies both designs: specific new wave assignments, 32plucks get OPEN / LEAD macro with cutoff/amp sustain up, echo/reverb wet down, width/drive up and presetTrim compensation. Factory loader supports macro_labels. Synth pads Dimension engine; leads slightMELT. ChorusMeltSmoke expected recalled settings updated accordingly; not yet built this final change. Factory generator will overwrite direct polishedJSON if rerun; integrate safe post-polish/calibration before final. Both designs contain no exact parameter duplicates, perceptual review still pending.
+scripts/calibrate-track-ready.py defaults --mode peak, not fixed−24LUFS. --refine
+changes only actualexcess/unusedgain/OPENdifference, with0.05dB correctionmargin.
+External refs in scripts/track-ready-headroom-references.json use recipehash guards
+and measured pre-master peaks. scripts/verify-track-ready.py checks all360 actual
+currentrow/binaryhashes, truepeak/rawceilings,unusedgain andOPENtransitions.
 
-Audio review pipeline added: scripts/review-track-ready.py checkpointed one-preset-per-native-process renders base single/chord, pluck open single/chord; FFmpeg BS.1770, 4x true peak, spectral/envelope fingerprints, raw pre-safety headroom (p.takeOutputPeak is before final tanh). Target initial -24 LUFS, maximum raw.90. Saves no large WAV collection; deletes our WAVs after analysis. Renderer scripts/heritage/RenderBank.cpp extended factory_index and --open, captures all actualmod assignments/labels; uses public assignFlexibleSource loops to clear, not privateclearFlexibleRoutes. Native helper /tmp/RenderTrackReady now built (~69MB); testfirst2factorypresets pass; checkpoint /workspace/work/track-ready080/review/Review.json and log /tmp/track-ready-audio-review.log. Need rebuild native+helper AFTER new samples/polish and run all360, then adjust levels and similarity candidates, re-export/package Heritage and reverify actual final sounds. Native waveform expansion test passed all52 waves withDC/morph/bounds.
+Finalmeasuredprofile /workspace/work/track-ready080/review/Review.json.
+Earlierprofiles/calibration records stay outside repo in/workspace/work/track-ready080.
+Compact audits checkedin docs/audit/TRACK_READY_080_*. Initial failed attempts are
+superseded by final0issues/24pass records; do not confuse earlier logs with final.
 
-Bank update concern: importBank currently skips existing IDs to preserve edits. Updated Heritage ZIP needs a safe upgrade path for UNEDITED existing imported presets while retaining edits. Suggested manifest previous_sha256 using old shippingZIP, importer only replace on exact priorhash + !detailsEdited, backups and transactional rollback. Add JUCE cryptography link/include forSHA256 if taking this path; not implemented yet. Need tests for updated unedited vs edited, late-conflictrollback. Keeping same bankidavoidsduplicating200 in userlibrary.
+Nativebuild native-vst3/build-linux. CMake/CTest under
+/workspace/work/build-tools/cmake/data/bin. GUI DISPLAY=:99 and
+XDG_CACHE_HOME=/workspace/work/runtime-cache. No backgroundaudio/nativejobs remain.
+OptionalLinuxStandalone/VST3wrapper build was stopped (100LTOjobs), not needed for
+Windowsdelivery; do not claim finalLinuxwrapperpackage. Windows builds fullformats.
+Our temporary Exported(44MB), Cutoff WAVs(22MB) and UIprobe binaries(70MB) removed
+AFTER package/native verification; preserve reviewJSON+cutoff raw-profileJSON.
+Disk~293MBfree, enough for installerZIP. Never delete owner audition/caches wholesale.
 
-Artist naming clarification: user explicitly says no exact artist names in directories; use influenced/original names. Latest reply promises original evocative patch/folder names; Skudero/Sistema3/Cocooma only in research notes. Removed added artist tags from eight Makina recipes and replaced with Spanish Rave. Existing preset names all original; factoryReference song metadata remains research/internal context. No new folders named after artists.
-
-Makina research now actually read: HappyHardcore forums topics23381 (community synth guesses, not verified artistgear) and54246 (explicit layered saw/square/hardcore lead tutorial), RewiredRecords MakinaToolkit5 original product page. Research recorded in docs/research/TRACK_READY_080_RESEARCH.md with limitations; search result videos not watched. Eight existing Heritage Lead recipes now Makina-tagged, distinct authored pulse/reed/FM/stack variants with TONE/RAVE/EDGE controls.
-
-Safe Heritage upgrade implemented (pending build/tests): added JUCE cryptography link and include; manifest previous_sha256 from shipping ZIP hashes saved scripts/heritage/previous-heritage-hashes.json; importer upgrades only exact old bytes and !detailsEdited, backs up prior bytes and rolls back replacements on later failures. PresetSmoke.cpp has actual upgrade/metadata-edited/sound-edited/reimport/late-conflict rollback tests. Build native session12653 log/tmp/flat-choir-bank-upgrade-build.log includesnew6samples, crypto and source45. Source files editedduringbuild; run a final incremental build beforetests. Need add old-sourcecount test updates if found.
-
-New waveform quality follow-up: current15families have64 harmonics atallpitches. Consider adding proper frequency-aware mipmapped tables for new waves before professional release, preserving legacywave audio. Not implemented. Rendererhelper69MB currently built BEFOREnew6samples; rebuildhelperafterupdatednative. Reviewfirst2factorypassed(-26.13/-26.27LUFS) andcheckpointonly2; full360NOTstarted. Need runallonceallsources/recipechanges compiled.
-
-Current build version bumped0.8.0 in CMake/installer/packageWindows. Native build session69016 /tmp/track-ready080-build.log after latestDSP/sample/bank changes. Added frequency-aware mipmapped tables for newwave37–51 only, fourthoptional phaseIncrement argument to oscillatorFrameSample and increment forwarded by stack/readWarp. Oldwaves unchanged. SevenFFT-filtered levels64→1 harmonic, interpolatedLOD, aboveNyquist fundamental0. OscillatorWorkflowSmoke addedout-of-band/DC/energy checks; not yet run this finaltest.
-
-AddedPresetSmoke bank-upgrade regression in runBankZipSmoke: revision onlyupdatesunmodifiedrow2, protects metadataeditedrow0/soundeditedrow3, idempotentreimport, lateconflictrollbackreplacedrow4 andorphan. Built against newcrypto. Needfinalverifycodecompiles.
-
-Audio reviewoldhelper is running first35legacybassrows only (session88707, log/tmp/track-ready-audio-review.log) whilefinalnativebuildcompiles. Thosefirst35sourcedesigns do not use newwaves/newchoirs, sooldhelpervalid. Thenrebuild /tmp/RenderTrackReady againstnewnativeandrunall360withcheckpointresume. Existingprofile2rows canremain ifdesignhashsame. Mainreviewoutput /workspace/work/track-ready080/review. Nofullaudioaudit/calibrationyet.
-
-Importantupcoming tasks: native build/tests; helperbuild; all360 measuredreview; assesscrossbanksimilarity andtargeted redesign; pluckmacroendpoint levelcomp; calibrateallpresetscommonLUFS/headroom; updatefactorygenerator/review scripts reproducibility; rerenderverifyfinal; exportHeritage200andpackagewithprevioushashmanifest; safeimporttests; final24nativechecks; inventory+release notes/catalogues; push[skipci], manualWindowsCIverificationthenpublishanddownloadinstallerZIP (holdexplicitlyliftedbyowner). Nativepresetcategorydataremainoldsubtypesforcounts, newUIbrowseCategory groupsBass/Lead/Pluck/Pads/etc withstableIDs. Artistnamesonlyresearchnotfolders/tags; Makina8tagSpanishRave. Ownextraaudiofilescanbedeletedafteranalysis; preserveowner audition/ andcaches.
-
-Latest volume steering: owner insists peaks maximise available level without clipping. Acknowledged common true-peak ceiling just below0dB + controlled dynamics; avoid falsely promising arbitrary MIDIalwaysmax/equalpeaks andequalLUFS. Found existingmasteralwaysappliedtanh evenlowlevel. Implemented new appended choice outputSafety (host0LegacySoftClip, mode1CleanHeadroom). Clean passes|x|≤.95 exactly, softknee .95+.04*tanh((|x|-.95)/.04), bounded.99; oldsavedstatesmissingfieldretainlegacy. FreshInitandall360designsettingsmode1. ENGINEEXPRESSION hasoutputSafetyselector. NewDSPtests inChorusMeltSmoke comparelow-levellegacysamples=tanh(clean), highgaincleanfinite≤.99. Firstbuildfailedonlyduplicatevariablename; fixedsafetyDifference, finalbuildsession62689 log/tmp/clean-output080-final-build.log inprogress. Nativeinventorynow1208parameters(not1207).
-
-Stopped old fullreviewat91rows withSIGINTparent17004; savedlegacybaseline Review.jsoncopy LegacySafetyBaseline.json. ThatoldhelperdoesnotknowoutputSafety so REBUILDhelperoncecleanmodecompiledbeforefullreviewrestart. AllrowhasheschangedwithoutputSafety1, driverwillrerender. Drivernewconstraints rawpeak≤.98 and4x truepeak≤−.3dBTP, stillinitialtarget−24LUFS; olddefault.90rawwaschangedforownermaxpeakrequest. Fullbaselinefirst91includesall20factoryplucks. OPENlift synth9–12dB, samplepluck.2–2dB; VowelSnow/NeedleArc negativebecausebandpassmovingoffharmonics. FixedthoseOPENfiltersLP24(mode4), provisional12dBmacrocomp. Other18plucksrow.open_compensation_db=2.16+(measuredOpenLUFS−baseLUFS). Polishscriptnowusesdepth=−comp/48 forpresetTrim. NeedverifynewcleanOpenendpointsandadjustfurtherincluding12Heritageplucksnotyetmeasured.
-
-Initialfull24nativepass23/24 in129.79s; onlyAirwavePadgroupfailsPowerDistrictcalibratedlevelafternewchoirsource, expectedpendingcalibration. /tmp/track-ready080-initial-native-tests.log. FoundationHeritageBank(upgrade/rollbacktests) +OscillatorWorkflow(MIPs/52waves) passed2/2 in7.38s (/tmp/track-ready080-foundation-tests.log). All35baselinebassrendersfinished; onlystrongnear-match VelvetFMSub/TrianglePressure, alteredVelvetFMSub(.16FM,.13decay,.34sustain,1100cutoff) explicitlyinpolishscript.
-
-Clean safety test caught genuine post-downsampler overshoot: clean bound was originally appliedinside2xrenderBlock, thenIIRdownsamplingcouldovershoot. FixedbybypassinglegacytanhinrenderBlockwhennewcleanmode and applyingcleanlinearkneeAFTERoversampling.processSamplesDown atnativehostrate. Oldmodekeepsitsold2xtanhpathunchanged. Alsoaccumulatesnativepre-safetypeakforaccurateheadroom. FinalChorusMelt+cleanSafetytestpassed (/tmp/final-stage-safety-tests.log), includinghotgain≤.990001 andlowlevellegacy/tanhcomparison afteroversampling tolerance.
-
-New6choirassetsnow5.5kHzlowpassedforupper-registerplayback(toavoidpitched-upsamplealiasing), freshlyregeneratedandnativebuildcompleted /tmp/flat-choir-final-assets-build.log. All6files/provenancechanged. No furtherplannedDSPchanges; prioritise finishingaudioaudit/calibration/delivery. Rebuildinghelper session46298 earlierwaspre-lastfix; LATESThelperbuildjustlaunched (see currenttools, log /tmp/track-ready-renderer-build.log). Afteritfinishesrunfullreviewagain. ReviewdriverhashnowincludesrendererbinarySHA256soitwillinvalidateall91legacyrowsandrerendercleanactual360; rendererproofstoredineachrow. It checkpointsanddeletesonlyitsWAVs.
-
-Added scripts/calibrate-track-ready.py REVIEW --target -24 --output AUDIT [--write]. Requiresall360rows. ComputescommonLUFSgainwithraw.98and4xtruepeak−.3cap. ForpluckOpenusesmeasuredendpointrisedifference toadjustrow.open_compensation_db andgenericpresetTrimdepth (48dBrange), thenbudgetsrescaledopenpeaksandbasechords. SupportsboundedpresetTrim±24plusgainrange.001–1.2. Reportscross-bankstrongspectralANDenvelopenearmatches(normalizedcosines>.995), headroom-limitedrows andproposedlevels. RunAUDITfirstinspectcandidatesbeforewriting; applylevelcorrectionsafterauthoredduplicatechanges. Postcalibrationrerenderverifyfinal; tuneifLUFSmissesduetokneeeffect. User wantsmaxsafepeaksbutalsocommonperceivedvolume: ceiling−.3TPandcleanmode, notfalseclaimallpossibleMIDIguaranteedmaxidenticalpeaks. Nativeall24needfinalrunafterlevels.
-
-Currentaudiojob: switchedcheckpointdriver to2independentnativeworkerprocesses (3CPUenvironment) forspeed, noagents. Latestexecsession15935, /tmp/track-ready-clean-review.log. Oldsession34934stoppedcleanly. RendererbinarycurrentSHAisfixed; donotrelinkwhilethisreviewruns. Driver usesThreadPoolExecutor, pervoicefolderisolation andsingle-threadatomicJSONcheckpointwrite; twoFFmpeg/scipy analysesatmost.
-
-Bankpackagingforwardcompat: addedSPACE_INFINITY_BANK_V2 acceptance +minimum_versionvalidationnativePresetLibrary (notyetrebuiltthisheader). package-bank.py nowemitsV2minimum0.8.0 soolder0.7plug-insrejectunsupportednewsource/wavebankratherthansilentlyclampingit. StillacceptsV1foroldimports/backups. SafeupdateoldhashesfromshippingZIPremain. NeedfinalV2realbankimporttestafterpackage. Currentnativehelperaudioindependentofimportheaderchange.
-
-NoDSP/samplechangesplannednow. Offline8secondloopapproxQCmeasurednewflatchoir10msRMSCV.069–.10, hybrids.13–.197, noaddedLFO/vibrato; naturalensembletexturepreserved. DoNOTspendanotherrendercyclemicro-adjustingtheseassetswithoutanactualissue. Finalreference-nativeaudioandownerlisteningremaining.
-
-Latest owner clarification: maximum safe peak has priority. calibrate-track-ready.py now defaults --mode peak: uses all measured safe gain, ceiling −0.3dBTP and raw .98, reports perceived LUFS without an arbitrary −24LUFS stop. Optional --mode loudness retains LUFS cap. Do not claim peak matching also guarantees perceived loudness matching. Current 360-voice review still running, near300 rows, log/tmp/track-ready-clean-review.log. V2 version syntax now validates every component before comparison. Completed temporary review workfolders removed (only generated files) to reclaim disk. Driver now cleans each job after measured; current already-running process uses previous version until next invocation.
-
-Follow-up macro stress pass now ACTIVE session97739, log/tmp/track-ready-extremes-review.log, same helperbinarySHA. Reuses valid base/open variants, adds max_single/max_chord with freeMacro0/1/2=1. New driver cleans jobfolders, stale-design cache guards. It loaded authoringrows at startup BEFORE latest24 character revoices, so rerun driver afterward to refresh changed rows (includingearlierhot3/string2). Pending build session10752 /tmp/track-ready-final-controls-build.log recompiles V2 syntax guard and actual V2 malformed/futureversion tests. Native ParameterInventoryexported1208/version0.8.0 and normalizedLF. scripts/heritage/character-voicings.json nowauthors24 targetednear-match fixes (reversepiano,percussivechoirs,hybridtexture,reeds/FM,resonators,contrastingstrings,shortbassarticulations) discoveredby360baselines. No calibrationwrittenyet. Peak-modecalibrator nowrequiresmax_chord and includes it inheadroombudget; OPENcompensationalsoscalesmaxvariantsforplucks. Alltasksunfinished; do notpublishyet. New0.8releasenotesdraft wiredtopackaging/publication; mustreplacependingvalidationlineonlyafteractualchecks.
+GitHub source vegadubstep-star/Space-Infinity, branchcodex/windows-build.
+Exactenvironment IDccarenv_b64_Y2NhcmVudl82OTBhZmNlYzA3YzQ4MTkxOTBiZjA2ZWI5OTU3YjI3Ng;
+if starting, wait usingexact ID; preserve work across environment restarts.

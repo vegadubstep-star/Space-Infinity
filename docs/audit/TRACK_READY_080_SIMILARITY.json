@@ -1,0 +1,10 @@
+{
+  "presets": 360,
+  "near_matches": 0,
+  "method": "Normalized 80-band spectral and 32-bin amplitude-envelope cosine similarity; candidate threshold >0.995 for both; native repeated-note phrase",
+  "candidates": [],
+  "bank_sha256": {
+    "Trance": "bc529397a1641dd9c4c2600f179a355f39883afcc25ffe733d6f23a2b98cb2d5",
+    "Heritage": "0192703be640d0ebe368e628276d0862e5ee5b27a58d65d0cc0456b91b99546f"
+  }
+}

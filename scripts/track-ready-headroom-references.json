@@ -1,0 +1,462 @@
+{
+  "Trance-TI001": {
+    "recipe_sha256": "046256b030a5cab8bb91bcedf645543557ec662fc3634b0f4760d35c321e71b0",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.3473502016883477,
+    "raw_peak_at_measurement": 0.74490612745285,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 14.58548,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI002": {
+    "recipe_sha256": "09c91018ded6c91b408f3491469160c8ed43ef4047d26479178ae0dbe663eca1",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.32802174034088644,
+    "raw_peak_at_measurement": 0.865688443183899,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 16.38798,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI003": {
+    "recipe_sha256": "ab70723aad5caafb47abfeab9fb40ed92ef00802548ec5df66b84d9bc64a3b7b",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.45765771803144595,
+    "raw_peak_at_measurement": 0.958179295063019,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 14.37692,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI004": {
+    "recipe_sha256": "4a12347b805c43e2ae9bd8ef8f6b55e4f49560b6e7f3b3c8c5059c6fa767940b",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.5555392678207269,
+    "raw_peak_at_measurement": 0.770441651344299,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 10.7993,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI005": {
+    "recipe_sha256": "1098a09c4c177beaff12246e843062ac18d142c2f417a8a886de6f2ca93694ac",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.4976831706221626,
+    "raw_peak_at_measurement": 0.863070845603943,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 12.74067,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI006": {
+    "recipe_sha256": "a5ff92de2e9822814987d8f9ab7686b5e20b32a3654a2f66d63a0b68110daa7f",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.7238938570491436,
+    "raw_peak_at_measurement": 0.888020277023315,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 9.73376,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI007": {
+    "recipe_sha256": "7b5b0655ac90ce66f96358efea11193a8963c91023a93b0e61a8127e1c2486c4",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 1.0206440156261367,
+    "raw_peak_at_measurement": 0.797706782817841,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 5.81818,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI008": {
+    "recipe_sha256": "68dee1cb92527aa8cd31d283b3a82ed702ba0aa64dbab4595fac4fdc231a4dd3",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.6322245380259645,
+    "raw_peak_at_measurement": 0.828924238681793,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 10.31167,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI009": {
+    "recipe_sha256": "52c05c6fb75549e78eb3fb42e63961d05360e1a346b9e2461bb50cca22b694a9",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.2928216989579513,
+    "raw_peak_at_measurement": 0.869901835918427,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 17.41614,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI010": {
+    "recipe_sha256": "94d2538446d63ce5f98a297a6ba3f726adf9f5eaea91ac9c8dc04dad62eab817",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.513270574148549,
+    "raw_peak_at_measurement": 0.870272696018219,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 12.54498,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI011": {
+    "recipe_sha256": "ba460731a5ec7f82bad2f1e006ed5eec55740abae84b604735865dc61d02e84e",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.669021838133989,
+    "raw_peak_at_measurement": 0.734921216964722,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 8.77481,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI012": {
+    "recipe_sha256": "31f444ee95c30344468cf6819557293f7949bead3da17ca49a7efa1e850f5b41",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.6997023230132491,
+    "raw_peak_at_measurement": 0.937191426753998,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 10.4971,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI013": {
+    "recipe_sha256": "0e6feca15670cd5fee42194d64abd3135e7ab95763f08615d5e2983d65b02acb",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.3471055317962883,
+    "raw_peak_at_measurement": 1.019054770469666,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 17.31352,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI014": {
+    "recipe_sha256": "b80eefd8bb081690e6cea7c2fa994bdecd6249583e1ab5b4ca064bfe860ea764",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.7250790402222324,
+    "raw_peak_at_measurement": 1.060428380966187,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 11.26072,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI015": {
+    "recipe_sha256": "453da88fd7dbbab5d16466b2a20069255ab164e0ae5070eb203fae89175f005d",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.1853317479504331,
+    "raw_peak_at_measurement": 0.755427539348602,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 20.16366,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI016": {
+    "recipe_sha256": "9e23687ead8196a06327f5c1b6231e3f800a7af6a3bbcb95c87810feaf072f53",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.25538930663096376,
+    "raw_peak_at_measurement": 0.622182369232178,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 15.6931,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI017": {
+    "recipe_sha256": "301c70a6b93a81a93efe20578b673071198da8c6a8a6e6fc80452a22fddb61db",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.1884339073895999,
+    "raw_peak_at_measurement": 0.548856794834137,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 17.2448,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI018": {
+    "recipe_sha256": "7bb22b1a0d05cff11334bdd53b3e29df9a81921b91de3a182b370e559be950ab",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.43077218947221274,
+    "raw_peak_at_measurement": 0.890327215194702,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 14.26484,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI019": {
+    "recipe_sha256": "34cabe82398897f08834088ef257e2572af9411a3f163d3a9e95147ffeb7f87d",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.35444712491777447,
+    "raw_peak_at_measurement": 0.963666915893555,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 16.64631,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI020": {
+    "recipe_sha256": "93b2cf3dae05853e4711b83472b080127943bff938bae93e6859e6942c68ffa9",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.24619975488294435,
+    "raw_peak_at_measurement": 0.611485421657562,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 15.86077,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI021": {
+    "recipe_sha256": "ee48ace54d9441a4e4d150e668f9c4841090124c1782b455251e1ba42a7ebb41",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.3936270234899145,
+    "raw_peak_at_measurement": 0.867499828338623,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 14.82249,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI022": {
+    "recipe_sha256": "20b17d1bae4541a6eb6dadf0e16ef200435f6ce5f0d59125b4a21805c308911f",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.30559921835452825,
+    "raw_peak_at_measurement": 0.817243039608002,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 16.50278,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI023": {
+    "recipe_sha256": "73ee9053001f27674e71d9ed214e76484b9791608b7c25881fdb187044e6ef1b",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.46599055426833236,
+    "raw_peak_at_measurement": 0.885015964508057,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 13.53028,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI024": {
+    "recipe_sha256": "6e9d821ed28b965e42fec4663d8b8fcfd95de96477c7929e41e277d5e51f9805",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.22362057311517877,
+    "raw_peak_at_measurement": 0.871391355991364,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 19.77283,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI025": {
+    "recipe_sha256": "360d67b90dbe9447b22c7118ed7c2b20d6c68c80c2863eb2ca3eb1d00ab32aa6",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.39877155503258405,
+    "raw_peak_at_measurement": 0.823472619056702,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 14.2573,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI026": {
+    "recipe_sha256": "b6452d8f177e4fbd523c38219a95c2da101472280188341f17ed95c4c4eb5cb6",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.6896995892705436,
+    "raw_peak_at_measurement": 0.911970853805542,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 10.38522,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI027": {
+    "recipe_sha256": "afd2db4f60adcb6d5e028e22462d87b8188149000313706f25d235a1e6e95dc9",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.7287719009790161,
+    "raw_peak_at_measurement": 0.772389054298401,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 8.46369,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI028": {
+    "recipe_sha256": "a781e49d2a4ec5394bcce99ae15cd387875b38500e6b6e46f367d4e94793deb3",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.46431940447596015,
+    "raw_peak_at_measurement": 0.974514544010162,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 14.39823,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI029": {
+    "recipe_sha256": "8bd01b92eee326f20a7d1bf0abad227363f5562f75963462002ec9db4fc8b7b1",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.26536158491196604,
+    "raw_peak_at_measurement": 0.755085349082947,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 17.04196,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI030": {
+    "recipe_sha256": "7733e7b2b6add3ff3e1c2d0553583b9697886f8c7c788c450a841e66fe4fd4f5",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.4994959644948887,
+    "raw_peak_at_measurement": 0.830483436584473,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 12.37478,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI031": {
+    "recipe_sha256": "7510ea9e04728eefe49af0fa47a5b83701d54ca787a62c7b64ef1cd31b637240",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.6935435032469767,
+    "raw_peak_at_measurement": 0.752104520797729,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 8.66289,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI032": {
+    "recipe_sha256": "ca8a89c0f231ed7a664f15b697badc67d8172c1abedec22d42102f7c592214b0",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.581867669142464,
+    "raw_peak_at_measurement": 1.079389572143555,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 13.32588,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI033": {
+    "recipe_sha256": "3909ae07ca9fbbd8d003c588b1bb70efc06f42899fa8d4a6d756311c7dd5c6e6",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.32675785386387884,
+    "raw_peak_at_measurement": 1.01519513130188,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 17.80527,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI034": {
+    "recipe_sha256": "ab4050800361a03fff8992947119bfb2fa6e37118c846e59d012c51f8903cfe4",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.6101030843192147,
+    "raw_peak_at_measurement": 0.988256573677063,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 12.14813,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI035": {
+    "recipe_sha256": "debc2ae42ee641ceb39cc375a2ef70a12e73d240fabbdc1196752764ce584a49",
+    "condition": "Maximum-velocity bass notes 36,43,48,55",
+    "raw_budget": 0.949,
+    "pre_master_peak": 0.16984112076980304,
+    "raw_peak_at_measurement": 0.729191064834595,
+    "gain_at_measurement": 0.4,
+    "trim_at_measurement": 20.61477,
+    "source_report_sha256": "9f4396385ef4dfd2fee21816f29558598f1541f9aaed3ed86b4315c7bf03740a"
+  },
+  "Trance-TI151": {
+    "recipe_sha256": "afa09e854911a32cd669736caa8ab224974c8cc1f4fc32a59996bf3bbb703713",
+    "condition": "Acid 80\u201316000 Hz note-sequence sweep plus held 160/8000 Hz cutoff checks",
+    "raw_budget": 0.949,
+    "pre_master_peak": 1.7963082229917984,
+    "raw_peak_at_measurement": 0.973820328712463,
+    "gain_at_measurement": 0.32,
+    "trim_at_measurement": 4.57896,
+    "source_report_sha256": "5a045e99052727fb9b48fd9f664cb4d53ad5f6ee6a93be535a4d135696805638"
+  },
+  "Trance-TI152": {
+    "recipe_sha256": "9a5366945b5bd4e2222434b1c3e9b0414484b9efc0e74ab4ea91840de583c131",
+    "condition": "Acid 80\u201316000 Hz note-sequence sweep plus held 160/8000 Hz cutoff checks",
+    "raw_budget": 0.949,
+    "pre_master_peak": 2.019479742369469,
+    "raw_peak_at_measurement": 0.89253032207489,
+    "gain_at_measurement": 0.32,
+    "trim_at_measurement": 2.80467,
+    "source_report_sha256": "5a045e99052727fb9b48fd9f664cb4d53ad5f6ee6a93be535a4d135696805638"
+  },
+  "Trance-TI153": {
+    "recipe_sha256": "019534d118197955b4ed1209d0a710179c6e3b6c1dfad33765180d6f31cae898",
+    "condition": "Acid 80\u201316000 Hz note-sequence sweep plus held 160/8000 Hz cutoff checks",
+    "raw_budget": 0.949,
+    "pre_master_peak": 1.6506858114611123,
+    "raw_peak_at_measurement": 1.047703504562378,
+    "gain_at_measurement": 0.32,
+    "trim_at_measurement": 5.94848,
+    "source_report_sha256": "5a045e99052727fb9b48fd9f664cb4d53ad5f6ee6a93be535a4d135696805638"
+  },
+  "Trance-TI154": {
+    "recipe_sha256": "e029fbc7d81ce6966edcd99fec2c89b188a3c87ac45daee20e1ab271f6e9f1fd",
+    "condition": "Acid 80\u201316000 Hz note-sequence sweep plus held 160/8000 Hz cutoff checks",
+    "raw_budget": 0.949,
+    "pre_master_peak": 1.8695230667669418,
+    "raw_peak_at_measurement": 0.949264645576477,
+    "gain_at_measurement": 0.32,
+    "trim_at_measurement": 4.01013,
+    "source_report_sha256": "5a045e99052727fb9b48fd9f664cb4d53ad5f6ee6a93be535a4d135696805638"
+  },
+  "Trance-TI155": {
+    "recipe_sha256": "6c1ef8cd5ffc255dab85a98b4fcf66a96e2fb2a82997f418ee99e895919d378a",
+    "condition": "Acid 80\u201316000 Hz note-sequence sweep plus held 160/8000 Hz cutoff checks",
+    "raw_budget": 0.949,
+    "pre_master_peak": 1.6714565610874224,
+    "raw_peak_at_measurement": 0.986889600753784,
+    "gain_at_measurement": 0.32,
+    "trim_at_measurement": 5.32047,
+    "source_report_sha256": "5a045e99052727fb9b48fd9f664cb4d53ad5f6ee6a93be535a4d135696805638"
+  },
+  "Trance-TI156": {
+    "recipe_sha256": "f5ef8a1e14243945a1deb90817d792d40bf339cdd78694d70cc958637e849d32",
+    "condition": "Acid 80\u201316000 Hz note-sequence sweep plus held 160/8000 Hz cutoff checks",
+    "raw_budget": 0.949,
+    "pre_master_peak": 1.8941566966980252,
+    "raw_peak_at_measurement": 0.974592089653015,
+    "gain_at_measurement": 0.32,
+    "trim_at_measurement": 4.12514,
+    "source_report_sha256": "5a045e99052727fb9b48fd9f664cb4d53ad5f6ee6a93be535a4d135696805638"
+  },
+  "Trance-TI157": {
+    "recipe_sha256": "23d6dc131b6664fe5aeb9434c8006143d5573a3dd4d4e6b271ac66858a90162c",
+    "condition": "Acid 80\u201316000 Hz note-sequence sweep plus held 160/8000 Hz cutoff checks",
+    "raw_budget": 0.949,
+    "pre_master_peak": 1.9103525495828761,
+    "raw_peak_at_measurement": 0.903705656528473,
+    "gain_at_measurement": 0.32,
+    "trim_at_measurement": 3.39527,
+    "source_report_sha256": "5a045e99052727fb9b48fd9f664cb4d53ad5f6ee6a93be535a4d135696805638"
+  },
+  "Trance-TI158": {
+    "recipe_sha256": "8c3a01b09ffd62d83d314bac6f6599a19ed8b0330ac6a7ec2cba385225665de3",
+    "condition": "Acid 80\u201316000 Hz note-sequence sweep plus held 160/8000 Hz cutoff checks",
+    "raw_budget": 0.949,
+    "pre_master_peak": 1.7182710097294682,
+    "raw_peak_at_measurement": 0.916908800601959,
+    "gain_at_measurement": 0.32,
+    "trim_at_measurement": 4.44169,
+    "source_report_sha256": "5a045e99052727fb9b48fd9f664cb4d53ad5f6ee6a93be535a4d135696805638"
+  },
+  "Trance-TI159": {
+    "recipe_sha256": "61944fb9ba9b96d716f3427f6239207346528d12c5e010a36b99c0e39196a9c7",
+    "condition": "Acid 80\u201316000 Hz note-sequence sweep plus held 160/8000 Hz cutoff checks",
+    "raw_budget": 0.949,
+    "pre_master_peak": 1.5396066371154282,
+    "raw_peak_at_measurement": 1.022828340530396,
+    "gain_at_measurement": 0.32,
+    "trim_at_measurement": 6.34486,
+    "source_report_sha256": "5a045e99052727fb9b48fd9f664cb4d53ad5f6ee6a93be535a4d135696805638"
+  },
+  "Trance-TI160": {
+    "recipe_sha256": "077d9cd8d79080dc281938737d52562fe0ee3377e7b3bd8a3145397021c01e70",
+    "condition": "Acid 80\u201316000 Hz note-sequence sweep plus held 160/8000 Hz cutoff checks",
+    "raw_budget": 0.949,
+    "pre_master_peak": 1.6331847531641852,
+    "raw_peak_at_measurement": 0.891409575939178,
+    "gain_at_measurement": 0.32,
+    "trim_at_measurement": 4.63784,
+    "source_report_sha256": "5a045e99052727fb9b48fd9f664cb4d53ad5f6ee6a93be535a4d135696805638"
+  },
+  "Trance-TI101": {
+    "recipe_sha256": "36b1aa078f5031c50484ed9dc06568ff83d4aca010095b2bbdf197e1bb7f694f",
+    "condition": "Maximum observed convolver-startup chord across pre/post-calibration and repeated IR trials",
+    "raw_budget": 0.97,
+    "pre_master_peak": 2.745140682328239,
+    "raw_peak_at_measurement": 0.994096100330353,
+    "gain_at_measurement": 0.27,
+    "trim_at_measurement": 2.55,
+    "source_report_sha256": "e158079ff352975e2795a40753b8daada5ab74f24c94798bb7a4960fe3523246"
+  }
+}

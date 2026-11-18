@@ -28,7 +28,7 @@ metadata. Backups and rollback protect an interrupted bank update. Install the
 plug-in first, then use the preset manager IMPORT button for the bank ZIP.
 
 Level checks use full-velocity repeated notes and chords, the pluck opening
-endpoint and all three performance macros raised together. Different registers,
+endpoint and all three assignable macros raised together. Different registers,
 denser chords, edits and layered instances can change peaks. Keep an eye on
 the output meter while editing.
 
@@ -37,4 +37,18 @@ Research and original asset provenance are documented in
 sample provenance files. These sounds interpret musical styles; they are not
 manufacturer patches or component-exact replicas.
 
-Validation and installer availability will be recorded after the final checks.
+Install by extracting the installer ZIP, closing your DAW and running the Setup
+application. Import the included Heritage 200 ZIP through the preset manager to
+refresh that separate bank; the 160 factory presets update with the plug-in.
+
+Validation: all 24 Linux native checks pass, including V2 bank refresh/rollback,
+legacy recall, clean output safety, oscillator quality, routing and editor checks.
+The 360-preset audio audit has zero failures: maximum measured true peak
+−0.295 dBFS (−0.3 dBTP target, 0.01 dB measurement tolerance), and all 32
+OPEN/base transitions are within 0.06 LU. Forty-six additional native headroom
+references cover bass registers, acid cutoff automation and observed IR startup.
+The final default-sound similarity scan has no candidates above both thresholds;
+this is an objective screening method, not a guarantee of subjective preference.
+
+[Measured levels](https://github.com/vegadubstep-star/Space-Infinity/blob/v0.8.0/docs/audit/TRACK_READY_080_AUDIO_LEVELS.json) ·
+[Native checks](https://github.com/vegadubstep-star/Space-Infinity/blob/v0.8.0/docs/audit/TRACK_READY_080_NATIVE_TESTS.txt)

@@ -1,3 +1,5 @@
+> The 0.8.0 refresh revises both banks and peak calibration; see [the current update](TRACK_READY_080_UPDATE.md). The original release record follows.
+
 # SPACE INFINITY 0.7.0 — Heritage 200
 
 This release also adds HOT RANGE distortion, Tape/Fuzz/Bit Crush and WARM/ACID/FUZZ starting buttons; see [the distortion update](DISTORTION_DRIVE_UPDATE.md).

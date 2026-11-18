@@ -110,7 +110,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 12.73719,
         "engineMode": 1,
         "reverb": 0.16,
         "reverbSize": 0.5,
@@ -120,8 +120,10 @@
       },
       "modulation": [],
       "description": "M1-influenced grand voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H002",
@@ -230,7 +232,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.09217,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -243,8 +245,10 @@
       },
       "modulation": [],
       "description": "M1-influenced grand voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H003",
@@ -353,7 +357,7 @@
         "eq6Frequency": 5400,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 13.72785,
         "engineMode": 1,
         "reverb": 0.18,
         "reverbSize": 0.5,
@@ -361,8 +365,10 @@
       },
       "modulation": [],
       "description": "M1-influenced upright voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H004",
@@ -471,7 +477,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.12791,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -482,8 +488,10 @@
       },
       "modulation": [],
       "description": "M1-influenced ep voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H005",
@@ -592,7 +600,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.07541,
         "engineMode": 1,
         "reverb": 0.08,
         "reverbSize": 0.5,
@@ -602,8 +610,10 @@
       },
       "modulation": [],
       "description": "M1-influenced grand voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H006",
@@ -712,7 +722,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 5.46086,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -722,8 +732,10 @@
       },
       "modulation": [],
       "description": "M1-influenced grand voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H007",
@@ -832,7 +844,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.44717,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -840,8 +852,10 @@
       },
       "modulation": [],
       "description": "M1-influenced upright voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H008",
@@ -901,7 +915,7 @@
         "filterEnvAmount": 0,
         "filterVelocity": 0.9,
         "filterInputDrive": 0,
-        "attack": 0.12,
+        "attack": 0.06,
         "ampDecay": 2.4,
         "ampSustain": 0.28,
         "release": 0.7,
@@ -949,20 +963,24 @@
         "eqMode6": 3,
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
-        "gain": 0.4,
-        "presetTrim": 0,
+        "gain": 0.8643185,
+        "presetTrim": 24,
         "engineMode": 1,
         "reverb": 0.26,
         "reverbSize": 0.5,
         "echoMix": 0.12,
         "delayFeedback": 0.28,
         "outputSafety": 1,
-        "sampleReverse": 1
+        "sampleReverse": 1,
+        "sampleStart": 0,
+        "sampleEnd": 0.28
       },
       "modulation": [],
       "description": "M1-influenced grand voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H009",
@@ -1071,7 +1089,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 14.01756,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -1079,8 +1097,10 @@
       },
       "modulation": [],
       "description": "M1-influenced upright voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H010",
@@ -1189,7 +1209,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.26918,
         "engineMode": 1,
         "reverb": 0.22,
         "reverbSize": 0.5,
@@ -1200,8 +1220,10 @@
       },
       "modulation": [],
       "description": "M1-influenced ep voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H011",
@@ -1310,7 +1332,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 12.02897,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -1319,8 +1341,10 @@
       },
       "modulation": [],
       "description": "M1-influenced ep voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H012",
@@ -1429,7 +1453,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 13.42721,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -1437,8 +1461,10 @@
       },
       "modulation": [],
       "description": "M1-influenced clav voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H013",
@@ -1547,7 +1573,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 6.81191,
         "osc1WarpEnvelope": 2,
         "engineMode": 1,
         "chorus": 0.14,
@@ -1555,8 +1581,10 @@
       },
       "modulation": [],
       "description": "M1-influenced fmkeys voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H014",
@@ -1664,8 +1692,8 @@
         "eqMode6": 3,
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
-        "gain": 0.4,
-        "presetTrim": 0,
+        "gain": 0.6331083,
+        "presetTrim": 24,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -1676,8 +1704,10 @@
       },
       "modulation": [],
       "description": "M1-influenced ep voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H015",
@@ -1786,15 +1816,17 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 6.32044,
         "osc1WarpEnvelope": 2,
         "engineMode": 1,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "M1-influenced fmkeys voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H016",
@@ -1903,7 +1935,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 12.05093,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -1914,8 +1946,10 @@
       },
       "modulation": [],
       "description": "M1-influenced clav voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H017",
@@ -2024,7 +2058,7 @@
         "eq6Frequency": 4800,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.58592,
         "engineMode": 1,
         "reverb": 0.18,
         "reverbSize": 0.5,
@@ -2033,8 +2067,10 @@
       },
       "modulation": [],
       "description": "M1-influenced ep voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H018",
@@ -2143,7 +2179,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.12098,
         "osc1WarpEnvelope": 2,
         "engineMode": 1,
         "echoMix": 0.1,
@@ -2151,8 +2187,10 @@
       },
       "modulation": [],
       "description": "M1-influenced fmkeys voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H019",
@@ -2261,14 +2299,16 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 5.98646,
         "engineMode": 1,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "M1-influenced drawbar voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H020",
@@ -2377,15 +2417,17 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 17.40713,
         "subOctave": -1,
         "engineMode": 1,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "M1-influenced organbass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H021",
@@ -2494,14 +2536,16 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 5.13477,
         "engineMode": 1,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "M1-influenced drawbar voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H022",
@@ -2610,14 +2654,16 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 6.77731,
         "engineMode": 1,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "M1-influenced drawbar voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H023",
@@ -2726,15 +2772,17 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 17.38272,
         "subOctave": -1,
         "engineMode": 1,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "M1-influenced organbass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H024",
@@ -2843,14 +2891,16 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 6.52984,
         "engineMode": 1,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "M1-influenced drawbar voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H025",
@@ -2959,14 +3009,16 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.76233,
         "engineMode": 1,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "M1-influenced drawbar voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H026",
@@ -3075,14 +3127,16 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 5.2777,
         "engineMode": 1,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "M1-influenced drawbar voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H027",
@@ -3191,14 +3245,16 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 6.45985,
         "engineMode": 1,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "M1-influenced drawbar voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H028",
@@ -3307,7 +3363,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 15.18044,
         "subOctave": -1,
         "engineMode": 1,
         "distDrive": 0.15,
@@ -3317,8 +3373,10 @@
       },
       "modulation": [],
       "description": "M1-influenced organbass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H029",
@@ -3427,7 +3485,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.92731,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -3435,8 +3493,10 @@
       },
       "modulation": [],
       "description": "M1-influenced marimba voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H030",
@@ -3545,7 +3605,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 14.63515,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -3553,8 +3613,10 @@
       },
       "modulation": [],
       "description": "M1-influenced recorder voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H031",
@@ -3663,7 +3725,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.37797,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -3671,8 +3733,10 @@
       },
       "modulation": [],
       "description": "M1-influenced glock voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H032",
@@ -3781,7 +3845,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 9.76445,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -3789,8 +3853,10 @@
       },
       "modulation": [],
       "description": "M1-influenced vibe voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H033",
@@ -3899,7 +3965,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 12.08398,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -3909,8 +3975,10 @@
       },
       "modulation": [],
       "description": "M1-influenced lute voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H034",
@@ -4019,15 +4087,17 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 5.77625,
         "engineMode": 1,
         "echoMix": 0.16,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "M1-influenced bell voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H035",
@@ -4136,7 +4206,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.807,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -4144,8 +4214,10 @@
       },
       "modulation": [],
       "description": "M1-influenced marimba voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H036",
@@ -4254,7 +4326,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.10888,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -4262,8 +4334,10 @@
       },
       "modulation": [],
       "description": "M1-influenced glock voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H037",
@@ -4372,14 +4446,16 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.29064,
         "engineMode": 1,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "M1-influenced bell voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H038",
@@ -4488,7 +4564,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 6.66777,
         "engineMode": 1,
         "reverb": 0.2,
         "reverbSize": 0.5,
@@ -4497,8 +4573,10 @@
       },
       "modulation": [],
       "description": "M1-influenced vibe voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H039",
@@ -4607,7 +4685,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 18.59028,
         "subOctave": -1,
         "engineMode": 1,
         "subPan": 0,
@@ -4616,8 +4694,10 @@
       },
       "modulation": [],
       "description": "M1-influenced organbass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H040",
@@ -4726,7 +4806,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 13.24035,
         "subOctave": 0,
         "engineMode": 1,
         "pitchEnvAttack": 0,
@@ -4737,8 +4817,10 @@
       },
       "modulation": [],
       "description": "M1-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H041",
@@ -4847,7 +4929,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 18.4078,
         "subOctave": 0,
         "engineMode": 1,
         "subPan": 0,
@@ -4856,8 +4938,10 @@
       },
       "modulation": [],
       "description": "M1-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H042",
@@ -4966,7 +5050,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 15.7859,
         "osc1WarpEnvelope": 2,
         "subOctave": 0,
         "engineMode": 1,
@@ -4976,8 +5060,10 @@
       },
       "modulation": [],
       "description": "M1-influenced fmbass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H043",
@@ -5086,7 +5172,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 20.05935,
         "subOctave": -1,
         "engineMode": 1,
         "subPan": 0,
@@ -5095,8 +5181,10 @@
       },
       "modulation": [],
       "description": "M1-influenced organbass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H044",
@@ -5205,7 +5293,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 12.0798,
         "subOctave": 0,
         "engineMode": 1,
         "subPan": 0,
@@ -5214,8 +5302,10 @@
       },
       "modulation": [],
       "description": "M1-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H045",
@@ -5324,7 +5414,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 16.28327,
         "osc1WarpEnvelope": 2,
         "subOctave": 0,
         "engineMode": 1,
@@ -5334,8 +5424,10 @@
       },
       "modulation": [],
       "description": "M1-influenced fmbass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H046",
@@ -5444,7 +5536,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 15.70515,
         "subOctave": 0,
         "engineMode": 1,
         "subPan": 0,
@@ -5453,8 +5545,10 @@
       },
       "modulation": [],
       "description": "M1-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H047",
@@ -5563,7 +5657,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.2785,
         "engineMode": 1,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -5596,8 +5690,10 @@
         }
       ],
       "description": "M1-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H048",
@@ -5706,7 +5802,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.72897,
         "engineMode": 1,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -5739,8 +5835,10 @@
         }
       ],
       "description": "M1-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H049",
@@ -5849,7 +5947,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 9.90759,
         "sampleLoop": 1,
         "engineMode": 1,
         "reverb": 0.24,
@@ -5863,8 +5961,10 @@
       },
       "modulation": [],
       "description": "M1-influenced ooh voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H050",
@@ -5973,7 +6073,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.49775,
         "engineMode": 1,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -6006,8 +6106,10 @@
         }
       ],
       "description": "M1-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H051",
@@ -6116,7 +6218,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.88184,
         "sampleLoop": 1,
         "engineMode": 1,
         "reverb": 0.24,
@@ -6130,8 +6232,10 @@
       },
       "modulation": [],
       "description": "M1-influenced bow voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H052",
@@ -6240,7 +6344,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.38115,
         "sampleLoop": 1,
         "engineMode": 1,
         "reverb": 0.24,
@@ -6254,8 +6358,10 @@
       },
       "modulation": [],
       "description": "M1-influenced choir voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H053",
@@ -6364,7 +6470,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 6.96213,
         "engineMode": 1,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -6397,8 +6503,10 @@
         }
       ],
       "description": "M1-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H054",
@@ -6507,7 +6615,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.50526,
         "engineMode": 1,
         "reverb": 0.32,
         "reverbSize": 0.78,
@@ -6540,8 +6648,10 @@
         }
       ],
       "description": "M1-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H055",
@@ -6650,7 +6760,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.85095,
         "sampleLoop": 1,
         "engineMode": 1,
         "reverb": 0.24,
@@ -6664,8 +6774,10 @@
       },
       "modulation": [],
       "description": "M1-influenced ooh voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H056",
@@ -6774,7 +6886,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.5396,
         "engineMode": 1,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -6807,8 +6919,10 @@
         }
       ],
       "description": "M1-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H057",
@@ -6916,8 +7030,8 @@
         "eqMode6": 3,
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
-        "gain": 0.4,
-        "presetTrim": 0,
+        "gain": 0.6093243,
+        "presetTrim": 24,
         "sampleLoop": 1,
         "engineMode": 1,
         "reverb": 0.24,
@@ -6931,8 +7045,10 @@
       },
       "modulation": [],
       "description": "M1-influenced strings voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H058",
@@ -6982,20 +7098,20 @@
         "routeB": 1,
         "routeSub": 0,
         "routeNoise": 1,
-        "filterMode": 1,
-        "cutoff": 5000.0,
+        "filterMode": 4,
+        "cutoff": 1850,
         "res": 0,
-        "filterAttack": 0.001,
+        "filterAttack": 0.8,
         "filterDecay": 0.25,
-        "filterSustain": 0,
+        "filterSustain": 0.65,
         "filterRelease": 0.1,
-        "filterEnvAmount": 0,
+        "filterEnvAmount": 0.7,
         "filterVelocity": 0.6,
         "filterInputDrive": 0,
-        "attack": 0.15,
+        "attack": 1,
         "ampDecay": 1.6,
-        "ampSustain": 1,
-        "release": 0.65,
+        "ampSustain": 0.82,
+        "release": 0.95,
         "ampTimed": 1,
         "ampLong": 0,
         "ampVelocity": 0.65,
@@ -7041,22 +7157,27 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 13.09112,
         "sampleLoop": 1,
         "engineMode": 1,
-        "reverb": 0.24,
+        "reverb": 0.25,
         "reverbSize": 0.78,
         "reverbDamping": 0.38,
         "reverbWidth": 1,
-        "chorus": 0.1,
+        "chorus": 0.18,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "chorusEngine": 1,
+        "dimensionMode": 1,
+        "dimensionWidth": 1
       },
       "modulation": [],
       "description": "M1-influenced celli voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H059",
@@ -7165,7 +7286,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 16.80705,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -7178,8 +7299,10 @@
       },
       "modulation": [],
       "description": "M1-influenced pizz voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H060",
@@ -7191,7 +7314,7 @@
       "tags": "Heritage 200, M1 Influence, Strings, MIDI Played",
       "wavetable": null,
       "settings": {
-        "source": 26,
+        "source": 24,
         "wave": 0,
         "osc2Wave": 3,
         "osc1Enabled": 1,
@@ -7288,7 +7411,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 14.75747,
         "sampleLoop": 0,
         "engineMode": 1,
         "reverb": 0.15,
@@ -7305,8 +7428,10 @@
       },
       "modulation": [],
       "description": "M1-influenced strings voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H061",
@@ -7415,7 +7540,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 13.76259,
         "sampleLoop": 1,
         "engineMode": 1,
         "reverb": 0.24,
@@ -7429,8 +7554,10 @@
       },
       "modulation": [],
       "description": "M1-influenced bow voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H062",
@@ -7539,7 +7666,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 12.55499,
         "sampleLoop": 1,
         "engineMode": 1,
         "reverb": 0.3,
@@ -7553,8 +7680,10 @@
       },
       "modulation": [],
       "description": "M1-influenced celli voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H063",
@@ -7566,7 +7695,7 @@
       "tags": "Heritage 200, M1 Influence, Strings, MIDI Played",
       "wavetable": null,
       "settings": {
-        "source": 25,
+        "source": 26,
         "wave": 0,
         "osc2Wave": 3,
         "osc1Enabled": 1,
@@ -7604,8 +7733,8 @@
         "routeB": 1,
         "routeSub": 0,
         "routeNoise": 1,
-        "filterMode": 3,
-        "cutoff": 3100,
+        "filterMode": 4,
+        "cutoff": 7200,
         "res": 0.15,
         "filterAttack": 0.001,
         "filterDecay": 0.25,
@@ -7663,7 +7792,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 18.71122,
         "sampleLoop": 0,
         "engineMode": 1,
         "reverb": 0.095,
@@ -7678,8 +7807,10 @@
       },
       "modulation": [],
       "description": "M1-influenced strings voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H064",
@@ -7691,7 +7822,7 @@
       "tags": "Heritage 200, M1 Influence, Strings, MIDI Played",
       "wavetable": null,
       "settings": {
-        "source": 26,
+        "source": 25,
         "wave": 0,
         "osc2Wave": 3,
         "osc1Enabled": 1,
@@ -7729,20 +7860,20 @@
         "routeB": 1,
         "routeSub": 0,
         "routeNoise": 1,
-        "filterMode": 1,
-        "cutoff": 6800.0,
-        "res": 0,
+        "filterMode": 4,
+        "cutoff": 3200,
+        "res": 0.15,
         "filterAttack": 0.001,
-        "filterDecay": 0.25,
+        "filterDecay": 0.085,
         "filterSustain": 0,
         "filterRelease": 0.1,
-        "filterEnvAmount": 0,
+        "filterEnvAmount": 0.6,
         "filterVelocity": 0.6,
         "filterInputDrive": 0,
-        "attack": 0.001,
-        "ampDecay": 0.36,
+        "attack": 0.003,
+        "ampDecay": 0.13,
         "ampSustain": 0,
-        "release": 0.12,
+        "release": 0.085,
         "ampTimed": 1,
         "ampLong": 0,
         "ampVelocity": 0.65,
@@ -7787,22 +7918,27 @@
         "eqMode6": 3,
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
-        "gain": 0.4,
-        "presetTrim": 0,
+        "gain": 0.673901,
+        "presetTrim": 24,
         "engineMode": 1,
-        "reverb": 0.11,
-        "reverbSize": 0.5,
+        "reverb": 0.27,
+        "reverbSize": 0.8,
         "reverbDamping": 0.38,
         "reverbWidth": 1,
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "sampleLoop": 0,
+        "sampleStart": 0.015,
+        "echoMix": 0.02
       },
       "modulation": [],
       "description": "M1-influenced pizz voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H065",
@@ -7911,7 +8047,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.2169,
         "sampleLoop": 1,
         "engineMode": 1,
         "reverb": 0.25,
@@ -7925,8 +8061,10 @@
       },
       "modulation": [],
       "description": "M1-influenced ooh voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H066",
@@ -8035,7 +8173,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 13.91983,
         "sampleLoop": 1,
         "engineMode": 1,
         "reverb": 0.12,
@@ -8049,8 +8187,10 @@
       },
       "modulation": [],
       "description": "M1-influenced choir voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H067",
@@ -8159,7 +8299,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 8.20018,
         "engineMode": 1,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -8172,8 +8312,10 @@
       },
       "modulation": [],
       "description": "M1-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H068",
@@ -8282,7 +8424,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 12.13152,
         "sampleLoop": 1,
         "engineMode": 1,
         "reverb": 0.24,
@@ -8296,8 +8438,10 @@
       },
       "modulation": [],
       "description": "M1-influenced choir voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H069",
@@ -8406,7 +8550,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.59951,
         "sampleLoop": 1,
         "engineMode": 1,
         "reverb": 0.24,
@@ -8420,8 +8564,10 @@
       },
       "modulation": [],
       "description": "M1-influenced ooh voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H070",
@@ -8530,7 +8676,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.02447,
         "engineMode": 1,
         "reverb": 0.13,
         "reverbSize": 0.78,
@@ -8543,8 +8689,10 @@
       },
       "modulation": [],
       "description": "M1-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H071",
@@ -8653,7 +8801,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 13.37695,
         "sampleLoop": 1,
         "engineMode": 1,
         "reverb": 0.24,
@@ -8667,8 +8815,10 @@
       },
       "modulation": [],
       "description": "M1-influenced choir voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H072",
@@ -8777,7 +8927,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.91544,
         "engineMode": 1,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -8790,8 +8940,10 @@
       },
       "modulation": [],
       "description": "M1-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H073",
@@ -8900,7 +9052,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 8.95069,
         "engineMode": 1,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -8929,8 +9081,10 @@
         }
       ],
       "description": "M1-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H074",
@@ -9039,7 +9193,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 8.57626,
         "engineMode": 1,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -9069,8 +9223,10 @@
         }
       ],
       "description": "M1-influenced bell voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H075",
@@ -9179,7 +9335,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 9.3007,
         "engineMode": 1,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -9208,8 +9364,10 @@
         }
       ],
       "description": "M1-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H076",
@@ -9318,7 +9476,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.60305,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -9331,8 +9489,10 @@
       },
       "modulation": [],
       "description": "M1-influenced recorder voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H077",
@@ -9441,7 +9601,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.47633,
         "engineMode": 1,
         "reverb": 0.33,
         "reverbSize": 0.78,
@@ -9470,8 +9630,10 @@
         }
       ],
       "description": "M1-influenced bell voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H078",
@@ -9580,7 +9742,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 8.32339,
         "engineMode": 1,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -9609,8 +9771,10 @@
         }
       ],
       "description": "M1-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H079",
@@ -9719,7 +9883,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 19.11329,
         "sampleLoop": 1,
         "engineMode": 1,
         "reverb": 0.24,
@@ -9733,8 +9897,10 @@
       },
       "modulation": [],
       "description": "M1-influenced bow voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H080",
@@ -9843,7 +10009,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.66375,
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
@@ -9856,8 +10022,10 @@
       },
       "modulation": [],
       "description": "M1-influenced marimba voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H081",
@@ -9966,7 +10134,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 12.67418,
         "osc1Detune": 0.12,
         "osc2Detune": 0.06,
         "osc1Blend": 0.65,
@@ -9985,8 +10153,10 @@
       },
       "modulation": [],
       "description": "JP-influenced super voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H082",
@@ -10095,7 +10265,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.15053,
         "osc1Detune": 0.16,
         "osc2Detune": 0.06,
         "osc1Blend": 0.65,
@@ -10114,8 +10284,10 @@
       },
       "modulation": [],
       "description": "JP-influenced super voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H083",
@@ -10224,7 +10396,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 4.54793,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -10239,8 +10411,10 @@
       },
       "modulation": [],
       "description": "JP-influenced pulse voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H084",
@@ -10349,7 +10523,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 16.06566,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -10368,8 +10542,10 @@
       },
       "modulation": [],
       "description": "JP-influenced sync voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H085",
@@ -10478,7 +10654,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 19.95766,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -10493,8 +10669,10 @@
       },
       "modulation": [],
       "description": "JP-influenced sync voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H086",
@@ -10603,7 +10781,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.03717,
         "osc1Detune": 0.12,
         "osc2Detune": 0.06,
         "osc1Blend": 0.65,
@@ -10622,8 +10800,10 @@
       },
       "modulation": [],
       "description": "JP-influenced super voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H087",
@@ -10732,7 +10912,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 18.48587,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -10747,8 +10927,10 @@
       },
       "modulation": [],
       "description": "JP-influenced mono voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H088",
@@ -10857,7 +11039,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 9.11394,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.075,
@@ -10912,13 +11094,15 @@
         }
       ],
       "description": "Original Makina-style pulse/saw lead: fast articulation, restrained supporting layer, short spatial tail. TONE opens the filter; RAVE adds harmonic interaction; EDGE adds controlled bite. Genre interpretation, not an artist patch copy.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "review_revision": "track-ready-080",
       "macro_labels": [
         "TONE",
         "RAVE",
         "EDGE"
-      ]
+      ],
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H089",
@@ -11027,7 +11211,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.87288,
         "osc1Detune": 0.12,
         "osc2Detune": 0.06,
         "osc1Blend": 0.65,
@@ -11046,8 +11230,10 @@
       },
       "modulation": [],
       "description": "JP-influenced super voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H090",
@@ -11156,7 +11342,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 17.22157,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -11171,8 +11357,10 @@
       },
       "modulation": [],
       "description": "JP-influenced sync voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H091",
@@ -11281,7 +11469,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 14.81704,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.075,
@@ -11336,13 +11524,15 @@
         }
       ],
       "description": "Original Makina-style pulse/saw lead: fast articulation, restrained supporting layer, short spatial tail. TONE opens the filter; RAVE adds harmonic interaction; EDGE adds controlled bite. Genre interpretation, not an artist patch copy.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "review_revision": "track-ready-080",
       "macro_labels": [
         "TONE",
         "RAVE",
         "EDGE"
-      ]
+      ],
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H092",
@@ -11451,7 +11641,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.78953,
         "osc1Detune": 0.12,
         "osc2Detune": 0.06,
         "osc1Blend": 0.65,
@@ -11470,8 +11660,10 @@
       },
       "modulation": [],
       "description": "JP-influenced super voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H093",
@@ -11580,7 +11772,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 18.17328,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -11595,8 +11787,10 @@
       },
       "modulation": [],
       "description": "JP-influenced mono voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H094",
@@ -11705,7 +11899,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 17.04408,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -11720,8 +11914,10 @@
       },
       "modulation": [],
       "description": "JP-influenced mono voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H095",
@@ -11830,7 +12026,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.57753,
         "osc1Detune": 0.18,
         "osc2Detune": 0.06,
         "osc1Blend": 0.65,
@@ -11849,8 +12045,10 @@
       },
       "modulation": [],
       "description": "JP-influenced super voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H096",
@@ -11959,7 +12157,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 17.95902,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -11974,8 +12172,10 @@
       },
       "modulation": [],
       "description": "JP-influenced sync voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H097",
@@ -12084,7 +12284,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 9.66197,
         "osc1Detune": 0.09,
         "osc2Detune": 0.055,
         "osc1Blend": 0.7,
@@ -12105,8 +12305,10 @@
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H098",
@@ -12215,7 +12417,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.62914,
         "osc1Detune": 0.09,
         "osc2Detune": 0.055,
         "osc1Blend": 0.7,
@@ -12236,8 +12438,10 @@
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H099",
@@ -12346,7 +12550,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.61637,
         "engineMode": 0,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -12363,8 +12567,10 @@
       },
       "modulation": [],
       "description": "JP-influenced respad voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H100",
@@ -12473,7 +12679,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 6.50007,
         "engineMode": 0,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -12506,8 +12712,10 @@
         }
       ],
       "description": "JP-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H101",
@@ -12616,7 +12824,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 4.42984,
         "engineMode": 0,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -12633,8 +12841,10 @@
       },
       "modulation": [],
       "description": "JP-influenced respad voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H102",
@@ -12743,7 +12953,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.48787,
         "osc1Detune": 0.09,
         "osc2Detune": 0.055,
         "osc1Blend": 0.52,
@@ -12764,8 +12974,10 @@
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H103",
@@ -12874,7 +13086,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 9.25947,
         "osc1Detune": 0.09,
         "osc2Detune": 0.055,
         "osc1Blend": 0.7,
@@ -12895,8 +13107,10 @@
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H104",
@@ -13005,7 +13219,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 8.94741,
         "osc1Detune": 0.065,
         "osc2Detune": 0.055,
         "osc1Blend": 0.7,
@@ -13026,8 +13240,10 @@
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H105",
@@ -13136,7 +13352,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 5.56751,
         "engineMode": 0,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -13153,8 +13369,10 @@
       },
       "modulation": [],
       "description": "JP-influenced respad voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H106",
@@ -13263,7 +13481,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.06011,
         "osc1Detune": 0.045,
         "osc2Detune": 0.055,
         "osc1Blend": 0.7,
@@ -13284,8 +13502,10 @@
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H107",
@@ -13394,7 +13614,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.25843,
         "engineMode": 0,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -13427,8 +13647,10 @@
         }
       ],
       "description": "JP-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H108",
@@ -13537,7 +13759,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 8.75543,
         "osc1Detune": 0.17,
         "osc2Detune": 0.055,
         "osc1Blend": 0.5,
@@ -13558,8 +13780,10 @@
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H109",
@@ -13668,7 +13892,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.53814,
         "osc1Detune": 0.045,
         "engineMode": 0,
         "echoMode": 2,
@@ -13724,7 +13948,7 @@
         {
           "source": 0,
           "target": "presetTrim",
-          "depth": -0.045000000000000005
+          "depth": -0.23520833333333338
         },
         {
           "source": 0,
@@ -13743,13 +13967,16 @@
         }
       ],
       "description": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "macro_labels": [
         "OPEN / LEAD",
         "CONTOUR",
         "CHARACTER"
       ],
-      "review_revision": "track-ready-080"
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 11.29,
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H110",
@@ -13858,7 +14085,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 12.12713,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -13913,7 +14140,7 @@
         {
           "source": 0,
           "target": "presetTrim",
-          "depth": -0.045000000000000005
+          "depth": -0.24375
         },
         {
           "source": 0,
@@ -13932,13 +14159,16 @@
         }
       ],
       "description": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "macro_labels": [
         "OPEN / LEAD",
         "CONTOUR",
         "CHARACTER"
       ],
-      "review_revision": "track-ready-080"
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 11.7,
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H111",
@@ -14047,7 +14277,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 13.71869,
         "osc1Detune": 0.06,
         "engineMode": 0,
         "echoMode": 2,
@@ -14103,7 +14333,7 @@
         {
           "source": 0,
           "target": "presetTrim",
-          "depth": -0.045000000000000005
+          "depth": -0.24625000000000008
         },
         {
           "source": 0,
@@ -14122,13 +14352,16 @@
         }
       ],
       "description": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "macro_labels": [
         "OPEN / LEAD",
         "CONTOUR",
         "CHARACTER"
       ],
-      "review_revision": "track-ready-080"
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 11.82,
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H112",
@@ -14237,7 +14470,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 9.10082,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
         "echoMode": 2,
@@ -14293,7 +14526,7 @@
         {
           "source": 0,
           "target": "presetTrim",
-          "depth": -0.045000000000000005
+          "depth": -0.17250000000000001
         },
         {
           "source": 0,
@@ -14312,13 +14545,16 @@
         }
       ],
       "description": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "macro_labels": [
         "OPEN / LEAD",
         "CONTOUR",
         "CHARACTER"
       ],
-      "review_revision": "track-ready-080"
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 8.28,
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H113",
@@ -14427,7 +14663,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 13.38882,
         "osc1Detune": 0.17,
         "engineMode": 0,
         "echoMode": 2,
@@ -14484,7 +14720,7 @@
         {
           "source": 0,
           "target": "presetTrim",
-          "depth": -0.045000000000000005
+          "depth": -0.203125
         },
         {
           "source": 0,
@@ -14503,13 +14739,16 @@
         }
       ],
       "description": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "macro_labels": [
         "OPEN / LEAD",
         "CONTOUR",
         "CHARACTER"
       ],
-      "review_revision": "track-ready-080"
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 9.75,
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H114",
@@ -14618,7 +14857,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 6.33435,
         "osc1Detune": 0.045,
         "engineMode": 0,
         "echoMode": 2,
@@ -14674,7 +14913,7 @@
         {
           "source": 0,
           "target": "presetTrim",
-          "depth": -0.045000000000000005
+          "depth": -0.18145833333333328
         },
         {
           "source": 0,
@@ -14693,13 +14932,16 @@
         }
       ],
       "description": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "macro_labels": [
         "OPEN / LEAD",
         "CONTOUR",
         "CHARACTER"
       ],
-      "review_revision": "track-ready-080"
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 8.71,
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H115",
@@ -14808,7 +15050,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 19.88691,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -14863,7 +15105,7 @@
         {
           "source": 0,
           "target": "presetTrim",
-          "depth": -0.045000000000000005
+          "depth": -0.23125000000000004
         },
         {
           "source": 0,
@@ -14882,13 +15124,16 @@
         }
       ],
       "description": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "macro_labels": [
         "OPEN / LEAD",
         "CONTOUR",
         "CHARACTER"
       ],
-      "review_revision": "track-ready-080"
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 11.1,
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H116",
@@ -14997,7 +15242,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 8.89743,
         "osc1Detune": 0.045,
         "engineMode": 0,
         "echoMode": 2,
@@ -15053,7 +15298,7 @@
         {
           "source": 0,
           "target": "presetTrim",
-          "depth": -0.045000000000000005
+          "depth": -0.18416666666666673
         },
         {
           "source": 0,
@@ -15072,13 +15317,16 @@
         }
       ],
       "description": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "macro_labels": [
         "OPEN / LEAD",
         "CONTOUR",
         "CHARACTER"
       ],
-      "review_revision": "track-ready-080"
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 8.84,
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H117",
@@ -15187,7 +15435,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.97722,
         "osc1Detune": 0.045,
         "engineMode": 0,
         "echoMode": 2,
@@ -15243,7 +15491,7 @@
         {
           "source": 0,
           "target": "presetTrim",
-          "depth": -0.045000000000000005
+          "depth": -0.22291666666666665
         },
         {
           "source": 0,
@@ -15262,13 +15510,16 @@
         }
       ],
       "description": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "macro_labels": [
         "OPEN / LEAD",
         "CONTOUR",
         "CHARACTER"
       ],
-      "review_revision": "track-ready-080"
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 10.7,
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H118",
@@ -15377,7 +15628,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.95617,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -15432,7 +15683,7 @@
         {
           "source": 0,
           "target": "presetTrim",
-          "depth": -0.045000000000000005
+          "depth": -0.21624999999999997
         },
         {
           "source": 0,
@@ -15451,13 +15702,16 @@
         }
       ],
       "description": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "macro_labels": [
         "OPEN / LEAD",
         "CONTOUR",
         "CHARACTER"
       ],
-      "review_revision": "track-ready-080"
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 10.38,
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H119",
@@ -15566,7 +15820,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 8.59898,
         "osc1Detune": 0.045,
         "engineMode": 0,
         "echoMode": 2,
@@ -15622,7 +15876,7 @@
         {
           "source": 0,
           "target": "presetTrim",
-          "depth": -0.045000000000000005
+          "depth": -0.2058333333333334
         },
         {
           "source": 0,
@@ -15641,13 +15895,16 @@
         }
       ],
       "description": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "macro_labels": [
         "OPEN / LEAD",
         "CONTOUR",
         "CHARACTER"
       ],
-      "review_revision": "track-ready-080"
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 9.88,
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H120",
@@ -15756,7 +16013,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 9.18115,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
         "echoMode": 2,
@@ -15812,7 +16069,7 @@
         {
           "source": 0,
           "target": "presetTrim",
-          "depth": -0.045000000000000005
+          "depth": -0.19916666666666663
         },
         {
           "source": 0,
@@ -15831,13 +16088,16 @@
         }
       ],
       "description": "OPEN / LEAD opens the filter while reducing echo and reverb wet levels; adds a little drive, width and room size. Synth plucks gain sustain; sampled instruments keep their natural decay. Velocity shapes expression.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "macro_labels": [
         "OPEN / LEAD",
         "CONTOUR",
         "CHARACTER"
       ],
-      "review_revision": "track-ready-080"
+      "review_revision": "track-ready-080",
+      "open_compensation_db": 9.56,
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H121",
@@ -15946,7 +16206,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 15.47219,
         "subOctave": 0,
         "engineMode": 0,
         "osc1Detune": 0.045,
@@ -15957,8 +16217,10 @@
       },
       "modulation": [],
       "description": "JP-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H122",
@@ -16067,7 +16329,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.87251,
         "subOctave": 0,
         "engineMode": 0,
         "subPan": 0,
@@ -16076,8 +16338,10 @@
       },
       "modulation": [],
       "description": "JP-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H123",
@@ -16186,7 +16450,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 15.31067,
         "engineMode": 0,
         "subOctave": 0,
         "subPan": 0,
@@ -16195,8 +16459,10 @@
       },
       "modulation": [],
       "description": "JP-influenced sync voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H124",
@@ -16305,7 +16571,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.80059,
         "subOctave": 0,
         "engineMode": 0,
         "subPan": 0,
@@ -16314,8 +16580,10 @@
       },
       "modulation": [],
       "description": "JP-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H125",
@@ -16424,7 +16692,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 13.54051,
         "osc1WarpEnvelope": 2,
         "subOctave": 0,
         "engineMode": 0,
@@ -16434,8 +16702,10 @@
       },
       "modulation": [],
       "description": "JP-influenced fmbass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H126",
@@ -16544,7 +16814,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 15.09261,
         "subOctave": 0,
         "engineMode": 0,
         "subPan": 0,
@@ -16553,8 +16823,10 @@
       },
       "modulation": [],
       "description": "JP-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H127",
@@ -16663,7 +16935,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 22.34873,
         "subOctave": -1,
         "engineMode": 0,
         "subPan": 0,
@@ -16672,8 +16944,10 @@
       },
       "modulation": [],
       "description": "JP-influenced organbass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H128",
@@ -16782,7 +17056,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.11185,
         "subOctave": 0,
         "engineMode": 0,
         "distInput": 3,
@@ -16794,8 +17068,10 @@
       },
       "modulation": [],
       "description": "JP-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H129",
@@ -16904,7 +17180,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 15.12857,
         "subOctave": 0,
         "engineMode": 0,
         "subPan": 0,
@@ -16913,8 +17189,10 @@
       },
       "modulation": [],
       "description": "JP-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H130",
@@ -17023,7 +17301,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 14.25568,
         "osc1WarpEnvelope": 2,
         "subOctave": 0,
         "engineMode": 0,
@@ -17036,8 +17314,10 @@
       },
       "modulation": [],
       "description": "JP-influenced fmbass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H131",
@@ -17146,7 +17426,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 16.13981,
         "osc1Detune": 0.045,
         "engineMode": 0,
         "echoMode": 2,
@@ -17165,8 +17445,10 @@
       },
       "modulation": [],
       "description": "JP-influenced pluck voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H132",
@@ -17275,7 +17557,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 14.36406,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -17293,8 +17575,10 @@
       },
       "modulation": [],
       "description": "JP-influenced pulse voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H133",
@@ -17403,7 +17687,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 18.60663,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -17421,8 +17705,10 @@
       },
       "modulation": [],
       "description": "JP-influenced sync voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H134",
@@ -17531,7 +17817,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 13.57189,
         "osc1Detune": 0.045,
         "engineMode": 0,
         "echoMode": 2,
@@ -17550,8 +17836,10 @@
       },
       "modulation": [],
       "description": "JP-influenced pluck voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H135",
@@ -17660,7 +17948,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 16.68869,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
         "echoMode": 2,
@@ -17679,8 +17967,10 @@
       },
       "modulation": [],
       "description": "JP-influenced fmkeys voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H136",
@@ -17789,7 +18079,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 17.12258,
         "osc1Detune": 0.045,
         "engineMode": 0,
         "echoMode": 2,
@@ -17808,8 +18098,10 @@
       },
       "modulation": [],
       "description": "JP-influenced pluck voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H137",
@@ -17918,7 +18210,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 15.95143,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -17936,8 +18228,10 @@
       },
       "modulation": [],
       "description": "JP-influenced pulse voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H138",
@@ -18046,7 +18340,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 16.49682,
         "osc1Detune": 0.02,
         "engineMode": 0,
         "echoMode": 2,
@@ -18065,8 +18359,10 @@
       },
       "modulation": [],
       "description": "JP-influenced pluck voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H139",
@@ -18175,7 +18471,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 20.54062,
         "osc1Detune": 0.12,
         "osc2Detune": 0.06,
         "osc1Blend": 0.65,
@@ -18197,8 +18493,10 @@
       },
       "modulation": [],
       "description": "JP-influenced super voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H140",
@@ -18307,7 +18605,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 17.17597,
         "osc1Detune": 0.045,
         "engineMode": 0,
         "echoMode": 2,
@@ -18326,8 +18624,10 @@
       },
       "modulation": [],
       "description": "JP-influenced pluck voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H141",
@@ -18436,7 +18736,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 19.43163,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -18451,8 +18751,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced mono voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H142",
@@ -18561,7 +18863,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 15.62336,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.075,
@@ -18616,13 +18918,15 @@
         }
       ],
       "description": "Original Makina-style pulse/saw lead: fast articulation, restrained supporting layer, short spatial tail. TONE opens the filter; RAVE adds harmonic interaction; EDGE adds controlled bite. Genre interpretation, not an artist patch copy.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "review_revision": "track-ready-080",
       "macro_labels": [
         "TONE",
         "RAVE",
         "EDGE"
-      ]
+      ],
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H143",
@@ -18731,7 +19035,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 13.97643,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
         "echoMode": 2,
@@ -18787,13 +19091,15 @@
         }
       ],
       "description": "Original Makina-style FM/reed lead: fast articulation, restrained supporting layer, short spatial tail. TONE opens the filter; RAVE adds harmonic interaction; EDGE adds controlled bite. Genre interpretation, not an artist patch copy.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "review_revision": "track-ready-080",
       "macro_labels": [
         "TONE",
         "RAVE",
         "EDGE"
-      ]
+      ],
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H144",
@@ -18902,7 +19208,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 21.32168,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -18917,8 +19223,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced sync voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H145",
@@ -19027,7 +19335,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.93624,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -19042,8 +19350,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced ring voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H146",
@@ -19152,7 +19462,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 5.37064,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -19167,8 +19477,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced pulse voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H147",
@@ -19277,7 +19589,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 5.36898,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.075,
@@ -19332,13 +19644,15 @@
         }
       ],
       "description": "Original Makina-style pulse/saw lead: fast articulation, restrained supporting layer, short spatial tail. TONE opens the filter; RAVE adds harmonic interaction; EDGE adds controlled bite. Genre interpretation, not an artist patch copy.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "review_revision": "track-ready-080",
       "macro_labels": [
         "TONE",
         "RAVE",
         "EDGE"
-      ]
+      ],
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H148",
@@ -19447,7 +19761,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 13.32519,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
         "echoMode": 2,
@@ -19503,13 +19817,15 @@
         }
       ],
       "description": "Original Makina-style FM/reed lead: fast articulation, restrained supporting layer, short spatial tail. TONE opens the filter; RAVE adds harmonic interaction; EDGE adds controlled bite. Genre interpretation, not an artist patch copy.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "review_revision": "track-ready-080",
       "macro_labels": [
         "TONE",
         "RAVE",
         "EDGE"
-      ]
+      ],
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H149",
@@ -19618,7 +19934,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 3.81259,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.075,
@@ -19673,13 +19989,15 @@
         }
       ],
       "description": "Original Makina-style pulse/saw lead: fast articulation, restrained supporting layer, short spatial tail. TONE opens the filter; RAVE adds harmonic interaction; EDGE adds controlled bite. Genre interpretation, not an artist patch copy.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "review_revision": "track-ready-080",
       "macro_labels": [
         "TONE",
         "RAVE",
         "EDGE"
-      ]
+      ],
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H150",
@@ -19788,7 +20106,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 19.23749,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -19803,8 +20121,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced sync voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H151",
@@ -19913,7 +20233,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 13.60581,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
         "echoMode": 2,
@@ -19969,13 +20289,15 @@
         }
       ],
       "description": "Original Makina-style pulse/saw lead: fast articulation, restrained supporting layer, short spatial tail. TONE opens the filter; RAVE adds harmonic interaction; EDGE adds controlled bite. Genre interpretation, not an artist patch copy.",
-      "status": "draft_pending_native_audition",
+      "status": "measured_peak_calibrated",
       "review_revision": "track-ready-080",
       "macro_labels": [
         "TONE",
         "RAVE",
         "EDGE"
-      ]
+      ],
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H152",
@@ -20084,7 +20406,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 18.34403,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -20099,8 +20421,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced mono voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H153",
@@ -20209,7 +20533,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 16.58966,
         "subOctave": 0,
         "engineMode": 0,
         "subPan": 0,
@@ -20218,8 +20542,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H154",
@@ -20328,7 +20654,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 11.675,
         "subOctave": 0,
         "engineMode": 0,
         "subPan": 0,
@@ -20337,8 +20663,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H155",
@@ -20447,7 +20775,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 15.29628,
         "osc1WarpEnvelope": 2,
         "subOctave": 0,
         "engineMode": 0,
@@ -20460,8 +20788,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced fmbass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H156",
@@ -20570,7 +20900,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 12.0054,
         "subOctave": 0,
         "engineMode": 0,
         "subPan": 0,
@@ -20579,8 +20909,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H157",
@@ -20689,7 +21021,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 19.17326,
         "engineMode": 0,
         "subPan": 0,
         "subWave": 0,
@@ -20697,8 +21029,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced sync voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H158",
@@ -20807,7 +21141,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 18.73148,
         "engineMode": 0,
         "subOctave": 0,
         "subPan": 0,
@@ -20816,8 +21150,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced ring voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H159",
@@ -20926,7 +21262,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 17.2257,
         "subOctave": -1,
         "engineMode": 0,
         "subPan": 0,
@@ -20935,8 +21271,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced organbass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H160",
@@ -21045,7 +21383,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 0.92028,
         "subOctave": 0,
         "engineMode": 0,
         "distInput": 9,
@@ -21058,8 +21396,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H161",
@@ -21168,7 +21508,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 14.77394,
         "subOctave": 0,
         "engineMode": 0,
         "subPan": 0,
@@ -21177,8 +21517,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H162",
@@ -21287,7 +21629,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 14.23586,
         "osc1WarpEnvelope": 2,
         "subOctave": 0,
         "engineMode": 0,
@@ -21297,8 +21639,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced fmbass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H163",
@@ -21407,7 +21751,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 1.2006,
         "subOctave": 0,
         "engineMode": 0,
         "distInput": 6,
@@ -21419,8 +21763,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H164",
@@ -21529,7 +21875,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 15.49668,
         "subOctave": 0,
         "engineMode": 0,
         "subPan": 0,
@@ -21538,8 +21884,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced bass voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H165",
@@ -21648,15 +21996,17 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 6.3051,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H166",
@@ -21765,14 +22115,16 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.56736,
         "engineMode": 0,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "Nord-influenced ring voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H167",
@@ -21881,14 +22233,16 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.23679,
         "engineMode": 0,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "Nord-influenced pulse voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H168",
@@ -21997,15 +22351,17 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.55915,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H169",
@@ -22114,15 +22470,17 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 6.5345,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H170",
@@ -22231,14 +22589,16 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 20.33606,
         "engineMode": 0,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "Nord-influenced sync voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H171",
@@ -22347,15 +22707,17 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 6.43531,
         "engineMode": 0,
         "outputSafety": 1,
         "chorus": 0.14
       },
       "modulation": [],
       "description": "Nord-influenced drawbar voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H172",
@@ -22464,14 +22826,16 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.04376,
         "engineMode": 0,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "Nord-influenced bell voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H173",
@@ -22580,15 +22944,17 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.01351,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H174",
@@ -22697,14 +23063,16 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 10.12386,
         "engineMode": 0,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "Nord-influenced ring voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H175",
@@ -22813,7 +23181,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 5.09599,
         "engineMode": 0,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -22830,8 +23198,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced respad voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H176",
@@ -22940,7 +23310,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 4.55321,
         "engineMode": 0,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -22957,8 +23327,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced respad voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H177",
@@ -23067,7 +23439,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 6.25987,
         "engineMode": 0,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -23100,8 +23472,10 @@
         }
       ],
       "description": "Nord-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H178",
@@ -23210,7 +23584,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 9.08067,
         "engineMode": 0,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -23243,8 +23617,10 @@
         }
       ],
       "description": "Nord-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H179",
@@ -23353,7 +23729,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 9.12333,
         "engineMode": 0,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -23386,8 +23762,10 @@
         }
       ],
       "description": "Nord-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H180",
@@ -23496,7 +23874,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 5.34355,
         "engineMode": 0,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -23513,8 +23891,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced respad voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H181",
@@ -23623,7 +24003,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.15023,
         "engineMode": 0,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -23641,8 +24021,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced respad voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H182",
@@ -23751,7 +24133,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 6.13597,
         "engineMode": 0,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -23784,8 +24166,10 @@
         }
       ],
       "description": "Nord-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H183",
@@ -23894,7 +24278,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 8.04168,
         "engineMode": 0,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -23927,8 +24311,10 @@
         }
       ],
       "description": "Nord-influenced respad voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H184",
@@ -24037,7 +24423,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 7.94834,
         "engineMode": 0,
         "reverb": 0.24,
         "reverbSize": 0.78,
@@ -24070,8 +24456,10 @@
         }
       ],
       "description": "Nord-influenced digital voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H185",
@@ -24180,7 +24568,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 19.28296,
         "osc1Detune": 0.045,
         "engineMode": 0,
         "echoMode": 2,
@@ -24199,8 +24587,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced pluck voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H186",
@@ -24309,7 +24699,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 17.40872,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
         "echoMode": 2,
@@ -24328,8 +24718,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H187",
@@ -24438,7 +24830,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 20.83935,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -24456,8 +24848,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced sync voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H188",
@@ -24566,7 +24960,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 13.13508,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -24584,8 +24978,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced pulse voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H189",
@@ -24694,7 +25090,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 18.15103,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -24712,8 +25108,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced ring voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H190",
@@ -24822,7 +25220,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 17.52815,
         "engineMode": 0,
         "echoMode": 2,
         "echoMix": 0.14,
@@ -24840,8 +25238,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced mono voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H191",
@@ -24950,7 +25350,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 16.02557,
         "osc1Detune": 0.045,
         "engineMode": 0,
         "echoMode": 2,
@@ -24969,8 +25369,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced pluck voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H192",
@@ -25079,7 +25481,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 14.60114,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
         "echoMode": 2,
@@ -25098,8 +25500,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Hold a chord; internal arpeggiator generates notes.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H193",
@@ -25208,7 +25612,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 17.93192,
         "pitchEnvDecay": 0.045,
         "engineMode": 0,
         "pitchEnvAttack": 0,
@@ -25216,8 +25620,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced drum voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H194",
@@ -25326,7 +25732,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 17.78176,
         "pitchEnvDecay": 0.06,
         "engineMode": 0,
         "pitchEnvAttack": 0,
@@ -25334,8 +25740,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced drum voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H195",
@@ -25444,15 +25852,17 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 18.03256,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H196",
@@ -25561,14 +25971,16 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 19.86012,
         "engineMode": 0,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "Nord-influenced ring voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H197",
@@ -25677,14 +26089,16 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 14.53261,
         "engineMode": 0,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "Nord-influenced pulse voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H198",
@@ -25729,7 +26143,7 @@
         "osc2WarpAmount": 0,
         "subEnabled": 0,
         "subLevel": 0,
-        "noiseLevel": 0.7,
+        "noiseLevel": 0.95,
         "routeA": 1,
         "routeB": 1,
         "routeSub": 0,
@@ -25792,8 +26206,8 @@
         "eqMode6": 3,
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
-        "gain": 0.4,
-        "presetTrim": 0,
+        "gain": 1.0345904,
+        "presetTrim": 24,
         "pitchEnvDecay": 0.035,
         "engineMode": 0,
         "noiseType": 2,
@@ -25801,8 +26215,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced drum voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H199",
@@ -25911,7 +26327,7 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 18.85755,
         "engineMode": 0,
         "pitchEnvAttack": 0,
         "pitchEnvDecay": 0.14,
@@ -25919,8 +26335,10 @@
       },
       "modulation": [],
       "description": "Nord-influenced sync voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     },
     {
       "id": "H200",
@@ -26029,15 +26447,17 @@
         "eq6Frequency": 15000,
         "eq6Q": 0.707,
         "gain": 0.4,
-        "presetTrim": 0,
+        "presetTrim": 18.17572,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
         "outputSafety": 1
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Play your own notes; no sequencer.",
-      "status": "draft_pending_native_audition",
-      "review_revision": "track-ready-080"
+      "status": "measured_peak_calibrated",
+      "review_revision": "track-ready-080",
+      "review_level_mode": "peak",
+      "review_peak_ceiling_dbfs": -0.3
     }
   ]
 }

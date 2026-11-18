@@ -155,13 +155,15 @@
   },
   "Dream Corridor": {
     "sampleReverse": 1,
-    "attack": 0.12,
+    "attack": 0.06,
     "ampTimed": 1,
     "ampDecay": 2.4,
     "ampSustain": 0.28,
     "release": 0.7,
     "reverb": 0.26,
-    "echoMix": 0.12
+    "echoMix": 0.12,
+    "sampleStart": 0,
+    "sampleEnd": 0.28
   },
   "Sunlit Grand": {
     "ampTimed": 1,
@@ -217,7 +219,7 @@
     "osc2Enabled": 0
   },
   "Chamber Cinema": {
-    "source": 26,
+    "source": 24,
     "sampleLoop": 0,
     "attack": 0.005,
     "ampTimed": 1,
@@ -277,11 +279,12 @@
     "ampDecay": 0.19,
     "ampSustain": 0,
     "release": 0.07,
-    "filterMode": 3,
-    "cutoff": 3100,
+    "filterMode": 4,
+    "cutoff": 7200,
     "res": 0.15,
     "echoMix": 0.06,
-    "reverb": 0.095
+    "reverb": 0.095,
+    "source": 26
   },
   "Pulse Brass Key": {
     "wave": 39,
@@ -297,5 +300,49 @@
     "filterMode": 4,
     "cutoff": 3000,
     "filterEnvAmount": 1.2
+  },
+  "Noise Hat": {
+    "noiseLevel": 0.95
+  },
+  "Cello Gallery": {
+    "source": 24,
+    "sampleLoop": 1,
+    "ampTimed": 1,
+    "ampLong": 0,
+    "attack": 1,
+    "ampDecay": 1.6,
+    "ampSustain": 0.82,
+    "release": 0.95,
+    "filterMode": 4,
+    "cutoff": 1850,
+    "filterAttack": 0.8,
+    "filterEnvAmount": 0.7,
+    "filterSustain": 0.65,
+    "chorusEnabled": 1,
+    "chorusEngine": 1,
+    "dimensionMode": 1,
+    "dimensionWidth": 1,
+    "chorus": 0.18,
+    "reverb": 0.25
+  },
+  "Staccato Hall": {
+    "source": 25,
+    "sampleLoop": 0,
+    "sampleStart": 0.015,
+    "attack": 0.003,
+    "ampTimed": 1,
+    "ampLong": 0,
+    "ampDecay": 0.13,
+    "ampSustain": 0,
+    "release": 0.085,
+    "filterMode": 4,
+    "cutoff": 3200,
+    "res": 0.15,
+    "filterEnvAmount": 0.6,
+    "filterDecay": 0.085,
+    "reverbEnabled": 1,
+    "reverb": 0.27,
+    "reverbSize": 0.8,
+    "echoMix": 0.02
   }
 }
