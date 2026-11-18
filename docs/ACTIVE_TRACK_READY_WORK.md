@@ -1,3 +1,33 @@
+# Latest Windows correction — use the supported 1000px native minimum
+
+Retry44396210304 source9a6cad8 passed23/24Windowschecks, includingPitchTravel.
+Only HardwareUIfailed: nativeLogoSoftware1x2357/2430match;1.25x2415/2430match
+(99.4%), but LOGICALwindowwidth was1000 afterWindowsenforcedresize minimum,
+while fixtureasserted800. Logo rendering iscorrect; assertion's requestedsizewas
+below interactive minimum. Fixture nowrequests/asserts1000x760 atall scales,
+keeps90%pixelmatch and allengine/DPIchecks. Workflowadds--stop-on-failure so a
+badUItrialdoesnotwaitthroughthewholelongaudioaudition. NoDSP/bank/productionUI
+changes inthiscorrection. No0.8releasepublished. Needcommit/push[skipci]andnew
+Windowsrunpublish_release=true, follow exactnewsourceSHA/run, verifydownloadthen
+sendinstaller. Update/tmp/verify-space-infinity-release.py expectedSHA tonewcommit.
+NativeLinuxcodeinside#Windowsnotchanged; previous24pass+focused2pass remainvalid.
+
+---
+
+# CURRENT Windows retry — monitor this exact run
+
+Source9a6cad8c2277d9858a655d624ac66a6090f2af97 is saved/pushed.
+NEW Windows workflow44396210304 is IN PROGRESS with publish_release=true:
+https://github.com/vegadubstep-star/Space-Infinity/actions/runs/44396210304 .
+Do not duplicate. Earlier44391138236failed UI fixtures only and publishednothing.
+Native focused UI2/2passed afterfix;360audioaudit andbank unchanged.
+/tmp/verify-space-infinity-release.py expectedsourceSHA already updatedto9a6cad8...
+AfterWindowsallchecks/install/ZIPpublishpass, runthat independentdownload verifier,
+saveactualWindows/test/installer verification evidence, then sendtheInstallerZIP.
+Owner explicitly asks to receiveupdatewhendone; noapprovalquestionrequired.
+
+---
+
 # Latest Windows follow-up — first run failed UI fixtures only
 
 Windowsrun44391138236 built/packagedsuccessfully, then22/24tests passed. All audio,
