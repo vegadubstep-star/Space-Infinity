@@ -1,17 +1,14 @@
-# Active — 0.8.0 audio/native checks complete; Windows delivery next
+# COMPLETE — SPACE INFINITY 0.8.0 verified and released
 
-Owner explicitly asks for the update when done; old download holds are superseded.
-Read [ACTIVE_TRACK_READY_WORK.md](ACTIVE_TRACK_READY_WORK.md) for current exact state.
-
-All360presets actualaudited:0issues,4xtruepeakmaximum−0.295dBFS (−0.3target),
-all32OPENtransitionswithin0.06LU, no final near-match candidates.46additional native
-register/cutoff/IRreferences. ALL24LinuxnativechecksPASS228.18s.1208params,52waves,
-45sources,6newsteadychoir/hybrids. UpdatedV2HeritageZIP43985d0d...; source/audits/notes
-and screenshots ready for final[skip ci]commit/push. NoWindows0.8build yet and no
-installer sent. Next dispatch Windows workflow publish_release=true (authorised,
-checks gate publication), independently verify uploaded ZIP+installer+bank hashes,
-then deliver link. ACTIVEWindowsrun44391138236 onsource9c8ab994; do notduplicate.
-No agents authorised; preserve owner untracked audition/caches.
+Sourcec70db12ca72e60daeebc484f81b764ba5b76cd5d; CI44399691137 SUCCESS.
+All24Linux+24Windowschecks, installerinstall/uninstall andbinarycomparisonpassed.
+360audioaudits0issues, maxtruepeak−0.295dBFS,32OPENtransitionswithin0.06LU,0near-matches.
+52waves/45sources/1208params;factory160+separateHeritage200.
+PublishedInstallerZIP independentlydownloaded/CRC/hash/metadata/audit/bankverified.
+ZIPSHA2564ca0e537ce3a3b67b7147c8c78f71cc6f217635637c572ebf2d7c06dfd324710.
+[Download0.8.0](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.8.0/SPACE_INFINITY_0.8.0_Windows_x64_Installer.zip).
+Fullfinalstate/evidence inACTIVE_TRACK_READY_WORK.md. EarlierfailedWindowsUI
+fixturesandoldholds aresuperseded. Noagents;preserveowneraudition/caches.
 
 ---
 

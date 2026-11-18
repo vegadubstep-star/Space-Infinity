@@ -52,3 +52,12 @@ this is an objective screening method, not a guarantee of subjective preference.
 
 [Measured levels](https://github.com/vegadubstep-star/Space-Infinity/blob/v0.8.0/docs/audit/TRACK_READY_080_AUDIO_LEVELS.json) ·
 [Native checks](https://github.com/vegadubstep-star/Space-Infinity/blob/v0.8.0/docs/audit/TRACK_READY_080_NATIVE_TESTS.txt)
+
+Windows validation also passed all 24 checks, preset-edit importing, installer
+installation/uninstallation and installed/archive binary equality.
+[Verified Windows run](https://github.com/vegadubstep-star/Space-Infinity/actions/runs/44399691137).
+The published installer ZIP and manual VST3 archive were independently downloaded
+and verified, including Setup/ZIP hashes, CRC, x64/version metadata, Heritage 200
+content and the included 360-preset audio audit.
+
+Installer ZIP SHA256: `4ca0e537ce3a3b67b7147c8c78f71cc6f217635637c572ebf2d7c06dfd324710`.

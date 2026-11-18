@@ -1,0 +1,21 @@
+{
+  "version": "0.8.0",
+  "source_commit": "c70db12ca72e60daeebc484f81b764ba5b76cd5d",
+  "release_url": "https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.8.0",
+  "installer_zip": "SPACE_INFINITY_0.8.0_Windows_x64_Installer.zip",
+  "installer_zip_sha256": "4ca0e537ce3a3b67b7147c8c78f71cc6f217635637c572ebf2d7c06dfd324710",
+  "setup_sha256": "b151484d8c5c4a63287781718eefdb755b12d00eb8b3dac1be5825a7fd5775a0",
+  "heritage_bank_sha256": "43985d0daa8f43abd36aff0747b824931c62314c3cc1b73962ba69218b3035c0",
+  "verified": {
+    "installer_zip_crc": true,
+    "installer_hash": true,
+    "release_hashes": true,
+    "manual_vst3_crc": true,
+    "windows_x64_pe": true,
+    "native_version": "0.8.0",
+    "bank_v2_presets": 200,
+    "audio_audited_presets": 360,
+    "parameter_inventory": 1208,
+    "embedded_audio_audit_matches_source_except_line_endings": true
+  }
+}

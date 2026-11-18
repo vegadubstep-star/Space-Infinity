@@ -1,0 +1,63 @@
+2026-11-18T21:24:09.5051307Z Internal ctest changing into directory: D:/a/Space-Infinity/Space-Infinity/native-vst3/build
+2026-11-18T21:24:09.6015681Z Test project D:/a/Space-Infinity/Space-Infinity/native-vst3/build
+2026-11-18T21:24:09.6455043Z       Start  1: SpaceInfinityHeritageBank
+2026-11-18T21:24:14.8986640Z  1/24 Test  #1: SpaceInfinityHeritageBank .........   Passed    5.25 sec
+2026-11-18T21:24:14.9035965Z       Start  2: SpaceInfinityExtendedCore
+2026-11-18T21:24:14.9157521Z  2/24 Test  #2: SpaceInfinityExtendedCore .........   Passed    0.01 sec
+2026-11-18T21:24:14.9160093Z       Start  3: SpaceInfinityBassVoicing
+2026-11-18T21:24:48.1869478Z  3/24 Test  #3: SpaceInfinityBassVoicing ..........   Passed   33.27 sec
+2026-11-18T21:24:48.1873144Z       Start  4: SpaceInfinityAcidDrive
+2026-11-18T21:25:04.3007614Z  4/24 Test  #4: SpaceInfinityAcidDrive ............   Passed   16.11 sec
+2026-11-18T21:25:04.3012040Z       Start  5: SpaceInfinityCreativeWorkflow
+2026-11-18T21:25:07.4573378Z  5/24 Test  #5: SpaceInfinityCreativeWorkflow .....   Passed    3.16 sec
+2026-11-18T21:25:07.4577508Z       Start  6: SpaceInfinityUsability
+2026-11-18T21:25:10.5526444Z  6/24 Test  #6: SpaceInfinityUsability ............   Passed    3.09 sec
+2026-11-18T21:25:10.5530297Z       Start  7: SpaceInfinitySmoke
+2026-11-18T21:25:39.5440503Z  7/24 Test  #7: SpaceInfinitySmoke ................   Passed   28.97 sec
+2026-11-18T21:25:39.5441136Z       Start  8: SpaceInfinityHardwareUI
+2026-11-18T21:26:33.0985463Z  8/24 Test  #8: SpaceInfinityHardwareUI ...........   Passed   53.57 sec
+2026-11-18T21:26:33.0994721Z       Start  9: SpaceInfinityPresetManagement
+2026-11-18T21:26:35.3332559Z  9/24 Test  #9: SpaceInfinityPresetManagement .....   Passed    2.23 sec
+2026-11-18T21:26:35.3335939Z       Start 10: SpaceInfinityExtendedSmoke
+2026-11-18T21:26:36.8284771Z 10/24 Test #10: SpaceInfinityExtendedSmoke ........   Passed    1.49 sec
+2026-11-18T21:26:36.8288273Z       Start 11: SpaceInfinityAnalogueExpansion
+2026-11-18T21:26:45.4384737Z 11/24 Test #11: SpaceInfinityAnalogueExpansion ....   Passed    8.61 sec
+2026-11-18T21:26:45.4388637Z       Start 12: SpaceInfinityOscillatorWorkflow
+2026-11-18T21:26:46.2298171Z 12/24 Test #12: SpaceInfinityOscillatorWorkflow ...   Passed    0.79 sec
+2026-11-18T21:26:46.2301774Z       Start 13: SpaceInfinityPitchTravel
+2026-11-18T21:26:48.2512480Z 13/24 Test #13: SpaceInfinityPitchTravel ..........   Passed    2.02 sec
+2026-11-18T21:26:48.2516195Z       Start 14: SpaceInfinityChorusMelt
+2026-11-18T21:26:50.4182816Z 14/24 Test #14: SpaceInfinityChorusMelt ...........   Passed    2.17 sec
+2026-11-18T21:26:50.4186650Z       Start 15: SpaceInfinityModulationWorkflow
+2026-11-18T21:26:51.6291788Z 15/24 Test #15: SpaceInfinityModulationWorkflow ...   Passed    1.21 sec
+2026-11-18T21:26:51.6295686Z       Start 16: SpaceInfinityNoiseModes
+2026-11-18T21:26:56.0011414Z 16/24 Test #16: SpaceInfinityNoiseModes ...........   Passed    4.37 sec
+2026-11-18T21:26:56.0015413Z       Start 17: SpaceInfinityDualLFO
+2026-11-18T21:26:57.4556094Z 17/24 Test #17: SpaceInfinityDualLFO ..............   Passed    1.45 sec
+2026-11-18T21:26:57.4559773Z       Start 18: SpaceInfinityRhythmWorkflow
+2026-11-18T21:26:58.7328531Z 18/24 Test #18: SpaceInfinityRhythmWorkflow .......   Passed    1.28 sec
+2026-11-18T21:26:58.7332148Z       Start 19: SpaceInfinityWorkflow
+2026-11-18T21:27:01.5872489Z 19/24 Test #19: SpaceInfinityWorkflow .............   Passed    2.85 sec
+2026-11-18T21:27:01.5876168Z       Start 20: SpaceInfinityStudioSmoke
+2026-11-18T21:27:05.0666555Z 20/24 Test #20: SpaceInfinityStudioSmoke ..........   Passed    3.48 sec
+2026-11-18T21:27:05.0667518Z       Start 21: SpaceInfinityGrooveBank
+2026-11-18T21:27:43.7946949Z 21/24 Test #21: SpaceInfinityGrooveBank ...........   Passed   38.38 sec
+2026-11-18T21:27:43.7947542Z       Start 22: SpaceInfinityLeads
+2026-11-18T21:27:50.4565091Z 22/24 Test #22: SpaceInfinityLeads ................   Passed    7.01 sec
+2026-11-18T21:27:50.4568959Z       Start 23: SpaceInfinityAirwavePad
+2026-11-18T21:31:11.2716448Z 23/24 Test #23: SpaceInfinityAirwavePad ...........   Passed  200.81 sec
+2026-11-18T21:31:11.2720183Z       Start 24: SpaceInfinityAnalogueProbe
+2026-11-18T21:31:11.3341048Z 24/24 Test #24: SpaceInfinityAnalogueProbe ........   Passed    0.06 sec
+2026-11-18T21:31:11.3350331Z 
+2026-11-18T21:31:11.3354161Z 100% tests passed, 0 tests failed out of 24
+2026-11-18T21:31:11.3354920Z 
+2026-11-18T21:31:11.3355183Z Total Test time (real) = 421.72 sec
+
+2026-11-18T21:16:13.5670135Z Image Release: https://github.com/actions/runner-images/releases/tag/win22%2F20261112.366
+2026-11-18T21:31:17.8813575Z 4. The installer ran successfully.
+2026-11-18T21:31:18.0341471Z 6. The installed binary matches the manual VST3 archive byte for byte.
+2026-11-18T21:31:18.6760122Z 7. The uninstaller removed the installed VST3.
+2026-11-18T21:31:20.9297087Z Verified SPACE_INFINITY_0.8.0_Windows_x64_Installer.zip: fdbdb6bf381da2f391fa178f040d38da20fc6c0d7d3cea3cbf24fe5c9bd4ba75
+2026-11-18T21:31:23.1621716Z Verified SPACE_INFINITY_0.8.0_Windows_x64_Installer.zip: 4ca0e537ce3a3b67b7147c8c78f71cc6f217635637c572ebf2d7c06dfd324710
+2026-11-18T21:31:39.7974179Z Installer: https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.8.0/SPACE_INFINITY_0.8.0_Windows_x64_Setup.exe
+2026-11-18T21:31:39.7977627Z Release: https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.8.0
