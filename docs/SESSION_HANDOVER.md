@@ -1,3 +1,9 @@
+# Latest layout follow-up — MELT beside Portamento, larger wheel
+
+Owner requested OSC MELT beside Portamento and a larger pitch wheel. MELT now shares the filter's lower utility row with Portamento, with a typed percentage readout; the freed footer space extends the keyboard. Pitch wheel has a 36 × 46-pixel visible ribbed drum and a 56 × 52-pixel drag area, with its existing spring return and independent up/down stops. The filter utility row adapts at smaller widths. No DSP or parameter definitions changed. HardwareUI (five sizes plus sampler), PitchTravel and ChorusMelt passed: 3/3 in 12.35 seconds; see audit/MELT_PORTAMENTO_WHEEL_072_TESTS.txt. Main/Sampler preview images have been refreshed. Windows verification is pending; download/publication hold remains in force.
+
+---
+
 # Active follow-up — 0.7.2 layout and controls, 18 November 2026
 
 **Download/publication hold remains in force.** The owner renewed it before requesting more changes. No 0.7.2 Windows installer has been built, published or sent. The saved verified 0.7.1 binary source f8db6e7 predates these changes and the graph-number update. Rebuild current source and verify Windows/FL Studio before delivering another installer.

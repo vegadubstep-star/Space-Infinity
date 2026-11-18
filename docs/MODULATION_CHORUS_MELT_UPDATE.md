@@ -8,7 +8,7 @@ The visual arrangement follows the owner's Serum 2 reference while retaining the
 
 ## Pitch wheel
 
-The wheel sits bottom-left beside the sub. Separate **+24 st / −24 st** fields set the upward and downward stops independently, from zero to 24 semitones each. The wheel stays visually centred at zero even with unequal stops, and springs back to zero on release. Host automation and MIDI bend respect those stops. Changing a stop also rescales a held physical MIDI wheel immediately; the existing MIDI bend range remains an additional cap. The chosen stops are saved with the patch.
+The larger ribbed wheel sits bottom-left beside the sub, with a 36 × 46-pixel visible drum and a larger drag area. Separate **+24 st / −24 st** fields set the upward and downward stops independently, from zero to 24 semitones each. The wheel stays visually centred at zero even with unequal stops, and springs back to zero on release. Host automation and MIDI bend respect those stops. Changing a stop also rescales a held physical MIDI wheel immediately; the existing MIDI bend range remains an additional cap. The chosen stops are saved with the patch.
 
 ## Direct modulation editing
 
@@ -26,7 +26,7 @@ The new processor uses opposed delay modulation, a filtered/saturated wet path a
 
 ## OSC MELT
 
-A main-page OSC MELT knob sends the two synth oscillators through shared harmonic saturation and gently brings their stereo image together. It preserves their pitches. Static compensation and30ms parameter smoothing avoid a level-following gain fade. Zero is an exact bypass, and a single oscillator is unaffected. Sub/noise are added afterwards; filter routing remains intact. MELT is available to LFO/amp/macro assignments and disabled for sample playback.
+OSC MELT sits beside Portamento in the main filter section, with a percentage readout. The keyboard extends into its previous bottom-right position. The knob sends the two synth oscillators through shared harmonic saturation and gently brings their stereo image together. It preserves their pitches. Static compensation and30ms parameter smoothing avoid a level-following gain fade. Zero is an exact bypass, and a single oscillator is unaffected. Sub/noise are added afterwards; filter routing remains intact. MELT is available to LFO/amp/macro assignments and disabled for sample playback.
 
 ## Recessed logo badge
 
@@ -42,4 +42,4 @@ The approved lettering and output-responsive light now sit in a recessed titaniu
 
 ## Status
 
-All 24 native suites passed (235.39 seconds), including DSP, banks, modulation, chorus/MELT, pitch/keyboard input and multi-size UI checks. The factory-edit import test also passed; all 1108 old parameter definitions/indices and both shipped banks are preserved. After the final popup-layer adjustment, all five affected UI/interaction suites passed again (20.14 seconds). Actual compiled previews appear above. See [verification](audit/LAYOUT_MODULATION_072_VALIDATION.md). No Windows build has been sent or published: the owner explicitly renewed the hold while requesting these changes. The saved0.7.1 installer predates this work. Package current0.7.2 source only when the owner is ready.
+All 24 native suites passed (235.39 seconds), including DSP, banks, modulation, chorus/MELT, pitch/keyboard input and multi-size UI checks. The factory-edit import test also passed; all 1108 old parameter definitions/indices and both shipped banks are preserved. After the final popup-layer adjustment, all five affected UI/interaction suites passed again (20.14 seconds). The later MELT/Portamento placement and larger pitch-wheel follow-up passed HardwareUI, PitchTravel and ChorusMelt again (3/3, 12.35 seconds). Actual compiled previews appear above. See [verification](audit/LAYOUT_MODULATION_072_VALIDATION.md). No Windows build has been sent or published: the owner explicitly renewed the hold while requesting these changes. The saved0.7.1 installer predates this work. Package current0.7.2 source only when the owner is ready.

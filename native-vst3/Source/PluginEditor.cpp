@@ -400,7 +400,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     addAndMakeVisible(noiseLevel);
     attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"noiseLevel",noiseLevel));
     noiseLevel.textFromValueFunction=[](double v){return juce::String(v*100,1)+" %";};noiseLevel.updateText();
-    melt.initialiseModulation(processor,"oscMelt");melt.setName("Oscillator melt");melt.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);melt.setTextBoxStyle(juce::Slider::NoTextBox,false,0,0);melt.setPopupDisplayEnabled(true,true,this);melt.setMouseDragSensitivity(350);melt.setDoubleClickReturnValue(true,0);melt.setTooltip("MELT brings both synth oscillators through shared harmonic saturation and gently unifies their stereo image. Keeps tuning; zero restores the original sound. Use both oscillators.");attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"oscMelt",melt));melt.textFromValueFunction=[](double value){return juce::String(value*100,1)+"%";};addAndMakeVisible(melt);meltLabel.setText("OSC MELT",juce::dontSendNotification);meltLabel.setJustificationType(juce::Justification::centred);meltLabel.setFont(juce::Font(juce::FontOptions(10)));addAndMakeVisible(meltLabel);
+    melt.initialiseModulation(processor,"oscMelt");melt.setName("Oscillator melt");melt.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);melt.setTextBoxStyle(juce::Slider::TextBoxBelow,false,56,16);melt.setPopupDisplayEnabled(true,true,this);melt.setMouseDragSensitivity(350);melt.setDoubleClickReturnValue(true,0);melt.setTooltip("MELT brings both synth oscillators through shared harmonic saturation and gently unifies their stereo image. Keeps tuning; zero restores the original sound. Use both oscillators.");attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"oscMelt",melt));melt.textFromValueFunction=[](double value){return juce::String(value*100,1)+"%";};melt.valueFromTextFunction=[](const juce::String& text){return text.getDoubleValue()/100;};melt.updateText();addAndMakeVisible(melt);meltLabel.setText("OSC MELT",juce::dontSendNotification);meltLabel.setJustificationType(juce::Justification::centred);meltLabel.setFont(juce::Font(juce::FontOptions(9)));addAndMakeVisible(meltLabel);
     for(int i=0;i<3;++i){samplerLabels[size_t(i)].setText(i==0?"START":i==1?"END":"ROOT",juce::dontSendNotification);samplerLabels[size_t(i)].setFont(juce::Font(juce::FontOptions(8.5f)));addAndMakeVisible(samplerLabels[size_t(i)]);}
     const char* oscIds[]={"osc1Tune","osc1Width","osc2Tune","osc2Width"};
     for(size_t i=0;i<oscillatorSliders.size();++i){
@@ -504,7 +504,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     pitchAttachment=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"pitchBend",pitchWheel);
     pitchWheel.textFromValueFunction=[](double value){return juce::String(value,1)+" st";};
     pitchWheel.updateText();
-    for(int i=0;i<2;++i){auto& limit=pitchLimits[size_t(i)];const char* id=i==0?"pitchUpLimit":"pitchDownLimit";limit.initialiseModulation(processor,id);limit.setName(i==0?"Pitch up limit":"Pitch down limit");limit.setSliderStyle(juce::Slider::IncDecButtons);limit.setIncDecButtonsMode(juce::Slider::incDecButtonsDraggable_Vertical);limit.setTextBoxStyle(juce::Slider::TextBoxLeft,false,56,20);limit.setMouseDragSensitivity(250);limit.setTooltip(i==0?"Upper pitch-wheel stop, 0 to +24 semitones. Type a value or drag the +/- area vertically.":"Lower pitch-wheel stop, 0 to -24 semitones. Type a value or drag the +/- area vertically.");attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,id,limit));limit.textFromValueFunction=[i](double value){return (value==0?juce::String{}:juce::String(i==0?"+":"-"))+juce::String(int(value))+" st";};limit.valueFromTextFunction=[](const juce::String& text){return std::abs(text.getDoubleValue());};limit.updateText();addAndMakeVisible(limit);}
+    for(int i=0;i<2;++i){auto& limit=pitchLimits[size_t(i)];const char* id=i==0?"pitchUpLimit":"pitchDownLimit";limit.initialiseModulation(processor,id);limit.setName(i==0?"Pitch up limit":"Pitch down limit");limit.setSliderStyle(juce::Slider::IncDecButtons);limit.setIncDecButtonsMode(juce::Slider::incDecButtonsDraggable_Vertical);limit.setTextBoxStyle(juce::Slider::TextBoxLeft,false,46,20);limit.setMouseDragSensitivity(250);limit.setTooltip(i==0?"Upper pitch-wheel stop, 0 to +24 semitones. Type a value or drag the +/- area vertically.":"Lower pitch-wheel stop, 0 to -24 semitones. Type a value or drag the +/- area vertically.");attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,id,limit));limit.textFromValueFunction=[i](double value){return (value==0?juce::String{}:juce::String(i==0?"+":"-"))+juce::String(int(value))+" st";};limit.valueFromTextFunction=[](const juce::String& text){return std::abs(text.getDoubleValue());};limit.updateText();addAndMakeVisible(limit);}
     for(auto& limit:pitchLimits)limit.onValueChange=[this]{updatePitchLimits();};updatePitchLimits();sourceHeader.setText("SOURCE",juce::dontSendNotification);sourceHeader.setFont(juce::Font(juce::FontOptions(9)));addAndMakeVisible(sourceHeader);
 
     longEnvelope.onStateChange=[this]{knobs[2].updateText();knobs[3].updateText();repaint();};
@@ -990,7 +990,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
             const auto layout=mainLayout(getWidth(),getHeight());
             for(const auto region:{layout.oscillators[0],layout.oscillators[1],layout.filter,layout.macros,layout.envelope,layout.motion})
                 HardwareTheme::module(surface,region.toFloat(),region.getY()==layout.macros.getY());
-            drawInset(surface,{28.0f,float(getHeight()-69),float(getWidth()-56),60.0f});HardwareTheme::module(surface,{float(getWidth()-130),float(getHeight()-73),100,64},true);HardwareTheme::module(surface,{30,float(getHeight()-73),156,64},true);
+            drawInset(surface,{28.0f,float(getHeight()-69),float(getWidth()-56),60.0f});HardwareTheme::module(surface,{30,float(getHeight()-73),156,64},true);
         }
         cachedFxPage=fxPage;
     }
@@ -1155,7 +1155,7 @@ void SpaceInfinityEditor::resized(){
     noiseMode.setBounds(w-192,52,84,23);
     noiseLevel.setBounds(w-104,52,66,23);
     mainTab.setBounds(34,86,58,25);fxTab.setBounds(97,86,50,25);gateTab.setBounds(152,86,60,25);sequenceTab.setBounds(217,86,60,25);extendedButton.setBounds(282,86,78,25);
-    octaveControls[0].setBounds(w-320,89,52,22);pitchWheel.setBounds(34,h-58,42,46);pitchSettings.setBounds(36,h-72,144,13);pitchLimits[0].setBounds(82,h-54,94,21);pitchLimits[1].setBounds(82,h-30,94,21);
+    octaveControls[0].setBounds(w-320,89,52,22);pitchWheel.setBounds(34,h-61,56,52);pitchSettings.setBounds(36,h-72,144,13);pitchLimits[0].setBounds(94,h-54,84,21);pitchLimits[1].setBounds(94,h-30,84,21);
     if(gatePage)gatePage->setBounds(28,150,w-56,h-212);if(sequencerPage)sequencerPage->setBounds(28,150,w-56,h-212);
     for(int i=0;i<3;++i)pageLfoSources[size_t(i)].setBounds(210+i*60,h-53,57,28);
     if(studioRack)studioRack->setBounds(28,150,w-56,h-212);
@@ -1199,10 +1199,17 @@ void SpaceInfinityEditor::resized(){
     {auto row=juce::Rectangle<int>(filterControls.getX(),filterControls.getY()+2*gridHeight,filterControls.getWidth(),gridHeight);auto a=row.removeFromLeft(row.getWidth()/2).reduced(2,0);analogueLabel.setFont(juce::Font(juce::FontOptions(9)));analogueLabel.setBounds(a.removeFromTop(10));analogueCharacter.setBounds(a);auto b=row.reduced(2,0);preDriveLabel.setFont(juce::Font(juce::FontOptions(9)));preDriveLabel.setBounds(b.removeFromTop(10));preDrive.setBounds(b);}
     analogueOn.setBounds(layout.filter.getRight()-141,layout.filter.getY()+2,100,18);analogueLabButton.setBounds(layout.filter.getRight()-40,layout.filter.getY()+2,35,18);
     filterMode.setBounds(layout.filter.getX()+8,layout.filter.getBottom()-71,layout.filter.getWidth()-70,22);
-    const int voiceWidth=juce::jmax(65,layout.filter.getWidth()-154);
-    voiceMode.setBounds(layout.filter.getX()+8,layout.filter.getBottom()-32,voiceWidth,23);
-    filterMode.setBounds(layout.filter.getX()+8,layout.filter.getBottom()-71,voiceWidth,22);
-    portamentoLabel.setBounds(layout.filter.getX()+voiceWidth+9,layout.filter.getBottom()-77,79,14);portamento.setBounds(layout.filter.getX()+voiceWidth+12,layout.filter.getBottom()-62,72,57);
+    const int filterUtilityWidth=layout.filter.getWidth()-74;
+    const int utilityKnobWidth=juce::jlimit(44,72,filterUtilityWidth/3);
+    const int voiceWidth=filterUtilityWidth-2*utilityKnobWidth-8;
+    const int utilityX=layout.filter.getX()+8;
+    voiceMode.setBounds(utilityX,layout.filter.getBottom()-32,voiceWidth,23);
+    filterMode.setBounds(utilityX,layout.filter.getBottom()-71,voiceWidth,22);
+    portamentoLabel.setText(utilityKnobWidth<60?"PORTA":"PORTAMENTO",juce::dontSendNotification);
+    portamentoLabel.setBounds(utilityX+voiceWidth+4,layout.filter.getBottom()-77,utilityKnobWidth,14);
+    portamento.setBounds(utilityX+voiceWidth+4,layout.filter.getBottom()-62,utilityKnobWidth,57);
+    meltLabel.setBounds(portamento.getRight()+4,layout.filter.getBottom()-77,utilityKnobWidth,14);
+    melt.setBounds(portamento.getRight()+4,layout.filter.getBottom()-62,utilityKnobWidth,57);
     labels[12].setText("OUT",juce::dontSendNotification);
     labels[12].setBounds(layout.filter.getRight()-58,layout.filter.getY()+24,45,13);
     knobs[12].setBounds(layout.filter.getRight()-59,layout.filter.getY()+42,44,layout.filter.getHeight()-50);
@@ -1277,7 +1284,7 @@ void SpaceInfinityEditor::resized(){
         meterBounds={w-43,h-56,8,35};
     }
     if(workbench)workbench->setBounds(30,layout.macros.getY(),w-60,layout.macros.getHeight());
-    if(subPanel)subPanel->setBounds(30,h-210,juce::jlimit(132,180,(w-60)/6),130);if(keyboard){keyboard->setBounds(194,h-73,w-324,64);keyboard->setKeyWidth(juce::jlimit(14.0f,24.0f,float(w-324)/42));keyboard->setLowestVisibleKey(36);}melt.setBounds(w-116,h-61,80,48);meltLabel.setBounds(w-122,h-73,92,13);
+    if(subPanel)subPanel->setBounds(30,h-210,juce::jlimit(132,180,(w-60)/6),130);if(keyboard){keyboard->setBounds(194,h-73,w-224,64);keyboard->setKeyWidth(juce::jlimit(14.0f,24.0f,float(w-224)/42));keyboard->setLowestVisibleKey(36);}
     for(int i=0;i<2;++i){auto r=layout.oscillators[i];gainLabels[size_t(i)].setBounds(oscillatorGains[size_t(i)].getBounds().translated(0,-15).withHeight(13));}
     const int routeWidth=(layout.filter.getWidth()-70)/4;for(int i=0;i<4;++i){const char* names[]{"A","B","SUB","NOISE"};filterRoutes[size_t(i)].setButtonText(routeWidth<52?(i==2?"S":i==3?"N":names[i]):names[i]);filterRoutes[size_t(i)].setBounds(layout.filter.getX()+5+i*routeWidth,layout.filter.getBottom()-100,routeWidth,22);}
     masterReadout.setBounds(fxPage?juce::Rectangle<int>(w-390,h-54,94,30):juce::Rectangle<int>(layout.filter.getRight()-64,layout.filter.getBottom()-28,58,22));

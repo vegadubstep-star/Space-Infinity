@@ -14,3 +14,5 @@ Validated 18 November 2026 on Linux using the compiled Release JUCE native edito
 Actual screenshots: [Main](../images/Layout-MAIN-072.png), [Sampler](../images/Layout-SAMPLER-072.png), [Dimension chorus](../images/Dimension-Chorus-072.png).
 
 Windows 0.7.2 build/installer verification and owner FL Studio listening remain pending. No 0.7.2 installer or public release has been supplied. The owner's download/publication hold remains in force. The saved verified 0.7.1 installer predates this work.
+
+Latest layout follow-up: OSC MELT moved beside Portamento, pitch wheel enlarged and keyboard extended. No DSP/parameter changes. HardwareUI, PitchTravel and ChorusMelt passed again (3/3, 12.35 seconds); see [follow-up results](MELT_PORTAMENTO_WHEEL_072_TESTS.txt). Main/Sampler previews above reflect this update.
