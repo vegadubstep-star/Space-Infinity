@@ -2,7 +2,14 @@
 #include <iostream>
 #include <stdexcept>
 #include <vector>
+#if JUCE_WINDOWS
+#include <windows.h>
+#include <cstdio>
+#endif
 namespace {
+#if JUCE_WINDOWS
+LONG WINAPI reportWindowsException(EXCEPTION_POINTERS* exception){char text[160]{};const int size=std::snprintf(text,sizeof(text),"Sound character Windows exception: 0x%08lx at %p\n",exception->ExceptionRecord->ExceptionCode,exception->ExceptionRecord->ExceptionAddress);DWORD written=0;WriteFile(GetStdHandle(STD_ERROR_HANDLE),text,DWORD(juce::jlimit(0,159,size)),&written,nullptr);return EXCEPTION_EXECUTE_HANDLER;}
+#endif
 void need(bool ok,const char* why){if(!ok)throw std::runtime_error(why);}
 void set(SpaceInfinityProcessor& p,const juce::String& id,float v){auto* a=p.state.getParameter(id);need(a!=nullptr,"parameter missing");a->setValueNotifyingHost(a->convertTo0to1(v));}
 void clean(SpaceInfinityProcessor& p){p.loadPreset(0);for(auto id:{"compEnabled","delayEnabled","reverbEnabled","chorusEnabled","flangerEnabled","phaserEnabled","gateEnabled","pumpEnabled","eqEnabled","convolverEnabled","distEnabled","osc2Enabled","analogueLabEnabled","analogueUpgrade"})set(p,id,0);set(p,"engineMode",1);set(p,"analogueCharacter",0);set(p,"soundLife",0);set(p,"subLevel",0);set(p,"noiseLevel",0);set(p,"mix",0);set(p,"osc1PhaseReset",1);set(p,"osc1Rand",0);set(p,"osc1Unison",1);set(p,"attack",0);set(p,"ampSustain",1);set(p,"gain",.2f);set(p,"presetTrim",0);set(p,"filterEnvAmount",0);set(p,"motionDepth",0);set(p,"lfodepth",0);}
@@ -11,17 +18,27 @@ double frequency(const std::vector<float>& x){int count=0;for(size_t n=x.size()/
 juce::Component* named(juce::Component& c,const juce::String& name){if(c.getName()==name)return &c;for(auto* child:c.getChildren())if(auto* found=named(*child,name))return found;return nullptr;}
 }
 int runSoundCharacterSmoke(){try{
+ std::cout<<std::unitbuf;
+#if JUCE_WINDOWS
+ ULONG guarantee=65536;SetThreadStackGuarantee(&guarantee);SetUnhandledExceptionFilter(reportWindowsException);
+#endif
+ std::cout<<"Sound character: filter renders"<<std::endl;
  auto p=std::make_unique<SpaceInfinityProcessor>();clean(*p);set(*p,"cutoff",1000);set(*p,"res",.8f);double previous=0;
  for(int mode=7;mode<15;++mode){set(*p,"characterFilterMode",float(mode-6));need(p->filterSelection()==mode,"extended filter selection");const auto audio=render(*p,80);double energy=0;for(auto x:audio)energy+=x*x;need(energy>1.e-7,"new filter is silent in actual synth");previous+=energy;}
  need(previous>0,"no new filter audio");auto* legacyFilter=dynamic_cast<juce::AudioParameterChoice*>(p->state.getParameter("filterMode"));need(legacyFilter&&legacyFilter->choices.size()==7&&legacyFilter->convertTo0to1(6)==1,"legacy filter automation range changed");set(*p,"characterFilterMode",0);set(*p,"filterMode",5);need(p->filterSelection()==5,"original filter automation no longer controls original model");
+ std::cout<<"Sound character: sample fixture/import"<<std::endl;
  // A steady sine sample gives an independent octave measurement through actual import/playback.
  const auto file=juce::File::getSpecialLocation(juce::File::tempDirectory).getNonexistentChildFile("InfinityOctave",".wav");juce::AudioBuffer<float> sine(2,48000);for(int n=0;n<48000;++n){sine.setSample(0,n,.4f*std::sin(float(n)*juce::MathConstants<float>::twoPi*440/48000));sine.setSample(1,n,sine.getSample(0,n));}
  {juce::WavAudioFormat format;std::unique_ptr<juce::FileOutputStream> stream(file.createOutputStream());auto writer=std::unique_ptr<juce::AudioFormatWriter>(format.createWriterFor(stream.get(),48000,2,24,{},0));need(bool(writer),"sample fixture writer");stream.release();need(writer->writeFromAudioSampleBuffer(sine,0,48000),"sample fixture write");}
  clean(*p);need(p->importSample(file).wasOk(),"sample import");file.deleteFile();set(*p,"source",3);set(*p,"sampleRoot",69);set(*p,"routeA",0);set(*p,"sampleLoop",1);set(*p,"sampleLoopFade",20);
  for(int octave:{-1,0,1,2}){set(*p,"sampleOctave",float(octave));const auto audio=render(*p);const double measured=frequency(audio),expected=440*std::exp2(octave);std::cout<<"Sampler octave "<<octave<<": "<<measured<<" Hz\n";need(std::abs(measured-expected)<4,"sampler octave does not transpose correctly");}
+ std::cout<<"Sound character: granular blend and state recall"<<std::endl;
  set(*p,"sampleCloudMix",.7f);set(*p,"sampleSmear",.5f);set(*p,"sampleDarken",.4f);set(*p,"grainFreeze",1);set(*p,"grainOctave",-1);render(*p);juce::MemoryBlock saved;p->getStateInformation(saved);auto recalled=std::make_unique<SpaceInfinityProcessor>();recalled->setStateInformation(saved.getData(),int(saved.getSize()));need(recalled->state.getRawParameterValue("sampleOctave")->load()==2&&recalled->state.getRawParameterValue("grainOctave")->load()==-1,"sampler pitch state recall");render(*recalled);
+ std::cout<<"Sound character: sampler editor creation"<<std::endl;
  auto editor=std::unique_ptr<juce::AudioProcessorEditor>(p->createEditor());juce::Thread::sleep(45);juce::Timer::callPendingTimersSynchronously();need(named(*editor,"Sampler octave")!=nullptr&&named(*editor,"Granular layer octave")!=nullptr,"visible octave controls bind to sampler");set(*p,"source",0);juce::Thread::sleep(45);juce::Timer::callPendingTimersSynchronously();need(named(*editor,"Osc 1 octave")!=nullptr,"oscillator octave restores on synth engine");
+ std::cout<<"Sound character: voice-life renders"<<std::endl;
  clean(*p);set(*p,"wave",2);set(*p,"filterMode",1);set(*p,"cutoff",8000);const auto dry=render(*p,1000);set(*p,"soundLife",.8f);const auto life=render(*p,1000);double change=0,first=0,last=0;for(size_t n=0;n<life.size();++n){change+=std::abs(life[n]-dry[n]);if(n>24000&&n<48000)first+=life[n]*life[n];if(n>life.size()-24000)last+=life[n]*life[n];}need(change>1,"voice life does not alter sound");need(last>first*.75&&last<first*1.25,"voice life causes unwanted long volume fade");
+ std::cout<<"Sound character: oscillator journeys"<<std::endl;
  clean(*p);set(*p,"routeA",0);set(*p,"routeB",0);set(*p,"wave",2);set(*p,"osc2Wave",3);set(*p,"osc2Enabled",1);set(*p,"osc2Octave",1);set(*p,"osc2PhaseReset",1);set(*p,"osc2Rand",0);set(*p,"osc2Unison",1);set(*p,"oscTransition",1);set(*p,"oscTransitionTime",.2f);
  for(int direction=0;direction<2;++direction){set(*p,"oscTransitionDirection",float(direction));const auto journey=render(*p,240);std::vector<float> opening(journey.begin(),journey.begin()+2048),ending(journey.end()-8192,journey.end());const double startHz=frequency(opening),endHz=frequency(ending);need(std::abs(startHz-(direction?880:440))<40&&std::abs(endHz-(direction?440:880))<10,"oscillator transition does not travel between the two pitches");}
  std::cout<<"Full synth filters, sampler octave audio/UI/recall, granular blending and stable voice-life level passed\n";return 0;

@@ -30,6 +30,8 @@ jobs:
           path: native-vst3/build
           key: windows-juce807-v2-${{ hashFiles('native-vst3/**', 'scripts/**') }}
           restore-keys: windows-juce807-v2-
+      - name: Preserve unchanged native compiler inputs
+        run: python scripts/restore-native-cache-times.py
       - name: Install Inno Setup
         run: choco install innosetup --yes --no-progress
       - name: Build and package

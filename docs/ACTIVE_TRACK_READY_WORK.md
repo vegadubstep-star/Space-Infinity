@@ -44,7 +44,13 @@ cancelled before publication to fix packaging allowlists and stale 0.7.2 README.
 The new installer wrapper requires Lush20 + new reports; a content regression
 check passes and rejects a missing bank. Synth/DSP source unchanged.
 
-REMAINING: push the packaging-only follow-up, dispatch Windows workflow with
+Packaging-only commit 0901f281d8555c2764ec76aeb6ea8638cdd9c722 is pushed.
+Final Windows run: 44835072301; package job 136629273891.
+https://github.com/vegadubstep-star/Space-Infinity/actions/runs/44835072301
+Initial run 44834594534 is confirmed cancelled; publish was skipped.
+Public ZIP verifier /tmp/verify-space-infinity090-release.py expects final 0901f28.
+
+REMAINING: wait for this Windows workflow with
 publish_release=true. Wait for Windows tests + actual installer verification,
 then independently download/verify the public installer ZIP. Only then give user
 the download link. No 0.9 release is published yet. Preserve owner untracked
@@ -96,3 +102,12 @@ verification. Downloadedverifiedreleasefiles/workspace/work/release-verification
 Focused final filter/sampler/A-to-B/pitch/Lush bank tests: 4/4 PASS, 6.20s.
 Earlier crash was stale ABI objects from a mid-build header edit; force-rebuilding
 all PluginProcessor.h dependents resolved it. Keep headers fixed while building.
+
+WINDOWS BLOCKER: run44835072301 failed SoundCharacter integration test with
+SegFault after first4 tests passed. No release published. Cache successfully saved
+(847MB), so subsequent native inputs can be reused. Added flushed diagnostic
+checkpoints and Windows exception-code logging to SoundCharacterSmoke, and a
+source-mtime restoration CI step to avoid rebuilding unchanged inputs. No DSP
+changes. Diagnostic Linux integration still passes. Next dispatch diagnostic
+Windows workflow with publish_release=false; read its failure checkpoint/code.
+Artifact-upload quota is exhausted but optional; release uploads are unaffected.
