@@ -89,3 +89,20 @@ Test project /workspace/work/native-design/native-vst3/build-linux
 Total Test time (real) =  14.18 sec
 
 Fix: octave attachments are declared after their sliders and explicitly detached before editor controls are destroyed. Sound test now exercises sampler/synth close/reopen. No audio-engine or preset changes.
+
+Owned edit-panel close/reopen regression:
+Test project /workspace/work/native-design/native-vst3/build-linux
+    Start  5: SpaceInfinitySoundCharacter
+1/4 Test  #5: SpaceInfinitySoundCharacter .......   Passed    2.47 sec
+    Start 11: SpaceInfinityHardwareUI
+2/4 Test #11: SpaceInfinityHardwareUI ...........   Passed    8.57 sec
+    Start 16: SpaceInfinityPitchTravel
+3/4 Test #16: SpaceInfinityPitchTravel ..........   Passed    1.60 sec
+    Start 18: SpaceInfinityModulationWorkflow
+4/4 Test #18: SpaceInfinityModulationWorkflow ...   Passed    1.89 sec
+
+100% tests passed out of 4
+
+Total Test time (real) =  14.54 sec
+
+Filter and sampler callouts are owned by their creating controls and close before the editor/processor lifetime ends. Test opens each EDIT panel before destroying/reopening the editor.

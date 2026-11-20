@@ -120,3 +120,17 @@ destructor. Added explicit sample/synth close/reopen coverage. Focused local
 SoundCharacter/HardwareUI/PitchTravel/Modulation 4/4 PASS (14.18s). No DSP/preset
 changes. Diagnostic Windows run44837546513 (publish=false) is still executing
 older code to confirm checkpoint; final release run for this fix is next.
+
+LATEST FIX COMMIT: 254f210a672651024e25670a37b50372b4ae5eff, pushed.
+Final release run44838126358 / job136639521896 (publish_release=true).
+Diagnostic old-code run44837546513 / job136637626935 has publish=false; leave
+it to report the flushed checkpoint/Windows exception code. Both currently build.
+Public ZIP verifier expects final254f210. No release published yet.
+
+DIAGNOSTIC CONFIRMATION: old-code run44837546513 completed all sound checks
+then crashed on teardown: Windows 0xc0000005 immediately after final success
+line. This confirms the octave-binding destruction path. Logs job136637626935.
+Final254f210 run44838126358 was cancelled before publish to also make filter/
+sampler EDIT callouts owned by their creating components (no desktop orphan
+borrowing processor). Expanded test opens each of 3 panels before editor teardown.
+Focused4/4 PASS14.54s. New final commit/run is next; no DSP or preset changes.
