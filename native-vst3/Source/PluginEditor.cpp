@@ -447,11 +447,16 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         control.setName(octaveNames[i]);
         control.setTooltip(octaveNames[i]);
         addAndMakeVisible(control);
-        attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-            processor.state,octaveIds[i],control));
+        octaveBindings[i]=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,octaveIds[i],control);
     }
     bindChoice(voiceMode,"voiceMode",{"Poly","Mono","Legato"});
-    bindChoice(filterMode,"filterMode",{"Classic LP","Resonant LP","High-pass","Band-pass","24 dB LP","Analogue ZDF","Acid Resonant"});
+    filterMode.addItemList(SpaceInfinityProcessor::filterNames(),1);addAndMakeVisible(filterMode);
+    filterMode.setSelectedItemIndex(processor.filterSelection(),juce::dontSendNotification);
+    filterMode.onChange=[this]{const int type=filterMode.getSelectedItemIndex();if(type<0)return;const auto set=[this](const char* id,float value){auto* parameter=processor.state.getParameter(id);parameter->beginChangeGesture();parameter->setValueNotifyingHost(parameter->convertTo0to1(value));parameter->endChangeGesture();};if(type<7)set("filterMode",float(type));set("characterFilterMode",type>=7?float(type-6):0);};
+    filterDisplay=std::make_unique<filterui::FilterDisplay>(processor);addAndMakeVisible(*filterDisplay);
+    for(int i=0;i<2;++i){samplerControls[size_t(i)]=std::make_unique<samplerui::Controls>(processor,i==1);addAndMakeVisible(*samplerControls[size_t(i)]);}
+    addAndMakeVisible(transitionButton);transitionButton.setTooltip("Start the note on one oscillator and finish on the other");transitionButton.onClick=[this]{openPopup(std::make_unique<samplerui::OscillatorTransition>(processor),transitionButton.getBounds());};
+    addAndMakeVisible(lifeButton);lifeButton.setTooltip("Per-voice pitch and timbre movement, without amplitude LFOs");lifeButton.onClick=[this]{openPopup(std::make_unique<samplerui::LifeControl>(processor),lifeButton.getBounds());};
     filterMode.setTooltip("Analogue ZDF is a four-pole nonlinear low-pass. Acid Resonant keeps the moving squelch prominent for cutoff automation; adjust Resonance, Filter Env Amount and Pre Drive.");
     analogueCharacter.initialiseModulation(processor,"analogueCharacter");analogueCharacter.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     analogueCharacter.setTextBoxStyle(juce::Slider::TextBoxBelow,false,70,18);
@@ -679,8 +684,15 @@ void SpaceInfinityEditor::refreshPresetMenu(){
     if(index>=0)presets.setSelectedId(index+1,juce::dontSendNotification);else if(displayedPresetKey=="HYBRID")presets.setText(processor.state.state.getProperty("presetDisplayName").toString(),juce::dontSendNotification);
 }
 void SpaceInfinityEditor::updatePitchLimits(){pitchWheel.setTravel(pitchLimits[1].getValue(),pitchLimits[0].getValue());}
+void SpaceInfinityEditor::updateSamplerOctaves(){
+    const bool sampled=processor.state.getRawParameterValue("source")->load()>.5f;
+    if(sampled==sampledOctaveBindings)return;sampledOctaveBindings=sampled;
+    for(int i=1;i<3;++i){octaveBindings[size_t(i)].reset();const auto id=sampled?(i==1?"sampleOctave":"grainOctave"):(i==1?"osc1Octave":"osc2Octave");auto& control=octaveControls[size_t(i)];control.initialiseModulation(processor,id);control.setName(sampled?(i==1?"Sampler octave":"Granular layer octave"):(i==1?"Osc 1 octave":"Osc 2 octave"));control.setTooltip(control.getName());octaveBindings[size_t(i)]=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,id,control);}
+}
 void SpaceInfinityEditor::timerCallback(){
     updatePitchLimits();
+    filterMode.setSelectedItemIndex(processor.filterSelection(),juce::dontSendNotification);
+    if(filterDisplay)filterDisplay->setVisible(!fxPage);
     if(displayedPresetKey!=processor.selectedPresetKey())refreshPresetMenu();
     const float peak=processor.takeOutputPeak();
     meterPeak=juce::jmax(peak,meterPeak*0.88f);
@@ -693,11 +705,17 @@ void SpaceInfinityEditor::timerCallback(){
     if(liveDisplay)liveDisplay->setVisible(!fxPage&&sampled);
     if(subPanel){const bool visible=!fxPage&&!sampled,appearing=visible&&!subPanel->isVisible();subPanel->setVisible(visible);if(appearing)subPanel->toFront(false);}if(keyboard)keyboard->setVisible(!fxPage);melt.setEnabled(!sampled);
     for(auto* c:std::array<juce::Component*,9>{&sampleRoot,&sampleTrim[0],&sampleTrim[1],&sampleLoop,&sampleReverse,&importButton,&samplerLabels[0],&samplerLabels[1],&samplerLabels[2]}){const bool visible=!fxPage&&sampled,appearing=visible&&!c->isVisible();c->setVisible(visible);if(appearing)c->toFront(false);}
+    for(auto& panel:samplerControls){panel->setVisible(!fxPage&&sampled);if(!fxPage&&sampled)panel->toFront(false);}
+    for(auto* c:std::array<juce::Component*,8>{&osc1,&osc2,&warpA,&warpB,&waveform,&waveform2,&unisonButtons[0],&unisonButtons[1]})c->setVisible(!fxPage&&!sampled);
+    for(size_t i=0;i<2;++i){previousWave[i].setVisible(!fxPage&&!sampled);nextWave[i].setVisible(!fxPage&&!sampled);}
+    for(auto* c:std::array<juce::Component*,6>{&sampleRoot,&sampleTrim[0],&sampleTrim[1],&samplerLabels[0],&samplerLabels[1],&samplerLabels[2]})c->setVisible(false);
+    lifeButton.setVisible(!fxPage);transitionButton.setVisible(!fxPage);transitionButton.setEnabled(!sampled);updateSamplerOctaves();
     masterReadout.peak=meterPeak;masterReadout.clip=clipHold>0;masterReadout.repaint();
     refreshModulationIndicators();
     repaint();
 }
 void SpaceInfinityEditor::updatePage(){
+    if(filterDisplay)filterDisplay->setVisible(!fxPage);
     for(auto* control:mainControls)control->setVisible(!fxPage);
     for(size_t i=0;i<2;++i){previousWave[i].setVisible(!fxPage);nextWave[i].setVisible(!fxPage);}
     for(const int index:{7,8,9,15,16}){
@@ -739,6 +757,11 @@ void SpaceInfinityEditor::updatePage(){
     if(workbench){workbench->setVisible(!fxPage);workbench->toFront(false);}if(subPanel){subPanel->setVisible(!fxPage&&!sampled);if(!fxPage&&!sampled)subPanel->toFront(false);}if(keyboard)keyboard->setVisible(!fxPage);melt.setEnabled(!sampled);
     for(auto* c:std::array<juce::Component*,9>{&sampleRoot,&sampleTrim[0],&sampleTrim[1],&sampleLoop,&sampleReverse,&importButton,&samplerLabels[0],&samplerLabels[1],&samplerLabels[2]}){c->setVisible(!fxPage&&sampled);if(!fxPage&&sampled)c->toFront(false);}
     for(auto& c:oscillatorGains)c.setVisible(!fxPage);for(auto& c:wtPositions)c.setVisible(!fxPage);for(auto& c:oscillatorPans)c.setVisible(!fxPage);for(auto& c:unisonButtons)c.setVisible(!fxPage);for(auto& c:gainLabels)c.setVisible(!fxPage);for(auto& c:filterRoutes)c.setVisible(!fxPage);
+    for(auto& panel:samplerControls){panel->setVisible(!fxPage&&sampled);if(!fxPage&&sampled)panel->toFront(false);}
+    for(auto* c:std::array<juce::Component*,8>{&osc1,&osc2,&warpA,&warpB,&waveform,&waveform2,&unisonButtons[0],&unisonButtons[1]})c->setVisible(!fxPage&&!sampled);
+    for(size_t i=0;i<2;++i){previousWave[i].setVisible(!fxPage&&!sampled);nextWave[i].setVisible(!fxPage&&!sampled);}
+    for(auto* c:std::array<juce::Component*,6>{&sampleRoot,&sampleTrim[0],&sampleTrim[1],&samplerLabels[0],&samplerLabels[1],&samplerLabels[2]})c->setVisible(false);
+    lifeButton.setVisible(!fxPage);transitionButton.setVisible(!fxPage);transitionButton.setEnabled(!sampled);updateSamplerOctaves();
     mainTab.setToggleState(!fxPage,juce::dontSendNotification);
     fxTab.setToggleState(fxPage&&auxiliaryPage==0,juce::dontSendNotification);gateTab.setToggleState(auxiliaryPage==1,juce::dontSendNotification);sequenceTab.setToggleState(auxiliaryPage==2,juce::dontSendNotification);
     resized();
@@ -1165,6 +1188,7 @@ void SpaceInfinityEditor::resized(){
     const auto layout=mainLayout(w,h);
     if(sampleDisplay)sampleDisplay->setBounds(layout.oscillators[0].getX()+10,layout.oscillators[0].getY()+33,layout.oscillators[0].getWidth()-20,66);
     if(liveDisplay)liveDisplay->setBounds(layout.oscillators[1].getX()+10,layout.oscillators[1].getY()+33,layout.oscillators[1].getWidth()-20,66);
+    for(int i=0;i<2;++i){if(samplerControls[size_t(i)])samplerControls[size_t(i)]->setBounds(layout.oscillators[i].getX()+7,layout.oscillators[i].getY()+103,layout.oscillators[i].getWidth()-14,layout.oscillators[i].getHeight()-110);}
     for(int i=0;i<2;++i){
         auto region=layout.oscillators[i].reduced(8);
         auto& power=i==0?osc1:osc2;
@@ -1187,19 +1211,19 @@ void SpaceInfinityEditor::resized(){
     labels[4].setBounds(oscBottom.getRight()-96,oscBottom.getBottom()-80,90,15);
     labels[4].setText("GLOBAL DETUNE",juce::dontSendNotification);
     knobs[4].setBounds(oscBottom.getRight()-92,oscBottom.getBottom()-64,79,62);
-    auto filterControls=layout.filter.reduced(7).withTrimmedTop(21);
+    if(filterDisplay)filterDisplay->setBounds(layout.filter.getX()+8,layout.filter.getY()+23,layout.filter.getWidth()-76,41);
+    auto filterControls=layout.filter.reduced(7).withTrimmedTop(68);
     filterControls.removeFromRight(52);
-    const int gridHeight=(layout.filter.getHeight()-130)/3;
+    constexpr int gridHeight=55;
     const int indices[]{0,1,6,5};
-    for(int i=0;i<4;++i){
-        auto row=juce::Rectangle<int>(filterControls.getX(),filterControls.getY()+(i/2)*gridHeight,filterControls.getWidth(),gridHeight);
-        const int half=row.getWidth()/2;
-        auto cell=juce::Rectangle<int>(row.getX()+(i%2)*half,row.getY(),half,row.getHeight()).reduced(2,0);
-        const auto index=size_t(indices[i]);
-        labels[index].setFont(juce::Font(juce::FontOptions(10)));labels[index].setBounds(cell.removeFromTop(10));
-        knobs[index].setBounds(cell);
+    for(int i=0;i<6;++i){
+        const int width=filterControls.getWidth()/3;
+        auto cell=juce::Rectangle<int>(filterControls.getX()+(i%3)*width,filterControls.getY()+(i/3)*gridHeight,width,gridHeight).reduced(1,0);
+        juce::Label* label=i<4?&labels[size_t(indices[i])]:i==4?&analogueLabel:&preDriveLabel;
+        label->setFont(juce::Font(juce::FontOptions(9)));label->setBounds(cell.removeFromTop(10));
+        juce::Slider* slider=i<4?&knobs[size_t(indices[i])]:i==4?&analogueCharacter:&preDrive;
+        slider->setTextBoxStyle(juce::Slider::TextBoxBelow,false,64,13);slider->setBounds(cell);
     }
-    {auto row=juce::Rectangle<int>(filterControls.getX(),filterControls.getY()+2*gridHeight,filterControls.getWidth(),gridHeight);auto a=row.removeFromLeft(row.getWidth()/2).reduced(2,0);analogueLabel.setFont(juce::Font(juce::FontOptions(9)));analogueLabel.setBounds(a.removeFromTop(10));analogueCharacter.setBounds(a);auto b=row.reduced(2,0);preDriveLabel.setFont(juce::Font(juce::FontOptions(9)));preDriveLabel.setBounds(b.removeFromTop(10));preDrive.setBounds(b);}
     analogueOn.setBounds(layout.filter.getRight()-141,layout.filter.getY()+2,100,18);analogueLabButton.setBounds(layout.filter.getRight()-40,layout.filter.getY()+2,35,18);
     filterMode.setBounds(layout.filter.getX()+8,layout.filter.getBottom()-71,layout.filter.getWidth()-70,22);
     const int filterUtilityWidth=layout.filter.getWidth()-74;
@@ -1207,7 +1231,7 @@ void SpaceInfinityEditor::resized(){
     const int voiceWidth=filterUtilityWidth-2*utilityKnobWidth-8;
     const int utilityX=layout.filter.getX()+8;
     voiceMode.setBounds(utilityX,layout.filter.getBottom()-32,voiceWidth,23);
-    filterMode.setBounds(utilityX,layout.filter.getBottom()-71,voiceWidth,22);
+    filterMode.setBounds(layout.filter.getX()+5,layout.filter.getY()+1,layout.filter.getWidth()-149,20);
     portamentoLabel.setText(utilityKnobWidth<60?"PORTA":"PORTAMENTO",juce::dontSendNotification);
     portamentoLabel.setBounds(utilityX+voiceWidth+4,layout.filter.getBottom()-77,utilityKnobWidth,14);
     portamento.setBounds(utilityX+voiceWidth+4,layout.filter.getBottom()-62,utilityKnobWidth,57);
@@ -1255,6 +1279,7 @@ void SpaceInfinityEditor::resized(){
     lfoSpeed.setBounds(options.reduced(2,0));
     motionGraph=motion.reduced(4,6);
     source.setBounds(290,24,juce::jmin(220,w-625),24);sourceHeader.setBounds(290,8,juce::jmin(220,w-625),15);
+    lifeButton.setBounds(w-252,86,64,25);transitionButton.setBounds(w-182,86,64,25);
     const int subWidth=juce::jlimit(132,180,(w-60)/6),subTop=h-210;
     importButton.setBounds(36,subTop+4,subWidth-12,20);sampleRoot.setBounds(68,subTop+74,subWidth-42,21);sampleTrim[0].setBounds(68,subTop+28,subWidth-42,20);sampleTrim[1].setBounds(68,subTop+51,subWidth-42,20);sampleLoop.setBounds(34,subTop+103,subWidth/2-4,22);sampleReverse.setBounds(34+subWidth/2,subTop+103,subWidth/2-4,22);for(int i=0;i<3;++i)samplerLabels[size_t(i)].setBounds(36,subTop+28+i*23,32,20);
     for(int row=0;row<6;++row){

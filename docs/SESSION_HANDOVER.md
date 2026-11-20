@@ -1,3 +1,7 @@
+> Current work: 0.9.0 source and 20 new leads are implemented. Finish verification
+> and Windows release using [ACTIVE_TRACK_READY_WORK.md](ACTIVE_TRACK_READY_WORK.md).
+> The older 0.8.0 release details below are historical.
+
 # COMPLETE — SPACE INFINITY 0.8.0 verified and released
 
 Sourcec70db12ca72e60daeebc484f81b764ba5b76cd5d; CI44399691137 SUCCESS.

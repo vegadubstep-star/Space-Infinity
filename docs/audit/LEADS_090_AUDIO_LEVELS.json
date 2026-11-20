@@ -1,0 +1,1665 @@
+{
+  "version": "0.9.0",
+  "presets_measured": 27,
+  "new_leads": 20,
+  "rebalanced_factory_leads": 7,
+  "native_parameter_count": 1223,
+  "filter_models": 15,
+  "renderer_sha256": "8bb89f52386673605f67b63b207a0338121ff9e233da011d238ce2516379277e",
+  "measurement": "48 kHz / maximum velocity / repeated single notes and four-note chords. Calibration measures all eight user-macro corners plus all six macros raised. Final render rechecks base, all three user macros, all six macros, and any additional worst calibration corner. BS.1770 and 4x true peak on the full base/all-open phrases.",
+  "ceiling_dbTP": -0.3,
+  "maximum_true_peak_dbfs": -0.3499339581888769,
+  "maximum_pre_safety_peak": 0.950000584125519,
+  "minimum_factory_starting_level_increase_lu": 3.84,
+  "maximum_factory_starting_level_increase_lu": 5.049999999999997,
+  "errors": [],
+  "measurements": [
+    {
+      "id": "LT001",
+      "name": "Velvet Zenith",
+      "bank": "Lush Trance 20",
+      "base_lufs": -18.65,
+      "maximum_true_peak_dbfs": -0.6408582130046809,
+      "maximum_pre_safety_peak": 0.949999809265137,
+      "calibrated_eight_corner_predicted_peak": 0.9499998073226532,
+      "preset_trim_db": 10.0253,
+      "recipe_sha256": "5ff9519fef2a2c7d53e08ce0a5914dcd9c984242281e8799275411e0bf5ab759",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.370445996522903,
+          "pre_safety_peak": 0.370445996522903,
+          "rms": 0.045089209514064,
+          "lufs": -18.65,
+          "true_peak_dbfs": -8.598274504847128
+        },
+        "000_chord": {
+          "peak": 0.858987212181091,
+          "pre_safety_peak": 0.858987212181091,
+          "rms": 0.095251227967946,
+          "lufs": -11.91,
+          "true_peak_dbfs": -1.3077155912454244
+        },
+        "111_single": {
+          "peak": 0.363078534603119,
+          "pre_safety_peak": 0.363078534603119,
+          "rms": 0.051195873729178,
+          "lufs": -17.57,
+          "true_peak_dbfs": -8.738009900905286
+        },
+        "111_chord": {
+          "peak": 0.923261642456055,
+          "pre_safety_peak": 0.923261642456055,
+          "rms": 0.105536875817474,
+          "lufs": -11.01,
+          "true_peak_dbfs": -0.6539583375985416
+        },
+        "all6_single": {
+          "peak": 0.3783358335495,
+          "pre_safety_peak": 0.3783358335495,
+          "rms": 0.049921887147088,
+          "lufs": -17.94,
+          "true_peak_dbfs": -8.312449377574735
+        },
+        "all6_chord": {
+          "peak": 0.92825573682785,
+          "pre_safety_peak": 0.92825573682785,
+          "rms": 0.102474348232874,
+          "lufs": -11.4,
+          "true_peak_dbfs": -0.6408582130046809
+        },
+        "101_chord": {
+          "peak": 0.949999809265137,
+          "pre_safety_peak": 0.949999809265137,
+          "rms": 0.141094858746176
+        }
+      }
+    },
+    {
+      "id": "LT002",
+      "name": "Opal Current",
+      "bank": "Lush Trance 20",
+      "base_lufs": -18.54,
+      "maximum_true_peak_dbfs": -0.3499339581888769,
+      "maximum_pre_safety_peak": 0.938715279102325,
+      "calibrated_eight_corner_predicted_peak": 0.9387155608727825,
+      "preset_trim_db": 10.42058,
+      "recipe_sha256": "ef5904bd45568599f1dae56f0f50cb9506db7c98c6fdf5dbc8632bc606bd19a2",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.318228542804718,
+          "pre_safety_peak": 0.318228542804718,
+          "rms": 0.044699692798626,
+          "lufs": -18.54,
+          "true_peak_dbfs": -9.936222222615825
+        },
+        "000_chord": {
+          "peak": 0.824229121208191,
+          "pre_safety_peak": 0.82507985830307,
+          "rms": 0.091779185167181,
+          "lufs": -11.96,
+          "true_peak_dbfs": -1.6386460727309162
+        },
+        "111_single": {
+          "peak": 0.365296185016632,
+          "pre_safety_peak": 0.369373291730881,
+          "rms": 0.049700403883392,
+          "lufs": -17.63,
+          "true_peak_dbfs": -8.68652168962515
+        },
+        "111_chord": {
+          "peak": 0.929108917713165,
+          "pre_safety_peak": 0.929108917713165,
+          "rms": 0.100368009621755,
+          "lufs": -11.15,
+          "true_peak_dbfs": -0.5694371804125558
+        },
+        "all6_single": {
+          "peak": 0.333054721355438,
+          "pre_safety_peak": 0.333054721355438,
+          "rms": 0.045289045229332,
+          "lufs": -19.02,
+          "true_peak_dbfs": -9.544588220101318
+        },
+        "all6_chord": {
+          "peak": 0.938715279102325,
+          "pre_safety_peak": 0.938715279102325,
+          "rms": 0.097270996491907,
+          "lufs": -11.55,
+          "true_peak_dbfs": -0.3499339581888769
+        }
+      }
+    },
+    {
+      "id": "LT003",
+      "name": "Silken Orbit",
+      "bank": "Lush Trance 20",
+      "base_lufs": -19.48,
+      "maximum_true_peak_dbfs": -0.6547102957563354,
+      "maximum_pre_safety_peak": 0.949999690055847,
+      "calibrated_eight_corner_predicted_peak": 0.9499996234127737,
+      "preset_trim_db": 11.75003,
+      "recipe_sha256": "77d24c31b9360e2d78dae091be49568062f36ced6b9965086edc422fcfad94bb",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.350958317518234,
+          "pre_safety_peak": 0.350958317518234,
+          "rms": 0.039386698877442,
+          "lufs": -19.48,
+          "true_peak_dbfs": -9.089514517091054
+        },
+        "000_chord": {
+          "peak": 0.783819854259491,
+          "pre_safety_peak": 0.783819854259491,
+          "rms": 0.086154685946283,
+          "lufs": -11.96,
+          "true_peak_dbfs": -2.1102180992741477
+        },
+        "111_single": {
+          "peak": 0.365705013275146,
+          "pre_safety_peak": 0.366200953722,
+          "rms": 0.043715034945508,
+          "lufs": -18.57,
+          "true_peak_dbfs": -8.71431275782818
+        },
+        "111_chord": {
+          "peak": 0.92452085018158,
+          "pre_safety_peak": 0.92452085018158,
+          "rms": 0.094194812640574,
+          "lufs": -11.12,
+          "true_peak_dbfs": -0.6547102957563354
+        },
+        "all6_single": {
+          "peak": 0.350783705711365,
+          "pre_safety_peak": 0.350783705711365,
+          "rms": 0.041525522723632,
+          "lufs": -19.36,
+          "true_peak_dbfs": -9.086751762665386
+        },
+        "all6_chord": {
+          "peak": 0.89050418138504,
+          "pre_safety_peak": 0.89050418138504,
+          "rms": 0.092064727305563,
+          "lufs": -11.45,
+          "true_peak_dbfs": -1.001765573014632
+        },
+        "101_chord": {
+          "peak": 0.949999690055847,
+          "pre_safety_peak": 0.949999690055847,
+          "rms": 0.126590865925373
+        }
+      }
+    },
+    {
+      "id": "LT004",
+      "name": "Crystal Canopy",
+      "bank": "Lush Trance 20",
+      "base_lufs": -18.11,
+      "maximum_true_peak_dbfs": -0.4259458749652235,
+      "maximum_pre_safety_peak": 0.950000047683716,
+      "calibrated_eight_corner_predicted_peak": 0.9500002025127015,
+      "preset_trim_db": 7.44607,
+      "recipe_sha256": "26d3b7c30fcb4eae10837c040ed40a90e842af886bcd640f341aa00d44575352",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.396074742078781,
+          "pre_safety_peak": 0.396074742078781,
+          "rms": 0.046179975371978,
+          "lufs": -18.11,
+          "true_peak_dbfs": -7.948103055255167
+        },
+        "000_chord": {
+          "peak": 0.839011371135712,
+          "pre_safety_peak": 0.839011371135712,
+          "rms": 0.099751224493558,
+          "lufs": -11.02,
+          "true_peak_dbfs": -1.4911864041517626
+        },
+        "111_single": {
+          "peak": 0.406976819038391,
+          "pre_safety_peak": 0.406976819038391,
+          "rms": 0.050240342224837,
+          "lufs": -17.37,
+          "true_peak_dbfs": -7.721718811515611
+        },
+        "111_chord": {
+          "peak": 0.893827319145203,
+          "pre_safety_peak": 0.894312143325806,
+          "rms": 0.107191376395815,
+          "lufs": -10.38,
+          "true_peak_dbfs": -0.8318739928216117
+        },
+        "all6_single": {
+          "peak": 0.378634423017502,
+          "pre_safety_peak": 0.378634423017502,
+          "rms": 0.048842598448192,
+          "lufs": -17.88,
+          "true_peak_dbfs": -8.429435628052317
+        },
+        "all6_chord": {
+          "peak": 0.950000047683716,
+          "pre_safety_peak": 0.950000047683716,
+          "rms": 0.104163712794205,
+          "lufs": -10.87,
+          "true_peak_dbfs": -0.4259458749652235
+        }
+      }
+    },
+    {
+      "id": "LT005",
+      "name": "Hollow Aurora",
+      "bank": "Lush Trance 20",
+      "base_lufs": -18.46,
+      "maximum_true_peak_dbfs": -1.0855144690323308,
+      "maximum_pre_safety_peak": 0.949999928474426,
+      "calibrated_eight_corner_predicted_peak": 0.9499999888652001,
+      "preset_trim_db": 5.53159,
+      "recipe_sha256": "b78fa8f9fff819aa74689688510ff19b4c3f9d005cf0ca45bb4f98d27f95f8a8",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.407453149557114,
+          "pre_safety_peak": 0.407453149557114,
+          "rms": 0.04672282429372,
+          "lufs": -18.46,
+          "true_peak_dbfs": -7.792544850739481
+        },
+        "000_chord": {
+          "peak": 0.881954848766327,
+          "pre_safety_peak": 0.881954848766327,
+          "rms": 0.104989937639444,
+          "lufs": -11.38,
+          "true_peak_dbfs": -1.0855144690323308
+        },
+        "111_single": {
+          "peak": 0.42723423242569,
+          "pre_safety_peak": 0.42723423242569,
+          "rms": 0.050482385201983,
+          "lufs": -17.82,
+          "true_peak_dbfs": -7.3809106105985265
+        },
+        "111_chord": {
+          "peak": 0.874923050403595,
+          "pre_safety_peak": 0.875336706638336,
+          "rms": 0.108342127374836,
+          "lufs": -11.04,
+          "true_peak_dbfs": -1.1414210078871878
+        },
+        "all6_single": {
+          "peak": 0.405080914497375,
+          "pre_safety_peak": 0.405080914497375,
+          "rms": 0.047120318248168,
+          "lufs": -18.54,
+          "true_peak_dbfs": -7.817304843670746
+        },
+        "all6_chord": {
+          "peak": 0.853804349899292,
+          "pre_safety_peak": 0.853804349899292,
+          "rms": 0.104506049524476,
+          "lufs": -11.51,
+          "true_peak_dbfs": -1.321974512336033
+        },
+        "101_chord": {
+          "peak": 0.947396993637085,
+          "pre_safety_peak": 0.949999928474426,
+          "rms": 0.152988426803936
+        }
+      }
+    },
+    {
+      "id": "LT006",
+      "name": "Pearlescent Tide",
+      "bank": "Lush Trance 20",
+      "base_lufs": -19.06,
+      "maximum_true_peak_dbfs": -1.0035517517859933,
+      "maximum_pre_safety_peak": 0.949999511241913,
+      "calibrated_eight_corner_predicted_peak": 0.9499995607145411,
+      "preset_trim_db": 7.32779,
+      "recipe_sha256": "0ea0fb57787dfe69440f3ec025a947ed2f7b7d45d829601096c0d9a3f63f1114",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.35065633058548,
+          "pre_safety_peak": 0.350736349821091,
+          "rms": 0.045286351353232,
+          "lufs": -19.06,
+          "true_peak_dbfs": -9.096314831190975
+        },
+        "000_chord": {
+          "peak": 0.875858187675476,
+          "pre_safety_peak": 0.875858187675476,
+          "rms": 0.111791545521455,
+          "lufs": -11.23,
+          "true_peak_dbfs": -1.1455307505176062
+        },
+        "111_single": {
+          "peak": 0.351866781711578,
+          "pre_safety_peak": 0.352266430854797,
+          "rms": 0.049092800541265,
+          "lufs": -18.35,
+          "true_peak_dbfs": -9.066885178269306
+        },
+        "111_chord": {
+          "peak": 0.89029461145401,
+          "pre_safety_peak": 0.89029461145401,
+          "rms": 0.115954850022975,
+          "lufs": -10.88,
+          "true_peak_dbfs": -1.0035517517859933
+        },
+        "all6_single": {
+          "peak": 0.338210970163345,
+          "pre_safety_peak": 0.338467657566071,
+          "rms": 0.045911673187427,
+          "lufs": -19.15,
+          "true_peak_dbfs": -9.410324659465966
+        },
+        "all6_chord": {
+          "peak": 0.829847276210785,
+          "pre_safety_peak": 0.829847276210785,
+          "rms": 0.110296439968054,
+          "lufs": -11.55,
+          "true_peak_dbfs": -1.6120037082463154
+        },
+        "101_chord": {
+          "peak": 0.949999511241913,
+          "pre_safety_peak": 0.949999511241913,
+          "rms": 0.161675415660293
+        }
+      }
+    },
+    {
+      "id": "LT007",
+      "name": "Astral Silk",
+      "bank": "Lush Trance 20",
+      "base_lufs": -19.45,
+      "maximum_true_peak_dbfs": -0.6955704038279313,
+      "maximum_pre_safety_peak": 0.950000166893005,
+      "calibrated_eight_corner_predicted_peak": 0.9500000198311006,
+      "preset_trim_db": 10.07288,
+      "recipe_sha256": "26839b3541be5432ee06fab186f046c42e2c50ba51e49277edc14db7e05d1e84",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.382957518100739,
+          "pre_safety_peak": 0.383186131715775,
+          "rms": 0.040748578115955,
+          "lufs": -19.45,
+          "true_peak_dbfs": -8.319439631660641
+        },
+        "000_chord": {
+          "peak": 0.862028539180756,
+          "pre_safety_peak": 0.863662540912628,
+          "rms": 0.088359524778236,
+          "lufs": -12.37,
+          "true_peak_dbfs": -1.2571348978721226
+        },
+        "111_single": {
+          "peak": 0.420929282903671,
+          "pre_safety_peak": 0.4215127825737,
+          "rms": 0.044025251789058,
+          "lufs": -18.74,
+          "true_peak_dbfs": -7.500932666038606
+        },
+        "111_chord": {
+          "peak": 0.875574350357056,
+          "pre_safety_peak": 0.878160715103149,
+          "rms": 0.094741358918833,
+          "lufs": -11.72,
+          "true_peak_dbfs": -1.1207788879563807
+        },
+        "all6_single": {
+          "peak": 0.347559630870819,
+          "pre_safety_peak": 0.347559630870819,
+          "rms": 0.040709629522473,
+          "lufs": -19.56,
+          "true_peak_dbfs": -9.174522154664938
+        },
+        "all6_chord": {
+          "peak": 0.922470688819885,
+          "pre_safety_peak": 0.922470688819885,
+          "rms": 0.092100197967309,
+          "lufs": -12.16,
+          "true_peak_dbfs": -0.6955704038279313
+        },
+        "100_chord": {
+          "peak": 0.950000166893005,
+          "pre_safety_peak": 0.950000166893005,
+          "rms": 0.12752363314006
+        }
+      }
+    },
+    {
+      "id": "LT008",
+      "name": "Emerald Halo",
+      "bank": "Lush Trance 20",
+      "base_lufs": -16.99,
+      "maximum_true_peak_dbfs": -0.6663095021514998,
+      "maximum_pre_safety_peak": 0.949999868869781,
+      "calibrated_eight_corner_predicted_peak": 0.949999965444953,
+      "preset_trim_db": 9.65165,
+      "recipe_sha256": "724c581d131ff976ff8a6d8a5b43c0d5d25d2adc30f430e0956ac121bc74485f",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.426580786705017,
+          "pre_safety_peak": 0.426580786705017,
+          "rms": 0.05734702661661,
+          "lufs": -16.99,
+          "true_peak_dbfs": -7.394570601407175
+        },
+        "000_chord": {
+          "peak": 0.910709142684937,
+          "pre_safety_peak": 0.910709142684937,
+          "rms": 0.122200496013955,
+          "lufs": -10.02,
+          "true_peak_dbfs": -0.8069128034744587
+        },
+        "111_single": {
+          "peak": 0.422426164150238,
+          "pre_safety_peak": 0.422520518302917,
+          "rms": 0.06157221267533,
+          "lufs": -16.35,
+          "true_peak_dbfs": -7.479494426068545
+        },
+        "111_chord": {
+          "peak": 0.901733458042145,
+          "pre_safety_peak": 0.902060329914093,
+          "rms": 0.128567999730928,
+          "lufs": -9.54,
+          "true_peak_dbfs": -0.8927168492118488
+        },
+        "all6_single": {
+          "peak": 0.3454270362854,
+          "pre_safety_peak": 0.345621734857559,
+          "rms": 0.058012555700445,
+          "lufs": -17.29,
+          "true_peak_dbfs": -9.227454951943132
+        },
+        "all6_chord": {
+          "peak": 0.925554037094116,
+          "pre_safety_peak": 0.925998628139496,
+          "rms": 0.12424314122711,
+          "lufs": -10.04,
+          "true_peak_dbfs": -0.6663095021514998
+        },
+        "101_chord": {
+          "peak": 0.949999868869781,
+          "pre_safety_peak": 0.949999868869781,
+          "rms": 0.17524325399401
+        }
+      }
+    },
+    {
+      "id": "LT009",
+      "name": "Celestial Ribbon",
+      "bank": "Lush Trance 20",
+      "base_lufs": -18.79,
+      "maximum_true_peak_dbfs": -0.6792065739191169,
+      "maximum_pre_safety_peak": 0.949999928474426,
+      "calibrated_eight_corner_predicted_peak": 0.9499999302297063,
+      "preset_trim_db": 10.53762,
+      "recipe_sha256": "56f5660f7d22f741120b12f1338359194e042b2733f9b750f1d2e9554f8471b6",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.419343918561935,
+          "pre_safety_peak": 0.419343918561935,
+          "rms": 0.043447511079325,
+          "lufs": -18.79,
+          "true_peak_dbfs": -7.52578076087986
+        },
+        "000_chord": {
+          "peak": 0.78485232591629,
+          "pre_safety_peak": 0.787908017635345,
+          "rms": 0.09500705583117,
+          "lufs": -11.66,
+          "true_peak_dbfs": -2.052152280471398
+        },
+        "111_single": {
+          "peak": 0.470750778913498,
+          "pre_safety_peak": 0.470750778913498,
+          "rms": 0.047837825659039,
+          "lufs": -17.94,
+          "true_peak_dbfs": -6.523582336577976
+        },
+        "111_chord": {
+          "peak": 0.92416912317276,
+          "pre_safety_peak": 0.92416912317276,
+          "rms": 0.105576334965034,
+          "lufs": -10.74,
+          "true_peak_dbfs": -0.6792065739191169
+        },
+        "all6_single": {
+          "peak": 0.428431540727615,
+          "pre_safety_peak": 0.428431540727615,
+          "rms": 0.046391118928723,
+          "lufs": -18.55,
+          "true_peak_dbfs": -7.2692911015773785
+        },
+        "all6_chord": {
+          "peak": 0.881268978118896,
+          "pre_safety_peak": 0.881268978118896,
+          "rms": 0.103666727520684,
+          "lufs": -11.26,
+          "true_peak_dbfs": -1.0921290829432453
+        },
+        "101_chord": {
+          "peak": 0.949999928474426,
+          "pre_safety_peak": 0.949999928474426,
+          "rms": 0.141003438995793
+        }
+      }
+    },
+    {
+      "id": "LT010",
+      "name": "Iridescent Promise",
+      "bank": "Lush Trance 20",
+      "base_lufs": -18.67,
+      "maximum_true_peak_dbfs": -0.6418231394008745,
+      "maximum_pre_safety_peak": 0.949999928474426,
+      "calibrated_eight_corner_predicted_peak": 0.9500000321835553,
+      "preset_trim_db": 9.6967,
+      "recipe_sha256": "071a91d17cb0e87b5914e8f9fba876d35b100fe1485bfd2a877b4212cc858b55",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.447181671857834,
+          "pre_safety_peak": 0.447181671857834,
+          "rms": 0.04729656526755,
+          "lufs": -18.67,
+          "true_peak_dbfs": -6.969629890231408
+        },
+        "000_chord": {
+          "peak": 0.852497935295105,
+          "pre_safety_peak": 0.852497935295105,
+          "rms": 0.106175309257264,
+          "lufs": -11.17,
+          "true_peak_dbfs": -1.3745891770998266
+        },
+        "111_single": {
+          "peak": 0.476785272359848,
+          "pre_safety_peak": 0.476785272359848,
+          "rms": 0.052915260878465,
+          "lufs": -17.66,
+          "true_peak_dbfs": -6.416320848213372
+        },
+        "111_chord": {
+          "peak": 0.924318552017212,
+          "pre_safety_peak": 0.924318552017212,
+          "rms": 0.116200474912833,
+          "lufs": -10.38,
+          "true_peak_dbfs": -0.6418231394008745
+        },
+        "all6_single": {
+          "peak": 0.43476727604866,
+          "pre_safety_peak": 0.43476727604866,
+          "rms": 0.051139330766047,
+          "lufs": -17.92,
+          "true_peak_dbfs": -7.229612523992279
+        },
+        "all6_chord": {
+          "peak": 0.822976171970367,
+          "pre_safety_peak": 0.822976171970367,
+          "rms": 0.112692343806836,
+          "lufs": -10.9,
+          "true_peak_dbfs": -1.6606565728268632
+        },
+        "101_chord": {
+          "peak": 0.949999928474426,
+          "pre_safety_peak": 0.949999928474426,
+          "rms": 0.15659694049976
+        }
+      }
+    },
+    {
+      "id": "LT011",
+      "name": "Luminous Reed",
+      "bank": "Lush Trance 20",
+      "base_lufs": -18.58,
+      "maximum_true_peak_dbfs": -1.121548644182963,
+      "maximum_pre_safety_peak": 0.95000022649765,
+      "calibrated_eight_corner_predicted_peak": 0.9500002303158875,
+      "preset_trim_db": 7.61779,
+      "recipe_sha256": "6138777329ff2a46e77c8d62844e7d3b93949225ea02eed62acf21d149e8e5ed",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.325862050056458,
+          "pre_safety_peak": 0.325922310352325,
+          "rms": 0.046137257568498,
+          "lufs": -18.58,
+          "true_peak_dbfs": -9.73448646969312
+        },
+        "000_chord": {
+          "peak": 0.876760959625244,
+          "pre_safety_peak": 0.877578139305115,
+          "rms": 0.09346401570082,
+          "lufs": -11.81,
+          "true_peak_dbfs": -1.121548644182963
+        },
+        "111_single": {
+          "peak": 0.336838752031326,
+          "pre_safety_peak": 0.337229073047638,
+          "rms": 0.050653201179836,
+          "lufs": -17.74,
+          "true_peak_dbfs": -9.43918935918415
+        },
+        "111_chord": {
+          "peak": 0.835743606090546,
+          "pre_safety_peak": 0.835743606090546,
+          "rms": 0.099212450133292,
+          "lufs": -11.33,
+          "true_peak_dbfs": -1.55289924774968
+        },
+        "all6_single": {
+          "peak": 0.30856728553772,
+          "pre_safety_peak": 0.309000670909882,
+          "rms": 0.048425834853428,
+          "lufs": -18.49,
+          "true_peak_dbfs": -10.196458251177102
+        },
+        "all6_chord": {
+          "peak": 0.836674690246582,
+          "pre_safety_peak": 0.837011218070984,
+          "rms": 0.094875341839005,
+          "lufs": -11.89,
+          "true_peak_dbfs": -1.5398793499321959
+        },
+        "100_chord": {
+          "peak": 0.95000022649765,
+          "pre_safety_peak": 0.95000022649765,
+          "rms": 0.134207079520106
+        }
+      }
+    },
+    {
+      "id": "LT012",
+      "name": "Prismatic Breath",
+      "bank": "Lush Trance 20",
+      "base_lufs": -17.13,
+      "maximum_true_peak_dbfs": -1.1703822311943104,
+      "maximum_pre_safety_peak": 0.95000034570694,
+      "calibrated_eight_corner_predicted_peak": 0.9500003707764573,
+      "preset_trim_db": 12.15521,
+      "recipe_sha256": "1a7a02e628da1497865b8afa88c90b974b65857db8bbdcdeced1784e530cad73",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.363433599472046,
+          "pre_safety_peak": 0.363433599472046,
+          "rms": 0.056485377737285,
+          "lufs": -17.13,
+          "true_peak_dbfs": -8.785965418966628
+        },
+        "000_chord": {
+          "peak": 0.863396406173706,
+          "pre_safety_peak": 0.863396406173706,
+          "rms": 0.103749520594024,
+          "lufs": -11.78,
+          "true_peak_dbfs": -1.2705053500631855
+        },
+        "111_single": {
+          "peak": 0.376224130392075,
+          "pre_safety_peak": 0.376248627901077,
+          "rms": 0.063028572817588,
+          "lufs": -16.16,
+          "true_peak_dbfs": -8.484914272531134
+        },
+        "111_chord": {
+          "peak": 0.873382091522217,
+          "pre_safety_peak": 0.873382091522217,
+          "rms": 0.115983847063166,
+          "lufs": -10.78,
+          "true_peak_dbfs": -1.1703822311943104
+        },
+        "all6_single": {
+          "peak": 0.378692954778671,
+          "pre_safety_peak": 0.379150867462158,
+          "rms": 0.050929477473219,
+          "lufs": -18.11,
+          "true_peak_dbfs": -8.428735632916501
+        },
+        "all6_chord": {
+          "peak": 0.854288458824158,
+          "pre_safety_peak": 0.854288458824158,
+          "rms": 0.111924440847102,
+          "lufs": -11.11,
+          "true_peak_dbfs": -1.362172158833631
+        },
+        "100_chord": {
+          "peak": 0.95000034570694,
+          "pre_safety_peak": 0.95000034570694,
+          "rms": 0.14995031887279
+        }
+      }
+    },
+    {
+      "id": "LT013",
+      "name": "Sapphire Aperture",
+      "bank": "Lush Trance 20",
+      "base_lufs": -21.04,
+      "maximum_true_peak_dbfs": -0.722488548772605,
+      "maximum_pre_safety_peak": 0.950000166893005,
+      "calibrated_eight_corner_predicted_peak": 0.9500000928582198,
+      "preset_trim_db": 7.49541,
+      "recipe_sha256": "efabfa3fbc7702a52436a215e97ae4ce76db1435c3d12b055bb2a10aaec4cbf4",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.339492976665497,
+          "pre_safety_peak": 0.339492976665497,
+          "rms": 0.033547642238724,
+          "lufs": -21.04,
+          "true_peak_dbfs": -9.36896957905985
+        },
+        "000_chord": {
+          "peak": 0.835000813007355,
+          "pre_safety_peak": 0.835000813007355,
+          "rms": 0.082218586458097,
+          "lufs": -13.19,
+          "true_peak_dbfs": -1.560514552954141
+        },
+        "111_single": {
+          "peak": 0.34489980340004,
+          "pre_safety_peak": 0.34489980340004,
+          "rms": 0.036741387710672,
+          "lufs": -20.29,
+          "true_peak_dbfs": -9.240365264925698
+        },
+        "111_chord": {
+          "peak": 0.916771352291107,
+          "pre_safety_peak": 0.916771352291107,
+          "rms": 0.089657611048334,
+          "lufs": -12.42,
+          "true_peak_dbfs": -0.722488548772605
+        },
+        "all6_single": {
+          "peak": 0.31213366985321,
+          "pre_safety_peak": 0.31213366985321,
+          "rms": 0.036058743993632,
+          "lufs": -20.56,
+          "true_peak_dbfs": -9.946583038426155
+        },
+        "all6_chord": {
+          "peak": 0.816591501235962,
+          "pre_safety_peak": 0.82574450969696,
+          "rms": 0.087927959319119,
+          "lufs": -12.75,
+          "true_peak_dbfs": -1.6058741987914567
+        },
+        "101_chord": {
+          "peak": 0.950000166893005,
+          "pre_safety_peak": 0.950000166893005,
+          "rms": 0.121007047597641
+        }
+      }
+    },
+    {
+      "id": "LT014",
+      "name": "Ivory Radiance",
+      "bank": "Lush Trance 20",
+      "base_lufs": -18.29,
+      "maximum_true_peak_dbfs": -0.6442855008190007,
+      "maximum_pre_safety_peak": 0.950000584125519,
+      "calibrated_eight_corner_predicted_peak": 0.9500005339331608,
+      "preset_trim_db": 9.2849,
+      "recipe_sha256": "873cd6b41bf62b8b6b4e757ad9f2e9b2227ab8bdbf980955c142914ba001e914",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.310997903347015,
+          "pre_safety_peak": 0.311008095741272,
+          "rms": 0.049100798283734,
+          "lufs": -18.29,
+          "true_peak_dbfs": -10.139987644034758
+        },
+        "000_chord": {
+          "peak": 0.857579529285431,
+          "pre_safety_peak": 0.857579529285431,
+          "rms": 0.105289656100227,
+          "lufs": -11.54,
+          "true_peak_dbfs": -1.3290358251688588
+        },
+        "111_single": {
+          "peak": 0.37446328997612,
+          "pre_safety_peak": 0.374504804611206,
+          "rms": 0.053833296892081,
+          "lufs": -17.49,
+          "true_peak_dbfs": -8.526580069623202
+        },
+        "111_chord": {
+          "peak": 0.92793345451355,
+          "pre_safety_peak": 0.92793345451355,
+          "rms": 0.113924226677484,
+          "lufs": -10.84,
+          "true_peak_dbfs": -0.6442855008190007
+        },
+        "all6_single": {
+          "peak": 0.394688576459885,
+          "pre_safety_peak": 0.394688576459885,
+          "rms": 0.04692481668489,
+          "lufs": -18.89,
+          "true_peak_dbfs": -8.069485772692278
+        },
+        "all6_chord": {
+          "peak": 0.91121518611908,
+          "pre_safety_peak": 0.911508858203888,
+          "rms": 0.107650503136964,
+          "lufs": -11.56,
+          "true_peak_dbfs": -0.7963015933228946
+        },
+        "101_chord": {
+          "peak": 0.950000584125519,
+          "pre_safety_peak": 0.950000584125519,
+          "rms": 0.153766732261655
+        }
+      }
+    },
+    {
+      "id": "LT015",
+      "name": "Violet Choirline",
+      "bank": "Lush Trance 20",
+      "base_lufs": -20.61,
+      "maximum_true_peak_dbfs": -1.2521036844013098,
+      "maximum_pre_safety_peak": 0.950000524520874,
+      "calibrated_eight_corner_predicted_peak": 0.950000225290125,
+      "preset_trim_db": 15.65357,
+      "recipe_sha256": "dc16824e50f8e2e9355b3d40e9f3b28c110ed63f4443e3564ef8c68dd921833e",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.24261786043644,
+          "pre_safety_peak": 0.24261786043644,
+          "rms": 0.034374900837936,
+          "lufs": -20.61,
+          "true_peak_dbfs": -12.292107188936193
+        },
+        "000_chord": {
+          "peak": 0.789405703544617,
+          "pre_safety_peak": 0.789405703544617,
+          "rms": 0.075200312453133,
+          "lufs": -13.53,
+          "true_peak_dbfs": -2.032627286631833
+        },
+        "111_single": {
+          "peak": 0.293187230825424,
+          "pre_safety_peak": 0.293187230825424,
+          "rms": 0.037968031782986,
+          "lufs": -19.69,
+          "true_peak_dbfs": -10.642169908904094
+        },
+        "111_chord": {
+          "peak": 0.865180134773254,
+          "pre_safety_peak": 0.865180134773254,
+          "rms": 0.099851623366251,
+          "lufs": -11.3,
+          "true_peak_dbfs": -1.2521036844013098
+        },
+        "all6_single": {
+          "peak": 0.287556976079941,
+          "pre_safety_peak": 0.287556976079941,
+          "rms": 0.031176838361237,
+          "lufs": -21.23,
+          "true_peak_dbfs": -10.798404057287156
+        },
+        "all6_chord": {
+          "peak": 0.577774822711945,
+          "pre_safety_peak": 0.577774822711945,
+          "rms": 0.062850066648515,
+          "lufs": -14.46,
+          "true_peak_dbfs": -4.759082626274526
+        },
+        "100_chord": {
+          "peak": 0.944355010986328,
+          "pre_safety_peak": 0.950000524520874,
+          "rms": 0.136198677249548
+        }
+      }
+    },
+    {
+      "id": "LT016",
+      "name": "Golden Airfoil",
+      "bank": "Lush Trance 20",
+      "base_lufs": -18.8,
+      "maximum_true_peak_dbfs": -0.8387980233020391,
+      "maximum_pre_safety_peak": 0.949999690055847,
+      "calibrated_eight_corner_predicted_peak": 0.9499997229420549,
+      "preset_trim_db": 6.87046,
+      "recipe_sha256": "e945c6168c404169d79b4e16c7c1b61abc00989e009d5392ebde28d6bcf80a1b",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.369331270456314,
+          "pre_safety_peak": 0.369362264871597,
+          "rms": 0.045489233486742,
+          "lufs": -18.8,
+          "true_peak_dbfs": -8.646328352235106
+        },
+        "000_chord": {
+          "peak": 0.865658819675446,
+          "pre_safety_peak": 0.866430103778839,
+          "rms": 0.101881487215178,
+          "lufs": -11.6,
+          "true_peak_dbfs": -1.2342935823233117
+        },
+        "111_single": {
+          "peak": 0.364556342363358,
+          "pre_safety_peak": 0.364628940820694,
+          "rms": 0.049241512836567,
+          "lufs": -18.11,
+          "true_peak_dbfs": -8.759748242445355
+        },
+        "111_chord": {
+          "peak": 0.906860172748566,
+          "pre_safety_peak": 0.906944990158081,
+          "rms": 0.108942100318288,
+          "lufs": -10.99,
+          "true_peak_dbfs": -0.8387980233020391
+        },
+        "all6_single": {
+          "peak": 0.378272116184235,
+          "pre_safety_peak": 0.378272116184235,
+          "rms": 0.045259035672583,
+          "lufs": -18.81,
+          "true_peak_dbfs": -8.438540702086483
+        },
+        "all6_chord": {
+          "peak": 0.825522184371948,
+          "pre_safety_peak": 0.825522184371948,
+          "rms": 0.105281556170489,
+          "lufs": -11.52,
+          "true_peak_dbfs": -1.6601259353115227
+        },
+        "101_chord": {
+          "peak": 0.949999690055847,
+          "pre_safety_peak": 0.949999690055847,
+          "rms": 0.149140422748654
+        }
+      }
+    },
+    {
+      "id": "LT017",
+      "name": "Serene Hypersky",
+      "bank": "Lush Trance 20",
+      "base_lufs": -19.4,
+      "maximum_true_peak_dbfs": -0.6804023752217887,
+      "maximum_pre_safety_peak": 0.949999451637268,
+      "calibrated_eight_corner_predicted_peak": 0.9499996533010828,
+      "preset_trim_db": 11.42563,
+      "recipe_sha256": "ed6e377a555b9f20a050ec56ba2bd6a51ef8667df6706e21d1d7eff47d0dbef6",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.529217958450317,
+          "pre_safety_peak": 0.5308758020401,
+          "rms": 0.038039669899311,
+          "lufs": -19.4,
+          "true_peak_dbfs": -5.502482777931953
+        },
+        "000_chord": {
+          "peak": 0.86039000749588,
+          "pre_safety_peak": 0.862184286117554,
+          "rms": 0.07495934382537,
+          "lufs": -13.14,
+          "true_peak_dbfs": -1.2645764380364832
+        },
+        "111_single": {
+          "peak": 0.571216404438019,
+          "pre_safety_peak": 0.572304248809814,
+          "rms": 0.042271739418079,
+          "lufs": -18.47,
+          "true_peak_dbfs": -4.853192086787334
+        },
+        "111_chord": {
+          "peak": 0.917764067649841,
+          "pre_safety_peak": 0.919683516025543,
+          "rms": 0.084387027451319,
+          "lufs": -12.05,
+          "true_peak_dbfs": -0.6804023752217887
+        },
+        "all6_single": {
+          "peak": 0.493852645158768,
+          "pre_safety_peak": 0.49670997262001,
+          "rms": 0.042158552273118,
+          "lufs": -18.65,
+          "true_peak_dbfs": -6.120643591366447
+        },
+        "all6_chord": {
+          "peak": 0.857624530792236,
+          "pre_safety_peak": 0.857624530792236,
+          "rms": 0.082429586263062,
+          "lufs": -12.65,
+          "true_peak_dbfs": -1.3287267352754735
+        },
+        "100_chord": {
+          "peak": 0.949999451637268,
+          "pre_safety_peak": 0.949999451637268,
+          "rms": 0.108444330063946
+        }
+      }
+    },
+    {
+      "id": "LT018",
+      "name": "Dawn Resonance",
+      "bank": "Lush Trance 20",
+      "base_lufs": -18.59,
+      "maximum_true_peak_dbfs": -0.4398889105129814,
+      "maximum_pre_safety_peak": 0.950000047683716,
+      "calibrated_eight_corner_predicted_peak": 0.949999829516766,
+      "preset_trim_db": 11.90116,
+      "recipe_sha256": "ee85ad59948bb43b4626171ebc50568853e4c142d3e6df3d02dd808c631b3082",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.41408497095108,
+          "pre_safety_peak": 0.41408497095108,
+          "rms": 0.043761443928559,
+          "lufs": -18.59,
+          "true_peak_dbfs": -7.652514474851666
+        },
+        "000_chord": {
+          "peak": 0.866386592388153,
+          "pre_safety_peak": 0.866386592388153,
+          "rms": 0.103754482031918,
+          "lufs": -10.96,
+          "true_peak_dbfs": -1.188785912947443
+        },
+        "111_single": {
+          "peak": 0.395745068788528,
+          "pre_safety_peak": 0.395763039588928,
+          "rms": 0.048303187964283,
+          "lufs": -17.77,
+          "true_peak_dbfs": -8.013291567221918
+        },
+        "111_chord": {
+          "peak": 0.917113423347473,
+          "pre_safety_peak": 0.917113423347473,
+          "rms": 0.113054222657568,
+          "lufs": -10.19,
+          "true_peak_dbfs": -0.7460037208088877
+        },
+        "all6_single": {
+          "peak": 0.38924703001976,
+          "pre_safety_peak": 0.38924703001976,
+          "rms": 0.046909792554269,
+          "lufs": -18.2,
+          "true_peak_dbfs": -8.18986206524711
+        },
+        "all6_chord": {
+          "peak": 0.950000047683716,
+          "pre_safety_peak": 0.950000047683716,
+          "rms": 0.110675943144382,
+          "lufs": -10.56,
+          "true_peak_dbfs": -0.4398889105129814
+        }
+      }
+    },
+    {
+      "id": "LT019",
+      "name": "Diamond Horizon",
+      "bank": "Lush Trance 20",
+      "base_lufs": -17.11,
+      "maximum_true_peak_dbfs": -0.6295302645874432,
+      "maximum_pre_safety_peak": 0.950000405311584,
+      "calibrated_eight_corner_predicted_peak": 0.9500004139752862,
+      "preset_trim_db": 9.18821,
+      "recipe_sha256": "fbb349520512f6a3c6ef89b29f4384d37453cd347c152b7ef8b02820c1e397aa",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.497261643409729,
+          "pre_safety_peak": 0.497261643409729,
+          "rms": 0.053596524747553,
+          "lufs": -17.11,
+          "true_peak_dbfs": -6.048384641785734
+        },
+        "000_chord": {
+          "peak": 0.880694627761841,
+          "pre_safety_peak": 0.880694627761841,
+          "rms": 0.110892899698324,
+          "lufs": -10.44,
+          "true_peak_dbfs": -1.098146742625584
+        },
+        "111_single": {
+          "peak": 0.538755178451538,
+          "pre_safety_peak": 0.538755178451538,
+          "rms": 0.059058186486492,
+          "lufs": -16.27,
+          "true_peak_dbfs": -5.344366685835772
+        },
+        "111_chord": {
+          "peak": 0.924746990203857,
+          "pre_safety_peak": 0.924746990203857,
+          "rms": 0.119391975609537,
+          "lufs": -9.82,
+          "true_peak_dbfs": -0.6295302645874432
+        },
+        "all6_single": {
+          "peak": 0.497518748044968,
+          "pre_safety_peak": 0.497518748044968,
+          "rms": 0.057444731486692,
+          "lufs": -16.73,
+          "true_peak_dbfs": -6.0307844726057445
+        },
+        "all6_chord": {
+          "peak": 0.858818233013153,
+          "pre_safety_peak": 0.858818233013153,
+          "rms": 0.116088612421506,
+          "lufs": -10.31,
+          "true_peak_dbfs": -1.1992899940042443
+        },
+        "100_chord": {
+          "peak": 0.950000405311584,
+          "pre_safety_peak": 0.950000405311584,
+          "rms": 0.15927118707598
+        }
+      }
+    },
+    {
+      "id": "LT020",
+      "name": "Infinite Embrace",
+      "bank": "Lush Trance 20",
+      "base_lufs": -17.16,
+      "maximum_true_peak_dbfs": -0.4401679348994583,
+      "maximum_pre_safety_peak": 0.950000286102295,
+      "calibrated_eight_corner_predicted_peak": 0.9500000651647417,
+      "preset_trim_db": 15.73173,
+      "recipe_sha256": "9c1f6694e0585c3398be53ec4e0ec81d17560b143c9304ff06edb0bad64d21ca",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.412517637014389,
+          "pre_safety_peak": 0.412533402442932,
+          "rms": 0.056393484539926,
+          "lufs": -17.16,
+          "true_peak_dbfs": -7.685865048290257
+        },
+        "000_chord": {
+          "peak": 0.841658890247345,
+          "pre_safety_peak": 0.841956913471222,
+          "rms": 0.124941182292511,
+          "lufs": -9.87,
+          "true_peak_dbfs": -1.4880179200556878
+        },
+        "111_single": {
+          "peak": 0.493721634149551,
+          "pre_safety_peak": 0.493721634149551,
+          "rms": 0.063056654938479,
+          "lufs": -16.17,
+          "true_peak_dbfs": -6.124974702558005
+        },
+        "111_chord": {
+          "peak": 0.913382351398468,
+          "pre_safety_peak": 0.914111256599426,
+          "rms": 0.137223656633589,
+          "lufs": -9.05,
+          "true_peak_dbfs": -0.7766096657297267
+        },
+        "all6_single": {
+          "peak": 0.45566326379776,
+          "pre_safety_peak": 0.45566326379776,
+          "rms": 0.058191816316101,
+          "lufs": -17.08,
+          "true_peak_dbfs": -6.821693414889576
+        },
+        "all6_chord": {
+          "peak": 0.950000286102295,
+          "pre_safety_peak": 0.950000286102295,
+          "rms": 0.13330711794092,
+          "lufs": -9.74,
+          "true_peak_dbfs": -0.4401679348994583
+        }
+      }
+    },
+    {
+      "id": "TI036",
+      "name": "Azure Ascension",
+      "bank": "Factory",
+      "base_lufs": -18.63,
+      "maximum_true_peak_dbfs": -0.38670223537375764,
+      "maximum_pre_safety_peak": 0.950000405311584,
+      "calibrated_eight_corner_predicted_peak": 0.9500001622992027,
+      "preset_trim_db": 9.80167,
+      "recipe_sha256": "59d172c1900a36c285af318238c566377a129a7beab67ecb3cc24cac82bb9328",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.426769912242889,
+          "pre_safety_peak": 0.426769912242889,
+          "rms": 0.044741307560395,
+          "lufs": -18.63,
+          "true_peak_dbfs": -7.369001669716946
+        },
+        "000_chord": {
+          "peak": 0.883182525634766,
+          "pre_safety_peak": 0.883182525634766,
+          "rms": 0.099344456551356,
+          "lufs": -11.53,
+          "true_peak_dbfs": -1.0732006592847274
+        },
+        "111_single": {
+          "peak": 0.39482194185257,
+          "pre_safety_peak": 0.39482194185257,
+          "rms": 0.044454944426974,
+          "lufs": -18.52,
+          "true_peak_dbfs": -8.066128388073897
+        },
+        "111_chord": {
+          "peak": 0.826013028621674,
+          "pre_safety_peak": 0.826013028621674,
+          "rms": 0.097926295955746,
+          "lufs": -11.4,
+          "true_peak_dbfs": -1.6546688653074884
+        },
+        "all6_single": {
+          "peak": 0.444430321455002,
+          "pre_safety_peak": 0.444430321455002,
+          "rms": 0.052863744358124,
+          "lufs": -17.35,
+          "true_peak_dbfs": -6.907130304683605
+        },
+        "all6_chord": {
+          "peak": 0.950000405311584,
+          "pre_safety_peak": 0.950000405311584,
+          "rms": 0.117128607450618,
+          "lufs": -10.23,
+          "true_peak_dbfs": -0.38670223537375764
+        }
+      },
+      "previous_base_lufs": -23.29,
+      "starting_level_increase_lu": 4.66
+    },
+    {
+      "id": "TI037",
+      "name": "Gilded Flight",
+      "bank": "Factory",
+      "base_lufs": -19.06,
+      "maximum_true_peak_dbfs": -0.4401679348994583,
+      "maximum_pre_safety_peak": 0.949999690055847,
+      "calibrated_eight_corner_predicted_peak": 0.9499996051060874,
+      "preset_trim_db": 9.36792,
+      "recipe_sha256": "7fbe3597b60bcdc84b1d83d00f9d35b03f15995e0568dde0d40a58f1c20fbd54",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.493671149015427,
+          "pre_safety_peak": 0.494528263807297,
+          "rms": 0.043044704121973,
+          "lufs": -19.06,
+          "true_peak_dbfs": -6.014480281408457
+        },
+        "000_chord": {
+          "peak": 0.893338799476624,
+          "pre_safety_peak": 0.893338799476624,
+          "rms": 0.10334769412193,
+          "lufs": -11.25,
+          "true_peak_dbfs": -0.9741266693505234
+        },
+        "111_single": {
+          "peak": 0.462391883134842,
+          "pre_safety_peak": 0.462391883134842,
+          "rms": 0.041246321313375,
+          "lufs": -19.24,
+          "true_peak_dbfs": -6.674889849544514
+        },
+        "111_chord": {
+          "peak": 0.790902554988861,
+          "pre_safety_peak": 0.790902554988861,
+          "rms": 0.098106755313376,
+          "lufs": -11.53,
+          "true_peak_dbfs": -2.025230143642875
+        },
+        "all6_single": {
+          "peak": 0.535514891147614,
+          "pre_safety_peak": 0.538317859172821,
+          "rms": 0.049653886269719,
+          "lufs": -17.89,
+          "true_peak_dbfs": -5.379679993274657
+        },
+        "all6_chord": {
+          "peak": 0.949999690055847,
+          "pre_safety_peak": 0.949999690055847,
+          "rms": 0.114124132866325,
+          "lufs": -10.49,
+          "true_peak_dbfs": -0.4401679348994583
+        }
+      },
+      "previous_base_lufs": -23.57,
+      "starting_level_increase_lu": 4.510000000000002
+    },
+    {
+      "id": "TI038",
+      "name": "Northern Horizon",
+      "bank": "Factory",
+      "base_lufs": -19.49,
+      "maximum_true_peak_dbfs": -0.6860557690237511,
+      "maximum_pre_safety_peak": 0.950000405311584,
+      "calibrated_eight_corner_predicted_peak": 0.9500003635170347,
+      "preset_trim_db": 9.44838,
+      "recipe_sha256": "a5dcd5faa6fab4f6176d5fb9498b11ea043bdf9d9d3d11c7f26cfd1ebe984756",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.260928422212601,
+          "pre_safety_peak": 0.26094114780426,
+          "rms": 0.043315106611992,
+          "lufs": -19.49,
+          "true_peak_dbfs": -11.663133195479261
+        },
+        "000_chord": {
+          "peak": 0.922953128814697,
+          "pre_safety_peak": 0.923878788948059,
+          "rms": 0.105740451768649,
+          "lufs": -11.47,
+          "true_peak_dbfs": -0.6860557690237511
+        },
+        "111_single": {
+          "peak": 0.253573775291443,
+          "pre_safety_peak": 0.25359520316124,
+          "rms": 0.041956872326145,
+          "lufs": -19.77,
+          "true_peak_dbfs": -11.911450848481067
+        },
+        "111_chord": {
+          "peak": 0.768543601036072,
+          "pre_safety_peak": 0.768543601036072,
+          "rms": 0.101530464581209,
+          "lufs": -11.81,
+          "true_peak_dbfs": -2.2809771105838763
+        },
+        "all6_single": {
+          "peak": 0.323910087347031,
+          "pre_safety_peak": 0.323952287435532,
+          "rms": 0.051120551607753,
+          "lufs": -18.27,
+          "true_peak_dbfs": -9.786708039569282
+        },
+        "all6_chord": {
+          "peak": 0.788767099380493,
+          "pre_safety_peak": 0.789223968982697,
+          "rms": 0.120996139868434,
+          "lufs": -10.49,
+          "true_peak_dbfs": -2.0552684676755355
+        },
+        "010_chord": {
+          "peak": 0.950000405311584,
+          "pre_safety_peak": 0.950000405311584,
+          "rms": 0.151032498524522
+        }
+      },
+      "previous_base_lufs": -23.33,
+      "starting_level_increase_lu": 3.84
+    },
+    {
+      "id": "TI039",
+      "name": "Universal Flame",
+      "bank": "Factory",
+      "base_lufs": -18.21,
+      "maximum_true_peak_dbfs": -0.43269049225595235,
+      "maximum_pre_safety_peak": 0.95000034570694,
+      "calibrated_eight_corner_predicted_peak": 0.9500004681971594,
+      "preset_trim_db": 6.41646,
+      "recipe_sha256": "030dd51253da58da938427de26a0cfa415d96174e5e615b0b4a8dd4565ff0241",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.428163588047028,
+          "pre_safety_peak": 0.428163588047028,
+          "rms": 0.047434825904109,
+          "lufs": -18.21,
+          "true_peak_dbfs": -7.350825933949915
+        },
+        "000_chord": {
+          "peak": 0.949133157730103,
+          "pre_safety_peak": 0.95000034570694,
+          "rms": 0.113515596218672,
+          "lufs": -10.67,
+          "true_peak_dbfs": -0.43269049225595235
+        },
+        "111_single": {
+          "peak": 0.385666847229004,
+          "pre_safety_peak": 0.385666847229004,
+          "rms": 0.041574228934661,
+          "lufs": -19.18,
+          "true_peak_dbfs": -8.143693787631712
+        },
+        "111_chord": {
+          "peak": 0.811598658561707,
+          "pre_safety_peak": 0.811598658561707,
+          "rms": 0.092620422255278,
+          "lufs": -12.12,
+          "true_peak_dbfs": -1.803061399851737
+        },
+        "all6_single": {
+          "peak": 0.441834539175034,
+          "pre_safety_peak": 0.441834539175034,
+          "rms": 0.047295880786609,
+          "lufs": -18.61,
+          "true_peak_dbfs": -7.089299878314698
+        },
+        "all6_chord": {
+          "peak": 0.867694616317749,
+          "pre_safety_peak": 0.868574738502502,
+          "rms": 0.108398663440671,
+          "lufs": -10.98,
+          "true_peak_dbfs": -1.227323114938761
+        }
+      },
+      "previous_base_lufs": -23.03,
+      "starting_level_increase_lu": 4.82
+    },
+    {
+      "id": "TI040",
+      "name": "Blanche Skyline",
+      "bank": "Factory",
+      "base_lufs": -18.92,
+      "maximum_true_peak_dbfs": -0.4846907831180819,
+      "maximum_pre_safety_peak": 0.950000107288361,
+      "calibrated_eight_corner_predicted_peak": 0.949999836616265,
+      "preset_trim_db": 9.89353,
+      "recipe_sha256": "628db765b9f819451d8e303d4204eeb224d76ea230f4fc2c7a7abcd9c4fd3e68",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.460308253765106,
+          "pre_safety_peak": 0.460308253765106,
+          "rms": 0.04303484014729,
+          "lufs": -18.92,
+          "true_peak_dbfs": -6.732162202955028
+        },
+        "000_chord": {
+          "peak": 0.91044408082962,
+          "pre_safety_peak": 0.91044408082962,
+          "rms": 0.098012231179889,
+          "lufs": -11.6,
+          "true_peak_dbfs": -0.8092416163144879
+        },
+        "111_single": {
+          "peak": 0.394769847393036,
+          "pre_safety_peak": 0.394769847393036,
+          "rms": 0.041972229860247,
+          "lufs": -18.93,
+          "true_peak_dbfs": -8.067471186196393
+        },
+        "111_chord": {
+          "peak": 0.800150990486145,
+          "pre_safety_peak": 0.802015244960785,
+          "rms": 0.098495390809132,
+          "lufs": -11.36,
+          "true_peak_dbfs": -1.8492691523634919
+        },
+        "all6_single": {
+          "peak": 0.478421181440353,
+          "pre_safety_peak": 0.478421181440353,
+          "rms": 0.051838405528265,
+          "lufs": -17.37,
+          "true_peak_dbfs": -6.348496782250841
+        },
+        "all6_chord": {
+          "peak": 0.944925129413605,
+          "pre_safety_peak": 0.949018537998199,
+          "rms": 0.121297951670845,
+          "lufs": -9.88,
+          "true_peak_dbfs": -0.4846907831180819
+        },
+        "010_chord": {
+          "peak": 0.950000107288361,
+          "pre_safety_peak": 0.950000107288361,
+          "rms": 0.14096453031905
+        }
+      },
+      "previous_base_lufs": -23.97,
+      "starting_level_increase_lu": 5.049999999999997
+    },
+    {
+      "id": "TI041",
+      "name": "Solar Promise",
+      "bank": "Factory",
+      "base_lufs": -21.19,
+      "maximum_true_peak_dbfs": -0.9078322577775738,
+      "maximum_pre_safety_peak": 0.95000034570694,
+      "calibrated_eight_corner_predicted_peak": 0.9500002760115199,
+      "preset_trim_db": 11.83895,
+      "recipe_sha256": "3c13ea88ed0c20d17ea627340751acd98bf6d9201c5183b9f1893a817bd343e6",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.27365380525589,
+          "pre_safety_peak": 0.27365380525589,
+          "rms": 0.035552687093848,
+          "lufs": -21.19,
+          "true_peak_dbfs": -11.250527928984424
+        },
+        "000_chord": {
+          "peak": 0.850019812583923,
+          "pre_safety_peak": 0.850019812583923,
+          "rms": 0.09175814801942,
+          "lufs": -12.61,
+          "true_peak_dbfs": -1.4060317409503853
+        },
+        "111_single": {
+          "peak": 0.347067594528198,
+          "pre_safety_peak": 0.350798279047012,
+          "rms": 0.036768675409757,
+          "lufs": -20.78,
+          "true_peak_dbfs": -9.178660285548153
+        },
+        "111_chord": {
+          "peak": 0.849001586437225,
+          "pre_safety_peak": 0.850547790527344,
+          "rms": 0.092036617170521,
+          "lufs": -12.46,
+          "true_peak_dbfs": -1.4163288110427357
+        },
+        "all6_single": {
+          "peak": 0.38646599650383,
+          "pre_safety_peak": 0.391825258731842,
+          "rms": 0.04360916024619,
+          "lufs": -19.54,
+          "true_peak_dbfs": -8.239459858007823
+        },
+        "all6_chord": {
+          "peak": 0.892765581607819,
+          "pre_safety_peak": 0.901934742927551,
+          "rms": 0.110124136098937,
+          "lufs": -11.04,
+          "true_peak_dbfs": -0.9078322577775738
+        },
+        "010_chord": {
+          "peak": 0.949815154075623,
+          "pre_safety_peak": 0.95000034570694,
+          "rms": 0.135130168979629
+        }
+      },
+      "previous_base_lufs": -25.78,
+      "starting_level_increase_lu": 4.59
+    },
+    {
+      "id": "TI042",
+      "name": "Frost Anthem",
+      "bank": "Factory",
+      "base_lufs": -21.18,
+      "maximum_true_peak_dbfs": -0.4482067874287043,
+      "maximum_pre_safety_peak": 0.949999630451202,
+      "calibrated_eight_corner_predicted_peak": 0.9499994870801526,
+      "preset_trim_db": 10.04486,
+      "recipe_sha256": "2ca3c8a5bae54c7fc4d74472c6ee00b1258f66fa7f4498daefb526379ffcff48",
+      "verified_variants": {
+        "000_single": {
+          "peak": 0.329485177993774,
+          "pre_safety_peak": 0.329485177993774,
+          "rms": 0.032663232193449,
+          "lufs": -21.18,
+          "true_peak_dbfs": -9.59670171970317
+        },
+        "000_chord": {
+          "peak": 0.828593134880066,
+          "pre_safety_peak": 0.828593134880066,
+          "rms": 0.086896278276038,
+          "lufs": -12.57,
+          "true_peak_dbfs": -1.5593979549500416
+        },
+        "111_single": {
+          "peak": 0.341514647006989,
+          "pre_safety_peak": 0.341514647006989,
+          "rms": 0.034398884739927,
+          "lufs": -20.49,
+          "true_peak_dbfs": -9.240638473950298
+        },
+        "111_chord": {
+          "peak": 0.825178861618042,
+          "pre_safety_peak": 0.825178861618042,
+          "rms": 0.08893541691335,
+          "lufs": -12.22,
+          "true_peak_dbfs": -1.6382300488356794
+        },
+        "all6_single": {
+          "peak": 0.408633798360825,
+          "pre_safety_peak": 0.408633798360825,
+          "rms": 0.043053742056895,
+          "lufs": -18.75,
+          "true_peak_dbfs": -7.754685462421158
+        },
+        "all6_chord": {
+          "peak": 0.948500096797943,
+          "pre_safety_peak": 0.949999630451202,
+          "rms": 0.109212707084555,
+          "lufs": -10.76,
+          "true_peak_dbfs": -0.4482067874287043
+        }
+      },
+      "previous_base_lufs": -26.1,
+      "starting_level_increase_lu": 4.920000000000002
+    }
+  ],
+  "closest_new_lead_spectral_pairs": [
+    {
+      "a": "Violet Choirline",
+      "b": "Celestial Ribbon",
+      "spectral_cosine": 0.9903331707948477
+    },
+    {
+      "a": "Ivory Radiance",
+      "b": "Pearlescent Tide",
+      "spectral_cosine": 0.9875521881631124
+    },
+    {
+      "a": "Infinite Embrace",
+      "b": "Golden Airfoil",
+      "spectral_cosine": 0.9870688595603406
+    },
+    {
+      "a": "Serene Hypersky",
+      "b": "Crystal Canopy",
+      "spectral_cosine": 0.9843962498753167
+    },
+    {
+      "a": "Infinite Embrace",
+      "b": "Ivory Radiance",
+      "spectral_cosine": 0.9789714993044496
+    },
+    {
+      "a": "Astral Silk",
+      "b": "Velvet Zenith",
+      "spectral_cosine": 0.9773628247731609
+    },
+    {
+      "a": "Celestial Ribbon",
+      "b": "Velvet Zenith",
+      "spectral_cosine": 0.9741964161286436
+    },
+    {
+      "a": "Golden Airfoil",
+      "b": "Iridescent Promise",
+      "spectral_cosine": 0.9698395391087262
+    },
+    {
+      "a": "Ivory Radiance",
+      "b": "Emerald Halo",
+      "spectral_cosine": 0.968829170016881
+    },
+    {
+      "a": "Dawn Resonance",
+      "b": "Velvet Zenith",
+      "spectral_cosine": 0.9656453138546945
+    }
+  ],
+  "lush_zip_sha256": "481ae6916cc8483f51167cff6950ba4163eb441718446426a8546500a2549932"
+}

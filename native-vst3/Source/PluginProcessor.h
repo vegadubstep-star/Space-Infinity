@@ -1,5 +1,7 @@
 #pragma once
 #include "DimensionChorus.h"
+#include "CharacterFilters.h"
+#include "SampleBlend.h"
 #include "OscillatorMelt.h"
 #include <JuceHeader.h>
 #include "AnalogueCircuit.h"
@@ -57,6 +59,12 @@ public:
     static float oscillatorFrameSample(double phase,int wave,float position,double phaseIncrement=0);
     static float oscillatorSample(double phase,int wave);
     static float warpedSample(double phase,int wave,int mode,float amount,float modulator);
+    static juce::StringArray filterNames(bool originalOnly=false);
+    int filterSelection() const {const int extra=int(param("characterFilterMode"));return extra>0?extra+6:int(param("filterMode"));}
+    float filterDisplayCutoff() const noexcept {return displayedFilterCutoff.load(std::memory_order_relaxed);}
+    float filterDisplayResonance() const noexcept {return displayedFilterResonance.load(std::memory_order_relaxed);}
+    float filterDisplayVowel() const noexcept {return displayedFilterVowel.load(std::memory_order_relaxed);}
+    float filterDisplayMorph() const noexcept {return displayedFilterMorph.load(std::memory_order_relaxed);}
     float takeOutputPeak() noexcept { return outputPeak.exchange(0.0f); }
     void loadMotionShape(int index);
     static juce::StringArray motionNames();
@@ -193,10 +201,11 @@ private:
     unsigned sampleRevision = 0;
     struct Voice {
         infinity::Granulator granular;
+        infinity::SampleCloud cloud;infinity::SamplePolish samplePolish;
         infinity::Envelope filterEnvelope;
         AnalogueEnvelope curvedAmp,curvedFilter,pitchEnvelope;
         VoiceCalibration calibration;
-        double idleRateA=0,idleRateB=0,pitch=0,subPhase=0;
+        double idleRateA=0,idleRateB=0,pitch=0,subPhase=0,lifePhase=0,noteSeconds=0;
         float subEnvelope=0,lastL=0,lastR=0,tailL=0,tailR=0,smoothFc=0;int declickRemaining=0,declickLength=1,retireRemaining=0,retireLength=1;
         int source = 0,sampleZone=-1,sampleLoopStart=0;
         double samplePosition = 0, sampleStep = 0;
@@ -210,12 +219,15 @@ private:
         std::array<float,3> lfoMemory{};
         std::array<AnalogueLadder,2> ladder;
         std::array<AcidResonantFilter,2> acidFilter;
+
         uint32_t noiseState=1;
         AnalogueColour colour,voltageColour;float filterSideState[2]{},filterSideCascade[2]{};
         std::array<double,127> extraPhase1{}, extraPhase2{};
         float filterState[2]{}, filterCascade[2]{};
         unsigned sampleRevision = 0; bool active=false, released=false, decaying=false; int note=-1, channel=1; float velocity=0, env=0, cutoff=0; double phase=0, phase2=0; uint64_t age=0; };
     std::array<Voice,24> voices{};
+    std::unique_ptr<std::array<std::array<infinity::CharacterFilter,2>,24>> characterFilters=std::make_unique<std::array<std::array<infinity::CharacterFilter,2>,24>>();
+    std::atomic<float> displayedFilterCutoff{8000},displayedFilterResonance{.12f},displayedFilterVowel{0},displayedFilterMorph{0};
     std::array<juce::SmoothedValue<float>,10> liveGains;
     std::array<juce::SmoothedValue<float>,10> analogueDetails;
     std::array<juce::SmoothedValue<float>,4> sourcePans;AnalogueDrift boardDrift;

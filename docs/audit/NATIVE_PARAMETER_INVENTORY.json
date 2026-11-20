@@ -1,8 +1,8 @@
 {
-  "native_version": "0.8.0",
+  "native_version": "0.9.0",
   "manual_reference": "https://xferrecords.com/manual/serum-2/docs",
   "notes": "Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.",
-  "parameter_count": 1208,
+  "parameter_count": 1223,
   "parameters": [
     {
       "id": "cutoff",
@@ -12268,6 +12268,156 @@
       "choices": [
         "Legacy soft clip",
         "Clean headroom"
+      ]
+    },
+    {
+      "id": "filterVowel",
+      "name": "Formant vowel A E I O U",
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 4.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "filterMorph",
+      "name": "Filter LP BP HP morph",
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "sampleLoopFade",
+      "name": "Sample loop crossfade ms",
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 500.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "sampleCloudMix",
+      "name": "Sample granular blend",
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "sampleSmear",
+      "name": "Sample diffusion",
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "sampleDarken",
+      "name": "Sample texture warmth",
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "grainFreeze",
+      "name": "Freeze grain position",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "sampleOctave",
+      "name": "Sampler octave",
+      "type": "integer",
+      "minimum": -4.0,
+      "maximum": 4.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "grainOctave",
+      "name": "Granular layer octave",
+      "type": "integer",
+      "minimum": -4.0,
+      "maximum": 4.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "soundLife",
+      "name": "Voice life",
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "oscTransition",
+      "name": "Oscillator transition blend",
+      "type": "float",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "oscTransitionTime",
+      "name": "Oscillator transition seconds",
+      "type": "float",
+      "minimum": 0.004999999888241,
+      "maximum": 8.0,
+      "host_default": 1.0,
+      "init_value": 1.0
+    },
+    {
+      "id": "oscTransitionCurve",
+      "name": "Oscillator transition curve",
+      "type": "float",
+      "minimum": -1.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "oscTransitionDirection",
+      "name": "Oscillator transition direction",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "A to B",
+        "B to A"
+      ]
+    },
+    {
+      "id": "characterFilterMode",
+      "name": "Character filter override",
+      "type": "choice",
+      "minimum": 0.0,
+      "maximum": 8.0,
+      "host_default": 0.0,
+      "init_value": 0.0,
+      "choices": [
+        "Use original filter",
+        "Notch",
+        "All-pass",
+        "24 dB HP",
+        "24 dB BP",
+        "Formant vowels",
+        "Comb +",
+        "Comb -",
+        "LP / BP / HP morph"
       ]
     }
   ]

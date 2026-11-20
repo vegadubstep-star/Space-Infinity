@@ -10,6 +10,8 @@
 #endif
 
 int runBankZipSmoke(const juce::File&);
+int runSoundCharacterSmoke();
+int runLushBankSmoke(const juce::File&);
 int runBassSmoke();
 int exportBassRangeProfile(const juce::File&);
 int exportBassAuditions(const juce::File&,const juce::File&);
@@ -116,6 +118,8 @@ int main(int argc,char* argv[])
 
     juce::ScopedJuceInitialiser_GUI gui;
     if(argc>2&&juce::String(argv[1])=="--bass-range-profile")return exportBassRangeProfile(juce::File(argv[2]));
+    if(argc>2&&juce::String(argv[1])=="--lush-bank-tests")return runLushBankSmoke(juce::File(argv[2]));
+    if(argc>1&&juce::String(argv[1])=="--sound-character-tests")return runSoundCharacterSmoke();
     if(argc>1&&juce::String(argv[1])=="--bass-tests")return runBassSmoke();
     if(argc>3&&juce::String(argv[1])=="--bass-audition")return exportBassAuditions(juce::File(argv[2]),juce::File(argv[3]));
     if(argc>2&&juce::String(argv[1])=="--export-choir-stabs")return exportOwnerChoirStabs(juce::File(argv[2]));

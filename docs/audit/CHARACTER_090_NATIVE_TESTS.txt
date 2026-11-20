@@ -1,0 +1,72 @@
+SPACE INFINITY 0.9.0 exact-source native verification
+
+Test project /workspace/work/native-design/native-vst3/build-linux
+      Start  1: SpaceInfinityCharacterFilterCore
+ 1/27 Test  #1: SpaceInfinityCharacterFilterCore ...   Passed    0.42 sec
+      Start  2: SpaceInfinityHeritageBank
+ 2/27 Test  #2: SpaceInfinityHeritageBank ..........   Passed    7.42 sec
+      Start  3: SpaceInfinityExtendedCore
+ 3/27 Test  #3: SpaceInfinityExtendedCore ..........   Passed    0.04 sec
+      Start  4: SpaceInfinityLushBank
+ 4/27 Test  #4: SpaceInfinityLushBank ..............   Passed    1.17 sec
+      Start  5: SpaceInfinitySoundCharacter
+ 5/27 Test  #5: SpaceInfinitySoundCharacter ........   Passed    2.98 sec
+      Start  6: SpaceInfinityBassVoicing
+ 6/27 Test  #6: SpaceInfinityBassVoicing ...........   Passed   32.39 sec
+      Start  7: SpaceInfinityAcidDrive
+ 7/27 Test  #7: SpaceInfinityAcidDrive .............   Passed   11.47 sec
+      Start  8: SpaceInfinityCreativeWorkflow
+ 8/27 Test  #8: SpaceInfinityCreativeWorkflow ......   Passed    2.31 sec
+      Start  9: SpaceInfinityUsability
+ 9/27 Test  #9: SpaceInfinityUsability .............   Passed    3.41 sec
+      Start 10: SpaceInfinitySmoke
+10/27 Test #10: SpaceInfinitySmoke .................   Passed   28.70 sec
+      Start 11: SpaceInfinityHardwareUI
+11/27 Test #11: SpaceInfinityHardwareUI ............   Passed   13.57 sec
+      Start 12: SpaceInfinityPresetManagement
+12/27 Test #12: SpaceInfinityPresetManagement ......   Passed    2.35 sec
+      Start 13: SpaceInfinityExtendedSmoke
+13/27 Test #13: SpaceInfinityExtendedSmoke .........   Passed    2.04 sec
+      Start 14: SpaceInfinityAnalogueExpansion
+14/27 Test #14: SpaceInfinityAnalogueExpansion .....   Passed    8.60 sec
+      Start 15: SpaceInfinityOscillatorWorkflow
+15/27 Test #15: SpaceInfinityOscillatorWorkflow ....   Passed    1.04 sec
+      Start 16: SpaceInfinityPitchTravel
+16/27 Test #16: SpaceInfinityPitchTravel ...........   Passed    1.91 sec
+      Start 17: SpaceInfinityChorusMelt
+17/27 Test #17: SpaceInfinityChorusMelt ............   Passed    2.57 sec
+      Start 18: SpaceInfinityModulationWorkflow
+18/27 Test #18: SpaceInfinityModulationWorkflow ....   Passed    1.92 sec
+      Start 19: SpaceInfinityNoiseModes
+19/27 Test #19: SpaceInfinityNoiseModes ............   Passed    5.69 sec
+      Start 20: SpaceInfinityDualLFO
+20/27 Test #20: SpaceInfinityDualLFO ...............   Passed    2.42 sec
+      Start 21: SpaceInfinityRhythmWorkflow
+21/27 Test #21: SpaceInfinityRhythmWorkflow ........   Passed    1.96 sec
+      Start 22: SpaceInfinityWorkflow
+22/27 Test #22: SpaceInfinityWorkflow ..............   Passed    3.51 sec
+      Start 23: SpaceInfinityStudioSmoke
+23/27 Test #23: SpaceInfinityStudioSmoke ...........   Passed    3.73 sec
+      Start 24: SpaceInfinityGrooveBank
+24/27 Test #24: SpaceInfinityGrooveBank ............   Passed   43.21 sec
+      Start 25: SpaceInfinityLeads
+25/27 Test #25: SpaceInfinityLeads .................   Passed    6.55 sec
+      Start 26: SpaceInfinityAirwavePad
+26/27 Test #26: SpaceInfinityAirwavePad ............   Passed  159.83 sec
+      Start 27: SpaceInfinityAnalogueProbe
+27/27 Test #27: SpaceInfinityAnalogueProbe .........   Passed    0.04 sec
+
+100% tests passed out of 27
+
+Total Test time (real) = 351.26 sec
+
+Python factory-edit importer:
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.009s
+
+OK
+
+Final native export: 20 Lush Trance presets; binary parameter/route recall validated.
+Bank SHA256: 481ae6916cc8483f51167cff6950ba4163eb441718446426a8546500a2549932
+Host parameter inventory: 1223. Original Filter Mode range 0..6 preserved.

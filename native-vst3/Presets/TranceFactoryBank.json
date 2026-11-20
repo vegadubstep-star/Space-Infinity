@@ -9117,18 +9117,18 @@
         "designerLfo3Enabled": 0,
         "attack": 0.0005,
         "ampDecay": 0.32,
-        "ampSustain": 0.72,
+        "ampSustain": 0.86,
         "release": 0.22,
         "ampLong": 0,
         "echoMode": 2,
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0.09,
+        "echoMix": 0.0765,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.1,
+        "reverb": 0.085,
         "reverbSize": 0.78,
         "reverbDamping": 0.42,
         "reverbWidth": 1,
@@ -9148,7 +9148,7 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 6.6425,
+        "presetTrim": 9.80167,
         "oscMelt": 0.035,
         "outputSafety": 1
       },
@@ -9231,10 +9231,25 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.02
+        },
+        {
+          "source": 1,
+          "target": "presetTrim",
+          "depth": -0.04
+        },
+        {
+          "source": 2,
+          "target": "presetTrim",
+          "depth": -0.06
         }
       ],
-      "design_hash": "bdff151940d7c0da",
-      "review_revision": "track-ready-080",
+      "design_hash": "e091fd265b022b92",
+      "review_revision": "lead-level-090",
       "review_level_mode": "peak",
       "review_peak_ceiling_dbfs": -0.3,
       "status": "measured_peak_calibrated"
@@ -9366,18 +9381,18 @@
         "designerLfo3Enabled": 0,
         "attack": 0.0005,
         "ampDecay": 0.32,
-        "ampSustain": 0.7,
+        "ampSustain": 0.86,
         "release": 0.24,
         "ampLong": 0,
         "echoMode": 2,
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0.14,
+        "echoMix": 0.11900000000000001,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.16,
+        "reverb": 0.136,
         "reverbSize": 0.78,
         "reverbDamping": 0.42,
         "reverbWidth": 1,
@@ -9397,7 +9412,7 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 6.64965,
+        "presetTrim": 9.36792,
         "oscMelt": 0.035,
         "outputSafety": 1
       },
@@ -9480,10 +9495,25 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.02
+        },
+        {
+          "source": 1,
+          "target": "presetTrim",
+          "depth": -0.04
+        },
+        {
+          "source": 2,
+          "target": "presetTrim",
+          "depth": -0.06
         }
       ],
-      "design_hash": "a035edc3716d774d",
-      "review_revision": "track-ready-080",
+      "design_hash": "6ceb806fdf941a0d",
+      "review_revision": "lead-level-090",
       "review_level_mode": "peak",
       "review_peak_ceiling_dbfs": -0.3,
       "status": "measured_peak_calibrated"
@@ -9615,18 +9645,18 @@
         "designerLfo3Enabled": 0,
         "attack": 0.0005,
         "ampDecay": 0.32,
-        "ampSustain": 0.82,
+        "ampSustain": 0.86,
         "release": 0.35,
         "ampLong": 0,
         "echoMode": 2,
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0.05,
+        "echoMix": 0.0425,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.07,
+        "reverb": 0.059500000000000004,
         "reverbSize": 0.78,
         "reverbDamping": 0.42,
         "reverbWidth": 1,
@@ -9646,7 +9676,7 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 6.0552,
+        "presetTrim": 9.44838,
         "oscMelt": 0.035,
         "outputSafety": 1
       },
@@ -9729,10 +9759,25 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.02
+        },
+        {
+          "source": 1,
+          "target": "presetTrim",
+          "depth": -0.04
+        },
+        {
+          "source": 2,
+          "target": "presetTrim",
+          "depth": -0.06
         }
       ],
-      "design_hash": "5c99a0388b1adf3b",
-      "review_revision": "track-ready-080",
+      "design_hash": "2776c9c88459b157",
+      "review_revision": "lead-level-090",
       "review_level_mode": "peak",
       "review_peak_ceiling_dbfs": -0.3,
       "status": "measured_peak_calibrated"
@@ -9864,18 +9909,18 @@
         "designerLfo3Enabled": 0,
         "attack": 0.0005,
         "ampDecay": 0.32,
-        "ampSustain": 0.62,
+        "ampSustain": 0.86,
         "release": 0.18,
         "ampLong": 0,
         "echoMode": 2,
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0.17,
+        "echoMix": 0.14450000000000002,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.13,
+        "reverb": 0.1105,
         "reverbSize": 0.78,
         "reverbDamping": 0.42,
         "reverbWidth": 1,
@@ -9895,7 +9940,7 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 4.10311,
+        "presetTrim": 6.41646,
         "oscMelt": 0.035,
         "outputSafety": 1
       },
@@ -9978,10 +10023,25 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.02
+        },
+        {
+          "source": 1,
+          "target": "presetTrim",
+          "depth": -0.04
+        },
+        {
+          "source": 2,
+          "target": "presetTrim",
+          "depth": -0.06
         }
       ],
-      "design_hash": "34fdbded3441e2ba",
-      "review_revision": "track-ready-080",
+      "design_hash": "121017348c39d82e",
+      "review_revision": "lead-level-090",
       "review_level_mode": "peak",
       "review_peak_ceiling_dbfs": -0.3,
       "status": "measured_peak_calibrated"
@@ -10113,18 +10173,18 @@
         "designerLfo3Enabled": 0,
         "attack": 0.0005,
         "ampDecay": 0.32,
-        "ampSustain": 0.76,
+        "ampSustain": 0.86,
         "release": 0.21,
         "ampLong": 0,
         "echoMode": 2,
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0.11,
+        "echoMix": 0.0935,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.18,
+        "reverb": 0.153,
         "reverbSize": 0.78,
         "reverbDamping": 0.42,
         "reverbWidth": 1,
@@ -10144,7 +10204,7 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 5.9565,
+        "presetTrim": 9.89353,
         "oscMelt": 0.035,
         "outputSafety": 1
       },
@@ -10227,10 +10287,25 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.02
+        },
+        {
+          "source": 1,
+          "target": "presetTrim",
+          "depth": -0.04
+        },
+        {
+          "source": 2,
+          "target": "presetTrim",
+          "depth": -0.06
         }
       ],
-      "design_hash": "49b587e85eaf8781",
-      "review_revision": "track-ready-080",
+      "design_hash": "65329c676cd02305",
+      "review_revision": "lead-level-090",
       "review_level_mode": "peak",
       "review_peak_ceiling_dbfs": -0.3,
       "status": "measured_peak_calibrated"
@@ -10362,18 +10437,18 @@
         "designerLfo3Enabled": 0,
         "attack": 0.0005,
         "ampDecay": 0.32,
-        "ampSustain": 0.67,
+        "ampSustain": 0.86,
         "release": 0.19,
         "ampLong": 0,
         "echoMode": 2,
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0.09,
+        "echoMix": 0.0765,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.1,
+        "reverb": 0.085,
         "reverbSize": 0.78,
         "reverbDamping": 0.42,
         "reverbWidth": 1,
@@ -10393,7 +10468,7 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 9.25729,
+        "presetTrim": 11.83895,
         "oscMelt": 0.035,
         "outputSafety": 1
       },
@@ -10476,11 +10551,26 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.02
+        },
+        {
+          "source": 1,
+          "target": "presetTrim",
+          "depth": -0.04
+        },
+        {
+          "source": 2,
+          "target": "presetTrim",
+          "depth": -0.06
         }
       ],
-      "design_hash": "04929be2a03338ea",
+      "design_hash": "f7531d30df8b570c",
       "wavetable": null,
-      "review_revision": "track-ready-080",
+      "review_revision": "lead-level-090",
       "review_level_mode": "peak",
       "review_peak_ceiling_dbfs": -0.3,
       "status": "measured_peak_calibrated"
@@ -10612,18 +10702,18 @@
         "designerLfo3Enabled": 0,
         "attack": 0.0005,
         "ampDecay": 0.32,
-        "ampSustain": 0.74,
+        "ampSustain": 0.86,
         "release": 0.23,
         "ampLong": 0,
         "echoMode": 2,
         "echoSyncL": 4,
         "echoSyncR": 5,
         "echoLink": 0,
-        "echoMix": 0.14,
+        "echoMix": 0.11900000000000001,
         "delayFeedback": 0.28,
         "echoFrequency": 4200,
         "echoBandwidth": 0.64,
-        "reverb": 0.16,
+        "reverb": 0.136,
         "reverbSize": 0.78,
         "reverbDamping": 0.42,
         "reverbWidth": 1,
@@ -10643,7 +10733,7 @@
         "reverbWetHighGain": -4,
         "distEnabled": 0,
         "distMix": 0,
-        "presetTrim": 6.49442,
+        "presetTrim": 10.04486,
         "oscMelt": 0.035,
         "outputSafety": 1
       },
@@ -10726,10 +10816,25 @@
           "source": 2,
           "target": "drive",
           "depth": 0.06
+        },
+        {
+          "source": 0,
+          "target": "presetTrim",
+          "depth": -0.02
+        },
+        {
+          "source": 1,
+          "target": "presetTrim",
+          "depth": -0.04
+        },
+        {
+          "source": 2,
+          "target": "presetTrim",
+          "depth": -0.06
         }
       ],
-      "design_hash": "05894be5e6d74bfd",
-      "review_revision": "track-ready-080",
+      "design_hash": "6ccb4ad5c3c6eb3e",
+      "review_revision": "lead-level-090",
       "review_level_mode": "peak",
       "review_peak_ceiling_dbfs": -0.3,
       "status": "measured_peak_calibrated"

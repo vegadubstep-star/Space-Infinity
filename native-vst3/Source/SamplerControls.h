@@ -1,0 +1,35 @@
+#pragma once
+#include "WorkflowControls.h"
+#include "HardwareTheme.h"
+namespace samplerui {
+class OscillatorTransition final : public juce::Component {
+public:
+    explicit OscillatorTransition(SpaceInfinityProcessor& p){setLookAndFeel(&theme);const char* ids[]{"oscTransition","oscTransitionTime","oscTransitionCurve"};const char* names[]{"AMOUNT","TIME seconds","CURVE"};for(int i=0;i<3;++i){auto& k=knobs[size_t(i)];k.initialiseModulation(p,ids[i]);k.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);k.setTextBoxStyle(juce::Slider::TextBoxBelow,false,90,20);k.setBounds(10+i*125,55,120,110);labels[size_t(i)].setText(names[i],juce::dontSendNotification);labels[size_t(i)].setJustificationType(juce::Justification::centred);labels[size_t(i)].setBounds(10+i*125,35,120,20);addAndMakeVisible(k);addAndMakeVisible(labels[size_t(i)]);bindings[size_t(i)]=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(p.state,ids[i],k);}direction.addItemList({"A to B","B to A"},1);direction.setBounds(10,5,160,25);addAndMakeVisible(direction);directionBinding=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(p.state,"oscTransitionDirection",direction);help.setText("Each note starts its own transition. Amount 100% gives the complete A/B journey; zero preserves Layer. Enable both oscillators. The amp envelope still controls the note.",juce::dontSendNotification);help.setBounds(10,170,375,60);addAndMakeVisible(help);setSize(395,235);}
+    ~OscillatorTransition() override {setLookAndFeel(nullptr);}
+    void paint(juce::Graphics& g) override {g.fillAll(juce::Colour(0xff281c38));}
+private: HardwareTheme theme;std::array<ModSlider,3> knobs;std::array<juce::Label,3> labels;std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>,3> bindings;juce::ComboBox direction;juce::Label help;std::unique_ptr<juce::AudioProcessorValueTreeState::ComboBoxAttachment> directionBinding;
+};
+class LifeControl final : public juce::Component {
+public:
+    explicit LifeControl(SpaceInfinityProcessor& p){setLookAndFeel(&theme);knob.initialiseModulation(p,"soundLife");knob.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);knob.setTextBoxStyle(juce::Slider::TextBoxBelow,false,70,20);knob.setBounds(65,29,140,110);addAndMakeVisible(knob);label.setText("VOICE LIFE",juce::dontSendNotification);label.setJustificationType(juce::Justification::centred);label.setBounds(10,5,250,23);addAndMakeVisible(label);help.setText("Independent pitch wander and filter colour.\nNo amplitude modulation. Zero preserves the original sound.",juce::dontSendNotification);help.setBounds(10,140,250,62);addAndMakeVisible(help);binding=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(p.state,"soundLife",knob);setSize(270,210);}
+    ~LifeControl() override {setLookAndFeel(nullptr);}
+    void paint(juce::Graphics& g) override {g.fillAll(juce::Colour(0xff281c38));}
+private: HardwareTheme theme;ModSlider knob;juce::Label label,help;std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> binding;
+};
+class Controls final : public juce::Component {
+public:
+    Controls(SpaceInfinityProcessor& p,bool granular,bool large=false):processor(p),cloud(granular),expanded(large){if(expanded)setLookAndFeel(&theme);
+        const char* loopIds[]{"sampleStart","sampleEnd","sampleRoot","sampleLoopFade","sampleSmear","sampleDarken"};const char* cloudIds[]{"sampleCloudMix","grainPosition","grainSize","grainDensity","grainSpray","grainSpread"};
+        const char* loopNames[]{"START","END","ROOT","LOOP FADE","DIFFUSE","WARMTH"};const char* cloudNames[]{"GRAIN MIX","POSITION","SIZE ms","DENSITY","SPRAY","WIDTH"};
+        for(int i=0;i<6;++i){const auto id=cloud?cloudIds[i]:loopIds[i];auto& k=knobs[size_t(i)];k.initialiseModulation(p,id);k.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);k.setTextBoxStyle(juce::Slider::TextBoxBelow,false,64,16);k.setMouseDragSensitivity(350);k.setName(id);addAndMakeVisible(k);bindings[size_t(i)]=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(p.state,id,k);const juce::String parameterId(id);if(parameterId=="sampleRoot"){k.textFromValueFunction=[](double v){return juce::String(int(v))+" "+juce::MidiMessage::getMidiNoteName(int(v),true,true,4);};}else if(parameterId=="grainSize"||parameterId=="sampleLoopFade"){k.textFromValueFunction=[](double v){return juce::String(v,1)+" ms";};k.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue();};}else if(parameterId=="grainDensity"){k.textFromValueFunction=[](double v){return juce::String(v,1)+" /s";};k.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue();};}else{k.textFromValueFunction=[](double v){return juce::String(v*100,1)+"%";};k.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/100;};}k.updateText();labels[size_t(i)].setText(cloud?cloudNames[i]:loopNames[i],juce::dontSendNotification);labels[size_t(i)].setFont(juce::Font(juce::FontOptions(9)));labels[size_t(i)].setJustificationType(juce::Justification::centred);addAndMakeVisible(labels[size_t(i)]);}
+        knobs[3].setTooltip(cloud?"Grains per second. Minimum overlap is maintained to avoid gaps.":"Crossfade the loop tail into its start, including reverse playback. Enable Loop. Zero preserves the original playback.");
+        if(cloud){freeze.setButtonText("FREEZE");freeze.setTooltip("Hold the current playback position as the grain centre. Enable Loop to sustain the sample.");addAndMakeVisible(freeze);freezeBinding=std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(p.state,"grainFreeze",freeze);}
+        expand.setButtonText("EDIT");expand.onClick=[this]{auto content=std::make_unique<Controls>(processor,cloud,true);content->setSize(420,250);juce::CallOutBox::launchAsynchronously(std::move(content),expand.getScreenBounds(),nullptr);};if(!expanded)addAndMakeVisible(expand);
+    }
+    ~Controls() override {setLookAndFeel(nullptr);}
+    void paint(juce::Graphics& g) override {g.fillAll(juce::Colour(0xff281c38));g.setColour(juce::Colour(0xffda9dff));g.setFont(11);g.drawText(cloud?"GRANULAR BLEND":"SAMPLE LOOP & TEXTURE",7,1,getWidth()-125,18,juce::Justification::centredLeft);g.setColour(juce::Colour(0xff6b4687));g.drawRect(getLocalBounds(),1);}
+    void resized() override {expand.setBounds(getWidth()-42,1,40,18);freeze.setBounds(getWidth()-119,1,75,18);const int row=(getHeight()-22)/2,cell=getWidth()/3;for(int i=0;i<6;++i){auto box=juce::Rectangle<int>((i%3)*cell+2,22+(i/3)*row,cell-4,row);labels[size_t(i)].setBounds(box.removeFromTop(12));knobs[size_t(i)].setBounds(box.reduced(2,0));}}
+private:
+    HardwareTheme theme;SpaceInfinityProcessor& processor;bool cloud,expanded;std::array<ModSlider,6> knobs;std::array<juce::Label,6> labels;std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>,6> bindings;juce::ToggleButton freeze;juce::TextButton expand;std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> freezeBinding;
+};
+}

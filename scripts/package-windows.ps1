@@ -31,10 +31,10 @@ New-Item -ItemType Directory -Path $release -Force | Out-Null
 $definition = Join-Path $ProjectRoot "installer\SpaceInfinity.iss"
 & $InnoCompiler "/DVst3Bundle=$bundle" "/DReleaseDir=$release" $definition
 if ($LASTEXITCODE -ne 0) { throw "Inno Setup compilation failed." }
-$setup = Join-Path $release "SPACE_INFINITY_0.8.0_Windows_x64_Setup.exe"
+$setup = Join-Path $release "SPACE_INFINITY_0.9.0_Windows_x64_Setup.exe"
 if (-not (Test-Path -LiteralPath $setup -PathType Leaf)) { throw "Installer output is missing." }
 
-$archive = Join-Path $release "SPACE_INFINITY_0.8.0_Windows_x64_VST3.zip"
+$archive = Join-Path $release "SPACE_INFINITY_0.9.0_Windows_x64_VST3.zip"
 Compress-Archive -LiteralPath $bundle -DestinationPath $archive -Force
 Get-FileHash -Algorithm SHA256 -LiteralPath $setup,$archive
 
@@ -62,7 +62,7 @@ $choirFolder = Join-Path $release "ChoirStabs"
 $smoke = Join-Path $ProjectRoot "native-vst3/build/SpaceInfinitySmoke_artefacts/Release/SpaceInfinitySmoke.exe"
 & $smoke --export-choir-stabs $choirFolder
 if ($LASTEXITCODE -ne 0) { throw "Owner choir preset export failed." }
-& python (Join-Path $PSScriptRoot "package-choir-stabs.py") $choirFolder "0.8.0" (Join-Path $release "SPACE_INFINITY_0.8.0_Choir_Stabs.zip")
+& python (Join-Path $PSScriptRoot "package-choir-stabs.py") $choirFolder "0.9.0" (Join-Path $release "SPACE_INFINITY_0.9.0_Choir_Stabs.zip")
 if ($LASTEXITCODE -ne 0) { throw "Owner choir pack verification failed." }
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Samples/Trance/USER_CHOIR_PROVENANCE.json") -Destination (Join-Path $release "USER_CHOIR_PROVENANCE.json") -Force
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/ACID_BASS_AND_CHOIR_UPDATE.md") -Destination $release -Force
@@ -88,5 +88,14 @@ Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Samples/Trance/FLAT_
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/TRACK_READY_080_UPDATE.md") -Destination $release -Force
 
 foreach ($audit in @("TRACK_READY_080_AUDIO_LEVELS.json", "TRACK_READY_080_NATIVE_TESTS.txt", "TRACK_READY_080_SIMILARITY.json")) {
+    Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/audit/$audit") -Destination (Join-Path $release "audit") -Force
+}
+
+Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/CHARACTER_FILTER_SAMPLER_090_UPDATE.md") -Destination $release -Force
+
+Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Presets/Lush20/SPACE_INFINITY_Lush_Trance_20.zip") -Destination $release -Force
+Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Presets/Lush20/SPACE_INFINITY_Lush_Trance_20.zip.sha256") -Destination $release -Force
+
+foreach ($audit in @("CHARACTER_090_NATIVE_TESTS.txt", "LEADS_090_AUDIO_LEVELS.json")) {
     Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/audit/$audit") -Destination (Join-Path $release "audit") -Force
 }

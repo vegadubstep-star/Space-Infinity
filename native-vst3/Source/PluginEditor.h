@@ -3,6 +3,8 @@
 #include "HardwareTheme.h"
 #include "MainWorkbench.h"
 #include "RhythmPages.h"
+#include "FilterDisplay.h"
+#include "SamplerControls.h"
 class ModulationBadge;
 class StudioRack;
 class SamplerDisplay;
@@ -39,6 +41,12 @@ private:
     bool cachedFxPage=false;
     SpaceInfinityProcessor& processor;
     std::unique_ptr<StudioRack> studioRack;
+    std::unique_ptr<filterui::FilterDisplay> filterDisplay;
+    std::array<std::unique_ptr<samplerui::Controls>,2> samplerControls;
+    juce::TextButton lifeButton{"LIFE"},transitionButton{"A > B"};
+    bool sampledOctaveBindings=false;
+    std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>,3> octaveBindings;
+    void updateSamplerOctaves();
     std::unique_ptr<rhythmui::GatePage> gatePage;
     std::unique_ptr<rhythmui::SequencerPage> sequencerPage;
     std::array<ModSourceButton,3> pageLfoSources;
