@@ -1,55 +1,47 @@
-# Current development preview — 0.7.2
+# Installing and testing SPACE INFINITY 0.9.0
 
-Delivery remains held at the owner's request. The compact main layout, playable keyboard, bottom-left pitch wheel with independent stops, revised modulation editing, Dimension-inspired chorus and OSC MELT are source/native-preview changes. The saved verified 0.7.1 Windows installer predates them; it must not be described as the current build. See [current changes](MODULATION_CHORUS_MELT_UPDATE.md). Windows/FL Studio verification is still required before supplying 0.7.2.
+Close FL Studio and other plug-in hosts. Right-click the installer ZIP, choose
+Extract All, then run SPACE_INFINITY_0.9.0_Windows_x64_Setup.exe from the extracted
+folder. Reopen FL Studio and load a fresh SPACE INFINITY instance. The plug-in
+identity and user preset storage are preserved.
 
-Check the main page at 800, 1000, 1180 and 1500 pixels. Both envelopes and LFOs, macros, sub, pitch controls and keyboard must remain visible and usable. Sampler mode replaces the sub's lower-left panel with import/trim/root/loop/reverse controls. Play/release the on-screen keys and check for stuck notes. Try unequal pitch stops (+7/−24), confirm zero remains in the middle and release returns it to zero. Check both host automation and MIDI bend.
+## Load the additional banks
 
-Drag AMP ENV or an LFO onto a knob and edit its halo/ring. Alt-drag edits amount; Shift makes it finer. Shift+Alt-click toggles polarity. Right-click provides numeric amount, invert and remove. Select a source before editing a destination with several assignments. Hold/Decay changes must update the coloured plot regions even at full Sustain. In FX compare Dimension's four voicings and Width/Tone/Mix with Classic. Check MELT at zero, then with two oscillators and with one disabled.
+In SPACE INFINITY open BANK / the preset manager, choose IMPORT, and select
+SPACE_INFINITY_Lush_Trance_20.zip from the extracted installer folder. Leave this
+inner ZIP compressed. Browse Lead or the Lush Trance 20 / Lush 20 tags for the new
+20 sounds. Their OPEN, BODY and HORIZON macros are already assigned.
 
-All 24 native suites are required for the current source. The older verification details below describe the preceding version.
+Heritage 200 is also included as a separate import ZIP. Import it the same way if
+you have not already done so. The 160 factory sounds remain available; seven
+previously quiet uplifting leads now have stronger starting levels and better
+macro gain balance. Locally replaced/edited presets retain your changes, so
+choose the factory version when comparing the revised leads.
 
----
+## Try the new controls
 
-# Testing SPACE INFINITY 0.7.1
+- Filter: choose Formant vowels, Notch, Comb or a steep HP/BP model in the MAIN
+  filter selector. EDIT opens its larger response graph and vowel/morph knobs.
+  Drag the graph horizontally for cutoff and vertically for resonance.
+- Sampler: choose a sampled source. Use LOOP, then try 20–80 ms LOOP FADE.
+  Raise GRAIN MIX gradually; SIZE, POSITION, SPRAY and WIDTH shape the blend.
+  DIFFUSE softens the texture; WARMTH darkens it. FREEZE holds the grain centre;
+  keep Loop enabled to sustain a one-shot sample.
+- The octave fields above the sampled source and live display now adjust sampler
+  pitch and the granular layer respectively. The granular octave is relative to
+  sampler octave; Master Octave and the pitch wheel still apply globally.
+- LIFE adds independent pitch/timbre variation without an amplitude LFO.
+- A > B: enable both oscillators, open A > B, choose direction, raise Amount to
+  100% and set Time/Curve. Each note starts its own transition. The amp envelope
+  still determines note length; releasing early can end it before the transition.
+- Both envelope plots and LFOs remain on MAIN. Hold/Decay changes must update
+  their plots. Drag LFO/AMP ENV/macros to supported knobs and adjust the coloured
+  destination ring; Shift gives fine adjustment. Right-click offers amount,
+  invert and remove. Pitch wheel release returns to zero with separate up/down stops.
 
-The 0.7.1 materials/timing/noise update has passed native and Windows verification; download delivery remains held at the owner's request. When its verified installer is provided, Extract All, close FL Studio, run Setup, then reopen FL Studio and load a fresh SPACE INFINITY instance. The plugin identity and user preset storage are preserved.
+The new lead levels are checked using full-velocity repeated notes, four-note
+chords and macro extremes, with true-peak headroom. Denser chords, added effects
+and edits can change the level; use the meters while adjusting your sound.
 
-[New materials, timing and noise-mode checks](HARDWARE_TIMING_NOISE_UPDATE.md): inspect the purple finish at normal and high display scaling; check both LFO cycle labels against the project tempo; enter `500 ms` in Hz mode; compare Free and Retrigger noise with the oscillators/sub muted. Existing projects without the new field should recall Random.
-
-[Sound/preset workflow update](CREATIVE_WORKFLOW_UPDATE.md) / [Level/control update](CONTROL_AND_LEVEL_UPDATE.md) / [New trance bank](TRANCE_FACTORY_BANK.md) / [Preset catalogue](TRANCE_PRESET_CATALOGUE.md) / [Analogue update](ANALOGUE_AND_PARITY_UPDATE.md) / [Serum 2 audit](SERUM2_FEATURE_AUDIT.md) / [earlier rhythm changes](RHYTHM_AND_METAL_UPDATE.md) / [previous control and FX updates](TEN_CONTROL_UPDATES.md)
-
-1. **Analogue additions:** ENGINES → ANALOG LAB. Compare component variation/colour on/off, matched stereo filters and clean base VCO. Change one control at a time. Init is neutral. Also check source pan, A4 tuning and the smaller fully visible logo.
-2. **Envelopes:** Try amp/filter Hold and CURVES on MAIN; drag graph nodes and contour segments. Original analogue filters and controls remain available.
-3. **MAIN:** check both oscillator gain/detune/blend/WT POS controls and UNI options, AMP ENVELOPE and FILTER ENVELOPE, the sub waveform/octave/level and A/B/SUB/NOISE filter routing. Try typing `0.25 ms` into Attack and Shift-dragging for fine adjustment.
-4. **Dual LFOs:** LFO 1 and LFO 2 stay visible on MAIN. Try independent power/rates/shapes and drag each source to a knob. Double-click points and drag curve segments. Drag a target knob’s coloured ring to edit modulation amount. ADVANCED opens the larger editor and timing controls. Check Free/Retrigger/Envelope, Mono, direction, phase, delay/rise, smoothing and saved recall.
-5. **GATE:** select one of the 15 presets or a curve shape. Double-click inside the graph to add/remove points. Drag points; drag a segment or scroll to bend it. Try snap, Shift-draw and Alt-snap. Step pattern uses the legacy step-rate control; Curve mode uses a full-cycle rate and phase/PWM/smooth controls.
-6. Try MIDI NOTE RETRIGGER and NOTE GATE while playing. Gate affects audio; it does not generate notes. Select Bass only to gate/duck the low frequencies while preserving higher bands. External sidechain still needs a host-routed trigger and the optional plugin Sidechain input.
-7. **SEQ:** hold a note/chord, choose Sequencer/Arpeggiator/Arp + Seq and change pitches, velocities and on/rest buttons. Check that edits do not change the gate curve. NOTE LENGTH sets MIDI articulation, independently of GATE depth.
-8. **Modulation:** drag an LFO handle onto an FX/GATE/SEQ knob. Edit the signed amount, use ZERO/REMOVE, or Alt-wheel over the target to change the amount. Check that its base value stays unchanged. Existing performance/LFO/envelope routes appear in target menus. Convolution wet/output controls are live destinations; sample trim/root are live destinations, while offline IR transformations are not.
-9. **FX:** try delay and reverb wet EQs, output gains and meters, compressor, convolver and smooth stereo flanger. Set a wet mix to zero when checking that its wet EQ leaves the dry signal unchanged. The GATE shortcut opens the dedicated page. Hover OPEN 7-BAND EQ during an LFO drag to open the EQ's frequency/gain/Q targets.
-10. **Audio checks:** play repeated notes for several minutes, including short bass notes with the filter down. Try the sub on/off, oscillator gain changes, sample ends, sample looping and changing presets while holding notes. Report preset names and a short recording if clicks or fading remain.
-11. **Saving:** BANK -> SAVE AS lets you choose a folder. Save/reload custom gate curves, sequencer notes, modulation amounts and imported sample/IR assets. Previous user-saved sounds should still load.
-
-All twenty-one native test suites must pass before publishing. They cover factory-bank/state compatibility, repeated-note levels, the new gate/sequencer/modulation controls, bass-only gating, fifteen preset conversions and measured click reduction. UI screenshots and bounds are checked for all four pages at 800/1000/1180/1500 pixels. Windows CI additionally installs/uninstalls the setup and verifies that its installed VST3 matches the manual archive. The release publisher creates and verifies an installer ZIP and checks asset sizes before making the release public. FL Studio listening is a separate user check.
-
-Use the installer ZIP for normal setup. The standalone VST3 ZIP is the manual-install alternative. Checksums accompany both downloads. Actions artifacts are optional copies; the primary download is the GitHub Release.
-
-Latest UI checks: MAIN shows both amp/filter curves above their knobs. Adjust Attack, Hold, Decay, Sustain and Release and confirm each graph changes. LFO shape presets should show few main anchors; use outlined midpoint handles to bend segments, or Advanced for Grid/Draw. For delay, reverb and convolver, fully lower OUTPUT GAIN until MUTE is displayed: both dry and wet stage output should become silent after the short smoothing ramp, with no live stage peak. Raising gain should restore sound. DRY/WET and convolver WET LEVEL affect wet blending rather than muting the whole stage. Saved output values at the old −24 dB minimum now mute.
-
-MAIN analogue/pitch checks: Character, PRE DRIVE, ANALOGUE and LAB should sit beside the filter at all four sizes. PITCH opens a separate pitch page; ANALOGUE has no pitch-envelope or pitch-bend controls. Set Mono or Legato, raise PORTAMENTO and overlap notes to hear glide (including sample playback). Automate Pitch Wheel in FL Studio for risers; zero is centre, +12 st raises one octave, and the range reaches ±24 st. Release the pointer to return to zero.
-
-Logo check (0.7.0): the approved clean hard-trance badge must clear the pitch wheel at every size. Play sound: purple illumination fills within the letters with final output level. Lower master output to zero: the light should decay smoothly to idle, with no MIDI-only flashes or light from a muted signal. The metal lettering remains visible at silence.
-
-0.7.0 bank checks: 160 new sounds plus Init; browse the 14 category headings. All 35 basses and ten acid patches should follow your MIDI with the sequencer, gate and pump off. Arps/sequences should start with held notes and stop with MIDI note-off. Try piano velocity layers and hold the sampled string sections past five seconds to hear their sustain loops. Compare successive lead notes over a minute for stable level. This bank intentionally replaces prior factory sounds while preserving user files.
-
-New checks: try all distortion characters and Off/Pre/Post filtering. In Presets, SAVE DETAILS should retain the sound while changing name/creator/tags; search/filter the new tag. Replace a musical factory sound twice, confirm Backups, export edits ZIP, then try Hybridise and Save New without changing either parent. Compare LEVEL MATCH off/on while opening cutoff from a starting pluck.
-
-0.7.0 listening checks: compare the ten acid patches with DISTORTION on/off. INPUT pushes the shaper; OUTPUT GAIN sets the level after it. Try Tube Stack, Hard Drive and Transistor, then TONE and HQ. Play your own short MIDI bass patterns across the 35 new bass designs. The ten choir stabs use the owner recordings without added chorus/vibrato. The separate Choir Stabs ZIP contains portable presets with embedded samples and WAV one-shots. MAIN portamento switches Poly to Legato when dragged; overlap notes. In ANALOGUE LAB, compare NEUTRAL, WARM and VINTAGE while watching the active/bypassed status.
-
-Acid cutoff regression: load a fresh factory Acid patch, keep its FX on and automate MAIN CUTOFF slowly from about100Hz to10kHz and back. The filter should read Acid Resonant. Try RESONANCE around70–90%, then vary FILTER ENV AMOUNT and DECAY. Check accented short notes and overlapping slides. Increase PRE DRIVE or distortion gradually, keeping enough dry blend to hear the resonance move. Old saved projects keep their old sound settings; select the revised factory patch for this comparison.
-
-0.7.0 bass check: load fresh factory sounds from Offbeat Bass Stabs, Sub Bass Stabs and Rolling Bass. Play your own MIDI36–55, with short offbeats and16th-note patterns. Compare body after the attack, note endings, mono playback and velocity. Try the TONE/PUNCH/CHARACTER macros. All35 should stay unsequenced; the0.6.2 acid cutoff response is retained.
-
-Heritage 200: in the preset manager press IMPORT and choose SPACE_INFINITY_Heritage_200.zip (included alongside Setup.exe in the installer ZIP). Select the Heritage 200 tag to browse the separate new bank. Reimport keeps local edits. Existing factory sounds remain unchanged.
-
-Distortion 0.7.0: try WARM, ACID and FUZZ in the FX module, or toggle HOT RANGE and sweep Drive. Compare tone at a similar Output Gain level. Tone removes fizz, Mix restores the dry attack, and the stage meter shows gain staging. Existing saved sounds recall standard range until HOT is enabled.
+[0.9.0 changes](CHARACTER_FILTER_SAMPLER_090_UPDATE.md) ·
+[0.8.0 sound-bank history](TRACK_READY_080_UPDATE.md)

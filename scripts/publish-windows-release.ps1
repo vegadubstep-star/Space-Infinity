@@ -26,6 +26,9 @@ $checksums = foreach ($name in @($setupName, $archiveName)) {
 }
 $checksums | Set-Content -LiteralPath $checksumPath -Encoding utf8
 $files += 'SHA256SUMS.txt'
+$files += 'CHARACTER_FILTER_SAMPLER_090_UPDATE.md'
+$files += 'SPACE_INFINITY_Lush_Trance_20.zip'
+$files += 'SPACE_INFINITY_Lush_Trance_20.zip.sha256'
 $files += 'SPACE_INFINITY_Heritage_200.zip'
 $files += 'SPACE_INFINITY_Heritage_200.zip.sha256'
 $files += 'HERITAGE_200_UPDATE.md'
@@ -44,7 +47,8 @@ if ($LASTEXITCODE -ne 0) { throw 'Installer ZIP packaging failed.' }
 $files += "SPACE_INFINITY_${version}_Windows_x64_Installer.zip"
 $files += "SPACE_INFINITY_${version}_Windows_x64_Installer.zip.sha256"
 $repo = $env:GITHUB_REPOSITORY
-$notesSource = Join-Path $root 'docs/TRACK_READY_080_UPDATE.md'
+$notesSource = Join-Path $root 'docs/CHARACTER_FILTER_SAMPLER_090_UPDATE.md'
+if (-not (Test-Path -LiteralPath $notesSource)) { $notesSource = Join-Path $root 'docs/TRACK_READY_080_UPDATE.md' }
 if (-not (Test-Path -LiteralPath $notesSource)) { $notesSource = Join-Path $root 'docs/RHYTHM_AND_METAL_UPDATE.md' }
 # Keep a new release private until its installer and archive have uploaded.
 $existing = & gh release view $tag --repo $repo --json targetCommitish,isDraft 2>$null

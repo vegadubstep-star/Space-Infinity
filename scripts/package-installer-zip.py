@@ -29,6 +29,13 @@ for optional in ['audit/TRACK_READY_080_AUDIO_LEVELS.json', 'audit/TRACK_READY_0
                  'TRANCE_PRESET_CATALOGUE.md', 'TRANCE_SAMPLE_PROVENANCE.json']:
     if (root / optional).is_file():
         files.append(optional)
+# These are part of the deliverable, not optional historical documentation.
+if tuple(map(int, options.version.split('.'))) >= (0, 9, 0):
+    files.extend(['CHARACTER_FILTER_SAMPLER_090_UPDATE.md',
+                  'audit/CHARACTER_090_NATIVE_TESTS.txt',
+                  'audit/LEADS_090_AUDIO_LEVELS.json',
+                  'SPACE_INFINITY_Lush_Trance_20.zip',
+                  'SPACE_INFINITY_Lush_Trance_20.zip.sha256'])
 for name in files:
     if not (root / name).is_file():
         raise SystemExit(f'Missing release file: {name}')

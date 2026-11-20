@@ -70,3 +70,5 @@ OK
 Final native export: 20 Lush Trance presets; binary parameter/route recall validated.
 Bank SHA256: 481ae6916cc8483f51167cff6950ba4163eb441718446426a8546500a2549932
 Host parameter inventory: 1223. Original Filter Mode range 0..6 preserved.
+
+Installer-wrapper regression: actual 20-preset bank/27-audit/inventory content checks pass in an archive fixture; omission of the new bank is rejected. Real Windows install/uninstall verification remains a CI release gate.

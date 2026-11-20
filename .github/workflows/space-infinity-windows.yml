@@ -52,6 +52,8 @@ jobs:
           $checksums | Set-Content release/SHA256SUMS.txt -Encoding utf8
           python scripts/package-installer-zip.py release $version
           if ($LASTEXITCODE -ne 0) { throw 'Installer ZIP verification failed.' }
+          python scripts/tests/test_installer_contents.py "release/SPACE_INFINITY_${version}_Windows_x64_Installer.zip"
+          if ($LASTEXITCODE -ne 0) { throw 'Installer bank/content verification failed.' }
       - name: Publish verified Windows release
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.publish_release }}
         env:

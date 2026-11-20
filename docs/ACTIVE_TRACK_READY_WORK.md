@@ -39,7 +39,12 @@ verified on the final renderer; max 4x true peak -0.349934 dBTP, max pre-safety 
 within .951 budget; 7 existing leads gain 3.84..5.05 LU at starting settings.
 Evidence docs/audit/CHARACTER_090_NATIVE_TESTS.txt and LEADS_090_AUDIO_LEVELS.json.
 
-REMAINING: commit/push [skip ci], manually dispatch Windows workflow with
+Source/DSP commit 709d06c is pushed. Initial Windows run 44834594534 was
+cancelled before publication to fix packaging allowlists and stale 0.7.2 README.
+The new installer wrapper requires Lush20 + new reports; a content regression
+check passes and rejects a missing bank. Synth/DSP source unchanged.
+
+REMAINING: push the packaging-only follow-up, dispatch Windows workflow with
 publish_release=true. Wait for Windows tests + actual installer verification,
 then independently download/verify the public installer ZIP. Only then give user
 the download link. No 0.9 release is published yet. Preserve owner untracked
