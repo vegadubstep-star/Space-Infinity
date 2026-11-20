@@ -45,7 +45,6 @@ private:
     std::array<std::unique_ptr<samplerui::Controls>,2> samplerControls;
     juce::TextButton lifeButton{"LIFE"},transitionButton{"A > B"};
     bool sampledOctaveBindings=false;
-    std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>,3> octaveBindings;
     void updateSamplerOctaves();
     std::unique_ptr<rhythmui::GatePage> gatePage;
     std::unique_ptr<rhythmui::SequencerPage> sequencerPage;
@@ -83,6 +82,8 @@ private:
     juce::ComboBox noiseType,noiseMode;
     std::array<ModSlider,4> oscillatorSliders,unisonTone;
     std::array<ModSlider,3> octaveControls;
+    // Attachments must be destroyed before the sliders they listen to.
+    std::array<std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment>,3> octaveBindings;
     std::array<ModSlider,2> unisonSliders;
     std::array<juce::Slider,4> macros;
 

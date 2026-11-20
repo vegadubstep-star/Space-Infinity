@@ -651,6 +651,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
 }
 SpaceInfinityEditor::~SpaceInfinityEditor(){
     stopTimer();
+    for(auto& binding:octaveBindings)binding.reset();
     popup.reset();popupContent.reset();
     for(size_t point=0;point<motionGestures.size();++point)
         if(motionGestures[point])

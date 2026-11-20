@@ -111,3 +111,12 @@ source-mtime restoration CI step to avoid rebuilding unchanged inputs. No DSP
 changes. Diagnostic Linux integration still passes. Next dispatch diagnostic
 Windows workflow with publish_release=false; read its failure checkpoint/code.
 Artifact-upload quota is exhausted but optional; release uploads are unaffected.
+
+LIFETIME ROOT CAUSE FIXED LOCALLY: octaveBindings had been declared before
+octaveControls, so attachments were destroyed after their Slider targets. JUCE
+SliderParameterAttachment::~ calls slider.removeListener, accessing destroyed
+Slider::pimpl. Reordered fields and reset all octave bindings at start of editor
+destructor. Added explicit sample/synth close/reopen coverage. Focused local
+SoundCharacter/HardwareUI/PitchTravel/Modulation 4/4 PASS (14.18s). No DSP/preset
+changes. Diagnostic Windows run44837546513 (publish=false) is still executing
+older code to confirm checkpoint; final release run for this fix is next.

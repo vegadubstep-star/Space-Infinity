@@ -72,3 +72,20 @@ Bank SHA256: 481ae6916cc8483f51167cff6950ba4163eb441718446426a8546500a2549932
 Host parameter inventory: 1223. Original Filter Mode range 0..6 preserved.
 
 Installer-wrapper regression: actual 20-preset bank/27-audit/inventory content checks pass in an archive fixture; omission of the new bank is rejected. Real Windows install/uninstall verification remains a CI release gate.
+
+Editor octave-binding lifetime regression (after Windows failure):
+Test project /workspace/work/native-design/native-vst3/build-linux
+    Start  5: SpaceInfinitySoundCharacter
+1/4 Test  #5: SpaceInfinitySoundCharacter .......   Passed    2.42 sec
+    Start 11: SpaceInfinityHardwareUI
+2/4 Test #11: SpaceInfinityHardwareUI ...........   Passed    8.64 sec
+    Start 16: SpaceInfinityPitchTravel
+3/4 Test #16: SpaceInfinityPitchTravel ..........   Passed    1.59 sec
+    Start 18: SpaceInfinityModulationWorkflow
+4/4 Test #18: SpaceInfinityModulationWorkflow ...   Passed    1.53 sec
+
+100% tests passed out of 4
+
+Total Test time (real) =  14.18 sec
+
+Fix: octave attachments are declared after their sliders and explicitly detached before editor controls are destroyed. Sound test now exercises sampler/synth close/reopen. No audio-engine or preset changes.
