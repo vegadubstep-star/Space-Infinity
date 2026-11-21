@@ -22,6 +22,8 @@ if tuple(map(int, version.split('.'))) >= (0, 9, 1):
                      'audit/STUDIO_RESEARCH_091_RECIPES.json',
                      'audit/STUDIO_RESEARCH_091_FACTORY_PARITY.json',
                      'audit/STUDIO_RESEARCH_091_NATIVE_TESTS.txt'})
+if tuple(map(int, version.split('.'))) >= (0, 9, 2):
+    required.update({'BROWSING_SAMPLE_GLIDE_092_UPDATE.md', 'audit/BROWSING_SAMPLE_GLIDE_092_NATIVE_TESTS.txt'})
 with zipfile.ZipFile(archive) as outer:
     assert outer.testzip() is None
     assert {folder + name for name in required} <= set(outer.namelist()), 'Missing new bank, instructions or audit'
@@ -64,7 +66,12 @@ with zipfile.ZipFile(archive) as outer:
         assert parity['presets_verified'] == 90 and not parity['errors']
         assert parity['recipe_sha256'] == revised['design_sha256']
         native_tests = outer.read(folder + 'audit/STUDIO_RESEARCH_091_NATIVE_TESTS.txt').decode('utf-8-sig')
-        assert 'SPACE INFINITY ' + version in native_tests and '100% tests passed' in native_tests
+        assert 'SPACE INFINITY 0.9.1' in native_tests and '100% tests passed' in native_tests
         assert 'CTest exit code: 0' in native_tests
         assert 'Research 091' in instructions
+    if tuple(map(int, version.split('.'))) >= (0, 9, 2):
+        current_tests = outer.read(folder + 'audit/BROWSING_SAMPLE_GLIDE_092_NATIVE_TESTS.txt').decode('utf-8-sig')
+        assert 'SPACE INFINITY ' + version in current_tests and '100% tests passed' in current_tests
+        assert 'CTest exit code: 0' in current_tests
+        assert 'Mono glides' in instructions
 print('Installer wrapper: current instructions, native banks/recipes, audio evidence, 1223 parameters and checksums passed')

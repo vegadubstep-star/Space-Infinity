@@ -269,17 +269,20 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     subtitle.setText("ORBITAL AUDIO  /  POLYPHONIC ANALOGUE SYNTHESIZER",juce::dontSendNotification);subtitle.setFont(juce::Font(juce::FontOptions(8.5f).withKerningFactor(.09f)));subtitle.setColour(juce::Label::textColourId,juce::Colour(0xffcbb99b));addAndMakeVisible(subtitle);
     refreshPresetMenu();
     presets.setTextWhenNothingSelected("Select a sound");
+    presets.setName("Preset selector");
+    presets.beforeOpen=[this]{closePopup();};
     presets.onChange=[this]{const auto result=processor.loadBankPreset(presets.getSelectedId()-1);
         if(result.failed())juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon,"Preset",result.getErrorMessage());
         displayedPresetKey=processor.selectedPresetKey();};addAndMakeVisible(presets);
     const auto stepPreset=[this](int direction){
-        const int count=int(processor.presetBank().entries().size());
+        closePopup();refreshPresetMenu();
+        const int count=presets.getNumItems();
         if(count==0)return;
         // Bank loads and host restores can precede the editor's timer refresh.
         // Resolve the actual loaded sound by stable key, never a stale menu row.
-        const int current=processor.presetBank().indexForKey(processor.selectedPresetKey());
+        const int current=presets.indexOfItemId(processor.presetBank().indexForKey(processor.selectedPresetKey())+1);
         const int next=current<0 ? (direction>0?0:count-1) : (current+direction+count)%count;
-        const auto result=processor.loadBankPreset(next);
+        const auto result=processor.loadBankPreset(presets.getItemId(next)-1);
         refreshPresetMenu();
         if(result.failed())juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon,"Preset",result.getErrorMessage());
     };
@@ -453,8 +456,8 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     filterMode.addItemList(SpaceInfinityProcessor::filterNames(),1);addAndMakeVisible(filterMode);
     filterMode.setSelectedItemIndex(processor.filterSelection(),juce::dontSendNotification);
     filterMode.onChange=[this]{const int type=filterMode.getSelectedItemIndex();if(type<0)return;const auto set=[this](const char* id,float value){auto* parameter=processor.state.getParameter(id);parameter->beginChangeGesture();parameter->setValueNotifyingHost(parameter->convertTo0to1(value));parameter->endChangeGesture();};if(type<7)set("filterMode",float(type));set("characterFilterMode",type>=7?float(type-6):0);};
-    filterDisplay=std::make_unique<filterui::FilterDisplay>(processor);addAndMakeVisible(*filterDisplay);
-    for(int i=0;i<2;++i){samplerControls[size_t(i)]=std::make_unique<samplerui::Controls>(processor,i==1);addAndMakeVisible(*samplerControls[size_t(i)]);}
+    filterDisplay=std::make_unique<filterui::FilterDisplay>(processor,[this](std::unique_ptr<juce::Component> content,juce::Rectangle<int> target){openPopup(std::move(content),getLocalArea(filterDisplay.get(),target));});addAndMakeVisible(*filterDisplay);
+    for(int i=0;i<2;++i){samplerControls[size_t(i)]=std::make_unique<samplerui::Controls>(processor,i==1,false,[this,i](std::unique_ptr<juce::Component> content,juce::Rectangle<int> target){openPopup(std::move(content),getLocalArea(samplerControls[size_t(i)].get(),target));});addAndMakeVisible(*samplerControls[size_t(i)]);}
     addAndMakeVisible(transitionButton);transitionButton.setTooltip("Start the note on one oscillator and finish on the other");transitionButton.onClick=[this]{openPopup(std::make_unique<samplerui::OscillatorTransition>(processor),transitionButton.getBounds());};
     addAndMakeVisible(lifeButton);lifeButton.setTooltip("Per-voice pitch and timbre movement, without amplitude LFOs");lifeButton.onClick=[this]{openPopup(std::make_unique<samplerui::LifeControl>(processor),lifeButton.getBounds());};
     filterMode.setTooltip("Analogue ZDF is a four-pole nonlinear low-pass. Acid Resonant keeps the moving squelch prominent for cutoff automation; adjust Resonance, Filter Env Amount and Pre Drive.");
@@ -468,7 +471,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         processor.state,"analogueCharacter",analogueCharacter));
     showPercent(analogueCharacter);
     preDrive.initialiseModulation(processor,"filterInputDrive");preDrive.setName("Pre-filter drive");preDrive.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);preDrive.setTextBoxStyle(juce::Slider::TextBoxBelow,false,70,16);preDrive.setMouseDragSensitivity(350);preDrive.setDoubleClickReturnValue(true,0);preDrive.setTooltip("Drive into the filter before resonance; distinct from the output saturation DRIVE.");attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"filterInputDrive",preDrive));showPercent(preDrive);addAndMakeVisible(preDrive);preDriveLabel.setText("PRE DRIVE",juce::dontSendNotification);preDriveLabel.setJustificationType(juce::Justification::centred);addAndMakeVisible(preDriveLabel);
-    portamento.initialiseModulation(processor,"glideTime");portamento.setName("Portamento time");portamento.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);portamento.setTextBoxStyle(juce::Slider::TextBoxBelow,false,65,16);configureTimeKnob(portamento);portamento.setDoubleClickReturnValue(true,0);portamento.textFromValueFunction=[](double v){return juce::String(v*1000,1)+" ms";};portamento.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/1000;};portamento.setTooltip("Portamento / glide. Dragging in Poly switches to Legato; overlap notes for slides. Zero gives instant pitch. Shift-drag for fine control.");portamento.onDragStart=[this]{auto* mode=processor.state.getParameter("voiceMode");if(mode->convertFrom0to1(mode->getValue())<.5f)mode->setValueNotifyingHost(mode->convertTo0to1(2));};attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"glideTime",portamento));portamento.textFromValueFunction=[](double v){return juce::String(v*1000,1)+" ms";};portamento.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/1000;};portamento.updateText();addAndMakeVisible(portamento);portamentoLabel.setText("PORTAMENTO",juce::dontSendNotification);portamentoLabel.setJustificationType(juce::Justification::centred);portamentoLabel.setFont(juce::Font(juce::FontOptions(9)));addAndMakeVisible(portamentoLabel);
+    portamento.initialiseModulation(processor,"glideTime");portamento.setName("Portamento time");portamento.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);portamento.setTextBoxStyle(juce::Slider::TextBoxBelow,false,65,16);configureTimeKnob(portamento);portamento.setDoubleClickReturnValue(true,0);portamento.textFromValueFunction=[](double v){return juce::String(v*1000,1)+" ms";};portamento.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/1000;};portamento.setTooltip("Portamento / glide for oscillators and samples. Mono slides between notes; Legato slides on overlap. Adjusting in Poly selects Mono for samples or Legato for oscillators. Zero gives instant pitch. Shift-drag for fine control.");portamento.onDragStart=[this]{auto* mode=processor.state.getParameter("voiceMode");if(mode->convertFrom0to1(mode->getValue())<.5f)mode->setValueNotifyingHost(mode->convertTo0to1(processor.state.getRawParameterValue("source")->load()>.5f?1:2));};attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"glideTime",portamento));portamento.textFromValueFunction=[](double v){return juce::String(v*1000,1)+" ms";};portamento.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/1000;};portamento.updateText();addAndMakeVisible(portamento);portamentoLabel.setText("PORTAMENTO",juce::dontSendNotification);portamentoLabel.setJustificationType(juce::Justification::centred);portamentoLabel.setFont(juce::Font(juce::FontOptions(9)));addAndMakeVisible(portamentoLabel);
     analogueOn.addItemList({"ANALOGUE","DIGITAL"},1);analogueOn.setName("Overall engine mode");analogueOn.setTooltip("Analogue: use character and component variation. Digital: bypass drift, tolerance and analogue colour while retaining filter and envelope settings.");fxChoices.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"engineMode",analogueOn));addAndMakeVisible(analogueOn);addAndMakeVisible(analogueLabButton);analogueLabButton.onClick=[this]{auto panel=std::make_unique<ExtendedPanel>(processor);panel->selectTab(7);openPopup(std::move(panel),analogueLabButton.getBounds());};addAndMakeVisible(pitchSettings);pitchSettings.setTooltip("Pitch envelope, tuning and MIDI wheel range");pitchSettings.onClick=[this]{auto panel=std::make_unique<ExtendedPanel>(processor);panel->selectTab(8);openPopup(std::move(panel),pitchSettings.getBounds());};
 
     analogueLabel.setText("ANALOGUE CHARACTER",juce::dontSendNotification);
@@ -664,12 +667,13 @@ SpaceInfinityEditor::~SpaceInfinityEditor(){
     setLookAndFeel(nullptr);
 }
 void SpaceInfinityEditor::openPopup(std::unique_ptr<juce::Component> content,juce::Rectangle<int> target){
-    popup.reset();popupContent.reset();
+    closePopup();
     popupContent=std::move(content);
     popup=std::make_unique<juce::CallOutBox>(*popupContent,target,this);
     popup->enterModalState(true,nullptr,false);
     refreshModulationIndicators();
 }
+void SpaceInfinityEditor::closePopup(){popup.reset();popupContent.reset();}
 void SpaceInfinityEditor::openPresetManager(){
     processor.presetBank().reload();refreshPresetMenu();
     const juce::Component::SafePointer<SpaceInfinityEditor> safe(this);
@@ -1322,5 +1326,5 @@ void SpaceInfinityEditor::resized(){
 }
 juce::AudioProcessorEditor* SpaceInfinityProcessor::createEditor(){return new SpaceInfinityEditor(*this);}
 
-void SpaceInfinityEditor::showPage(int page){auxiliaryPage=page>=2?page-1:0;fxPage=page!=0;updatePage();}
+void SpaceInfinityEditor::showPage(int page){closePopup();auxiliaryPage=page>=2?page-1:0;fxPage=page!=0;updatePage();}
 void SpaceInfinityEditor::itemDragMove(const juce::DragAndDropTarget::SourceDetails& d){if(fxTab.getBounds().contains(d.localPosition))showPage(1);else if(mainTab.getBounds().contains(d.localPosition))showPage(0);else if(gateTab.getBounds().contains(d.localPosition))showPage(2);else if(sequenceTab.getBounds().contains(d.localPosition))showPage(3);else if(eqButton.isVisible()&&eqButton.getBounds().contains(d.localPosition)&&(!popupContent||popupContent->getName()!="Seven-band EQ"))openPopup(std::make_unique<EqPanel>(processor),eqButton.getBounds());}

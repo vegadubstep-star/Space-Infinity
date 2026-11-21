@@ -617,7 +617,7 @@ void SpaceInfinityProcessor::prepareToPlay(double sampleRate,int maxSamples){
         v.idleRateA=v.idleRateB=220/sr;
     } lfoPhase=0; clock=0;
     for(auto& filter:*characterFilters)filter={};
-    heldNotes={};noteOrder=0;voiceMode=int(param("voiceMode"));
+    heldNotes={};noteOrder=0;monoGlideValid=false;voiceMode=int(param("voiceMode"));
     designerPhase={};designerAge={};designerMemory={};
     for(auto& phase:displayedLfoPhase)phase.store(0.0f);
 }
@@ -628,7 +628,10 @@ void SpaceInfinityProcessor::noteOn(int note,float velocity,int source,int root,
     auto* found=&voices[0];
     if(voiceMode==0)for(auto& v:voices)if(!v.active){found=&v;break;}
     if(voiceMode==0&&found->active)found=&*std::min_element(voices.begin(),voices.end(),[](const Voice& a,const Voice& b){return a.age<b.age;});
-    const bool glideFromPrevious=voiceMode!=0&&found->active&&!found->released&&param("glideTime")>0;const double retainedPitch=found->pitch;
+    const bool monoPrevious=voiceMode==1&&monoGlideValid&&monoGlideChannel==channel&&monoGlideSource==source;
+    const bool legatoPrevious=voiceMode==2&&found->active&&!found->released&&found->channel==channel&&found->source==source;
+    const bool glideFromPrevious=(monoPrevious||legatoPrevious)&&param("glideTime")>0;
+    const double retainedPitch=monoPrevious?monoGlidePitch:found->pitch;
     const auto retainedPhase=found->phase,retainedPhase2=found->phase2;
     const auto retainedExtraA=found->extraPhase1,retainedExtraB=found->extraPhase2;
     const float oldL=(found->active||found->retireRemaining>0)?found->lastL:0,oldR=(found->active||found->retireRemaining>0)?found->lastR:0;
@@ -722,7 +725,7 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
 void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiBuffer& midi){
     juce::ScopedNoDenormals noDenormals;
     b.clear(); if(b.getNumChannels()<2)return;
-    if(resetVoicesRequested.exchange(false)){levelMatchActive=false;for(auto& v:voices)if(v.active)retireVoice(v);heldNotes={};noteOrder=0;pattern.held={};pattern.activeNote=-1;pattern.index=0;pattern.remaining=0;}
+    if(resetVoicesRequested.exchange(false)){monoGlideValid=false;levelMatchActive=false;for(auto& v:voices)if(v.active)retireVoice(v);heldNotes={};noteOrder=0;pattern.held={};pattern.activeNote=-1;pattern.index=0;pattern.remaining=0;}
     transformPattern(midi,b.getNumSamples());
     for(const auto event:midi)if(event.samplePosition==0&&event.getMessage().isNoteOn())for(int i=0;i<3;++i)if(designerControls[size_t(i)][3]->load()>.5f){designerPhase[size_t(i)]=0;designerAge[size_t(i)]=0;}
     updateFlexibleRoutes();
@@ -891,7 +894,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
     const int requestedMode=int(param("voiceMode"));
     if(voiceMode!=requestedMode){
         for(auto& voice:voices){voice.active=false;voice.released=false;voice.env=0;}
-        heldNotes={};
+        heldNotes={};monoGlideValid=false;
         voiceMode=requestedMode;
     }
     oscillatorMeltAmount.setTargetValue(param("oscMelt"));
@@ -928,7 +931,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
                     else if(voices.front().note==m.getNoteNumber()&&voices.front().channel==channel)
                         voices.front().released=true;
                 }
-            }else if(m.isAllNotesOff()||m.isAllSoundOff()){
+            }else if(m.isAllNotesOff()||m.isAllSoundOff()){monoGlideValid=false;
                 for(auto& voice:voices)if(voice.channel==channel){
                     if(m.isAllSoundOff()){voice.active=false;voice.retireRemaining=0;}
                     else voice.released=true;
@@ -1042,6 +1045,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
             }else v.env+=juce::jlimit(-voiceDecayStep,voiceDecayStep,voiceSustain-v.env);
             if(v.released&&v.env<0.0001f){retireVoice(v);out+=(v.lastL+v.lastR)*.5f;side+=(v.lastL-v.lastR)*.5f;continue;}
             v.pitch=v.note+glide*(v.pitch-v.note);
+            if(voiceMode==1&&!v.released){monoGlideValid=true;monoGlidePitch=v.pitch;monoGlideChannel=v.channel;monoGlideSource=v.source;}
             const double sampleGlide=std::exp2((v.pitch-v.note)/12.0);
             float raw=0, rawSide=0,rawSub=0,bypass=0,bypassSide=0;
             if(v.source==4){

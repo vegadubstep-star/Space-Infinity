@@ -45,9 +45,8 @@ private:
 };
 class FilterDisplay final : public juce::Component {
 public:
-    explicit FilterDisplay(SpaceInfinityProcessor& p):processor(p),plot(p){setName("Main filter response");addAndMakeVisible(plot);addAndMakeVisible(expand);expand.setButtonText("EDIT");expand.setTooltip("Large response graph and formant / morph shape controls");expand.onClick=[this]{popup.reset();popupContent=std::make_unique<Details>(processor);auto* owner=getTopLevelComponent();popup=std::make_unique<juce::CallOutBox>(*popupContent,owner->getLocalArea(this,expand.getBounds()),owner);popup->enterModalState(true,nullptr,false);};}
-    ~FilterDisplay() override {popup.reset();popupContent.reset();}
+    explicit FilterDisplay(SpaceInfinityProcessor& p,std::function<void(std::unique_ptr<juce::Component>,juce::Rectangle<int>)> open={}):processor(p),plot(p){setName("Main filter response");addAndMakeVisible(plot);addAndMakeVisible(expand);expand.setButtonText("EDIT");expand.setTooltip("Large response graph and formant / morph shape controls");expand.onClick=[this,open=std::move(open)]{if(open)open(std::make_unique<Details>(processor),expand.getBounds());};}
     void resized() override {plot.setBounds(getLocalBounds());expand.setBounds(getWidth()-43,2,41,18);}
-private:SpaceInfinityProcessor& processor;ResponsePlot plot;juce::TextButton expand;std::unique_ptr<juce::Component> popupContent;std::unique_ptr<juce::CallOutBox> popup;
+private:SpaceInfinityProcessor& processor;ResponsePlot plot;juce::TextButton expand;
 };
 }

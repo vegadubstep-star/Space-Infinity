@@ -155,41 +155,54 @@ int runPresetSmoke(){
     for(int i=0;i<factoryCount;++i){synth->loadPreset(i);if(synth->state.getRawParameterValue("analogueUpgrade")->load()!=1)return 85;}
     juce::MemoryBlock state;synth->getStateInformation(state);other->setStateInformation(state.getData(),int(state.getSize()));
     if(other->selectedPresetKey()!=synth->selectedPresetKey())return 86;
-    // Exercise the actual arrow callbacks without pumping the editor timer.
-    // Manager loads, project recall and reordering must use the loaded key.
+    // Compare the arrows with the displayed (category-grouped) dropdown order.
+    // Load by click/host recall without pumping the editor timer first.
     {
         auto editor=std::unique_ptr<juce::AudioProcessorEditor>(synth->createEditor());
-        juce::Button* previous=nullptr;juce::Button* next=nullptr;
-        for(auto* child:editor->getChildren()){
+        juce::Button* previous=nullptr;juce::Button* next=nullptr;juce::ComboBox* menu=nullptr;
+        const auto controls=[&]{previous=nullptr;next=nullptr;menu=nullptr;for(auto* child:editor->getChildren()){
             if(child->getName()=="Previous preset")previous=dynamic_cast<juce::Button*>(child);
             if(child->getName()=="Next preset")next=dynamic_cast<juce::Button*>(child);
-        }
-        if(!previous||!next)return 87;
-        if(synth->saveNewPreset("Navigation A").failed())return 88;
-        const auto navigationKey=synth->selectedPresetKey();
-        next->onClick();if(synth->selectedPresetKey()!="F1000")return 89;
-        previous->onClick();if(synth->selectedPresetKey()!=navigationKey)return 90;
-        synth->getStateInformation(state);
-        synth->loadPreset(0);synth->setStateInformation(state.getData(),int(state.getSize()));
-        previous->onClick();if(synth->selectedPresetKey()!=bank.keyForFactory(factoryCount-1))return 91;
+            if(child->getName()=="Preset selector")menu=dynamic_cast<juce::ComboBox*>(child);
+        }};controls();if(!previous||!next||!menu)return 87;
+        const auto menuKey=[&](int row){return bank.entries()[size_t(menu->getItemId(row)-1)].key;};
+        const int middle=menu->getNumItems()/2;
+        const auto clickedKey=menuKey(middle),following=menuKey(middle+1),preceding=menuKey(middle-1);
+        if(synth->loadBankPreset(bank.indexForKey(clickedKey)).failed())return 88;
+        next->onClick();if(synth->selectedPresetKey()!=following)return 89;
+        previous->onClick();if(synth->selectedPresetKey()!=clickedKey)return 90;
+        synth->getStateInformation(state);synth->loadPreset(0);synth->setStateInformation(state.getData(),int(state.getSize()));
+        previous->onClick();if(synth->selectedPresetKey()!=preceding)return 91;
         cutoff->setValueNotifyingHost(cutoff->convertTo0to1(3210));
-        next->onClick();if(synth->selectedPresetKey()!=navigationKey)return 92;
-        if(bank.sortByName().failed())return 93;
-        const int sorted=bank.indexForKey(navigationKey);
-        const auto following=bank.entries()[size_t((sorted+1)%int(bank.entries().size()))].key;
-        next->onClick();if(synth->selectedPresetKey()!=following)return 94;
-        previous->onClick();if(synth->selectedPresetKey()!=navigationKey)return 95;
-        if(synth->saveNewPreset("Navigation User Preset").failed())return 96;
-        const auto userKey=synth->selectedPresetKey();
-        previous->onClick();
-        if(synth->selectedPresetKey()!=bank.entries()[bank.entries().size()-2].key)return 97;
-        next->onClick();if(synth->selectedPresetKey()!=userKey)return 98;
-        editor.reset();editor.reset(synth->createEditor());
-        next=nullptr;
-        for(auto* child:editor->getChildren())
-            if(child->getName()=="Next preset")next=dynamic_cast<juce::Button*>(child);
-        if(!next)return 99;
-        next->onClick();if(synth->selectedPresetKey()!=bank.entries().front().key)return 100;
+        next->onClick();if(synth->selectedPresetKey()!=clickedKey)return 92;
+        // Every category boundary must follow exactly what the selector displays.
+        for(int row=1;row<menu->getNumItems();++row){const int a=menu->getItemId(row-1)-1,b=menu->getItemId(row)-1;
+            if(PresetLibrary::browseCategory(bank.entries()[size_t(a)].category)==PresetLibrary::browseCategory(bank.entries()[size_t(b)].category))continue;
+            const auto before=bank.entries()[size_t(a)].key,after=bank.entries()[size_t(b)].key;
+            synth->loadBankPreset(a);next->onClick();if(synth->selectedPresetKey()!=after)return 93;
+            previous->onClick();if(synth->selectedPresetKey()!=before)return 94;
+        }
+        // A single click in a filtered BANK list loads and establishes the cursor.
+        PresetPanel browser(*synth,[]{});juce::ListBox* list=nullptr;juce::TextEditor* search=nullptr;
+        for(auto* child:browser.getChildren()){
+            if(child->getName()=="Preset bank")list=dynamic_cast<juce::ListBox*>(child);
+            if(child->getName()=="Preset search")search=dynamic_cast<juce::TextEditor*>(child);
+        }
+        if(!list||!search)return 95;
+        const auto wanted=menuKey(middle);const auto wantedName=bank.entries()[size_t(bank.indexForKey(wanted))].name;
+        search->setText(wantedName,false);search->onTextChange();if(list->getModel()->getNumRows()!=1)return 96;
+        const juce::MouseEvent click{juce::Desktop::getInstance().getMainMouseSource(),{},juce::ModifierKeys{},1,0,0,0,0,list,list,juce::Time::getCurrentTime(),{},juce::Time::getCurrentTime(),1,false};
+        list->getModel()->listBoxItemClicked(0,click);if(synth->selectedPresetKey()!=wanted)return 97;
+        next->onClick();if(synth->selectedPresetKey()!=menuKey(middle+1))return 98;
+        if(bank.sortByName().failed())return 99;
+        editor.reset();editor.reset(synth->createEditor());controls();if(!previous||!next||!menu)return 100;
+        synth->loadBankPreset(menu->getItemId(middle)-1);const auto reorderedNext=menuKey(middle+1);
+        next->onClick();if(synth->selectedPresetKey()!=reorderedNext)return 234;
+        if(synth->saveNewPreset("Navigation User Preset").failed())return 235;
+        const auto userKey=synth->selectedPresetKey();next->onClick();if(synth->selectedPresetKey()!="F1000")return 236;
+        previous->onClick();if(synth->selectedPresetKey()!=userKey)return 237;
+        editor.reset();editor.reset(synth->createEditor());controls();
+        if(!next)return 238;next->onClick();if(synth->selectedPresetKey()!="F1000")return 239;
     }
     other.reset();synth.reset();folder.deleteRecursively();
     std::cout<<"Preset save/load/replace/rename/delete/order/restore, cross-instance conflict and analogue recall passed\n";

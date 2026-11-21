@@ -32,12 +32,49 @@ int runSoundCharacterSmoke(){try{
  {juce::WavAudioFormat format;std::unique_ptr<juce::FileOutputStream> stream(file.createOutputStream());auto writer=std::unique_ptr<juce::AudioFormatWriter>(format.createWriterFor(stream.get(),48000,2,24,{},0));need(bool(writer),"sample fixture writer");stream.release();need(writer->writeFromAudioSampleBuffer(sine,0,48000),"sample fixture write");}
  clean(*p);need(p->importSample(file).wasOk(),"sample import");file.deleteFile();set(*p,"source",3);set(*p,"sampleRoot",69);set(*p,"routeA",0);set(*p,"sampleLoop",1);set(*p,"sampleLoopFade",20);
  for(int octave:{-1,0,1,2}){set(*p,"sampleOctave",float(octave));const auto audio=render(*p);const double measured=frequency(audio),expected=440*std::exp2(octave);std::cout<<"Sampler octave "<<octave<<": "<<measured<<" Hz\n";need(std::abs(measured-expected)<4,"sampler octave does not transpose correctly");}
+ // Exercise actual sample pitch through overlapping and separated note events.
+ set(*p,"sampleOctave",0);set(*p,"grainOctave",0);set(*p,"release",.005f);
+ const auto sampleGlide=[&](int mode,bool separated,bool reverse,bool panic,int channel=1){
+     set(*p,"voiceMode",float(mode));set(*p,"glideTime",.12f);set(*p,"sampleReverse",reverse?1.f:0.f);p->prepareToPlay(48000,128);
+     juce::AudioBuffer<float> block(2,128);std::vector<float> early,late;
+     for(int b=0;b<420;++b){juce::MidiBuffer midi;
+         if(b==0)midi.addEvent(juce::MidiMessage::noteOn(1,69,.8f),0);
+         if(b==70&&separated)midi.addEvent(juce::MidiMessage::noteOff(1,69),0);
+         if(b==90&&panic)midi.addEvent(juce::MidiMessage::allSoundOff(1),0);
+         if(b==100)midi.addEvent(juce::MidiMessage::noteOn(channel,81,.8f),0);
+         p->processBlock(block,midi);for(int n=0;n<128;++n){const auto x=block.getSample(0,n);need(std::isfinite(x)&&std::abs(x)<1,"sample portamento audio clips");if(b>=101&&b<109)early.push_back(x);if(b>=360)late.push_back(x);}
+     }
+     const double opening=frequency(early),ending=frequency(late);
+     std::cout<<"Sample portamento mode "<<mode<<" gap "<<separated<<" reverse "<<reverse<<" panic "<<panic<<" channel "<<channel<<": "<<opening<<" -> "<<ending<<" Hz\n";
+     const bool slides=!panic&&channel==1&&(mode==1||!separated);
+     need(slides?(opening>350&&opening<720):opening>780,"sample portamento onset/mode/reset behaviour");
+     need(std::abs(ending-880)<12,"sample portamento does not reach its destination");
+ };
+ for(bool reverse:{false,true})for(int mode:{1,2})for(bool gap:{false,true})sampleGlide(mode,gap,reverse,false);
+ sampleGlide(1,true,false,true);sampleGlide(1,true,false,false,2);
+ set(*p,"source",3);set(*p,"voiceMode",0);set(*p,"glideTime",0);set(*p,"sampleReverse",0);set(*p,"sampleOctave",2);
  std::cout<<"Sound character: granular blend and state recall"<<std::endl;
  set(*p,"sampleCloudMix",.7f);set(*p,"sampleSmear",.5f);set(*p,"sampleDarken",.4f);set(*p,"grainFreeze",1);set(*p,"grainOctave",-1);render(*p);juce::MemoryBlock saved;p->getStateInformation(saved);auto recalled=std::make_unique<SpaceInfinityProcessor>();recalled->setStateInformation(saved.getData(),int(saved.getSize()));need(recalled->state.getRawParameterValue("sampleOctave")->load()==2&&recalled->state.getRawParameterValue("grainOctave")->load()==-1,"sampler pitch state recall");render(*recalled);
  std::cout<<"Sound character: sampler editor creation"<<std::endl;
  auto editor=std::unique_ptr<juce::AudioProcessorEditor>(p->createEditor());juce::Thread::sleep(45);juce::Timer::callPendingTimersSynchronously();need(named(*editor,"Sampler octave")!=nullptr&&named(*editor,"Granular layer octave")!=nullptr,"visible octave controls bind to sampler");set(*p,"source",0);juce::Thread::sleep(45);juce::Timer::callPendingTimersSynchronously();need(named(*editor,"Osc 1 octave")!=nullptr,"oscillator octave restores on synth engine");
+ auto* porta=dynamic_cast<juce::Slider*>(named(*editor,"Portamento time"));need(porta&&bool(porta->onDragStart),"main portamento control exists");
+ set(*p,"source",3);set(*p,"voiceMode",0);porta->onDragStart();need(p->state.getRawParameterValue("voiceMode")->load()==1,"sample portamento adjustment must select Mono from Poly");
+ set(*p,"source",0);set(*p,"voiceMode",0);porta->onDragStart();need(p->state.getRawParameterValue("voiceMode")->load()==2,"oscillator portamento adjustment retains Legato workflow");
  std::cout<<"Sound character: editor teardown"<<std::endl;editor.reset();
- for(const auto& panelName:juce::StringArray{"Main filter response","Sample loop controls","Granular blend controls"}){set(*p,"source",panelName=="Main filter response"?0.f:3.f);auto reopened=std::unique_ptr<juce::AudioProcessorEditor>(p->createEditor());need(named(*reopened,panelName=="Main filter response"?"Osc 1 octave":"Sampler octave")!=nullptr,"reopened editor octave binding");auto* panel=named(*reopened,panelName);need(panel!=nullptr,"new edit panel exists");juce::TextButton* edit=nullptr;for(auto* child:panel->getChildren())if(auto* button=dynamic_cast<juce::TextButton*>(child))if(button->getButtonText()=="EDIT")edit=button;need(edit&&bool(edit->onClick),"panel EDIT action exists");edit->onClick();reopened.reset();}
+ for(const auto& panelName:juce::StringArray{"Main filter response","Sample loop controls","Granular blend controls"}){set(*p,"source",panelName=="Main filter response"?0.f:3.f);auto reopened=std::unique_ptr<juce::AudioProcessorEditor>(p->createEditor());need(named(*reopened,panelName=="Main filter response"?"Osc 1 octave":"Sampler octave")!=nullptr,"reopened editor octave binding");auto* panel=named(*reopened,panelName);need(panel!=nullptr,"new edit panel exists");juce::TextButton* edit=nullptr;for(auto* child:panel->getChildren())if(auto* button=dynamic_cast<juce::TextButton*>(child))if(button->getButtonText()=="EDIT")edit=button;need(edit&&bool(edit->onClick),"panel EDIT action exists");edit->onClick();
+     juce::CallOutBox* popup=nullptr;for(auto* child:reopened->getChildren())if(auto* box=dynamic_cast<juce::CallOutBox*>(child))popup=box;
+     need(popup!=nullptr,"EDIT popup must be owned by the editor");
+     juce::Button* bank=nullptr;PresetSelector* selector=nullptr;juce::Button* fx=nullptr;
+     for(auto* child:reopened->getChildren()){
+         if(auto* button=dynamic_cast<juce::Button*>(child)){if(button->getButtonText()=="BANK")bank=button;if(button->getButtonText()=="FX")fx=button;}
+         if(auto* combo=dynamic_cast<PresetSelector*>(child))selector=combo;
+     }
+     need(bank&&selector&&fx,"preset/page navigation controls exist");bank->onClick();
+     popup=nullptr;for(auto* child:reopened->getChildren())if(auto* box=dynamic_cast<juce::CallOutBox*>(child))popup=box;
+     need(popup&&named(*popup,"Preset bank")&&!named(*popup,panelName),"BANK must replace sample/granular/filter popup");
+     selector->beforeOpen();for(auto* child:reopened->getChildren())need(dynamic_cast<juce::CallOutBox*>(child)==nullptr,"preset dropdown must dismiss edit popup");
+     edit->onClick();fx->onClick();for(auto* child:reopened->getChildren())need(dynamic_cast<juce::CallOutBox*>(child)==nullptr,"page navigation must dismiss edit popup");
+     reopened.reset();}
  std::cout<<"Sound character: close/reopen passed"<<std::endl;
  std::cout<<"Sound character: voice-life renders"<<std::endl;
  clean(*p);set(*p,"wave",2);set(*p,"filterMode",1);set(*p,"cutoff",8000);const auto dry=render(*p,1000);set(*p,"soundLife",.8f);const auto life=render(*p,1000);double change=0,first=0,last=0;for(size_t n=0;n<life.size();++n){change+=std::abs(life[n]-dry[n]);if(n>24000&&n<48000)first+=life[n]*life[n];if(n>life.size()-24000)last+=life[n]*life[n];}need(change>1,"voice life does not alter sound");need(last>first*.75&&last<first*1.25,"voice life causes unwanted long volume fade");

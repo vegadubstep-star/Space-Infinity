@@ -43,6 +43,9 @@ if tuple(map(int, options.version.split('.'))) >= (0, 9, 1):
                   'audit/STUDIO_RESEARCH_091_RECIPES.json',
                   'audit/STUDIO_RESEARCH_091_FACTORY_PARITY.json',
                   'audit/STUDIO_RESEARCH_091_NATIVE_TESTS.txt'])
+if tuple(map(int, options.version.split('.'))) >= (0, 9, 2):
+    files.extend(['BROWSING_SAMPLE_GLIDE_092_UPDATE.md',
+                  'audit/BROWSING_SAMPLE_GLIDE_092_NATIVE_TESTS.txt'])
 for name in files:
     if not (root / name).is_file():
         raise SystemExit(f'Missing release file: {name}')

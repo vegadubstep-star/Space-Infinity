@@ -1,5 +1,5 @@
 {
-  "native_version": "0.9.1",
+  "native_version": "0.9.2",
   "manual_reference": "https://xferrecords.com/manual/serum-2/docs",
   "notes": "Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.",
   "parameter_count": 1223,

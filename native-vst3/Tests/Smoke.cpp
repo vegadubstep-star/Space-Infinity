@@ -174,11 +174,13 @@ int main(int argc,char* argv[])
         if(child->getName()=="Next preset") next=dynamic_cast<juce::TextButton*>(child);
     }
     if(!previous || !next) return 22;
-    synth.loadPreset(names.size()-1);
+    // Wrap in the order visible in the category-grouped selector.
+    const int lastDisplayedId=factoryMenu->getItemId(factoryMenu->getNumItems()-1);
+    if(synth.loadBankPreset(lastDisplayedId-1).failed())return 23;
     next->onClick();
     if(factoryMenu->getSelectedId()!=1) return 23;
     previous->onClick();
-    if(factoryMenu->getSelectedId()!=names.size()) return 24;
+    if(factoryMenu->getSelectedId()!=lastDisplayedId) return 24;
     auto* cutoff=synth.state.getParameter("cutoff");
 
     const auto audition=juce::File::getCurrentWorkingDirectory().getChildFile("audition");

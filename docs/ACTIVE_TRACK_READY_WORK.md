@@ -1,81 +1,56 @@
-# SPACE INFINITY 0.9.1 — completed and publicly verified
+# SPACE INFINITY 0.9.2 — local fixes complete, Windows delivery pending
 
-User request: extensive online research and more polished trance/hard-trance presets.
-All implementation, audio validation, Windows tests, installation checks and public
-release verification are complete. No implementation or delivery work is pending.
+Latest request: preset navigation continues from last clicked sound; portamento
+on samples; granular EDIT closes when opening preset/plugin selector.
 
-## Download and source
+Implemented and verified locally:
+- BANK single-click loads the row; Return/double-click still work. Filtering alone
+  does not load a sound. Header arrows follow the category-grouped dropdown order
+  by current stable key, including recall/reorder/reopen and wraparound.
+- Mono glide memory survives note gaps and finished samples; resets on prepare,
+  preset load, mode changes and panic. MIDI channel/source guard prevents leakage.
+  Legato retains overlap-only glide. Sample PORTAMENTO adjustment from Poly
+  selects Mono automatically; oscillator workflow still selects Legato.
+- Granular, sample-loop and filter EDIT delegate popup ownership to the editor.
+  BANK replaces the panel; opening preset dropdown or changing pages dismisses it.
 
-- Release: https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.9.1
-- Installer: https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.9.1/SPACE_INFINITY_0.9.1_Windows_x64_Installer.zip
-- Binary source: `4f7ee13b6033d4d603014a02b19630425a36610a`, branch `codex/windows-build`.
-- Windows workflow: https://github.com/vegadubstep-star/Space-Infinity/actions/runs/44897593118
-- Package job: `136826462106`; all required steps passed.
-- ZIP SHA-256: `c1f3d109c165f6af44941542db63e6f88e8b5cb4eca6725d79a66afac6f6c76c`.
-- Setup SHA-256: `296dc1a77317e359f203ac363f3d5977471415ec8318ff7752897c2cc27d9a4d`.
-- Manual VST3 ZIP SHA-256: `c95dd75a6b028855d358c57373e1a18be4d28702593136704a8bcffd4a416399`.
+CHECKS COMPLETE: all27 native tests PASS123.96s; focused3/3PASS4.75s. Native inventory
+exported0.9.2,1223parameters. Preset-edit Python test/PowerShell syntax/installer
+preflight pass; CRLF recipe hash accepted and missing/failed audit rejected.
+First full run26/27 had only outdated Smoke.cpp wrap expectation exit23 (raw bank
+last vs displayed last). Test updated to assert grouped menu wrap, then all27 pass.
+Native build complete; no active local builds/tests. Do not edit native source
+while any future compilation runs.
 
-The final documentation-only commit records these results; binary source remains
-the feature commit above. Only the public GitHub ZIP is approved for delivery.
+Factory recipes, Heritage200 and Lush20 ZIPs unchanged. Old091 sound reports are
+historical, retained separately; current092native report is required in installer.
+New notes docs/BROWSING_SAMPLE_GLIDE_092_UPDATE.md; testing guide current0.9.2.
+README intentionally still links verified0.9.1 until new public ZIP is verified.
 
-## What changed
+NEXT: commit explicit task files [skip ci], push codex/windows-build; dispatch
+space-infinity-windows.yml publish_release=true. Follow all Windows native and
+install/uninstall/ZIP/publish checks. Do not send a new download until independently
+verified. Prepared verifier:
+python /tmp/verify-space-infinity092-release.py SOURCE_SHA RUN_ID PACKAGE_JOB_ID
+It downloads PUBLIC ZIP/manual/checksums, tests contents/version/x64 PE/banks/source
+recipe hash. Output /workspace/work/release-verification/092/VERIFIED.json.
+After success capture Windows log to docs/audit/BROWSING_SAMPLE_GLIDE_092_WINDOWS_TESTS.txt,
+copy proof to BROWSING_SAMPLE_GLIDE_092_PUBLISHED_VERIFICATION.json, update README
+and handovers COMPLETE, docs-only commit [skip ci] and push, then deliver user ZIP.
+Temporary package fixture outside repo is NON-EXECUTABLE; never distribute it.
 
-Ninety existing factory slots refined: 30 basses, 20 hard-trance leads, 20 plucks,
-10 airy pads and 10 acids. Stable IDs/names; the other 70 factory recipes and the
-optional Heritage 200/Lush Trance 20 ZIPs are unchanged. Total remains 160 factory
-sounds, or 380 with both optional banks imported, plus Init.
+Workspace /workspace/work/native-design; JUCE /workspace/work/JUCE; CMake/CTest
+/workspace/work/build-tools/cmake/data/bin. Native test env DISPLAY=:99 and
+XDG_CACHE_HOME=/workspace/work/runtime-cache. Logs /tmp/space092-{native-final,
+focused,final-build}.log. Public verifier scripts under /tmp. Preflight helper
+/tmp/space092-preflight.py; output /workspace/work/preset-research091/packaging-preflight092.
+Owner untracked audition/ and __pycache__ must stay untracked. Generated helper
+executables /tmp/{RenderLush,RenderResearch,RenderFactory,BassProbe} were removed
+only to reclaim disk; source/evidence preserved. ~400MB free.
 
-Individual bass contours and harmonic colours; firmer, tight lead attacks;
-filter-articulated plucks with OPEN/LEAD wet-FX reduction and gain compensation;
-longer airy swells and gentle timbral motion; distinct acid wave/filter/drive
-paths with audible cutoff contrast, velocity accents and legato glide.
-
-Untouched factory tags refresh to expose Research 091 while preserving user
-metadata edits and local replacement bytes. No DSP algorithm changed in 0.9.1.
-
-## Verification
-
-All 27 Linux native tests passed (154.01 seconds), and all 27 Windows native tests
-passed (554.78 seconds). Actual Windows install/uninstall and installed/manual VST3 byte equality
-passed. The public release ZIP and manual ZIP were independently downloaded:
-CRC, published hashes, Setup hash, x64 VST3 PE, module version 0.9.1, required audit
-contents, source recipe hashes and both optional banks passed.
-
-Actual embedded exports match all 90 authored recipes, active routes and metadata;
-native inventory: 1,223 parameters. Audio checks cover repeated notes/chords,
-all 8 free-macro corners/all 6 macros, three-register stress in Analogue/Digital,
-and 35 basses at MIDI 36/43/48/55 in both modes. Maximum measured true peak:
--0.362745 dBTP. Maximum pluck OPEN change:
-0.63 LU. No threshold similarity candidates or
-level errors remain. These establish technical behaviour; listening in FL Studio
-on the user's PC remains the user's next step.
-
-Evidence: docs/audit/STUDIO_RESEARCH_091_{AUDIO_LEVELS,RECIPES,FACTORY_PARITY,
-PUBLISHED_VERIFICATION}.json and {NATIVE_TESTS,WINDOWS_TESTS}.txt.
-Research sources/design decisions: docs/research/STUDIO_RESEARCH_091.md.
-Update/test guide: docs/STUDIO_RESEARCH_091_UPDATE.md and TESTING_STUDIO_BUILD.md.
-
-## User testing
-
-Close FL Studio, Extract All, run Setup, then reopen the synth. Select Research 091
-or Studio Research in BANK; no bank import is needed for these 90 revisions.
-Existing local factory replacements may override updates: save a copy before
-restoring factory sounds for comparison. Optional banks import as before.
-
-## Workspace continuity
-
-Checkout: /workspace/work/native-design. No active local processes/builds.
-JUCE: /workspace/work/JUCE. CMake/CTest: /workspace/work/build-tools/cmake/data/bin.
-Native build: native-vst3/build-linux. Tests: DISPLAY=:99 and writable XDG cache.
-Public verification files: /workspace/work/release-verification/091.
-Preserve owner untracked audition/ and __pycache__/ folders; do not bulk-add them.
-
-Calibrated source and STUDIO_RESEARCH_091_RECIPES.json are authoritative. Do not
-regenerate from initial seed scripts: late acid/Digital/bass corrections matter.
-Rich authoring evidence remains in /workspace/work/preset-research091, especially
-FinalDesigns.json, final-review/Verified.json, StressVerified.json,
-DigitalVerified.json and BassRegisterReferences.json. Temporary package-preflight
-fixtures deliberately contain a non-executable installer; never distribute them.
-
-User listening feedback can guide the next revision. Bump the version for future
-binary changes; do not overwrite this verified release. No subagents were used.
+Previous verified0.9.1: binary source4f7ee13b6033d4d603014a02b19630425a36610a,
+Windows44897593118/job136826462106, docs-only closeout52881b4. All27 Windows tests
+PASS554.78s; public ZIP/manual x64/version/hashes and banks verified. Audit evidence
+under docs/audit/STUDIO_RESEARCH_091_*. Installer ZIP SHA c1f3d109c165f6af44941542db63e6f88e8b5cb4eca6725d79a66afac6f6c76c.
+Research/calibrated bank evidence /workspace/work/preset-research091 preserved.
+No subagents used. User authorization includes repository updates/build delivery.

@@ -262,6 +262,9 @@ private:
     struct HeldNote { uint64_t order=0; float velocity=0.0f; };
     std::array<HeldNote,16*128> heldNotes{};
     uint64_t noteOrder=0;
+    bool monoGlideValid=false;
+    double monoGlidePitch=0;
+    int monoGlideChannel=1,monoGlideSource=0;
     int voiceMode=0;
     void selectMonoNote(int source,int root,bool retrigger);
     void noteOn(int,float,int,int,int); void noteOff(int,int);

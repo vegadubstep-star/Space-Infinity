@@ -8,6 +8,11 @@
 class ModulationBadge;
 class StudioRack;
 class SamplerDisplay;
+class PresetSelector final : public juce::ComboBox {
+public:
+    std::function<void()> beforeOpen;
+    void showPopup() override {if(beforeOpen)beforeOpen();juce::ComboBox::showPopup();}
+};
 class SpaceInfinityEditor : public juce::AudioProcessorEditor, public juce::DragAndDropContainer, public juce::DragAndDropTarget, private juce::Timer {
 public:
     explicit SpaceInfinityEditor(SpaceInfinityProcessor&);
@@ -69,11 +74,13 @@ private:
     std::unique_ptr<juce::Component> popupContent;
     std::unique_ptr<juce::CallOutBox> popup;
     void openPopup(std::unique_ptr<juce::Component>,juce::Rectangle<int>);
+    void closePopup();
     void refreshPresetMenu();
     void openPresetManager();
     juce::String displayedPresetKey;
     juce::TextButton bankButton{"BANK"};
-    juce::ComboBox presets, waveform, waveform2, source, motionShape, motionBars;
+    PresetSelector presets;
+    juce::ComboBox waveform, waveform2, source, motionShape, motionBars;
     ModSlider motionDepth, noiseLevel, analogueCharacter;
     juce::Label analogueLabel,preDriveLabel,portamentoLabel;
     ModSlider preDrive,portamento;

@@ -1,9 +1,25 @@
-# Installing and testing SPACE INFINITY 0.9.1
+# Installing and testing SPACE INFINITY 0.9.2
 
 Close FL Studio and other plug-in hosts. Right-click the installer ZIP, choose
-Extract All, then run SPACE_INFINITY_0.9.1_Windows_x64_Setup.exe from the extracted
+Extract All, then run SPACE_INFINITY_0.9.2_Windows_x64_Setup.exe from the extracted
 folder. Reopen FL Studio and load a fresh SPACE INFINITY instance. The plug-in
 identity and user preset storage are preserved.
+
+## Preset browsing, sample glide and edit panels
+
+Click a sound once in BANK to load it. The header arrows move to the adjacent
+sound in the same grouped order shown in the preset selector, starting from the
+last loaded sound (including project recall). Search/tag changes alone do not
+change the loaded sound.
+
+On a sample, adjusting PORTAMENTO from Poly selects Mono. Mono glides between
+separated notes as well as overlaps; Legato glides only on overlapping notes.
+Zero portamento gives an immediate pitch change. Prepare/host reset, preset
+loads and All Notes Off clear the remembered pitch. No sample loop is forced:
+enable Loop yourself if a short one-shot needs to sustain.
+
+Open granular EDIT, then BANK, the preset dropdown, or another page. The edit
+popup should close. Sample-loop and filter EDIT use the same popup lifecycle.
 
 ## Try the revised factory sounds
 
