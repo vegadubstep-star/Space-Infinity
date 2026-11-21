@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(SpaceInfinity VERSION 0.9.2 LANGUAGES C CXX)
+project(SpaceInfinity VERSION 0.9.3 LANGUAGES C CXX)
 set(CMAKE_CXX_STANDARD 17)
 include(FetchContent)
 FetchContent_Declare(juce GIT_REPOSITORY https://github.com/juce-framework/JUCE.git GIT_TAG 8.0.7)
@@ -28,6 +28,12 @@ juce_add_binary_data(SpaceInfinitySamples SOURCES ${TRANCE_SAMPLE_FILES}
 )
 file(GLOB FACTORY_OVERRIDES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/Presets/Overrides/*.sipreset")
 juce_add_binary_data(SpaceInfinityFactoryBank HEADER_NAME FactoryBankData.h NAMESPACE FactoryBankData SOURCES Presets/TranceFactoryBank.json ${FACTORY_OVERRIDES})
+juce_add_binary_data(SpaceInfinityExtraBanks HEADER_NAME ExtraBankData.h NAMESPACE ExtraBankData SOURCES
+    Presets/Heritage200/SPACE_INFINITY_Heritage_200.zip
+    Presets/Lush20/SPACE_INFINITY_Lush_Trance_20.zip
+    Presets/UserVoices093/SPACE_INFINITY_Orbit_Voices.zip
+    Presets/Curation093.json)
+target_link_libraries(SpaceInfinity PRIVATE SpaceInfinityExtraBanks)
 juce_generate_juce_header(SpaceInfinity)
 juce_add_binary_data(SpaceInfinityArtwork HEADER_NAME Artwork.h NAMESPACE Artwork SOURCES Assets/InfinityLogo.png Assets/Hardware/KnobSilver.png Assets/Hardware/KnobViolet.png Assets/Hardware/BrushedGrain.png)
 target_sources(SpaceInfinity PRIVATE Source/PluginProcessor.cpp Source/PluginEditor.cpp Source/ExtendedProcessor.cpp Source/StudioProcessor.cpp Source/StudioRack.cpp Source/HardwareTheme.cpp)
@@ -38,7 +44,7 @@ option(SPACE_INFINITY_BUILD_TESTS "Build native smoke tests on other desktop pla
 if(WIN32 OR SPACE_INFINITY_BUILD_TESTS)
     juce_add_console_app(SpaceInfinitySmoke PRODUCT_NAME "Space Infinity Smoke")
     juce_generate_juce_header(SpaceInfinitySmoke)
-    target_sources(SpaceInfinitySmoke PRIVATE Tests/Smoke.cpp Tests/BassSmoke.cpp Tests/AcidSmoke.cpp Tests/CreativeSmoke.cpp Tests/UsabilitySmoke.cpp Tests/ExtendedSmoke.cpp Tests/PresetSmoke.cpp Tests/StudioSmoke.cpp Tests/TranceBankSmoke.cpp Tests/WorkflowSmoke.cpp Tests/RhythmWorkflowSmoke.cpp Tests/DualLfoSmoke.cpp Tests/OscillatorWorkflowSmoke.cpp Tests/AnalogueExpansionSmoke.cpp Tests/NoiseModeSmoke.cpp Tests/ModulationWorkflowSmoke.cpp Tests/ChorusMeltSmoke.cpp Tests/PitchTravelSmoke.cpp Tests/SoundCharacterSmoke.cpp)
+    target_sources(SpaceInfinitySmoke PRIVATE Tests/Smoke.cpp Tests/BassSmoke.cpp Tests/AcidSmoke.cpp Tests/CreativeSmoke.cpp Tests/UsabilitySmoke.cpp Tests/ExtendedSmoke.cpp Tests/PresetSmoke.cpp Tests/StudioSmoke.cpp Tests/TranceBankSmoke.cpp Tests/WorkflowSmoke.cpp Tests/RhythmWorkflowSmoke.cpp Tests/DualLfoSmoke.cpp Tests/OscillatorWorkflowSmoke.cpp Tests/AnalogueExpansionSmoke.cpp Tests/NoiseModeSmoke.cpp Tests/ModulationWorkflowSmoke.cpp Tests/ChorusMeltSmoke.cpp Tests/PitchTravelSmoke.cpp Tests/SoundCharacterSmoke.cpp Tests/SamplerHybridSmoke.cpp)
     target_compile_definitions(SpaceInfinitySmoke PRIVATE JUCE_WEB_BROWSER=0 JUCE_USE_CURL=0)
     target_link_libraries(SpaceInfinitySmoke PRIVATE SpaceInfinity SpaceInfinitySamples juce::juce_audio_utils juce::juce_dsp)
     add_executable(SpaceInfinityAnalogueProbe Tests/AnalogueProbe.cpp)
@@ -51,6 +57,7 @@ if(WIN32 OR SPACE_INFINITY_BUILD_TESTS)
         target_compile_options(SpaceInfinityExtendedCore PRIVATE -UNDEBUG)
     endif()
     enable_testing()
+    add_test(NAME SpaceInfinitySamplerHybrid COMMAND SpaceInfinitySmoke --sampler-hybrid-tests)
     add_test(NAME SpaceInfinityHeritageBank COMMAND SpaceInfinitySmoke --bank-zip-tests "${CMAKE_CURRENT_SOURCE_DIR}/Presets/Heritage200/SPACE_INFINITY_Heritage_200.zip")
     add_test(NAME SpaceInfinityExtendedCore COMMAND SpaceInfinityExtendedCore)
     add_test(NAME SpaceInfinityLushBank COMMAND SpaceInfinitySmoke --lush-bank-tests "${CMAKE_CURRENT_SOURCE_DIR}/Presets/Lush20/SPACE_INFINITY_Lush_Trance_20.zip")

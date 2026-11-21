@@ -1,3 +1,44 @@
+# SPACE INFINITY 0.9.3 — Windows release verification pending
+
+All requested sampler/bank/portamento/menu fixes are implemented and native-tested.
+Latest steering fixed: preset selector and arrows follow saved/manual bank order,
+anchored to the last selected sound. A–Z is explicit only.
+
+Changes: clean stereo/full-range sample import; independently controlled OSC B
+layer; stereo granular; finer finite glide with new-phrase reset; popup ownership;
+automatically installed Heritage200, Lush20 and new48 Orbit Voices sounds from
+40 actual Infinity_*.wav files. Seven close Heritage variants archived with recovery
+ZIP; local sound and metadata edits retained. Existing160factoryIDs and1223host
+parameter IDs/order preserved, four appended (1227total).
+
+Verification complete locally:
+-28native tests PASS (278.31s), plus4 focused tests on final embedded bank/curation.
+-48new presets verified at3registers x9macro corners, fullvelocity notes/chords,
+4xtruepeak: maxpre-safety0.900000572, maxtruepeak-0.630338735dBFS, noerrors.
+Measurement source hashes match all48 shipped files and calibrated trims.
+-All428 presets audio-feature screened; no silent sounds, no new-bank close pairs.
+Eight existingclose pairs confirmed at3registers;7archived, distinctacidsretained.
+-40actual renamed WAV file hashes match source uploads/provenance.
+-Packagepreflight: actualbank/hash/audits/1227params pass; missing evidence and
+failednativeaudits rejected. PowerShellsyntax andfactoryeditPython tests PASS.
+
+Evidence docs/audit/SAMPLER_FULL_RANGE_093_{NATIVE_TESTS.txt,AUDIO_LEVELS.json,CURATION.json}.
+Portable48bank and7recoverybank in native-vst3/Presets/UserVoices093.
+No0.9.3publicdownloadsent. README remains0.9.2 until newpublicverification.
+
+NEXT: commit/push [skip ci], dispatch space-infinity-windows.yml on
+codex/windows-build with publish_release=true. All28Windows, install/uninstall,
+archivevsinstalledbyteidentity andpackagecontents mustpass beforedelivery.
+Then run /tmp/verify-space-infinity093-release.py SOURCE_SHA RUN_ID JOB_ID to
+independentlydownload publicinstaller/manual ZIPs, CRC/SetupMZ/hash/x64PE/module093,
+sourcecommit/bank/calibration/curation/currentevidence. CaptureWindowsverification
+log+publicproofJSON in docs/audit, updateREADME/handoverstocomplete, docs-only
+[skip ci]commit/push, finalconciseinstallerlink+ExtractAll/closeFL/Setupsteps.
+
+Rawreports/helper source retained in /workspace/work/space093; generatedRuntimeLibrary
+and/tmp/Profile093 can be removed after completedworkers to free~210MB.
+No subagents allowed or used. Preserve owneruntracked audition/ andallcaches.
+
 # SPACE INFINITY 0.9.2 — completed and publicly verified
 
 User requested preset arrows to continue from last clicked sound, sample

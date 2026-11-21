@@ -1,0 +1,90 @@
+SPACE INFINITY 0.9.3 native regression evidence
+Platform: Linux x86_64, JUCE 8.0.7, 48 kHz audio probes
+
+Full suite: 28 tests, same DSP/UI source; before final calibrated-bank/curation resource relink.
+Test project /workspace/work/native-design/native-vst3/build-linux
+      Start  1: SpaceInfinityCharacterFilterCore
+ 1/28 Test  #1: SpaceInfinityCharacterFilterCore ...   Passed    0.32 sec
+      Start  2: SpaceInfinitySamplerHybrid
+ 2/28 Test  #2: SpaceInfinitySamplerHybrid .........   Passed    8.24 sec
+      Start  3: SpaceInfinityHeritageBank
+ 3/28 Test  #3: SpaceInfinityHeritageBank ..........   Passed    5.15 sec
+      Start  4: SpaceInfinityExtendedCore
+ 4/28 Test  #4: SpaceInfinityExtendedCore ..........   Passed    0.01 sec
+      Start  5: SpaceInfinityLushBank
+ 5/28 Test  #5: SpaceInfinityLushBank ..............   Passed    1.09 sec
+      Start  6: SpaceInfinitySoundCharacter
+ 6/28 Test  #6: SpaceInfinitySoundCharacter ........   Passed    3.31 sec
+      Start  7: SpaceInfinityBassVoicing
+ 7/28 Test  #7: SpaceInfinityBassVoicing ...........   Passed   22.42 sec
+      Start  8: SpaceInfinityAcidDrive
+ 8/28 Test  #8: SpaceInfinityAcidDrive .............   Passed    8.36 sec
+      Start  9: SpaceInfinityCreativeWorkflow
+ 9/28 Test  #9: SpaceInfinityCreativeWorkflow ......   Passed    1.65 sec
+      Start 10: SpaceInfinityUsability
+10/28 Test #10: SpaceInfinityUsability .............   Passed    2.54 sec
+      Start 11: SpaceInfinitySmoke
+11/28 Test #11: SpaceInfinitySmoke .................   Passed   18.87 sec
+      Start 12: SpaceInfinityHardwareUI
+12/28 Test #12: SpaceInfinityHardwareUI ............   Passed    8.87 sec
+      Start 13: SpaceInfinityPresetManagement
+13/28 Test #13: SpaceInfinityPresetManagement ......   Passed    1.38 sec
+      Start 14: SpaceInfinityExtendedSmoke
+14/28 Test #14: SpaceInfinityExtendedSmoke .........   Passed    1.43 sec
+      Start 15: SpaceInfinityAnalogueExpansion
+15/28 Test #15: SpaceInfinityAnalogueExpansion .....   Passed    6.62 sec
+      Start 16: SpaceInfinityOscillatorWorkflow
+16/28 Test #16: SpaceInfinityOscillatorWorkflow ....   Passed    0.78 sec
+      Start 17: SpaceInfinityPitchTravel
+17/28 Test #17: SpaceInfinityPitchTravel ...........   Passed    1.28 sec
+      Start 18: SpaceInfinityChorusMelt
+18/28 Test #18: SpaceInfinityChorusMelt ............   Passed    1.78 sec
+      Start 19: SpaceInfinityModulationWorkflow
+19/28 Test #19: SpaceInfinityModulationWorkflow ....   Passed    1.30 sec
+      Start 20: SpaceInfinityNoiseModes
+20/28 Test #20: SpaceInfinityNoiseModes ............   Passed    3.74 sec
+      Start 21: SpaceInfinityDualLFO
+21/28 Test #21: SpaceInfinityDualLFO ...............   Passed    1.52 sec
+      Start 22: SpaceInfinityRhythmWorkflow
+22/28 Test #22: SpaceInfinityRhythmWorkflow ........   Passed    1.28 sec
+      Start 23: SpaceInfinityWorkflow
+23/28 Test #23: SpaceInfinityWorkflow ..............   Passed    2.01 sec
+      Start 24: SpaceInfinityStudioSmoke
+24/28 Test #24: SpaceInfinityStudioSmoke ...........   Passed    2.61 sec
+      Start 25: SpaceInfinityGrooveBank
+25/28 Test #25: SpaceInfinityGrooveBank ............   Passed   26.00 sec
+      Start 26: SpaceInfinityLeads
+26/28 Test #26: SpaceInfinityLeads .................   Passed    4.64 sec
+      Start 27: SpaceInfinityAirwavePad
+27/28 Test #27: SpaceInfinityAirwavePad ............   Passed  141.02 sec
+      Start 28: SpaceInfinityAnalogueProbe
+28/28 Test #28: SpaceInfinityAnalogueProbe .........   Passed    0.07 sec
+
+100% tests passed out of 28
+
+Total Test time (real) = 278.31 sec
+
+CTest exit code: 0
+
+Final embedded resources: calibrated Orbit Voices + seven-row Curation093.
+Bank SHA256: b3c28239d6e358540295f0719298dab51844cefa9963195598bb02d22bd93dc4
+Focused final-resource regressions:
+Test project /workspace/work/native-design/native-vst3/build-linux
+    Start  2: SpaceInfinitySamplerHybrid
+1/4 Test  #2: SpaceInfinitySamplerHybrid .......   Passed    8.52 sec
+    Start  6: SpaceInfinitySoundCharacter
+2/4 Test  #6: SpaceInfinitySoundCharacter ......   Passed    2.97 sec
+    Start 13: SpaceInfinityPresetManagement
+3/4 Test #13: SpaceInfinityPresetManagement ....   Passed    1.36 sec
+    Start 24: SpaceInfinityStudioSmoke
+4/4 Test #24: SpaceInfinityStudioSmoke .........   Passed    2.41 sec
+
+100% tests passed out of 4
+
+Total Test time (real) =  15.26 sec
+
+CTest exit code: 0
+
+Original 1223 host parameter IDs/order retained, four appended (1227 total).
+Stereo fixture: anti-phase 50 Hz L/R amplitude 0.15, in-phase 800 Hz amplitude 0.049966 vs 0.05 reference.
+Fine 30 ms glide up/down, fresh-phrase/zero glide, independent sample oscillator gain/octave/lifetime, right-only granular, popup dismissal, concurrent cold-bank install and curation preserving sound/metadata edits passed.

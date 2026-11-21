@@ -315,6 +315,11 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
     source.addItemList(SpaceInfinityProcessor::sourceNames(),1);
     addAndMakeVisible(source);
     sourceAttachment=std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"source",source);
+    sampleOsc.setName("Sample oscillator layer");sampleOsc.setTooltip("Layer the full oscillator B with the sample. Waveform, pitch, detune, unison, phase, warp, pan, gain, WT position and filter routing remain available.");addAndMakeVisible(sampleOsc);
+    sampleOscBinding=std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>(processor.state,"sampleOscEnabled",sampleOsc);
+    sampleOsc.onClick=[this]{if(sampleOsc.getToggleState()){auto* a=processor.state.getParameter("osc2Enabled");a->setValueNotifyingHost(1);}closePopup();updateSourceControls();resized();};
+    sampleGrains.setTooltip("Granular blend controls are available while oscillator B occupies the right panel.");sampleGrains.onClick=[this]{openPopup(std::make_unique<samplerui::Controls>(processor,true,true),sampleGrains.getBounds());};addAndMakeVisible(sampleGrains);
+    sampleGainKnob.initialiseModulation(processor,"sampleGain");sampleGainKnob.setName("Sample gain");sampleGainKnob.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);sampleGainKnob.setTextBoxStyle(juce::Slider::TextBoxBelow,false,62,16);sampleGainKnob.setDoubleClickReturnValue(true,0);addAndMakeVisible(sampleGainKnob);sampleGainBinding=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"sampleGain",sampleGainKnob);sampleGainKnob.textFromValueFunction=[](double value){return juce::String(value,1)+" dB";};sampleGainKnob.updateText();sampleGainLabel.setText("SAMPLE GAIN",juce::dontSendNotification);sampleGainLabel.setFont(juce::Font(juce::FontOptions(9)));sampleGainLabel.setJustificationType(juce::Justification::centred);addAndMakeVisible(sampleGainLabel);
     sampleRoot.initialiseModulation(processor,"sampleRoot");sampleRoot.setSliderStyle(juce::Slider::IncDecButtons);
     sampleRoot.setTextBoxStyle(juce::Slider::TextBoxLeft,false,68,24);
     sampleRoot.setTooltip("Root MIDI note for imported WAV");
@@ -327,7 +332,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         sampleChooser->launchAsync(juce::FileBrowserComponent::openMode|juce::FileBrowserComponent::canSelectFiles,
             [editor](const juce::FileChooser& chooser){
                 if(editor==nullptr||chooser.getResult()==juce::File{})return;
-                const auto result=editor->processor.importSample(chooser.getResult());
+                const auto result=editor->processor.importSample(chooser.getResult(),true);
                 if(result.failed())juce::AlertWindow::showMessageBoxAsync(juce::MessageBoxIconType::WarningIcon,"Sample import",result.getErrorMessage());
                 else editor->importButton.setTooltip(chooser.getResult().getFileName());
             });
@@ -471,7 +476,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
         processor.state,"analogueCharacter",analogueCharacter));
     showPercent(analogueCharacter);
     preDrive.initialiseModulation(processor,"filterInputDrive");preDrive.setName("Pre-filter drive");preDrive.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);preDrive.setTextBoxStyle(juce::Slider::TextBoxBelow,false,70,16);preDrive.setMouseDragSensitivity(350);preDrive.setDoubleClickReturnValue(true,0);preDrive.setTooltip("Drive into the filter before resonance; distinct from the output saturation DRIVE.");attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"filterInputDrive",preDrive));showPercent(preDrive);addAndMakeVisible(preDrive);preDriveLabel.setText("PRE DRIVE",juce::dontSendNotification);preDriveLabel.setJustificationType(juce::Justification::centred);addAndMakeVisible(preDriveLabel);
-    portamento.initialiseModulation(processor,"glideTime");portamento.setName("Portamento time");portamento.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);portamento.setTextBoxStyle(juce::Slider::TextBoxBelow,false,65,16);configureTimeKnob(portamento);portamento.setDoubleClickReturnValue(true,0);portamento.textFromValueFunction=[](double v){return juce::String(v*1000,1)+" ms";};portamento.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/1000;};portamento.setTooltip("Portamento / glide for oscillators and samples. Mono slides between notes; Legato slides on overlap. Adjusting in Poly selects Mono for samples or Legato for oscillators. Zero gives instant pitch. Shift-drag for fine control.");portamento.onDragStart=[this]{auto* mode=processor.state.getParameter("voiceMode");if(mode->convertFrom0to1(mode->getValue())<.5f)mode->setValueNotifyingHost(mode->convertTo0to1(processor.state.getRawParameterValue("source")->load()>.5f?1:2));};attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"glideTime",portamento));portamento.textFromValueFunction=[](double v){return juce::String(v*1000,1)+" ms";};portamento.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/1000;};portamento.updateText();addAndMakeVisible(portamento);portamentoLabel.setText("PORTAMENTO",juce::dontSendNotification);portamentoLabel.setJustificationType(juce::Justification::centred);portamentoLabel.setFont(juce::Font(juce::FontOptions(9)));addAndMakeVisible(portamentoLabel);
+    portamento.initialiseModulation(processor,"glideTime");portamento.setName("Portamento time");portamento.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);portamento.setTextBoxStyle(juce::Slider::TextBoxBelow,false,65,16);configureTimeKnob(portamento);portamento.setDoubleClickReturnValue(true,0);portamento.textFromValueFunction=[](double v){return juce::String(v*1000,1)+" ms";};portamento.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/(t.containsIgnoreCase("s")&&!t.containsIgnoreCase("ms")?1:1000);};portamento.setTooltip("Portamento / glide for oscillators and samples. Mono slides between notes; Legato slides on overlap. Adjusting in Poly selects Mono for samples or Legato for oscillators. Displayed time is the full glide duration, with a gentle curve and no overshoot. Zero gives instant pitch. Shift-drag for fine control.");portamento.onDragStart=[this]{auto* mode=processor.state.getParameter("voiceMode");if(mode->convertFrom0to1(mode->getValue())<.5f)mode->setValueNotifyingHost(mode->convertTo0to1(processor.state.getRawParameterValue("source")->load()>.5f?1:2));};attachments.push_back(std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,"glideTime",portamento));configureTimeKnob(portamento);{auto range=portamento.getNormalisableRange();range.setSkewForCentre(.015);portamento.setNormalisableRange(range);}portamento.setMouseDragSensitivity(750);portamento.textFromValueFunction=[](double v){return juce::String(v*1000,1)+" ms";};portamento.valueFromTextFunction=[](const juce::String& t){return t.getDoubleValue()/(t.containsIgnoreCase("s")&&!t.containsIgnoreCase("ms")?1:1000);};portamento.updateText();addAndMakeVisible(portamento);portamentoLabel.setText("PORTAMENTO",juce::dontSendNotification);portamentoLabel.setJustificationType(juce::Justification::centred);portamentoLabel.setFont(juce::Font(juce::FontOptions(9)));addAndMakeVisible(portamentoLabel);
     analogueOn.addItemList({"ANALOGUE","DIGITAL"},1);analogueOn.setName("Overall engine mode");analogueOn.setTooltip("Analogue: use character and component variation. Digital: bypass drift, tolerance and analogue colour while retaining filter and envelope settings.");fxChoices.push_back(std::make_unique<juce::AudioProcessorValueTreeState::ComboBoxAttachment>(processor.state,"engineMode",analogueOn));addAndMakeVisible(analogueOn);addAndMakeVisible(analogueLabButton);analogueLabButton.onClick=[this]{auto panel=std::make_unique<ExtendedPanel>(processor);panel->selectTab(7);openPopup(std::move(panel),analogueLabButton.getBounds());};addAndMakeVisible(pitchSettings);pitchSettings.setTooltip("Pitch envelope, tuning and MIDI wheel range");pitchSettings.onClick=[this]{auto panel=std::make_unique<ExtendedPanel>(processor);panel->selectTab(8);openPopup(std::move(panel),pitchSettings.getBounds());};
 
     analogueLabel.setText("ANALOGUE CHARACTER",juce::dontSendNotification);
@@ -655,7 +660,7 @@ SpaceInfinityEditor::SpaceInfinityEditor(SpaceInfinityProcessor& p):AudioProcess
 SpaceInfinityEditor::~SpaceInfinityEditor(){
     stopTimer();
     for(auto& binding:octaveBindings)binding.reset();
-    popup.reset();popupContent.reset();
+    closePopup();
     for(size_t point=0;point<motionGestures.size();++point)
         if(motionGestures[point])
             processor.state.getParameter(processor.lfoPointId(selectedLfo,int(point)))->endChangeGesture();
@@ -673,26 +678,45 @@ void SpaceInfinityEditor::openPopup(std::unique_ptr<juce::Component> content,juc
     popup->enterModalState(true,nullptr,false);
     refreshModulationIndicators();
 }
-void SpaceInfinityEditor::closePopup(){popup.reset();popupContent.reset();}
+void SpaceInfinityEditor::dismissPopupsFor(juce::Component* keep){
+    std::vector<juce::Component::SafePointer<ModSlider>> controls;
+    const auto collect=[&](auto&& self,juce::Component& c)->void{if(auto* slider=dynamic_cast<ModSlider*>(&c))controls.emplace_back(slider);for(auto* child:c.getChildren())self(self,*child);};collect(collect,*this);
+    for(auto& slider:controls)if(slider)slider->closeAmountPopup(keep);
+    if(!keep||!(popupContent&&(keep==popupContent.get()||popupContent->isParentOf(keep)))){popup.reset();popupContent.reset();}
+}
+void SpaceInfinityEditor::closePopup(){dismissPopupsFor(nullptr);juce::PopupMenu::dismissAllActiveMenus();}
 void SpaceInfinityEditor::openPresetManager(){
-    processor.presetBank().reload();refreshPresetMenu();
+    processor.presetBank().reload();if(processor.bundledPresetError.isNotEmpty())processor.ensureBundledPresets();refreshPresetMenu();
     const juce::Component::SafePointer<SpaceInfinityEditor> safe(this);
     openPopup(std::make_unique<PresetPanel>(processor,[safe]{if(safe!=nullptr)safe->refreshPresetMenu();}),bankButton.getBounds());
 }
 void SpaceInfinityEditor::refreshPresetMenu(){
     presets.clear(juce::dontSendNotification);
     const auto& entries=processor.presetBank().entries();std::vector<size_t> order;for(size_t i=0;i<entries.size();++i)order.push_back(i);
-    std::stable_sort(order.begin(),order.end(),[&](size_t a,size_t b){const auto ca=PresetLibrary::browseCategory(entries[a].category),cb=PresetLibrary::browseCategory(entries[b].category);if(ca=="Init"||cb=="Init")return ca=="Init"&&cb!="Init";return ca<cb;});
+    // Respect the owner's saved/manual order. A-Z is an explicit BANK action.
     juce::String category;for(auto i:order){const auto role=PresetLibrary::browseCategory(entries[i].category);if(role!=category){category=role;presets.addSectionHeading(category);}presets.addItem(entries[i].name,int(i+1));}
     presets.setTooltip(processor.state.state.getProperty("factoryReference").toString()+"\n"+processor.state.state.getProperty("factoryDescription").toString());
     displayedPresetKey=processor.selectedPresetKey();const int index=processor.presetBank().indexForKey(displayedPresetKey);
-    if(index>=0)presets.setSelectedId(index+1,juce::dontSendNotification);else if(displayedPresetKey=="HYBRID")presets.setText(processor.state.state.getProperty("presetDisplayName").toString(),juce::dontSendNotification);
+    if(index>=0)presets.setSelectedId(index+1,juce::dontSendNotification);else if(processor.state.state.getProperty("presetDisplayName").toString().isNotEmpty())presets.setText(processor.state.state.getProperty("presetDisplayName").toString(),juce::dontSendNotification);
+}
+void SpaceInfinityEditor::updateSourceControls(){
+    const bool sampled=processor.state.getRawParameterValue("source")->load()>.5f,layer=sampled&&processor.state.getRawParameterValue("sampleOscEnabled")->load()>.5f;
+    filterRoutes[0].setButtonText(sampled?"SAMPLE":"A");filterRoutes[0].setTooltip(sampled?"Route the sample through the filter. Off preserves full-range sample playback.":"Route oscillator A through the filter.");
+    sampleOsc.setVisible(!fxPage&&sampled);sampleGrains.setVisible(!fxPage&&sampled&&layer);sampleGainKnob.setVisible(!fxPage&&sampled);sampleGainLabel.setVisible(!fxPage&&sampled);
+    if(liveDisplay)liveDisplay->setVisible(!fxPage&&sampled&&!layer);
+    for(int i=0;i<2;++i){const bool oscillator=!fxPage&&(!sampled||(i==1&&layer));
+        for(auto* c:std::array<juce::Component*,13>{i==0?static_cast<juce::Component*>(&osc1):&osc2,i==0?static_cast<juce::Component*>(&warpA):&warpB,i==0?static_cast<juce::Component*>(&waveform):&waveform2,&unisonButtons[size_t(i)],&previousWave[size_t(i)],&nextWave[size_t(i)],&oscillatorSliders[size_t(i*2)],&oscillatorSliders[size_t(i*2+1)],&unisonTone[size_t(i*2)],&unisonTone[size_t(i*2+1)],&unisonSliders[size_t(i)],&wtPositions[size_t(i)],&oscillatorGains[size_t(i)]})c->setVisible(oscillator);
+        oscillatorPans[size_t(i)].setVisible(oscillator);gainLabels[size_t(i)].setVisible(oscillator);
+        if(samplerControls[size_t(i)])samplerControls[size_t(i)]->setVisible(!fxPage&&sampled&&(i==0||!layer));
+    }
+    updateSamplerOctaves();
 }
 void SpaceInfinityEditor::updatePitchLimits(){pitchWheel.setTravel(pitchLimits[1].getValue(),pitchLimits[0].getValue());}
 void SpaceInfinityEditor::updateSamplerOctaves(){
     const bool sampled=processor.state.getRawParameterValue("source")->load()>.5f;
-    if(sampled==sampledOctaveBindings)return;sampledOctaveBindings=sampled;
-    for(int i=1;i<3;++i){octaveBindings[size_t(i)].reset();const auto id=sampled?(i==1?"sampleOctave":"grainOctave"):(i==1?"osc1Octave":"osc2Octave");auto& control=octaveControls[size_t(i)];control.initialiseModulation(processor,id);control.setName(sampled?(i==1?"Sampler octave":"Granular layer octave"):(i==1?"Osc 1 octave":"Osc 2 octave"));control.setTooltip(control.getName());octaveBindings[size_t(i)]=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,id,control);}
+    const bool layer=sampled&&processor.state.getRawParameterValue("sampleOscEnabled")->load()>.5f;
+    if(sampled==sampledOctaveBindings&&layer==layerOctaveBindings)return;sampledOctaveBindings=sampled;layerOctaveBindings=layer;
+    for(int i=1;i<3;++i){octaveBindings[size_t(i)].reset();const auto id=sampled?(i==1?"sampleOctave":layer?"osc2Octave":"grainOctave"):(i==1?"osc1Octave":"osc2Octave");auto& control=octaveControls[size_t(i)];control.initialiseModulation(processor,id);control.setName(sampled?(i==1?"Sampler octave":layer?"Osc 2 octave":"Granular layer octave"):(i==1?"Osc 1 octave":"Osc 2 octave"));control.setTooltip(control.getName());octaveBindings[size_t(i)]=std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(processor.state,id,control);}
 }
 void SpaceInfinityEditor::timerCallback(){
     updatePitchLimits();
@@ -715,6 +739,7 @@ void SpaceInfinityEditor::timerCallback(){
     for(size_t i=0;i<2;++i){previousWave[i].setVisible(!fxPage&&!sampled);nextWave[i].setVisible(!fxPage&&!sampled);}
     for(auto* c:std::array<juce::Component*,6>{&sampleRoot,&sampleTrim[0],&sampleTrim[1],&samplerLabels[0],&samplerLabels[1],&samplerLabels[2]})c->setVisible(false);
     lifeButton.setVisible(!fxPage);transitionButton.setVisible(!fxPage);transitionButton.setEnabled(!sampled);updateSamplerOctaves();
+    updateSourceControls();
     masterReadout.peak=meterPeak;masterReadout.clip=clipHold>0;masterReadout.repaint();
     refreshModulationIndicators();
     repaint();
@@ -772,6 +797,7 @@ void SpaceInfinityEditor::updatePage(){
     resized();
     refreshModulationIndicators();
     repaint();
+    updateSourceControls();
 }
 void SpaceInfinityEditor::bindLfoControls(){
     lfoPowerBinding.reset();
@@ -1059,6 +1085,7 @@ void SpaceInfinityEditor::paint(juce::Graphics& g){
             std::exp2(parameter("osc2Octave")+parameter("osc2Semitone")/12.0+parameter("osc2Tune")/1200.0)*(1.0+(parameter("manualUnison")>.5f?0:parameter("detune")))};
         const float scans[]{parameter("wavetableScan"),parameter("independentWTPos")>.5f?parameter("osc2WTPos"):parameter("wavetableScan")};
         for(int oscillator=0;oscillator<2;++oscillator){
+            if(parameter("source")>.5f&&(oscillator==0||parameter("sampleOscEnabled")<.5f))continue;
             const auto bounds=layout.oscillators[oscillator];
             const auto screen=juce::Rectangle<int>(bounds.getX()+13,bounds.getY()+36,bounds.getWidth()-26,64);
             HardwareTheme::display(g,screen.toFloat());const bool active=parameter(oscillator==0?"osc1Enabled":"osc2Enabled")>.5f;
@@ -1284,8 +1311,9 @@ void SpaceInfinityEditor::resized(){
     lfoSpeed.setBounds(options.reduced(2,0));
     motionGraph=motion.reduced(4,6);
     source.setBounds(290,24,juce::jmin(220,w-625),24);sourceHeader.setBounds(290,8,juce::jmin(220,w-625),15);
+    sampleOsc.setBounds(w-310,56,90,24);sampleGrains.setBounds(w-216,56,78,24);
     lifeButton.setBounds(w-252,86,64,25);transitionButton.setBounds(w-182,86,64,25);
-    const int subWidth=juce::jlimit(132,180,(w-60)/6),subTop=h-210;
+    const int subWidth=juce::jlimit(132,180,(w-60)/6),subTop=h-210;sampleGainLabel.setBounds(38,subTop+29,subWidth-16,13);sampleGainKnob.setBounds(38,subTop+42,subWidth-16,60);
     importButton.setBounds(36,subTop+4,subWidth-12,20);sampleRoot.setBounds(68,subTop+74,subWidth-42,21);sampleTrim[0].setBounds(68,subTop+28,subWidth-42,20);sampleTrim[1].setBounds(68,subTop+51,subWidth-42,20);sampleLoop.setBounds(34,subTop+103,subWidth/2-4,22);sampleReverse.setBounds(34+subWidth/2,subTop+103,subWidth/2-4,22);for(int i=0;i<3;++i)samplerLabels[size_t(i)].setBounds(36,subTop+28+i*23,32,20);
     for(int row=0;row<6;++row){
         auto region=effectRowBounds(w,h,row).reduced(9,5);

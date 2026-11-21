@@ -1,0 +1,54 @@
+{
+  "version": "0.9.3",
+  "retired": [
+    {
+      "key": "Uuser_heritage200_H002",
+      "name": "Ivory House",
+      "sha256": "d2ff161aa37433ae7d75a4fde0b65c5bb359a2afbd2cb4d0d0545ba9ba76d48a",
+      "kept_key": "F1118",
+      "reason": "Very close sustained/attack spectra and envelope at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H005",
+      "name": "Midnight Studio",
+      "sha256": "7acf23ab4d3d649d28620da2313464384f4f8d0c5fd0b4e2efe50ef0a055c217",
+      "kept_key": "Uuser_heritage200_H001",
+      "reason": "Very close sustained/attack spectra and envelope at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H025",
+      "name": "Percussive Wheel",
+      "sha256": "d357e26134b80cca7a56d0d8b9934edb9d1cf16409a2694de3f866f54ba9572a",
+      "kept_key": "Uuser_heritage200_H024",
+      "reason": "Very close sustained/attack spectra and envelope at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H041",
+      "name": "Warm Finger",
+      "sha256": "7990c7c96e40a34f9d4716136c7c17d31abe79298f10813250cb3f1914529d6c",
+      "kept_key": "F1029",
+      "reason": "Very close sustained/attack spectra and envelope at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H072",
+      "name": "Voicewave Terrace",
+      "sha256": "fd54230afbb19b002b7944a533f177ff2bd0e4f03aeaccdcfca635eda4aaef14",
+      "kept_key": "Uuser_heritage200_H048",
+      "reason": "Very close sustained/attack spectra and envelope at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H080",
+      "name": "Tropical Circuit",
+      "sha256": "f13b3b567df5226ec07abb5d7b445e85ce8fb515f9db079d422b9f502258f8ae",
+      "kept_key": "Uuser_heritage200_H029",
+      "reason": "Very close sustained/attack spectra and envelope at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H129",
+      "name": "Warm Throttle",
+      "sha256": "1221dd64e1146ee341d106591906bae85b7b71b8f628904458a82f65d5a64795",
+      "kept_key": "F1025",
+      "reason": "Very close sustained/attack spectra and envelope at three registers."
+    }
+  ]
+}

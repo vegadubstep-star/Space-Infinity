@@ -1,0 +1,168 @@
+{
+  "version": "0.9.3",
+  "existing_presets_measured": 380,
+  "new_presets_measured": 48,
+  "measurements": "Native engine, 48 kHz, 4-second single notes, 96 logarithmic spectral bands and amplitude-envelope buckets; close candidates confirmed at -12/0/+7 semitones using sustained and attack spectra.",
+  "initial_candidate_threshold": {
+    "spectrum": 0.995,
+    "envelope": 0.995
+  },
+  "confirmation_threshold": 0.994,
+  "retired": [
+    {
+      "key": "Uuser_heritage200_H002",
+      "name": "Ivory House",
+      "sha256": "d2ff161aa37433ae7d75a4fde0b65c5bb359a2afbd2cb4d0d0545ba9ba76d48a",
+      "kept_key": "F1118",
+      "reason": "Very close sustained/attack spectra and envelope at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H005",
+      "name": "Midnight Studio",
+      "sha256": "7acf23ab4d3d649d28620da2313464384f4f8d0c5fd0b4e2efe50ef0a055c217",
+      "kept_key": "Uuser_heritage200_H001",
+      "reason": "Very close sustained/attack spectra and envelope at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H025",
+      "name": "Percussive Wheel",
+      "sha256": "d357e26134b80cca7a56d0d8b9934edb9d1cf16409a2694de3f866f54ba9572a",
+      "kept_key": "Uuser_heritage200_H024",
+      "reason": "Very close sustained/attack spectra and envelope at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H041",
+      "name": "Warm Finger",
+      "sha256": "7990c7c96e40a34f9d4716136c7c17d31abe79298f10813250cb3f1914529d6c",
+      "kept_key": "F1029",
+      "reason": "Very close sustained/attack spectra and envelope at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H072",
+      "name": "Voicewave Terrace",
+      "sha256": "fd54230afbb19b002b7944a533f177ff2bd0e4f03aeaccdcfca635eda4aaef14",
+      "kept_key": "Uuser_heritage200_H048",
+      "reason": "Very close sustained/attack spectra and envelope at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H080",
+      "name": "Tropical Circuit",
+      "sha256": "f13b3b567df5226ec07abb5d7b445e85ce8fb515f9db079d422b9f502258f8ae",
+      "kept_key": "Uuser_heritage200_H029",
+      "reason": "Very close sustained/attack spectra and envelope at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H129",
+      "name": "Warm Throttle",
+      "sha256": "1221dd64e1146ee341d106591906bae85b7b71b8f628904458a82f65d5a64795",
+      "kept_key": "F1025",
+      "reason": "Very close sustained/attack spectra and envelope at three registers."
+    }
+  ],
+  "decisions": [
+    {
+      "keep_key": "F1154",
+      "keep_name": "Resonant Wire",
+      "other_key": "F1158",
+      "other_name": "Glass Acid",
+      "minimum_cosines": {
+        "spectrum": 0.9402040788828395,
+        "attack_spectrum": 0.9768690306052877,
+        "envelope": 0.988171477706632
+      },
+      "decision": "retain both: register-dependent differences"
+    },
+    {
+      "keep_key": "F1118",
+      "keep_name": "Sunlit Grand",
+      "other_key": "Uuser_heritage200_H002",
+      "other_name": "Ivory House",
+      "minimum_cosines": {
+        "spectrum": 0.9948582735848033,
+        "attack_spectrum": 0.9945678926348954,
+        "envelope": 0.9990790591318772
+      },
+      "decision": "archive latter"
+    },
+    {
+      "keep_key": "Uuser_heritage200_H001",
+      "keep_name": "Atrium Grand",
+      "other_key": "Uuser_heritage200_H005",
+      "other_name": "Midnight Studio",
+      "minimum_cosines": {
+        "spectrum": 0.9954227305123475,
+        "attack_spectrum": 0.9951624384204266,
+        "envelope": 0.9990839557664261
+      },
+      "decision": "archive latter"
+    },
+    {
+      "keep_key": "Uuser_heritage200_H024",
+      "keep_name": "Gospel Relay",
+      "other_key": "Uuser_heritage200_H025",
+      "other_name": "Percussive Wheel",
+      "minimum_cosines": {
+        "spectrum": 0.9974998238828661,
+        "attack_spectrum": 0.9975444265623244,
+        "envelope": 0.9994010963227861
+      },
+      "decision": "archive latter"
+    },
+    {
+      "keep_key": "F1029",
+      "keep_name": "Triangle Circuit",
+      "other_key": "Uuser_heritage200_H041",
+      "other_name": "Warm Finger",
+      "minimum_cosines": {
+        "spectrum": 0.9948716677181881,
+        "attack_spectrum": 0.9965796112401012,
+        "envelope": 0.99905017424306
+      },
+      "decision": "archive latter"
+    },
+    {
+      "keep_key": "Uuser_heritage200_H048",
+      "keep_name": "Lore Horizon",
+      "other_key": "Uuser_heritage200_H072",
+      "other_name": "Voicewave Terrace",
+      "minimum_cosines": {
+        "spectrum": 0.9967200452765397,
+        "attack_spectrum": 0.9998022791942952,
+        "envelope": 0.9997820339849037
+      },
+      "decision": "archive latter"
+    },
+    {
+      "keep_key": "Uuser_heritage200_H029",
+      "keep_name": "Bamboo Steps",
+      "other_key": "Uuser_heritage200_H080",
+      "other_name": "Tropical Circuit",
+      "minimum_cosines": {
+        "spectrum": 0.9994881022847548,
+        "attack_spectrum": 0.9996512434008652,
+        "envelope": 0.9946183816531341
+      },
+      "decision": "archive latter"
+    },
+    {
+      "keep_key": "F1025",
+      "keep_name": "Rounded Momentum",
+      "other_key": "Uuser_heritage200_H129",
+      "other_name": "Warm Throttle",
+      "minimum_cosines": {
+        "spectrum": 0.99526599315531,
+        "attack_spectrum": 0.996335319993477,
+        "envelope": 0.9977458993854187
+      },
+      "decision": "archive latter"
+    }
+  ],
+  "backup_sha256": "6d7ed7448da6d73569473795767e669237628be4a6d12498276b543bc3ab2346",
+  "factory_slots_preserved": 160,
+  "local_edits_preserved": true,
+  "retirement_policy": "Hide only matching stable key, name and unchanged source bytes. Explicit metadata edits and sound replacements remain visible. Original files and factory IDs retained for project recall. Optional backup imports under separate keys.",
+  "limitations": "Audio-feature screening detects very close variants; it cannot guarantee perceptual uniqueness across arbitrary playing and settings.",
+  "new_bank_similarity_candidates": [],
+  "presets_measured_total": 428,
+  "silent_presets": []
+}

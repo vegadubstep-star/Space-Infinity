@@ -155,7 +155,7 @@ int runPresetSmoke(){
     for(int i=0;i<factoryCount;++i){synth->loadPreset(i);if(synth->state.getRawParameterValue("analogueUpgrade")->load()!=1)return 85;}
     juce::MemoryBlock state;synth->getStateInformation(state);other->setStateInformation(state.getData(),int(state.getSize()));
     if(other->selectedPresetKey()!=synth->selectedPresetKey())return 86;
-    // Compare the arrows with the displayed (category-grouped) dropdown order.
+    // Compare the arrows with the displayed (saved/manual) dropdown order.
     // Load by click/host recall without pumping the editor timer first.
     {
         auto editor=std::unique_ptr<juce::AudioProcessorEditor>(synth->createEditor());
@@ -165,6 +165,8 @@ int runPresetSmoke(){
             if(child->getName()=="Next preset")next=dynamic_cast<juce::Button*>(child);
             if(child->getName()=="Preset selector")menu=dynamic_cast<juce::ComboBox*>(child);
         }};controls();if(!previous||!next||!menu)return 87;
+        for(int row=0;row<menu->getNumItems();++row)if(menu->getItemId(row)!=row+1)return 240;
+
         const auto menuKey=[&](int row){return bank.entries()[size_t(menu->getItemId(row)-1)].key;};
         const int middle=menu->getNumItems()/2;
         const auto clickedKey=menuKey(middle),following=menuKey(middle+1),preceding=menuKey(middle-1);
@@ -199,10 +201,10 @@ int runPresetSmoke(){
         synth->loadBankPreset(menu->getItemId(middle)-1);const auto reorderedNext=menuKey(middle+1);
         next->onClick();if(synth->selectedPresetKey()!=reorderedNext)return 234;
         if(synth->saveNewPreset("Navigation User Preset").failed())return 235;
-        const auto userKey=synth->selectedPresetKey();next->onClick();if(synth->selectedPresetKey()!="F1000")return 236;
+        const auto userKey=synth->selectedPresetKey();next->onClick();if(synth->selectedPresetKey()!=bank.entries().front().key)return 236;
         previous->onClick();if(synth->selectedPresetKey()!=userKey)return 237;
         editor.reset();editor.reset(synth->createEditor());controls();
-        if(!next)return 238;next->onClick();if(synth->selectedPresetKey()!="F1000")return 239;
+        if(!next)return 238;next->onClick();if(synth->selectedPresetKey()!=bank.entries().front().key)return 239;
     }
     other.reset();synth.reset();folder.deleteRecursively();
     std::cout<<"Preset save/load/replace/rename/delete/order/restore, cross-instance conflict and analogue recall passed\n";

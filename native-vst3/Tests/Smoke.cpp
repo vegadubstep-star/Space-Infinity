@@ -112,6 +112,8 @@ int renderHardwarePreview()
     return 0;
 }
 
+int runSamplerHybridSmoke();
+int runBundled093Probe(const juce::File&);
 int main(int argc,char* argv[])
 {
     if(argc>2&&juce::String(argv[1])=="--bank-zip-tests"){juce::ScopedJuceInitialiser_GUI init;return runBankZipSmoke(juce::File(argv[2]));}
@@ -119,6 +121,8 @@ int main(int argc,char* argv[])
     juce::ScopedJuceInitialiser_GUI gui;
     if(argc>2&&juce::String(argv[1])=="--bass-range-profile")return exportBassRangeProfile(juce::File(argv[2]));
     if(argc>2&&juce::String(argv[1])=="--lush-bank-tests")return runLushBankSmoke(juce::File(argv[2]));
+    if(argc>2&&juce::String(argv[1])=="--bundled093-probe")return runBundled093Probe(juce::File(argv[2]));
+    if(argc>1&&juce::String(argv[1])=="--sampler-hybrid-tests")return runSamplerHybridSmoke();
     if(argc>1&&juce::String(argv[1])=="--sound-character-tests")return runSoundCharacterSmoke();
     if(argc>1&&juce::String(argv[1])=="--bass-tests")return runBassSmoke();
     if(argc>3&&juce::String(argv[1])=="--bass-audition")return exportBassAuditions(juce::File(argv[2]),juce::File(argv[3]));
@@ -174,7 +178,7 @@ int main(int argc,char* argv[])
         if(child->getName()=="Next preset") next=dynamic_cast<juce::TextButton*>(child);
     }
     if(!previous || !next) return 22;
-    // Wrap in the order visible in the category-grouped selector.
+    // Wrap in the order visible in the saved-order selector.
     const int lastDisplayedId=factoryMenu->getItemId(factoryMenu->getNumItems()-1);
     if(synth.loadBankPreset(lastDisplayedId-1).failed())return 23;
     next->onClick();

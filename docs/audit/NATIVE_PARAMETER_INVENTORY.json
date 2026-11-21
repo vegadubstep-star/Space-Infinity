@@ -1,8 +1,8 @@
 {
-  "native_version": "0.9.2",
+  "native_version": "0.9.3",
   "manual_reference": "https://xferrecords.com/manual/serum-2/docs",
   "notes": "Host defaults preserve omitted-field legacy recall. Init values reflect a fresh Init preset. Ranges are native parameter units; UI formatting may apply units and scaling.",
-  "parameter_count": 1223,
+  "parameter_count": 1227,
   "parameters": [
     {
       "id": "cutoff",
@@ -12419,6 +12419,42 @@
         "Comb -",
         "LP / BP / HP morph"
       ]
+    },
+    {
+      "id": "sampleOscEnabled",
+      "name": "Sample oscillator layer",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "sampleStereo",
+      "name": "Preserve imported stereo",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "sampleFidelity",
+      "name": "Full-range sample playback",
+      "type": "boolean",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "host_default": 0.0,
+      "init_value": 0.0
+    },
+    {
+      "id": "sampleGain",
+      "name": "Sample gain",
+      "type": "float",
+      "minimum": -60.0,
+      "maximum": 12.0,
+      "host_default": 0.0,
+      "init_value": 0.0
     }
   ]
 }

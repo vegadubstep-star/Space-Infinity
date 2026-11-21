@@ -1,21 +1,23 @@
-# Installing and testing SPACE INFINITY 0.9.2
+# Installing and testing SPACE INFINITY 0.9.3
 
 Close FL Studio and other plug-in hosts. Right-click the installer ZIP, choose
-Extract All, then run SPACE_INFINITY_0.9.2_Windows_x64_Setup.exe from the extracted
+Extract All, then run SPACE_INFINITY_0.9.3_Windows_x64_Setup.exe from the extracted
 folder. Reopen FL Studio and load a fresh SPACE INFINITY instance. The plug-in
 identity and user preset storage are preserved.
 
 ## Preset browsing, sample glide and edit panels
 
 Click a sound once in BANK to load it. The header arrows move to the adjacent
-sound in the same grouped order shown in the preset selector, starting from the
+sound in the saved/manual order shown in the preset selector, starting from the
 last loaded sound (including project recall). Search/tag changes alone do not
 change the loaded sound.
 
 On a sample, adjusting PORTAMENTO from Poly selects Mono. Mono glides between
 separated notes as well as overlaps; Legato glides only on overlapping notes.
 Zero portamento gives an immediate pitch change. Prepare/host reset, preset
-loads and All Notes Off clear the remembered pitch. No sample loop is forced:
+loads and All Notes Off clear the remembered pitch. A pause of at least 250 ms
+(or twice the chosen glide time) clears it too. The displayed time is the full
+glide duration; use Shift for fine adjustment and double-click to type ms. No sample loop is forced:
 enable Loop yourself if a short one-shot needs to sustain.
 
 Open granular EDIT, then BANK, the preset dropdown, or another page. The edit
@@ -33,18 +35,34 @@ reduce, with measured compensation. On acids try SWEEP, LIQUID and CORROSION;
 overlapping MIDI notes slide, separated notes retrigger the filter contour.
 Rolling basses follow your MIDI and do not generate their own pattern.
 
-## Load the additional banks
+## Included banks and new samples
 
-In SPACE INFINITY open BANK / the preset manager, choose IMPORT, and select
-SPACE_INFINITY_Lush_Trance_20.zip from the extracted installer folder. Leave this
-inner ZIP compressed. Browse Lead or the Lush Trance 20 / Lush 20 tags for the new
-20 sounds. Their OPEN, BODY and HORIZON macros are already assigned.
+Heritage 200, Lush Trance 20 and the new 48-sound Orbit Voices bank install into
+the preset library automatically on first load. No manual import is needed.
+Their ZIPs remain in the installer folder as portable backups:
+SPACE_INFINITY_Heritage_200.zip, SPACE_INFINITY_Lush_Trance_20.zip and
+SPACE_INFINITY_Orbit_Voices.zip. Edited local versions are preserved.
 
-Heritage 200 is also included as a separate import ZIP. Import it the same way if
-you have not already done so. The 160 factory sounds remain available; seven
-previously quiet uplifting leads now have stronger starting levels and better
-macro gain balance. Locally replaced/edited presets retain your changes, so
-choose the factory version when comparing the revised leads.
+Orbit Voices contains 12 choir variations, 21 leads and 15 basses made from the
+40 uploaded WAVs, with INFINITY filenames, root pitches and OPEN/SPACE/BODY
+macros. Seven measured near-duplicate Heritage variants are hidden from the
+standard list; SPACE_INFINITY_Retired_093_Backup.zip restores them as a separate
+optional bank. Existing projects still recall their original sound.
+
+In BANK, select or move sounds into the order you want. Header arrows follow
+that saved order, starting at the last selected preset. A–Z sorts only when you
+choose it; selecting a sound does not sort the bank.
+
+Use IMPORT CLEAN to hear an external sample with its stereo image and bass
+preserved, without the previous preset's filter, effects or gain settings.
+It resets the current patch to a clean sampled instrument. Save work first.
+For original playback use the sample's root note at full velocity. Output safety
+can reduce peaks above its ceiling; avoid clipped source audio.
+
+Enable + OSC B beside the sample to add a complete oscillator layer. Its octave,
+fine pitch, wavetable, unison, detune, warp, phase, pan, gain and filter routing
+are available on the right. GRAINS keeps the granular controls accessible.
+The independent SAMPLE GAIN changes the sample without changing oscillator B.
 
 ## Try the new controls
 
@@ -56,7 +74,7 @@ choose the factory version when comparing the revised leads.
   DIFFUSE softens the texture; WARMTH darkens it. FREEZE holds the grain centre;
   keep Loop enabled to sustain a one-shot sample.
 - The octave fields above the sampled source and live display now adjust sampler
-  pitch and the granular layer respectively. The granular octave is relative to
+  pitch and the granular layer respectively (oscillator B when + OSC B is on). The granular octave is relative to
   sampler octave; Master Octave and the pitch wheel still apply globally.
 - LIFE adds independent pitch/timbre variation without an amplitude LFO.
 - A > B: enable both oscillators, open A > B, choose direction, raise Amount to

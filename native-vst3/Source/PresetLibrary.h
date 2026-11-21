@@ -19,13 +19,44 @@ public:
         if(c.contains("choir")||c=="voices")return "Choir & Voices";
         return category;
     }
+    static juce::String processLockName(const juce::File& folder,const juce::String& kind){
+       #if JUCE_WINDOWS
+        return "SpaceInfinity"+kind+juce::String(folder.getFullPathName().hashCode64());
+       #else
+        // JUCE otherwise tries /var/tmp, which may be read-only in a sandbox.
+        return folder.getChildFile(".infinity-"+kind+".lock").getFullPathName();
+       #endif
+    }
+    static juce::Result prepareProcessLock(const juce::File& folder,const juce::String& kind){
+        auto r=folder.createDirectory();if(r.failed())return r;
+       #if !JUCE_WINDOWS
+        return juce::File(processLockName(folder,kind)).create();
+       #else
+        return juce::Result::ok();
+       #endif
+    }
     struct Entry {juce::String key,name,category,file;int factory=-1;juce::String creator,tags;bool detailsEdited=false;};
     PresetLibrary(juce::StringArray names,juce::StringArray categories,const juce::File& requested={},int retiredFactoryId=-1,int firstFactoryId=0,juce::StringArray creators={},juce::StringArray tags={})
         :factoryNames(std::move(names)),factoryCategories(std::move(categories)),retiredFactory(retiredFactoryId),firstFactory(firstFactoryId),factoryCreators(std::move(creators)),factoryTags(std::move(tags)),
          directory(requested==juce::File{}?juce::File::getSpecialLocation(juce::File::userApplicationDataDirectory).getChildFile("Orbital Audio/Space Infinity/Presets"):requested),
-         lock("SpaceInfinityBank"+juce::String(directory.getFullPathName().hashCode64())) {reload();}
+         lock(processLockName(directory,"Bank")) {reload();}
     const std::vector<Entry>& entries() const noexcept {return bank;}
     juce::File folder() const {return directory;}
+    void setCuration(const juce::var& plan){retirements=plan["retired"];applyCuration();}
+    juce::Result ensureBundled(const juce::String& id,const void* data,size_t bytes){
+        auto prepared=prepareProcessLock(directory,"Bundle");if(prepared.failed())return prepared;
+        juce::InterProcessLock bootstrap(processLockName(directory,"Bundle"));
+        if(!bootstrap.enter(5000))return juce::Result::fail("Another instance is installing the bundled banks. Reopen BANK to retry.");
+        const auto result=[&]()->juce::Result{
+            const auto hash=juce::SHA256(data,bytes).toHexString();const auto marker=directory.getChildFile("bundled_"+id+".sha256");
+            if(manifest().existsAsFile()&&marker.loadFileAsString().trim()==hash)return reload();
+            auto r=directory.createDirectory();if(r.failed())return r;r=reload();if(r.failed())return r;
+            juce::TemporaryFile archive(directory.getNonexistentChildFile("bundled_"+id,".zip"));
+            if(!archive.getFile().replaceWithData(data,bytes))return juce::Result::fail("Cannot stage bundled presets.");
+            int count=0;r=importBank(archive.getFile(),count);if(r.failed())return r;
+            return marker.replaceWithText(hash)?juce::Result::ok():juce::Result::fail("Cannot record bundled-bank installation.");
+        }();bootstrap.exit();return result;
+    }
     int indexForKey(const juce::String& key) const {for(size_t i=0;i<bank.size();++i)if(bank[i].key==key)return int(i);return -1;}
     juce::String keyForFactory(int index) const {return "F"+juce::String(factoryId(index));}
     juce::Result reload(){
@@ -63,6 +94,7 @@ public:
                 for(int i=factoryNames.size()-1;i>=0;--i)
                     if(indexForKey(keyForFactory(i))<0)bank.insert(bank.begin(),{keyForFactory(i),factoryNames[i],factoryCategories[i],{},i,creatorFor(i),tagsFor(i)});
         }else defaults();
+        applyCuration();
         return juce::Result::ok();
     }
     juce::Result read(int index,juce::MemoryBlock& bytes) const {
@@ -101,7 +133,7 @@ public:
             for(int i=0;i<3;++i)if(!wanted[i].containsOnly("0123456789")||wanted[i].isEmpty()||wanted[i].length()>6)return juce::Result::fail("Invalid bank minimum version.");
             for(int i=0;i<3;++i){if(wanted[i].getIntValue()>current[i].getIntValue())return juce::Result::fail("This bank needs SPACE INFINITY "+minimum+" or later. Update the plug-in first.");if(wanted[i].getIntValue()<current[i].getIntValue())break;}
         }
-        struct Pending {Entry entry;juce::MemoryBlock bytes;juce::String previousHash;};std::vector<Pending> pending;juce::StringArray seen;juce::int64 total=0;
+        struct Pending {Entry entry;juce::MemoryBlock bytes;juce::String previousHash;juce::var previousHashes;};std::vector<Pending> pending;juce::StringArray seen;juce::int64 total=0;
         for(const auto& row:*rows.getArray()){
             const auto path=row["file"].toString(),patchId=row["id"].toString();
             if(patchId.isEmpty()||patchId.length()>32||!patchId.containsOnly("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-")||seen.contains(patchId)||!path.endsWith(".sipreset")||path.startsWith("/")||path.contains("..")||path.contains("\\")||path.contains(":"))return juce::Result::fail("Invalid or duplicate preset path/ID.");
@@ -116,21 +148,23 @@ public:
             p.entry={"U"+filename.upToLastOccurrenceOf(".",false,false),cleanName(xml->getStringAttribute("presetDisplayName")),cleanName(row["category"].toString()).substring(0,40),filename,-1,cleanName(xml->getStringAttribute("creator")),xml->getStringAttribute("tags").substring(0,512)};
             if(p.entry.name.isEmpty())return juce::Result::fail("Bank contains an unnamed preset.");
             if(p.entry.category.isEmpty())p.entry.category="User";
-            p.previousHash=row["previous_sha256"].toString();pending.push_back(std::move(p));
+            p.previousHash=row["previous_sha256"].toString();p.previousHashes=row["previous_sha256s"];pending.push_back(std::move(p));
         }
         juce::Array<juce::File> created;
         struct Replaced {juce::File file;juce::MemoryBlock bytes;};std::vector<Replaced> replaced;
         const auto result=mutate([&]{for(auto& p:pending){
+            if(isRetired(p.entry))continue;
             const int existing=indexForKey(p.entry.key);
             if(existing>=0){
                 const auto& old=bank[size_t(existing)];const auto target=directory.getChildFile(old.file);
-                if(old.detailsEdited||p.previousHash.length()!=64||!target.existsAsFile()||juce::SHA256(target).toHexString()!=p.previousHash)continue;
+                if(old.detailsEdited||!target.existsAsFile())continue;const auto currentHash=juce::SHA256(target).toHexString();bool shipped=currentHash==p.previousHash&&p.previousHash.length()==64;if(const auto* history=p.previousHashes.getArray())for(const auto& hash:*history)if(hash.toString().length()==64&&hash.toString()==currentHash)shipped=true;
+                if(old.detailsEdited||!target.existsAsFile()||!shipped)continue;
                 Replaced backup{target,{}};if(!target.loadFileAsData(backup.bytes))return juce::Result::fail("Cannot back up the previous bank sound.");
                 const auto backups=directory.getChildFile("Backups");if(backups.createDirectory().failed()||!target.copyFileTo(backups.getNonexistentChildFile(target.getFileNameWithoutExtension(),".sipreset")))return juce::Result::fail("Cannot retain the previous bank version.");
                 replaced.push_back(std::move(backup));const auto written=writeBytes(target,p.bytes);if(written.failed())return written;
                 bank[size_t(existing)]=p.entry;++imported;continue;
             }
-            const auto target=directory.getChildFile(p.entry.file);if(target.existsAsFile())return juce::Result::fail("A bank file already exists outside the index. Refresh or restore it before importing.");const auto written=writeBytes(target,p.bytes);if(written.failed())return written;created.add(target);bank.push_back(p.entry);++imported;
+            const auto target=directory.getChildFile(p.entry.file);if(target.existsAsFile()){if(juce::SHA256(target).toHexString()==juce::SHA256(p.bytes).toHexString()){bank.push_back(p.entry);++imported;continue;}return juce::Result::fail("A bank file already exists outside the index. Refresh or restore it before importing.");}const auto written=writeBytes(target,p.bytes);if(written.failed())return written;created.add(target);bank.push_back(p.entry);++imported;
         }return juce::Result::ok();});
         if(result.failed()){for(const auto& target:created)target.deleteFile();bool restored=true;for(const auto& old:replaced)restored=writeBytes(old.file,old.bytes).wasOk()&&restored;imported=0;if(!restored)return juce::Result::fail("Bank update failed; restore the previous sounds from Backups.");}return result;
     }
@@ -165,7 +199,15 @@ public:
     juce::Result restoreFactory(){return mutate([&]{auto users=bank;defaults();for(const auto& e:users)if(e.factory<0)bank.push_back(e);return juce::Result::ok();});}
 private:
     juce::StringArray factoryNames,factoryCategories;int retiredFactory=-1,firstFactory=0;juce::StringArray factoryCreators,factoryTags;juce::File directory;juce::InterProcessLock lock;
-    std::vector<Entry> bank;juce::String snapshot;bool lastOperationRan=false;
+    std::vector<Entry> bank;juce::String snapshot;bool lastOperationRan=false;juce::var retirements;
+    bool isRetired(const Entry& e) const {
+        if(e.factory==0||e.detailsEdited)return false;
+        if(const auto* rows=retirements.getArray())for(const auto& row:*rows)if(row["key"].toString()==e.key&&row["name"].toString()==e.name){
+            if(e.factory>0)return e.file.isEmpty();
+            const auto hash=row["sha256"].toString();return hash.length()==64&&directory.getChildFile(e.file).existsAsFile()&&juce::SHA256(directory.getChildFile(e.file)).toHexString()==hash;
+        }return false;
+    }
+    void applyCuration(){bank.erase(std::remove_if(bank.begin(),bank.end(),[this](const Entry& e){return isRetired(e);}),bank.end());}
     bool valid(int index) const {return index>=0&&index<int(bank.size());}
     juce::File manifest() const {return directory.getChildFile("bank.xml");}
     static juce::String cleanName(juce::String name){return name.trim().replaceCharacters("\r\n\t","   ").substring(0,64);}
@@ -185,6 +227,7 @@ private:
         if(current!=snapshot)return juce::Result::fail("Preset bank changed in another instance. Press Refresh and try again.");
         const auto previous=bank;lastOperationRan=true;auto result=operation();
         if(result.failed()){bank=previous;return result;}
+        applyCuration();
         juce::XmlElement xml("SPACE_INFINITY_BANK");xml.setAttribute("revision",juce::Uuid().toString());xml.setAttribute("firstFactory",firstFactory);xml.setAttribute("factoryCount",factoryNames.size());
         for(const auto& e:bank){auto* node=xml.createNewChildElement("PRESET");node->setAttribute("key",e.key);node->setAttribute("name",e.name);node->setAttribute("category",e.category);node->setAttribute("file",e.file);node->setAttribute("creator",e.creator);node->setAttribute("tags",e.tags);node->setAttribute("detailsEdited",e.detailsEdited);node->setAttribute("factory",e.factory>=0?factoryId(e.factory):-1);}
         const auto text=xml.toString();juce::TemporaryFile temp(manifest());

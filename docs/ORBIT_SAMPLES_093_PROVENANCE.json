@@ -1,0 +1,284 @@
+{
+  "samples": [
+    {
+      "original": "ORBITAL CHOIR 11.wav",
+      "file": "Infinity_Astral_Chorus.wav",
+      "sha256": "d074c80f1bd1595d7f93350279001f35ade22b790ef74b7441894a64b7df1b5b",
+      "root_midi": 60,
+      "source": "Owner upload"
+    },
+    {
+      "original": "ORBITAL CHOIR 2.wav",
+      "file": "Infinity_Stellar_Sanctum.wav",
+      "sha256": "c9c34cd884ada2a268f6262b4a19abed7e857971f2a72e098e91e09d4370ce89",
+      "root_midi": 72,
+      "source": "Owner upload"
+    },
+    {
+      "original": "ORBITAL CHOIR 5.wav",
+      "file": "Infinity_Celestial_Oath.wav",
+      "sha256": "a8569906bc1869f0c4d75dc2f1e5d7584772a5fe7b96e0a18aedac59979097ed",
+      "root_midi": 48,
+      "source": "Owner upload"
+    },
+    {
+      "original": "ORBITAL CHOIR 9.wav",
+      "file": "Infinity_Nebula_Voices.wav",
+      "sha256": "50300c0df9c6ccb5a5bdde4efb7aa2afacb020887eb69f2cacb9fd82b5bdafad",
+      "root_midi": 60,
+      "source": "Owner upload"
+    },
+    {
+      "original": "OTHTS1_Lead_09.wav",
+      "file": "Infinity_Ion_Lance.wav",
+      "sha256": "47f514af661da62839ab34b34d4d87139aa17fa5de7437a19084bf9db92c95db",
+      "root_midi": 48,
+      "source": "Owner upload"
+    },
+    {
+      "original": "OTHTS1_Lead_22.wav",
+      "file": "Infinity_Photon_Crest.wav",
+      "sha256": "82dc85a71f2c4ca9fbe4f8d05bddf337f3db095245f406227f7ae6550242868d",
+      "root_midi": 60,
+      "source": "Owner upload"
+    },
+    {
+      "original": "OTHTS1_Lead_26.wav",
+      "file": "Infinity_Reactor_Edge.wav",
+      "sha256": "d56bef3b87760d0a2015a4b27d9d23996d09e3d558ea688e6e45c79252489693",
+      "root_midi": 48,
+      "source": "Owner upload"
+    },
+    {
+      "original": "OTHTS1_Lead_27.wav",
+      "file": "Infinity_Quantum_Blade.wav",
+      "sha256": "850fe78fc30ef7d22579bdf4ecb60586c42659af07a2fe720592681836449c1b",
+      "root_midi": 48,
+      "source": "Owner upload"
+    },
+    {
+      "original": "OTHTS1_Lead_15.wav",
+      "file": "Infinity_Solar_Needle.wav",
+      "sha256": "087038e0d8c728aef34e5956ad4f02ce372e5eade6516dc91c0919a4d711b1b6",
+      "root_midi": 72,
+      "source": "Owner upload"
+    },
+    {
+      "original": "JP8000 LEAD 2 C4.wav",
+      "file": "Infinity_Zenith_Current.wav",
+      "sha256": "05efeb26b29f551ec0f30b451a7b8394ff301c9717756a388c2d79429012653f",
+      "root_midi": 60,
+      "source": "Owner upload"
+    },
+    {
+      "original": "JP8000 LEAD 10 C2.wav",
+      "file": "Infinity_Prism_Engine.wav",
+      "sha256": "2d7fff354f1c4533f6562dd581bbe4fc694ab553ecfee25f6faf7e15ee85d68f",
+      "root_midi": 60,
+      "source": "Owner upload"
+    },
+    {
+      "original": "JP8000 LEAD 13 C4.wav",
+      "file": "Infinity_Velocity_Arc.wav",
+      "sha256": "42a4816903cbdbf120c5e38bd74a21f294794a1389863eefc85d65840b03ab07",
+      "root_midi": 48,
+      "source": "Owner upload"
+    },
+    {
+      "original": "JP8000 LEAD 23 C3.wav",
+      "file": "Infinity_Gravity_Pulse.wav",
+      "sha256": "89e926e8bfd6254067b26df1124d7bd52f638525f2e0f227595e5741844b6221",
+      "root_midi": 36,
+      "source": "Owner upload"
+    },
+    {
+      "original": "JP8000 LEAD 36 C2.wav",
+      "file": "Infinity_Event_Horizon.wav",
+      "sha256": "8ce3676883c1a920ca640978aed25f55affa97bee157e0b6abe50444f877c3a5",
+      "root_midi": 48,
+      "source": "Owner upload"
+    },
+    {
+      "original": "JP8000 LEAD 40 C5.wav",
+      "file": "Infinity_Aurora_Beam.wav",
+      "sha256": "18a0b14f6bc12bc257f7203c9486959d00121ed4278e4df66e3884069dbcf81f",
+      "root_midi": 60,
+      "source": "Owner upload"
+    },
+    {
+      "original": "JPGT2 - Lead 13.wav",
+      "file": "Infinity_Starlight_Alloy.wav",
+      "sha256": "7b5650827e7582967ecc873b28993403fc0450a7f085bcab1df5d6c8f9e84747",
+      "root_midi": 60,
+      "source": "Owner upload"
+    },
+    {
+      "original": "Kore Lead_24.wav",
+      "file": "Infinity_Violet_Core.wav",
+      "sha256": "f56fef7026930e24bc3ef04e5f6335429b0a9726a794ea200555926bdb808c9c",
+      "root_midi": 60,
+      "source": "Owner upload"
+    },
+    {
+      "original": "Lead 01.wav",
+      "file": "Infinity_Infinity_Signal.wav",
+      "sha256": "d97e1a016d583f3ee82e875477a1589e9b220c0867f4ee4ee243cd93962a934c",
+      "root_midi": 60,
+      "source": "Owner upload"
+    },
+    {
+      "original": "lead 5.wav",
+      "file": "Infinity_Spectral_Flare.wav",
+      "sha256": "51a5262ec399bef0d91a865836b96d2749b361e0fc0a90987b4707676044a392",
+      "root_midi": 76,
+      "source": "Owner upload"
+    },
+    {
+      "original": "lead 13.wav",
+      "file": "Infinity_Orbital_Vector.wav",
+      "sha256": "282f3c46ebd7a14fea961dd54d8a810bedd609bc22753625501904fc452afe56",
+      "root_midi": 45,
+      "source": "Owner upload"
+    },
+    {
+      "original": "Stickz - Chroma Synth One Shot 184 - C.wav",
+      "file": "Infinity_Chromatic_Orbit.wav",
+      "sha256": "14ba947c6c898e69ff736c1c3726e58000cf7df2f4cf20ec563bb02dbac69329",
+      "root_midi": 60,
+      "source": "Owner upload"
+    },
+    {
+      "original": "JP 8000 SYNTH 00 C5 (Drake Liddell Fav Preset).wav",
+      "file": "Infinity_Eclipse_Crown.wav",
+      "sha256": "b5d868206bd421afc95f536ae1498faa0b2e17c0395e0e3492b799db6df49ea6",
+      "root_midi": 60,
+      "source": "Owner upload"
+    },
+    {
+      "original": "VFX2 Oneshots 140.wav",
+      "file": "Infinity_Deep_Space_Relay.wav",
+      "sha256": "eabbade9804cf3aaa70f4bc88bee5b9eb009da09e26457d345a88a7c34146596",
+      "root_midi": 40,
+      "source": "Owner upload"
+    },
+    {
+      "original": "VTDS1 Synth Oneshots 102 C.wav",
+      "file": "Infinity_Pulse_Meridian.wav",
+      "sha256": "565ee369b3359184b1570fdab29b66c945eae4695fe5e163fdda4a5a8acdef2a",
+      "root_midi": 29,
+      "source": "Owner upload"
+    },
+    {
+      "original": "Stickz - Smile Synth Shot 106 - C.wav",
+      "file": "Infinity_Radiant_Flight.wav",
+      "sha256": "763da864b694889d758ca4e2f8e4e12b401434aff142b4e47693379a57a30795",
+      "root_midi": 24,
+      "source": "Owner upload"
+    },
+    {
+      "original": "bass 18.wav",
+      "file": "Infinity_Dark_Matter.wav",
+      "sha256": "80c52e0bc6aaae697c42ffc79e03eba097491a238242bd0a06daecd42ae0838f",
+      "root_midi": 36,
+      "source": "Owner upload"
+    },
+    {
+      "original": "bass 28.wav",
+      "file": "Infinity_Sub_Reactor.wav",
+      "sha256": "17b7d1086864075ec4afb16c2483dded7627fec17e843d0ec7e8b1433aa2ee33",
+      "root_midi": 33,
+      "source": "Owner upload"
+    },
+    {
+      "original": "bass 30.wav",
+      "file": "Infinity_Gravity_Well.wav",
+      "sha256": "ef6806305ba1b284a710a4e59dfa1fe5cbb3f7a8fb4f30de849f7cf4121f636d",
+      "root_midi": 33,
+      "source": "Owner upload"
+    },
+    {
+      "original": "OTHTS1_Stab_10.wav",
+      "file": "Infinity_Ion_Impact.wav",
+      "sha256": "dbb6e3c6b5e580a55ee9d456c9b0127a19b13e63c483d354efd7f73921ba9ee4",
+      "root_midi": 36,
+      "source": "Owner upload"
+    },
+    {
+      "original": "OTHTS1_Bass_03.wav",
+      "file": "Infinity_Void_Anchor.wav",
+      "sha256": "fd8b25fcef6c5da75b046cd5a630b3c76ce017387cbb665d8b1817757376d704",
+      "root_midi": 24,
+      "source": "Owner upload"
+    },
+    {
+      "original": "OTHTS1_Bass_28.wav",
+      "file": "Infinity_Plasma_Roller.wav",
+      "sha256": "3f99c395a9eab2a78e6420fdefc99dc9a12517b439198ae49b0cd10ccf081b9e",
+      "root_midi": 36,
+      "source": "Owner upload"
+    },
+    {
+      "original": "OTHTS1_Bass_30.wav",
+      "file": "Infinity_Quantum_Engine.wav",
+      "sha256": "4adf67a16788900306b54e70d44feb12ba374abcbfa6ee381bcd3e5701040d48",
+      "root_midi": 36,
+      "source": "Owner upload"
+    },
+    {
+      "original": "Kore Bass_10.wav",
+      "file": "Infinity_Magnetic_Knock.wav",
+      "sha256": "0bdd63cf7e8e3f88eb200ad1b3812914e3a75dc52e2ff2272e1f2ad0e5410d2a",
+      "root_midi": 36,
+      "source": "Owner upload"
+    },
+    {
+      "original": "Kore Bass_25.wav",
+      "file": "Infinity_Low_Orbit.wav",
+      "sha256": "66ddf754f0de2057b725509fd9bdbb5eb8d22fdfb901147ef6706b0cfeea995a",
+      "root_midi": 29,
+      "source": "Owner upload"
+    },
+    {
+      "original": "Kore Bass_27.wav",
+      "file": "Infinity_Reactor_Coil.wav",
+      "sha256": "82abcd5fa0b93707450a389d06c9a1a2f984632c6c253df74e554c9a851771f7",
+      "root_midi": 38,
+      "source": "Owner upload"
+    },
+    {
+      "original": "VEC3 Bass C 026.wav",
+      "file": "Infinity_Proton_Punch.wav",
+      "sha256": "82bd53f44f00a7954fdfef540ef8049e5a004a43d80f08da84160a4855a46be2",
+      "root_midi": 36,
+      "source": "Owner upload"
+    },
+    {
+      "original": "VEC3 Bass C 039.wav",
+      "file": "Infinity_Metallic_Undertow.wav",
+      "sha256": "634fb0e604760ec4443bd37445ccf4258d7e879e275ae4c9b62cbd6408c03583",
+      "root_midi": 36,
+      "source": "Owner upload"
+    },
+    {
+      "original": "VEC3 Bass C 065.wav",
+      "file": "Infinity_Violet_Pressure.wav",
+      "sha256": "9bfa1db171c7fc376912613193f4b7df1cf2d3ce3fcc59d1ee0f3a0db4b8404a",
+      "root_midi": 36,
+      "source": "Owner upload"
+    },
+    {
+      "original": "VEC3 Bass C 177.wav",
+      "file": "Infinity_Blackstar_Sub.wav",
+      "sha256": "cd97aa3666b6b300ac01911b058e65a1358eec40040a259217fa9fe4558ae264",
+      "root_midi": 24,
+      "source": "Owner upload"
+    },
+    {
+      "original": "VEC3 Bass C 199.wav",
+      "file": "Infinity_Deep_Field.wav",
+      "sha256": "37d38c8ac19a1f7d8cbd1c9f66ed67c4caeb8c060e78e6f32e69889fd00d0dc8",
+      "root_midi": 36,
+      "source": "Owner upload"
+    }
+  ]
+}

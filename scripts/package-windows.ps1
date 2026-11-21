@@ -31,10 +31,10 @@ New-Item -ItemType Directory -Path $release -Force | Out-Null
 $definition = Join-Path $ProjectRoot "installer\SpaceInfinity.iss"
 & $InnoCompiler "/DVst3Bundle=$bundle" "/DReleaseDir=$release" $definition
 if ($LASTEXITCODE -ne 0) { throw "Inno Setup compilation failed." }
-$setup = Join-Path $release "SPACE_INFINITY_0.9.2_Windows_x64_Setup.exe"
+$setup = Join-Path $release "SPACE_INFINITY_0.9.3_Windows_x64_Setup.exe"
 if (-not (Test-Path -LiteralPath $setup -PathType Leaf)) { throw "Installer output is missing." }
 
-$archive = Join-Path $release "SPACE_INFINITY_0.9.2_Windows_x64_VST3.zip"
+$archive = Join-Path $release "SPACE_INFINITY_0.9.3_Windows_x64_VST3.zip"
 Compress-Archive -LiteralPath $bundle -DestinationPath $archive -Force
 Get-FileHash -Algorithm SHA256 -LiteralPath $setup,$archive
 
@@ -62,7 +62,7 @@ $choirFolder = Join-Path $release "ChoirStabs"
 $smoke = Join-Path $ProjectRoot "native-vst3/build/SpaceInfinitySmoke_artefacts/Release/SpaceInfinitySmoke.exe"
 & $smoke --export-choir-stabs $choirFolder
 if ($LASTEXITCODE -ne 0) { throw "Owner choir preset export failed." }
-& python (Join-Path $PSScriptRoot "package-choir-stabs.py") $choirFolder "0.9.2" (Join-Path $release "SPACE_INFINITY_0.9.2_Choir_Stabs.zip")
+& python (Join-Path $PSScriptRoot "package-choir-stabs.py") $choirFolder "0.9.3" (Join-Path $release "SPACE_INFINITY_0.9.3_Choir_Stabs.zip")
 if ($LASTEXITCODE -ne 0) { throw "Owner choir pack verification failed." }
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Samples/Trance/USER_CHOIR_PROVENANCE.json") -Destination (Join-Path $release "USER_CHOIR_PROVENANCE.json") -Force
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/ACID_BASS_AND_CHOIR_UPDATE.md") -Destination $release -Force
@@ -108,4 +108,11 @@ foreach ($audit in @("STUDIO_RESEARCH_091_NATIVE_TESTS.txt", "STUDIO_RESEARCH_09
 
 foreach ($file in @("BROWSING_SAMPLE_GLIDE_092_UPDATE.md", "audit/BROWSING_SAMPLE_GLIDE_092_NATIVE_TESTS.txt")) {
     Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/$file") -Destination (Join-Path $release $file) -Force
+}
+
+foreach ($file in @("SAMPLER_FULL_RANGE_093_UPDATE.md", "ORBIT_SAMPLES_093_PROVENANCE.json", "audit/SAMPLER_FULL_RANGE_093_NATIVE_TESTS.txt", "audit/SAMPLER_FULL_RANGE_093_AUDIO_LEVELS.json", "audit/SAMPLER_FULL_RANGE_093_CURATION.json")) {
+    Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/$file") -Destination (Join-Path $release $file) -Force
+}
+foreach ($file in @("SPACE_INFINITY_Orbit_Voices.zip", "SPACE_INFINITY_Orbit_Voices.zip.sha256", "SPACE_INFINITY_Retired_093_Backup.zip")) {
+    Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Presets/UserVoices093/$file") -Destination $release -Force
 }

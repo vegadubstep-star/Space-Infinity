@@ -1,4 +1,5 @@
 #pragma once
+#include "PopupScope.h"
 #include <JuceHeader.h>
 #include <cmath>
 
@@ -232,6 +233,7 @@ public:
         g.setColour(juce::Colour(0xffc2b58f));g.strokePath(chevron,juce::PathStrokeType(1));
     }
 
+    juce::PopupMenu::Options getOptionsForComboBoxPopupMenu(juce::ComboBox& box,juce::Label& label) override {if(auto* host=popupHostFor(&box))host->dismissPopupsFor(&box);return juce::LookAndFeel_V4::getOptionsForComboBoxPopupMenu(box,label);}
     juce::Font getComboBoxFont(juce::ComboBox& box) override {return juce::Font(juce::FontOptions(box.getWidth()<60?10.0f:12.0f));}
     void positionComboBoxText(juce::ComboBox& box,juce::Label& label)override{label.setBounds(3,1,juce::jmax(1,box.getWidth()-24),box.getHeight()-2);label.setFont(getComboBoxFont(box));}
     juce::Font getTextButtonFont(juce::TextButton&,int h) override {return juce::Font(juce::FontOptions(juce::jmin(11.5f,float(h)*.45f),juce::Font::bold));}

@@ -46,6 +46,11 @@ if tuple(map(int, options.version.split('.'))) >= (0, 9, 1):
 if tuple(map(int, options.version.split('.'))) >= (0, 9, 2):
     files.extend(['BROWSING_SAMPLE_GLIDE_092_UPDATE.md',
                   'audit/BROWSING_SAMPLE_GLIDE_092_NATIVE_TESTS.txt'])
+if tuple(map(int, options.version.split('.'))) >= (0, 9, 3):
+    files.extend(['SAMPLER_FULL_RANGE_093_UPDATE.md', 'ORBIT_SAMPLES_093_PROVENANCE.json',
+                  'audit/SAMPLER_FULL_RANGE_093_NATIVE_TESTS.txt', 'audit/SAMPLER_FULL_RANGE_093_AUDIO_LEVELS.json',
+                  'audit/SAMPLER_FULL_RANGE_093_CURATION.json', 'SPACE_INFINITY_Orbit_Voices.zip',
+                  'SPACE_INFINITY_Orbit_Voices.zip.sha256', 'SPACE_INFINITY_Retired_093_Backup.zip'])
 for name in files:
     if not (root / name).is_file():
         raise SystemExit(f'Missing release file: {name}')

@@ -24,6 +24,11 @@ if tuple(map(int, version.split('.'))) >= (0, 9, 1):
                      'audit/STUDIO_RESEARCH_091_NATIVE_TESTS.txt'})
 if tuple(map(int, version.split('.'))) >= (0, 9, 2):
     required.update({'BROWSING_SAMPLE_GLIDE_092_UPDATE.md', 'audit/BROWSING_SAMPLE_GLIDE_092_NATIVE_TESTS.txt'})
+if tuple(map(int, version.split('.'))) >= (0, 9, 3):
+    required.update({'SAMPLER_FULL_RANGE_093_UPDATE.md', 'ORBIT_SAMPLES_093_PROVENANCE.json',
+                     'SPACE_INFINITY_Orbit_Voices.zip', 'SPACE_INFINITY_Orbit_Voices.zip.sha256',
+                     'SPACE_INFINITY_Retired_093_Backup.zip', 'audit/SAMPLER_FULL_RANGE_093_NATIVE_TESTS.txt',
+                     'audit/SAMPLER_FULL_RANGE_093_AUDIO_LEVELS.json', 'audit/SAMPLER_FULL_RANGE_093_CURATION.json'})
 with zipfile.ZipFile(archive) as outer:
     assert outer.testzip() is None
     assert {folder + name for name in required} <= set(outer.namelist()), 'Missing new bank, instructions or audit'
@@ -44,7 +49,7 @@ with zipfile.ZipFile(archive) as outer:
     assert audit['presets_measured'] == 27 and not audit['errors']
     assert audit['maximum_true_peak_dbfs'] <= -.29
     inventory = json.loads(outer.read(folder + 'audit/NATIVE_PARAMETER_INVENTORY.json'))
-    assert inventory['native_version'] == version and inventory['parameter_count'] == 1223
+    assert inventory['native_version'] == version and inventory['parameter_count'] == (1227 if tuple(map(int, version.split('.'))) >= (0, 9, 3) else 1223)
     parameters = {row['id']: row for row in inventory['parameters']}
     assert parameters['filterMode']['maximum'] == 6
     assert len(parameters['characterFilterMode']['choices']) == 9
@@ -71,7 +76,25 @@ with zipfile.ZipFile(archive) as outer:
         assert 'Research 091' in instructions
     if tuple(map(int, version.split('.'))) >= (0, 9, 2):
         current_tests = outer.read(folder + 'audit/BROWSING_SAMPLE_GLIDE_092_NATIVE_TESTS.txt').decode('utf-8-sig')
-        assert 'SPACE INFINITY ' + version in current_tests and '100% tests passed' in current_tests
+        assert 'SPACE INFINITY 0.9.2' in current_tests and '100% tests passed' in current_tests
         assert 'CTest exit code: 0' in current_tests
         assert 'Mono glides' in instructions
-print('Installer wrapper: current instructions, native banks/recipes, audio evidence, 1223 parameters and checksums passed')
+    if tuple(map(int, version.split('.'))) >= (0, 9, 3):
+        assert 'automatically' in instructions and 'saved/manual order' in instructions
+        native = outer.read(folder + 'audit/SAMPLER_FULL_RANGE_093_NATIVE_TESTS.txt').decode('utf-8-sig')
+        assert 'SPACE INFINITY 0.9.3' in native and '100% tests passed' in native and 'CTest exit code: 0' in native
+        data = outer.read(folder + 'SPACE_INFINITY_Orbit_Voices.zip')
+        assert hashlib.sha256(data).hexdigest() == outer.read(folder + 'SPACE_INFINITY_Orbit_Voices.zip.sha256').decode().split()[0]
+        with zipfile.ZipFile(io.BytesIO(data)) as inner:
+            assert inner.testzip() is None
+            manifest = json.loads(inner.read('Bank.json'))
+            assert len(manifest['presets']) == 48 and manifest['minimum_version'] == '0.9.3'
+            for preset in manifest['presets']:
+                assert hashlib.sha256(inner.read(preset['file'])).hexdigest() == preset['sha256']
+        levels = json.loads(outer.read(folder + 'audit/SAMPLER_FULL_RANGE_093_AUDIO_LEVELS.json'))
+        assert levels['presets_measured'] == 48 and not levels['errors']
+        assert levels['maximum_true_peak_dbfs'] < 0 and levels['maximum_pre_safety_peak'] <= .951
+        curation = json.loads(outer.read(folder + 'audit/SAMPLER_FULL_RANGE_093_CURATION.json'))
+        assert curation['existing_presets_measured'] == 380 and len(curation['retired']) >= 7
+        assert curation['backup_sha256'] == hashlib.sha256(outer.read(folder + 'SPACE_INFINITY_Retired_093_Backup.zip')).hexdigest()
+print('Installer wrapper: current instructions, banks, audio evidence, parameters and checksums passed')

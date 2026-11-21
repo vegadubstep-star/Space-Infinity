@@ -47,6 +47,8 @@ public:
     void loadPreset(int index);
     PresetLibrary& presetBank() noexcept {return *library;}
     juce::Result loadBankPreset(int index);
+    juce::Result ensureBundledPresets();
+    juce::String bundledPresetError;
     juce::Result saveNewPreset(const juce::String& name);
     juce::Result replaceBankPreset(int index);
     juce::Result exportPreset(const juce::File&,bool overwrite=false);
@@ -80,7 +82,7 @@ public:
     float lfoCurveValue(int lfo,double phase) const;
     float lfoDisplayPhase(int index) const noexcept {return displayedLfoPhase[size_t(index)].load();}
     static juce::String motionPointId(int index);
-    juce::Result importSample(const juce::File& file);
+    juce::Result importSample(const juce::File&,bool cleanStart=false);
     static juce::StringArray sourceNames();
     static const juce::StringArray& presetNames();
     static juce::String presetCategory(int index);
@@ -200,7 +202,7 @@ private:
     juce::SpinLock sampleLock;
     unsigned sampleRevision = 0;
     struct Voice {
-        infinity::Granulator granular;
+        infinity::Granulator granular,granularRight;
         infinity::SampleCloud cloud;infinity::SamplePolish samplePolish;
         infinity::Envelope filterEnvelope;
         AnalogueEnvelope curvedAmp,curvedFilter,pitchEnvelope;
@@ -209,8 +211,9 @@ private:
         float subEnvelope=0,lastL=0,lastR=0,tailL=0,tailR=0,smoothFc=0;int declickRemaining=0,declickLength=1,retireRemaining=0,retireLength=1;
         int source = 0,sampleZone=-1,sampleLoopStart=0;
         double samplePosition = 0, sampleStep = 0;
+        double glideStart=0,glideProgress=1;
         int sampleStart = 0, sampleEnd = 0;
-        bool sampleLoop = false;
+        bool sampleLoop = false,sampleFinished=false;
         float stereoSide=0.0f, noiseMemory=0.0f;
         float releaseStart=-1.0f;
         float dcInput[2]{},dcOutput[2]{};
@@ -263,7 +266,7 @@ private:
     std::array<HeldNote,16*128> heldNotes{};
     uint64_t noteOrder=0;
     bool monoGlideValid=false;
-    double monoGlidePitch=0;
+    double monoGlidePitch=0,monoGlideIdle=0;
     int monoGlideChannel=1,monoGlideSource=0;
     int voiceMode=0;
     void selectMonoNote(int source,int root,bool retrigger);

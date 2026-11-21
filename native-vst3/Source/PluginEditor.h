@@ -1,5 +1,6 @@
 #pragma once
 #include "PluginProcessor.h"
+#include "PopupScope.h"
 #include "HardwareTheme.h"
 #include "MainWorkbench.h"
 #include "RhythmPages.h"
@@ -13,11 +14,13 @@ public:
     std::function<void()> beforeOpen;
     void showPopup() override {if(beforeOpen)beforeOpen();juce::ComboBox::showPopup();}
 };
-class SpaceInfinityEditor : public juce::AudioProcessorEditor, public juce::DragAndDropContainer, public juce::DragAndDropTarget, private juce::Timer {
+class SpaceInfinityEditor : public juce::AudioProcessorEditor, public juce::DragAndDropContainer, public juce::DragAndDropTarget, private juce::Timer, public PopupHost {
 public:
     explicit SpaceInfinityEditor(SpaceInfinityProcessor&);
     ~SpaceInfinityEditor() override;
     void paint(juce::Graphics&) override;
+    void dismissPopupsFor(juce::Component*) override;
+    void visibilityChanged() override {if(!isShowing())closePopup();}
     void resized() override;
     bool isInterestedInDragSource(const juce::DragAndDropTarget::SourceDetails& d) override {return d.description.toString().startsWith("INFINITY:");}
     void itemDragMove(const juce::DragAndDropTarget::SourceDetails&) override;
@@ -49,8 +52,9 @@ private:
     std::unique_ptr<filterui::FilterDisplay> filterDisplay;
     std::array<std::unique_ptr<samplerui::Controls>,2> samplerControls;
     juce::TextButton lifeButton{"LIFE"},transitionButton{"A > B"};
-    bool sampledOctaveBindings=false;
+    bool sampledOctaveBindings=false,layerOctaveBindings=false;
     void updateSamplerOctaves();
+    void updateSourceControls();
     std::unique_ptr<rhythmui::GatePage> gatePage;
     std::unique_ptr<rhythmui::SequencerPage> sequencerPage;
     std::array<ModSourceButton,3> pageLfoSources;
@@ -83,7 +87,12 @@ private:
     juce::ComboBox waveform, waveform2, source, motionShape, motionBars;
     ModSlider motionDepth, noiseLevel, analogueCharacter;
     juce::Label analogueLabel,preDriveLabel,portamentoLabel;
-    ModSlider preDrive,portamento;
+    ModSlider preDrive,portamento,sampleGainKnob;
+    juce::Label sampleGainLabel;
+    juce::ToggleButton sampleOsc{"+ OSC B"};
+    juce::TextButton sampleGrains{"GRAINS"};
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> sampleGainBinding;
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> sampleOscBinding;
     juce::ComboBox analogueOn;
     juce::TextButton analogueLabButton{"LAB"},pitchSettings{"PITCH"};
     juce::ComboBox noiseType,noiseMode;
@@ -139,7 +148,7 @@ private:
     void updatePage();
     juce::TextButton eqButton{"EQ"};
     juce::TextButton previousPreset{"<"}, nextPreset{">"};
-    juce::TextButton importButton{"Import WAV"};
+    juce::TextButton importButton{"IMPORT CLEAN"};
     std::unique_ptr<juce::FileChooser> sampleChooser;
     juce::Label title, subtitle;
     std::array<ModSlider,17> knobs;
