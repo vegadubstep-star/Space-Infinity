@@ -1,56 +1,62 @@
-# SPACE INFINITY 0.9.2 — local fixes complete, Windows delivery pending
+# SPACE INFINITY 0.9.2 — completed and publicly verified
 
-Latest request: preset navigation continues from last clicked sound; portamento
-on samples; granular EDIT closes when opening preset/plugin selector.
+User requested preset arrows to continue from last clicked sound, sample
+portamento and granular EDIT dismissal on preset/plugin selection. All fixes,
+checks and public release verification are complete; delivery is ready.
 
-Implemented and verified locally:
-- BANK single-click loads the row; Return/double-click still work. Filtering alone
-  does not load a sound. Header arrows follow the category-grouped dropdown order
-  by current stable key, including recall/reorder/reopen and wraparound.
-- Mono glide memory survives note gaps and finished samples; resets on prepare,
-  preset load, mode changes and panic. MIDI channel/source guard prevents leakage.
-  Legato retains overlap-only glide. Sample PORTAMENTO adjustment from Poly
-  selects Mono automatically; oscillator workflow still selects Legato.
-- Granular, sample-loop and filter EDIT delegate popup ownership to the editor.
-  BANK replaces the panel; opening preset dropdown or changing pages dismisses it.
+Release: https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.9.2
+Installer: https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.9.2/SPACE_INFINITY_0.9.2_Windows_x64_Installer.zip
+Binary source: a107fd696c29b548da2573d63cb45a387699444a, branch codex/windows-build.
+Windows run44903124623, package job136843028697: success.
+ZIP SHA256: d8fc81def6d1bf6ecd914c0824112c752a98798df8a9deba3d2605fabf3769c6
+Setup SHA256: 57e0d0951bdf99c7615f433980906948f7c918cc5c126bf37db37c1664ad5f9f
+Manual VST3 ZIP SHA256: b261b10ed49824079ed49110aec5bc7d16a0376f3715043a0214c7c5cd1b5f2f
+Final docs-only commit records proof; binary source remains the feature SHA.
 
-CHECKS COMPLETE: all27 native tests PASS123.96s; focused3/3PASS4.75s. Native inventory
-exported0.9.2,1223parameters. Preset-edit Python test/PowerShell syntax/installer
-preflight pass; CRLF recipe hash accepted and missing/failed audit rejected.
-First full run26/27 had only outdated Smoke.cpp wrap expectation exit23 (raw bank
-last vs displayed last). Test updated to assert grouped menu wrap, then all27 pass.
-Native build complete; no active local builds/tests. Do not edit native source
-while any future compilation runs.
+## Fixes
 
-Factory recipes, Heritage200 and Lush20 ZIPs unchanged. Old091 sound reports are
-historical, retained separately; current092native report is required in installer.
-New notes docs/BROWSING_SAMPLE_GLIDE_092_UPDATE.md; testing guide current0.9.2.
-README intentionally still links verified0.9.1 until new public ZIP is verified.
+BANK single-click loads; Return/double-click supported. Filters alone do not
+change sound. Header arrows follow the displayed category-grouped order, keyed
+to the loaded sound, including project recall/reordering/reopen and wrapping.
 
-NEXT: commit explicit task files [skip ci], push codex/windows-build; dispatch
-space-infinity-windows.yml publish_release=true. Follow all Windows native and
-install/uninstall/ZIP/publish checks. Do not send a new download until independently
-verified. Prepared verifier:
-python /tmp/verify-space-infinity092-release.py SOURCE_SHA RUN_ID PACKAGE_JOB_ID
-It downloads PUBLIC ZIP/manual/checksums, tests contents/version/x64 PE/banks/source
-recipe hash. Output /workspace/work/release-verification/092/VERIFIED.json.
-After success capture Windows log to docs/audit/BROWSING_SAMPLE_GLIDE_092_WINDOWS_TESTS.txt,
-copy proof to BROWSING_SAMPLE_GLIDE_092_PUBLISHED_VERIFICATION.json, update README
-and handovers COMPLETE, docs-only commit [skip ci] and push, then deliver user ZIP.
-Temporary package fixture outside repo is NON-EXECUTABLE; never distribute it.
+Sample PORTAMENTO adjustment from Poly selects Mono. Mono glides across note gaps
+and finished samples, Legato only on overlaps. Remembered pitch clears on
+preparation, preset load, voice-mode change and panic; channel/source guards.
+No loop is forced. Oscillator UI retains automatic Legato selection from Poly.
 
-Workspace /workspace/work/native-design; JUCE /workspace/work/JUCE; CMake/CTest
-/workspace/work/build-tools/cmake/data/bin. Native test env DISPLAY=:99 and
-XDG_CACHE_HOME=/workspace/work/runtime-cache. Logs /tmp/space092-{native-final,
-focused,final-build}.log. Public verifier scripts under /tmp. Preflight helper
-/tmp/space092-preflight.py; output /workspace/work/preset-research091/packaging-preflight092.
-Owner untracked audition/ and __pycache__ must stay untracked. Generated helper
-executables /tmp/{RenderLush,RenderResearch,RenderFactory,BassProbe} were removed
-only to reclaim disk; source/evidence preserved. ~400MB free.
+Granular, sample-loop and filter EDIT use editor-owned popups. BANK replaces the
+panel; preset dropdown and page navigation close it. Editor destruction is safe.
 
-Previous verified0.9.1: binary source4f7ee13b6033d4d603014a02b19630425a36610a,
-Windows44897593118/job136826462106, docs-only closeout52881b4. All27 Windows tests
-PASS554.78s; public ZIP/manual x64/version/hashes and banks verified. Audit evidence
-under docs/audit/STUDIO_RESEARCH_091_*. Installer ZIP SHA c1f3d109c165f6af44941542db63e6f88e8b5cb4eca6725d79a66afac6f6c76c.
-Research/calibrated bank evidence /workspace/work/preset-research091 preserved.
-No subagents used. User authorization includes repository updates/build delivery.
+## Verification
+
+All27 native tests PASS123.96s, focused3/3PASS4.75s; all27 Windows tests PASS
+564.66s. Windows actual install/uninstall and installed/manual
+VST3 byte equality passed. Public ZIP/manual downloaded independently: hashes,
+CRC, Setup, x64 PE, module0.9.2, 1223parameter inventory, required docs/current
+native report and optional bank hashes/preset bytes passed. Factory160 recipes
+and optional Heritage200/Lush20 archives are unchanged from0.9.1. Earlier091
+audio evidence is explicitly historical; no new preset calibration claimed.
+
+Evidence: docs/audit/BROWSING_SAMPLE_GLIDE_092_{NATIVE_TESTS,WINDOWS_TESTS}.txt
+and BROWSING_SAMPLE_GLIDE_092_PUBLISHED_VERIFICATION.json. New notes and test guide:
+docs/BROWSING_SAMPLE_GLIDE_092_UPDATE.md and docs/TESTING_STUDIO_BUILD.md.
+
+The initial full run had26/27: Smoke.cpp still expected raw storage order at
+wraparound. Assertion now checks the selector's displayed last item; no sound
+or safety check weakened. Final full27native and Windows passes verify the fix.
+
+## Testing and workspace
+
+Close FL Studio, Extract All, run Setup, reopen a fresh instance. Click a middle
+preset, use arrows; test sampled glide in Mono/Legato; open granular EDIT then
+BANK/dropdown/FX and verify dismissal. Saved user sounds/replacements preserved.
+
+Checkout /workspace/work/native-design, JUCE /workspace/work/JUCE, tools
+/workspace/work/build-tools/cmake/data/bin. Native build native-vst3/build-linux;
+DISPLAY=:99 XDG_CACHE_HOME=/workspace/work/runtime-cache. No local builds/tests
+active. Public downloads/proof /workspace/work/release-verification/092.
+Temporary scripts /tmp/verify-space-infinity092-release.py and close-space092.py.
+Package-preflight092 fixture is NOT executable and must never be distributed.
+Preserve owner untracked audition/ and __pycache__ folders. Do not bulk-add them.
+Generated audio helper binaries removed for disk space; source/evidence retained.
+No subagents used. Future binary work needs a new version and full verification.

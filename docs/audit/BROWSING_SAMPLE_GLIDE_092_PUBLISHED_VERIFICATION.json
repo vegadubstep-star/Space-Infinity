@@ -1,0 +1,43 @@
+{
+  "version": "0.9.2",
+  "source_commit": "a107fd696c29b548da2573d63cb45a387699444a",
+  "workflow_run": 44903124623,
+  "workflow_job": 136843028697,
+  "release_url": "https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.9.2",
+  "installer_zip": "SPACE_INFINITY_0.9.2_Windows_x64_Installer.zip",
+  "installer_zip_sha256": "d8fc81def6d1bf6ecd914c0824112c752a98798df8a9deba3d2605fabf3769c6",
+  "setup_sha256": "57e0d0951bdf99c7615f433980906948f7c918cc5c126bf37db37c1664ad5f9f",
+  "manual_vst3_zip_sha256": "b261b10ed49824079ed49110aec5bc7d16a0376f3715043a0214c7c5cd1b5f2f",
+  "unchanged_optional_banks": {
+    "SPACE_INFINITY_Heritage_200.zip": "43985d0daa8f43abd36aff0747b824931c62314c3cc1b73962ba69218b3035c0",
+    "SPACE_INFINITY_Lush_Trance_20.zip": "481ae6916cc8483f51167cff6950ba4163eb441718446426a8546500a2549932"
+  },
+  "factory_presets_retained": 160,
+  "research091_presets_retained": 90,
+  "historical_research091_maximum_true_peak_dbfs": -0.36274548554243236,
+  "historical_research091_maximum_open_difference_lu": 0.6300000000000026,
+  "verified": {
+    "public_hashes": true,
+    "installer_zip_crc": true,
+    "setup_pe": true,
+    "manual_vst3_crc": true,
+    "windows_x64_module": true,
+    "module_version": "0.9.2",
+    "installer_contents": true,
+    "recipe_text_hash_lf": true,
+    "factory_source_commit_hash": true,
+    "embedded_factory_recipe_parity": 90,
+    "native_parameters": 1223,
+    "sweep_modes": [
+      0,
+      1
+    ],
+    "bass_register_probes": 35,
+    "optional_bank_presets": 220,
+    "windows_native_tests_passed": 27,
+    "windows_native_test_seconds": 564.66,
+    "windows_install_uninstall": true,
+    "installed_manual_vst3_byte_equality": true
+  },
+  "workflow_conclusion": "success"
+}
