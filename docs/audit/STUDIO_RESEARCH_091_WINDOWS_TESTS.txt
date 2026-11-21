@@ -1,0 +1,107 @@
+SPACE INFINITY 0.9.1 Windows verification
+Source: 4f7ee13b6033d4d603014a02b19630425a36610a
+Run: https://github.com/vegadubstep-star/Space-Infinity/actions/runs/44897593118
+Job: 136826462106; all required steps and publication passed.
+
+##[group]Run ctest --test-dir native-vst3/build -C Release --output-on-failure --stop-on-failure
+2026-11-21T11:22:23.7009814Z ctest --test-dir native-vst3/build -C Release --output-on-failure --stop-on-failure
+2026-11-21T11:22:23.7056091Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-21T11:22:23.7056502Z ##[endgroup]
+2026-11-21T11:22:24.4828999Z Internal ctest changing into directory: D:/a/Space-Infinity/Space-Infinity/native-vst3/build
+2026-11-21T11:22:24.5965081Z Test project D:/a/Space-Infinity/Space-Infinity/native-vst3/build
+2026-11-21T11:22:24.6429725Z       Start  1: SpaceInfinityCharacterFilterCore
+2026-11-21T11:22:24.9733104Z  1/27 Test  #1: SpaceInfinityCharacterFilterCore ...   Passed    0.32 sec
+2026-11-21T11:22:24.9785630Z       Start  2: SpaceInfinityHeritageBank
+2026-11-21T11:22:31.2347944Z  2/27 Test  #2: SpaceInfinityHeritageBank ..........   Passed    6.26 sec
+2026-11-21T11:22:31.2351884Z       Start  3: SpaceInfinityExtendedCore
+2026-11-21T11:22:31.2493270Z  3/27 Test  #3: SpaceInfinityExtendedCore ..........   Passed    0.01 sec
+2026-11-21T11:22:31.2496628Z       Start  4: SpaceInfinityLushBank
+2026-11-21T11:22:32.1729467Z  4/27 Test  #4: SpaceInfinityLushBank ..............   Passed    0.92 sec
+2026-11-21T11:22:32.1732542Z       Start  5: SpaceInfinitySoundCharacter
+2026-11-21T11:22:35.1493507Z  5/27 Test  #5: SpaceInfinitySoundCharacter ........   Passed    2.98 sec
+2026-11-21T11:22:35.1497341Z       Start  6: SpaceInfinityBassVoicing
+2026-11-21T11:23:19.5611207Z  6/27 Test  #6: SpaceInfinityBassVoicing ...........   Passed   44.41 sec
+2026-11-21T11:23:19.5622277Z       Start  7: SpaceInfinityAcidDrive
+2026-11-21T11:23:40.4502962Z  7/27 Test  #7: SpaceInfinityAcidDrive .............   Passed   20.89 sec
+2026-11-21T11:23:40.4507053Z       Start  8: SpaceInfinityCreativeWorkflow
+2026-11-21T11:23:44.3389693Z  8/27 Test  #8: SpaceInfinityCreativeWorkflow ......   Passed    3.89 sec
+2026-11-21T11:23:44.3393024Z       Start  9: SpaceInfinityUsability
+2026-11-21T11:23:48.4653837Z  9/27 Test  #9: SpaceInfinityUsability .............   Passed    4.13 sec
+2026-11-21T11:23:48.4657625Z       Start 10: SpaceInfinitySmoke
+2026-11-21T11:24:25.4777936Z 10/27 Test #10: SpaceInfinitySmoke .................   Passed   37.01 sec
+2026-11-21T11:24:25.4781875Z       Start 11: SpaceInfinityHardwareUI
+2026-11-21T11:25:36.4988708Z 11/27 Test #11: SpaceInfinityHardwareUI ............   Passed   71.02 sec
+2026-11-21T11:25:36.4992783Z       Start 12: SpaceInfinityPresetManagement
+2026-11-21T11:25:38.2517880Z 12/27 Test #12: SpaceInfinityPresetManagement ......   Passed    1.75 sec
+2026-11-21T11:25:38.2521217Z       Start 13: SpaceInfinityExtendedSmoke
+2026-11-21T11:25:40.0813211Z 13/27 Test #13: SpaceInfinityExtendedSmoke .........   Passed    1.83 sec
+2026-11-21T11:25:40.0816628Z       Start 14: SpaceInfinityAnalogueExpansion
+2026-11-21T11:25:49.9204899Z 14/27 Test #14: SpaceInfinityAnalogueExpansion .....   Passed    9.84 sec
+2026-11-21T11:25:49.9208511Z       Start 15: SpaceInfinityOscillatorWorkflow
+2026-11-21T11:25:50.8844853Z 15/27 Test #15: SpaceInfinityOscillatorWorkflow ....   Passed    0.96 sec
+2026-11-21T11:25:50.8848674Z       Start 16: SpaceInfinityPitchTravel
+2026-11-21T11:25:53.3262290Z 16/27 Test #16: SpaceInfinityPitchTravel ...........   Passed    2.44 sec
+2026-11-21T11:25:53.3266292Z       Start 17: SpaceInfinityChorusMelt
+2026-11-21T11:25:55.9306600Z 17/27 Test #17: SpaceInfinityChorusMelt ............   Passed    2.60 sec
+2026-11-21T11:25:55.9310216Z       Start 18: SpaceInfinityModulationWorkflow
+2026-11-21T11:25:57.4432054Z 18/27 Test #18: SpaceInfinityModulationWorkflow ....   Passed    1.51 sec
+2026-11-21T11:25:57.4435531Z       Start 19: SpaceInfinityNoiseModes
+2026-11-21T11:26:02.8206932Z 19/27 Test #19: SpaceInfinityNoiseModes ............   Passed    5.38 sec
+2026-11-21T11:26:02.8210489Z       Start 20: SpaceInfinityDualLFO
+2026-11-21T11:26:04.5695779Z 20/27 Test #20: SpaceInfinityDualLFO ...............   Passed    1.75 sec
+2026-11-21T11:26:04.5696995Z       Start 21: SpaceInfinityRhythmWorkflow
+2026-11-21T11:26:06.1235679Z 21/27 Test #21: SpaceInfinityRhythmWorkflow ........   Passed    1.55 sec
+2026-11-21T11:26:06.1238847Z       Start 22: SpaceInfinityWorkflow
+2026-11-21T11:26:09.8500419Z 22/27 Test #22: SpaceInfinityWorkflow ..............   Passed    3.73 sec
+2026-11-21T11:26:09.8504087Z       Start 23: SpaceInfinityStudioSmoke
+2026-11-21T11:26:13.9203098Z 23/27 Test #23: SpaceInfinityStudioSmoke ...........   Passed    4.07 sec
+2026-11-21T11:26:13.9206550Z       Start 24: SpaceInfinityGrooveBank
+2026-11-21T11:27:04.8747299Z 24/27 Test #24: SpaceInfinityGrooveBank ............   Passed   50.95 sec
+2026-11-21T11:27:04.8751558Z       Start 25: SpaceInfinityLeads
+2026-11-21T11:27:13.6627089Z 25/27 Test #25: SpaceInfinityLeads .................   Passed    8.79 sec
+2026-11-21T11:27:13.6630704Z       Start 26: SpaceInfinityAirwavePad
+2026-11-21T11:31:39.3146458Z 26/27 Test #26: SpaceInfinityAirwavePad ............   Passed  265.65 sec
+2026-11-21T11:31:39.3149890Z       Start 27: SpaceInfinityAnalogueProbe
+2026-11-21T11:31:39.3860345Z 27/27 Test #27: SpaceInfinityAnalogueProbe .........   Passed    0.07 sec
+2026-11-21T11:31:39.3871089Z
+2026-11-21T11:31:39.3871563Z 100% tests passed, 0 tests failed out of 27
+2026-11-21T11:31:39.3872057Z
+2026-11-21T11:31:39.3872391Z Total Test time (real) = 554.78 sec
+2026-11-21T11:31:39.5267999Z ##[group]Run python scripts/tests/test_factory_edits.py
+2026-11-21T11:31:39.5268858Z python scripts/tests/test_factory_edits.py
+2026-11-21T11:31:39.5340119Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-21T11:31:39.5340826Z ##[endgroup]
+2026-11-21T11:31:40.0829576Z .
+2026-11-21T11:31:40.0830165Z ----------------------------------------------------------------------
+2026-11-21T11:31:40.0830809Z Ran 1 test in 0.013s
+2026-11-21T11:31:40.0831035Z
+2026-11-21T11:31:40.0831207Z OK
+2026-11-21T11:31:40.2201801Z ##[group]Run .\scripts\verify-windows-release.ps1
+2026-11-21T11:31:40.2202666Z .\scripts\verify-windows-release.ps1
+2026-11-21T11:31:40.2244627Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-21T11:31:40.2245068Z ##[endgroup]
+2026-11-21T11:31:40.6131255Z 1. Both release files exist.
+2026-11-21T11:31:41.1352208Z 2. The manual archive contains the Windows x64 VST3 module.
+2026-11-21T11:31:41.1478493Z 3. The VST3 manifest identifies the plugin and lists its classes.
+2026-11-21T11:31:46.0445157Z 4. The installer ran successfully.
+2026-11-21T11:31:46.0469691Z 5. The plugin was installed in the standard VST3 directory.
+2026-11-21T11:31:46.2161744Z 6. The installed binary matches the manual VST3 archive byte for byte.
+2026-11-21T11:31:46.8928860Z 7. The uninstaller removed the installed VST3.
+2026-11-21T11:31:46.9737952Z ##[group]Run $project = Get-Content native-vst3/CMakeLists.txt -Raw
+2026-11-21T11:31:46.9739097Z $project = Get-Content native-vst3/CMakeLists.txt -Raw
+2026-11-21T11:31:46.9740306Z if ($project -notmatch 'project\(SpaceInfinity VERSION ([0-9]+\.[0-9]+\.[0-9]+)') { throw 'Missing native version.' }
+2026-11-21T11:31:46.9741354Z $version = $Matches[1]
+2026-11-21T11:31:46.9742078Z $checksums = foreach ($path in @("release/SPACE_INFINITY_${version}_Windows_x64_Setup.exe", "release/SPACE_INFINITY_${version}_Windows_x64_VST3.zip")) {
+2026-11-21T11:31:46.9742908Z   $hash = Get-FileHash -Algorithm SHA256 -LiteralPath $path
+2026-11-21T11:31:46.9743410Z   "$($hash.Hash.ToLowerInvariant())  $(Split-Path -Leaf $path)"
+2026-11-21T11:31:46.9743805Z }
+2026-11-21T11:31:46.9744158Z $checksums | Set-Content release/SHA256SUMS.txt -Encoding utf8
+2026-11-21T11:31:46.9744743Z python scripts/package-installer-zip.py release $version
+2026-11-21T11:31:46.9745288Z if ($LASTEXITCODE -ne 0) { throw 'Installer ZIP verification failed.' }
+2026-11-21T11:31:46.9745993Z python scripts/tests/test_installer_contents.py "release/SPACE_INFINITY_${version}_Windows_x64_Installer.zip"
+2026-11-21T11:31:46.9746733Z if ($LASTEXITCODE -ne 0) { throw 'Installer bank/content verification failed.' }
+2026-11-21T11:31:46.9787901Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-21T11:31:46.9788309Z ##[endgroup]
+2026-11-21T11:31:49.6140083Z Verified SPACE_INFINITY_0.9.1_Windows_x64_Installer.zip: 6de32f820bc874a3c7ce77d1d73fc5532be476ae1223d535c942d9bc25b89e45
+2026-11-21T11:31:49.9233664Z Installer wrapper: current instructions, native banks/recipes, audio evidence, 1223 parameters and checksums passed
+2026-11-21T11:31:49.9962816Z
