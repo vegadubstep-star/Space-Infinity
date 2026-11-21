@@ -4,6 +4,8 @@ Native JUCE Windows x64 synthesizer for FL Studio, with the owner's INFINITY wor
 
 Current development branch: **codex/windows-build**.
 
+[0.9.3 source update](docs/SAMPLER_FULL_RANGE_093_UPDATE.md) includes saved-order preset navigation, sample fidelity, layered oscillator controls and automatic curated banks. All 28 native tests pass; the Windows workflow is blocked before runner startup, so no 0.9.3 installer is published. The verified installer below remains 0.9.2.
+
 [Download the verified 0.9.2 Windows installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.9.2/SPACE_INFINITY_0.9.2_Windows_x64_Installer.zip).
 
 The 90 refined factory presets are built in: select the **Research 091** tag in BANK. Import the included **SPACE_INFINITY_Lush_Trance_20.zip** through BANK → IMPORT for the separate 20-lead bank.

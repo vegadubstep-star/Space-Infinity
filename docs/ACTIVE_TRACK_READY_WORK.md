@@ -1,43 +1,48 @@
-# SPACE INFINITY 0.9.3 — Windows release verification pending
+# SPACE INFINITY 0.9.3 — source complete; Windows build blocked
 
-All requested sampler/bank/portamento/menu fixes are implemented and native-tested.
-Latest steering fixed: preset selector and arrows follow saved/manual bank order,
-anchored to the last selected sound. A–Z is explicit only.
+Latest user steering fixed: preset selector and arrows follow saved/manual bank
+order, starting from the last selected preset. A–Z is an explicit BANK action.
+Source commit cc747420c93d341a49cf5d0c3229836b58c77cc7 pushed to codex/windows-build.
 
-Changes: clean stereo/full-range sample import; independently controlled OSC B
-layer; stereo granular; finer finite glide with new-phrase reset; popup ownership;
-automatically installed Heritage200, Lush20 and new48 Orbit Voices sounds from
-40 actual Infinity_*.wav files. Seven close Heritage variants archived with recovery
-ZIP; local sound and metadata edits retained. Existing160factoryIDs and1223host
-parameter IDs/order preserved, four appended (1227total).
+All cumulative changes implemented: clean stereo/full-range sample import,
+full-control independent OSC B layer, stereo granular, fine finite up/down glide
+and new-phrase reset, popup lifecycle, automatic extra banks, 48 new sample sounds
+(12choir/21lead/15bass) from40 actually renamed INFINITY WAVs, and7 archived close
+Heritage variants with recovery ZIP. Local edits and existing project/automation
+IDs retained. Original1223hostIDs/order unchanged;4appended=1227.
 
-Verification complete locally:
--28native tests PASS (278.31s), plus4 focused tests on final embedded bank/curation.
--48new presets verified at3registers x9macro corners, fullvelocity notes/chords,
-4xtruepeak: maxpre-safety0.900000572, maxtruepeak-0.630338735dBFS, noerrors.
-Measurement source hashes match all48 shipped files and calibrated trims.
--All428 presets audio-feature screened; no silent sounds, no new-bank close pairs.
-Eight existingclose pairs confirmed at3registers;7archived, distinctacidsretained.
--40actual renamed WAV file hashes match source uploads/provenance.
--Packagepreflight: actualbank/hash/audits/1227params pass; missing evidence and
-failednativeaudits rejected. PowerShellsyntax andfactoryeditPython tests PASS.
+LOCAL VERIFICATION COMPLETE:
+28native tests PASS(278.31s) +4focused tests onfinalembeddedbank/curation PASS.
+All48 final calibrated sounds rendered at3registers x9macro corners, fullvelocity
+notes/chords, 4xtruepeak; maxpre-safety0.900000572, maxTP-0.630338735dBFS, noerrors.
+All48 measured file hashes/trims match shipped bank. All428 sounds feature-screened,
+none silent and no new-bank close pairs;8oldpairs confirmed at3registers,7archived,
+distinctacidsretained. Actual40renamedWAVhashes matchprovenance. Packagepreflight,
+PowerShellsyntax andfactoryedits testPASS, missing/failed evidence rejected.
 
-Evidence docs/audit/SAMPLER_FULL_RANGE_093_{NATIVE_TESTS.txt,AUDIO_LEVELS.json,CURATION.json}.
-Portable48bank and7recoverybank in native-vst3/Presets/UserVoices093.
-No0.9.3publicdownloadsent. README remains0.9.2 until newpublicverification.
+WINDOWS BLOCKER (reported clearly to user):
+Run44930718421 job136926512139 failed BEFORE any step or runner started.
+GitHub annotation identifies account payment/spending-limit restriction. This
+requires the account owner's GitHub Billing & plans action; no code change or
+retry can resolve it. No Windows tests ran and NO0.9.3installer/release published.
+Run: https://github.com/vegadubstep-star/Space-Infinity/actions/runs/44930718421
+Public status proof docs/audit/SAMPLER_FULL_RANGE_093_WINDOWS_STATUS.json.
+Exact annotation preserved locally /workspace/work/space093/WindowsBuildFailure.json.
+Do not send the old0.9.2 installer as if it contains newchanges.
 
-NEXT: commit/push [skip ci], dispatch space-infinity-windows.yml on
-codex/windows-build with publish_release=true. All28Windows, install/uninstall,
-archivevsinstalledbyteidentity andpackagecontents mustpass beforedelivery.
-Then run /tmp/verify-space-infinity093-release.py SOURCE_SHA RUN_ID JOB_ID to
-independentlydownload publicinstaller/manual ZIPs, CRC/SetupMZ/hash/x64PE/module093,
-sourcecommit/bank/calibration/curation/currentevidence. CaptureWindowsverification
-log+publicproofJSON in docs/audit, updateREADME/handoverstocomplete, docs-only
-[skip ci]commit/push, finalconciseinstallerlink+ExtractAll/closeFL/Setupsteps.
+NEXT AFTER USER RESOLVES RUNNER ACCOUNT RESTRICTION:
+Dispatch space-infinity-windows.yml on codex/windows-build publish_release=true.
+All28Windows tests +install/uninstall/archived-vs-installedbyteidentity/package
+contents mustpass. Independently verify public093 via
+/tmp/verify-space-infinity093-release.py SOURCE_SHA RUN_ID JOB_ID; downloadZIP,
+CRC/hash/SetupMZ/manualx64PE/module093/sourcebank/curation/audits. Then capture
+Windowslog/publicproofJSON, updateREADME/handover toverified, docs-only[skip ci]
+commit/push, finalinstallerlink+ExtractAll/closeFL/Setupsteps.
 
-Rawreports/helper source retained in /workspace/work/space093; generatedRuntimeLibrary
-and/tmp/Profile093 can be removed after completedworkers to free~210MB.
-No subagents allowed or used. Preserve owneruntracked audition/ andallcaches.
+Rawreports/helper source retained /workspace/work/space093; generatedRuntimeLibrary
+and /tmp/Profile093 removed AFTER allworkers completed tofree~210MB.
+Nativebuild native-vst3/build-linux retained. Noactivebuildworkers.
+No subagents allowed or used. Preserve owner untracked audition/ andcaches.
 
 # SPACE INFINITY 0.9.2 — completed and publicly verified
 

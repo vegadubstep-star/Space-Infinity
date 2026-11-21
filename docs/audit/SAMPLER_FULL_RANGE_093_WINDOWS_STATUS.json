@@ -1,0 +1,15 @@
+{
+  "version": "0.9.3",
+  "source_commit": "cc747420c93d341a49cf5d0c3229836b58c77cc7",
+  "workflow_run": 44930718421,
+  "workflow_job": 136926512139,
+  "run_url": "https://github.com/vegadubstep-star/Space-Infinity/actions/runs/44930718421",
+  "status": "blocked before runner startup",
+  "steps_executed": 0,
+  "windows_tests_run": false,
+  "installer_published": false,
+  "reason": "GitHub account runner eligibility prevented the hosted job from starting. See the workflow annotation. This is not a compiler or test failure.",
+  "native_tests_passed": 28,
+  "final_resource_focused_tests_passed": 4,
+  "next_step": "Resolve the account runner restriction, then dispatch space-infinity-windows.yml with publish_release=true. Validate Windows tests, installer and public checksums before delivery."
+}
