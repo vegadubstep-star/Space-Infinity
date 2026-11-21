@@ -1,67 +1,65 @@
-# SPACE INFINITY 0.9.4 — source complete, Windows verification pending
+# SPACE INFINITY 0.9.4 — source complete; Windows build blocked
 
-User's full installed-bank request is complete in source. All421active sounds +
-Init autoload, including48sampled presets. No manual import. Saved/manual preset
-navigation preserved. Currentwork is about tobe committed/pushed on
-codex/windows-build; previousHEAD0417cb7. No0.9.4installerpublishedyet.
+User request COMPLETE IN SOURCE: all421active presets +Init automaticallyavailable,
+including48new sampled sounds. No manual import. Volume matched, tastefulFX,
+allsettings/data/regressionschecked. Saved/manual-order navigation retained.
+Source commit ed895f5c3c330a5532702a9c40bf4837d969d689 pushed to codex/windows-build
+(branch is codex/windows-build; source SHA above is authoritative).
 
-FINAL LOCAL VALIDATION:
-29/29native tests PASS254.42s (/tmp/installed094-release-native.log), including
-productionconstructorbootstrap inisolatedfolder,421settings/hashes/48samples,
-repeatstartup/usereditpreservation,oldstatecompatibility,queued-outputcontinuity,
-staticgain-6dB,stereo/portamento/finecontrol tests,4xtruepeaks and44.1/48/96krecovery.
-All421 native reference/stress renders DONE, errors[]:
-LUFSrange[-23.111114244,-22.425716767], target-22.5±1, maxdeviation.611114244LU;
-defaultmax4xTP-.679734061dBFS; stressmax4xTP-.609347503dBFS.
-Originalspread27.076LU reducedto.6854LU. BS1770gatedmetercrosscheckedFFmpeg.
-DataParity:factory160tone/envelopes/macros unchanged;extra261audio/tables/roots/
-routes unchanged;onlystaticreferencegain+21small-room additions. Retired7exactbytes
-unchanged. 40InfinityWAVsources unchanged. Newstaticgainseparatefromexistingmacro
-trim; old1227hostIDs/order unchanged, appendedpresetReferenceGain=1228total.
+FINAL VERIFIED LOCAL RESULTS:
+29/29native tests PASS254.42s, /tmp/installed094-release-native.log.
+Actual421reference/stressrenders: loudnessrange-23.111114244..-22.425716767LUFS,
+commonreference-22.5±1, maxdeviation.611114244LU, totalspread.6854LU(previous27LU).
+Defaultmax4xTP-.679734061dBFS,stressmax-.609347503dBFS,errors[].
+21previouslydrykeyboard/organsgets smallroom. Bass/tone/envelopes/macrorouteskept.
+DataParityfactory160unchangedtone;extra261audio/tables/roots/routesunchanged;
+retired7exactbytesuntouched;raw40InfinityWAVsources unchanged. Allbanksmin094;
+knownshippedhashhistoryprotectsedits. NewstaticpresetReferenceGainseparatefrom
+macrotrim: original1227hostIDs/order retained,newappended=1228. Oldstateomission0.
+Cleantruepeakprotection4xdetectoronly,linkedstereo,shortreportedlookahead;audio
+FIFOexactcopywhenidle;legacycurvepreserved. Queuepersistsduringlivepresetload.
+Referencecapturesprepareeachcase,soremovingredundantliveresetdoesnotaltercaptures.
+Native tests coverproductionconstructorbootstrap (DIisolatedfoldertrue),all421
+currentsettings/bankhashes/48samples,repeatstartup/customedits,stereo/bass/ported
+sampler,oldstates,static-6dB,queuecontinuity,44.1/48/96koverloadandgainrecovery.
+Small-buffer/glidefixturesaccountforreportedlatency; bassregisterscheckactual4xTP.
+PackagepreflightPASS,rejectsmissingcatalogue/failednative/unsafeTP. PSsyntax and
+factoryeditPython testsPASS. PackagingtestfixtureSetup/stageremoved,nevershipit.
 
-Cleanoutputsafety now4xpeakDETECTORonly +shortlinkedstereolookahead,FIFOexactcopy
-whenidle,hostlatencyreported,legacycurvepreserved. Onlyprepare resetsFIFO; preset
-recallkeepsqueuedaudio (regressiontest). All421referencecaptures callprepare,
-so removalofredundantlivepresetresetdoesnotaltermeasureddata (auditnotespolicy).
-Productiondefaultconstructorauto-bootstrap; optionalboolinstallIncludedBanks=true
-withexplicitstorageletstestexerciseidenticalproductionbranch. NoGUIcomplexity.
+WINDOWS BLOCKER — reportedhonestlytouser:
+Fresh094run44956175371 job137004696472 wasrefusedBEFORErunner/steps(0steps).
+GitHubannotation: accountpaymentsfailed OR spendinglimitneedsincrease;owner's
+Billing&plansactionrequired. NoWindowscompile/testsran,no094installer/release.
+No codechange/retryfixesfinancialrestriction. DoNOTsend092asiftheupdatedbuild.
+Run https://github.com/vegadubstep-star/Space-Infinity/actions/runs/44956175371
+Publicsanitizedproof docs/audit/INSTALLED_BANK_094_WINDOWS_STATUS.json.
+Exactannotationlocal /workspace/work/preset094/WindowsBuildFailure.json.
+READMElabels094sourcecomplete/runnerblockedand092downloadasOLDER.
 
-Requiredpackaging094notes,audiomeasurements,nativeproof,cataloguecopiedintowrapper.
-ActualpackagingpreflightPASS;rejectsmissingcatalogue,failednativeevidence,unsafeTP.
-PowerShellsyntax+factoryeditPython testsPASS. FixtureSetup/stagewasdeleted, NEVER
-shipa packagingtestfixture. NoactualWindowsinstallerbuiltonthisLinuxmachine.
-READMEexplicitlylabels0.9.4sourcependingandoldverified0.9.2downloadasolder.
+NEXT AFTER OWNER RESOLVES RUNNER RESTRICTION:
+Dispatchspace-infinity-windows.yml codex/windows-build publish_release=true.
+Requireall29Windows +install/uninstall/byteidentity/packagechecks. Then
+/tmp/verify-space-infinity094-release.py SOURCE_SHA RUN JOB independentlydownloads
+publicinstaller/manual ZIPs, CRC/hash/MZ/PE-x64/module094/catalogue/421data/banks.
+CaptureWindowslog+publicproofJSON,READMEverified094link+handovercomplete,
+docs-only[skip ci]commit/push;finalconciseZIP+ExtractAll/closeFL/Setupinstructions.
+UseactualworkflowheadSHA (docs-onlychangesafterfeaturecommitarefine;DSPsame).
 
-Evidence:
-docs/audit/INSTALLED_BANK_094_LEVELS.json
- docs/audit/INSTALLED_BANK_094_NATIVE_TESTS.txt
- native-vst3/Presets/Installed094.json (copiedtoinstaller auditcatalogue)
- docs/INSTALLED_BANK_094_UPDATE.md andTESTING_STUDIO_BUILD.md
-Scripts scripts/installed094/{ReviewInstalled.cpp,match-bank.py,verify-matching.py,README.md}.
-All3banksminimum094,currenthashesincatalogue;oldknownhashhistoriespreserveedits.
-Orbitbuilderkeepsnewgainonfutureauthoringrebuilds.
+FILES:
+docs/audit/INSTALLED_BANK_094_{LEVELS.json,NATIVE_TESTS.txt,WINDOWS_STATUS.json}
+native-vst3/Presets/Installed094.json,3updatedZIPs+sha,updatedDesigns/factoryJSON.
+NewSource/TruePeakSafety.h;newTests/InstalledBankSmoke.cpp;29CTestcases.
+scripts/installed094/{ReviewInstalled.cpp,match-bank.py,verify-matching.py,README.md}.
+Docs/INSTALLED_BANK_094_UPDATE.md,TESTING_STUDIO_BUILD.md;094packagingupdated.
+Rawreports/source /workspace/work/preset094: Baseline421,Final421,plan/Originals,
+verifiedA/B. OldfinalA/BareFAILEDoldsoftclipdiagnostics;neveruseasfinalevidence.
+Generatedrenderers/runtimecopiesremovedafterjobsdone,allreportsretained.
+/tmp/space094-preflight.py (passed), /tmp/verify-space-infinity094-release.py ready.
 
-NEXT:
-Commit/pushexplicitwork [skip ci], dispatchspace-infinity-windows.yml onbranch
-publish_release=true. Previous0.9.3run44930718421wasaccountbilling-blockedbefore
-runner. Trynew094once; readjobs/steps/logsviaGitHubtools. Ifblockedbeforesteps,
-inspectghAPIcheckannotations;saveexactannotationlocallyand sanitizedrepoWindows
-status. No code/billinglimits changes can fixaccountpayments. Finalhonestsource
-complete/installernotreadyparagraph;neveroffer092asifcontainsnewchanges.
-IfWindowsstarts:require29Windows tests +install/uninstall/byteidentity/package
-checks;then /tmp/verify-space-infinity094-release.py SOURCE_SHA RUN JOB todownload
-publicZIP/manual/hash/PE/module094/current421catalogue/banks/source. Capture
-Windowslog/publicproof,updateREADMEverified094link+handover,docs-onlyskipcicommit/
-push. Finalconciseinstallerlink+ExtractAll/closeFL/Setupsteps.
-
-Allnative/render jobs complete. Noactivecompilers. Workspace /workspace/work/native-design.
-CMake/CTest /workspace/work/build-tools/cmake/data/bin; nativebuildnative-vst3/build-linux.
-DISPLAY=:99 XDG_CACHE_HOME=/workspace/work/runtime-cache. NoAGENTS/skills/subagents.
-Preserveowneruntracked audition/ andall__pycache__. ~350MBfree. Generatedrenderers/
-runtimecopiesremovedAFTERworkersdone;allJSONreports/sourcepreservedunder
-/workspace/work/preset094 (Baseline421,Final421,plan/Originals,verifiedA/B).
-OldfinalA/BareFAILEDpre-limiterdiagnostics,nevertreatasfinal.
-/tmp/space094-preflight.py and /tmp/verify-space-infinity094-release.py prepared.
+Workspace /workspace/work/native-design;CMake/CTest/workspace/work/build-tools/cmake/data/bin;
+nativebuildnative-vst3/build-linux;DISPLAY=:99,XDG_CACHE_HOME runtime-cache.
+Noactivejobs. Preserveowneruntracked audition/ andall__pycache__. NoAGENTS/skills/
+subagents used. ~330MBfree. Allworkcommitted/pushed;closingdocs-onlycommitfollows.
 
 
 # SPACE INFINITY 0.9.3 — source complete; Windows build blocked

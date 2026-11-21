@@ -1,0 +1,19 @@
+{
+  "version": "0.9.4",
+  "source_commit": "ed895f5c3c330a5532702a9c40bf4837d969d689",
+  "workflow_run": 44956175371,
+  "workflow_job": 137004696472,
+  "run_url": "https://github.com/vegadubstep-star/Space-Infinity/actions/runs/44956175371",
+  "status": "blocked before hosted runner startup",
+  "steps_executed": 0,
+  "windows_tests_run": false,
+  "installer_published": false,
+  "reason": "GitHub account runner eligibility prevented the job from starting. See the workflow annotation; this is not a compiler or test failure.",
+  "native_tests_passed": 29,
+  "active_presets": 421,
+  "automatically_available_entries_including_init": 422,
+  "new_sampled_presets": 48,
+  "maximum_loudness_deviation_lu": 0.6111142443622022,
+  "maximum_stress_true_peak_dbfs": -0.6093475033309512,
+  "next_step": "Resolve the account runner restriction, dispatch the Windows workflow, require all Windows and installer checks, then verify the public ZIP before delivery."
+}

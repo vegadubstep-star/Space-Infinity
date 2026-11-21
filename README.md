@@ -4,7 +4,7 @@ Native JUCE Windows x64 synthesizer for FL Studio, with the owner's INFINITY wor
 
 Current development branch: **codex/windows-build**.
 
-[0.9.4 complete installed-bank update](docs/INSTALLED_BANK_094_UPDATE.md): all 421 active sounds load automatically, including 48 sampled presets. Actual native measurements match perceived loudness within 1 LU and retain clean true-peak headroom; all 29 native tests pass. Windows installer verification is pending. The verified download below remains the older 0.9.2 build.
+[0.9.4 complete installed-bank update](docs/INSTALLED_BANK_094_UPDATE.md): all 421 active sounds load automatically, including 48 sampled presets. Actual native measurements match perceived loudness within 1 LU and retain clean true-peak headroom; all 29 native tests pass. The Windows workflow is blocked before runner startup, so no 0.9.4 installer is published. The verified download below remains the older 0.9.2 build.
 
 [Download the verified 0.9.2 Windows installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.9.2/SPACE_INFINITY_0.9.2_Windows_x64_Installer.zip).
 
