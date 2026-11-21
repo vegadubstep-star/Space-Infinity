@@ -1,9 +1,21 @@
-# Installing and testing SPACE INFINITY 0.9.0
+# Installing and testing SPACE INFINITY 0.9.1
 
 Close FL Studio and other plug-in hosts. Right-click the installer ZIP, choose
-Extract All, then run SPACE_INFINITY_0.9.0_Windows_x64_Setup.exe from the extracted
+Extract All, then run SPACE_INFINITY_0.9.1_Windows_x64_Setup.exe from the extracted
 folder. Reopen FL Studio and load a fresh SPACE INFINITY instance. The plug-in
 identity and user preset storage are preserved.
+
+## Try the revised factory sounds
+
+Select the **Research 091** or **Studio Research** tag in BANK. Ninety existing
+factory sounds are revised: 30 basses, 20 hard-trance leads, 20 plucks, 10 airy
+pads and 10 acids. No import is needed for these revisions. Names and IDs are
+retained; the factory count remains 160. User replacements stay in your library.
+
+On plucks try OPEN / LEAD: the filter and sustain open while delay/reverb returns
+reduce, with measured compensation. On acids try SWEEP, LIQUID and CORROSION;
+overlapping MIDI notes slide, separated notes retrigger the filter contour.
+Rolling basses follow your MIDI and do not generate their own pattern.
 
 ## Load the additional banks
 
@@ -43,5 +55,6 @@ The new lead levels are checked using full-velocity repeated notes, four-note
 chords and macro extremes, with true-peak headroom. Denser chords, added effects
 and edits can change the level; use the meters while adjusting your sound.
 
+[0.9.1 preset changes](STUDIO_RESEARCH_091_UPDATE.md) ·
 [0.9.0 changes](CHARACTER_FILTER_SAMPLER_090_UPDATE.md) ·
 [0.8.0 sound-bank history](TRACK_READY_080_UPDATE.md)

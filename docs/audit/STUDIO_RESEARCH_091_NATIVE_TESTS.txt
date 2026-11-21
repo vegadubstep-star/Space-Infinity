@@ -1,0 +1,64 @@
+SPACE INFINITY 0.9.1 — Linux x64 native regression checks
+1223 host parameters; 160 factory presets, 90 revised.
+
+Test project /workspace/work/native-design/native-vst3/build-linux
+      Start  6: SpaceInfinityBassVoicing
+      Start  7: SpaceInfinityAcidDrive
+ 1/27 Test  #7: SpaceInfinityAcidDrive .............   Passed   12.75 sec
+      Start 17: SpaceInfinityChorusMelt
+ 2/27 Test #17: SpaceInfinityChorusMelt ............   Passed    2.35 sec
+      Start 26: SpaceInfinityAirwavePad
+ 3/27 Test  #6: SpaceInfinityBassVoicing ...........   Passed   36.86 sec
+      Start 24: SpaceInfinityGrooveBank
+ 4/27 Test #24: SpaceInfinityGrooveBank ............   Passed   29.66 sec
+      Start 10: SpaceInfinitySmoke
+ 5/27 Test #10: SpaceInfinitySmoke .................   Passed   17.88 sec
+      Start  2: SpaceInfinityHeritageBank
+ 6/27 Test  #2: SpaceInfinityHeritageBank ..........   Passed    4.44 sec
+      Start 19: SpaceInfinityNoiseModes
+ 7/27 Test #19: SpaceInfinityNoiseModes ............   Passed    3.67 sec
+      Start  5: SpaceInfinitySoundCharacter
+ 8/27 Test  #5: SpaceInfinitySoundCharacter ........   Passed    1.92 sec
+      Start  4: SpaceInfinityLushBank
+ 9/27 Test  #4: SpaceInfinityLushBank ..............   Passed    0.64 sec
+      Start 14: SpaceInfinityAnalogueExpansion
+10/27 Test #14: SpaceInfinityAnalogueExpansion .....   Passed    7.16 sec
+      Start 25: SpaceInfinityLeads
+11/27 Test #25: SpaceInfinityLeads .................   Passed    4.68 sec
+      Start  9: SpaceInfinityUsability
+12/27 Test  #9: SpaceInfinityUsability .............   Passed    2.08 sec
+      Start 18: SpaceInfinityModulationWorkflow
+13/27 Test #18: SpaceInfinityModulationWorkflow ....   Passed    1.39 sec
+      Start 11: SpaceInfinityHardwareUI
+14/27 Test #11: SpaceInfinityHardwareUI ............   Passed    8.48 sec
+      Start 16: SpaceInfinityPitchTravel
+15/27 Test #16: SpaceInfinityPitchTravel ...........   Passed    1.49 sec
+      Start  8: SpaceInfinityCreativeWorkflow
+16/27 Test  #8: SpaceInfinityCreativeWorkflow ......   Passed    1.54 sec
+      Start 22: SpaceInfinityWorkflow
+17/27 Test #22: SpaceInfinityWorkflow ..............   Passed    2.87 sec
+      Start 20: SpaceInfinityDualLFO
+18/27 Test #20: SpaceInfinityDualLFO ...............   Passed    2.41 sec
+      Start 23: SpaceInfinityStudioSmoke
+19/27 Test #23: SpaceInfinityStudioSmoke ...........   Passed    3.70 sec
+      Start  1: SpaceInfinityCharacterFilterCore
+20/27 Test  #1: SpaceInfinityCharacterFilterCore ...   Passed    0.39 sec
+      Start 21: SpaceInfinityRhythmWorkflow
+21/27 Test #21: SpaceInfinityRhythmWorkflow ........   Passed    2.43 sec
+      Start 12: SpaceInfinityPresetManagement
+22/27 Test #12: SpaceInfinityPresetManagement ......   Passed    1.87 sec
+      Start 13: SpaceInfinityExtendedSmoke
+23/27 Test #13: SpaceInfinityExtendedSmoke .........   Passed    1.72 sec
+      Start 15: SpaceInfinityOscillatorWorkflow
+24/27 Test #15: SpaceInfinityOscillatorWorkflow ....   Passed    1.24 sec
+      Start 27: SpaceInfinityAnalogueProbe
+25/27 Test #27: SpaceInfinityAnalogueProbe .........   Passed    0.05 sec
+      Start  3: SpaceInfinityExtendedCore
+26/27 Test  #3: SpaceInfinityExtendedCore ..........   Passed    0.01 sec
+27/27 Test #26: SpaceInfinityAirwavePad ............   Passed  138.90 sec
+
+100% tests passed out of 27
+
+Total Test time (real) = 154.01 sec
+
+CTest exit code: 0

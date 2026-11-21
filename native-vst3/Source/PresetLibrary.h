@@ -46,6 +46,14 @@ public:
                     if(retiredFactory>=0&&e.factory>retiredFactory)--e.factory;
                     if(e.factory>=factoryNames.size()||e.key!=keyForFactory(e.factory))continue;if(e.file!="factory_"+juce::String(factoryId(e.factory))+".sipreset"||!directory.getChildFile(e.file).existsAsFile())e.file={};if(e.creator.isEmpty())e.creator=creatorFor(e.factory);if(e.tags.isEmpty())e.tags=tagsFor(e.factory);
                     if(firstFactory==120&&e.factory==1&&e.name=="Airwave Pad")e.name=factoryNames[e.factory];
+                    // A shipped preset can gain new role/revision tags between
+                    // releases. Refresh untouched factory metadata so users can
+                    // discover those revisions in an existing library. Local
+                    // sound replacements and explicit metadata edits win.
+                    if(e.file.isEmpty()&&!e.detailsEdited&&e.name==factoryNames[e.factory]){
+                        e.category=factoryCategories[e.factory];
+                        e.creator=creatorFor(e.factory);e.tags=tagsFor(e.factory);
+                    }
                 }
                 else if(!safeFilename(e.file)||e.key!="U"+e.file.upToLastOccurrenceOf(".",false,false))continue;
                 bank.push_back(std::move(e));

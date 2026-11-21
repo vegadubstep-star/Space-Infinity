@@ -27,6 +27,7 @@ $checksums = foreach ($name in @($setupName, $archiveName)) {
 $checksums | Set-Content -LiteralPath $checksumPath -Encoding utf8
 $files += 'SHA256SUMS.txt'
 $files += 'CHARACTER_FILTER_SAMPLER_090_UPDATE.md'
+$files += 'STUDIO_RESEARCH_091_UPDATE.md'
 $files += 'SPACE_INFINITY_Lush_Trance_20.zip'
 $files += 'SPACE_INFINITY_Lush_Trance_20.zip.sha256'
 $files += 'SPACE_INFINITY_Heritage_200.zip'
@@ -47,7 +48,8 @@ if ($LASTEXITCODE -ne 0) { throw 'Installer ZIP packaging failed.' }
 $files += "SPACE_INFINITY_${version}_Windows_x64_Installer.zip"
 $files += "SPACE_INFINITY_${version}_Windows_x64_Installer.zip.sha256"
 $repo = $env:GITHUB_REPOSITORY
-$notesSource = Join-Path $root 'docs/CHARACTER_FILTER_SAMPLER_090_UPDATE.md'
+$notesSource = Join-Path $root 'docs/STUDIO_RESEARCH_091_UPDATE.md'
+if (-not (Test-Path -LiteralPath $notesSource)) { $notesSource = Join-Path $root 'docs/CHARACTER_FILTER_SAMPLER_090_UPDATE.md' }
 if (-not (Test-Path -LiteralPath $notesSource)) { $notesSource = Join-Path $root 'docs/TRACK_READY_080_UPDATE.md' }
 if (-not (Test-Path -LiteralPath $notesSource)) { $notesSource = Join-Path $root 'docs/RHYTHM_AND_METAL_UPDATE.md' }
 # Keep a new release private until its installer and archive have uploaded.
@@ -65,6 +67,7 @@ $notes = $notes.Replace('(SERUM2_FEATURE_AUDIT.md)', "(${docsUrl}SERUM2_FEATURE_
 $notes = $notes.Replace('(TRANCE_FACTORY_BANK_RESEARCH.md)', "(${docsUrl}TRANCE_FACTORY_BANK_RESEARCH.md)")
 $notes = $notes.Replace('(research/TRACK_READY_080_RESEARCH.md)', "(${docsUrl}research/TRACK_READY_080_RESEARCH.md)")
 $notes = $notes.Replace('(research/CHORUS_DIMENSION_RESEARCH.md)', "(${docsUrl}research/CHORUS_DIMENSION_RESEARCH.md)")
+$notes = $notes.Replace('(research/STUDIO_RESEARCH_091.md)', "(${docsUrl}research/STUDIO_RESEARCH_091.md)")
 $notes = $notes.Replace('(DISTORTION_DRIVE_UPDATE.md)', "(${docsUrl}DISTORTION_DRIVE_UPDATE.md)")
 $notes | Set-Content -LiteralPath $notesFile -Encoding utf8
 $paths = @($files | ForEach-Object { Join-Path $releaseDir $_ })

@@ -46,12 +46,37 @@ int runPresetSmoke(){
     // Heap allocation also exercises multiple simultaneous plugin instances without large test stack frames.
     auto synth=std::make_unique<SpaceInfinityProcessor>(folder);
     const int factoryCount=synth->presetNames().size();
+    int revisedFactory=0;
+    for(int i=1;i<factoryCount;++i)if(synth->presetTags(i).contains("Research 091"))++revisedFactory;
+    if(revisedFactory!=90){std::cerr<<"Expected ninety revised embedded factory presets; bank data may be stale\n";return 233;}
     // Upgrade a complete old bank with a user sound: all old factory IDs retire.
     const auto legacyFolder=folder.getChildFile("Legacy");
     juce::StringArray legacyNames,legacyCategories;
     for(int i=0;i<120;++i){legacyNames.add("Old sound "+juce::String(i));legacyCategories.add("Legacy");}
     PresetLibrary legacy(legacyNames,legacyCategories,legacyFolder);
     juce::MemoryBlock saved;synth->getStateInformation(saved);juce::String savedKey;
+    // An existing library must discover newly shipped tags without losing
+    // either a user's metadata edit or a locally replaced factory sound.
+    {
+        const auto tagFolder=folder.getChildFile("FactoryTagUpgrade");
+        const juce::StringArray names{"Init","Factory Bass","Owner Tags","Owner Audio"};
+        const juce::StringArray categories{"Init","Bass","Lead","Lead"};
+        const juce::StringArray creators{"Orbital Audio","Orbital Audio","Orbital Audio","Orbital Audio"};
+        PresetLibrary before(names,categories,tagFolder,-1,0,creators,{"Init","Old Bass","Old Lead","Old Tone"});
+        if(before.sortByName().failed()||before.updateDetails(before.indexForKey("F2"),"Owner Tags","Owner","Personal").failed())return 230;
+        juce::XmlElement custom("PARAMETERS");custom.setAttribute("presetDisplayName","Owner Audio");custom.setAttribute("creator","Owner");custom.setAttribute("tags","My Tone");
+        auto* value=custom.createNewChildElement("PARAM");value->setAttribute("id","cutoff");value->setAttribute("value",1234);
+        juce::MemoryBlock own;juce::AudioProcessor::copyXmlToBinary(custom,own);
+        if(before.replace(before.indexForKey("F3"),own).failed())return 231;
+        PresetLibrary after(names,categories,tagFolder,-1,0,creators,{"Init","Bass, Research 091","New Lead","New Tone"});
+        const auto& clean=after.entries()[size_t(after.indexForKey("F1"))];
+        const auto& edited=after.entries()[size_t(after.indexForKey("F2"))];
+        const auto& replaced=after.entries()[size_t(after.indexForKey("F3"))];
+        juce::MemoryBlock recalled;
+        if(clean.tags!="Bass, Research 091"||edited.tags!="Personal"||edited.creator!="Owner"||replaced.tags!="My Tone"||after.read(after.indexForKey("F3"),recalled).failed()||recalled!=own){
+            std::cerr<<"Factory tag upgrade failed to preserve owner edits\n";return 232;
+        }
+    }
     if(legacy.add("Keep my sound",saved,savedKey).failed())return 105;
     auto migrated=std::make_unique<SpaceInfinityProcessor>(legacyFolder);
     auto& migratedBank=migrated->presetBank();

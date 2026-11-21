@@ -36,6 +36,13 @@ if tuple(map(int, options.version.split('.'))) >= (0, 9, 0):
                   'audit/LEADS_090_AUDIO_LEVELS.json',
                   'SPACE_INFINITY_Lush_Trance_20.zip',
                   'SPACE_INFINITY_Lush_Trance_20.zip.sha256'])
+if tuple(map(int, options.version.split('.'))) >= (0, 9, 1):
+    files.extend(['STUDIO_RESEARCH_091_UPDATE.md',
+                  'research/STUDIO_RESEARCH_091.md',
+                  'audit/STUDIO_RESEARCH_091_AUDIO_LEVELS.json',
+                  'audit/STUDIO_RESEARCH_091_RECIPES.json',
+                  'audit/STUDIO_RESEARCH_091_FACTORY_PARITY.json',
+                  'audit/STUDIO_RESEARCH_091_NATIVE_TESTS.txt'])
 for name in files:
     if not (root / name).is_file():
         raise SystemExit(f'Missing release file: {name}')
