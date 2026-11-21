@@ -114,6 +114,7 @@ int renderHardwarePreview()
 
 int runSamplerHybridSmoke();
 int runBundled093Probe(const juce::File&);
+int runInstalledBankSmoke(const juce::File&);
 int main(int argc,char* argv[])
 {
     if(argc>2&&juce::String(argv[1])=="--bank-zip-tests"){juce::ScopedJuceInitialiser_GUI init;return runBankZipSmoke(juce::File(argv[2]));}
@@ -134,6 +135,7 @@ int main(int argc,char* argv[])
     if(argc>1&&juce::String(argv[1])=="--usability-tests")return runUsabilitySmoke();
     if(argc>2&&juce::String(argv[1])=="--trance-bank-solo-profile")return runTranceBankSmoke(3,juce::File(argv[2]));
     if(argc>2&&juce::String(argv[1])=="--trance-bank-profile")return runTranceBankSmoke(2,juce::File(argv[2]));
+    if(argc>2&&juce::String(argv[1])=="--installed-bank-tests")return runInstalledBankSmoke(juce::File(argv[2]));
     if(argc>2&&juce::String(argv[1])=="--parameter-inventory")return writeParameterInventory(juce::File(argv[2]));
     if(argc>1&&juce::String(argv[1])=="--analogue-tail-probe")return runAnalogueTailProbe();
     if(argc>1&&juce::String(argv[1])=="--analogue-expansion-tests")return runAnalogueExpansionSmoke();
@@ -272,9 +274,16 @@ int main(int argc,char* argv[])
             juce::AudioBuffer<float> buffer(2,frames);
             juce::MidiBuffer events;
             events.addEvent(juce::MidiMessage::noteOn(1,60,0.8f),0);
-            synth.processBlock(buffer,events);
-            const auto peak=buffer.getMagnitude(0,frames);
-            if(!std::isfinite(peak)||peak<=0.0f||peak>1.0f) return 12;
+            // Small buffers can be shorter than the announced look-ahead.
+            // Require audible, bounded output after the reported latency.
+            float peak=0;const int blocks=(synth.getLatencySamples()+frames-1)/frames+2;
+            for(int block=0;block<blocks;++block){
+                synth.processBlock(buffer,events);events.clear();
+                const auto current=buffer.getMagnitude(0,frames);
+                if(!std::isfinite(current)||current>1.0f)return 12;
+                peak=std::max(peak,current);
+            }
+            if(peak<=0.0f)return 12;
         }
     }
     for(int shape=0;shape<20;++shape){

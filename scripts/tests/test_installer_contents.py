@@ -29,6 +29,9 @@ if tuple(map(int, version.split('.'))) >= (0, 9, 3):
                      'SPACE_INFINITY_Orbit_Voices.zip', 'SPACE_INFINITY_Orbit_Voices.zip.sha256',
                      'SPACE_INFINITY_Retired_093_Backup.zip', 'audit/SAMPLER_FULL_RANGE_093_NATIVE_TESTS.txt',
                      'audit/SAMPLER_FULL_RANGE_093_AUDIO_LEVELS.json', 'audit/SAMPLER_FULL_RANGE_093_CURATION.json'})
+if tuple(map(int, version.split('.'))) >= (0, 9, 4):
+    required.update({'INSTALLED_BANK_094_UPDATE.md', 'audit/INSTALLED_BANK_094_LEVELS.json',
+                     'audit/INSTALLED_BANK_094_NATIVE_TESTS.txt', 'audit/INSTALLED_BANK_094_CATALOGUE.json'})
 with zipfile.ZipFile(archive) as outer:
     assert outer.testzip() is None
     assert {folder + name for name in required} <= set(outer.namelist()), 'Missing new bank, instructions or audit'
@@ -42,14 +45,14 @@ with zipfile.ZipFile(archive) as outer:
     with zipfile.ZipFile(io.BytesIO(bank)) as inner:
         assert inner.testzip() is None
         manifest = json.loads(inner.read('Bank.json'))
-        assert manifest['minimum_version'] == '0.9.0' and len(manifest['presets']) == 20
+        assert manifest['minimum_version'] == ('0.9.4' if tuple(map(int, version.split('.'))) >= (0,9,4) else '0.9.0') and len(manifest['presets']) == 20
         for preset in manifest['presets']:
             assert hashlib.sha256(inner.read(preset['file'])).hexdigest() == preset['sha256']
     audit = json.loads(outer.read(folder + 'audit/LEADS_090_AUDIO_LEVELS.json'))
     assert audit['presets_measured'] == 27 and not audit['errors']
     assert audit['maximum_true_peak_dbfs'] <= -.29
     inventory = json.loads(outer.read(folder + 'audit/NATIVE_PARAMETER_INVENTORY.json'))
-    assert inventory['native_version'] == version and inventory['parameter_count'] == (1227 if tuple(map(int, version.split('.'))) >= (0, 9, 3) else 1223)
+    assert inventory['native_version'] == version and inventory['parameter_count'] == (1228 if tuple(map(int, version.split('.'))) >= (0,9,4) else 1227 if tuple(map(int, version.split('.'))) >= (0, 9, 3) else 1223)
     parameters = {row['id']: row for row in inventory['parameters']}
     assert parameters['filterMode']['maximum'] == 6
     assert len(parameters['characterFilterMode']['choices']) == 9
@@ -88,7 +91,7 @@ with zipfile.ZipFile(archive) as outer:
         with zipfile.ZipFile(io.BytesIO(data)) as inner:
             assert inner.testzip() is None
             manifest = json.loads(inner.read('Bank.json'))
-            assert len(manifest['presets']) == 48 and manifest['minimum_version'] == '0.9.3'
+            assert len(manifest['presets']) == 48 and manifest['minimum_version'] == ('0.9.4' if tuple(map(int, version.split('.'))) >= (0,9,4) else '0.9.3')
             for preset in manifest['presets']:
                 assert hashlib.sha256(inner.read(preset['file'])).hexdigest() == preset['sha256']
         levels = json.loads(outer.read(folder + 'audit/SAMPLER_FULL_RANGE_093_AUDIO_LEVELS.json'))
@@ -97,4 +100,15 @@ with zipfile.ZipFile(archive) as outer:
         curation = json.loads(outer.read(folder + 'audit/SAMPLER_FULL_RANGE_093_CURATION.json'))
         assert curation['existing_presets_measured'] == 380 and len(curation['retired']) >= 7
         assert curation['backup_sha256'] == hashlib.sha256(outer.read(folder + 'SPACE_INFINITY_Retired_093_Backup.zip')).hexdigest()
+    if tuple(map(int, version.split('.'))) >= (0, 9, 4):
+        tests = outer.read(folder+'audit/INSTALLED_BANK_094_NATIVE_TESTS.txt').decode('utf-8-sig')
+        assert 'SPACE INFINITY 0.9.4' in tests and '100% tests passed' in tests and 'CTest exit code: 0' in tests
+        matched = json.loads(outer.read(folder+'audit/INSTALLED_BANK_094_LEVELS.json'))
+        assert matched['presets_measured'] == 421 and matched['sampled_orbit_presets'] == 48 and not matched['errors']
+        assert matched['maximum_deviation_lu'] <= 1.001 and matched['maximum_default_true_peak_dbfs'] < 0 and matched['maximum_stress_true_peak_dbfs'] < 0
+        catalogue = json.loads(outer.read(folder+'audit/INSTALLED_BANK_094_CATALOGUE.json'))
+        assert catalogue['active_presets'] == len(catalogue['settings']) == 421
+        for name, digest in matched['bank_hashes'].items():
+            assert hashlib.sha256(outer.read(folder+name)).hexdigest() == digest == catalogue['banks'][name]['sha256']
+        assert parameters['presetReferenceGain']['host_default'] == 0
 print('Installer wrapper: current instructions, banks, audio evidence, parameters and checksums passed')

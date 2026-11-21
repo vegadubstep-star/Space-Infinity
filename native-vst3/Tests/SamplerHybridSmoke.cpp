@@ -19,7 +19,11 @@ int runSamplerHybridSmoke(){try{
  need(p->importSample(wav,true).wasOk(),"clean sample import");set(*p,"sampleLoop",1);const auto direct=render(*p);
  for(int c=0;c<2;++c){const double bass=tone(direct[size_t(c)],50),upper=tone(direct[size_t(c)],800);std::cout<<"Clean sample channel "<<c<<": 50Hz="<<bass<<" 800Hz="<<upper<<'\n';need(std::abs(20*std::log10(bass/.15))<.4,"clean import loses bass or level");need(std::abs(20*std::log10(upper/.05))<.4,"clean import changes spectral balance");}
  double correlation=0;for(size_t n=12000;n<36000;++n)correlation+=direct[0][n]*direct[1][n];need(correlation<0,"stereo phase was collapsed to mono");
+ // Static bank gain is independent of performance/macro compensation and does not pump.
+ set(*p,"presetReferenceGain",-6);const auto levelMatched=render(*p);need(std::abs(tone(levelMatched[0],50)/tone(direct[0],50)-std::pow(10.,-6./20))<.002,"static preset reference gain is inaccurate");set(*p,"presetReferenceGain",0);
  juce::MemoryBlock saved;p->getStateInformation(saved);auto recalled=std::make_unique<SpaceInfinityProcessor>(folder.getChildFile("Recall"));recalled->setStateInformation(saved.getData(),int(saved.getSize()));const auto restored=render(*recalled);need(std::abs(tone(restored[0],50)-tone(direct[0],50))<.0001,"stereo sample state recall changes bass");
+ // Old project states without the appended reference gain retain their original level.
+ auto legacy=juce::AudioProcessor::getXmlFromBinary(saved.getData(),int(saved.getSize()));legacy->removeChildElement(legacy->getChildByAttribute("id","presetReferenceGain"),true);juce::MemoryBlock legacyBytes;juce::AudioProcessor::copyXmlToBinary(*legacy,legacyBytes);set(*recalled,"presetReferenceGain",8);recalled->setStateInformation(legacyBytes.getData(),int(legacyBytes.getSize()));need(recalled->state.getRawParameterValue("presetReferenceGain")->load()==0,"old project inherits a previous bank gain");
  // A right-only file must remain audible in granular mode too.
  const auto rightFile=folder.getChildFile("RightOnly.wav");source.clear(0,0,48000);
  {auto stream=rightFile.createOutputStream();juce::WavAudioFormat format;auto writer=std::unique_ptr<juce::AudioFormatWriter>(format.createWriterFor(stream.get(),48000,2,24,{},0));need(bool(writer),"right-only writer");stream.release();need(writer->writeFromAudioSampleBuffer(source,0,48000),"right-only samples");}
@@ -46,15 +50,21 @@ int runSamplerHybridSmoke(){try{
  const auto hz=[](const std::vector<float>& audio,int begin,int end){std::vector<double> crossings;for(int n=begin+1;n<end;++n)if(audio[size_t(n-1)]<=0&&audio[size_t(n)]>0)crossings.push_back(n-1-audio[size_t(n-1)]/(audio[size_t(n)]-audio[size_t(n-1)]));need(crossings.size()>3,"glide pitch probe has too few cycles");return (crossings.size()-1)*48000/(crossings.back()-crossings.front());};
  for(bool down:{false,true})for(int mode:{1,2}){set(*glide,"voiceMode",float(mode));set(*glide,"glideTime",.03f);glide->prepareToPlay(48000,128);juce::AudioBuffer<float> block(2,128);std::vector<float> result;
      for(int b=0;b<120;++b){juce::MidiBuffer midi;if(!b)midi.addEvent(juce::MidiMessage::noteOn(1,down?81:69,1.f),0);if(mode==1&&b==30)midi.addEvent(juce::MidiMessage::noteOff(1,down?81:69),0);if(b==40)midi.addEvent(juce::MidiMessage::noteOn(1,down?69:81,1.f),0);glide->processBlock(block,midi);for(int n=0;n<128;++n)result.push_back(block.getSample(0,n));}
-     const double early=hz(result,40*128+200,40*128+600),finished=hz(result,40*128+1800,40*128+3500);const double initial=down?880:440,target=down?440:880;
+     const int audibleStart=40*128+glide->getLatencySamples();const double early=hz(result,audibleStart+200,audibleStart+600),finished=hz(result,audibleStart+1800,audibleStart+3500);const double initial=down?880:440,target=down?440:880;
      std::cout<<"30ms "<<(down?"down":"up")<<" glide mode "<<mode<<": "<<early<<" -> "<<finished<<" Hz\n";
      need(std::abs(finished-target)<3,"portamento does not finish within displayed duration");need(down?(early>target&&early<initial):(early>initial&&early<target),"portamento must travel monotonically between notes");
  }
  // A fresh phrase must not swoop from a note played long before it.
  for(float seconds:{0.f,.03f}){set(*glide,"voiceMode",1);set(*glide,"glideTime",seconds);glide->prepareToPlay(48000,128);juce::AudioBuffer<float> block(2,128);std::vector<float> result;
      for(int b=0;b<230;++b){juce::MidiBuffer midi;if(!b)midi.addEvent(juce::MidiMessage::noteOn(1,69,1.f),0);if(b==20)midi.addEvent(juce::MidiMessage::noteOff(1,69),0);if(b==200)midi.addEvent(juce::MidiMessage::noteOn(1,81,1.f),0);glide->processBlock(block,midi);for(int n=0;n<128;++n)result.push_back(block.getSample(0,n));}
-     need(std::abs(hz(result,200*128+200,200*128+1000)-880)<3,"new phrase retains an old glide pitch");
+     need(std::abs(hz(result,200*128+glide->getLatencySamples()+200,200*128+glide->getLatencySamples()+1000)-880)<3,"new phrase retains an old glide pitch");
  }
+ // A state load must not flush audio already queued by the reported latency.
+ juce::MemoryBlock continuousState;glide->getStateInformation(continuousState);auto queued=std::make_unique<SpaceInfinityProcessor>(folder.getChildFile("Queued")),control=std::make_unique<SpaceInfinityProcessor>(folder.getChildFile("Control"));
+ for(auto* stream:{queued.get(),control.get()}){stream->setStateInformation(continuousState.getData(),int(continuousState.getSize()));stream->prepareToPlay(48000,128);}
+ juce::AudioBuffer<float> queuedAudio(2,128),controlAudio(2,128);
+ for(int b=0;b<20;++b){for(auto pair:{std::make_pair(queued.get(),&queuedAudio),std::make_pair(control.get(),&controlAudio)}){juce::MidiBuffer midi;if(!b)midi.addEvent(juce::MidiMessage::noteOn(1,69,1.f),0);pair.first->processBlock(*pair.second,midi);}}
+ queued->getStateInformation(continuousState);queued->setStateInformation(continuousState.getData(),int(continuousState.getSize()));juce::MidiBuffer noNotes;queued->processBlock(queuedAudio,noNotes);control->processBlock(controlAudio,noNotes);double prefixEnergy=0;for(int n=0;n<32;++n){prefixEnergy+=controlAudio.getSample(0,n)*controlAudio.getSample(0,n);need(std::abs(queuedAudio.getSample(0,n)-controlAudio.getSample(0,n))<1.e-7,"preset recall flushes queued output and can click");}need(prefixEnergy>.00001,"queued audio continuity probe is silent");
  need(p->ensureBundledPresets().wasOk(),"automatic bundled banks");const auto count=p->presetBank().entries().size();need(count==429,"all factory/extra/sample sounds must be installed");need(p->ensureBundledPresets().wasOk()&&p->presetBank().entries().size()==count,"bundled bank startup duplicates sounds");
  for(size_t i=0;i<count;++i)if(p->presetBank().entries()[i].key.startsWith("Uuser_orbitvoices093_")){const auto name=p->presetBank().entries()[i].name;need(p->loadBankPreset(int(i)).wasOk(),"bundled sample preset load");const auto audio=render(*p,8192);float peak=0;for(const auto& channel:audio)for(float x:channel)peak=juce::jmax(peak,std::abs(x));std::cout<<"Bundled "<<name<<" peak "<<peak<<'\n';need(peak>.0001f,"bundled sample preset is silent or its sample was not decoded");}
 

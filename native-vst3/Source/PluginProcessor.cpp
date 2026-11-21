@@ -264,6 +264,7 @@ APVTS::ParameterLayout makeLayout(){
     flag("sampleStereo","Preserve imported stereo",false);
     flag("sampleFidelity","Full-range sample playback",false);
     f("sampleGain","Sample gain",-60,12,0);
+    f("presetReferenceGain","Preset reference gain",-48,24,0);
     return p;
 }
 float osc(double x,int wave){ x-=std::floor(x); switch(wave){case 1:return x<0.48?1.0f:-1.0f;case 2:return std::sin(float(juce::MathConstants<double>::twoPi*x));case 3:return float(4*std::abs(x-0.5)-1);default:return float(2*x-1);} }
@@ -384,7 +385,7 @@ float SpaceInfinityProcessor::oscillatorSample(double phase,int wave){
     const auto left=size_t(index)&511;
     return table[left]+(table[(left+1)&511]-table[left])*float(index-std::floor(index));
 }
-SpaceInfinityProcessor::SpaceInfinityProcessor(const juce::File& presetDirectory):juce::AudioProcessor(BusesProperties().withInput("Sidechain",juce::AudioChannelSet::stereo(),false).withOutput("Output",juce::AudioChannelSet::stereo(),true)),state(*this,nullptr,"PARAMETERS",makeLayout()){
+SpaceInfinityProcessor::SpaceInfinityProcessor(const juce::File& presetDirectory,bool installIncludedBanks):juce::AudioProcessor(BusesProperties().withInput("Sidechain",juce::AudioChannelSet::stereo(),false).withOutput("Output",juce::AudioChannelSet::stereo(),true)),state(*this,nullptr,"PARAMETERS",makeLayout()){
     for(size_t band=0;band<eqParameters.size();++band){
         const char* fields[]={"Frequency","Gain","Q"};
         for(size_t field=0;field<3;++field)
@@ -438,7 +439,7 @@ SpaceInfinityProcessor::SpaceInfinityProcessor(const juce::File& presetDirectory
     for(int i=0;i<7;++i){eqTypes[size_t(i)]=state.getRawParameterValue("eqMode"+juce::String(i));eqSlopes[size_t(i)]=state.getRawParameterValue("eqSlope"+juce::String(i));}
     for(int i=0;i<16;++i)gateParameters[size_t(i)]=state.getRawParameterValue("gateStep"+juce::String(i));
     library=std::make_unique<PresetLibrary>(presetNames(),categories,presetDirectory,-1,1000,creators,tags);
-    if(presetDirectory==juce::File{}){auto r=ensureBundledPresets();if(r.failed())bundledPresetError=r.getErrorMessage();int bytes=0;if(const char* data=ExtraBankData::getNamedResource("Curation093_json",bytes))library->setCuration(juce::JSON::parse(juce::String::fromUTF8(data,bytes)));}
+    if(presetDirectory==juce::File{}||installIncludedBanks){auto r=ensureBundledPresets();if(r.failed())bundledPresetError=r.getErrorMessage();int bytes=0;if(const char* data=ExtraBankData::getNamedResource("Curation093_json",bytes))library->setCuration(juce::JSON::parse(juce::String::fromUTF8(data,bytes)));}
     initialiseWorkflow();
     startImpulseWorker();
     loadPreset(0);
@@ -576,7 +577,8 @@ void SpaceInfinityProcessor::prepareToPlay(double sampleRate,int maxSamples){
     oversampling.initProcessing(size_t(maximumHostBlock));oversampling.reset();
     highRateMidi.ensureSize(262144);
     sidechainHigh.setSize(1,maximumHostBlock*2);
-    setLatencySamples(int(std::ceil(oversampling.getLatencyInSamples())));
+    outputSafetyLimiter.prepare(sampleRate,maximumHostBlock);
+    setLatencySamples(int(std::ceil(oversampling.getLatencyInSamples()))+outputSafetyLimiter.latencySamples());
     sr=sampleRate*2;maxSamples=maximumHostBlock*2;
     pattern=infinity::Pattern{};patternMidi.ensureSize(262144);
     transportKnown=false;transportPlaying=false;previousPpq=0;
@@ -586,7 +588,7 @@ void SpaceInfinityProcessor::prepareToPlay(double sampleRate,int maxSamples){
 
     prepareWorkflow(sr);
     eqState={};
-    previousOutputGain=param("gain")*juce::Decibels::decibelsToGain(param("presetTrim"));
+    previousOutputGain=param("gain")*juce::Decibels::decibelsToGain(param("presetTrim")+param("presetReferenceGain"));
     analogueAmount.reset(sr,0.04);
     analogueAmount.setCurrentAndTargetValue(param("engineMode")>.5f?0:param("analogueCharacter"));
     analogueCutoff.reset(sr,.02);
@@ -727,12 +729,7 @@ void SpaceInfinityProcessor::processBlock(juce::AudioBuffer<float>& b,juce::Midi
         for(const auto event:midi)if(event.samplePosition>=offset&&event.samplePosition<offset+count)
             highRateMidi.addEvent(event.getMessage(),(event.samplePosition-offset)*2);
         hostChunkSeconds=double(offset)*2/sr;renderBlock(high,highRateMidi);oversampling.processSamplesDown(output);
-        if(param("outputSafety")>.5f){
-            float nativePeak=0;
-            for(size_t channel=0;channel<output.getNumChannels();++channel){auto* samples=output.getChannelPointer(channel);
-                for(size_t i=0;i<output.getNumSamples();++i){const float value=samples[i],magnitude=std::abs(value);nativePeak=std::max(nativePeak,magnitude);samples[i]=magnitude<=.95f?value:std::copysign(.95f+.04f*std::tanh((magnitude-.95f)/.04f),value);}}
-            auto previous=outputPeak.load(std::memory_order_relaxed);while(nativePeak>previous&&!outputPeak.compare_exchange_weak(previous,nativePeak,std::memory_order_relaxed)){}
-        }
+        outputSafetyLimiter.process(output,param("outputSafety")>.5f);
         unsigned write=scopeWrite.load(std::memory_order_relaxed);
         for(int i=0;i<count;++i){scopeSamples[size_t(write%32768)].store((b.getSample(0,offset+i)+b.getSample(1,offset+i))*.5f,std::memory_order_relaxed);++write;}
         scopeWrite.store(write,std::memory_order_release);offset+=count;
@@ -1431,7 +1428,7 @@ void SpaceInfinityProcessor::renderBlock(juce::AudioBuffer<float>& b,juce::MidiB
         levelMatchGain+=gainCoefficient*(desired-levelMatchGain);
         if(levelMatchGain<.999999){b.setSample(0,sample,float(l*levelMatchGain));b.setSample(1,sample,float(r*levelMatchGain));}
     }
-    const float outputGain=juce::jlimit(0.0f,1.2f,param("gain")+0.5f*fxModulation[14])*juce::Decibels::decibelsToGain(param("presetTrim"));
+    const float outputGain=juce::jlimit(0.0f,1.2f,param("gain")+0.5f*fxModulation[14])*juce::Decibels::decibelsToGain(param("presetTrim")+param("presetReferenceGain"));
     b.applyGainRamp(0,b.getNumSamples(),previousOutputGain,outputGain);
     previousOutputGain=outputGain;
     const float peak=b.getMagnitude(0,b.getNumSamples());

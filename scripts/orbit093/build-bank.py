@@ -41,7 +41,10 @@ for index,(original,name,key,category) in enumerate(rows):
    settings.update(ampSustain=[.9,.65,.8,.5][index%4],ampDecay=[.24,.4,.65,.18][index%4],release=[.1,.22,.35,.07][index%4],cutoff=[8000,12000,5400,16000][index%4],filterEnvAmount=[.2,1.1,.6,0][index%4],echoMix=[.1,.18,.07,.14][index%4],reverb=[.12,.22,.09,.18][index%4])
   if category=='Bass':
    settings.update(sampleLoop=index%3==0,sampleStart=0,sampleEnd=1,sampleLoopFade=10,voiceMode=1,glideTime=0,ampSustain=.62 if index%3==0 else .08,ampDecay=[.12,.2,.28][index%3],release=.025,cutoff=[900,1800,3200][index%3],filterEnvAmount=1.2,filterDecay=.1,filterSustain=0,reverbEnabled=0,delayEnabled=0,reverb=0,echoMix=0,ampVelocity=.3)
+  matched=root/'native-vst3/Presets/Installed094.json'
+  if matched.exists():settings.update(json.loads(matched.read_text())['settings'].get('Uuser_orbitvoices093_'+patchid,{}))
   x=E.Element('PARAMETERS',presetDisplayName=title,creator='Orbital Audio',tags=f'{category}, Orbit Voices, User Samples, INFINITY',presetKey='Uuser_orbitvoices093_'+patchid,sampleName=filename,sampleWav=encoded,macroLabel0='OPEN',macroLabel1='SPACE',macroLabel2='BODY')
+  if matched.exists():x.set('tags',x.get('tags')+', Level Matched 094')
   for m,(target,depth) in enumerate([('cutoff',.2),('reverb',.25),('sampleGain',.03)]):x.set(f'freeMacroTarget{m}_0',target);settings[f'freeMacroDepth{m}_0']=depth
   assert set(settings)<=set(base), 'Unknown native settings: '+str(set(settings)-set(base))
   for k,v in settings.items():E.SubElement(x,'PARAM',id=k,value=str(int(v) if isinstance(v,bool) else v))
@@ -51,6 +54,6 @@ for index,(original,name,key,category) in enumerate(rows):
   manifest.append(row);payload.append((file,binary));designs.append(dict(id=patchid,name=title,category=category,settings={k:v for k,v in settings.items() if base.get(k)!=v},sample_file=str(dest.relative_to(root)),root_midi=key))
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=7) as z:
  for file,binary in payload:z.writestr(file,binary)
- z.writestr('Bank.json',json.dumps(dict(format='SPACE_INFINITY_BANK_V2',minimum_version='0.9.3',id='orbitvoices093',name='INFINITY Orbit Voices',presets=manifest),indent=2))
+ z.writestr('Bank.json',json.dumps(dict(format='SPACE_INFINITY_BANK_V2',minimum_version='0.9.4' if (root/'native-vst3/Presets/Installed094.json').exists() else '0.9.3',id='orbitvoices093',name='INFINITY Orbit Voices',presets=manifest),indent=2))
 (out/'DESIGNS.json').write_text(json.dumps(dict(presets=designs),indent=2)+'\n');(root/'docs/ORBIT_SAMPLES_093_PROVENANCE.json').write_text(json.dumps(dict(samples=provenance),indent=2)+'\n');(out/(archive.name+'.sha256')).write_text(hashlib.sha256(archive.read_bytes()).hexdigest()+'  '+archive.name+'\n')
 print(f'{len(provenance)} renamed sources; {len(manifest)} authored presets; calibration {bool(gains)}')

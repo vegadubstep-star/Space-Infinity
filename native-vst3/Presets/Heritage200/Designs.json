@@ -116,7 +116,8 @@
         "reverbSize": 0.5,
         "eq3Frequency": 350,
         "eq3Gain": -2,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 1.634566
       },
       "modulation": [],
       "description": "M1-influenced grand voice. Play your own notes; no sequencer.",
@@ -361,7 +362,8 @@
         "engineMode": 1,
         "reverb": 0.18,
         "reverbSize": 0.5,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -0.566182
       },
       "modulation": [],
       "description": "M1-influenced upright voice. Play your own notes; no sequencer.",
@@ -484,7 +486,8 @@
         "eq4Frequency": 4500,
         "eq4Gain": 2.5,
         "chorus": 0.08,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 0.04139
       },
       "modulation": [],
       "description": "M1-influenced ep voice. Play your own notes; no sequencer.",
@@ -728,7 +731,8 @@
         "reverbSize": 0.5,
         "eq4Frequency": 3200,
         "eq4Gain": 2,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -0.108824
       },
       "modulation": [],
       "description": "M1-influenced grand voice. Play your own notes; no sequencer.",
@@ -848,7 +852,8 @@
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 4.771258
       },
       "modulation": [],
       "description": "M1-influenced upright voice. Play your own notes; no sequencer.",
@@ -973,7 +978,8 @@
         "outputSafety": 1,
         "sampleReverse": 1,
         "sampleStart": 0,
-        "sampleEnd": 0.28
+        "sampleEnd": 0.28,
+        "presetReferenceGain": -1.61388
       },
       "modulation": [],
       "description": "M1-influenced grand voice. Play your own notes; no sequencer.",
@@ -1093,7 +1099,8 @@
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 1.72032
       },
       "modulation": [],
       "description": "M1-influenced upright voice. Play your own notes; no sequencer.",
@@ -1216,7 +1223,8 @@
         "chorus": 0.12,
         "eq4Frequency": 6500,
         "eq4Gain": 3,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -0.189223
       },
       "modulation": [],
       "description": "M1-influenced ep voice. Play your own notes; no sequencer.",
@@ -1337,7 +1345,8 @@
         "reverb": 0.11,
         "reverbSize": 0.5,
         "outputSafety": 1,
-        "echoMix": 0.08
+        "echoMix": 0.08,
+        "presetReferenceGain": 0.758493
       },
       "modulation": [],
       "description": "M1-influenced ep voice. Play your own notes; no sequencer.",
@@ -1457,7 +1466,8 @@
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -0.142977
       },
       "modulation": [],
       "description": "M1-influenced clav voice. Play your own notes; no sequencer.",
@@ -1562,7 +1572,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -1577,7 +1587,12 @@
         "osc1WarpEnvelope": 2,
         "engineMode": 1,
         "chorus": 0.14,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -1.590245
       },
       "modulation": [],
       "description": "M1-influenced fmkeys voice. Play your own notes; no sequencer.",
@@ -1700,7 +1715,8 @@
         "eq3Frequency": 850,
         "eq3Gain": -2.5,
         "chorus": 0.22,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 2.050992
       },
       "modulation": [],
       "description": "M1-influenced ep voice. Play your own notes; no sequencer.",
@@ -1805,7 +1821,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -1819,7 +1835,12 @@
         "presetTrim": 6.32044,
         "osc1WarpEnvelope": 2,
         "engineMode": 1,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -1.861684
       },
       "modulation": [],
       "description": "M1-influenced fmkeys voice. Play your own notes; no sequencer.",
@@ -1942,7 +1963,8 @@
         "distInput": 0,
         "distDrive": 0.18,
         "distMix": 0.3,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 1.099393
       },
       "modulation": [],
       "description": "M1-influenced clav voice. Play your own notes; no sequencer.",
@@ -2063,7 +2085,8 @@
         "reverb": 0.18,
         "reverbSize": 0.5,
         "chorus": 0.18,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 0.828153
       },
       "modulation": [],
       "description": "M1-influenced ep voice. Play your own notes; no sequencer.",
@@ -2183,7 +2206,8 @@
         "osc1WarpEnvelope": 2,
         "engineMode": 1,
         "echoMix": 0.1,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -1.353961
       },
       "modulation": [],
       "description": "M1-influenced fmkeys voice. Play your own notes; no sequencer.",
@@ -2288,7 +2312,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -2301,7 +2325,12 @@
         "gain": 0.4,
         "presetTrim": 5.98646,
         "engineMode": 1,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -4.974337
       },
       "modulation": [],
       "description": "M1-influenced drawbar voice. Play your own notes; no sequencer.",
@@ -2406,7 +2435,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -2420,7 +2449,12 @@
         "presetTrim": 17.40713,
         "subOctave": -1,
         "engineMode": 1,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -10.070987
       },
       "modulation": [],
       "description": "M1-influenced organbass voice. Play your own notes; no sequencer.",
@@ -2525,7 +2559,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -2538,7 +2572,12 @@
         "gain": 0.4,
         "presetTrim": 5.13477,
         "engineMode": 1,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -5.100081
       },
       "modulation": [],
       "description": "M1-influenced drawbar voice. Play your own notes; no sequencer.",
@@ -2643,7 +2682,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -2656,7 +2695,12 @@
         "gain": 0.4,
         "presetTrim": 6.77731,
         "engineMode": 1,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -2.132802
       },
       "modulation": [],
       "description": "M1-influenced drawbar voice. Play your own notes; no sequencer.",
@@ -2761,7 +2805,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -2775,7 +2819,12 @@
         "presetTrim": 17.38272,
         "subOctave": -1,
         "engineMode": 1,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -7.862625
       },
       "modulation": [],
       "description": "M1-influenced organbass voice. Play your own notes; no sequencer.",
@@ -2880,7 +2929,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -2893,7 +2942,12 @@
         "gain": 0.4,
         "presetTrim": 6.52984,
         "engineMode": 1,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -3.518739
       },
       "modulation": [],
       "description": "M1-influenced drawbar voice. Play your own notes; no sequencer.",
@@ -3116,7 +3170,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -3129,7 +3183,12 @@
         "gain": 0.4,
         "presetTrim": 5.2777,
         "engineMode": 1,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -4.489184
       },
       "modulation": [],
       "description": "M1-influenced drawbar voice. Play your own notes; no sequencer.",
@@ -3234,7 +3293,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -3247,7 +3306,12 @@
         "gain": 0.4,
         "presetTrim": 6.45985,
         "engineMode": 1,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -2.285832
       },
       "modulation": [],
       "description": "M1-influenced drawbar voice. Play your own notes; no sequencer.",
@@ -3352,7 +3416,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -3369,7 +3433,12 @@
         "distDrive": 0.15,
         "distInput": 3,
         "distMix": 0.2,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -7.323797
       },
       "modulation": [],
       "description": "M1-influenced organbass voice. Play your own notes; no sequencer.",
@@ -3489,7 +3558,8 @@
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 2.247708
       },
       "modulation": [],
       "description": "M1-influenced marimba voice. Play your own notes; no sequencer.",
@@ -3609,7 +3679,8 @@
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 3.142354
       },
       "modulation": [],
       "description": "M1-influenced recorder voice. Play your own notes; no sequencer.",
@@ -3729,7 +3800,8 @@
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 1.913362
       },
       "modulation": [],
       "description": "M1-influenced glock voice. Play your own notes; no sequencer.",
@@ -3849,7 +3921,8 @@
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -1.629371
       },
       "modulation": [],
       "description": "M1-influenced vibe voice. Play your own notes; no sequencer.",
@@ -3971,7 +4044,8 @@
         "reverbSize": 0.5,
         "eq3Frequency": 750,
         "eq3Gain": 2,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 2.503794
       },
       "modulation": [],
       "description": "M1-influenced lute voice. Play your own notes; no sequencer.",
@@ -4090,7 +4164,8 @@
         "presetTrim": 5.77625,
         "engineMode": 1,
         "echoMix": 0.16,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 1.466157
       },
       "modulation": [],
       "description": "M1-influenced bell voice. Play your own notes; no sequencer.",
@@ -4210,7 +4285,8 @@
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 3.304996
       },
       "modulation": [],
       "description": "M1-influenced marimba voice. Play your own notes; no sequencer.",
@@ -4330,7 +4406,8 @@
         "engineMode": 1,
         "reverb": 0.11,
         "reverbSize": 0.5,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 2.235438
       },
       "modulation": [],
       "description": "M1-influenced glock voice. Play your own notes; no sequencer.",
@@ -4448,7 +4525,8 @@
         "gain": 0.4,
         "presetTrim": 7.29064,
         "engineMode": 1,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -0.710907
       },
       "modulation": [],
       "description": "M1-influenced bell voice. Play your own notes; no sequencer.",
@@ -4569,7 +4647,8 @@
         "reverb": 0.2,
         "reverbSize": 0.5,
         "osc1WarpEnvelope": 2,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -1.719431
       },
       "modulation": [],
       "description": "M1-influenced vibe voice. Play your own notes; no sequencer.",
@@ -4690,7 +4769,8 @@
         "engineMode": 1,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -6.330044
       },
       "modulation": [],
       "description": "M1-influenced organbass voice. Play your own notes; no sequencer.",
@@ -4813,7 +4893,8 @@
         "pitchEnvDecay": 0.018,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -7.293769
       },
       "modulation": [],
       "description": "M1-influenced bass voice. Play your own notes; no sequencer.",
@@ -5056,7 +5137,8 @@
         "engineMode": 1,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -11.308938
       },
       "modulation": [],
       "description": "M1-influenced fmbass voice. Play your own notes; no sequencer.",
@@ -5177,7 +5259,8 @@
         "engineMode": 1,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -4.155845
       },
       "modulation": [],
       "description": "M1-influenced organbass voice. Play your own notes; no sequencer.",
@@ -5298,7 +5381,8 @@
         "engineMode": 1,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.607422
       },
       "modulation": [],
       "description": "M1-influenced bass voice. Play your own notes; no sequencer.",
@@ -5420,7 +5504,8 @@
         "engineMode": 1,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -4.866973
       },
       "modulation": [],
       "description": "M1-influenced fmbass voice. Play your own notes; no sequencer.",
@@ -5541,7 +5626,8 @@
         "engineMode": 1,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -4.1238
       },
       "modulation": [],
       "description": "M1-influenced bass voice. Play your own notes; no sequencer.",
@@ -5680,7 +5766,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.864222
       },
       "modulation": [
         {
@@ -5825,7 +5912,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -3.457378
       },
       "modulation": [
         {
@@ -5957,7 +6045,8 @@
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 1.583655
       },
       "modulation": [],
       "description": "M1-influenced ooh voice. Play your own notes; no sequencer.",
@@ -6096,7 +6185,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -1.78961
       },
       "modulation": [
         {
@@ -6228,7 +6318,8 @@
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 1.530682
       },
       "modulation": [],
       "description": "M1-influenced bow voice. Play your own notes; no sequencer.",
@@ -6354,7 +6445,8 @@
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 0.767362
       },
       "modulation": [],
       "description": "M1-influenced choir voice. Play your own notes; no sequencer.",
@@ -6493,7 +6585,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -4.340625
       },
       "modulation": [
         {
@@ -6638,7 +6731,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -4.357313
       },
       "modulation": [
         {
@@ -6770,7 +6864,8 @@
         "chorus": 0.04,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 0.633469
       },
       "modulation": [],
       "description": "M1-influenced ooh voice. Play your own notes; no sequencer.",
@@ -6909,7 +7004,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.217243
       },
       "modulation": [
         {
@@ -7041,7 +7137,8 @@
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -3.198731
       },
       "modulation": [],
       "description": "M1-influenced strings voice. Play your own notes; no sequencer.",
@@ -7170,7 +7267,8 @@
         "outputSafety": 1,
         "chorusEngine": 1,
         "dimensionMode": 1,
-        "dimensionWidth": 1
+        "dimensionWidth": 1,
+        "presetReferenceGain": 2.23926
       },
       "modulation": [],
       "description": "M1-influenced celli voice. Play your own notes; no sequencer.",
@@ -7295,7 +7393,8 @@
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -0.517041
       },
       "modulation": [],
       "description": "M1-influenced pizz voice. Play your own notes; no sequencer.",
@@ -7424,7 +7523,8 @@
         "eq3Frequency": 800,
         "eq3Gain": 2,
         "outputSafety": 1,
-        "echoMix": 0.04
+        "echoMix": 0.04,
+        "presetReferenceGain": 6.220057
       },
       "modulation": [],
       "description": "M1-influenced strings voice. Play your own notes; no sequencer.",
@@ -7550,7 +7650,8 @@
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 0.416829
       },
       "modulation": [],
       "description": "M1-influenced bow voice. Play your own notes; no sequencer.",
@@ -7676,7 +7777,8 @@
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 0.709053
       },
       "modulation": [],
       "description": "M1-influenced celli voice. Play your own notes; no sequencer.",
@@ -7803,7 +7905,8 @@
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
         "outputSafety": 1,
-        "echoMix": 0.06
+        "echoMix": 0.06,
+        "presetReferenceGain": 0.659799
       },
       "modulation": [],
       "description": "M1-influenced strings voice. Play your own notes; no sequencer.",
@@ -7931,7 +8034,8 @@
         "outputSafety": 1,
         "sampleLoop": 0,
         "sampleStart": 0.015,
-        "echoMix": 0.02
+        "echoMix": 0.02,
+        "presetReferenceGain": 4.274469
       },
       "modulation": [],
       "description": "M1-influenced pizz voice. Play your own notes; no sequencer.",
@@ -8057,7 +8161,8 @@
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 0.355644
       },
       "modulation": [],
       "description": "M1-influenced ooh voice. Play your own notes; no sequencer.",
@@ -8183,7 +8288,8 @@
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 8.567805
       },
       "modulation": [],
       "description": "M1-influenced choir voice. Play your own notes; no sequencer.",
@@ -8308,7 +8414,8 @@
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -3.578304
       },
       "modulation": [],
       "description": "M1-influenced digital voice. Play your own notes; no sequencer.",
@@ -8434,7 +8541,8 @@
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 1.402838
       },
       "modulation": [],
       "description": "M1-influenced choir voice. Play your own notes; no sequencer.",
@@ -8560,7 +8668,8 @@
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 0.066762
       },
       "modulation": [],
       "description": "M1-influenced ooh voice. Play your own notes; no sequencer.",
@@ -8685,7 +8794,8 @@
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 2.511259
       },
       "modulation": [],
       "description": "M1-influenced digital voice. Play your own notes; no sequencer.",
@@ -8811,7 +8921,8 @@
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 0.336039
       },
       "modulation": [],
       "description": "M1-influenced choir voice. Play your own notes; no sequencer.",
@@ -9071,7 +9182,8 @@
         "designerLfo1Y0": 0,
         "designerLfo1Y1": 1,
         "designerLfo1Y2": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -0.812354
       },
       "modulation": [
         {
@@ -9213,7 +9325,8 @@
         "designerLfo1Y0": 0,
         "designerLfo1Y1": 1,
         "designerLfo1Y2": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -6.512831
       },
       "modulation": [
         {
@@ -9354,7 +9467,8 @@
         "designerLfo1Y0": 0,
         "designerLfo1Y1": 1,
         "designerLfo1Y2": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 6.009428
       },
       "modulation": [
         {
@@ -9485,7 +9599,8 @@
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -1.570235
       },
       "modulation": [],
       "description": "M1-influenced recorder voice. Play your own notes; no sequencer.",
@@ -9620,7 +9735,8 @@
         "designerLfo1Y0": 0,
         "designerLfo1Y1": 1,
         "designerLfo1Y2": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -0.091215
       },
       "modulation": [
         {
@@ -9761,7 +9877,8 @@
         "designerLfo1Y0": 0,
         "designerLfo1Y1": 1,
         "designerLfo1Y2": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -4.116055
       },
       "modulation": [
         {
@@ -9893,7 +10010,8 @@
         "chorus": 0.1,
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 0.000246
       },
       "modulation": [],
       "description": "M1-influenced bow voice. Play your own notes; no sequencer.",
@@ -10149,7 +10267,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0.035,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -0.183238
       },
       "modulation": [],
       "description": "JP-influenced super voice. Play your own notes; no sequencer.",
@@ -10280,7 +10399,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0.035,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 3.592358
       },
       "modulation": [],
       "description": "JP-influenced super voice. Play your own notes; no sequencer.",
@@ -10407,7 +10527,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0.035,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -2.887847
       },
       "modulation": [],
       "description": "JP-influenced pulse voice. Play your own notes; no sequencer.",
@@ -10538,7 +10659,8 @@
         "distDrive": 0.22,
         "distMix": 0.2,
         "oscMelt": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -10.504328
       },
       "modulation": [],
       "description": "JP-influenced sync voice. Play your own notes; no sequencer.",
@@ -10665,7 +10787,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0.035,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -13.637849
       },
       "modulation": [],
       "description": "JP-influenced sync voice. Play your own notes; no sequencer.",
@@ -10796,7 +10919,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0.035,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 1.355345
       },
       "modulation": [],
       "description": "JP-influenced super voice. Play your own notes; no sequencer.",
@@ -10923,7 +11047,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0.035,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -8.250939
       },
       "modulation": [],
       "description": "JP-influenced mono voice. Play your own notes; no sequencer.",
@@ -11059,7 +11184,8 @@
         "distTone": 9000,
         "fxOutput8": -1.5,
         "pitchEnvDecay": 0.025,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 7.361159
       },
       "modulation": [
         {
@@ -11226,7 +11352,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0.035,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 2.573112
       },
       "modulation": [],
       "description": "JP-influenced super voice. Play your own notes; no sequencer.",
@@ -11353,7 +11480,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -15.39607
       },
       "modulation": [],
       "description": "JP-influenced sync voice. Play your own notes; no sequencer.",
@@ -11489,7 +11617,8 @@
         "distTone": 9000,
         "fxOutput8": -1.5,
         "pitchEnvDecay": 0.025,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -3.194926
       },
       "modulation": [
         {
@@ -11656,7 +11785,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0.035,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 0.928187
       },
       "modulation": [],
       "description": "JP-influenced super voice. Play your own notes; no sequencer.",
@@ -11783,7 +11913,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0.035,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -13.621934
       },
       "modulation": [],
       "description": "JP-influenced mono voice. Play your own notes; no sequencer.",
@@ -11910,7 +12041,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0.035,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -12.952986
       },
       "modulation": [],
       "description": "JP-influenced mono voice. Play your own notes; no sequencer.",
@@ -12041,7 +12173,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0.035,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -0.300173
       },
       "modulation": [],
       "description": "JP-influenced super voice. Play your own notes; no sequencer.",
@@ -12168,7 +12301,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0.035,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -13.621035
       },
       "modulation": [],
       "description": "JP-influenced sync voice. Play your own notes; no sequencer.",
@@ -12301,7 +12435,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -0.578297
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
@@ -12434,7 +12569,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -0.623941
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
@@ -12563,7 +12699,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -4.364136
       },
       "modulation": [],
       "description": "JP-influenced respad voice. Play your own notes; no sequencer.",
@@ -12702,7 +12839,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.842845
       },
       "modulation": [
         {
@@ -12837,7 +12975,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -4.889789
       },
       "modulation": [],
       "description": "JP-influenced respad voice. Play your own notes; no sequencer.",
@@ -12970,7 +13109,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -1.962717
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
@@ -13103,7 +13243,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -2.574261
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
@@ -13236,7 +13377,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -3.157316
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
@@ -13365,7 +13507,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.78954
       },
       "modulation": [],
       "description": "JP-influenced respad voice. Play your own notes; no sequencer.",
@@ -13498,7 +13641,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 0.003377
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
@@ -13637,7 +13781,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -7.242911
       },
       "modulation": [
         {
@@ -13776,7 +13921,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -1.993585
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
@@ -13907,7 +14053,8 @@
         "delayWetLowGain": -10,
         "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 1.717602
       },
       "modulation": [
         {
@@ -14099,7 +14246,8 @@
         "delayWetLowGain": -10,
         "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 3.104338
       },
       "modulation": [
         {
@@ -14292,7 +14440,8 @@
         "delayWetLowGain": -10,
         "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 2.424203
       },
       "modulation": [
         {
@@ -14485,7 +14634,8 @@
         "delayWetLowGain": -10,
         "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -1.345636
       },
       "modulation": [
         {
@@ -14679,7 +14829,8 @@
         "delayWetLowGain": -10,
         "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 3.409548
       },
       "modulation": [
         {
@@ -14872,7 +15023,8 @@
         "delayWetLowGain": -10,
         "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -0.506443
       },
       "modulation": [
         {
@@ -15064,7 +15216,8 @@
         "delayWetLowGain": -10,
         "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -8.938078
       },
       "modulation": [
         {
@@ -15257,7 +15410,8 @@
         "delayWetLowGain": -10,
         "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 2.873411
       },
       "modulation": [
         {
@@ -15450,7 +15604,8 @@
         "delayWetLowGain": -10,
         "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 2.110424
       },
       "modulation": [
         {
@@ -15642,7 +15797,8 @@
         "delayWetLowGain": -10,
         "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 0.321456
       },
       "modulation": [
         {
@@ -15835,7 +15991,8 @@
         "delayWetLowGain": -10,
         "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 3.545548
       },
       "modulation": [
         {
@@ -16028,7 +16185,8 @@
         "delayWetLowGain": -10,
         "reverbWetLowFreq": 280,
         "reverbWetLowGain": -12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -0.880554
       },
       "modulation": [
         {
@@ -16213,7 +16371,8 @@
         "osc1Blend": 0.75,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -3.818076
       },
       "modulation": [],
       "description": "JP-influenced bass voice. Play your own notes; no sequencer.",
@@ -16334,7 +16493,8 @@
         "engineMode": 0,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.02081
       },
       "modulation": [],
       "description": "JP-influenced bass voice. Play your own notes; no sequencer.",
@@ -16455,7 +16615,8 @@
         "subOctave": 0,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -7.671452
       },
       "modulation": [],
       "description": "JP-influenced sync voice. Play your own notes; no sequencer.",
@@ -16576,7 +16737,8 @@
         "engineMode": 0,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -4.94887
       },
       "modulation": [],
       "description": "JP-influenced bass voice. Play your own notes; no sequencer.",
@@ -16698,7 +16860,8 @@
         "engineMode": 0,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.635208
       },
       "modulation": [],
       "description": "JP-influenced fmbass voice. Play your own notes; no sequencer.",
@@ -16819,7 +16982,8 @@
         "engineMode": 0,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -3.497356
       },
       "modulation": [],
       "description": "JP-influenced bass voice. Play your own notes; no sequencer.",
@@ -16940,7 +17104,8 @@
         "engineMode": 0,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -3.942173
       },
       "modulation": [],
       "description": "JP-influenced organbass voice. Play your own notes; no sequencer.",
@@ -17064,7 +17229,8 @@
         "distMix": 0.24,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.033412
       },
       "modulation": [],
       "description": "JP-influenced bass voice. Play your own notes; no sequencer.",
@@ -17310,7 +17476,8 @@
         "distMix": 0.18,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -7.219384
       },
       "modulation": [],
       "description": "JP-influenced fmbass voice. Play your own notes; no sequencer.",
@@ -17441,7 +17608,8 @@
         "arpOctaves": 2,
         "arpOrder": 0,
         "patternGate": 0.55,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -8.374126
       },
       "modulation": [],
       "description": "JP-influenced pluck voice. Hold a chord; internal arpeggiator generates notes.",
@@ -17571,7 +17739,8 @@
         "arpOctaves": 1,
         "arpOrder": 1,
         "patternGate": 0.38,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -9.357547
       },
       "modulation": [],
       "description": "JP-influenced pulse voice. Hold a chord; internal arpeggiator generates notes.",
@@ -17701,7 +17870,8 @@
         "arpOctaves": 2,
         "arpOrder": 2,
         "patternGate": 0.62,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -11.12562
       },
       "modulation": [],
       "description": "JP-influenced sync voice. Hold a chord; internal arpeggiator generates notes.",
@@ -17832,7 +18002,8 @@
         "arpOctaves": 1,
         "arpOrder": 0,
         "patternGate": 0.45,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -8.569853
       },
       "modulation": [],
       "description": "JP-influenced pluck voice. Hold a chord; internal arpeggiator generates notes.",
@@ -17963,7 +18134,8 @@
         "arpOctaves": 3,
         "arpOrder": 2,
         "patternGate": 0.7,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -14.468086
       },
       "modulation": [],
       "description": "JP-influenced fmkeys voice. Hold a chord; internal arpeggiator generates notes.",
@@ -18094,7 +18266,8 @@
         "arpOctaves": 2,
         "arpOrder": 1,
         "patternGate": 0.58,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -8.532129
       },
       "modulation": [],
       "description": "JP-influenced pluck voice. Hold a chord; internal arpeggiator generates notes.",
@@ -18224,7 +18397,8 @@
         "arpOctaves": 2,
         "arpOrder": 0,
         "patternGate": 0.42,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -9.511595
       },
       "modulation": [],
       "description": "JP-influenced pulse voice. Hold a chord; internal arpeggiator generates notes.",
@@ -18355,7 +18529,8 @@
         "arpOctaves": 1,
         "arpOrder": 2,
         "patternGate": 0.32,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -11.955285
       },
       "modulation": [],
       "description": "JP-influenced pluck voice. Hold a chord; internal arpeggiator generates notes.",
@@ -18489,7 +18664,8 @@
         "arpOctaves": 3,
         "arpOrder": 1,
         "patternGate": 0.8,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -4.480038
       },
       "modulation": [],
       "description": "JP-influenced super voice. Hold a chord; internal arpeggiator generates notes.",
@@ -18620,7 +18796,8 @@
         "arpOctaves": 1,
         "arpOrder": 0,
         "patternGate": 0.65,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -9.771154
       },
       "modulation": [],
       "description": "JP-influenced pluck voice. Hold a chord; internal arpeggiator generates notes.",
@@ -18747,7 +18924,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0.035,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -12.680229
       },
       "modulation": [],
       "description": "Nord-influenced mono voice. Play your own notes; no sequencer.",
@@ -18883,7 +19061,8 @@
         "distTone": 9000,
         "fxOutput8": -1.5,
         "pitchEnvDecay": 0.025,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -2.452455
       },
       "modulation": [
         {
@@ -19056,7 +19235,8 @@
         "distTone": 9000,
         "fxOutput8": -1.5,
         "pitchEnvDecay": 0.025,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.32052
       },
       "modulation": [
         {
@@ -19219,7 +19399,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -14.150225
       },
       "modulation": [],
       "description": "Nord-influenced sync voice. Play your own notes; no sequencer.",
@@ -19346,7 +19527,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -0.173749
       },
       "modulation": [],
       "description": "Nord-influenced ring voice. Play your own notes; no sequencer.",
@@ -19473,7 +19655,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0.035,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -4.076033
       },
       "modulation": [],
       "description": "Nord-influenced pulse voice. Play your own notes; no sequencer.",
@@ -19609,7 +19792,8 @@
         "distTone": 9000,
         "fxOutput8": -1.5,
         "pitchEnvDecay": 0.025,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 7.970984
       },
       "modulation": [
         {
@@ -19782,7 +19966,8 @@
         "distTone": 9000,
         "fxOutput8": -1.5,
         "pitchEnvDecay": 0.025,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -6.682957
       },
       "modulation": [
         {
@@ -19954,7 +20139,8 @@
         "distTone": 9000,
         "fxOutput8": -1.5,
         "pitchEnvDecay": 0.025,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 8.48209
       },
       "modulation": [
         {
@@ -20117,7 +20303,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -11.86931
       },
       "modulation": [],
       "description": "Nord-influenced sync voice. Play your own notes; no sequencer.",
@@ -20254,7 +20441,8 @@
         "distTone": 9000,
         "fxOutput8": -1.5,
         "pitchEnvDecay": 0.025,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -4.809352
       },
       "modulation": [
         {
@@ -20417,7 +20605,8 @@
         "reverb": 0.12,
         "reverbSize": 0.65,
         "oscMelt": 0.035,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -7.668156
       },
       "modulation": [],
       "description": "Nord-influenced mono voice. Play your own notes; no sequencer.",
@@ -20538,7 +20727,8 @@
         "engineMode": 0,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -0.510102
       },
       "modulation": [],
       "description": "Nord-influenced bass voice. Play your own notes; no sequencer.",
@@ -20659,7 +20849,8 @@
         "engineMode": 0,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.149283
       },
       "modulation": [],
       "description": "Nord-influenced bass voice. Play your own notes; no sequencer.",
@@ -20784,7 +20975,8 @@
         "distMix": 0.2,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -6.355568
       },
       "modulation": [],
       "description": "Nord-influenced fmbass voice. Play your own notes; no sequencer.",
@@ -20905,7 +21097,8 @@
         "engineMode": 0,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.807193
       },
       "modulation": [],
       "description": "Nord-influenced bass voice. Play your own notes; no sequencer.",
@@ -21025,7 +21218,8 @@
         "engineMode": 0,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -7.42785
       },
       "modulation": [],
       "description": "Nord-influenced sync voice. Play your own notes; no sequencer.",
@@ -21146,7 +21340,8 @@
         "subOctave": 0,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -8.877811
       },
       "modulation": [],
       "description": "Nord-influenced ring voice. Play your own notes; no sequencer.",
@@ -21267,7 +21462,8 @@
         "engineMode": 0,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -11.30968
       },
       "modulation": [],
       "description": "Nord-influenced organbass voice. Play your own notes; no sequencer.",
@@ -21392,7 +21588,8 @@
         "distMix": 0.5,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -12.204146
       },
       "modulation": [],
       "description": "Nord-influenced bass voice. Play your own notes; no sequencer.",
@@ -21513,7 +21710,8 @@
         "engineMode": 0,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -2.706861
       },
       "modulation": [],
       "description": "Nord-influenced bass voice. Play your own notes; no sequencer.",
@@ -21635,7 +21833,8 @@
         "engineMode": 0,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -3.560264
       },
       "modulation": [],
       "description": "Nord-influenced fmbass voice. Play your own notes; no sequencer.",
@@ -21759,7 +21958,8 @@
         "distMix": 0.4,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -11.749443
       },
       "modulation": [],
       "description": "Nord-influenced bass voice. Play your own notes; no sequencer.",
@@ -21880,7 +22080,8 @@
         "engineMode": 0,
         "subPan": 0,
         "subWave": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -3.734823
       },
       "modulation": [],
       "description": "Nord-influenced bass voice. Play your own notes; no sequencer.",
@@ -21985,7 +22186,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -21999,7 +22200,12 @@
         "presetTrim": 6.3051,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -1.84171
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Play your own notes; no sequencer.",
@@ -22104,7 +22310,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -22117,7 +22323,12 @@
         "gain": 0.4,
         "presetTrim": 10.56736,
         "engineMode": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": 0.380418
       },
       "modulation": [],
       "description": "Nord-influenced ring voice. Play your own notes; no sequencer.",
@@ -22222,7 +22433,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -22235,7 +22446,12 @@
         "gain": 0.4,
         "presetTrim": 7.23679,
         "engineMode": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": 3.620922
       },
       "modulation": [],
       "description": "Nord-influenced pulse voice. Play your own notes; no sequencer.",
@@ -22340,7 +22556,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -22354,7 +22570,12 @@
         "presetTrim": 7.55915,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -2.736519
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Play your own notes; no sequencer.",
@@ -22459,7 +22680,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -22473,7 +22694,12 @@
         "presetTrim": 6.5345,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -1.023519
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Play your own notes; no sequencer.",
@@ -22578,7 +22804,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -22591,7 +22817,12 @@
         "gain": 0.4,
         "presetTrim": 20.33606,
         "engineMode": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -13.226351
       },
       "modulation": [],
       "description": "Nord-influenced sync voice. Play your own notes; no sequencer.",
@@ -22696,7 +22927,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -22710,7 +22941,12 @@
         "presetTrim": 6.43531,
         "engineMode": 0,
         "outputSafety": 1,
-        "chorus": 0.14
+        "chorus": 0.14,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -3.549309
       },
       "modulation": [],
       "description": "Nord-influenced drawbar voice. Play your own notes; no sequencer.",
@@ -22815,7 +23051,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -22828,7 +23064,12 @@
         "gain": 0.4,
         "presetTrim": 7.04376,
         "engineMode": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -2.524046
       },
       "modulation": [],
       "description": "Nord-influenced bell voice. Play your own notes; no sequencer.",
@@ -22933,7 +23174,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -22947,7 +23188,12 @@
         "presetTrim": 7.01351,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -0.105154
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Play your own notes; no sequencer.",
@@ -23052,7 +23298,7 @@
         "flangerEnabled": 0,
         "phaserEnabled": 0,
         "delayEnabled": 0,
-        "reverbEnabled": 0,
+        "reverbEnabled": 1.0,
         "convolverEnabled": 0,
         "compEnabled": 0,
         "eqEnabled": 1,
@@ -23065,7 +23311,12 @@
         "gain": 0.4,
         "presetTrim": 10.12386,
         "engineMode": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "reverb": 0.064999997615814,
+        "reverbSpace": 0.0,
+        "reverbSize": 0.280000001192093,
+        "reverbDamping": 0.600000023841858,
+        "presetReferenceGain": -2.515589
       },
       "modulation": [],
       "description": "Nord-influenced ring voice. Play your own notes; no sequencer.",
@@ -23194,7 +23445,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.251358
       },
       "modulation": [],
       "description": "Nord-influenced respad voice. Play your own notes; no sequencer.",
@@ -23323,7 +23575,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.284695
       },
       "modulation": [],
       "description": "Nord-influenced respad voice. Play your own notes; no sequencer.",
@@ -23462,7 +23715,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -7.389294
       },
       "modulation": [
         {
@@ -23607,7 +23861,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -7.565673
       },
       "modulation": [
         {
@@ -23752,7 +24007,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -6.662611
       },
       "modulation": [
         {
@@ -23887,7 +24143,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -6.812638
       },
       "modulation": [],
       "description": "Nord-influenced respad voice. Play your own notes; no sequencer.",
@@ -24017,7 +24274,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -4.017569
       },
       "modulation": [],
       "description": "Nord-influenced respad voice. Play your own notes; no sequencer.",
@@ -24156,7 +24414,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.843034
       },
       "modulation": [
         {
@@ -24301,7 +24560,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.883181
       },
       "modulation": [
         {
@@ -24446,7 +24706,8 @@
         "dimensionMode": 2,
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -6.422619
       },
       "modulation": [
         {
@@ -24583,7 +24844,8 @@
         "arpOctaves": 2,
         "arpOrder": 0,
         "patternGate": 0.38,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -6.81354
       },
       "modulation": [],
       "description": "Nord-influenced pluck voice. Hold a chord; internal arpeggiator generates notes.",
@@ -24714,7 +24976,8 @@
         "arpOctaves": 1,
         "arpOrder": 1,
         "patternGate": 0.38,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -12.583761
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Hold a chord; internal arpeggiator generates notes.",
@@ -24844,7 +25107,8 @@
         "arpOctaves": 2,
         "arpOrder": 2,
         "patternGate": 0.62,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -12.462579
       },
       "modulation": [],
       "description": "Nord-influenced sync voice. Hold a chord; internal arpeggiator generates notes.",
@@ -24974,7 +25238,8 @@
         "arpOctaves": 1,
         "arpOrder": 0,
         "patternGate": 0.45,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -10.314331
       },
       "modulation": [],
       "description": "Nord-influenced pulse voice. Hold a chord; internal arpeggiator generates notes.",
@@ -25104,7 +25369,8 @@
         "arpOctaves": 3,
         "arpOrder": 2,
         "patternGate": 0.7,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -12.451098
       },
       "modulation": [],
       "description": "Nord-influenced ring voice. Hold a chord; internal arpeggiator generates notes.",
@@ -25234,7 +25500,8 @@
         "arpOctaves": 2,
         "arpOrder": 1,
         "patternGate": 0.58,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -7.820913
       },
       "modulation": [],
       "description": "Nord-influenced mono voice. Hold a chord; internal arpeggiator generates notes.",
@@ -25365,7 +25632,8 @@
         "arpOctaves": 2,
         "arpOrder": 0,
         "patternGate": 0.42,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -6.979934
       },
       "modulation": [],
       "description": "Nord-influenced pluck voice. Hold a chord; internal arpeggiator generates notes.",
@@ -25496,7 +25764,8 @@
         "arpOctaves": 1,
         "arpOrder": 2,
         "patternGate": 0.32,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -12.609248
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Hold a chord; internal arpeggiator generates notes.",
@@ -25616,7 +25885,8 @@
         "pitchEnvDecay": 0.045,
         "engineMode": 0,
         "pitchEnvAttack": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.40481
       },
       "modulation": [],
       "description": "Nord-influenced drum voice. Play your own notes; no sequencer.",
@@ -25736,7 +26006,8 @@
         "pitchEnvDecay": 0.06,
         "engineMode": 0,
         "pitchEnvAttack": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.938667
       },
       "modulation": [],
       "description": "Nord-influenced drum voice. Play your own notes; no sequencer.",
@@ -25855,7 +26126,8 @@
         "presetTrim": 18.03256,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -7.122441
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Play your own notes; no sequencer.",
@@ -25973,7 +26245,8 @@
         "gain": 0.4,
         "presetTrim": 19.86012,
         "engineMode": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -6.412786
       },
       "modulation": [],
       "description": "Nord-influenced ring voice. Play your own notes; no sequencer.",
@@ -26091,7 +26364,8 @@
         "gain": 0.4,
         "presetTrim": 14.53261,
         "engineMode": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": 4.48771
       },
       "modulation": [],
       "description": "Nord-influenced pulse voice. Play your own notes; no sequencer.",
@@ -26211,7 +26485,8 @@
         "pitchEnvDecay": 0.035,
         "engineMode": 0,
         "noiseType": 2,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -1.652145
       },
       "modulation": [],
       "description": "Nord-influenced drum voice. Play your own notes; no sequencer.",
@@ -26331,7 +26606,8 @@
         "engineMode": 0,
         "pitchEnvAttack": 0,
         "pitchEnvDecay": 0.14,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -5.149252
       },
       "modulation": [],
       "description": "Nord-influenced sync voice. Play your own notes; no sequencer.",
@@ -26450,7 +26726,8 @@
         "presetTrim": 18.17572,
         "osc1WarpEnvelope": 2,
         "engineMode": 0,
-        "outputSafety": 1
+        "outputSafety": 1,
+        "presetReferenceGain": -10.193682
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Play your own notes; no sequencer.",

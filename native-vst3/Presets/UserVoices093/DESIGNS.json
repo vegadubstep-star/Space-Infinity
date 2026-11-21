@@ -38,7 +38,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 11.581636
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Astral_Chorus.wav",
       "root_midi": 60
@@ -81,7 +82,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 1.67428
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Astral_Chorus.wav",
       "root_midi": 60
@@ -132,7 +134,8 @@
         "osc2WTPos": 0.25,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "sampleOscEnabled": 1
+        "sampleOscEnabled": 1,
+        "presetReferenceGain": 3.95767
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Astral_Chorus.wav",
       "root_midi": 60
@@ -176,7 +179,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 8.167102
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Stellar_Sanctum.wav",
       "root_midi": 72
@@ -220,7 +224,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": -0.607256
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Stellar_Sanctum.wav",
       "root_midi": 72
@@ -272,7 +277,8 @@
         "osc2WTPos": 0.25,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "sampleOscEnabled": 1
+        "sampleOscEnabled": 1,
+        "presetReferenceGain": -0.055178
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Stellar_Sanctum.wav",
       "root_midi": 72
@@ -316,7 +322,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 7.801771
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Celestial_Oath.wav",
       "root_midi": 48
@@ -360,7 +367,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 1.71489
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Celestial_Oath.wav",
       "root_midi": 48
@@ -412,7 +420,8 @@
         "osc2WTPos": 0.25,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "sampleOscEnabled": 1
+        "sampleOscEnabled": 1,
+        "presetReferenceGain": 2.100496
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Celestial_Oath.wav",
       "root_midi": 48
@@ -455,7 +464,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 6.50666
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Nebula_Voices.wav",
       "root_midi": 60
@@ -498,7 +508,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 0.125817
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Nebula_Voices.wav",
       "root_midi": 60
@@ -549,7 +560,8 @@
         "osc2WTPos": 0.25,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "sampleOscEnabled": 1
+        "sampleOscEnabled": 1,
+        "presetReferenceGain": 0.598889
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Nebula_Voices.wav",
       "root_midi": 60
@@ -592,7 +604,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 1.570163
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Ion_Lance.wav",
       "root_midi": 48
@@ -635,7 +648,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 2.103402
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Photon_Crest.wav",
       "root_midi": 60
@@ -679,7 +693,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 1.35427
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Reactor_Edge.wav",
       "root_midi": 48
@@ -722,7 +737,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 1.229052
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Quantum_Blade.wav",
       "root_midi": 48
@@ -765,7 +781,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 3.747488
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Solar_Needle.wav",
       "root_midi": 72
@@ -808,7 +825,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 1.01268
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Zenith_Current.wav",
       "root_midi": 60
@@ -851,7 +869,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 3.035765
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Prism_Engine.wav",
       "root_midi": 60
@@ -894,7 +913,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 1.606691
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Velocity_Arc.wav",
       "root_midi": 48
@@ -937,7 +957,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 0.699975
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Gravity_Pulse.wav",
       "root_midi": 36
@@ -981,7 +1002,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 2.415955
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Event_Horizon.wav",
       "root_midi": 48
@@ -1024,7 +1046,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 0.824184
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Aurora_Beam.wav",
       "root_midi": 60
@@ -1066,7 +1089,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 2.497298
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Starlight_Alloy.wav",
       "root_midi": 60
@@ -1108,7 +1132,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 1.778033
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Violet_Core.wav",
       "root_midi": 60
@@ -1151,7 +1176,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 2.111193
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Infinity_Signal.wav",
       "root_midi": 60
@@ -1195,7 +1221,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 1.742096
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Spectral_Flare.wav",
       "root_midi": 76
@@ -1238,7 +1265,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 1.29891
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Orbital_Vector.wav",
       "root_midi": 45
@@ -1280,7 +1308,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 1.739894
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Chromatic_Orbit.wav",
       "root_midi": 60
@@ -1323,7 +1352,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 2.731239
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Eclipse_Crown.wav",
       "root_midi": 60
@@ -1367,7 +1397,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 0.01014
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Deep_Space_Relay.wav",
       "root_midi": 40
@@ -1410,7 +1441,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 3.08012
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Pulse_Meridian.wav",
       "root_midi": 29
@@ -1453,7 +1485,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 35
+        "sampleLoopFade": 35,
+        "presetReferenceGain": 0.267164
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Radiant_Flight.wav",
       "root_midi": 24
@@ -1493,7 +1526,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 10
+        "sampleLoopFade": 10,
+        "presetReferenceGain": -2.080718
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Dark_Matter.wav",
       "root_midi": 36
@@ -1533,7 +1567,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 10
+        "sampleLoopFade": 10,
+        "presetReferenceGain": 1.424788
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Sub_Reactor.wav",
       "root_midi": 33
@@ -1574,7 +1609,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 10
+        "sampleLoopFade": 10,
+        "presetReferenceGain": -13.13882
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Gravity_Well.wav",
       "root_midi": 33
@@ -1614,7 +1650,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 10
+        "sampleLoopFade": 10,
+        "presetReferenceGain": 0.859159
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Ion_Impact.wav",
       "root_midi": 36
@@ -1654,7 +1691,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 10
+        "sampleLoopFade": 10,
+        "presetReferenceGain": -2.432129
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Void_Anchor.wav",
       "root_midi": 24
@@ -1695,7 +1733,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 10
+        "sampleLoopFade": 10,
+        "presetReferenceGain": -3.317698
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Plasma_Roller.wav",
       "root_midi": 36
@@ -1735,7 +1774,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 10
+        "sampleLoopFade": 10,
+        "presetReferenceGain": -4.791599
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Quantum_Engine.wav",
       "root_midi": 36
@@ -1775,7 +1815,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 10
+        "sampleLoopFade": 10,
+        "presetReferenceGain": -2.832044
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Magnetic_Knock.wav",
       "root_midi": 36
@@ -1816,7 +1857,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 10
+        "sampleLoopFade": 10,
+        "presetReferenceGain": -4.339495
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Low_Orbit.wav",
       "root_midi": 29
@@ -1856,7 +1898,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 10
+        "sampleLoopFade": 10,
+        "presetReferenceGain": -2.136184
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Reactor_Coil.wav",
       "root_midi": 38
@@ -1896,7 +1939,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 10
+        "sampleLoopFade": 10,
+        "presetReferenceGain": -2.215039
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Proton_Punch.wav",
       "root_midi": 36
@@ -1937,7 +1981,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 10
+        "sampleLoopFade": 10,
+        "presetReferenceGain": -7.375901
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Metallic_Undertow.wav",
       "root_midi": 36
@@ -1977,7 +2022,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 10
+        "sampleLoopFade": 10,
+        "presetReferenceGain": -5.63243
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Violet_Pressure.wav",
       "root_midi": 36
@@ -2017,7 +2063,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 10
+        "sampleLoopFade": 10,
+        "presetReferenceGain": -3.91154
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Blackstar_Sub.wav",
       "root_midi": 24
@@ -2058,7 +2105,8 @@
         "freeMacroDepth1_0": 0.25,
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
-        "sampleLoopFade": 10
+        "sampleLoopFade": 10,
+        "presetReferenceGain": -12.657726
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Deep_Field.wav",
       "root_midi": 36

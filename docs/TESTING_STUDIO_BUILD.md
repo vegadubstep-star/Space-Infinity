@@ -1,7 +1,7 @@
-# Installing and testing SPACE INFINITY 0.9.3
+# Installing and testing SPACE INFINITY 0.9.4
 
 Close FL Studio and other plug-in hosts. Right-click the installer ZIP, choose
-Extract All, then run SPACE_INFINITY_0.9.3_Windows_x64_Setup.exe from the extracted
+Extract All, then run SPACE_INFINITY_0.9.4_Windows_x64_Setup.exe from the extracted
 folder. Reopen FL Studio and load a fresh SPACE INFINITY instance. The plug-in
 identity and user preset storage are preserved.
 
@@ -34,6 +34,25 @@ On plucks try OPEN / LEAD: the filter and sustain open while delay/reverb return
 reduce, with measured compensation. On acids try SWEEP, LIQUID and CORROSION;
 overlapping MIDI notes slide, separated notes retrigger the filter contour.
 Rolling basses follow your MIDI and do not generate their own pattern.
+
+## Matched installed bank
+
+All 421 active sounds plus Init are available automatically after installation,
+including all 48 new sampled choir, lead and bass presets. No bank import is
+required. The shipped ZIPs are optional backups. Existing personal replacements
+and metadata edits are retained; choose an untouched factory version when
+comparing the new levels.
+
+The presets use a stored, static loudness adjustment separate from their macro
+compensation. There is no automatic gain ride. Default levels are checked with
+an articulated/held reference phrase and K-weighted gated loudness; chords,
+three registers and all six performance macros are also checked for clipping.
+Changing MIDI, octave, velocity, effects or macros changes the result. The
+current measurements are in audit/INSTALLED_BANK_094_LEVELS.json.
+
+Small room ambience is added to 21 otherwise dry keyboard/organ presets. Existing
+trance lead/pluck delays, airy pad reverbs and dry bass envelopes keep their
+individual settings. Historical 0.9.3 audio audits describe the earlier revision.
 
 ## Included banks and new samples
 

@@ -1,0 +1,43 @@
+#include "../../native-vst3/Source/PluginProcessor.h"
+#include <iostream>
+#include <cmath>
+#include <vector>
+#include <algorithm>
+namespace {
+void set(SpaceInfinityProcessor& p,const juce::String& id,float value){auto* a=p.state.getParameter(id);if(!a)throw std::runtime_error("Unknown parameter "+id.toStdString());a->setValueNotifyingHost(a->convertTo0to1(value));}
+struct Biquad {double b0,b1,b2,a1,a2,z1=0,z2=0;double tick(double x){double y=b0*x+z1;z1=b1*x-a1*y+z2;z2=b2*x-a2*y;return y;}};
+// ITU-R BS.1770 K weighting at the fixed 48 kHz authoring rate; stereo weights 1,1.
+struct Meter {
+    std::array<Biquad,2> shelf{{{1.53512485958697,-2.69169618940638,1.19839281085285,-1.69065929318241,.73248077421585},{1.53512485958697,-2.69169618940638,1.19839281085285,-1.69065929318241,.73248077421585}}};
+    std::array<Biquad,2> high{{{1,-2,1,-1.99004745483398,.99007225036621},{1,-2,1,-1.99004745483398,.99007225036621}}};
+    std::array<double,19200> ring{};std::vector<double> windows;double sum=0;int position=0;
+    void tick(float l,float r){const double a=high[0].tick(shelf[0].tick(l)),b=high[1].tick(shelf[1].tick(r)),e=a*a+b*b;sum+=e-ring[size_t(position%19200)];ring[size_t(position%19200)]=e;++position;if(position>=19200&&(position-19200)%4800==0)windows.push_back(std::max(0.0,sum/19200));}
+    static double db(double x){return -.691+10*std::log10(std::max(1.e-30,x));}
+    double loudness()const{double total=0;int count=0;for(auto e:windows)if(db(e)>=-70){total+=e;++count;}if(!count)return -150;const double gate=std::max(-70.0,db(total/count)-10);total=0;count=0;for(auto e:windows)if(db(e)>=gate){total+=e;++count;}return count?db(total/count):-150;}
+};
+juce::var measure(SpaceInfinityProcessor& p,const juce::MemoryBlock& state,bool bass,bool stress,int registerShift=0){
+    p.setStateInformation(state.getData(),int(state.getSize()));
+    p.prepareToPlay(48000,512);Meter meter;juce::AudioBuffer<float> audio(2,512);juce::dsp::Oversampling<float> truePeak(2,2,juce::dsp::Oversampling<float>::filterHalfBandFIREquiripple);truePeak.initProcessing(512);double peak=0,tp=0,raw=0,energy=0,tail=0;int total=0;const int root=(bass?40:60)+registerShift,frames=stress?192000:307200;
+    struct Event{int frame,note;bool on;};std::vector<Event> events;
+    const auto note=[&](double start,double length,int pitch,bool chord){for(int d:chord?std::vector<int>{0,7,12,16}:std::vector<int>{0}){events.push_back({int(start*48000),pitch+d,true});events.push_back({int((start+length)*48000),pitch+d,false});}};
+    if(stress){for(int i=0;i<3;++i)note(i*1.2,.8,root+(i-1)*12,!bass);}
+    else {for(int i=0;i<3;++i)note(i*.4,.18,root,false);note(1.4,4,root,false);}
+    std::sort(events.begin(),events.end(),[](auto a,auto b){return a.frame<b.frame;});size_t next=0;
+    for(int pos=0;pos<frames;pos+=512){const int count=std::min(512,frames-pos);audio.setSize(2,count,false,false,true);juce::MidiBuffer midi;while(next<events.size()&&events[next].frame<pos+count){const auto& e=events[next++];midi.addEvent(e.on?juce::MidiMessage::noteOn(1,e.note,juce::uint8(stress?127:110)):juce::MidiMessage::noteOff(1,e.note),e.frame-pos);}
+        if(stress&&pos>=96000){for(int m=0;m<3;++m){set(p,"freeMacro"+juce::String(m),1);set(p,"macro"+juce::String(m),1);}}
+        p.processBlock(audio,midi);raw=std::max(raw,double(p.takeOutputPeak()));auto high=truePeak.processSamplesUp(juce::dsp::AudioBlock<const float>(audio));for(size_t c=0;c<high.getNumChannels();++c)for(size_t n=0;n<high.getNumSamples();++n)tp=std::max(tp,double(std::abs(high.getSample(int(c),int(n)))));
+        for(int n=0;n<count;++n){const float l=audio.getSample(0,n),r=audio.getSample(1,n);if(!std::isfinite(l)||!std::isfinite(r))throw std::runtime_error("Non-finite preset audio");meter.tick(l,r);peak=std::max({peak,double(std::abs(l)),double(std::abs(r))});energy+=(l*l+r*r)*.5;if(pos+n>frames-24000)tail+=(l*l+r*r)*.5;++total;}
+    }
+    auto* out=new juce::DynamicObject;out->setProperty("lufs",meter.loudness());out->setProperty("peak",peak);out->setProperty("true_peak_4x",tp);out->setProperty("pre_safety_peak",raw);out->setProperty("rms",std::sqrt(energy/total));out->setProperty("tail_rms",std::sqrt(tail/24000));return juce::var(out);
+}
+int selftest(const juce::File& out){out.createDirectory();for(int shape=0;shape<2;++shape){Meter meter;juce::AudioBuffer<float> audio(2,48000*6);for(int n=0;n<audio.getNumSamples();++n){float x=.1f*std::sin(juce::MathConstants<double>::twoPi*(shape?110:1000)*n/48000);if(shape&&((n/12000)%4>1))x=0;const float r=shape?x*.5f:x;audio.setSample(0,n,x);audio.setSample(1,n,r);meter.tick(x,r);}auto stream=out.getChildFile("Meter"+juce::String(shape)+".wav").createOutputStream();juce::WavAudioFormat f;std::unique_ptr<juce::AudioFormatWriter> writer(f.createWriterFor(stream.release(),48000,2,24,{},0));if(!writer||!writer->writeFromAudioSampleBuffer(audio,0,audio.getNumSamples()))return 2;std::cout<<shape<<" LUFS "<<meter.loudness()<<std::endl;}return 0;}
+}
+int main(int argc,char** argv){try{juce::ScopedJuceInitialiser_GUI gui;if(argc<3)return 2;const juce::File out(argv[1]);out.createDirectory();if(juce::String(argv[2])=="--meter-self-test")return selftest(out);const juce::File repository(argv[2]);const int first=argc>4?juce::String(argv[4]).getIntValue():1,last=argc>5?juce::String(argv[5]).getIntValue():100000;const juce::File runtime=argc>6?juce::File(argv[6]):out.getChildFile("RuntimeLibrary");auto p=std::make_unique<SpaceInfinityProcessor>(runtime);auto result=p->ensureBundledPresets();if(result.failed())throw std::runtime_error(result.getErrorMessage().toStdString());p->presetBank().setCuration(juce::JSON::parse(repository.getChildFile("native-vst3/Presets/Curation093.json")));juce::var changes;if(argc>3&&juce::String(argv[3])!="-")changes=juce::JSON::parse(juce::File(argv[3]));juce::Array<juce::var> rows;const auto count=p->presetBank().entries().size();
+    for(size_t i=0;i<count;++i){const auto entry=p->presetBank().entries()[i];if(entry.factory==0||int(i)<first||int(i)>=last||(argc>7&&juce::String(argv[7])=="--changed-only"&&!changes[juce::Identifier(entry.key)].isObject()))continue;if(p->loadBankPreset(int(i)).failed())throw std::runtime_error("Cannot load "+entry.name.toStdString());auto* row=new juce::DynamicObject;row->setProperty("key",entry.key);row->setProperty("name",entry.name);row->setProperty("category",entry.category);row->setProperty("factory",entry.factory);row->setProperty("file_sha256",entry.file.isEmpty()?juce::String{}:juce::SHA256(p->presetBank().folder().getChildFile(entry.file)).toHexString());row->setProperty("original_trim",p->state.getRawParameterValue("presetTrim")->load());row->setProperty("original_gain",p->state.getRawParameterValue("gain")->load());
+        if(auto* settings=changes[juce::Identifier(entry.key)].getDynamicObject())for(const auto& setting:settings->getProperties())set(*p,setting.name.toString(),float(setting.value));
+        // A tiny room only on previously dry sustained keyboard/organ patches.
+        auto* polish=new juce::DynamicObject;const bool dry=p->state.getRawParameterValue("reverbEnabled")->load()<.5f&&p->state.getRawParameterValue("delayEnabled")->load()<.5f;
+        if(dry&&(entry.category=="Keys"||entry.category=="Electric Keys"||entry.category=="Organ")){for(const auto& setting:std::vector<std::pair<juce::String,float>>{{"reverbEnabled",1},{"reverb",.065f},{"reverbSpace",0},{"reverbSize",.28f},{"reverbDamping",.6f}}){set(*p,setting.first,setting.second);polish->setProperty(setting.first,setting.second);}}
+        row->setProperty("polish",juce::var(polish));row->setProperty("trim",p->state.getRawParameterValue("presetTrim")->load());row->setProperty("gain",p->state.getRawParameterValue("gain")->load());row->setProperty("reference_gain",p->state.getParameter("presetReferenceGain")?p->state.getRawParameterValue("presetReferenceGain")->load():0.f);
+        juce::MemoryBlock original;p->getStateInformation(original);const bool bass=entry.category.containsIgnoreCase("Bass")||entry.category=="Acid";const auto main=measure(*p,original,bass,false),stress=measure(*p,original,bass,true);if(double(main["rms"])<.000001)throw std::runtime_error("Silent preset "+entry.name.toStdString());row->setProperty("phrase",main);row->setProperty("stress",stress);rows.add(juce::var(row));auto* doc=new juce::DynamicObject;doc->setProperty("version",JucePlugin_VersionString);doc->setProperty("presets",rows);out.getChildFile("Measurements.json").replaceWithText(juce::JSON::toString(juce::var(doc)));std::cout<<i<<"/"<<count-1<<" "<<entry.name<<" "<<double(main["lufs"])<<" LUFS"<<std::endl;
+    }return 0;}catch(const std::exception& e){std::cerr<<e.what()<<std::endl;return 1;}}

@@ -1,3 +1,69 @@
+# SPACE INFINITY 0.9.4 — source complete, Windows verification pending
+
+User's full installed-bank request is complete in source. All421active sounds +
+Init autoload, including48sampled presets. No manual import. Saved/manual preset
+navigation preserved. Currentwork is about tobe committed/pushed on
+codex/windows-build; previousHEAD0417cb7. No0.9.4installerpublishedyet.
+
+FINAL LOCAL VALIDATION:
+29/29native tests PASS254.42s (/tmp/installed094-release-native.log), including
+productionconstructorbootstrap inisolatedfolder,421settings/hashes/48samples,
+repeatstartup/usereditpreservation,oldstatecompatibility,queued-outputcontinuity,
+staticgain-6dB,stereo/portamento/finecontrol tests,4xtruepeaks and44.1/48/96krecovery.
+All421 native reference/stress renders DONE, errors[]:
+LUFSrange[-23.111114244,-22.425716767], target-22.5±1, maxdeviation.611114244LU;
+defaultmax4xTP-.679734061dBFS; stressmax4xTP-.609347503dBFS.
+Originalspread27.076LU reducedto.6854LU. BS1770gatedmetercrosscheckedFFmpeg.
+DataParity:factory160tone/envelopes/macros unchanged;extra261audio/tables/roots/
+routes unchanged;onlystaticreferencegain+21small-room additions. Retired7exactbytes
+unchanged. 40InfinityWAVsources unchanged. Newstaticgainseparatefromexistingmacro
+trim; old1227hostIDs/order unchanged, appendedpresetReferenceGain=1228total.
+
+Cleanoutputsafety now4xpeakDETECTORonly +shortlinkedstereolookahead,FIFOexactcopy
+whenidle,hostlatencyreported,legacycurvepreserved. Onlyprepare resetsFIFO; preset
+recallkeepsqueuedaudio (regressiontest). All421referencecaptures callprepare,
+so removalofredundantlivepresetresetdoesnotaltermeasureddata (auditnotespolicy).
+Productiondefaultconstructorauto-bootstrap; optionalboolinstallIncludedBanks=true
+withexplicitstorageletstestexerciseidenticalproductionbranch. NoGUIcomplexity.
+
+Requiredpackaging094notes,audiomeasurements,nativeproof,cataloguecopiedintowrapper.
+ActualpackagingpreflightPASS;rejectsmissingcatalogue,failednativeevidence,unsafeTP.
+PowerShellsyntax+factoryeditPython testsPASS. FixtureSetup/stagewasdeleted, NEVER
+shipa packagingtestfixture. NoactualWindowsinstallerbuiltonthisLinuxmachine.
+READMEexplicitlylabels0.9.4sourcependingandoldverified0.9.2downloadasolder.
+
+Evidence:
+docs/audit/INSTALLED_BANK_094_LEVELS.json
+ docs/audit/INSTALLED_BANK_094_NATIVE_TESTS.txt
+ native-vst3/Presets/Installed094.json (copiedtoinstaller auditcatalogue)
+ docs/INSTALLED_BANK_094_UPDATE.md andTESTING_STUDIO_BUILD.md
+Scripts scripts/installed094/{ReviewInstalled.cpp,match-bank.py,verify-matching.py,README.md}.
+All3banksminimum094,currenthashesincatalogue;oldknownhashhistoriespreserveedits.
+Orbitbuilderkeepsnewgainonfutureauthoringrebuilds.
+
+NEXT:
+Commit/pushexplicitwork [skip ci], dispatchspace-infinity-windows.yml onbranch
+publish_release=true. Previous0.9.3run44930718421wasaccountbilling-blockedbefore
+runner. Trynew094once; readjobs/steps/logsviaGitHubtools. Ifblockedbeforesteps,
+inspectghAPIcheckannotations;saveexactannotationlocallyand sanitizedrepoWindows
+status. No code/billinglimits changes can fixaccountpayments. Finalhonestsource
+complete/installernotreadyparagraph;neveroffer092asifcontainsnewchanges.
+IfWindowsstarts:require29Windows tests +install/uninstall/byteidentity/package
+checks;then /tmp/verify-space-infinity094-release.py SOURCE_SHA RUN JOB todownload
+publicZIP/manual/hash/PE/module094/current421catalogue/banks/source. Capture
+Windowslog/publicproof,updateREADMEverified094link+handover,docs-onlyskipcicommit/
+push. Finalconciseinstallerlink+ExtractAll/closeFL/Setupsteps.
+
+Allnative/render jobs complete. Noactivecompilers. Workspace /workspace/work/native-design.
+CMake/CTest /workspace/work/build-tools/cmake/data/bin; nativebuildnative-vst3/build-linux.
+DISPLAY=:99 XDG_CACHE_HOME=/workspace/work/runtime-cache. NoAGENTS/skills/subagents.
+Preserveowneruntracked audition/ andall__pycache__. ~350MBfree. Generatedrenderers/
+runtimecopiesremovedAFTERworkersdone;allJSONreports/sourcepreservedunder
+/workspace/work/preset094 (Baseline421,Final421,plan/Originals,verifiedA/B).
+OldfinalA/BareFAILEDpre-limiterdiagnostics,nevertreatasfinal.
+/tmp/space094-preflight.py and /tmp/verify-space-infinity094-release.py prepared.
+
+
 # SPACE INFINITY 0.9.3 — source complete; Windows build blocked
 
 Latest user steering fixed: preset selector and arrows follow saved/manual bank

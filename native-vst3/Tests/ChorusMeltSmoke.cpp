@@ -15,8 +15,23 @@ std::vector<float> safety(int mode,float trim){
  for(int block=0;block<50;++block){juce::MidiBuffer midi;if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,69,.9f),0);p->processBlock(audio,midi);for(int i=0;i<128;++i)values.push_back(audio.getSample(0,i));}return values;
 }
 
+void truePeakProtection(){
+ for(double rate:{44100.,48000.,96000.}){
+  infinity::TruePeakSafety safety;safety.prepare(rate,128);const int latency=safety.latencySamples();need(latency>int(rate*.001)&&latency<int(rate*.005),"peak safety latency must be short and reported");
+  juce::dsp::Oversampling<float> meter(2,2,juce::dsp::Oversampling<float>::filterHalfBandFIREquiripple);meter.initProcessing(128);juce::AudioBuffer<float> audio(2,128);double peak=0,late=0,reference=0;
+  const int samples=int(rate*.6);
+  for(int pos=0;pos<samples;pos+=128){const int count=std::min(128,samples-pos);audio.setSize(2,count,false,false,true);
+   for(int n=0;n<count;++n){const int t=pos+n;float x=t<int(rate*.1)?float(8*std::sin(juce::MathConstants<double>::twoPi*.41*t)+4*std::sin(juce::MathConstants<double>::twoPi*.13*t)):.1f*std::sin(float(juce::MathConstants<double>::twoPi*1000*t/rate));if(t<int(rate*.1)&&t%1009==0)x+=20;audio.setSample(0,n,x);audio.setSample(1,n,x*.375f);}
+   safety.process(juce::dsp::AudioBlock<float>(audio),true);auto high=meter.processSamplesUp(juce::dsp::AudioBlock<const float>(audio));for(size_t c=0;c<high.getNumChannels();++c)for(size_t n=0;n<high.getNumSamples();++n)peak=std::max(peak,double(std::abs(high.getSample(int(c),int(n)))));
+   for(int n=0;n<count;++n){const auto l=audio.getSample(0,n),r=audio.getSample(1,n);need(std::isfinite(l)&&std::isfinite(r)&&std::abs(r-l*.375f)<.000001,"peak protection must remain finite and stereo linked");if(pos+n>int(rate*.5)){const auto expected=.1*std::sin(juce::MathConstants<double>::twoPi*1000*(pos+n-latency)/rate);late+=l*l;reference+=expected*expected;}}
+  }
+  std::cout<<"Peak safety "<<rate<<" Hz: 4x peak "<<peak<<", recovered level "<<late/reference<<std::endl;need(peak<.995,"intersample overshoot on a hot signal");need(std::abs(late/reference-1)<.003,"peak safety leaves a persistent volume fade");
+ }
+}
+
 }
 int runChorusMeltSmoke(){try{
+ truePeakProtection();
  const auto legacy=safety(0,0),clean=safety(1,0),hot=safety(1,24);double safetyDifference=0;
  for(size_t i=0;i<clean.size();++i){need(std::abs(legacy[i]-std::tanh(clean[i]))<.00005f,"legacy safety preserves its transfer while clean output is linear below knee");need(std::isfinite(hot[i])&&std::abs(hot[i])<=.990001f,"clean safety remains bounded under hot input");safetyDifference+=std::abs(legacy[i]-clean[i]);}need(safetyDifference>.01,"clean safety audibly preserves unsaturated low-level output");
 

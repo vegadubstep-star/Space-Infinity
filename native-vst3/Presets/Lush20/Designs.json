@@ -172,7 +172,8 @@
         "filterVowel": 1.2,
         "filterMorph": 0.12,
         "oscTransition": 0,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -2.477948
       },
       "macro_labels": [
         "OPEN",
@@ -425,7 +426,8 @@
         "filterVowel": 1.2,
         "filterMorph": 0.12,
         "oscTransition": 0,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -2.026701
       },
       "macro_labels": [
         "OPEN",
@@ -678,7 +680,8 @@
         "filterVowel": 1.2,
         "filterMorph": 0.12,
         "oscTransition": 0,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -2.471132
       },
       "macro_labels": [
         "OPEN",
@@ -934,7 +937,8 @@
         "oscTransitionTime": 1.2000000000000002,
         "oscTransitionCurve": -0.2,
         "oscTransitionDirection": 1,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -3.469513
       },
       "macro_labels": [
         "OPEN",
@@ -1187,7 +1191,8 @@
         "filterVowel": 1.2,
         "filterMorph": 0.12,
         "oscTransition": 0,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -3.868282
       },
       "macro_labels": [
         "OPEN",
@@ -1440,7 +1445,8 @@
         "filterVowel": 1.2,
         "filterMorph": 0.12,
         "oscTransition": 0,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -3.347984
       },
       "macro_labels": [
         "OPEN",
@@ -1696,7 +1702,8 @@
         "oscTransitionTime": 1.0,
         "oscTransitionCurve": -0.2,
         "oscTransitionDirection": 0,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -1.798347
       },
       "macro_labels": [
         "OPEN",
@@ -1949,7 +1956,8 @@
         "filterVowel": 1.2,
         "filterMorph": 0.12,
         "oscTransition": 0,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -5.276155
       },
       "macro_labels": [
         "OPEN",
@@ -2202,7 +2210,8 @@
         "filterVowel": 1.2,
         "filterMorph": 0.12,
         "oscTransition": 0,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -3.488459
       },
       "macro_labels": [
         "OPEN",
@@ -2458,7 +2467,8 @@
         "oscTransitionTime": 0.8,
         "oscTransitionCurve": -0.2,
         "oscTransitionDirection": 1,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -2.867826
       },
       "macro_labels": [
         "OPEN",
@@ -2711,7 +2721,8 @@
         "filterVowel": 1.2,
         "filterMorph": 0.12,
         "oscTransition": 0,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -1.798186
       },
       "macro_labels": [
         "OPEN",
@@ -2964,7 +2975,8 @@
         "filterVowel": 1.2,
         "filterMorph": 0.12,
         "oscTransition": 0,
-        "characterFilterMode": 1
+        "characterFilterMode": 1,
+        "presetReferenceGain": -1.480535
       },
       "macro_labels": [
         "OPEN",
@@ -3217,7 +3229,8 @@
         "filterVowel": 1.2,
         "filterMorph": 0.12,
         "oscTransition": 0,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -1.51328
       },
       "macro_labels": [
         "OPEN",
@@ -3473,7 +3486,8 @@
         "oscTransitionTime": 0.8,
         "oscTransitionCurve": -0.2,
         "oscTransitionDirection": 1,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -2.054909
       },
       "macro_labels": [
         "OPEN",
@@ -3726,7 +3740,8 @@
         "filterVowel": 1.2,
         "filterMorph": 0.12,
         "oscTransition": 0,
-        "characterFilterMode": 5
+        "characterFilterMode": 5,
+        "presetReferenceGain": -1.34404
       },
       "macro_labels": [
         "OPEN",
@@ -3979,7 +3994,8 @@
         "filterVowel": 1.2,
         "filterMorph": 0.12,
         "oscTransition": 0,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -1.940393
       },
       "macro_labels": [
         "OPEN",
@@ -4235,7 +4251,8 @@
         "oscTransitionTime": 0.6,
         "oscTransitionCurve": -0.2,
         "oscTransitionDirection": 0,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -1.80966
       },
       "macro_labels": [
         "OPEN",
@@ -4488,7 +4505,8 @@
         "filterVowel": 1.2,
         "filterMorph": 0.12,
         "oscTransition": 0,
-        "characterFilterMode": 8
+        "characterFilterMode": 8,
+        "presetReferenceGain": -3.562155
       },
       "macro_labels": [
         "OPEN",
@@ -4741,7 +4759,8 @@
         "filterVowel": 1.2,
         "filterMorph": 0.12,
         "oscTransition": 0,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -3.614764
       },
       "macro_labels": [
         "OPEN",
@@ -4997,7 +5016,8 @@
         "oscTransitionTime": 1.2000000000000002,
         "oscTransitionCurve": -0.2,
         "oscTransitionDirection": 1,
-        "characterFilterMode": 0
+        "characterFilterMode": 0,
+        "presetReferenceGain": -3.872312
       },
       "macro_labels": [
         "OPEN",

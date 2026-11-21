@@ -13,9 +13,9 @@ void checkMidiPassThrough(SpaceInfinityProcessor& p,const juce::MidiBuffer& inpu
   need(found,"bass adds no notes beyond customer MIDI");
  }
 }
-float rangePeak(SpaceInfinityProcessor& p){
- float peak=0;juce::AudioBuffer<float> audio(2,128);
- for(int key:{36,43,48,55}){p.prepareToPlay(48000,128);p.takeOutputPeak();for(int block=0;block<144;++block){juce::MidiBuffer midi;if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,key,1.0f),7);if(block==90)midi.addEvent(juce::MidiMessage::noteOff(1,key),11);const juce::MidiBuffer input(midi);p.processBlock(audio,midi);checkMidiPassThrough(p,input);for(int i=0;i<128;++i)need(std::isfinite(audio.getSample(0,i)),"bass register sweep finite");}peak=std::max(peak,p.takeOutputPeak());}return peak;
+float rangePeak(SpaceInfinityProcessor& p,float* measuredTruePeak=nullptr){
+ float peak=0;juce::AudioBuffer<float> audio(2,128);juce::dsp::Oversampling<float> meter(2,2,juce::dsp::Oversampling<float>::filterHalfBandFIREquiripple);meter.initProcessing(128);
+ for(int key:{36,43,48,55}){p.prepareToPlay(48000,128);p.takeOutputPeak();for(int block=0;block<144;++block){juce::MidiBuffer midi;if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,key,1.0f),7);if(block==90)midi.addEvent(juce::MidiMessage::noteOff(1,key),11);const juce::MidiBuffer input(midi);p.processBlock(audio,midi);checkMidiPassThrough(p,input);if(measuredTruePeak){const auto high=meter.processSamplesUp(juce::dsp::AudioBlock<const float>(audio));for(size_t ch=0;ch<high.getNumChannels();++ch)for(size_t n=0;n<high.getNumSamples();++n)*measuredTruePeak=std::max(*measuredTruePeak,std::abs(high.getSample(int(ch),int(n))));}for(int i=0;i<128;++i)need(std::isfinite(audio.getSample(0,i)),"bass register sweep finite");}peak=std::max(peak,p.takeOutputPeak());}return peak;
 }
 void groove(SpaceInfinityProcessor& p,const juce::File& file,bool rolling){
  constexpr int sr=48000,blockSize=128;const int step=juce::roundToInt(sr*60.0/140/(rolling?4:1)),count=rolling?64:16,length=count*step+sr/3;
@@ -32,7 +32,9 @@ int runBassSmoke(){try{
   for(int block=0;block<450;++block){juce::MidiBuffer midi;if(block==0)midi.addEvent(juce::MidiMessage::noteOn(1,40,.82f),0);if(block==160)midi.addEvent(juce::MidiMessage::noteOff(1,40),0);const juce::MidiBuffer input(midi);p->processBlock(audio,midi);checkMidiPassThrough(*p,input);for(int i=0;i<128;++i){const float l=audio.getSample(0,i),r=audio.getSample(1,i);need(std::isfinite(l)&&std::isfinite(r),"bass output finite");const double e=.5*(l*l+r*r);peak=std::max(peak,std::max(std::abs(l),std::abs(r)));energy+=e;mono+=(l+r)*(l+r)*.25;if(block>=15&&block<45)attack+=e;if(block>=60&&block<120)body+=e*.5;if(block>=400)tail+=e;}}
   need(peak>.02&&peak<.99,"bass audible with headroom");need(mono>energy*.98,"bass fundamental and body remain mono compatible");need(body>attack*.003,"bass keeps body behind its transient");need(tail<energy*.0001,"bass releases cleanly without a lingering effect tail");
   p->prepareToPlay(48000,128);std::array<double,12> hit{};for(int block=0;block<12*40;++block){const int note=block/40,pos=block%40;juce::MidiBuffer midi;if(pos==0)midi.addEvent(juce::MidiMessage::noteOn(1,40,.82f),0);if(pos==28)midi.addEvent(juce::MidiMessage::noteOff(1,40),0);p->processBlock(audio,midi);for(int i=0;i<128;++i){const float v=audio.getSample(0,i);hit[size_t(note)]+=v*v;}}double early=0,late=0;for(int i=2;i<6;++i)early+=hit[size_t(i)];for(int i=8;i<12;++i)late+=hit[size_t(i)];need(late>early*.8&&late<early*1.25,"twelve bass retriggers retain their level");
-  need(rangePeak(*p)<.95f,"four bass registers retain raw peak headroom");
+  // Static loudness matching uses a reference phrase. Resonant registers must
+  // remain safe at the actual output, including reconstructed intersample peaks.
+  float truePeak=0;const float rawPeak=rangePeak(*p,&truePeak);need(std::isfinite(rawPeak)&&truePeak<.995f,"four bass registers retain true-peak output headroom");
   std::cout<<p->presetNames()[index]<<": body/attack "<<body/attack<<", tail "<<tail/energy<<", repeat ratio "<<late/early<<std::endl;
  }
  need(count==35,"all 35 authored basses checked");std::cout<<"Bass: mono weight, body, clean release and repeated-note stability passed\n";return 0;

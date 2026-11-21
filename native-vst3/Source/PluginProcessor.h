@@ -1,4 +1,5 @@
 #pragma once
+#include "TruePeakSafety.h"
 #include "DimensionChorus.h"
 #include "CharacterFilters.h"
 #include "SampleBlend.h"
@@ -19,7 +20,7 @@ class ImpulseWorker;
 class SpaceInfinityProcessor : public juce::AudioProcessor {
 public:
     juce::MidiKeyboardState keyboardState;
-    explicit SpaceInfinityProcessor(const juce::File& presetDirectory={});
+    explicit SpaceInfinityProcessor(const juce::File& presetDirectory={},bool installIncludedBanks=false);
     ~SpaceInfinityProcessor() override;
     bool isBusesLayoutSupported(const BusesLayout& layout) const override {
         const auto input=layout.getMainInputChannelSet();
@@ -153,6 +154,7 @@ private:
     std::atomic<float> displayedSamplePosition{-1};
     juce::SmoothedValue<float> echoWet,irLevel,studioCompWet,reverbDryGain;
     std::unique_ptr<PresetLibrary> library;
+    infinity::TruePeakSafety outputSafetyLimiter;
     juce::dsp::Oversampling<float> oversampling{2,1,juce::dsp::Oversampling<float>::filterHalfBandPolyphaseIIR,true,true};
     juce::MidiBuffer highRateMidi;
     int maximumHostBlock=512;

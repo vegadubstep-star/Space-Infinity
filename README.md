@@ -4,11 +4,11 @@ Native JUCE Windows x64 synthesizer for FL Studio, with the owner's INFINITY wor
 
 Current development branch: **codex/windows-build**.
 
-[0.9.3 source update](docs/SAMPLER_FULL_RANGE_093_UPDATE.md) includes saved-order preset navigation, sample fidelity, layered oscillator controls and automatic curated banks. All 28 native tests pass; the Windows workflow is blocked before runner startup, so no 0.9.3 installer is published. The verified installer below remains 0.9.2.
+[0.9.4 complete installed-bank update](docs/INSTALLED_BANK_094_UPDATE.md): all 421 active sounds load automatically, including 48 sampled presets. Actual native measurements match perceived loudness within 1 LU and retain clean true-peak headroom; all 29 native tests pass. Windows installer verification is pending. The verified download below remains the older 0.9.2 build.
 
 [Download the verified 0.9.2 Windows installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.9.2/SPACE_INFINITY_0.9.2_Windows_x64_Installer.zip).
 
-The 90 refined factory presets are built in: select the **Research 091** tag in BANK. Import the included **SPACE_INFINITY_Lush_Trance_20.zip** through BANK → IMPORT for the separate 20-lead bank.
+For the older 0.9.2 download, the 90 refined factory presets are built in: select the **Research 091** tag in BANK. Import the included **SPACE_INFINITY_Lush_Trance_20.zip** through BANK → IMPORT for the separate 20-lead bank.
 
 - [0.9.2 browsing and sample-glide fixes](docs/BROWSING_SAMPLE_GLIDE_092_UPDATE.md): BANK single-click loading, arrows following the grouped selector from the loaded sound, sample portamento across note gaps in Mono, and edit panels that close on preset/page navigation. All native/Windows tests and the public installer ZIP are verified.
 - [0.9.1 researched preset update](docs/STUDIO_RESEARCH_091_UPDATE.md): 90 existing factory sounds refined across bass, hard-trance leads, plucks, airy pads and acid. Native and Windows tests pass; measured levels cover macro extremes and both engine modes. The public installer ZIP is independently verified.
