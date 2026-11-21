@@ -1,0 +1,31 @@
+{
+  "version": "0.9.0",
+  "source_commit": "8410c90a250f7e3e141788f735d5cf368c9c4e06",
+  "release_url": "https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.9.0",
+  "installer_zip": "SPACE_INFINITY_0.9.0_Windows_x64_Installer.zip",
+  "installer_zip_sha256": "0a227f26d9a79f488b24f32129bcf465456a144920642d548971a81e54e7889f",
+  "setup_sha256": "0b8d29fca2421edb907c5f0951cb472c86360cf177e9003516761f4b03d4fffb",
+  "heritage_bank_sha256": "43985d0daa8f43abd36aff0747b824931c62314c3cc1b73962ba69218b3035c0",
+  "lush_bank_sha256": "481ae6916cc8483f51167cff6950ba4163eb441718446426a8546500a2549932",
+  "lead_audio_audited_presets": 27,
+  "verified": {
+    "installer_zip_crc": true,
+    "installer_hash": true,
+    "release_hashes": true,
+    "manual_vst3_crc": true,
+    "windows_x64_pe": true,
+    "native_version": "0.9.0",
+    "bank_v2_presets": 200,
+    "audio_audited_presets": 360,
+    "parameter_inventory": 1223,
+    "embedded_audio_audit_matches_source_except_line_endings": true
+  },
+  "windows_run": 44839093943,
+  "windows_job": 136642742044,
+  "windows_tests_passed": 27,
+  "windows_suite_seconds": 550.29,
+  "actual_install_uninstall_verified": true,
+  "installed_binary_matches_manual_archive": true,
+  "public_installer_bank_contents_verified": true,
+  "lush_bank_presets": 20
+}

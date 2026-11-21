@@ -4,8 +4,11 @@ Native JUCE Windows x64 synthesizer for FL Studio, with the owner's INFINITY wor
 
 Current development branch: **codex/windows-build**.
 
-[Download the verified 0.8.0 Windows installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.8.0/SPACE_INFINITY_0.8.0_Windows_x64_Installer.zip).
+[Download the verified 0.9.0 Windows installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.9.0/SPACE_INFINITY_0.9.0_Windows_x64_Installer.zip).
 
+Import the included **SPACE_INFINITY_Lush_Trance_20.zip** through BANK → IMPORT to add the 20 new leads.
+
+- [0.9.0 filter, sampler and lead update](docs/CHARACTER_FILTER_SAMPLER_090_UPDATE.md): 15 filters with a live response graph, stereo granular/loop blending, sampler octave fix, Voice Life, A → B transitions, larger controls, 20 new leads and seven stronger existing leads. Windows/native checks and the published installer ZIP are verified.
 - [0.8.0 sound-bank and waveform update](docs/TRACK_READY_080_UPDATE.md): 52 oscillator families, six steady choir/hybrid sources, revised factory160 and separate Heritage200, and peak calibration.
 - 160 authored trance / 90s German hard-trance sounds plus Init, with revised acid, airy pads, choir ensembles and varied leads. Previous factory presets removed; user-saved presets remain available.
 - Live loaded-sample/processed-output waveforms, trim/reverse and sample import.
