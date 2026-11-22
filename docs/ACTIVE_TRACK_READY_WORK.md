@@ -1,5 +1,11 @@
 # SPACE INFINITY 0.9.4 — source complete; Windows build blocked
 
+Latest retry: 22 November 2026, run45007366361/job137161823054 on
+ac91299b6007f2eab9782f9f4d14df1f5ea51be3. GitHub again refused runner startup
+(0 steps) for the same account payment/spending-limit restriction. Native/source
+checks remain valid; no code changed or new installer published. Exact annotation:
+/workspace/work/preset094/WindowsBuildFailure-2026-11-22.json.
+
 User request COMPLETE IN SOURCE: all421active presets +Init automaticallyavailable,
 including48new sampled sounds. No manual import. Volume matched, tastefulFX,
 allsettings/data/regressionschecked. Saved/manual-order navigation retained.

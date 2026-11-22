@@ -1,9 +1,9 @@
 {
   "version": "0.9.4",
   "source_commit": "ed895f5c3c330a5532702a9c40bf4837d969d689",
-  "workflow_run": 44956175371,
-  "workflow_job": 137004696472,
-  "run_url": "https://github.com/vegadubstep-star/Space-Infinity/actions/runs/44956175371",
+  "workflow_run": 45007366361,
+  "workflow_job": 137161823054,
+  "run_url": "https://github.com/vegadubstep-star/Space-Infinity/actions/runs/45007366361",
   "status": "blocked before hosted runner startup",
   "steps_executed": 0,
   "windows_tests_run": false,
@@ -15,5 +15,14 @@
   "new_sampled_presets": 48,
   "maximum_loudness_deviation_lu": 0.6111142443622022,
   "maximum_stress_true_peak_dbfs": -0.6093475033309512,
-  "next_step": "Resolve the account runner restriction, dispatch the Windows workflow, require all Windows and installer checks, then verify the public ZIP before delivery."
+  "next_step": "Resolve the account runner restriction, dispatch the Windows workflow, require all Windows and installer checks, then verify the public ZIP before delivery.",
+  "previous_attempts": [
+    {
+      "workflow_run": 44956175371,
+      "workflow_job": 137004696472,
+      "run_url": "https://github.com/vegadubstep-star/Space-Infinity/actions/runs/44956175371"
+    }
+  ],
+  "latest_attempt_date": "2026-11-22",
+  "latest_attempt_commit": "ac91299b6007f2eab9782f9f4d14df1f5ea51be3"
 }
