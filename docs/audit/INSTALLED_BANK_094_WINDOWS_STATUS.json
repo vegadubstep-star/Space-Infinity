@@ -1,20 +1,20 @@
 {
   "version": "0.9.4",
-  "source_commit": null,
-  "workflow_run": 45011466465,
-  "workflow_job": 137174511168,
-  "run_url": "https://github.com/vegadubstep-star/Space-Infinity/actions/runs/45011466465",
-  "status": "Windows compiled; repeated-import regression fixed; final rerun pending",
-  "windows_tests_run": false,
-  "installer_published": false,
-  "reason": "The first curated build compiled. Its installed-bank and sampler checks passed; Heritage repeat-import failed. Native checkpoint207 reproduced identical-file rewrites when the known-shipped history includes the current hash. Explicit identical-byte skip now passes all four targeted native bank tests.",
+  "source_commit": "971022b107c9bccb08c93d59d0dca1ce2cfd137a",
+  "workflow_run": 45012646310,
+  "workflow_job": 137178147614,
+  "run_url": "https://github.com/vegadubstep-star/Space-Infinity/actions/runs/45012646310",
+  "status": "verified Windows installer published",
+  "windows_tests_run": true,
+  "installer_published": true,
+  "reason": "Public repository standard Windows runner compiled and passed all mandatory native, installation and package checks. Public installer/manual archives independently downloaded and verified.",
   "native_tests_passed": 29,
   "active_presets": 300,
   "automatically_available_entries_including_init": 301,
   "new_sampled_presets": 38,
   "maximum_loudness_deviation_lu": 0.6111142443622022,
   "maximum_stress_true_peak_dbfs": -0.6117485856371611,
-  "next_step": "Rerun Windows with the import idempotency fix; require all mandatory tests and public verification.",
+  "next_step": "User FL Studio audition and host testing.",
   "previous_attempts": [
     {
       "workflow_run": 44956175371,
@@ -26,5 +26,15 @@
   "latest_attempt_commit": "ac91299b6007f2eab9782f9f4d14df1f5ea51be3",
   "repository_visibility": "public",
   "runner_restriction_cleared": true,
-  "latest_cancelled_run": 45008037798
+  "latest_cancelled_run": 45008037798,
+  "windows_tests_passed": 29,
+  "mandatory_steps": {
+    "Build and package": "success",
+    "Verify factory bank, state and editor": "success",
+    "Verify preset-edit ZIP importer": "success",
+    "Verify installer and VST3 archive": "success",
+    "Package verified installer ZIP": "success",
+    "Publish verified Windows release": "success"
+  },
+  "release_url": "https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.9.4"
 }

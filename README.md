@@ -4,9 +4,11 @@ Native JUCE Windows x64 synthesizer for FL Studio, with the owner's INFINITY wor
 
 Current development branch: **codex/windows-build**.
 
-[0.9.4 Curated 300](docs/CURATED_300_UPDATE.md): 300 selected sounds plus Init load automatically, including 38 sampled presets. A three-register audio comparison removed 121 further close alternatives. Individual chain reviews cover FX, warp, unison and sample onsets; a simpler category/search browser keeps editing tools behind EDIT / SAVE. Native audio and installer verification are in progress. The repository is now public and the Windows runner restriction is cleared.
+[0.9.4 Curated 300](docs/CURATED_300_UPDATE.md): 300 selected sounds plus Init load automatically, including 38 from the uploaded sample bank. A three-register comparison removed 121 further close alternatives. Retained chains were reviewed for FX, warp, unison and sample onsets; the browser now has separate category/tags/search, CLEAR and an EDIT / SAVE view. Native checks, all 29 Windows tests, installation and the public archives are verified.
 
-The previous verified installer is [0.9.2](https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.9.2). It does not contain the Curated 300 update. A new download will be linked after verification.
+[Download the verified 0.9.4 Windows installer ZIP](https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.9.4/SPACE_INFINITY_0.9.4_Windows_x64_Installer.zip).
+
+Close FL Studio, right-click the ZIP and **Extract All**, then run **SPACE_INFINITY_0.9.4_Windows_x64_Setup.exe**. Load a fresh instance: no bank import is needed. Personal replacements are preserved; optional recovery ZIPs contain removed alternatives.
 
 - [0.9.2 browsing and sample-glide fixes](docs/BROWSING_SAMPLE_GLIDE_092_UPDATE.md): BANK single-click loading, arrows following the grouped selector from the loaded sound, sample portamento across note gaps in Mono, and edit panels that close on preset/page navigation. All native/Windows tests and the public installer ZIP are verified.
 - [0.9.1 researched preset update](docs/STUDIO_RESEARCH_091_UPDATE.md): 90 existing factory sounds refined across bass, hard-trance leads, plucks, airy pads and acid. Native and Windows tests pass; measured levels cover macro extremes and both engine modes. The public installer ZIP is independently verified.

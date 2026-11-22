@@ -1,0 +1,30 @@
+{
+  "version": "0.9.4",
+  "source_commit": "971022b107c9bccb08c93d59d0dca1ce2cfd137a",
+  "workflow_run": 45012646310,
+  "workflow_job": 137178147614,
+  "release_url": "https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.9.4",
+  "installer_zip_sha256": "5de3380cf1bc68ed0296a914272415ffb5d55920b0714683147957acd8ce8812",
+  "setup_sha256": "083bb7cd41e5a83bcebd1b5ce9dacdff6b132f5e5e083d12c37e54db4bd911a3",
+  "manual_vst3_zip_sha256": "4cebae38df7b3bcadd7eac3a10641ac56502cd2351729c147a0db34f09834929",
+  "verified": {
+    "public_hashes": true,
+    "installer_crc": true,
+    "setup_pe": true,
+    "manual_crc": true,
+    "windows_x64_module": true,
+    "module_version": "0.9.4",
+    "native_parameters": 1228,
+    "active_presets": 300,
+    "automatic_installed_entries": 301,
+    "sampled_presets": 38
+  },
+  "maximum_loudness_deviation_lu": 0.6111142443622022,
+  "maximum_default_true_peak_dbfs": -0.6801595664879233,
+  "maximum_stress_true_peak_dbfs": -0.6117485856371611,
+  "bank_hashes": {
+    "SPACE_INFINITY_Heritage_200.zip": "83965e7d1fc408d98e72beacc8c805c5b8fb2cd4ffdb0392f698adfdf3daacce",
+    "SPACE_INFINITY_Lush_Trance_20.zip": "e6d461ae4a745495abbabaef416d1fe37db3ac6a080e735fc862c739b634317f",
+    "SPACE_INFINITY_Orbit_Voices.zip": "3fb4a6231b142548e883cb5b752d83a8a38de45de3a9a2e7720bf853ba59c5df"
+  }
+}

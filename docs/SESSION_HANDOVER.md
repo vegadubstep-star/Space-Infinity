@@ -1,3 +1,44 @@
+# SPACE INFINITY 0.9.4 — Curated 300 verified and published
+
+Source: 971022b107c9bccb08c93d59d0dca1ce2cfd137a, branch codex/windows-build.
+Windows run45012646310, package job137178147614: all mandatory steps passed.
+All29 Windows tests plus actual install/uninstall and installed/manual byte identity
+passed. Public installer/manual downloaded independently: CRC/SHA256, Setup MZ,
+x64 PE/module094, 1228 params, 300 curated sounds +Init, 38 uploaded sampled sounds,
+current bank hashes/catalogue, curation/recovery, levels and proof contents passed.
+Release: https://github.com/vegadubstep-star/Space-Infinity/releases/tag/v0.9.4
+Installer: https://github.com/vegadubstep-star/Space-Infinity/releases/download/v0.9.4/SPACE_INFINITY_0.9.4_Windows_x64_Installer.zip
+Installer SHA256: 5de3380cf1bc68ed0296a914272415ffb5d55920b0714683147957acd8ce8812
+Setup SHA256: 083bb7cd41e5a83bcebd1b5ce9dacdff6b132f5e5e083d12c37e54db4bd911a3
+Manual ZIP SHA256: 4cebae38df7b3bcadd7eac3a10641ac56502cd2351729c147a0db34f09834929
+
+Final native full29 PASS262.45s on the exact final sound bank and importer.
+The repeated-bank-import regression now skips identical files and avoids duplicate
+backups; owner edits and genuine bank updates remain protected.
+Final300: 92 revised states freshly rendered +208 audio-identical proven states.
+All421 input sounds profiled at3 registers; final300 rechecked across category
+boundaries, max feature similarity .984513911099, no >=.99 candidates. Perceptual
+uniqueness still depends on playing and taste. Default loudness range
+-23.111114244..-22.489324584 LUFS; max default4xTP-.680159566dBFS, stress-.611748586.
+92 chain/onset/warp edits;20 sample attacks restored;40 raw WAV hashes retained.
+121 further alternatives hidden with separate recovery ZIP;7 earlier hidden.
+Automatic installation, repeat startup, old-library upgrade and owner edits pass.
+Compact browser category/tags/search/CLEAR/count; EDIT / SAVE for other tools.
+
+Evidence: docs/audit/INSTALLED_BANK_094_{LEVELS.json,NATIVE_TESTS.txt,
+WINDOWS_TESTS.txt,WINDOWS_STATUS.json,PUBLISHED_VERIFICATION.json} and CURATED_300_*.
+Raw proof: /workspace/work/release-verification/094/VERIFIED.json; WindowsFull.log
+and native profiles/snapshots/measurements under /workspace/work/curated300.
+No 0.9.3 or old421-sound0.9.4 installer ever published. Owner explicitly made the
+repository public to enable standard free Windows runners; the former restriction
+is cleared. Delivery is ready; next user action is FL Studio host/listening tests.
+
+Preserve owner untracked root audition/ and all caches. No agents used. Generated
+review executables may be rebuilt with scripts/curated300/build-review.py; three
+completed binaries removed after recording hashes in ReviewBinaries.json. Source,
+measurements and recovery snapshots retained. Do not rerun the pre-curation
+421-sound workflow against the current300 view without its original snapshot.
+
 # Final Curated 300 bank-import fix — Windows rerun pending
 
 The first curated Windows build cde1394/run45011466465 compiled successfully.
