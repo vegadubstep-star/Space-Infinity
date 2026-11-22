@@ -25,44 +25,47 @@ popup should close. Sample-loop and filter EDIT use the same popup lifecycle.
 
 ## Try the revised factory sounds
 
-Select the **Research 091** or **Studio Research** tag in BANK. Ninety existing
-factory sounds are revised: 30 basses, 20 hard-trance leads, 20 plucks, 10 airy
-pads and 10 acids. No import is needed for these revisions. Names and IDs are
-retained; the factory count remains 160. User replacements stay in your library.
+Select the **Research 091** or **Studio Research** tag in BANK. The retained sounds from the earlier
+90-preset research revision include basses, hard-trance leads, plucks, airy pads
+and acids. No import is needed. Stable IDs remain available for old project
+states; the normal palette is now the curated 300. User replacements stay in your library.
 
 On plucks try OPEN / LEAD: the filter and sustain open while delay/reverb returns
 reduce, with measured compensation. On acids try SWEEP, LIQUID and CORROSION;
 overlapping MIDI notes slide, separated notes retrigger the filter contour.
 Rolling basses follow your MIDI and do not generate their own pattern.
 
-## Matched installed bank
+## Curated installed bank
 
-All 421 active sounds plus Init are available automatically after installation,
-including all 48 new sampled choir, lead and bass presets. No bank import is
-required. The shipped ZIPs are optional backups. Existing personal replacements
-and metadata edits are retained; choose an untouched factory version when
-comparing the new levels.
+All 300 curated sounds plus Init load automatically, including retained sampled
+choir, lead and bass presets. No import is required. Choose Bass, Lead, Pluck,
+Pads or another category in BANK; tags and search can narrow it further. CLEAR
+resets all filters. Enter after a search loads the first result; Escape clears
+filters. Click a sound to load, or use list arrows then Enter. EDIT / SAVE opens
+the metadata, save/replace and hybrid controls.
 
-The presets use a stored, static loudness adjustment separate from their macro
-compensation. There is no automatic gain ride. Default levels are checked with
-an articulated/held reference phrase and K-weighted gated loudness; chords,
-three registers and all six performance macros are also checked for clipping.
-Changing MIDI, octave, velocity, effects or macros changes the result. The
-current measurements are in audit/INSTALLED_BANK_094_LEVELS.json.
+The main palette excludes 121 further close alternatives from the previous
+421-sound list. Personal replacements are preserved. The optional
+SPACE_INFINITY_Curated_300_Alternatives.zip recovers those alternatives into a
+separate bank; it is not needed for normal use.
 
-Small room ambience is added to 21 otherwise dry keyboard/organ presets. Existing
-trance lead/pluck delays, airy pad reverbs and dry bass envelopes keep their
-individual settings. Historical 0.9.3 audio audits describe the earlier revision.
+Retained sounds receive static loudness matching separate from their macro
+compensation, after their current effects and sample-start settings are rendered.
+There is no automatic gain ride. Chords, three registers and all six macros are
+also checked for clipping. MIDI, octave, velocity and edits change the result.
+See audit/INSTALLED_BANK_094_LEVELS.json and the CURATED_300 audits.
 
 ## Included banks and new samples
 
-Heritage 200, Lush Trance 20 and the new 48-sound Orbit Voices bank install into
-the preset library automatically on first load. No manual import is needed.
+Heritage, Lush Trance and Orbit Voices sources are included automatically on
+first load. The curated view exposes the selected 300 sounds; extra close
+alternatives stay hidden. No manual import is needed.
 Their ZIPs remain in the installer folder as portable backups:
 SPACE_INFINITY_Heritage_200.zip, SPACE_INFINITY_Lush_Trance_20.zip and
 SPACE_INFINITY_Orbit_Voices.zip. Edited local versions are preserved.
 
-Orbit Voices contains 12 choir variations, 21 leads and 15 basses made from the
+The Orbit Voices backup contains 12 choir variations, 21 leads and 15 basses.
+The normal curated list retains 38 of these sampled sounds, made from the
 40 uploaded WAVs, with INFINITY filenames, root pitches and OPEN/SPACE/BODY
 macros. Seven measured near-duplicate Heritage variants are hidden from the
 standard list; SPACE_INFINITY_Retired_093_Backup.zip restores them as a separate

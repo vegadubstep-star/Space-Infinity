@@ -31,7 +31,10 @@ if tuple(map(int, version.split('.'))) >= (0, 9, 3):
                      'audit/SAMPLER_FULL_RANGE_093_AUDIO_LEVELS.json', 'audit/SAMPLER_FULL_RANGE_093_CURATION.json'})
 if tuple(map(int, version.split('.'))) >= (0, 9, 4):
     required.update({'INSTALLED_BANK_094_UPDATE.md', 'audit/INSTALLED_BANK_094_LEVELS.json',
-                     'audit/INSTALLED_BANK_094_NATIVE_TESTS.txt', 'audit/INSTALLED_BANK_094_CATALOGUE.json'})
+                     'audit/INSTALLED_BANK_094_NATIVE_TESTS.txt', 'audit/INSTALLED_BANK_094_CATALOGUE.json',
+                     'CURATED_300_UPDATE.md', 'audit/CURATED_300_CURATION.json',
+                     'audit/CURATED_300_FX_REVIEW.json', 'audit/CURATED_300_SAMPLE_STARTS.json', 'audit/CURATED_300_SOURCE_PARITY.json', 'audit/CURATED_300_SIMILARITY.json',
+                     'SPACE_INFINITY_Curated_300_Alternatives.zip', 'SPACE_INFINITY_Curated_300_Alternatives.zip.sha256'})
 with zipfile.ZipFile(archive) as outer:
     assert outer.testzip() is None
     assert {folder + name for name in required} <= set(outer.namelist()), 'Missing new bank, instructions or audit'
@@ -104,11 +107,30 @@ with zipfile.ZipFile(archive) as outer:
         tests = outer.read(folder+'audit/INSTALLED_BANK_094_NATIVE_TESTS.txt').decode('utf-8-sig')
         assert 'SPACE INFINITY 0.9.4' in tests and '100% tests passed' in tests and 'CTest exit code: 0' in tests
         matched = json.loads(outer.read(folder+'audit/INSTALLED_BANK_094_LEVELS.json'))
-        assert matched['presets_measured'] == 421 and matched['sampled_orbit_presets'] == 48 and not matched['errors']
+        assert matched['presets_measured'] == 300 and matched['sampled_orbit_presets'] > 0 and not matched['errors']
         assert matched['maximum_deviation_lu'] <= 1.001 and matched['maximum_default_true_peak_dbfs'] < 0 and matched['maximum_stress_true_peak_dbfs'] < 0
         catalogue = json.loads(outer.read(folder+'audit/INSTALLED_BANK_094_CATALOGUE.json'))
-        assert catalogue['active_presets'] == len(catalogue['settings']) == 421
+        assert catalogue['active_presets'] == len(catalogue['settings']) == 300
         for name, digest in matched['bank_hashes'].items():
             assert hashlib.sha256(outer.read(folder+name)).hexdigest() == digest == catalogue['banks'][name]['sha256']
+        curation300=json.loads(outer.read(folder+'audit/CURATED_300_CURATION.json'))
+        assert curation300['active_presets']==300 and len(curation300['kept_keys'])==300 and curation300['retired_count']==121
+        assert set(curation300['kept_keys'])==set(catalogue['settings'])
+        assert not set(curation300['kept_keys']) & {r['key'] for r in curation300['retired']}
+        recovery=outer.read(folder+curation300['recovery_bank'])
+        assert hashlib.sha256(recovery).hexdigest()==curation300['recovery_bank_sha256']
+        with zipfile.ZipFile(io.BytesIO(recovery)) as recovered:
+            assert recovered.testzip() is None
+            rm=json.loads(recovered.read('Bank.json'));assert len(rm['presets'])==121
+            for r in rm['presets']:assert hashlib.sha256(recovered.read(r['file'])).hexdigest()==r['sha256']
+        reviewed=json.loads(outer.read(folder+'audit/CURATED_300_FX_REVIEW.json'))
+        assert reviewed['reviewed']==len(reviewed['presets'])==300
+        assert {r['key'] for r in reviewed['presets']}==set(catalogue['settings'])
+        parity=json.loads(outer.read(folder+'audit/CURATED_300_SOURCE_PARITY.json'))
+        assert parity['presets_verified']==300 and not parity['errors']
+        assert matched['fresh_final_native_renders']+matched['unchanged_audio_evidence_reused']==300
+        similarity=json.loads(outer.read(folder+'audit/CURATED_300_SIMILARITY.json'))
+        assert similarity['presets_checked']==300 and not similarity['close_candidates']
+        assert '300' in instructions and 'EDIT / SAVE' in instructions
         assert parameters['presetReferenceGain']['host_default'] == 0
 print('Installer wrapper: current instructions, banks, audio evidence, parameters and checksums passed')

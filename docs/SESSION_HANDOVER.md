@@ -1,3 +1,59 @@
+# SPACE INFINITY 0.9.4 — Curated 300; Windows packaging pending
+
+The repository is now public at the owner's explicit request. Standard Windows
+runner startup succeeded in run45008037798, clearing the previous restriction.
+That run was cancelled before publication when the owner requested a stricter
+300-preset bank and simpler automatic browsing. Do not deliver an older ZIP.
+
+Final source work:
+- 300 sound presets plus Init appear automatically; 38 are retained sampled sounds.
+- All 421 input sounds rendered at three registers. 121 alternatives removed,
+  including a cross-category string/pluck overlap; stable source IDs retained.
+- 92 audio states revised: conservative wet FX clarity, three envelope-linked
+  acid warp variants, and 20 sample-onset corrections. Every retained effects,
+  warp, unison and articulation configuration has a recorded review.
+- All40 uploaded WAV byte hashes and root pitches preserved. Steady choir regions
+  retained. Optional 121-sound alternatives ZIP and earlier7-sound recovery remain.
+- Source parity proves208 other audio states unchanged, retaining their measured
+  native loudness evidence. 92 revised states freshly rendered for loudness,
+  stress and three-register similarity. All300 checked across category boundaries;
+  maximum same-pitch-group feature similarity .984513911099, no >=.99 candidates.
+- Loudness range -23.111114244..-22.489324584 LUFS; max target deviation .611114244 LU.
+  Default max4xTP -.680159566dBFS; stress max4xTP -.611748586dBFS; no audio errors.
+- Compact BANK: category + tags + search, CLEAR, count; Enter loads first search
+  result and Escape clears filters. EDIT / SAVE reveals metadata/edits/hybrid.
+  Single-click and saved/manual-order arrows still anchor to the loaded sound.
+- Full29 native PASS268.80s. After the final one-slot cross-category replacement,
+  resources rebuilt and final installed-bank/legacy-Smoke/browser3/3 PASS30.09s.
+  The legacy Smoke selector fixture now uses bank IDs for retained entries while
+  continuing to render every hidden factory definition for project compatibility.
+  Automatic install/repeat startup/personal edits/old-library upgrade/recovery pass.
+- Python import regression and PowerShell parser pass. Packaging preflight passed, including rejection of missing/failed/unsafe evidence; fixtures removed.
+
+NEXT: commit/push with [skip ci], dispatch Windows
+publish_release=true on codex/windows-build. Require full29 Windows tests,
+actual install/uninstall and installed/manual byte identity, ZIP contents checks.
+Then /tmp/verify-space-infinity094-release.py SOURCE_SHA RUN_ID JOB_ID independently
+verifies the public ZIP/manual/hash/PE/module094/current300 catalogue and banks.
+Capture Windows/public evidence, update README and this handover, docs-only commit,
+send the verified installer ZIP with Extract All/close FL/Setup instructions.
+
+Current data: native-vst3/Presets/Installed094.json, Curation093.json, updated bank
+ZIPs and SPACE_INFINITY_Curated_300_Alternatives.zip. Source IDs/host parameters
+remain1228; init default new reference gain0 and old states preserved.
+Evidence: docs/audit/CURATED_300_{CURATION,FX_REVIEW,SAMPLE_STARTS,SOURCE_PARITY,
+SIMILARITY}.json; INSTALLED_BANK_094_LEVELS.json and NATIVE_TESTS.txt.
+Raw/native snapshots+profiles/measurements: /workspace/work/curated300.
+Scripts: scripts/curated300/README.md; installed094 review/matching tools.
+
+Workspace /workspace/work/native-design; branch codex/windows-build. No agents.
+Preserve owner untracked audition/ and all __pycache__ directories. Run tests from
+build-linux (CTest default) so root audition is not deleted by Smoke. Helpers
+ReviewPalette/ExportLibrary/ReviewLevels/ReviewFinal/ReviewPaletteFinal are large
+and may be removed only after all workers finish and their audit hashes are saved.
+Old recoverable downloaded installer binaries were removed to free1GB; proof
+records retained. Native build and all raw review measurements remain available.
+
 # SPACE INFINITY 0.9.4 — source complete; Windows build blocked
 
 Latest retry: 22 November 2026, run45007366361/job137161823054 on

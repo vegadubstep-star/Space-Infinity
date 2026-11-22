@@ -1,21 +1,20 @@
 {
   "version": "0.9.4",
-  "source_commit": "ed895f5c3c330a5532702a9c40bf4837d969d689",
-  "workflow_run": 45007366361,
-  "workflow_job": 137161823054,
-  "run_url": "https://github.com/vegadubstep-star/Space-Infinity/actions/runs/45007366361",
-  "status": "blocked before hosted runner startup",
-  "steps_executed": 0,
+  "source_commit": null,
+  "workflow_run": 45008037798,
+  "workflow_job": 137163911632,
+  "run_url": "https://github.com/vegadubstep-star/Space-Infinity/actions/runs/45008037798",
+  "status": "Curated 300 native checks passed; Windows packaging pending",
   "windows_tests_run": false,
   "installer_published": false,
-  "reason": "GitHub account runner eligibility prevented the job from starting. See the workflow annotation; this is not a compiler or test failure.",
+  "reason": "Owner changed the repository to public; a standard Windows runner started. Run45008037798 was cancelled before publication to incorporate the requested Curated 300 revision.",
   "native_tests_passed": 29,
-  "active_presets": 421,
-  "automatically_available_entries_including_init": 422,
-  "new_sampled_presets": 48,
+  "active_presets": 300,
+  "automatically_available_entries_including_init": 301,
+  "new_sampled_presets": 38,
   "maximum_loudness_deviation_lu": 0.6111142443622022,
-  "maximum_stress_true_peak_dbfs": -0.6093475033309512,
-  "next_step": "Resolve the account runner restriction, dispatch the Windows workflow, require all Windows and installer checks, then verify the public ZIP before delivery.",
+  "maximum_stress_true_peak_dbfs": -0.6117485856371611,
+  "next_step": "Dispatch the final source build; require all Windows and installation checks and independently verify the public ZIP.",
   "previous_attempts": [
     {
       "workflow_run": 44956175371,
@@ -24,5 +23,8 @@
     }
   ],
   "latest_attempt_date": "2026-11-22",
-  "latest_attempt_commit": "ac91299b6007f2eab9782f9f4d14df1f5ea51be3"
+  "latest_attempt_commit": "ac91299b6007f2eab9782f9f4d14df1f5ea51be3",
+  "repository_visibility": "public",
+  "runner_restriction_cleared": true,
+  "latest_cancelled_run": 45008037798
 }

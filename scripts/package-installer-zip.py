@@ -53,7 +53,11 @@ if tuple(map(int, options.version.split('.'))) >= (0, 9, 3):
                   'SPACE_INFINITY_Orbit_Voices.zip.sha256', 'SPACE_INFINITY_Retired_093_Backup.zip'])
 if tuple(map(int, options.version.split('.'))) >= (0, 9, 4):
     files.extend(['INSTALLED_BANK_094_UPDATE.md', 'audit/INSTALLED_BANK_094_LEVELS.json',
-                  'audit/INSTALLED_BANK_094_NATIVE_TESTS.txt', 'audit/INSTALLED_BANK_094_CATALOGUE.json'])
+                  'audit/INSTALLED_BANK_094_NATIVE_TESTS.txt', 'audit/INSTALLED_BANK_094_CATALOGUE.json',
+                  'CURATED_300_UPDATE.md', 'audit/CURATED_300_CURATION.json',
+                  'audit/CURATED_300_FX_REVIEW.json', 'audit/CURATED_300_SAMPLE_STARTS.json', 'audit/CURATED_300_SOURCE_PARITY.json', 'audit/CURATED_300_SIMILARITY.json',
+                  'SPACE_INFINITY_Curated_300_Alternatives.zip',
+                  'SPACE_INFINITY_Curated_300_Alternatives.zip.sha256'])
 for name in files:
     if not (root / name).is_file():
         raise SystemExit(f'Missing release file: {name}')

@@ -121,3 +121,11 @@ foreach ($file in @("INSTALLED_BANK_094_UPDATE.md", "audit/INSTALLED_BANK_094_LE
     Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/$file") -Destination (Join-Path $release $file) -Force
 }
 Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Presets/Installed094.json") -Destination (Join-Path $release "audit/INSTALLED_BANK_094_CATALOGUE.json") -Force
+
+# The main list is the curated palette; removed alternatives are optional recovery.
+foreach ($file in @("CURATED_300_UPDATE.md", "audit/CURATED_300_CURATION.json", "audit/CURATED_300_FX_REVIEW.json", "audit/CURATED_300_SAMPLE_STARTS.json", "audit/CURATED_300_SOURCE_PARITY.json", "audit/CURATED_300_SIMILARITY.json")) {
+    Copy-Item -LiteralPath (Join-Path $ProjectRoot "docs/$file") -Destination (Join-Path $release $file) -Force
+}
+foreach ($file in @("SPACE_INFINITY_Curated_300_Alternatives.zip", "SPACE_INFINITY_Curated_300_Alternatives.zip.sha256")) {
+    Copy-Item -LiteralPath (Join-Path $ProjectRoot "native-vst3/Presets/$file") -Destination (Join-Path $release $file) -Force
+}

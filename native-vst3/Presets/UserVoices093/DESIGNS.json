@@ -593,7 +593,7 @@
         "engineMode": 1,
         "source": 3,
         "sampleRoot": 48,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -605,7 +605,7 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 1.570163
+        "presetReferenceGain": 1.605016
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Ion_Lance.wav",
       "root_midi": 48
@@ -632,12 +632,12 @@
         "delayEnabled": 1,
         "reverbEnabled": 1,
         "drive": 0,
-        "reverb": 0.22,
+        "reverb": 0.16,
         "gain": 0.75,
         "presetTrim": -4.69921,
         "engineMode": 1,
         "source": 3,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -649,7 +649,11 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 2.103402
+        "presetReferenceGain": 2.444054,
+        "reverbWetLowFreq": 240,
+        "reverbWetLowGain": -3,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Photon_Crest.wav",
       "root_midi": 60
@@ -682,7 +686,7 @@
         "engineMode": 1,
         "source": 3,
         "sampleRoot": 48,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -694,7 +698,7 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 1.35427
+        "presetReferenceGain": 1.301764
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Reactor_Edge.wav",
       "root_midi": 48
@@ -727,7 +731,7 @@
         "engineMode": 1,
         "source": 3,
         "sampleRoot": 48,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -738,7 +742,9 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 1.229052
+        "presetReferenceGain": 1.618347,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Quantum_Blade.wav",
       "root_midi": 48
@@ -770,7 +776,7 @@
         "engineMode": 1,
         "source": 3,
         "sampleRoot": 72,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -782,7 +788,7 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 3.747488
+        "presetReferenceGain": 3.060847
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Solar_Needle.wav",
       "root_midi": 72
@@ -858,7 +864,7 @@
         "presetTrim": -8.30143,
         "engineMode": 1,
         "source": 3,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -870,7 +876,7 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 3.035765
+        "presetReferenceGain": 2.336569
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Prism_Engine.wav",
       "root_midi": 60
@@ -903,7 +909,7 @@
         "engineMode": 1,
         "source": 3,
         "sampleRoot": 48,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -914,7 +920,9 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 1.606691
+        "presetReferenceGain": 1.847263,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Velocity_Arc.wav",
       "root_midi": 48
@@ -946,7 +954,7 @@
         "engineMode": 1,
         "source": 3,
         "sampleRoot": 36,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -958,7 +966,7 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 0.699975
+        "presetReferenceGain": 0.768998
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Gravity_Pulse.wav",
       "root_midi": 36
@@ -985,13 +993,13 @@
         "delayEnabled": 1,
         "reverbEnabled": 1,
         "drive": 0,
-        "reverb": 0.22,
+        "reverb": 0.16,
         "gain": 0.75,
         "presetTrim": -1.54329,
         "engineMode": 1,
         "source": 3,
         "sampleRoot": 48,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -1003,7 +1011,11 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 2.415955
+        "presetReferenceGain": 2.589389,
+        "reverbWetLowFreq": 240,
+        "reverbWetLowGain": -3,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Event_Horizon.wav",
       "root_midi": 48
@@ -1035,7 +1047,7 @@
         "presetTrim": -3.69147,
         "engineMode": 1,
         "source": 3,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -1047,7 +1059,7 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 0.824184
+        "presetReferenceGain": 0.070296
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Aurora_Beam.wav",
       "root_midi": 60
@@ -1079,7 +1091,7 @@
         "presetTrim": -4.72667,
         "engineMode": 1,
         "source": 3,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -1090,7 +1102,9 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 2.497298
+        "presetReferenceGain": 2.50882,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Starlight_Alloy.wav",
       "root_midi": 60
@@ -1121,7 +1135,7 @@
         "presetTrim": -6.78914,
         "engineMode": 1,
         "source": 3,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -1133,7 +1147,7 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 1.778033
+        "presetReferenceGain": 1.955577
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Violet_Core.wav",
       "root_midi": 60
@@ -1160,12 +1174,12 @@
         "delayEnabled": 1,
         "reverbEnabled": 1,
         "drive": 0,
-        "reverb": 0.22,
+        "reverb": 0.16,
         "gain": 0.75,
         "presetTrim": -7.33,
         "engineMode": 1,
         "source": 3,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -1177,7 +1191,11 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 2.111193
+        "presetReferenceGain": 1.973544,
+        "reverbWetLowFreq": 240,
+        "reverbWetLowGain": -3,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Infinity_Signal.wav",
       "root_midi": 60
@@ -1210,7 +1228,7 @@
         "engineMode": 1,
         "source": 3,
         "sampleRoot": 76,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -1222,7 +1240,7 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 1.742096
+        "presetReferenceGain": 2.304455
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Spectral_Flare.wav",
       "root_midi": 76
@@ -1255,7 +1273,7 @@
         "engineMode": 1,
         "source": 3,
         "sampleRoot": 45,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -1266,7 +1284,9 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 1.29891
+        "presetReferenceGain": 1.256994,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Orbital_Vector.wav",
       "root_midi": 45
@@ -1297,7 +1317,7 @@
         "presetTrim": -6.3564,
         "engineMode": 1,
         "source": 3,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -1309,7 +1329,7 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 1.739894
+        "presetReferenceGain": 0.29229
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Chromatic_Orbit.wav",
       "root_midi": 60
@@ -1336,12 +1356,12 @@
         "delayEnabled": 1,
         "reverbEnabled": 1,
         "drive": 0,
-        "reverb": 0.22,
+        "reverb": 0.16,
         "gain": 0.75,
         "presetTrim": -2.15039,
         "engineMode": 1,
         "source": 3,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -1353,7 +1373,11 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 2.731239
+        "presetReferenceGain": 1.821551,
+        "reverbWetLowFreq": 240,
+        "reverbWetLowGain": -3,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Eclipse_Crown.wav",
       "root_midi": 60
@@ -1386,7 +1410,7 @@
         "engineMode": 1,
         "source": 3,
         "sampleRoot": 40,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -1398,7 +1422,7 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 0.01014
+        "presetReferenceGain": -0.386256
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Deep_Space_Relay.wav",
       "root_midi": 40
@@ -1431,7 +1455,7 @@
         "engineMode": 1,
         "source": 3,
         "sampleRoot": 29,
-        "sampleStart": 0.04,
+        "sampleStart": 0.0,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -1442,7 +1466,9 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 3.08012
+        "presetReferenceGain": 2.26981,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Pulse_Meridian.wav",
       "root_midi": 29
@@ -1474,7 +1500,7 @@
         "engineMode": 1,
         "source": 3,
         "sampleRoot": 24,
-        "sampleStart": 0.04,
+        "sampleStart": 0.001119162335445199,
         "sampleEnd": 0.86,
         "filterDecay": 0.26,
         "filterSustain": 0.4,
@@ -1486,7 +1512,7 @@
         "freeMacroDepth2_0": 0.03,
         "analogueLabEnabled": 0,
         "sampleLoopFade": 35,
-        "presetReferenceGain": 0.267164
+        "presetReferenceGain": -0.270269
       },
       "sample_file": "native-vst3/Samples/User093/Infinity_Radiant_Flight.wav",
       "root_midi": 24

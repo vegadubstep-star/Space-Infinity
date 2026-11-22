@@ -204,11 +204,15 @@ int main(int argc,char* argv[])
         if(names[index].isEmpty() || synth.presetCategory(index).isEmpty()) return 2;
         synth.loadPreset(index);
         const auto expectedCutoff=cutoff->getValue();
-        cutoff->setValueNotifyingHost(expectedCutoff>0.5f?0.0f:1.0f);
-        factoryMenu->setSelectedId(0,juce::dontSendNotification);
-        factoryMenu->setSelectedId(index+1,juce::sendNotificationSync);
-        if(factoryMenu->getText()!=names[index] || std::abs(cutoff->getValue()-expectedCutoff)>0.001f)
-            return 11;
+        // Archived factory definitions remain loadable for old projects, but
+        // only retained entries have a selector item. IDs use the bank cursor.
+        const int bankIndex=synth.presetBank().indexForKey(synth.presetBank().keyForFactory(index));
+        if(bankIndex>=0){
+            cutoff->setValueNotifyingHost(expectedCutoff>0.5f?0.0f:1.0f);
+            factoryMenu->setSelectedId(0,juce::dontSendNotification);
+            factoryMenu->setSelectedId(bankIndex+1,juce::sendNotificationSync);
+            if(factoryMenu->getText()!=names[index] || std::abs(cutoff->getValue()-expectedCutoff)>0.001f){std::cerr<<"Selector failed for retained slot "<<names[index]<<std::endl;return 11;}
+        }
         synth.prepareToPlay(48000.0,blockSize);
         float peak=0.0f;
         double energy=0.0;

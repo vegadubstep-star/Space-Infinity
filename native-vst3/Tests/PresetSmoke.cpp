@@ -191,6 +191,24 @@ int runPresetSmoke(){
             if(child->getName()=="Preset search")search=dynamic_cast<juce::TextEditor*>(child);
         }
         if(!list||!search)return 95;
+        juce::ComboBox* category=nullptr;juce::Button* clear=nullptr;juce::Button* tools=nullptr;juce::Button* replace=nullptr;
+        for(auto* child:browser.getChildren()){
+            if(child->getName()=="Preset category")category=dynamic_cast<juce::ComboBox*>(child);
+            if(child->getName()=="Clear preset filters")clear=dynamic_cast<juce::Button*>(child);
+            if(auto* button=dynamic_cast<juce::Button*>(child)){
+                if(button->getButtonText()=="EDIT / SAVE")tools=button;
+                if(button->getButtonText()=="REPLACE")replace=button;
+            }
+        }
+        if(!category||!clear||!tools||!replace||replace->isVisible())return 240;
+        const auto totalRows=list->getModel()->getNumRows();
+        category->setSelectedId(2,juce::dontSendNotification);category->onChange();
+        if(list->getModel()->getNumRows()<=0||list->getModel()->getNumRows()>=totalRows)return 241;
+        search->setText("NO MATCH 12A729",false);search->onTextChange();
+        if(list->getModel()->getNumRows()!=0||replace->isEnabled())return 242;
+        clear->onClick();if(list->getModel()->getNumRows()!=totalRows||!search->getText().isEmpty()||category->getSelectedId()!=1)return 243;
+        tools->setToggleState(true,juce::dontSendNotification);tools->onClick();if(!replace->isVisible())return 244;
+        tools->setToggleState(false,juce::dontSendNotification);tools->onClick();if(replace->isVisible())return 245;
         const auto wanted=menuKey(middle);const auto wantedName=bank.entries()[size_t(bank.indexForKey(wanted))].name;
         search->setText(wantedName,false);search->onTextChange();if(list->getModel()->getNumRows()!=1)return 96;
         const juce::MouseEvent click{juce::Desktop::getInstance().getMainMouseSource(),{},juce::ModifierKeys{},1,0,0,0,0,list,list,juce::Time::getCurrentTime(),{},juce::Time::getCurrentTime(),1,false};

@@ -1,5 +1,7 @@
 {
-  "version": "0.9.3",
+  "version": "0.9.4",
+  "revision": "Curated 300",
+  "active_presets": 300,
   "retired": [
     {
       "key": "Uuser_heritage200_H002",
@@ -49,6 +51,853 @@
       "sha256": "1221dd64e1146ee341d106591906bae85b7b71b8f628904458a82f65d5a64795",
       "kept_key": "F1025",
       "reason": "Very close sustained/attack spectra and envelope at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H125",
+      "name": "Triangle Anchor",
+      "sha256": "99a9bdbe253e2991d351dc24ea60760d38d7cf3c9fc1d440a6971363fdc33374",
+      "kept_key": "F1025",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1011",
+      "name": "Power Fifth",
+      "sha256": "",
+      "kept_key": "F1031",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H045",
+      "name": "Night Platform",
+      "sha256": "d329fd49d7bc27406965eaeb1c26f7e9850bdcc42ed033794cc2af87e53c0583",
+      "kept_key": "Uuser_heritage200_H130",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1017",
+      "name": "Triangle Pressure",
+      "sha256": "",
+      "kept_key": "Uuser_heritage200_H127",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H044",
+      "name": "Rubber Station",
+      "sha256": "a0234e24305b5b72fb669e10dd73a08626a85d1c9cf9dfa5493932f6a9181234",
+      "kept_key": "Uuser_heritage200_H154",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1022",
+      "name": "Binary Runner",
+      "sha256": "",
+      "kept_key": "F1002",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1029",
+      "name": "Triangle Circuit",
+      "sha256": "",
+      "kept_key": "Uuser_heritage200_H042",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1030",
+      "name": "Octave Rotor",
+      "sha256": "",
+      "kept_key": "Uuser_heritage200_H040",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H123",
+      "name": "Feedback Torque",
+      "sha256": "4daa7965540bd388e8e2d6bdf77bd539952179d794d0d2de392fb6e39a19c70d",
+      "kept_key": "F1028",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1035",
+      "name": "Dark Flywheel",
+      "sha256": "",
+      "kept_key": "F1003",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H163",
+      "name": "Drive Tundra",
+      "sha256": "c6095cd599d26f9a2f32ead090b4e4fc5ad1e528139993e8d0e0c0cb22cb667d",
+      "kept_key": "Uuser_heritage200_H040",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H156",
+      "name": "Pulse Quarry",
+      "sha256": "fb1e056071e0f3e5a3f7e27e02455965966960771ac731f430c1a9472b8a1b57",
+      "kept_key": "Uuser_heritage200_H160",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1013",
+      "name": "Cathedral Thud",
+      "sha256": "",
+      "kept_key": "Uuser_heritage200_H043",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1015",
+      "name": "Warm Concrete",
+      "sha256": "",
+      "kept_key": "Uuser_heritage200_H162",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1026",
+      "name": "Vocal Runner",
+      "sha256": "",
+      "kept_key": "F1006",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H046",
+      "name": "Soft Thumb",
+      "sha256": "7b9f7a48f6b71c6f2756978416248a62c8870947591f0d00ec3e388574962ddf",
+      "kept_key": "F1025",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1019",
+      "name": "Velvet FM Sub",
+      "sha256": "",
+      "kept_key": "Uuser_heritage200_H127",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H161",
+      "name": "Fifth Boulder",
+      "sha256": "877315878248ea19f295f6f9a1df997f83ea6224d7a14a536f4a863761e47782",
+      "kept_key": "Uuser_heritage200_H126",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H122",
+      "name": "Pulse Thrust",
+      "sha256": "00afbf55e7275a3e3c2667e88c76a4f1f2fc5c64cc72943c798bcc61fca2cd42",
+      "kept_key": "Uuser_heritage200_H154",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1021",
+      "name": "Sixteenth Engine",
+      "sha256": "",
+      "kept_key": "Uuser_heritage200_H121",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_lushtrance20_LT018",
+      "name": "Dawn Resonance",
+      "sha256": "a1b2ef51ea9d10665e70c6182534199be6b104b85f5005807b0bdaf3b5398ac4",
+      "kept_key": "F1056",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_lushtrance20_LT001",
+      "name": "Velvet Zenith",
+      "sha256": "ef8ace9e15caa6146298f108e33ddfb4035c0ef13a92d87243caca0e024fd84b",
+      "kept_key": "F1056",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1044",
+      "name": "Silver Alone",
+      "sha256": "",
+      "kept_key": "F1056",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H092",
+      "name": "Octave Summit",
+      "sha256": "41ca5037535f9fbb54077835474a16f4dd702d00bc8122716092669b79d78693",
+      "kept_key": "Uuser_heritage200_H081",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1040",
+      "name": "Blanche Skyline",
+      "sha256": "",
+      "kept_key": "F1056",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1055",
+      "name": "Earthbound Razor",
+      "sha256": "",
+      "kept_key": "Uuser_heritage200_H081",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1036",
+      "name": "Azure Ascension",
+      "sha256": "",
+      "kept_key": "Uuser_lushtrance20_LT009",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_lushtrance20_LT020",
+      "name": "Infinite Embrace",
+      "sha256": "b26c1f4951e7382b57fa84dbb3e58bc91b5d5d338739684d4d62b900212adc5b",
+      "kept_key": "F1038",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1060",
+      "name": "Escape Velocity",
+      "sha256": "",
+      "kept_key": "F1049",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1058",
+      "name": "Rage Vector",
+      "sha256": "",
+      "kept_key": "F1057",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_lushtrance20_LT006",
+      "name": "Pearlescent Tide",
+      "sha256": "6b2b14c0d6fb7f855b75129608fc31f869212e71c331b61483115a9c8dfa5664",
+      "kept_key": "Uuser_lushtrance20_LT016",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1064",
+      "name": "Blue Wonder",
+      "sha256": "",
+      "kept_key": "Uuser_lushtrance20_LT005",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H087",
+      "name": "Velvet Mono",
+      "sha256": "ee972dad05f499b1f5b7aebfe37e18f28b07ea915e62de1b775a0dd46cdb13fb",
+      "kept_key": "Uuser_lushtrance20_LT004",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H095",
+      "name": "Prism Ensemble",
+      "sha256": "f33d9d8cb554f30bf96a65e66e4db7962865b738184b3a0b248703983cf4e76f",
+      "kept_key": "Uuser_lushtrance20_LT004",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H089",
+      "name": "Glass Supersaw",
+      "sha256": "7d1ec7ade64ac5a44be849830a9b9ccab03844f076caedaa3e83b08c86eef12f",
+      "kept_key": "Uuser_heritage200_H082",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1048",
+      "name": "Komodo Breath",
+      "sha256": "",
+      "kept_key": "Uuser_lushtrance20_LT011",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1050",
+      "name": "Baguette Voltage",
+      "sha256": "",
+      "kept_key": "Uuser_lushtrance20_LT010",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1043",
+      "name": "Angel Alloy",
+      "sha256": "",
+      "kept_key": "F1038",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_orbitvoices093_O018",
+      "name": "Zenith Current",
+      "sha256": "c398f255375c19052ea79e20c52e715fa6a36b173215b5741772af442e3abade",
+      "kept_key": "Uuser_orbitvoices093_O024",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H109",
+      "name": "Crystal Flight",
+      "sha256": "e5e5e7bd4e3c285844a063f50122624d331e652a515121b5b7ce74c207b4af3b",
+      "kept_key": "Uuser_heritage200_H117",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H115",
+      "name": "Feedback Droplet",
+      "sha256": "bbc844abce8338ec816c2c0eb36ea005a9d05058d8dd612a3a8f977aca4a6f15",
+      "kept_key": "Uuser_heritage200_H118",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1083",
+      "name": "Deep Thistle",
+      "sha256": "",
+      "kept_key": "F1072",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H053",
+      "name": "Wind Pavilion",
+      "sha256": "e0030660effbb0e8e30ad3e298988473b4a1aa7ebfbca941c30404e7fced53a7",
+      "kept_key": "Uuser_heritage200_H100",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1089",
+      "name": "Aether Wide",
+      "sha256": "",
+      "kept_key": "F1094",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H105",
+      "name": "Velvet Polysky",
+      "sha256": "e3de2e82b7ca379bd7145bedd879fbc95fceac87567d65470f03cef38af14dc8",
+      "kept_key": "Uuser_heritage200_H180",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1091",
+      "name": "Spiral Strings",
+      "sha256": "",
+      "kept_key": "F1100",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1099",
+      "name": "Reverse Nebula",
+      "sha256": "",
+      "kept_key": "F1104",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1095",
+      "name": "Dream Vapor",
+      "sha256": "",
+      "kept_key": "F1093",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H176",
+      "name": "Pulse Snowfield",
+      "sha256": "082401541be35c267e3a11094e1d78285e119f2eb37d9a17ae005d00f5ed03b6",
+      "kept_key": "Uuser_heritage200_H101",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H049",
+      "name": "Dream Atlas",
+      "sha256": "0db69a127964d6bae0b7ef3462948c026855282d1065a9bf8b517140cb93952a",
+      "kept_key": "F1090",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H097",
+      "name": "Cloud Armada",
+      "sha256": "a42bb7ddf3a2e3c835e40fd46c488716fc6d8204a67b9e2a8a04ab72d990f1ad",
+      "kept_key": "Uuser_heritage200_H098",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H175",
+      "name": "Resonance Fjord",
+      "sha256": "9d5905cf249e599f7dbb38a44467152ffcd95412bd25edc9fe08ba9d0157dc9f",
+      "kept_key": "Uuser_heritage200_H180",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H056",
+      "name": "Crystal Weather",
+      "sha256": "132899fdd21534508e70b4353455cc5128d756aec6dc714095862687a642b5ae",
+      "kept_key": "Uuser_heritage200_H047",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1086",
+      "name": "Skywave Vista",
+      "sha256": "",
+      "kept_key": "F1094",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1121",
+      "name": "Azure Ladder",
+      "sha256": "",
+      "kept_key": "F1136",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H136",
+      "name": "Fifth Departure",
+      "sha256": "6a7db974530f6a9990ac9af95e3620b0903d82ba3b587fa1fcf493d423587c37",
+      "kept_key": "Uuser_heritage200_H185",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H131",
+      "name": "Skyline Ladder",
+      "sha256": "5a676ea233dd378a4317ce021763d9464f87abc5de7a49a1a1be2932629bd871",
+      "kept_key": "F1136",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H192",
+      "name": "Hollow Arpeggio",
+      "sha256": "1b59b3d418d6d3ffb9e478a0b99436d343d0138eba807e806f965a6556bea8f5",
+      "kept_key": "Uuser_heritage200_H186",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H134",
+      "name": "Seven Satellites",
+      "sha256": "960162e16f9f6cb0bfb687bc20f153ac9855ef5fa5a9b56cce492dc4a4553fd6",
+      "kept_key": "Uuser_heritage200_H188",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H191",
+      "name": "Resonance Route",
+      "sha256": "8909cc52eb20c111e50b202d94dfe6c8ab223130887ed5f00bd41a4274835dec",
+      "kept_key": "Uuser_heritage200_H137",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H133",
+      "name": "Feedback Orbit",
+      "sha256": "0d98cc7776024da3b11d55da1a8b5035d2b8c7e3cbd4ef02507a7d142e7d4ea7",
+      "kept_key": "Uuser_heritage200_H185",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H132",
+      "name": "Pulse Navigation",
+      "sha256": "d5f426f064e6712bc273d971e37deb4bbe814e3e41c8180df4cbf0a048e2fabe",
+      "kept_key": "Uuser_heritage200_H188",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1131",
+      "name": "Tunnel Transmission",
+      "sha256": "",
+      "kept_key": "F1138",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H190",
+      "name": "Fifth Engine",
+      "sha256": "f571e88c7f40487f9507c87d308126c11da96c64c64d968824cafaeea6615d1d",
+      "kept_key": "Uuser_heritage200_H185",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H140",
+      "name": "Dawn Circuit",
+      "sha256": "e9a577f72a2c457affbbf0677adbfb1905f5eac69c51f5b015747cea6000e4aa",
+      "kept_key": "Uuser_heritage200_H185",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1140",
+      "name": "Starfall Dialogue",
+      "sha256": "",
+      "kept_key": "F1136",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1126",
+      "name": "Neon Steps",
+      "sha256": "",
+      "kept_key": "F1138",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1141",
+      "name": "Cathedral Strike",
+      "sha256": "",
+      "kept_key": "Uuser_heritage200_H066",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_orbitvoices093_O012",
+      "name": "Nebula Voices Hybrid",
+      "sha256": "c31b1d04931695ca69b4e33eb5ddb9bf0b60b6a4ac5b9fe41f608dc7d4417e89",
+      "kept_key": "Uuser_heritage200_H068",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_orbitvoices093_O008",
+      "name": "Celestial Oath Cathedral",
+      "sha256": "05314fe2fcd40018fe28bc9d1dac8e9022b0488b951d9066ff5d886f29b537c3",
+      "kept_key": "Uuser_orbitvoices093_O007",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_orbitvoices093_O005",
+      "name": "Stellar Sanctum Cathedral",
+      "sha256": "5939eb150c54d3afe3fb70fb452d68165003d97ff654269c3553e2c26952905b",
+      "kept_key": "Uuser_orbitvoices093_O006",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_orbitvoices093_O002",
+      "name": "Astral Chorus Cathedral",
+      "sha256": "37b6bbb093ee866d90da699928f64adf2ed97656eae16c8ab5164ed5200daed6",
+      "kept_key": "Uuser_orbitvoices093_O003",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_orbitvoices093_O010",
+      "name": "Nebula Voices Stab",
+      "sha256": "baef622c05e5f5ebb952097236282bb7e67ddf67668f8520bbd797b47e9afc7b",
+      "kept_key": "Uuser_heritage200_H066",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1149",
+      "name": "Rave Congregation",
+      "sha256": "",
+      "kept_key": "Uuser_heritage200_H066",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_orbitvoices093_O009",
+      "name": "Celestial Oath Hybrid",
+      "sha256": "f35961d7b6a9f67ec2aa2475710c4b2fde42ac4cbf555ee6b6564a3412affb81",
+      "kept_key": "Uuser_orbitvoices093_O007",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_orbitvoices093_O004",
+      "name": "Stellar Sanctum Stab",
+      "sha256": "fc8dcb7f750eca871863f8ed14864a7bfa6fb6327c087b6413af05ffaa4f8eeb",
+      "kept_key": "Uuser_orbitvoices093_O006",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_orbitvoices093_O001",
+      "name": "Astral Chorus Stab",
+      "sha256": "a2ea4b7b8ae11605c907ff039c4262852de73df39944d019d87732d7f5ac4171",
+      "kept_key": "Uuser_orbitvoices093_O003",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1145",
+      "name": "Ooh Colossus",
+      "sha256": "",
+      "kept_key": "Uuser_heritage200_H065",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1143",
+      "name": "Basement Ah",
+      "sha256": "",
+      "kept_key": "F1146",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_orbitvoices093_O011",
+      "name": "Nebula Voices Cathedral",
+      "sha256": "647ad66da44b4ff5526b49ff4fca1927dc07fe4a15d99d099c4cb6d3ac53272f",
+      "kept_key": "Uuser_heritage200_H068",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1111",
+      "name": "Pizzicato Signal",
+      "sha256": "",
+      "kept_key": "Uuser_heritage200_H059",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1106",
+      "name": "Adagio Chamber",
+      "sha256": "",
+      "kept_key": "F1109",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1108",
+      "name": "Velvet Celli",
+      "sha256": "",
+      "kept_key": "Uuser_heritage200_H058",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H061",
+      "name": "Bowed Lantern",
+      "sha256": "a272f8e83efb182385e005ba19a15b79657aa71066055b61491ac06a1c8ac29a",
+      "kept_key": "Uuser_heritage200_H062",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1107",
+      "name": "Festival Arco",
+      "sha256": "",
+      "kept_key": "F1109",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1113",
+      "name": "JP String Anthem",
+      "sha256": "",
+      "kept_key": "F1114",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H012",
+      "name": "Reed Lantern",
+      "sha256": "ca7a7f8282781a26ed851a8a96ae0c3bc83036485499310b2d7f16646ae786a9",
+      "kept_key": "Uuser_heritage200_H011",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H004",
+      "name": "Crystal Hammer",
+      "sha256": "65e7770c724629c3b048b191f49c4493187f33bd678c5f9270f25d1691d0f172",
+      "kept_key": "Uuser_heritage200_H011",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H015",
+      "name": "Soft Circuit",
+      "sha256": "72f7f91300b96ea11d38d00f8221c43775749e02c3bbe963892863e29b97a5e1",
+      "kept_key": "Uuser_heritage200_H169",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H001",
+      "name": "Atrium Grand",
+      "sha256": "33c3cdaf3f2f77fe67c481ce72e2c933e139b93041fdc196eabb70877c1f7482",
+      "kept_key": "F1118",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H003",
+      "name": "Velvet Eight",
+      "sha256": "396761460d90bca7e69b8ec31cee84edb8d6e50d7c4e25da8a4ab4757296ec88",
+      "kept_key": "F1117",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H010",
+      "name": "Starlit Ivory",
+      "sha256": "3344117ebbed43e157380b0617a6e433e0ed6a172210e0d44a9c443519275c07",
+      "kept_key": "Uuser_heritage200_H011",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H173",
+      "name": "Wooden Tine",
+      "sha256": "74c7f80010beb7ff125c5873b74c88bad47a29d246644dc6fd72ea4703eab494",
+      "kept_key": "Uuser_heritage200_H011",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H009",
+      "name": "Paper Piano",
+      "sha256": "c3c51d97a11eb614331e2240bf1a22549419b18e76e4ed6ac1455483253cb7cb",
+      "kept_key": "F1117",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H018",
+      "name": "Neon Tines",
+      "sha256": "9234722b5866be0db94a0dd1d8384831ecf85df79acab5b0ea4dc77c8c9f568d",
+      "kept_key": "Uuser_heritage200_H168",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1116",
+      "name": "Ivory Dreamline",
+      "sha256": "",
+      "kept_key": "F1118",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H016",
+      "name": "Clav Mosaic",
+      "sha256": "fbb95f11575a58337e082b48cf1698654386e01eaf7f3455c691aed68238991f",
+      "kept_key": "Uuser_heritage200_H011",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H165",
+      "name": "FM Compass",
+      "sha256": "49c560e8a91cd32794e41961062cb65f0a3043ede3b5ce7e4d18cbe7611b5a0c",
+      "kept_key": "Uuser_heritage200_H172",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H006",
+      "name": "Sunrise Keys",
+      "sha256": "caa954e40df4d73ada40d14d6b218bd0f4113d8aeab1c5efbfcf13cfea9bda29",
+      "kept_key": "Uuser_heritage200_H017",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1120",
+      "name": "Detroit Silver Keys",
+      "sha256": "",
+      "kept_key": "F1118",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1119",
+      "name": "Crystal Dream Keys",
+      "sha256": "",
+      "kept_key": "Uuser_heritage200_H169",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1152",
+      "name": "Square Serum",
+      "sha256": "",
+      "kept_key": "F1157",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1159",
+      "name": "Hardline 303",
+      "sha256": "",
+      "kept_key": "F1154",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H029",
+      "name": "Bamboo Steps",
+      "sha256": "e5dce5386e65f3dba0e6fb1b90c98f84117c235bff88ab9d7ce70da0affa481c",
+      "kept_key": "Uuser_heritage200_H032",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H031",
+      "name": "Glass Rain",
+      "sha256": "9f71973957e70141106b92b55390077162fe1c6094f5ae56e8d35e3a90997d76",
+      "kept_key": "Uuser_heritage200_H032",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H036",
+      "name": "Music Box Harbor",
+      "sha256": "ba0fc1b3c3bef871df4722d16e6ae82f94b5783bfe54ea8038e41fc2f5ad5c30",
+      "kept_key": "Uuser_heritage200_H032",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H035",
+      "name": "Ceramic Pluck",
+      "sha256": "a705c2e63772ac54650289cd69f9cdbe1dc70472cf2e4360837712c98ecf22ef",
+      "kept_key": "Uuser_heritage200_H032",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H038",
+      "name": "Violet Vibes",
+      "sha256": "d00b1e56b6e52b367e4f367fbe7efb49f2eb75c29720abb94bcd89d3e1a4ee66",
+      "kept_key": "Uuser_heritage200_H032",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H022",
+      "name": "Bright Pipes",
+      "sha256": "99b6b7aa512256bdf9861cf377d3c9e2ec3abd531dd1a2da002a610bb433b6c5",
+      "kept_key": "Uuser_heritage200_H027",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H021",
+      "name": "Sunday Circuit",
+      "sha256": "514ab236f7051a47c04643ae7e080aa9e8ea7f09c4a2c39f9b64ba9dffc50e9d",
+      "kept_key": "Uuser_heritage200_H026",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H020",
+      "name": "Garage Drawbars",
+      "sha256": "2adedd8929f414b7c3d4c5c41c947ce48e989ead14f0900c79b6d043ab27d399",
+      "kept_key": "Uuser_heritage200_H028",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H019",
+      "name": "Cathedral Keys",
+      "sha256": "361929e9d9096359239c8694bae840ba1e0ed8a7bd0d232b7d8b865f8c3e3a45",
+      "kept_key": "Uuser_heritage200_H026",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H024",
+      "name": "Gospel Relay",
+      "sha256": "281a74879e8df41f496e1bdef1d0771c760e47e904ede1d0a32e7a0c13e0b3ce",
+      "kept_key": "Uuser_heritage200_H027",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H193",
+      "name": "Low Voltage Drum",
+      "sha256": "be878e30be28a676d80d7b650d1dcfb39d8133d813cd6a89344b5978f5fc0106",
+      "kept_key": "Uuser_heritage200_H194",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H199",
+      "name": "Sync Zap",
+      "sha256": "12509e25416578761bbaa8bf421b53507a8070ced5a7103ee41732a39b16206f",
+      "kept_key": "Uuser_heritage200_H200",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H195",
+      "name": "FM Woodblock",
+      "sha256": "0b88955fb86e521a30d48368bc79cb21b18c4267c7f8404412a9e7f7492c8f5a",
+      "kept_key": "Uuser_heritage200_H200",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H197",
+      "name": "Pulse Rim",
+      "sha256": "e521d9d3bf7adb637c86b15ef075951d2bf438c471123e5753e7748926a044e5",
+      "kept_key": "Uuser_heritage200_H198",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H196",
+      "name": "Ring Metal Hit",
+      "sha256": "bf06863f0d04f3f633d17a84e3ec07011fb7aaa9da26f698f74e234c925f210b",
+      "kept_key": "Uuser_heritage200_H198",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H073",
+      "name": "Orbit Chamber",
+      "sha256": "e7bfd25af707240e0416533d18b82e80f51cf29857db58ef611cbea88d517bb6",
+      "kept_key": "Uuser_heritage200_H078",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "Uuser_heritage200_H075",
+      "name": "Wire Twilight",
+      "sha256": "da35deb767c86a60537db32b6042182f76ed1d3c2b35c0b91ffd6ec3e85072d5",
+      "kept_key": "Uuser_heritage200_H078",
+      "reason": "Closest redundant variant in a role-balanced 300-sound palette; attack, sustained spectrum and contour compared at three registers."
+    },
+    {
+      "key": "F1069",
+      "name": "Silk Pizzicato",
+      "sha256": "",
+      "kept_key": "Uuser_heritage200_H063",
+      "reason": "Cross-category overlap with the retained string voice; replaced by a more distinctive pluck."
     }
   ]
 }

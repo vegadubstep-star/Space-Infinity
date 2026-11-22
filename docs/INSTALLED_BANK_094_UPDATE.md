@@ -1,7 +1,9 @@
 # SPACE INFINITY 0.9.4 — complete installed bank
 
-All 421 active sound presets plus Init load automatically after installation.
-This includes Heritage, Lush Trance and all 48 new sample-based sounds. The WAVs
+The [Curated 300](CURATED_300_UPDATE.md) sound presets plus Init load automatically
+after installation. This includes selected Heritage, Lush Trance and new
+sample-based sounds. The 421-sound development palette was reduced after a
+three-register comparison and individual chain review. The WAVs
 are embedded in their presets; no separate sample-folder download or bank import
 is required. Optional bank ZIPs remain available for backup and recovery.
 
@@ -11,8 +13,7 @@ to a common level while retaining their individual envelopes and existing macro
 compensation. This does not use automatic gain riding. Current measurements and
 source hashes are recorded in audit/INSTALLED_BANK_094_LEVELS.json.
 
-Small room ambience is added to 21 otherwise dry keyboard/organ sounds. Basses
-stay dry; existing trance lead/pluck delays, pad reverbs, detune and articulation
+Existing room ambience on keyboard/organ sounds is retained. Basses stay dry; existing trance lead/pluck delays, pad reverbs, detune and articulation
 keep their programmed character. Near-zero lead attacks are preserved.
 
 Clean headroom protection now uses a linked stereo, four-times peak detector
@@ -24,8 +25,8 @@ cover 44.1, 48 and 96 kHz; there is no lingering level reduction after a loud hi
 Automatic updates preserve personal sound replacements, names, creators and tags.
 Existing projects without the new reference-gain parameter retain their original
 gain setting. The original 1,227 host parameter IDs keep their order; the new
-reference-gain parameter is appended. Seven previously confirmed near-duplicate
-variants remain in the optional recovery bank, preserving old project IDs.
+reference-gain parameter is appended. The earlier seven-sound recovery bank and the new 121-alternative bank preserve
+access to retired variants. Stable project IDs remain intact.
 
 Matching applies to the documented playing phrase. Different notes, chords,
 velocity, macros and user edits change loudness; watch the output meters while

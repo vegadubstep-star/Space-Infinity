@@ -31,6 +31,9 @@ $files += 'STUDIO_RESEARCH_091_UPDATE.md'
 $files += 'BROWSING_SAMPLE_GLIDE_092_UPDATE.md'
 $files += 'SAMPLER_FULL_RANGE_093_UPDATE.md'
 $files += 'INSTALLED_BANK_094_UPDATE.md'
+$files += 'CURATED_300_UPDATE.md'
+$files += 'SPACE_INFINITY_Curated_300_Alternatives.zip'
+$files += 'SPACE_INFINITY_Curated_300_Alternatives.zip.sha256'
 $files += 'SPACE_INFINITY_Orbit_Voices.zip'
 $files += 'SPACE_INFINITY_Orbit_Voices.zip.sha256'
 $files += 'SPACE_INFINITY_Retired_093_Backup.zip'
@@ -72,6 +75,7 @@ if ($LASTEXITCODE -ne 0) {
 $notesFile = Join-Path $releaseDir 'RELEASE_NOTES.md'
 $notes = (Get-Content -LiteralPath $notesSource -Raw).Replace('(images/', "(https://github.com/$repo/blob/$($env:GITHUB_SHA)/docs/images/")
 $docsUrl = "https://github.com/$repo/blob/$($env:GITHUB_SHA)/docs/"
+$notes = $notes.Replace('(CURATED_300_UPDATE.md)', "(${docsUrl}CURATED_300_UPDATE.md)")
 $notes = $notes.Replace('(SERUM2_FEATURE_AUDIT.md)', "(${docsUrl}SERUM2_FEATURE_AUDIT.md)").Replace('(audit/NATIVE_PARAMETER_INVENTORY.json)', "(${docsUrl}audit/NATIVE_PARAMETER_INVENTORY.json)")
 $notes = $notes.Replace('(TRANCE_FACTORY_BANK_RESEARCH.md)', "(${docsUrl}TRANCE_FACTORY_BANK_RESEARCH.md)")
 $notes = $notes.Replace('(research/TRACK_READY_080_RESEARCH.md)', "(${docsUrl}research/TRACK_READY_080_RESEARCH.md)")

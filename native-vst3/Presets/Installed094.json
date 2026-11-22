@@ -1,21 +1,21 @@
 {
   "version": "0.9.4",
   "target_lufs": -22.5,
-  "active_presets": 421,
+  "active_presets": 300,
   "init": 1,
-  "factory_presets": 160,
+  "factory_presets": 114,
   "banks": {
     "SPACE_INFINITY_Heritage_200.zip": {
-      "count": 193,
-      "sha256": "9c1b0c74f242d63e78de3ea3c8b5a751a06cfd2a31ec9ebe3dbdb4fb9d446667"
+      "count": 132,
+      "sha256": "83965e7d1fc408d98e72beacc8c805c5b8fb2cd4ffdb0392f698adfdf3daacce"
     },
     "SPACE_INFINITY_Lush_Trance_20.zip": {
-      "count": 20,
-      "sha256": "261f54acd45fd0aa9dfcb03241074fd3d234b466590268700c3f93bb823f62d7"
+      "count": 16,
+      "sha256": "e6d461ae4a745495abbabaef416d1fe37db3ac6a080e735fc862c739b634317f"
     },
     "SPACE_INFINITY_Orbit_Voices.zip": {
-      "count": 48,
-      "sha256": "7fc77d3b93130632ddf1fdb0f62d1305191f8a361a3af55990812f73b4150b7a"
+      "count": 38,
+      "sha256": "3fb4a6231b142548e883cb5b752d83a8a38de45de3a9a2e7720bf853ba59c5df"
     }
   },
   "original_bank_hashes": {
@@ -23,7 +23,7 @@
     "SPACE_INFINITY_Lush_Trance_20.zip": "481ae6916cc8483f51167cff6950ba4163eb441718446426a8546500a2549932",
     "SPACE_INFINITY_Orbit_Voices.zip": "b3c28239d6e358540295f0719298dab51844cefa9963195598bb02d22bd93dc4"
   },
-  "polished_presets": 21,
+  "polished_presets": 92,
   "settings": {
     "F1001": {
       "presetReferenceGain": -0.244034
@@ -55,41 +55,20 @@
     "F1010": {
       "presetReferenceGain": -6.363106
     },
-    "F1011": {
-      "presetReferenceGain": 1.755254
-    },
     "F1012": {
       "presetReferenceGain": 0.464906
-    },
-    "F1013": {
-      "presetReferenceGain": -6.089293
     },
     "F1014": {
       "presetReferenceGain": -4.333187
     },
-    "F1015": {
-      "presetReferenceGain": -9.256078
-    },
     "F1016": {
       "presetReferenceGain": -7.33358
-    },
-    "F1017": {
-      "presetReferenceGain": -3.740857
     },
     "F1018": {
       "presetReferenceGain": -7.280771
     },
-    "F1019": {
-      "presetReferenceGain": -3.799713
-    },
     "F1020": {
       "presetReferenceGain": -5.956807
-    },
-    "F1021": {
-      "presetReferenceGain": -0.051528
-    },
-    "F1022": {
-      "presetReferenceGain": -4.85204
     },
     "F1023": {
       "presetReferenceGain": -4.712249
@@ -100,20 +79,11 @@
     "F1025": {
       "presetReferenceGain": -8.649792
     },
-    "F1026": {
-      "presetReferenceGain": -3.491183
-    },
     "F1027": {
       "presetReferenceGain": -1.887669
     },
     "F1028": {
       "presetReferenceGain": -3.838032
-    },
-    "F1029": {
-      "presetReferenceGain": -10.447598
-    },
-    "F1030": {
-      "presetReferenceGain": -5.97085
     },
     "F1031": {
       "presetReferenceGain": 1.499438
@@ -127,12 +97,6 @@
     "F1034": {
       "presetReferenceGain": -1.579553
     },
-    "F1035": {
-      "presetReferenceGain": -7.928879
-    },
-    "F1036": {
-      "presetReferenceGain": -3.016917
-    },
     "F1037": {
       "presetReferenceGain": -2.723774
     },
@@ -142,20 +106,11 @@
     "F1039": {
       "presetReferenceGain": -3.403508
     },
-    "F1040": {
-      "presetReferenceGain": -2.157452
-    },
     "F1041": {
       "presetReferenceGain": -1.044119
     },
     "F1042": {
       "presetReferenceGain": -1.635259
-    },
-    "F1043": {
-      "presetReferenceGain": 1.123888
-    },
-    "F1044": {
-      "presetReferenceGain": -9.30211
     },
     "F1045": {
       "presetReferenceGain": -9.373142
@@ -166,14 +121,8 @@
     "F1047": {
       "presetReferenceGain": -8.491822
     },
-    "F1048": {
-      "presetReferenceGain": -9.261221
-    },
     "F1049": {
       "presetReferenceGain": -7.554083
-    },
-    "F1050": {
-      "presetReferenceGain": -7.885057
     },
     "F1051": {
       "presetReferenceGain": -9.602642
@@ -187,23 +136,14 @@
     "F1054": {
       "presetReferenceGain": -7.480551
     },
-    "F1055": {
-      "presetReferenceGain": -8.621683
-    },
     "F1056": {
       "presetReferenceGain": -7.912204
     },
     "F1057": {
       "presetReferenceGain": -6.864514
     },
-    "F1058": {
-      "presetReferenceGain": -7.537495
-    },
     "F1059": {
       "presetReferenceGain": -7.412945
-    },
-    "F1060": {
-      "presetReferenceGain": -5.377932
     },
     "F1061": {
       "presetReferenceGain": -6.945675
@@ -213,9 +153,6 @@
     },
     "F1063": {
       "presetReferenceGain": -8.323175
-    },
-    "F1064": {
-      "presetReferenceGain": -9.233545
     },
     "F1065": {
       "presetReferenceGain": -7.243859
@@ -228,9 +165,6 @@
     },
     "F1068": {
       "presetReferenceGain": 7.662543
-    },
-    "F1069": {
-      "presetReferenceGain": 0.837192
     },
     "F1070": {
       "presetReferenceGain": 6.479921
@@ -257,13 +191,15 @@
       "presetReferenceGain": 1.356225
     },
     "F1078": {
-      "presetReferenceGain": 3.977027
+      "presetReferenceGain": 3.929908,
+      "reverb": 0.19
     },
     "F1079": {
       "presetReferenceGain": 4.101211
     },
     "F1080": {
-      "presetReferenceGain": 1.800662
+      "presetReferenceGain": 1.777997,
+      "reverb": 0.19
     },
     "F1081": {
       "presetReferenceGain": -2.15931
@@ -271,17 +207,12 @@
     "F1082": {
       "presetReferenceGain": 3.543586
     },
-    "F1083": {
-      "presetReferenceGain": 5.716002
-    },
     "F1084": {
-      "presetReferenceGain": 5.465399
+      "presetReferenceGain": 5.414716,
+      "reverb": 0.19
     },
     "F1085": {
       "presetReferenceGain": 4.633736
-    },
-    "F1086": {
-      "presetReferenceGain": 2.480473
     },
     "F1087": {
       "presetReferenceGain": 3.184117
@@ -289,14 +220,8 @@
     "F1088": {
       "presetReferenceGain": 4.846038
     },
-    "F1089": {
-      "presetReferenceGain": 1.867074
-    },
     "F1090": {
       "presetReferenceGain": 5.342257
-    },
-    "F1091": {
-      "presetReferenceGain": 2.112196
     },
     "F1092": {
       "presetReferenceGain": 1.126566
@@ -307,47 +232,39 @@
     "F1094": {
       "presetReferenceGain": 1.567079
     },
-    "F1095": {
-      "presetReferenceGain": 1.149366
-    },
     "F1096": {
-      "presetReferenceGain": 1.382346
+      "presetReferenceGain": 1.343042,
+      "reverb": 0.32
     },
     "F1097": {
-      "presetReferenceGain": -1.351036
+      "presetReferenceGain": -1.335198,
+      "reverb": 0.32
     },
     "F1098": {
       "presetReferenceGain": 4.497066
     },
-    "F1099": {
-      "presetReferenceGain": 5.990881
-    },
     "F1100": {
-      "presetReferenceGain": 0.119898
+      "presetReferenceGain": 0.124605,
+      "reverb": 0.32
     },
     "F1101": {
       "presetReferenceGain": 4.101437
     },
     "F1102": {
-      "presetReferenceGain": 0.699792
+      "presetReferenceGain": 0.694508,
+      "reverb": 0.32
     },
     "F1103": {
-      "presetReferenceGain": 0.350548
+      "presetReferenceGain": 0.315134,
+      "reverb": 0.32
     },
     "F1104": {
-      "presetReferenceGain": 6.292885
+      "presetReferenceGain": 6.300097,
+      "reverb": 0.32
     },
     "F1105": {
-      "presetReferenceGain": 0.586827
-    },
-    "F1106": {
-      "presetReferenceGain": 1.297986
-    },
-    "F1107": {
-      "presetReferenceGain": 1.700022
-    },
-    "F1108": {
-      "presetReferenceGain": 1.585089
+      "presetReferenceGain": 0.632946,
+      "reverb": 0.32
     },
     "F1109": {
       "presetReferenceGain": 2.324106
@@ -355,14 +272,8 @@
     "F1110": {
       "presetReferenceGain": 2.204952
     },
-    "F1111": {
-      "presetReferenceGain": 0.926304
-    },
     "F1112": {
       "presetReferenceGain": 4.003255
-    },
-    "F1113": {
-      "presetReferenceGain": 2.411927
     },
     "F1114": {
       "presetReferenceGain": -0.049448
@@ -370,23 +281,11 @@
     "F1115": {
       "presetReferenceGain": 1.548765
     },
-    "F1116": {
-      "presetReferenceGain": 4.414987
-    },
     "F1117": {
       "presetReferenceGain": 2.148181
     },
     "F1118": {
       "presetReferenceGain": 3.8429
-    },
-    "F1119": {
-      "presetReferenceGain": 3.865967
-    },
-    "F1120": {
-      "presetReferenceGain": 6.202085
-    },
-    "F1121": {
-      "presetReferenceGain": -1.805263
     },
     "F1122": {
       "presetReferenceGain": -3.351312
@@ -400,9 +299,6 @@
     "F1125": {
       "presetReferenceGain": -1.842553
     },
-    "F1126": {
-      "presetReferenceGain": -3.334058
-    },
     "F1127": {
       "presetReferenceGain": -7.544033
     },
@@ -414,9 +310,6 @@
     },
     "F1130": {
       "presetReferenceGain": -9.242456
-    },
-    "F1131": {
-      "presetReferenceGain": -3.911698
     },
     "F1132": {
       "presetReferenceGain": -7.609998
@@ -442,23 +335,11 @@
     "F1139": {
       "presetReferenceGain": -4.186662
     },
-    "F1140": {
-      "presetReferenceGain": -6.38109
-    },
-    "F1141": {
-      "presetReferenceGain": 10.092537
-    },
     "F1142": {
       "presetReferenceGain": 4.937891
     },
-    "F1143": {
-      "presetReferenceGain": 5.60677
-    },
     "F1144": {
       "presetReferenceGain": 11.680207
-    },
-    "F1145": {
-      "presetReferenceGain": 5.470544
     },
     "F1146": {
       "presetReferenceGain": 8.294436
@@ -469,29 +350,32 @@
     "F1148": {
       "presetReferenceGain": 6.226937
     },
-    "F1149": {
-      "presetReferenceGain": 8.550454
-    },
     "F1150": {
       "presetReferenceGain": 6.000716
     },
     "F1151": {
       "presetReferenceGain": -12.174191
     },
-    "F1152": {
-      "presetReferenceGain": -11.778612
-    },
     "F1153": {
-      "presetReferenceGain": -6.957116
+      "presetReferenceGain": -6.961675,
+      "osc1Warp": 3,
+      "osc1WarpAmount": 0.42,
+      "osc1WarpEnvelope": 2
     },
     "F1154": {
       "presetReferenceGain": -12.450953
     },
     "F1155": {
-      "presetReferenceGain": -11.122308
+      "presetReferenceGain": -11.125112,
+      "osc1Warp": 4,
+      "osc1WarpAmount": 0.035,
+      "osc1WarpEnvelope": 2
     },
     "F1156": {
-      "presetReferenceGain": -11.503576
+      "presetReferenceGain": -11.498921,
+      "osc1Warp": 2,
+      "osc1WarpAmount": 0.22,
+      "osc1WarpEnvelope": 2
     },
     "F1157": {
       "presetReferenceGain": -10.420765
@@ -499,23 +383,8 @@
     "F1158": {
       "presetReferenceGain": -11.034634
     },
-    "F1159": {
-      "presetReferenceGain": -9.68921
-    },
     "F1160": {
       "presetReferenceGain": -12.089119
-    },
-    "Uuser_heritage200_H001": {
-      "presetReferenceGain": 1.634566
-    },
-    "Uuser_heritage200_H003": {
-      "presetReferenceGain": -0.566182
-    },
-    "Uuser_heritage200_H004": {
-      "presetReferenceGain": 0.04139
-    },
-    "Uuser_heritage200_H006": {
-      "presetReferenceGain": -0.108824
     },
     "Uuser_heritage200_H007": {
       "presetReferenceGain": 4.771258
@@ -523,17 +392,8 @@
     "Uuser_heritage200_H008": {
       "presetReferenceGain": -1.61388
     },
-    "Uuser_heritage200_H009": {
-      "presetReferenceGain": 1.72032
-    },
-    "Uuser_heritage200_H010": {
-      "presetReferenceGain": -0.189223
-    },
     "Uuser_heritage200_H011": {
       "presetReferenceGain": 0.758493
-    },
-    "Uuser_heritage200_H012": {
-      "presetReferenceGain": -0.142977
     },
     "Uuser_heritage200_H013": {
       "reverbEnabled": 1.0,
@@ -546,54 +406,8 @@
     "Uuser_heritage200_H014": {
       "presetReferenceGain": 2.050992
     },
-    "Uuser_heritage200_H015": {
-      "reverbEnabled": 1.0,
-      "reverb": 0.064999997615814,
-      "reverbSpace": 0.0,
-      "reverbSize": 0.280000001192093,
-      "reverbDamping": 0.600000023841858,
-      "presetReferenceGain": -1.861684
-    },
-    "Uuser_heritage200_H016": {
-      "presetReferenceGain": 1.099393
-    },
     "Uuser_heritage200_H017": {
       "presetReferenceGain": 0.828153
-    },
-    "Uuser_heritage200_H018": {
-      "presetReferenceGain": -1.353961
-    },
-    "Uuser_heritage200_H019": {
-      "reverbEnabled": 1.0,
-      "reverb": 0.064999997615814,
-      "reverbSpace": 0.0,
-      "reverbSize": 0.280000001192093,
-      "reverbDamping": 0.600000023841858,
-      "presetReferenceGain": -4.974337
-    },
-    "Uuser_heritage200_H020": {
-      "reverbEnabled": 1.0,
-      "reverb": 0.064999997615814,
-      "reverbSpace": 0.0,
-      "reverbSize": 0.280000001192093,
-      "reverbDamping": 0.600000023841858,
-      "presetReferenceGain": -10.070987
-    },
-    "Uuser_heritage200_H021": {
-      "reverbEnabled": 1.0,
-      "reverb": 0.064999997615814,
-      "reverbSpace": 0.0,
-      "reverbSize": 0.280000001192093,
-      "reverbDamping": 0.600000023841858,
-      "presetReferenceGain": -5.100081
-    },
-    "Uuser_heritage200_H022": {
-      "reverbEnabled": 1.0,
-      "reverb": 0.064999997615814,
-      "reverbSpace": 0.0,
-      "reverbSize": 0.280000001192093,
-      "reverbDamping": 0.600000023841858,
-      "presetReferenceGain": -2.132802
     },
     "Uuser_heritage200_H023": {
       "reverbEnabled": 1.0,
@@ -602,14 +416,6 @@
       "reverbSize": 0.280000001192093,
       "reverbDamping": 0.600000023841858,
       "presetReferenceGain": -7.862625
-    },
-    "Uuser_heritage200_H024": {
-      "reverbEnabled": 1.0,
-      "reverb": 0.064999997615814,
-      "reverbSpace": 0.0,
-      "reverbSize": 0.280000001192093,
-      "reverbDamping": 0.600000023841858,
-      "presetReferenceGain": -3.518739
     },
     "Uuser_heritage200_H026": {
       "reverbEnabled": 1.0,
@@ -635,14 +441,8 @@
       "reverbDamping": 0.600000023841858,
       "presetReferenceGain": -7.323797
     },
-    "Uuser_heritage200_H029": {
-      "presetReferenceGain": 2.247708
-    },
     "Uuser_heritage200_H030": {
       "presetReferenceGain": 3.142354
-    },
-    "Uuser_heritage200_H031": {
-      "presetReferenceGain": 1.913362
     },
     "Uuser_heritage200_H032": {
       "presetReferenceGain": -1.629371
@@ -653,17 +453,8 @@
     "Uuser_heritage200_H034": {
       "presetReferenceGain": 1.466157
     },
-    "Uuser_heritage200_H035": {
-      "presetReferenceGain": 3.304996
-    },
-    "Uuser_heritage200_H036": {
-      "presetReferenceGain": 2.235438
-    },
     "Uuser_heritage200_H037": {
       "presetReferenceGain": -0.710907
-    },
-    "Uuser_heritage200_H038": {
-      "presetReferenceGain": -1.719431
     },
     "Uuser_heritage200_H039": {
       "presetReferenceGain": -6.330044
@@ -677,50 +468,50 @@
     "Uuser_heritage200_H043": {
       "presetReferenceGain": -4.155845
     },
-    "Uuser_heritage200_H044": {
-      "presetReferenceGain": -5.607422
-    },
-    "Uuser_heritage200_H045": {
-      "presetReferenceGain": -4.866973
-    },
-    "Uuser_heritage200_H046": {
-      "presetReferenceGain": -4.1238
-    },
     "Uuser_heritage200_H047": {
-      "presetReferenceGain": -5.864222
+      "presetReferenceGain": -5.552823,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H048": {
-      "presetReferenceGain": -3.457378
-    },
-    "Uuser_heritage200_H049": {
-      "presetReferenceGain": 1.583655
+      "presetReferenceGain": -3.27746,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H050": {
-      "presetReferenceGain": -1.78961
+      "presetReferenceGain": -1.769556,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H051": {
-      "presetReferenceGain": 1.530682
+      "presetReferenceGain": 1.676465,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H052": {
-      "presetReferenceGain": 0.767362
-    },
-    "Uuser_heritage200_H053": {
-      "presetReferenceGain": -4.340625
+      "presetReferenceGain": 0.790163,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H054": {
-      "presetReferenceGain": -4.357313
+      "presetReferenceGain": -3.942704,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H055": {
-      "presetReferenceGain": 0.633469
-    },
-    "Uuser_heritage200_H056": {
-      "presetReferenceGain": -5.217243
+      "presetReferenceGain": 0.541052,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H057": {
-      "presetReferenceGain": -3.198731
+      "presetReferenceGain": -3.195567,
+      "reverbWetLowFreq": 240,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H058": {
-      "presetReferenceGain": 2.23926
+      "presetReferenceGain": 2.305285,
+      "reverbWetLowFreq": 240,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H059": {
       "presetReferenceGain": -0.517041
@@ -728,47 +519,52 @@
     "Uuser_heritage200_H060": {
       "presetReferenceGain": 6.220057
     },
-    "Uuser_heritage200_H061": {
-      "presetReferenceGain": 0.416829
-    },
     "Uuser_heritage200_H062": {
-      "presetReferenceGain": 0.709053
+      "presetReferenceGain": 0.761802,
+      "reverbWetLowFreq": 240,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H063": {
       "presetReferenceGain": 0.659799
     },
     "Uuser_heritage200_H064": {
-      "presetReferenceGain": 4.274469
+      "presetReferenceGain": 4.275575,
+      "reverbWetLowFreq": 240,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H065": {
-      "presetReferenceGain": 0.355644
+      "presetReferenceGain": 0.397165,
+      "reverbWetLowFreq": 240,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H066": {
       "presetReferenceGain": 8.567805
     },
     "Uuser_heritage200_H067": {
-      "presetReferenceGain": -3.578304
+      "presetReferenceGain": -3.373787,
+      "reverbWetLowFreq": 240,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H068": {
-      "presetReferenceGain": 1.402838
+      "presetReferenceGain": 1.401947,
+      "reverbWetLowFreq": 240,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H069": {
-      "presetReferenceGain": 0.066762
+      "presetReferenceGain": 0.135257,
+      "reverbWetLowFreq": 240,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H070": {
       "presetReferenceGain": 2.511259
     },
     "Uuser_heritage200_H071": {
-      "presetReferenceGain": 0.336039
-    },
-    "Uuser_heritage200_H073": {
-      "presetReferenceGain": -0.812354
+      "presetReferenceGain": 0.321378,
+      "reverbWetLowFreq": 240,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H074": {
       "presetReferenceGain": -6.512831
-    },
-    "Uuser_heritage200_H075": {
-      "presetReferenceGain": 6.009428
     },
     "Uuser_heritage200_H076": {
       "presetReferenceGain": -1.570235
@@ -783,91 +579,111 @@
       "presetReferenceGain": 0.000246
     },
     "Uuser_heritage200_H081": {
-      "presetReferenceGain": -0.183238
+      "presetReferenceGain": -0.223316,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H082": {
-      "presetReferenceGain": 3.592358
+      "presetReferenceGain": 3.583346,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H083": {
-      "presetReferenceGain": -2.887847
+      "presetReferenceGain": -2.951495,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H084": {
-      "presetReferenceGain": -10.504328
+      "presetReferenceGain": -10.491902,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H085": {
-      "presetReferenceGain": -13.637849
+      "presetReferenceGain": -13.735233,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H086": {
-      "presetReferenceGain": 1.355345
-    },
-    "Uuser_heritage200_H087": {
-      "presetReferenceGain": -8.250939
+      "presetReferenceGain": 1.326776,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H088": {
       "presetReferenceGain": 7.361159
     },
-    "Uuser_heritage200_H089": {
-      "presetReferenceGain": 2.573112
-    },
     "Uuser_heritage200_H090": {
-      "presetReferenceGain": -15.39607
+      "presetReferenceGain": -15.351915,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H091": {
       "presetReferenceGain": -3.194926
     },
-    "Uuser_heritage200_H092": {
-      "presetReferenceGain": 0.928187
-    },
     "Uuser_heritage200_H093": {
-      "presetReferenceGain": -13.621934
+      "presetReferenceGain": -13.707887,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H094": {
-      "presetReferenceGain": -12.952986
-    },
-    "Uuser_heritage200_H095": {
-      "presetReferenceGain": -0.300173
+      "presetReferenceGain": -13.040924,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H096": {
-      "presetReferenceGain": -13.621035
-    },
-    "Uuser_heritage200_H097": {
-      "presetReferenceGain": -0.578297
+      "presetReferenceGain": -13.695496,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H098": {
-      "presetReferenceGain": -0.623941
+      "presetReferenceGain": -0.619318,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H099": {
-      "presetReferenceGain": -4.364136
+      "presetReferenceGain": -4.008669,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H100": {
-      "presetReferenceGain": -5.842845
+      "presetReferenceGain": -5.612534,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H101": {
-      "presetReferenceGain": -4.889789
+      "presetReferenceGain": -4.706983,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H102": {
-      "presetReferenceGain": -1.962717
+      "presetReferenceGain": -1.976433,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H103": {
-      "presetReferenceGain": -2.574261
+      "presetReferenceGain": -2.403442,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H104": {
-      "presetReferenceGain": -3.157316
-    },
-    "Uuser_heritage200_H105": {
-      "presetReferenceGain": -5.78954
+      "presetReferenceGain": -3.147033,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H106": {
-      "presetReferenceGain": 0.003377
+      "presetReferenceGain": 0.158213,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H107": {
-      "presetReferenceGain": -7.242911
+      "presetReferenceGain": -7.211686,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H108": {
-      "presetReferenceGain": -1.993585
-    },
-    "Uuser_heritage200_H109": {
-      "presetReferenceGain": 1.717602
+      "presetReferenceGain": -1.770386,
+      "reverb": 0.32,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H110": {
       "presetReferenceGain": 3.104338
@@ -883,9 +699,6 @@
     },
     "Uuser_heritage200_H114": {
       "presetReferenceGain": -0.506443
-    },
-    "Uuser_heritage200_H115": {
-      "presetReferenceGain": -8.938078
     },
     "Uuser_heritage200_H116": {
       "presetReferenceGain": 2.873411
@@ -905,17 +718,8 @@
     "Uuser_heritage200_H121": {
       "presetReferenceGain": -3.818076
     },
-    "Uuser_heritage200_H122": {
-      "presetReferenceGain": -5.02081
-    },
-    "Uuser_heritage200_H123": {
-      "presetReferenceGain": -7.671452
-    },
     "Uuser_heritage200_H124": {
       "presetReferenceGain": -4.94887
-    },
-    "Uuser_heritage200_H125": {
-      "presetReferenceGain": -5.635208
     },
     "Uuser_heritage200_H126": {
       "presetReferenceGain": -3.497356
@@ -929,38 +733,30 @@
     "Uuser_heritage200_H130": {
       "presetReferenceGain": -7.219384
     },
-    "Uuser_heritage200_H131": {
-      "presetReferenceGain": -8.374126
-    },
-    "Uuser_heritage200_H132": {
-      "presetReferenceGain": -9.357547
-    },
-    "Uuser_heritage200_H133": {
-      "presetReferenceGain": -11.12562
-    },
-    "Uuser_heritage200_H134": {
-      "presetReferenceGain": -8.569853
-    },
     "Uuser_heritage200_H135": {
-      "presetReferenceGain": -14.468086
-    },
-    "Uuser_heritage200_H136": {
-      "presetReferenceGain": -8.532129
+      "presetReferenceGain": -14.457842,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H137": {
-      "presetReferenceGain": -9.511595
+      "presetReferenceGain": -9.503882,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H138": {
-      "presetReferenceGain": -11.955285
+      "presetReferenceGain": -11.82394,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H139": {
-      "presetReferenceGain": -4.480038
-    },
-    "Uuser_heritage200_H140": {
-      "presetReferenceGain": -9.771154
+      "presetReferenceGain": -4.47751,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H141": {
-      "presetReferenceGain": -12.680229
+      "presetReferenceGain": -12.700577,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H142": {
       "presetReferenceGain": -2.452455
@@ -969,13 +765,19 @@
       "presetReferenceGain": -5.32052
     },
     "Uuser_heritage200_H144": {
-      "presetReferenceGain": -14.150225
+      "presetReferenceGain": -14.152822,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H145": {
-      "presetReferenceGain": -0.173749
+      "presetReferenceGain": -0.096778,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H146": {
-      "presetReferenceGain": -4.076033
+      "presetReferenceGain": -4.157405,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H147": {
       "presetReferenceGain": 7.970984
@@ -987,13 +789,17 @@
       "presetReferenceGain": 8.48209
     },
     "Uuser_heritage200_H150": {
-      "presetReferenceGain": -11.86931
+      "presetReferenceGain": -11.909408,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H151": {
       "presetReferenceGain": -4.809352
     },
     "Uuser_heritage200_H152": {
-      "presetReferenceGain": -7.668156
+      "presetReferenceGain": -7.6768,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H153": {
       "presetReferenceGain": -0.510102
@@ -1003,9 +809,6 @@
     },
     "Uuser_heritage200_H155": {
       "presetReferenceGain": -6.355568
-    },
-    "Uuser_heritage200_H156": {
-      "presetReferenceGain": -5.807193
     },
     "Uuser_heritage200_H157": {
       "presetReferenceGain": -7.42785
@@ -1019,25 +822,11 @@
     "Uuser_heritage200_H160": {
       "presetReferenceGain": -12.204146
     },
-    "Uuser_heritage200_H161": {
-      "presetReferenceGain": -2.706861
-    },
     "Uuser_heritage200_H162": {
       "presetReferenceGain": -3.560264
     },
-    "Uuser_heritage200_H163": {
-      "presetReferenceGain": -11.749443
-    },
     "Uuser_heritage200_H164": {
       "presetReferenceGain": -3.734823
-    },
-    "Uuser_heritage200_H165": {
-      "reverbEnabled": 1.0,
-      "reverb": 0.064999997615814,
-      "reverbSpace": 0.0,
-      "reverbSize": 0.280000001192093,
-      "reverbDamping": 0.600000023841858,
-      "presetReferenceGain": -1.84171
     },
     "Uuser_heritage200_H166": {
       "reverbEnabled": 1.0,
@@ -1095,14 +884,6 @@
       "reverbDamping": 0.600000023841858,
       "presetReferenceGain": -2.524046
     },
-    "Uuser_heritage200_H173": {
-      "reverbEnabled": 1.0,
-      "reverb": 0.064999997615814,
-      "reverbSpace": 0.0,
-      "reverbSize": 0.280000001192093,
-      "reverbDamping": 0.600000023841858,
-      "presetReferenceGain": -0.105154
-    },
     "Uuser_heritage200_H174": {
       "reverbEnabled": 1.0,
       "reverb": 0.064999997615814,
@@ -1111,86 +892,79 @@
       "reverbDamping": 0.600000023841858,
       "presetReferenceGain": -2.515589
     },
-    "Uuser_heritage200_H175": {
-      "presetReferenceGain": -5.251358
-    },
-    "Uuser_heritage200_H176": {
-      "presetReferenceGain": -5.284695
-    },
     "Uuser_heritage200_H177": {
-      "presetReferenceGain": -7.389294
+      "presetReferenceGain": -7.030382,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H178": {
-      "presetReferenceGain": -7.565673
+      "presetReferenceGain": -7.537679,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H179": {
-      "presetReferenceGain": -6.662611
+      "presetReferenceGain": -6.642622,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H180": {
-      "presetReferenceGain": -6.812638
+      "presetReferenceGain": -6.527304,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H181": {
-      "presetReferenceGain": -4.017569
+      "presetReferenceGain": -3.810027,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H182": {
-      "presetReferenceGain": -5.843034
+      "presetReferenceGain": -5.511106,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H183": {
-      "presetReferenceGain": -5.883181
+      "presetReferenceGain": -5.555832,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H184": {
-      "presetReferenceGain": -6.422619
+      "presetReferenceGain": -6.416461,
+      "reverbWetLowFreq": 280,
+      "reverbWetLowGain": -3
     },
     "Uuser_heritage200_H185": {
-      "presetReferenceGain": -6.81354
+      "presetReferenceGain": -6.811408,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H186": {
-      "presetReferenceGain": -12.583761
+      "presetReferenceGain": -12.533375,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H187": {
-      "presetReferenceGain": -12.462579
+      "presetReferenceGain": -12.460787,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H188": {
-      "presetReferenceGain": -10.314331
+      "presetReferenceGain": -10.211717,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H189": {
-      "presetReferenceGain": -12.451098
-    },
-    "Uuser_heritage200_H190": {
-      "presetReferenceGain": -7.820913
-    },
-    "Uuser_heritage200_H191": {
-      "presetReferenceGain": -6.979934
-    },
-    "Uuser_heritage200_H192": {
-      "presetReferenceGain": -12.609248
-    },
-    "Uuser_heritage200_H193": {
-      "presetReferenceGain": -5.40481
+      "presetReferenceGain": -12.450261,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3
     },
     "Uuser_heritage200_H194": {
       "presetReferenceGain": -5.938667
     },
-    "Uuser_heritage200_H195": {
-      "presetReferenceGain": -7.122441
-    },
-    "Uuser_heritage200_H196": {
-      "presetReferenceGain": -6.412786
-    },
-    "Uuser_heritage200_H197": {
-      "presetReferenceGain": 4.48771
-    },
     "Uuser_heritage200_H198": {
       "presetReferenceGain": -1.652145
     },
-    "Uuser_heritage200_H199": {
-      "presetReferenceGain": -5.149252
-    },
     "Uuser_heritage200_H200": {
       "presetReferenceGain": -10.193682
-    },
-    "Uuser_lushtrance20_LT001": {
-      "presetReferenceGain": -2.477948
     },
     "Uuser_lushtrance20_LT002": {
       "presetReferenceGain": -2.026701
@@ -1203,9 +977,6 @@
     },
     "Uuser_lushtrance20_LT005": {
       "presetReferenceGain": -3.868282
-    },
-    "Uuser_lushtrance20_LT006": {
-      "presetReferenceGain": -3.347984
     },
     "Uuser_lushtrance20_LT007": {
       "presetReferenceGain": -1.798347
@@ -1240,29 +1011,11 @@
     "Uuser_lushtrance20_LT017": {
       "presetReferenceGain": -1.80966
     },
-    "Uuser_lushtrance20_LT018": {
-      "presetReferenceGain": -3.562155
-    },
     "Uuser_lushtrance20_LT019": {
       "presetReferenceGain": -3.614764
     },
-    "Uuser_lushtrance20_LT020": {
-      "presetReferenceGain": -3.872312
-    },
-    "Uuser_orbitvoices093_O001": {
-      "presetReferenceGain": 11.581636
-    },
-    "Uuser_orbitvoices093_O002": {
-      "presetReferenceGain": 1.67428
-    },
     "Uuser_orbitvoices093_O003": {
       "presetReferenceGain": 3.95767
-    },
-    "Uuser_orbitvoices093_O004": {
-      "presetReferenceGain": 8.167102
-    },
-    "Uuser_orbitvoices093_O005": {
-      "presetReferenceGain": -0.607256
     },
     "Uuser_orbitvoices093_O006": {
       "presetReferenceGain": -0.055178
@@ -1270,83 +1023,115 @@
     "Uuser_orbitvoices093_O007": {
       "presetReferenceGain": 7.801771
     },
-    "Uuser_orbitvoices093_O008": {
-      "presetReferenceGain": 1.71489
-    },
-    "Uuser_orbitvoices093_O009": {
-      "presetReferenceGain": 2.100496
-    },
-    "Uuser_orbitvoices093_O010": {
-      "presetReferenceGain": 6.50666
-    },
-    "Uuser_orbitvoices093_O011": {
-      "presetReferenceGain": 0.125817
-    },
-    "Uuser_orbitvoices093_O012": {
-      "presetReferenceGain": 0.598889
-    },
     "Uuser_orbitvoices093_O013": {
-      "presetReferenceGain": 1.570163
+      "presetReferenceGain": 1.605016,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O014": {
-      "presetReferenceGain": 2.103402
+      "presetReferenceGain": 2.444054,
+      "reverb": 0.16,
+      "reverbWetLowFreq": 240,
+      "reverbWetLowGain": -3,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O015": {
-      "presetReferenceGain": 1.35427
+      "presetReferenceGain": 1.301764,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O016": {
-      "presetReferenceGain": 1.229052
+      "presetReferenceGain": 1.618347,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O017": {
-      "presetReferenceGain": 3.747488
-    },
-    "Uuser_orbitvoices093_O018": {
-      "presetReferenceGain": 1.01268
+      "presetReferenceGain": 3.060847,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O019": {
-      "presetReferenceGain": 3.035765
+      "presetReferenceGain": 2.336569,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O020": {
-      "presetReferenceGain": 1.606691
+      "presetReferenceGain": 1.847263,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O021": {
-      "presetReferenceGain": 0.699975
+      "presetReferenceGain": 0.768998,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O022": {
-      "presetReferenceGain": 2.415955
+      "presetReferenceGain": 2.589389,
+      "reverb": 0.16,
+      "reverbWetLowFreq": 240,
+      "reverbWetLowGain": -3,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O023": {
-      "presetReferenceGain": 0.824184
+      "presetReferenceGain": 0.070296,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O024": {
-      "presetReferenceGain": 2.497298
+      "presetReferenceGain": 2.50882,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O025": {
-      "presetReferenceGain": 1.778033
+      "presetReferenceGain": 1.955577,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O026": {
-      "presetReferenceGain": 2.111193
+      "presetReferenceGain": 1.973544,
+      "reverb": 0.16,
+      "reverbWetLowFreq": 240,
+      "reverbWetLowGain": -3,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O027": {
-      "presetReferenceGain": 1.742096
+      "presetReferenceGain": 2.304455,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O028": {
-      "presetReferenceGain": 1.29891
+      "presetReferenceGain": 1.256994,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O029": {
-      "presetReferenceGain": 1.739894
+      "presetReferenceGain": 0.29229,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O030": {
-      "presetReferenceGain": 2.731239
+      "presetReferenceGain": 1.821551,
+      "reverb": 0.16,
+      "reverbWetLowFreq": 240,
+      "reverbWetLowGain": -3,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O031": {
-      "presetReferenceGain": 0.01014
+      "presetReferenceGain": -0.386256,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O032": {
-      "presetReferenceGain": 3.08012
+      "presetReferenceGain": 2.26981,
+      "delayWetLowFreq": 250,
+      "delayWetLowGain": -3,
+      "sampleStart": 0.0
     },
     "Uuser_orbitvoices093_O033": {
-      "presetReferenceGain": 0.267164
+      "presetReferenceGain": -0.270269,
+      "sampleStart": 0.001119162335445199
     },
     "Uuser_orbitvoices093_O034": {
       "presetReferenceGain": -2.080718
@@ -1393,5 +1178,22 @@
     "Uuser_orbitvoices093_O048": {
       "presetReferenceGain": -12.657726
     }
+  },
+  "revision": "Curated 300",
+  "sampled_presets": 38,
+  "role_counts": {
+    "Bass": 58,
+    "Lead": 80,
+    "Pluck": 28,
+    "Pads": 40,
+    "Arps & Sequences": 25,
+    "Choir & Voices": 16,
+    "Strings": 12,
+    "Piano & Keys": 16,
+    "Acid": 8,
+    "Mallets": 5,
+    "Organ": 4,
+    "Percussion": 3,
+    "Textures": 5
   }
 }

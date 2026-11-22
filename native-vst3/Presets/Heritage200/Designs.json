@@ -5767,7 +5767,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -5.864222
+        "presetReferenceGain": -5.552823,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [
         {
@@ -5913,7 +5915,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -3.457378
+        "presetReferenceGain": -3.27746,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [
         {
@@ -6186,7 +6190,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -1.78961
+        "presetReferenceGain": -1.769556,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [
         {
@@ -6319,7 +6325,9 @@
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
         "outputSafety": 1,
-        "presetReferenceGain": 1.530682
+        "presetReferenceGain": 1.676465,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "M1-influenced bow voice. Play your own notes; no sequencer.",
@@ -6446,7 +6454,9 @@
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
         "outputSafety": 1,
-        "presetReferenceGain": 0.767362
+        "presetReferenceGain": 0.790163,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "M1-influenced choir voice. Play your own notes; no sequencer.",
@@ -6732,7 +6742,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -4.357313
+        "presetReferenceGain": -3.942704,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [
         {
@@ -6865,7 +6877,9 @@
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
         "outputSafety": 1,
-        "presetReferenceGain": 0.633469
+        "presetReferenceGain": 0.541052,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "M1-influenced ooh voice. Play your own notes; no sequencer.",
@@ -7138,7 +7152,9 @@
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
         "outputSafety": 1,
-        "presetReferenceGain": -3.198731
+        "presetReferenceGain": -3.195567,
+        "reverbWetLowFreq": 240,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "M1-influenced strings voice. Play your own notes; no sequencer.",
@@ -7268,7 +7284,9 @@
         "chorusEngine": 1,
         "dimensionMode": 1,
         "dimensionWidth": 1,
-        "presetReferenceGain": 2.23926
+        "presetReferenceGain": 2.305285,
+        "reverbWetLowFreq": 240,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "M1-influenced celli voice. Play your own notes; no sequencer.",
@@ -7778,7 +7796,9 @@
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
         "outputSafety": 1,
-        "presetReferenceGain": 0.709053
+        "presetReferenceGain": 0.761802,
+        "reverbWetLowFreq": 240,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "M1-influenced celli voice. Play your own notes; no sequencer.",
@@ -8035,7 +8055,9 @@
         "sampleLoop": 0,
         "sampleStart": 0.015,
         "echoMix": 0.02,
-        "presetReferenceGain": 4.274469
+        "presetReferenceGain": 4.275575,
+        "reverbWetLowFreq": 240,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "M1-influenced pizz voice. Play your own notes; no sequencer.",
@@ -8162,7 +8184,9 @@
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
         "outputSafety": 1,
-        "presetReferenceGain": 0.355644
+        "presetReferenceGain": 0.397165,
+        "reverbWetLowFreq": 240,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "M1-influenced ooh voice. Play your own notes; no sequencer.",
@@ -8415,7 +8439,9 @@
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
         "outputSafety": 1,
-        "presetReferenceGain": -3.578304
+        "presetReferenceGain": -3.373787,
+        "reverbWetLowFreq": 240,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "M1-influenced digital voice. Play your own notes; no sequencer.",
@@ -8542,7 +8568,9 @@
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
         "outputSafety": 1,
-        "presetReferenceGain": 1.402838
+        "presetReferenceGain": 1.401947,
+        "reverbWetLowFreq": 240,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "M1-influenced choir voice. Play your own notes; no sequencer.",
@@ -8669,7 +8697,9 @@
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
         "outputSafety": 1,
-        "presetReferenceGain": 0.066762
+        "presetReferenceGain": 0.135257,
+        "reverbWetLowFreq": 240,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "M1-influenced ooh voice. Play your own notes; no sequencer.",
@@ -8922,7 +8952,9 @@
         "chorusRate": 0.12,
         "chorusDepth": 0.25,
         "outputSafety": 1,
-        "presetReferenceGain": 0.336039
+        "presetReferenceGain": 0.321378,
+        "reverbWetLowFreq": 240,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "M1-influenced choir voice. Play your own notes; no sequencer.",
@@ -10268,7 +10300,9 @@
         "reverbSize": 0.65,
         "oscMelt": 0.035,
         "outputSafety": 1,
-        "presetReferenceGain": -0.183238
+        "presetReferenceGain": -0.223316,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced super voice. Play your own notes; no sequencer.",
@@ -10400,7 +10434,9 @@
         "reverbSize": 0.65,
         "oscMelt": 0.035,
         "outputSafety": 1,
-        "presetReferenceGain": 3.592358
+        "presetReferenceGain": 3.583346,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced super voice. Play your own notes; no sequencer.",
@@ -10528,7 +10564,9 @@
         "reverbSize": 0.65,
         "oscMelt": 0.035,
         "outputSafety": 1,
-        "presetReferenceGain": -2.887847
+        "presetReferenceGain": -2.951495,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced pulse voice. Play your own notes; no sequencer.",
@@ -10660,7 +10698,9 @@
         "distMix": 0.2,
         "oscMelt": 0,
         "outputSafety": 1,
-        "presetReferenceGain": -10.504328
+        "presetReferenceGain": -10.491902,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced sync voice. Play your own notes; no sequencer.",
@@ -10788,7 +10828,9 @@
         "reverbSize": 0.65,
         "oscMelt": 0.035,
         "outputSafety": 1,
-        "presetReferenceGain": -13.637849
+        "presetReferenceGain": -13.735233,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced sync voice. Play your own notes; no sequencer.",
@@ -10920,7 +10962,9 @@
         "reverbSize": 0.65,
         "oscMelt": 0.035,
         "outputSafety": 1,
-        "presetReferenceGain": 1.355345
+        "presetReferenceGain": 1.326776,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced super voice. Play your own notes; no sequencer.",
@@ -11481,7 +11525,9 @@
         "reverbSize": 0.65,
         "oscMelt": 0,
         "outputSafety": 1,
-        "presetReferenceGain": -15.39607
+        "presetReferenceGain": -15.351915,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced sync voice. Play your own notes; no sequencer.",
@@ -11914,7 +11960,9 @@
         "reverbSize": 0.65,
         "oscMelt": 0.035,
         "outputSafety": 1,
-        "presetReferenceGain": -13.621934
+        "presetReferenceGain": -13.707887,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced mono voice. Play your own notes; no sequencer.",
@@ -12042,7 +12090,9 @@
         "reverbSize": 0.65,
         "oscMelt": 0.035,
         "outputSafety": 1,
-        "presetReferenceGain": -12.952986
+        "presetReferenceGain": -13.040924,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced mono voice. Play your own notes; no sequencer.",
@@ -12302,7 +12352,9 @@
         "reverbSize": 0.65,
         "oscMelt": 0.035,
         "outputSafety": 1,
-        "presetReferenceGain": -13.621035
+        "presetReferenceGain": -13.695496,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced sync voice. Play your own notes; no sequencer.",
@@ -12570,7 +12622,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -0.623941
+        "presetReferenceGain": -0.619318,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
@@ -12700,7 +12754,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -4.364136
+        "presetReferenceGain": -4.008669,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced respad voice. Play your own notes; no sequencer.",
@@ -12840,7 +12896,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -5.842845
+        "presetReferenceGain": -5.612534,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [
         {
@@ -12976,7 +13034,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -4.889789
+        "presetReferenceGain": -4.706983,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced respad voice. Play your own notes; no sequencer.",
@@ -13110,7 +13170,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -1.962717
+        "presetReferenceGain": -1.976433,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
@@ -13244,7 +13306,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -2.574261
+        "presetReferenceGain": -2.403442,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
@@ -13378,7 +13442,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -3.157316
+        "presetReferenceGain": -3.147033,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
@@ -13642,7 +13708,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": 0.003377
+        "presetReferenceGain": 0.158213,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
@@ -13782,7 +13850,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -7.242911
+        "presetReferenceGain": -7.211686,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [
         {
@@ -13910,7 +13980,7 @@
         "osc1Blend": 0.5,
         "osc2Blend": 0.6,
         "engineMode": 0,
-        "reverb": 0.38,
+        "reverb": 0.32,
         "reverbSize": 0.78,
         "reverbDamping": 0.38,
         "reverbWidth": 1,
@@ -13922,7 +13992,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -1.993585
+        "presetReferenceGain": -1.770386,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced sawpad voice. Play your own notes; no sequencer.",
@@ -18135,7 +18207,9 @@
         "arpOrder": 2,
         "patternGate": 0.7,
         "outputSafety": 1,
-        "presetReferenceGain": -14.468086
+        "presetReferenceGain": -14.457842,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced fmkeys voice. Hold a chord; internal arpeggiator generates notes.",
@@ -18398,7 +18472,9 @@
         "arpOrder": 0,
         "patternGate": 0.42,
         "outputSafety": 1,
-        "presetReferenceGain": -9.511595
+        "presetReferenceGain": -9.503882,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced pulse voice. Hold a chord; internal arpeggiator generates notes.",
@@ -18530,7 +18606,9 @@
         "arpOrder": 2,
         "patternGate": 0.32,
         "outputSafety": 1,
-        "presetReferenceGain": -11.955285
+        "presetReferenceGain": -11.82394,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced pluck voice. Hold a chord; internal arpeggiator generates notes.",
@@ -18665,7 +18743,9 @@
         "arpOrder": 1,
         "patternGate": 0.8,
         "outputSafety": 1,
-        "presetReferenceGain": -4.480038
+        "presetReferenceGain": -4.47751,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "JP-influenced super voice. Hold a chord; internal arpeggiator generates notes.",
@@ -18925,7 +19005,9 @@
         "reverbSize": 0.65,
         "oscMelt": 0.035,
         "outputSafety": 1,
-        "presetReferenceGain": -12.680229
+        "presetReferenceGain": -12.700577,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "Nord-influenced mono voice. Play your own notes; no sequencer.",
@@ -19400,7 +19482,9 @@
         "reverbSize": 0.65,
         "oscMelt": 0,
         "outputSafety": 1,
-        "presetReferenceGain": -14.150225
+        "presetReferenceGain": -14.152822,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "Nord-influenced sync voice. Play your own notes; no sequencer.",
@@ -19528,7 +19612,9 @@
         "reverbSize": 0.65,
         "oscMelt": 0,
         "outputSafety": 1,
-        "presetReferenceGain": -0.173749
+        "presetReferenceGain": -0.096778,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "Nord-influenced ring voice. Play your own notes; no sequencer.",
@@ -19656,7 +19742,9 @@
         "reverbSize": 0.65,
         "oscMelt": 0.035,
         "outputSafety": 1,
-        "presetReferenceGain": -4.076033
+        "presetReferenceGain": -4.157405,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "Nord-influenced pulse voice. Play your own notes; no sequencer.",
@@ -20304,7 +20392,9 @@
         "reverbSize": 0.65,
         "oscMelt": 0,
         "outputSafety": 1,
-        "presetReferenceGain": -11.86931
+        "presetReferenceGain": -11.909408,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "Nord-influenced sync voice. Play your own notes; no sequencer.",
@@ -20606,7 +20696,9 @@
         "reverbSize": 0.65,
         "oscMelt": 0.035,
         "outputSafety": 1,
-        "presetReferenceGain": -7.668156
+        "presetReferenceGain": -7.6768,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "Nord-influenced mono voice. Play your own notes; no sequencer.",
@@ -23716,7 +23808,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -7.389294
+        "presetReferenceGain": -7.030382,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [
         {
@@ -23862,7 +23956,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -7.565673
+        "presetReferenceGain": -7.537679,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [
         {
@@ -24008,7 +24104,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -6.662611
+        "presetReferenceGain": -6.642622,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [
         {
@@ -24144,7 +24242,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -6.812638
+        "presetReferenceGain": -6.527304,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "Nord-influenced respad voice. Play your own notes; no sequencer.",
@@ -24275,7 +24375,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -4.017569
+        "presetReferenceGain": -3.810027,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [],
       "description": "Nord-influenced respad voice. Play your own notes; no sequencer.",
@@ -24415,7 +24517,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -5.843034
+        "presetReferenceGain": -5.511106,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [
         {
@@ -24561,7 +24665,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -5.883181
+        "presetReferenceGain": -5.555832,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [
         {
@@ -24707,7 +24813,9 @@
         "dimensionTone": 0.62,
         "dimensionWidth": 1.12,
         "outputSafety": 1,
-        "presetReferenceGain": -6.422619
+        "presetReferenceGain": -6.416461,
+        "reverbWetLowFreq": 280,
+        "reverbWetLowGain": -3
       },
       "modulation": [
         {
@@ -24845,7 +24953,9 @@
         "arpOrder": 0,
         "patternGate": 0.38,
         "outputSafety": 1,
-        "presetReferenceGain": -6.81354
+        "presetReferenceGain": -6.811408,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "Nord-influenced pluck voice. Hold a chord; internal arpeggiator generates notes.",
@@ -24977,7 +25087,9 @@
         "arpOrder": 1,
         "patternGate": 0.38,
         "outputSafety": 1,
-        "presetReferenceGain": -12.583761
+        "presetReferenceGain": -12.533375,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "Nord-influenced fmkeys voice. Hold a chord; internal arpeggiator generates notes.",
@@ -25108,7 +25220,9 @@
         "arpOrder": 2,
         "patternGate": 0.62,
         "outputSafety": 1,
-        "presetReferenceGain": -12.462579
+        "presetReferenceGain": -12.460787,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "Nord-influenced sync voice. Hold a chord; internal arpeggiator generates notes.",
@@ -25239,7 +25353,9 @@
         "arpOrder": 0,
         "patternGate": 0.45,
         "outputSafety": 1,
-        "presetReferenceGain": -10.314331
+        "presetReferenceGain": -10.211717,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "Nord-influenced pulse voice. Hold a chord; internal arpeggiator generates notes.",
@@ -25370,7 +25486,9 @@
         "arpOrder": 2,
         "patternGate": 0.7,
         "outputSafety": 1,
-        "presetReferenceGain": -12.451098
+        "presetReferenceGain": -12.450261,
+        "delayWetLowFreq": 250,
+        "delayWetLowGain": -3
       },
       "modulation": [],
       "description": "Nord-influenced ring voice. Hold a chord; internal arpeggiator generates notes.",
