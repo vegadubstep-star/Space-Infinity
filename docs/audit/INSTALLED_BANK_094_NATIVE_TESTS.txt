@@ -79,3 +79,20 @@ Test project /workspace/work/native-design/native-vst3/build-linux
 Total Test time (real) =  30.09 sec
 
 CTest exit code: 0
+
+The Windows full-suite gate found a repeated-import idempotency regression after current hashes entered the shipped update history. Native reproduction returned checkpoint207. The importer now skips byte-identical incoming files before update-history matching. Final native installed/Heritage/Lush/preset-management regression tests, including unchanged backup count on repeat import:
+Test project /workspace/work/native-design/native-vst3/build-linux
+    Start  2: SpaceInfinityInstalledBank
+1/4 Test  #2: SpaceInfinityInstalledBank .......   Passed    9.44 sec
+    Start  4: SpaceInfinityHeritageBank
+2/4 Test  #4: SpaceInfinityHeritageBank ........   Passed    4.77 sec
+    Start  6: SpaceInfinityLushBank
+3/4 Test  #6: SpaceInfinityLushBank ............   Passed    0.75 sec
+    Start 14: SpaceInfinityPresetManagement
+4/4 Test #14: SpaceInfinityPresetManagement ....   Passed    1.54 sec
+
+100% tests passed out of 4
+
+Total Test time (real) =  16.49 sec
+
+CTest exit code: 0

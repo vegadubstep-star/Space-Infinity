@@ -15,7 +15,8 @@ int runBankZipSmoke(const juce::File& archive){
     for(size_t i=0;i<count;++i)if(original[i].key!=library.entries()[i].key||original[i].name!=library.entries()[i].name||original[i].file!=library.entries()[i].file)return 203;
     for(size_t i=count;i<library.entries().size();++i){if(synth->loadBankPreset(int(i)).failed())return 204;const auto& e=library.entries()[i];if(!e.tags.contains("Heritage 200")||e.creator!="Orbital Audio"||synth->state.state.getProperty("presetDisplayName").toString()!=e.name)return 205;}
     const auto key=library.entries()[count].key;if(library.updateDetails(int(count),"My edited Heritage piano","Owner","Personal").failed())return 206;
-    if(library.importBank(archive,imported).failed()||imported!=0||library.entries().size()!=count+200||library.entries()[count].name!="My edited Heritage piano")return 207;
+    const auto backupsBeforeReimport=folder.getChildFile("Backups").findChildFiles(juce::File::findFiles,true).size();
+    if(library.importBank(archive,imported).failed()||imported!=0||library.entries().size()!=count+200||library.entries()[count].name!="My edited Heritage piano"||folder.getChildFile("Backups").findChildFiles(juce::File::findFiles,true).size()!=backupsBeforeReimport){std::cerr<<"Identical bank re-import rewrote "<<imported<<" presets or changed owner metadata/backups"<<std::endl;return 207;}
     if(library.reload().failed()||library.indexForKey(key)!=int(count)||library.entries()[count].tags!="Personal")return 208;
     // Upgrade only byte-identical shipped sounds; keep metadata/sound edits.
     juce::ZipFile shipping(archive);std::unique_ptr<juce::InputStream> manifestStream(shipping.createStreamForEntry(shipping.getIndexOfFileName("Bank.json")));const auto shippingManifest=juce::JSON::parse(manifestStream->readEntireStreamAsString());

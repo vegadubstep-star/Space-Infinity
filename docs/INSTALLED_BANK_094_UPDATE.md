@@ -31,3 +31,6 @@ access to retired variants. Stable project IDs remain intact.
 Matching applies to the documented playing phrase. Different notes, chords,
 velocity, macros and user edits change loudness; watch the output meters while
 editing. Historical 0.9.3 audio reports describe the earlier bank revision.
+
+Reimporting an already-current bank skips identical files, avoiding unnecessary
+rewrites and duplicate backups while preserving personal edits.

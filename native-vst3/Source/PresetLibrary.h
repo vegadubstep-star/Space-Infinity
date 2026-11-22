@@ -157,7 +157,7 @@ public:
             const int existing=indexForKey(p.entry.key);
             if(existing>=0){
                 const auto& old=bank[size_t(existing)];const auto target=directory.getChildFile(old.file);
-                if(old.detailsEdited||!target.existsAsFile())continue;const auto currentHash=juce::SHA256(target).toHexString();bool shipped=currentHash==p.previousHash&&p.previousHash.length()==64;if(const auto* history=p.previousHashes.getArray())for(const auto& hash:*history)if(hash.toString().length()==64&&hash.toString()==currentHash)shipped=true;
+                if(old.detailsEdited||!target.existsAsFile())continue;const auto currentHash=juce::SHA256(target).toHexString();if(currentHash==juce::SHA256(p.bytes).toHexString())continue;bool shipped=currentHash==p.previousHash&&p.previousHash.length()==64;if(const auto* history=p.previousHashes.getArray())for(const auto& hash:*history)if(hash.toString().length()==64&&hash.toString()==currentHash)shipped=true;
                 if(old.detailsEdited||!target.existsAsFile()||!shipped)continue;
                 Replaced backup{target,{}};if(!target.loadFileAsData(backup.bytes))return juce::Result::fail("Cannot back up the previous bank sound.");
                 const auto backups=directory.getChildFile("Backups");if(backups.createDirectory().failed()||!target.copyFileTo(backups.getNonexistentChildFile(target.getFileNameWithoutExtension(),".sipreset")))return juce::Result::fail("Cannot retain the previous bank version.");

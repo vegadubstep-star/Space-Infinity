@@ -1,3 +1,18 @@
+# Final Curated 300 bank-import fix — Windows rerun pending
+
+The first curated Windows build cde1394/run45011466465 compiled successfully.
+Installed300 and sampled hybrid checks passed. Heritage repeated-import failed.
+Native reproduction returned207: 131 incoming files also have their current hash
+in the known-shipped history after iterative bank editing. Importer now compares
+incoming/current hashes first and skips identical files. Repeat import is a no-op
+without duplicate backups; personal edits and genuine updates remain protected.
+Focused installed/Heritage/Lush/preset-management4/4 PASS16.49s. Full final native
+suite running /tmp/curated300-final-native-tests.log. No sound data or audio DSP
+changed; all existing300 level/similarity/source-parity evidence remains valid.
+No installer published. Next: push fix and dispatch Windows publish_release=true;
+verify full29Windows +installer/public archives. Final source SHA will be newer
+than cde1394. /tmp/close-curated300-release.py now accepts actual source SHA argv1.
+
 # SPACE INFINITY 0.9.4 — Curated 300; Windows packaging pending
 
 The repository is now public at the owner's explicit request. Standard Windows
