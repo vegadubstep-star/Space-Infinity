@@ -66,9 +66,9 @@ package	Verify factory bank, state and editor	2026-11-22T10:42:18.7594125Z      
 package	Verify factory bank, state and editor	2026-11-22T10:46:48.9871050Z 28/29 Test #28: SpaceInfinityAirwavePad ............   Passed  270.24 sec
 package	Verify factory bank, state and editor	2026-11-22T10:46:48.9877165Z       Start 29: SpaceInfinityAnalogueProbe
 package	Verify factory bank, state and editor	2026-11-22T10:46:49.0649711Z 29/29 Test #29: SpaceInfinityAnalogueProbe .........   Passed    0.08 sec
-package	Verify factory bank, state and editor	2026-11-22T10:46:49.0659724Z 
+package	Verify factory bank, state and editor	2026-11-22T10:46:49.0659724Z
 package	Verify factory bank, state and editor	2026-11-22T10:46:49.0660104Z 100% tests passed, 0 tests failed out of 29
-package	Verify factory bank, state and editor	2026-11-22T10:46:49.0660383Z 
+package	Verify factory bank, state and editor	2026-11-22T10:46:49.0660383Z
 package	Verify factory bank, state and editor	2026-11-22T10:46:49.0660636Z Total Test time (real) = 647.59 sec
 package	Verify preset-edit ZIP importer	﻿2026-11-22T10:46:49.1959728Z ##[group]Run python scripts/tests/test_factory_edits.py
 package	Verify preset-edit ZIP importer	2026-11-22T10:46:49.1960534Z [36;1mpython scripts/tests/test_factory_edits.py[0m
@@ -77,7 +77,7 @@ package	Verify preset-edit ZIP importer	2026-11-22T10:46:49.2000953Z ##[endgroup
 package	Verify preset-edit ZIP importer	2026-11-22T10:46:49.6528254Z .
 package	Verify preset-edit ZIP importer	2026-11-22T10:46:49.6528997Z ----------------------------------------------------------------------
 package	Verify preset-edit ZIP importer	2026-11-22T10:46:49.6529638Z Ran 1 test in 0.011s
-package	Verify preset-edit ZIP importer	2026-11-22T10:46:49.6529949Z 
+package	Verify preset-edit ZIP importer	2026-11-22T10:46:49.6529949Z
 package	Verify preset-edit ZIP importer	2026-11-22T10:46:49.6530074Z OK
 package	Verify installer and VST3 archive	﻿2026-11-22T10:46:49.7897147Z ##[group]Run .\scripts\verify-windows-release.ps1
 package	Verify installer and VST3 archive	2026-11-22T10:46:49.7897708Z [36;1m.\scripts\verify-windows-release.ps1[0m
